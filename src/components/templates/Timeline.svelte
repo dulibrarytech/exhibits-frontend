@@ -12,6 +12,7 @@
 
     {#each items as {is_published, layout}, index}
         {#if is_published == 1} 
+            {index}
             <div class="section row">
                 {#if layout == "item_right"}
                     <div class="col-md-6">

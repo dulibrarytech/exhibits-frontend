@@ -6,5 +6,5 @@
 
 <div class="text-content">
     <h5>Text Item</h5>
-    {item.text}
+    {@html item.text}
 </div>
