@@ -27,7 +27,7 @@ export const index = (() => {
     }
 
     const getExhibitById = async (id) => {
-        let exhibit = {};
+        let exhibit = null;
 
         try {
             // Test

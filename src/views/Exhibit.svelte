@@ -13,10 +13,12 @@
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
         exhibit = await index.getExhibitById(id);
-        let {data} = exhibit;
-  
-        template = $Templates[data.template] || null;
-        if(!template) console.error(`Could not find a template for ${data.template}`);
+        if(exhibit) {
+            let {data} = exhibit;
+            template = $Templates[data.template] || null;
+            if(!template) console.error(`Could not find a template for ${data.template}`);
+        }
+        else window.location.replace('/404');
     }
 
     onMount(async () => {
