@@ -5,6 +5,10 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 import json from "@rollup/plugin-json";
+import replace from '@rollup/plugin-replace';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -70,7 +74,17 @@ export default {
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
 		production && terser(),
-		json(),	
+		json(),
+
+		// .env environment variables initialization
+		replace({
+			ELASTIC_SERVER_EXHIBITS: JSON.stringify(process.env.ELASTIC_SERVER_EXHIBITS),
+			ELASTIC_INDEX_EXHIBITS: JSON.stringify(process.env.ELASTIC_INDEX_EXHIBITS),
+			ELASTIC_SERVER_REPOSITORY: JSON.stringify(process.env.ELASTIC_SERVER_REPOSITORY),
+			ELASTIC_INDEX_REPOSITORY: JSON.stringify(process.env.ELASTIC_INDEX_REPOSITORY),
+			REPOSITORY_DOMAIN: JSON.stringify(process.env.REPOSITORY_DOMAIN),
+			EXTERNAL_IIIF_MANIFEST_URL: JSON.stringify(process.env.EXTERNAL_IIIF_MANIFEST_URL)
+        }) 
 	],
 	watch: {
 		clearScreen: false

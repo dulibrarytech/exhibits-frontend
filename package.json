@@ -14,7 +14,9 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "@rollup/plugin-replace": "^5.0.1",
     "axios": "^0.21.1",
+    "dotenv": "^16.0.3",
     "sirv-cli": "^1.0.0",
     "svelte-router-spa": "^6.0.3"
   },
