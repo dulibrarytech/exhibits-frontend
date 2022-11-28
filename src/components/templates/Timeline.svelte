@@ -3,10 +3,12 @@
     import Media_Item from '../Media_Item.svelte';
 
     export let items;
+    export let args; // layout options "scroll" "grid" ?
 
     console.log("Timeline: items in:", items)
 </script>
 
+<!-- Timeline scroll -->
 <div class="container template">
     <h1>Timeline template</h1>
 
@@ -51,6 +53,8 @@
         {/if}
     {/each}
 </div>
+
+<!-- Timeline grid -->
 
 <style>
 

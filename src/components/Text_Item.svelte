@@ -1,10 +1,10 @@
 <script>
-    export let item;
+    export let data;
 
-    console.log("Text_Item item in:", item)
+    console.log("Text_Item item in:", data)
 </script>
 
 <div class="text-content">
     <h5>Text Item</h5>
-    {@html item.text}
+    {@html data.text}
 </div>
