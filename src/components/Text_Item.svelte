@@ -1,10 +1,8 @@
 <script>
     export let data;
-
-    console.log("Text_Item item in:", data)
 </script>
 
 <div class="text-content">
-    <h5>Text Item</h5>
+    <h4>Text Item</h4>
     {@html data.text}
 </div>

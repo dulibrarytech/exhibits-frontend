@@ -1,10 +1,9 @@
 <script>
     import { onMount } from 'svelte';
 
+    /* Import test modules */
     import Text_Item_test from './components/Text_Item_test.svelte';
     import Media_Item_test from './components/Media_Item_test.svelte';
-
-    // import {dataset} from './data/Text_Item.js';
 
     export let currentRoute;
 
@@ -13,16 +12,12 @@
         Media_Item_test
     }
 
-    console.log("Test component array", modules)
-
     let component;
     let componentName="";
 
     const init = async () => {
         componentName = currentRoute.namedParams.componentName ?? "";
-        console.log("componentName arg:", componentName)
         component = modules[`${componentName}_test`];
-        console.log("component:", component)
         if(!component) console.error(`Could not find component ${componentName}`);
     }
 
@@ -33,8 +28,19 @@
 
 {#if component}:
     <h1>Test {componentName}</h1>
+
+    <div class="test-component">
+        <svelte:component this={component} />
+    </div>
 {:else}
     <h3>Module not found</h3>
 {/if}
 
-<svelte:component this={component} />
+<style>
+    .test-component {
+        border-style: solid;
+        border-width: 1px;
+        border-color: #e5e3e1;
+        margin-top: 2em;
+    }
+</style>
