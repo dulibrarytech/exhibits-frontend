@@ -12,19 +12,19 @@
     import Embed_Iframe_Item from './Embed_Iframe_Item.svelte'; // Uses "url" value
     import Embed_Code_Item from './Embed_Code_Item.svelte'; // Uses "code" value
 
-    export let item;
+    export let data;
 
     var url;
     var mediaComponent = null;
 
-    console.log("Media_Item item in:", item)
+    console.log("Media_Item data in:", data)
 
     const init = () => {
-        let type = item.item_type || null;
+        let type = data.data_type || "";
 
         switch(type) {
             case "repo":
-                mediaComponent = getRepositoryItemComponent(item);
+                mediaComponent = getRepositoryItemComponent(data);
                 break;
 
             case "image":
@@ -32,12 +32,12 @@
                 break;
 
             case "audio":
-                mediaComponent = getAudioItemComponent(item); // f(): "url"->use [Audio_Player]<audio> html element src=url; "code"->use [Embed_Code_Item]; "kaltura_id" use [Kaltura_Player]
+                mediaComponent = getAudioItemComponent(data); // f(): "url"->use [Audio_Player]<audio> html element src=url; "code"->use [Embed_Code_Item]; "kaltura_id" use [Kaltura_Player]
                 // url = ? Set here? Would req more logic. Or, set global in above f()
                 break;
 
             case "video":
-                mediaComponent = getVideoItemComponent(item);
+                mediaComponent = getVideoItemComponent(data);
                 break;
 
             case "pdf":
@@ -50,21 +50,21 @@
         }
 
         if(mediaComponent) console.log("Selected media component", mediaComponent)
-        else console.error("Invalid item type, could not determine media element");
+        else console.error("Invalid data type, could not determine media element");
     }
 
-    const getRepositoryItemComponent = async (item) => {
+    const getRepositoryItemComponent = async (data) => {
         let component = null;
 
-        if(item.is_iiif) {
+        if(data.is_iiif) {
             component = IIIF_Viewer; // Builds iiif manifest url, pass into child UV viewer
         }
         else {
 
             try {
-                let dduItem = await repository.getItem(item.url || ""); // repository.getItem() OR repository.getDatastreamUrl(repo_uuid)
+                let dduItem = await repository.getItemData(data.url || ""); // repository.getItem() OR repository.getDatastreamUrl(repo_uuid)
 
-                // Get item type
+                // Get data type
 
                 // Select component (viewer/player) by type (image, large_image, audio, video, pdf)
             }
@@ -76,23 +76,23 @@
         }
     }
 
-    const getAudioItemComponent = (item) => {
+    const getAudioItemComponent = (data) => {
 
     }
 
-    const getVideoItemComponent = (item) => {
+    const getVideoItemComponent = (data) => {
 
     }
 
     onMount(async () => {
-        init();
+        //init();
     });
 </script>
 
 <h5>Media Item</h5>
 
 {#if mediaComponent}
-    <svelte:component this={mediaComponent} {item} {url} />
+    <svelte:component this={mediaComponent} {data} {url} />
 {:else}
     <h3>Loading content...</h3>
 {/if}

@@ -7,6 +7,8 @@
 
 'use strict'
 
+import { Configuration } from '../config/config.js';
+
 export const repository = (() => {
 
     /* Interface attributes */
@@ -33,7 +35,7 @@ export const repository = (() => {
      *
      * @param {string} id - The item id
      */
-    function getItem(id) { }
+    function getItemData(id) { }
 
     /*
      * Returns the datastream url to the item resource
@@ -43,13 +45,14 @@ export const repository = (() => {
     function getDatastreamUrl(id) { };
 
     /* Implementation */
+    ( {repositoryIndexDomain, repositoryIndexName, repositoryDomain} = Configuration );
 
-    repositoryIndexDomain = ELASTIC_SERVER_REPOSITORY;
-    repositoryIndexName = ELASTIC_INDEX_REPOSITORY;
-    repositoryDomain = REPOSITORY_DOMAIN;
+    getItemData = (id) => {
+        // Axios fetch from ES server (libes04)
+        let url = `${repositoryIndexDomain}/${repositoryIndexName}/q=pid:${id}`;
+        console.log("TEST index url", url)
 
-    getItem = (id) => {
-        
+        // Can get from digitaldu endpoint if implemented in the future
     }
 
     getDatastreamUrl = (id) => {
@@ -57,7 +60,7 @@ export const repository = (() => {
     }
 
     return {
-        getItem,
+        getItemData,
         getDatastreamUrl
     }
 

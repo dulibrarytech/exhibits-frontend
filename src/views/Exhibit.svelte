@@ -13,6 +13,7 @@
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
         exhibit = await index.getExhibitById(id);
+        console.log("TEST fetched exhibit", exhibit)
         if(exhibit) {
             let {data} = exhibit;
             template = $Templates[data.template] || null;

@@ -2,12 +2,16 @@
 
 import axios from 'axios';
 
+import { Configuration } from '../config/config.js';
+
 export const index = (() => {
 
-    let ELASTIC_URL;
-    let ELASTIC_INDEX;
+    let url_exhibits; // from cfg
+    let index_exhibits;
+    let url_repository;
+    let index_repository;
 
-    const getAllExhibits = async (id) => {
+    const getAllExhibits = async () => {
         let exhibits = [];
         
         try {
