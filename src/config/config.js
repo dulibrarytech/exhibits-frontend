@@ -1,25 +1,14 @@
 /**
  * Application configuration settings
- * Not set by user, imported from env
+ * Not user assigned. Import from env file.
  */
 
-import { writable } from 'svelte/store'
-
-// export const Configuration = writable({
-//   exhibitsIndexDomain: ELASTIC_SERVER_EXHIBITS,
-//   exhibitsIndexName: ELASTIC_INDEX_EXHIBITS, 
-//   repositoryIndexDomain : ELASTIC_SERVER_REPOSITORY,
-//   repositoryIndexName : ELASTIC_INDEX_REPOSITORY,
-//   externalIIIFManifestUrl: EXTERNAL_IIIF_MANIFEST_URL,
-//   repositoryDomain : REPOSITORY_DOMAIN
-// })
-
 export const Configuration = {
-  exhibitsIndexDomain: ELASTIC_SERVER_EXHIBITS,
-  exhibitsIndexName: ELASTIC_INDEX_EXHIBITS, 
-  repositoryIndexDomain : ELASTIC_SERVER_REPOSITORY,
-  repositoryIndexName : ELASTIC_INDEX_REPOSITORY,
-  externalIIIFManifestUrl: EXTERNAL_IIIF_MANIFEST_URL,
-  repositoryDomain : REPOSITORY_DOMAIN
+  exhibitsIndexDomain: EXHIBITS_INDEX_DOMAIN,
+  exhibitsIndexName: EXHIBITS_INDEX_NAME,
+  repositoryDomain: REPOSITORY_DOMAIN,
+  repositoryDatastreamEndpoint: REPOSITORY_DATASTREAM_ENDPOINT,
+  repositoryItemDataEndpoint: REPOSITORY_ITEM_DATA_ENDPOINT,
+  IIIFManifestUrl: IIIF_MANIFEST_URL
 }
 

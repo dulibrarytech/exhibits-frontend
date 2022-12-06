@@ -76,14 +76,14 @@ export default {
 		production && terser(),
 		json(),
 
-		// .env environment variables initialization
+		// .env global variables
 		replace({
-			ELASTIC_SERVER_EXHIBITS: JSON.stringify(process.env.ELASTIC_SERVER_EXHIBITS),
-			ELASTIC_INDEX_EXHIBITS: JSON.stringify(process.env.ELASTIC_INDEX_EXHIBITS),
-			ELASTIC_SERVER_REPOSITORY: JSON.stringify(process.env.ELASTIC_SERVER_REPOSITORY),
-			ELASTIC_INDEX_REPOSITORY: JSON.stringify(process.env.ELASTIC_INDEX_REPOSITORY),
+			EXHIBITS_INDEX_DOMAIN: JSON.stringify(process.env.EXHIBITS_INDEX_DOMAIN),
+			EXHIBITS_INDEX_NAME: JSON.stringify(process.env.EXHIBITS_INDEX_NAME),
 			REPOSITORY_DOMAIN: JSON.stringify(process.env.REPOSITORY_DOMAIN),
-			EXTERNAL_IIIF_MANIFEST_URL: JSON.stringify(process.env.EXTERNAL_IIIF_MANIFEST_URL)
+			REPOSITORY_DATASTREAM_ENDPOINT: JSON.stringify(process.env.REPOSITORY_DATASTREAM_ENDPOINT),
+			REPOSITORY_ITEM_DATA_ENDPOINT: JSON.stringify(process.env.REPOSITORY_ITEM_DATA_ENDPOINT),
+			IIIF_MANIFEST_URL: JSON.stringify(process.env.IIIF_MANIFEST_URL)
         }) 
 	],
 	watch: {
