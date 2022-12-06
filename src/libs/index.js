@@ -1,15 +1,10 @@
 'use strict'
 
+import { Configuration } from '../config/config.js';
 import axios from 'axios';
 
-import { Configuration } from '../config/config.js';
-
 export const index = (() => {
-
-    let url_exhibits; // from cfg
-    let index_exhibits;
-    let url_repository;
-    let index_repository;
+    var {exhibitsIndexDomain, exhibitsIndexName} = Configuration;
 
     const getAllExhibits = async () => {
         let exhibits = [];
@@ -39,14 +34,14 @@ export const index = (() => {
             let data = response.data;
 
             // TODO
-            // let data = await axios.get(`${ELASTIC_URL}/ELASTIC_INDEX/_search`, {query: {id field == id}});
+            // let data = await axios.get(`${exhibitsIndexDomain}/exhibitsIndexName/_search`, {query: {id field == id}});
 
             // Test
             response = await axios.get(`http://localhost:5678/api/v1/exhibits/${id}/items`);
             let items = response.data;
 
             // TODO
-            // let sections = await axios.get(`${ELASTIC_URL}/ELASTIC_INDEX/_search`, {query: {'is_member_of': id});
+            // let sections = await axios.get(`${exhibitsIndexDomain}/exhibitsIndexName/_search`, {query: {'is_member_of': id});
 
             exhibit = {data, items};
         }
