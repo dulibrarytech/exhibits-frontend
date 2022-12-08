@@ -6,9 +6,8 @@
 import { writable } from 'svelte/store'
 
 export const Settings = writable({
-
     /*
-     * Define item types by mime type
+     * Associate item types with mime type
      */
     itemTypes: {
         "image":        ['image/jpg', 'image/jpeg', 'image/png'], // use <img>
@@ -16,5 +15,16 @@ export const Settings = writable({
         "audio":        ['audio/mp3'], // audio player (html initially)
         "video":        ['video/mp4', 'video/mov'], // video player (html initially)
         "pdf":          ['application/pdf'] // pdf viewer
+    },
+
+    /*
+     * Associate item types with file extensions
+     */
+    fileExtensions: {
+        "image":        ['jpg', 'jpeg', 'png'],
+        "large_image":  ['tif', 'tiff'],
+        "audio":        ['mp3'],
+        "video":        ['mp4'],
+        "pdf":          ['pdf']
     }
 })

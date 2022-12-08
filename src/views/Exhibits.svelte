@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { index } from '../libs/elastic-index.js';
+    import { index } from '../libs/index.js';
 
     var exhibits = [];
 

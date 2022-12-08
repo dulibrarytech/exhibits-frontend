@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { index } from '../libs/elastic-index.js';
+    import { index } from '../libs/index.js';
     import { Templates } from '../config/templates.js';
 
     export let currentRoute;
@@ -13,7 +13,7 @@
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
         exhibit = await index.getExhibitById(id);
-        console.log("TEST fetched exhibit", exhibit)
+
         if(exhibit) {
             let {data} = exhibit;
             template = $Templates[data.template] || null;

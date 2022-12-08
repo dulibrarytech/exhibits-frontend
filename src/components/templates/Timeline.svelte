@@ -1,6 +1,6 @@
 <script>
     import Text_Item from '../Text_Item.svelte';
-    import Media_Item from '../Media_Item.svelte';
+    import Display_Item from '../Display_Item.svelte';
 
     export let items;
     export let args; // layout options "scroll" "grid" ?
@@ -14,35 +14,35 @@
 
     {#each items as {is_published, layout}, index}
         {#if is_published == 1} 
-            {index}
+            {index} <!-- Dev: output index value -->
             <div class="section row">
                 {#if layout == "item_right"}
                     <div class="col-md-6"> <!-- col-sm-12 -->
                         <Text_Item data={items[index]} />
                     </div>
                     <div class="col-md-6">
-                        <Media_Item data={items[index]} />
+                        <Display_Item data={items[index]} />
                     </div>
                 {:else if layout == "item_left"}
                     <div class="col-md-6">
-                        <Media_Item data={items[index]} />
+                        <Display_Item data={items[index]} />
                     </div>
                     <div class="col-md-6">
                         <Text_Item data={items[index]} />
                     </div>
                 {:else if layout == "item_top"}
                     <div class="col-md-12">
-                        <Media_Item data={items[index]} />
+                        <Display_Item data={items[index]} />
                         <Text_Item data={items[index]} />
                     </div>
                 {:else if layout == "item_bottom"}
                     <div class="col-md-12">
                         <Text_Item data={items[index]} />
-                        <Media_Item data={items[index]} />
+                        <Display_Item data={items[index]} />
                     </div>
                 {:else if layout == "item_only"}
                     <div class="col-md-12">
-                        <Media_Item data={items[index]} />
+                        <Display_Item data={items[index]} />
                     </div>
                 {:else if layout == "text_only"}
                     <div class="col-md-12">

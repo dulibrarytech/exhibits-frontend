@@ -1,8 +1,24 @@
+ /**
+    Copyright 2022 University of Denver
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ */
+
 /**
+ * Digital repository interface
  * repository_interface.js
- * implements DigitalDU repository frontend
  * 
- * Functions for interaction with the digital object repository api
+ * Functions for retrieving data from external digital repository
  */
 
 'use strict'
@@ -24,15 +40,14 @@ export const repository = (() => {
     */
     const getItemData = async (id) => {
         let data = [];
-        let url = `${repositoryDomain}/${(repositoryItemDataEndpoint.replace("{item_id}", id))}`;
-
-        console.log("TEST ddu data url", url)
+        let url = `${repositoryDomain}${(repositoryItemDataEndpoint.replace("{item_id}", id))}`;
 
         try {
-            data = await axios.get(url);
+            let response = await axios.get(url);
+            ({data} = response);
         }
         catch(e) {
-            console.error(e);
+            throw e;
         }
 
         return data;
@@ -45,7 +60,7 @@ export const repository = (() => {
     */
     const getItemDatastream = async (id) => {
         let stream = null;
-        let url = `${repositoryDomain}/${(repositoryDatastreamEndpoint.replace("{item_id}", id))}`;
+        let url = `${repositoryDomain}${(repositoryDatastreamEndpoint.replace("{item_id}", id))}`;
 
         console.log("TEST ddu datastream url", url)
 
