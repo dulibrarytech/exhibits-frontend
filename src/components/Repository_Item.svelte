@@ -6,22 +6,22 @@
     import Media_Item from './Media_Item.svelte';
     
     export let data;
-    console.log("DigitalDU_Repository_Item: data in:", data)
 
     let uuid = data.uuid;
     let type = null;
     let repoItem = null;
+    let message = "";
 
     onMount(async () => {
+        message = "Loading content...";
         repository.getItemData(uuid)
         .then((itemData) => {
-            console.log("TEST repo item retrieved:", itemData)
-
+            message = "";
             repoItem = itemData;
             type = getItemTypeForMimeType(itemData.mimeType || null);
-            console.log("TEST repo item gets type from helper:", type)
         })
         .catch((error) => {
+            message = "Error retrieving data!";
             console.error(error);
         });
     });
@@ -32,5 +32,7 @@
 
     {#if repoItem}
         <Media_Item {data} {type} />
+    {:else if message}
+        <h5>{message}</h5>
     {/if}
 </div>
