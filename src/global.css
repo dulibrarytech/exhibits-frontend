@@ -1,5 +1,4 @@
 html, body {
-	/* position: relative; */
 	width: 100%;
 	height: 100%;
 }
@@ -67,8 +66,9 @@ button:focus {
 }
 
 main.container {
-	/* min-height: calc(100vh - 150px); */
+	/* min-height: calc(100vh - (50px + 150px)); */
 	flex: 1 0 auto;
+	margin-top: 3em;
 }
 
 footer {

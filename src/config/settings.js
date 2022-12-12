@@ -5,7 +5,7 @@
 
 import { writable } from 'svelte/store'
 
-export const Settings = writable({
+export const Settings = {
     /*
      * Associate item types with mime type
      */
@@ -26,5 +26,8 @@ export const Settings = writable({
         "audio":        ['mp3'],
         "video":        ['mp4'],
         "pdf":          ['pdf']
+    },
+    repositoryFields: {
+        mimeType: "mime_type"
     }
-})
+}

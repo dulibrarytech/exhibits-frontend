@@ -25,46 +25,39 @@
 import { Settings } from '../config/settings.js';
 
 /**
- * 
+ * Get the image type for a mime type
  * @param {string} mimeType : The item mime type 
  */
 export const getItemTypeForMimeType = (mimeType) => {
+    console.log("Mime type in:", mimeType)
     let type = null;
-    let types = $Settings.itemTypes;
-
-    console.log("getItemTypeForMimeType mtype in", mimeType)
-    console.log("Settings types:", types)
+    let types = Settings.itemTypes;
 
     for(let key in types) {
-        console.log("Settings mimeTypes: ", key, types[key])
         if(types[key].includes(mimeType)) {
             type = key;
         }
     }
-
     if(!type) console.error(`Item type could not be determined. Mime type: ${mimeType}`);
 
     return type;
 }
 
 /**
- * 
+ * Get the image type by file extension
  * @param {string} filename : Filename including extension
  */
 export const getItemTypeForFileExtension = (filename) => {
     let type = null;
-    let extensions = $Settings.fileExtensions;
-    let extension = filename.substring( filename.lastIndexOf('.') );
-    console.log("Extension from filename:", extension)
+    let extensions = Settings.fileExtensions;
+    let extension = filename.substring( (filename.lastIndexOf('.')+1) );
 
     for(let key in extensions) {
-        console.log("Settings extensions: ", key, extensions[key])
         if(extensions[key].includes(extension)) {
             type = key;
         }
     }
-
-    if(!type) console.error(`Item type could not be determined. Resource: ${filename}`);
+    if(!type) console.error(`Item type could not be determined by file extension. Resource uri: ${filename}`);
 
     return type;
 }
