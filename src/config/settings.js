@@ -12,7 +12,7 @@ export const Settings = {
     itemTypes: {
         "image":        ['image/jpg', 'image/jpeg', 'image/png'], // use <img>
         "large_image":  ['image/tiff'], // use OSD viewer
-        "audio":        ['audio/mp3'], // audio player (html initially)
+        "audio":        ['audio/mp3', 'audio/mpeg'], // audio player (html initially)
         "video":        ['video/mp4', 'video/mov'], // video player (html initially)
         "pdf":          ['application/pdf'] // pdf viewer
     },

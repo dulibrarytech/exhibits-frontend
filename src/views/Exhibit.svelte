@@ -7,7 +7,6 @@
 
     var id;
     var exhibit = {};
-
     var template = null;
 
     const init = async () => {

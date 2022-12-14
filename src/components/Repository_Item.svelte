@@ -1,37 +1,58 @@
 <script>
-    import { onMount } from 'svelte';
-    import { getItemTypeForMimeType } from '../libs/media_helpers';
-    import { repository } from '../libs/repository';
-    
+    import { getItemTypeForMimeType } from '../../libs/media_helpers';
+    import { repository } from '../../libs/repository';
+    import { Settings } from '../../config/settings.js';
     import Media_Item from './Media_Item.svelte';
+    import IIIF_Item from './IIIF_Item.svelte';
     
-    export let data;
+    export let item;
+    export let args = {};
 
-    let uuid = data.uuid;
+    var data = {};
+
+    let {repositoryFields} = Settings;
+
+    let isIIIF = false;
+    let uuid = null;
     let type = null;
-    let repoItem = null;
+    let component = null;
     let message = "";
 
-    onMount(async () => {
+    $: {
+        uuid = args.uuid || null;
+        isIIIF = args.isIIIF || false;
+        if(uuid) init();
+    }
+
+    const init = () => {
         message = "Loading content...";
         repository.getItemData(uuid)
         .then((itemData) => {
             message = "";
-            repoItem = itemData;
-            type = getItemTypeForMimeType(itemData.mimeType || null);
+            type = getItemTypeForMimeType( itemData[repositoryFields.mimeType] || null );
+
+            if(isIIIF) {
+                data.resourceId = itemData[repositoryFields.id] || null;
+                data.type = type;
+                component = IIIF_Item;
+            }
+            else {
+                data.url = repository.getItemDatastreamUrl( itemData[repositoryFields.id] || null )
+                data.type = type;
+                component = Media_Item;
+            }
         })
         .catch((error) => {
             message = "Error retrieving data!";
-            console.error(error);
+            console.error(`Error connecting to repository: ${error}`);
         });
-    });
+    }
 </script>
 
 <div class="repository-item">
     <h4>Repository item</h4>
-
-    {#if repoItem}
-        <Media_Item {data} {type} />
+    {#if component}
+        <svelte:component this={component} {item} args={data} />
     {:else if message}
         <h5>{message}</h5>
     {/if}

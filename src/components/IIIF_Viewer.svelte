@@ -1,26 +1,16 @@
 <script>
-    import UniversalViewer from "./UniversalViewer.svelte";
+    import UniversalViewer_Content from "./UniversalViewer_Content.svelte";
 
-    export let item;
-
-    let manifest = null; 
-
-    $: {
-        manifest = getManifestUrl(item);
-    }
-
-    const getManifestUrl = (item) => {
-        let url = null;
-        if(item.resource) {
-            url = "https://specialcollections.du.edu/iiif/{item_id}/manifest".replace('{item_id}', item.resource); // TODO get from config 'manifestEndpoint'
-        }
-        return url;
-    }
+    export let url = null;
 </script>
 
-<div class="content-container">
+<div class="">
     <h6>IIIF viewer</h6>
-    <div class="image-viewer>">
-        <UniversalViewer {manifest} />
+    <div class="image-viewer">
+        {#if url}
+            <UniversalViewer_Content {url} />
+        {:else}
+            <h6>Path to resource not found</h6>
+        {/if}
     </div>
 </div>

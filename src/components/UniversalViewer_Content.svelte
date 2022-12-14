@@ -12,12 +12,12 @@
 </svelte:head>
 
 <script>
-    export let manifest;
+    export let url;
 
     var UV;
 
     const data = {
-        manifest,
+        manifest: url,
         embedded: true // needed for codesandbox frame
     };
     
@@ -27,7 +27,9 @@
 	}
 </script>
 
-<div class="uv" id="uv"></div>
+<div class="content">
+    <div class="uv" id="uv"></div>
+</div>
 
 <style>
     #uv {

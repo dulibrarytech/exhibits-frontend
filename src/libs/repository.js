@@ -60,9 +60,7 @@ export const repository = (() => {
     */
     const getItemDatastream = async (id) => {
         let stream = null;
-        let url = `${repositoryDomain}${(repositoryDatastreamEndpoint.replace("{item_id}", id))}`;
-
-        console.log("TEST ddu datastream url", url)
+        let url = getItemDatastreamUrl(id);
 
         try {
             stream = await axios.get(url);
@@ -74,8 +72,13 @@ export const repository = (() => {
         return stream;
     }
 
+    const getItemDatastreamUrl = (id) => {
+        return `${repositoryDomain}${(repositoryDatastreamEndpoint.replace("{item_id}", id))}`;
+    }
+
     return {
         getItemData,
-        getItemDatastream
+        getItemDatastream,
+        getItemDatastreamUrl
     };
 })()

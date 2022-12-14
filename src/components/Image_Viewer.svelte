@@ -1,9 +1,11 @@
 <script>
+    /**
+     * @module Image_Viewer
+     */
     import { onMount } from 'svelte';
-    import { Configuration } from '../config/config';
     import { getItemTypeForFileExtension } from '../libs/media_helpers';
 
-    import OpenSeadragonViewer from './OpenSeadragon_Viewer.svelte';
+    import OpenSeadragon_Content from './OpenSeadragon_Content.svelte';
 
     export let args;
 
@@ -20,15 +22,16 @@
 
     const render = () => {
         let {url="", caption=""} = args;
-
+        
+        /* If the url value is a filename, get the path to the storage location */
         const urlPattern = /^https?:\/\//;
         const filenamePattern = /^[\w,\s-]+\.[A-Za-z]{3}$/;
-        
         if(urlPattern.test(url)) sourceUrl = url;
         else if(filenamePattern.test(url)) sourceUrl = getImageFilePath(url);
         else console.error("Image item could not be rendered. Source file or url is invalid or not present");
 
         if(sourceUrl) {
+            /* Get the image type by file extension if none was specified */
             imageType = type || getItemTypeForFileExtension(sourceUrl) || "image";
             if(!imageType) console.error("Image type could not be determined");
         }
@@ -47,14 +50,14 @@
 
 <div class="image-viewer">
     <h6>Image viewer</h6>
-    <div class="image">
+    <div class="image content">
         {#if sourceUrl && imageType}
             {#if imageType == "image"}
                 <h6>Small image viewer</h6>
                 <img src={sourceUrl} alt={altText} title={altText}/>
             {:else if imageType == "large_image"}
                 <h6>Large image tile viewer</h6>
-                <OpenSeadragonViewer url={sourceUrl} {altText}/>
+                <OpenSeadragon_Content url={sourceUrl} {altText}/>
             {:else}
                 <h6>Error</h6>>
             {/if}

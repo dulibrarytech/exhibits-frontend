@@ -1,8 +1,16 @@
 <script>
-    export let data;
+    import Text_Content from '../Text_Content.svelte';
+
+    export let item = {};
+
+    let text = item.text || "";
+
+    $: {
+        // TODO Remove script tags, other dangerous entities
+    }
 </script>
 
-<div class="text-content">
+<div class="text-display">
     <h4>Text Item</h4>
-    {@html data.text}
+    <Text_Content content={text} />
 </div>

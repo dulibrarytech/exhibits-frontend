@@ -1,11 +1,9 @@
 <script>
-    import Text_Item from '../Text_Item.svelte';
-    import Display_Item from '../Display_Item.svelte';
+    import Text_Display from '../Text_Display.svelte';
+    import Media_Display from '../Media_Display.svelte';
 
     export let items;
     export let args; // layout options "scroll" "grid" ?
-
-    console.log("TEST Timeline: exhibit items in:", items)
 </script>
 
 <!-- Timeline scroll -->
@@ -18,35 +16,35 @@
             <div class="section row">
                 {#if layout == "item_right"}
                     <div class="col-md-6"> <!-- col-sm-12 -->
-                        <Text_Item data={items[index]} />
+                        <Text_Display item={items[index]} />
                     </div>
                     <div class="col-md-6">
-                        <Display_Item data={items[index]} />
+                        <Media_Display item={items[index]} />
                     </div>
                 {:else if layout == "item_left"}
                     <div class="col-md-6">
-                        <Display_Item data={items[index]} />
+                        <Media_Display item={items[index]} />
                     </div>
                     <div class="col-md-6">
-                        <Text_Item data={items[index]} />
+                        <Text_Display item={items[index]} />
                     </div>
                 {:else if layout == "item_top"}
                     <div class="col-md-12">
-                        <Display_Item data={items[index]} />
-                        <Text_Item data={items[index]} />
+                        <Media_Display item={items[index]} />
+                        <Text_Display item={items[index]} />
                     </div>
                 {:else if layout == "item_bottom"}
                     <div class="col-md-12">
-                        <Text_Item data={items[index]} />
-                        <Display_Item data={items[index]} />
+                        <Text_Display item={items[index]} />
+                        <Media_Display item={items[index]} />
                     </div>
                 {:else if layout == "item_only"}
                     <div class="col-md-12">
-                        <Display_Item data={items[index]} />
+                        <Media_Display item={items[index]} />
                     </div>
                 {:else if layout == "text_only"}
                     <div class="col-md-12">
-                        <Text_Item data={items[index]} />
+                        <Text_Display item={items[index]} />
                     </div>
                 {/if}
             </div>

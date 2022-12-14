@@ -5,54 +5,75 @@
     import Audio_Player from './Audio_Player.svelte';
     import Video_Player from './Video_Player.svelte';
     import PDF_Viewer from './PDF_Viewer.svelte';
-    import IIIF_Viewer from './IIIF_Viewer.svelte';
-    import Embed_Iframe_Item from './Embed_Iframe_Item.svelte'; // Uses "url" value
+    import Embed_Iframe_Content from './Embed_Iframe_Content.svelte'; // Uses "url" value
 
-    export let data = {};
-    export let type = null;
-    export let url = null;
+    export let item = {}; // data layer
+    export let args = {};
 
-    let args = {};
-
+    var data = {};
+    var url = null;
+    var type = null;
     var component = null;
-    console.log("Media_Item data in:", data, type)
+
+    console.log("Media_Item data in:", item, type)
+
+    $: {
+        if(!url) url = args.url || item.url || "";
+        if(!type) type = args.type || item.item_type || "undefined";
+        init();
+    }
 
     const init = () => {
-        type = data.is_iiif ? "iiif" : type || data.item_type || "undefined";
-        // type = data.is_iiif ? "iiif" : type || media_helper.getItemType(data); <-- IF item_type is image, use large_image if file ext is tif (use settings for assnmt) RET null if type cant be determined
-        // OR type = getItemType(data) // import from helper
-
         switch(type) {
             case "image":
-                component = Image_Viewer; // In-component Determine src url: if "image" field construct uri to storage, if "url" field, use uri provided
-                args = ({url, image, caption} = data);
+            case "large_image":
+                renderImageViewer();
                 break;
 
             case "audio":
-                component = Audio_Player; // f(): "url"->use [Audio_Player]<audio> html element src=url; "code"->use [Embed_Code_Item]; "kaltura_id" use [Kaltura_Player]
-                // url = ? Set here? Would req more logic. Or, set global in above f()
+                renderAudioPlayer();
                 break;
 
             case "video":
-                component = Video_Player; // <-- * Just return component here, and add logic within component? (simplify/consolidate tasks to related component)
+                renderVideoPlayer();
                 break;
 
             case "pdf":
-                component = PDF_Viewer;
+                renderPdfViewer();
                 break;
 
             case "external":
-                component = Embed_Iframe_Item;
-                break;
-
-            case "iiif":
-                component = IIIF_Viewer;
+                renderIframeViewer();
                 break;
 
             default:
                 console.error(`Invalid item type: ${type}`)
                 break;
         }
+    }
+
+    const renderImageViewer = () => {
+        let url = item.image || url || item.url || null;
+        let caption = item.caption || "";
+
+        data = {type, url, caption}; 
+        component = Image_Viewer;
+    }
+
+    const renderAudioPlayer = () => {
+        //component = Audio_Player; // f(): "url"->use [Audio_Player]<audio> html element src=url; "code"->use [Embed_Code_Item]; "kaltura_id" use [Kaltura_Player]
+    }
+
+    const renderVideoPlayer = () => {
+        //component = Video_Player; // <-- * Just return component here, and add logic within component? (simplify/consolidate tasks to related component)
+    }
+
+    const renderPdfViewer = () => {
+        //component = PDF_Viewer;
+    }
+
+    const renderIframeViewer = () => {
+        //component = Embed_Iframe_Item;
     }
 
     onMount(async () => {
@@ -63,7 +84,7 @@
 <h5>Media Item</h5>
 
 {#if component}
-    <svelte:component this={component} {args} />
+    <svelte:component this={component} args={data} />
 {:else}
-    <h3>Loading content...</h3>
+    <h5>Loading content...</h5>
 {/if}
