@@ -18,6 +18,7 @@
 
     $: {
         if(!type) type = args.type || null;
+        console.log("Image type in is:", type)
     }
 
     const render = () => {
@@ -29,10 +30,12 @@
         if(urlPattern.test(url)) sourceUrl = url;
         else if(filenamePattern.test(url)) sourceUrl = getImageFilePath(url);
         else console.error("Image item could not be rendered. Source file or url is invalid or not present");
+        console.log("Image src url:", sourceUrl)
 
         if(sourceUrl) {
             /* Get the image type by file extension if none was specified */
             imageType = type || getItemTypeForFileExtension(sourceUrl) || "image";
+            console.log("Determined type:", imageType)
             if(!imageType) console.error("Image type could not be determined");
         }
 

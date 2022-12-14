@@ -16,6 +16,7 @@
                     isIIIF: item.is_iiif, 
                     uuid: item.url
                 }
+                console.log("TEST Media_Display repo item detected, using Repository_Item, args:", args)
                 component = Repository_Item;
             }
             else {
@@ -23,6 +24,7 @@
                     url: item.url,
                     type: item_type
                 }
+                console.log("TEST Media_Display user item detected, using Media_Item, args:", args)
                 component = Media_Item;
             }
         }

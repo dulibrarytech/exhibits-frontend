@@ -1,7 +1,7 @@
 <script>
-    import { getItemTypeForMimeType } from '../../libs/media_helpers';
-    import { repository } from '../../libs/repository';
-    import { Settings } from '../../config/settings.js';
+    import { getItemTypeForMimeType } from '../libs/media_helpers';
+    import { repository } from '../libs/repository';
+    import { Settings } from '../config/settings.js';
     import Media_Item from './Media_Item.svelte';
     import IIIF_Item from './IIIF_Item.svelte';
     

@@ -53,6 +53,7 @@
     }
 
     const renderImageViewer = () => {
+        console.log("Media_Item rendering Image_Viewer")
         let url = item.image || url || item.url || null;
         let caption = item.caption || "";
 

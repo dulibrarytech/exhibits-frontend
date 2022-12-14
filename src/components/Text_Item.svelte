@@ -1,5 +1,5 @@
 <script>
-    import Text_Content from '../Text_Content.svelte';
+    import Text_Content from './Text_Content.svelte';
 
     export let item = {};
 
