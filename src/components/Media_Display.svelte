@@ -35,5 +35,5 @@
 {#if component}
     <svelte:component this={component} {item} {args} />
 {:else}
-    <h5>Loading content...</h5>
+    <h5>Loading item...</h5>
 {/if}

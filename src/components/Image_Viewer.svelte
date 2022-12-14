@@ -29,7 +29,7 @@
         const filenamePattern = /^[\w,\s-]+\.[A-Za-z]{3}$/;
         if(urlPattern.test(url)) sourceUrl = url;
         else if(filenamePattern.test(url)) sourceUrl = getImageFilePath(url);
-        else console.error("Image item could not be rendered. Source file or url is invalid or not present");
+        else console.error(`Image item could not be rendered. Source file or url is invalid or not present. Url: ${url}`);
         console.log("Image src url:", sourceUrl)
 
         if(sourceUrl) {
@@ -65,7 +65,7 @@
                 <h6>Error</h6>>
             {/if}
         {:else}
-            <h5>Loading image...</h5>
+            <h5>Loading image content...</h5>
         {/if}
     </div>
 </div>
