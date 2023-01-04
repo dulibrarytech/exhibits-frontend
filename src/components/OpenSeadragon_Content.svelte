@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import OpenSeadragon from 'openseadragon'
 
     export let url;
     export let altText = "Image";
@@ -10,15 +11,13 @@
         try {
             viewer = OpenSeadragon({
                 id: "openseadragon1",
-                prefixUrl: "/libs/openseadragon/images/",
+                prefixUrl: "/images/openseadragon/",
                 tileSources: url
             });
         }
         catch(e) {
             console.error(`Error initializing OpenSeadragon viewer: ${e}`);
         }
-
-        console.log("Init OSD:", viewer)
     });
 </script>
 
