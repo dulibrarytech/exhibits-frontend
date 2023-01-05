@@ -24,5 +24,7 @@
 <div id="openseadragon1" style="width: 800px; height: 600px;" title={altText}></div>
 
 <style>
-
+#openseadragon1 {
+    width: 100% !important;
+}
 </style>

@@ -1,8 +1,13 @@
 <script>
     /**
      * @module Image_Viewer
+     * 
+     * Renders an image in <img> element or OpenSeadragon zoomable viewer (tif files only)
+     * 
+     * Currently no OpenSeadragon viewing of remote tiff images. Only local images can be served as tiled images due to functionality of tile server (Cantaloupe)
      */
     import { onMount } from 'svelte';
+    import { Configuration } from '../config/config';
     import { getItemTypeForFileExtension } from '../libs/media_helpers';
 
     import OpenSeadragon_Content from './OpenSeadragon_Content.svelte';
@@ -11,39 +16,53 @@
 
     console.log("Image viewer data in:", args)
 
+    const URL_PATTERN = /^https?:\/\//;
+    //const FILENAME_PATTERN = /^[\w,\s-]+\.[A-Za-z]{3}$/;
+
     let type = null;
     let sourceUrl = null;
     let imageType = null;
+    let placeholder = null;
     let altText = "Image";
+    let viewer = "html";
 
     $: {
         if(!type) type = args.type || null;
-        console.log("Image type in is:", type)
+        console.log("TEST Image type in is:", type)
     }
 
     const render = () => {
         let {url="", caption=""} = args;
-        
-        /* If the url value is a filename, get the path to the storage location */
-        const urlPattern = /^https?:\/\//;
-        const filenamePattern = /^[\w,\s-]+\.[A-Za-z]{3}$/;
-        if(urlPattern.test(url)) sourceUrl = url;
-        else if(filenamePattern.test(url)) sourceUrl = getImageFilePath(url);
-        else console.error(`Image item could not be rendered. Source file or url is invalid or not present. Url: ${url}`);
-        console.log("Image src url:", sourceUrl)
 
-        if(sourceUrl) {
-            /* Get the image type by file extension if none was specified */
-            imageType = type || getItemTypeForFileExtension(sourceUrl) || "image";
-            console.log("Determined type:", imageType)
-            if(!imageType) console.error("Image type could not be determined");
+        imageType = type || getItemTypeForFileExtension(url);
+        if(!imageType) console.error(`Image type could not be determined. Resource: ${url}`);
+
+        /* Get the source url for the image based on the image type and url format. */
+        /* Use the openseadragon viewer for large files present in resource storage */
+        if(imageType == "image") {
+            if(URL_PATTERN.test(url) == false) {
+                sourceUrl = getImageFilePath(url);
+            }
+            else sourceUrl = url;
         }
+        else if(imageType == "large_image") {
+            if(URL_PATTERN.test(url) == false) {
+                sourceUrl = getImageServerUrl(url);
+                viewer = "openseadragon";
+            }
+            else sourceUrl = url;
+        }
+        else console.error(`Invalid image type: ${imageType}`);
 
         if(caption) altText = caption;
     }
 
     const getImageFilePath = (filename) => {
-        return "/storage/" + filename; // TODO get path from config*
+        return `${Configuration.resourceLocation}/${filename}`;
+    }
+
+    const getImageServerUrl = (filename) => {
+        return `${Configuration.imageServerUrl}/iiif/2/${filename}/info.json`;
     }
 
     onMount(async () => {
@@ -54,16 +73,20 @@
 <div class="image-viewer">
     <h6>Image viewer</h6>
     <div class="image content">
-        {#if sourceUrl && imageType}
-            {#if imageType == "image"}
+        {#if sourceUrl}
+
+            {#if viewer == "html"}
                 <h6>Small image viewer</h6>
                 <img src={sourceUrl} alt={altText} title={altText}/>
-            {:else if imageType == "large_image"}
+
+            {:else if viewer == "openseadragon"}
                 <h6>Large image tile viewer</h6>
                 <OpenSeadragon_Content url={sourceUrl} {altText}/>
             {:else}
                 <h6>Error</h6>>
             {/if}
+        {:else if placeholder}
+            <img src="/error" />
         {:else}
             <h5>Loading image content...</h5>
         {/if}

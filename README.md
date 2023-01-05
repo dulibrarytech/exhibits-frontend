@@ -2,19 +2,21 @@
 
 ### Setup
 
-##### 1. Clone repo:
+#### Local environment
 
-##### 2. cd into project folder
+1. Clone repo:
 
-##### 3. Run 'npm i'
+2. cd into project folder
 
-##### 4. Set environment variables
+3. Run 'npm i'
+
+4. Set environment variables
 
 See .env_sample for required fields
 
 Create .env file in project root, add fields
 
-To add .env fields
+##### To add .env fields as global variables
 
 1. Add field to .env
 
@@ -23,5 +25,7 @@ To add .env fields
 ##### 5. Run 'npm build'
 
 ##### 6. Run startup script: 'sh start_app.sh'
+
+#### Cantaloupe Image Server
 
 
