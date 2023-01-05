@@ -76,14 +76,16 @@ export default {
 		production && terser(),
 		json(),
 
-		// .env global variables
+		// Assign .env fields as global variables here:
 		replace({
 			EXHIBITS_INDEX_DOMAIN: JSON.stringify(process.env.EXHIBITS_INDEX_DOMAIN),
 			EXHIBITS_INDEX_NAME: JSON.stringify(process.env.EXHIBITS_INDEX_NAME),
 			REPOSITORY_DOMAIN: JSON.stringify(process.env.REPOSITORY_DOMAIN),
 			REPOSITORY_DATASTREAM_ENDPOINT: JSON.stringify(process.env.REPOSITORY_DATASTREAM_ENDPOINT),
 			REPOSITORY_ITEM_DATA_ENDPOINT: JSON.stringify(process.env.REPOSITORY_ITEM_DATA_ENDPOINT),
-			IIIF_MANIFEST_URL: JSON.stringify(process.env.IIIF_MANIFEST_URL)
+			IIIF_MANIFEST_URL: JSON.stringify(process.env.IIIF_MANIFEST_URL),
+			IMAGE_SERVER_URL: JSON.stringify(process.env.IMAGE_SERVER_URL),
+			RESOURCE_LOCATION: JSON.stringify(process.env.RESOURCE_LOCATION)
         }) 
 	],
 	watch: {

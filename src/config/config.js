@@ -9,6 +9,8 @@ export const Configuration = {
   repositoryDomain: REPOSITORY_DOMAIN,
   repositoryDatastreamEndpoint: REPOSITORY_DATASTREAM_ENDPOINT,
   repositoryItemDataEndpoint: REPOSITORY_ITEM_DATA_ENDPOINT,
-  IIIFManifestUrl: IIIF_MANIFEST_URL
+  IIIFManifestUrl: IIIF_MANIFEST_URL,
+  imageServerUrl: IMAGE_SERVER_URL,
+  resourceLocation: RESOURCE_LOCATION
 }
 
