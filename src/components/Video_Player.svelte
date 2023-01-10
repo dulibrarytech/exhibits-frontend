@@ -8,26 +8,28 @@
     var kalturaId = null;
     var embedCode = null;
     var url = null;
+    var type = null;
 
-    console.log("Video player data in:", args)
+    console.log("Audio_Player data in:", args)
 
-    const render = () => {
-
+    $: {
+        if(!type) type = args.type || null;
     }
 </script>
 
 <div class="video-player">
     <h6>Video player</h6>
-    <div class="video content">
+    <div class="video">
         {#if kalturaId}
             <Kaltura_Content id={kalturaId} />
         {:else if embedCode}
-            <Embed_Code_Content code={embedCode} />
+            <Embed_Code_Content code={embedCode} /> <!-- Enforce <audio></audio> in embed code string. EmbedCode removes <script> code-->
         {:else if url}
-            <video controls>
-                <track kind="captions">
-                <source src={url} type="video/mp4"> <!-- get src ext from url? -->
-            </video>
+            {#if type}
+                <video src={url} {type} controls></video>
+            {:else}
+                <video src={url} controls></video>
+            {/if}
         {:else}
             <h6>Loading video content...</h6>
         {/if}

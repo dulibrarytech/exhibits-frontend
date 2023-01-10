@@ -8,23 +8,28 @@
     var kalturaId = null;
     var embedCode = null;
     var url = null;
+    var type = null;
 
-    console.log("Audio player data in:", args)
+    console.log("Audio_Player data in:", args)
 
-    const render = () => {
-
+    $: {
+        if(!type) type = args.type || null;
     }
 </script>
 
 <div class="audio-player">
     <h6>Audio player</h6>
-    <div class="audio content">
+    <div class="audio">
         {#if kalturaId}
             <Kaltura_Content id={kalturaId} />
         {:else if embedCode}
-            <Embed_Code_Content code={embedCode} />
+            <Embed_Code_Content code={embedCode} /> <!-- Enforce <audio></audio> in embed code string. EmbedCode removes <script> code-->
         {:else if url}
-            <audio src={url}></audio>
+            {#if type}
+                <audio src={url} {type} controls></audio>
+            {:else}
+                <audio src={url} controls></audio>
+            {/if}
         {:else}
             <h6>Loading audio content...</h6>
         {/if}
