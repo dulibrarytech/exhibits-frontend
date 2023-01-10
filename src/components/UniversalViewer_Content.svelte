@@ -27,9 +27,7 @@
 	}
 </script>
 
-<div class="content">
-    <div class="uv" id="uv"></div>
-</div>
+<div class="uv content" id="uv"></div>
 
 <style>
     #uv {

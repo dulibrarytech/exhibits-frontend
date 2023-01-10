@@ -21,7 +21,7 @@
     });
 </script>
 
-<div id="openseadragon1" style="width: 800px; height: 600px;" title={altText}></div>
+<div class="openseadragon content" id="openseadragon1" style="width: 800px; height: 600px;" title={altText}></div>
 
 <style>
 #openseadragon1 {

@@ -10,7 +10,9 @@
         if(data.length > 0) {
             exhibits = data;
         }
-        console.log("Exhibits:", exhibits);
+        else console.log("No exhibits found.");
+
+        console.log("TEST Exhibits:", exhibits);
     }
 
     onMount(async () => {
@@ -18,7 +20,7 @@
     });
 </script>
 
-<div id="exhibits">
+<div class="exhibits">
     <h3>Exhibits</h3>
 
     <h3>Select an exhibit</h3>

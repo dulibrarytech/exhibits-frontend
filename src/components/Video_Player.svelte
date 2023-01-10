@@ -10,7 +10,7 @@
     var url = null;
     var type = null;
 
-    console.log("Audio_Player data in:", args)
+    console.log("TEST Video_Player data in:", args)
 
     $: {
         if(!type) type = args.type || null;
@@ -25,11 +25,13 @@
         {:else if embedCode}
             <Embed_Code_Content code={embedCode} /> <!-- Enforce <audio></audio> in embed code string. EmbedCode removes <script> code-->
         {:else if url}
-            {#if type}
-                <video src={url} {type} controls></video>
-            {:else}
-                <video src={url} controls></video>
-            {/if}
+            <div class="content"> 
+                {#if type}
+                    <video src={url} {type} controls></video>
+                {:else}
+                    <video src={url} controls></video>
+                {/if}
+            </div>
         {:else}
             <h6>Loading video content...</h6>
         {/if}

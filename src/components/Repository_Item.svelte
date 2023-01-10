@@ -49,7 +49,7 @@
     }
 </script>
 
-<div class="repository-item">
+<div class="item">
     <h4>Repository item</h4>
     {#if component}
         <svelte:component this={component} {item} args={data} />

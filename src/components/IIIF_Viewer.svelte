@@ -2,15 +2,19 @@
     import UniversalViewer_Content from "./UniversalViewer_Content.svelte";
 
     export let url = null;
+
+    $: {
+        if(!url) console.error("IIIF manifest url not present");
+    }
 </script>
 
-<div class="">
+<div class="image-viewer">
     <h6>IIIF viewer</h6>
-    <div class="image-viewer">
+    <div class="image">
         {#if url}
             <UniversalViewer_Content {url} />
         {:else}
-            <h6>Path to resource not found</h6>
+            <h5>Loading content...</h5>>
         {/if}
     </div>
 </div>

@@ -10,7 +10,7 @@
     }
 </script>
 
-<div class="text-display">
+<div class="item">
     <h4>Text Item</h4>
     <Text_Content content={text} />
 </div>

@@ -72,15 +72,13 @@
 
 <div class="image-viewer">
     <h6>Image viewer</h6>
-    <div class="image content">
+    <div class="image">
         {#if sourceUrl}
-
             {#if viewer == "html"}
-                <h6>Small image viewer</h6>
-                <img src={sourceUrl} alt={altText} title={altText}/>
-
+                <div class="content">
+                    <img src={sourceUrl} alt={altText} title={altText}/>
+                </div>
             {:else if viewer == "openseadragon"}
-                <h6>Large image tile viewer</h6>
                 <OpenSeadragon_Content url={sourceUrl} {altText}/>
             {:else}
                 <h6>Error</h6>>

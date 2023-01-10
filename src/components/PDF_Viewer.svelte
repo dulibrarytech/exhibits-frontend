@@ -4,15 +4,11 @@
     var url = null;
     var caption = null;
 
-    console.log("PDF viewer data in:", args)
+    console.log("TEST PDF viewer data in:", args)
 
     $: {
         if(!url) url = args.url || null;
         if(!caption) caption = args.caption || "";
-    }
-
-    const render = () => {
-
     }
 </script>
 

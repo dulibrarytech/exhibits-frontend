@@ -53,29 +53,38 @@
     }
 
     const renderImageViewer = () => {
-        console.log("Media_Item rendering Image_Viewer")
-
         let url = item.image || url || item.url || null;
         let caption = item.caption || "";
-
-        data = {type, url, caption}; 
+        
+        data = {type, url, caption};
         component = Image_Viewer;
     }
 
     const renderAudioPlayer = () => {
-        //component = Audio_Player; // f(): "url"->use [Audio_Player]<audio> html element src=url; "code"->use [Embed_Code_Item]; "kaltura_id" use [Kaltura_Player]
+        let url = url || item.url || null;
+        let kalturaId = item.kaltura_id || null;
+        let embedCode = item.code || null;
+        let caption = item.caption || "";
+        
+        data = {url, kalturaId, embedCode, caption}; 
+        component = Audio_Player;
     }
 
     const renderVideoPlayer = () => {
-        //component = Video_Player; // <-- * Just return component here, and add logic within component? (simplify/consolidate tasks to related component)
+        // TODO Get kaltura_id as kalturaId, code as embedCode, url as url, caption as caption from item{} and create data{} for component render
+
+        // let url = url || item.url || null;
+        // let kalturaId = item.kaltura_id || null;
+        // let embedCode = item.code || null;
+        // let caption = item.caption || "";
     }
 
     const renderPdfViewer = () => {
-        //component = PDF_Viewer;
+        // TODO Get url from item{} as url, caption as caption create data{} for component render
     }
 
     const renderIframeViewer = () => {
-        //component = Embed_Iframe_Item;
+        // TODO Get url from item{} as url, caption as caption create data{} for component render
     }
 
     onMount(async () => {
@@ -86,7 +95,9 @@
 <h5>Media Item</h5>
 
 {#if component}
-    <svelte:component this={component} args={data} />
+    <div class="item">
+        <svelte:component this={component} args={data} />
+    </div>
 {:else}
     <h5>Loading media item...</h5>
 {/if}

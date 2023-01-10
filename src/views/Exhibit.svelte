@@ -29,7 +29,7 @@
 <!-- If display title page before entry -->
 <!-- <div id="exhibit-title-page"></div> -->
 
-<div id="exhibit-page">
+<div class="exhibit-page">
     <h3>Exhibit ID: {id}</h3>
 
     {#if template}
