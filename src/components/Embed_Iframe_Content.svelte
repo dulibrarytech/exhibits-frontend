@@ -10,10 +10,6 @@
         if(!url) url = args.url || null;
         if(!caption) caption = args.caption || "";
     }
-
-    const render = () => {
-
-    }
 </script>
 
 <div class="iframe-viewer">
@@ -22,7 +18,7 @@
         {#if url}
             <iframe src={url} title={caption} /> 
         {:else}
-            <h6>Loading external content...</h6>
+            <h6>Loading iframe content...</h6>
         {/if}
     </div>
 </div>
