@@ -7,7 +7,7 @@ import { writable } from 'svelte/store'
 
 export const Settings = {
     /*
-     * Associate item types with mime type
+     * 
      */
     itemTypes: {
         "image":        ['image/jpg', 'image/jpeg', 'image/png'], // use <img>
@@ -18,7 +18,7 @@ export const Settings = {
     },
 
     /*
-     * Associate item types with file extensions
+     * 
      */
     fileExtensions: {
         "image":        ['jpg', 'jpeg', 'png'],
@@ -26,8 +26,5 @@ export const Settings = {
         "audio":        ['mp3'],
         "video":        ['mp4'],
         "pdf":          ['pdf']
-    },
-    repositoryFields: {
-        mimeType: "mime_type"
     }
 }

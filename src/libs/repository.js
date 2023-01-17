@@ -76,9 +76,18 @@ export const repository = (() => {
         return `${repositoryDomain}${(repositoryDatastreamEndpoint.replace("{item_id}", id))}`;
     }
 
+    const getItemIIIFManifestUrl = (id) => {
+        let url = null;
+        if(id) {
+            url = "https://specialcollections.du.edu/iiif/{item_id}/manifest".replace('{item_id}', id); // TODO get from config 'manifestEndpoint'
+        }
+        return url;
+    }
+
     return {
         getItemData,
         getItemDatastream,
-        getItemDatastreamUrl
+        getItemDatastreamUrl,
+        getItemIIIFManifestUrl
     };
 })()
