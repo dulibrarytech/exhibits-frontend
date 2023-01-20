@@ -1,18 +1,19 @@
 <script>
     import UniversalViewer_Content from "./UniversalViewer_Content.svelte";
 
-    export let url = null;
+    export let manifest = null;
+    export let type = null; // may not be used for iiif viewer, unless content component has various styles for different types
 
     $: {
-        if(!url) console.error("IIIF manifest url not present");
+        if(!manifest) console.error("IIIF manifest url not present");
     }
 </script>
 
 <div class="image-viewer">
-    <h6>IIIF viewer</h6>
+    <h6>IIIF Viewer</h6>
     <div class="image">
-        {#if url}
-            <UniversalViewer_Content {url} />
+        {#if manifest}
+            <UniversalViewer_Content {manifest} {type} />
         {:else}
             <h5>Loading content...</h5>>
         {/if}

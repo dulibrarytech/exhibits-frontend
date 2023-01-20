@@ -12,12 +12,13 @@
 </svelte:head>
 
 <script>
-    export let url;
+    export let manifest;
+    export let type = null;
 
     var UV;
 
     const data = {
-        manifest: url,
+        manifest,
         embedded: true // needed for codesandbox frame
     };
     
