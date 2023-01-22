@@ -8,67 +8,77 @@
     export let args = {};
 
     /* Repository object fields to add to the exhibit item */
-    const EXHIBIT_ITEM_FIELDS = ['kaltura_id'];
+    //const EXHIBIT_ITEM_FIELDS = ['kaltura_id'];
+
+    /* Map repository field to exhibit item field. These fields will be added to the exhibit item data object or override the field if it exists */
+    const EXHIBIT_ITEM_FIELDS = {
+        "entry_id": "kaltura_id",
+        "mime_type": "mime_type"
+    }
 
     /* Define repository item fields */
-    const ID = "pid";
-    const MIME_TYPE = "mime_type";
-    const METADATA_OBJECT = "display_record";
+    const ID_FIELD = "pid";
+    const MIME_TYPE_FIELD = "mime_type";
+    const METADATA_OBJECT_FIELD = "display_record";
+
+    let itemId;
+    let isIIIF;
+    let component = null;
+    let message = "";
 
     /* args object for child components */
     var params = {};
 
-    // let isIIIF = false;
-    // let uuid = null;
-    let component = null;
-    let message = "";
-
     $: {
-        let {uuid = null, isIIIF = false} = args;
+        if(!itemId) itemId = args.id || item.url || null;
+        if(!isIIIF) isIIIF = args.isIIIF || item.is_iiif || false;
+        console.log("TEST repo item: itemId/isIIIF:", itemId, isIIIF)
 
-        uuid = args.uuid || null;
-        isIIIF = args.isIIIF || false;
-        console.log("TEST repo item: uuid/args:", uuid, args)
-        if(uuid) render();
+        if(itemId) render();
+        else console.error("Repository item id is null");
     }
 
     const render = () => {
         message = "Loading content...";
 
-        repository.getItemData(uuid)
+        repository.getItemData(itemId)
         .then((repoItem) => {
             message = "";
 
             if(isIIIF) {
-                //params.manifest = repository.getItemIIIFManifestUrl( repoItem[ID] || null )
+                console.log("TEST repo item: is iiif")
+
                 component = IIIF_Item;
             }
             else {
-                params.url = repository.getItemDatastreamUrl( repoItem[ID] || null )
-                params = {...params, ...getExhibitItemData(repoItem)}; // repo fields to add to exhibit item data, specified in settings. (kaltura_id (entry_id), etc included)
+                /* Get params from the repo item for the media item */
+                params.url = repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null )
+                params = {...params, ...getExhibitItemData(repoItem)};
                 console.log("TEST repo item: non iiif: params object for media item:", params)
+
                 component = Media_Item;
             }
 
-            params.type = getItemTypeForMimeType( repoItem[MIME_TYPE] || null );
-            params.metadata = repoItem[METADATA_OBJECT] || {};
+            params.type = getItemTypeForMimeType( repoItem[MIME_TYPE_FIELD] || null );
+            params.metadata = repoItem[METADATA_OBJECT_FIELD] || {};
 
             console.log("TEST repo item: component:", component)
             console.log("TEST repo item: all params:", params)
         })
         .catch((error) => {
-            message = "Error retrieving data!";
+            message = "Error retrieving data";
             console.error(`Error connecting to repository: ${error}`);
         });
     }
 
     const getExhibitItemData = (repositoryItem) => {
-        data = {};
+        let data = {};
 
         let value;
         for(let field in EXHIBIT_ITEM_FIELDS) {
+            console.log("field", EXHIBIT_ITEM_FIELDS[field])
             value = repositoryItem[field] || null;
-            if(value) data[field] = repositoryItem[field];
+            if(value) data[ EXHIBIT_ITEM_FIELDS[field] ] = repositoryItem[field];
         }
 
         return data;
@@ -76,13 +86,13 @@
 </script>
 
 <div class="item">
-    <h4>Repository item</h4>
+    <h6 class="dev-label">Repository item</h6>
     {#if component}
         <!-- run -->
         <!-- <svelte:component this={component} {item} args={params} /> -->
 
         <!-- dev -->
-        <h4>{component}</h4>
+        <h5>Component: {component}</h5>
     {:else if message}
         <h5>{message}</h5>
     {/if}

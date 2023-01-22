@@ -12,18 +12,18 @@
         let {item_type} = item;
         if(item_type) {
             if(item_type == "repo") {
-                args = {
-                    isIIIF: item.is_iiif, 
-                    uuid: item.url
-                }
+                // args = {
+                //     isIIIF: item.is_iiif, 
+                //     id: item.url
+                // }
                 console.log("TEST Media_Display repo item detected, using Repository_Item, args:", args)
                 component = Repository_Item;
             }
             else {
-                args = {
-                    url: item.url,
-                    type: item_type
-                }
+                // args = {
+                //     url: item.url,
+                //     type: item_type
+                // }
                 console.log("TEST Media_Display user item detected, using Media_Item, args:", args)
                 component = Media_Item;
             }

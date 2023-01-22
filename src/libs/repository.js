@@ -30,7 +30,7 @@ export const repository = (() => {
     var {   repositoryDomain,
             repositoryDatastreamEndpoint, 
             repositoryItemDataEndpoint
-
+            
         } = Configuration;
 
     /*
@@ -79,7 +79,7 @@ export const repository = (() => {
     const getItemIIIFManifestUrl = (id) => {
         let url = null;
         if(id) {
-            url = "https://specialcollections.du.edu/iiif/{item_id}/manifest".replace('{item_id}', id); // TODO get from config 'manifestEndpoint'
+            url = iiifManifestUrl.replace('{item_id}', id);
         }
         return url;
     }
