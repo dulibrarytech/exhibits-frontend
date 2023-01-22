@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { getItemTypeForFileExtension } from '../libs/media_helpers';
     
     import Image_Viewer from './Image_Viewer.svelte';
     import Audio_Player from './Audio_Player.svelte';
@@ -10,23 +11,25 @@
     export let item = {}; // data layer
     export let args = {};
 
-    var data = {};
     var url = null;
     var type = null;
     var component = null;
+
+    /* args object for child components */
+    var params = {};
 
     console.log("Media_Item data in:", item, type)
 
     $: {
         if(!url) url = args.url || item.url || "";
         if(!type) type = args.type || item.item_type || "undefined";
+        if(!mimeType) mimeType = args.mimeType || item.mime_type || "undefined";
         init();
     }
 
     const init = () => {
         switch(type) {
             case "image":
-            case "large_image":
                 renderImageViewer();
                 break;
 
@@ -53,10 +56,11 @@
     }
 
     const renderImageViewer = () => {
+        let imageType = getItemTypeForFileExtension(url) == "large_image" ? "large" : "standard";
         let url = item.image || url || item.url || null;
         let caption = item.caption || "";
         
-        data = {type, url, caption};
+        params = {imageType, url, caption};
         component = Image_Viewer;
     }
 
@@ -65,13 +69,14 @@
         let kalturaId = item.kaltura_id || null;
         let embedCode = item.code || null;
         let caption = item.caption || "";
+        let mimeType = item.mime_type || null;
         
-        data = {url, kalturaId, embedCode, caption}; 
+        params = {url, kalturaId, embedCode, caption, mimeType}; 
         component = Audio_Player;
     }
 
     const renderVideoPlayer = () => {
-        // TODO Get kaltura_id as kalturaId, code as embedCode, url as url, caption as caption from item{} and create data{} for component render
+        // TODO Get kaltura_id as kalturaId, code as embedCode, url as url, caption as caption from item{} and create params{} for component render
 
         // let url = url || item.url || null;
         // let kalturaId = item.kaltura_id || null;
@@ -80,11 +85,11 @@
     }
 
     const renderPdfViewer = () => {
-        // TODO Get url from item{} as url, caption as caption create data{} for component render
+        // TODO Get url from item{} as url, caption as caption create params{} for component render
     }
 
     const renderIframeViewer = () => {
-        // TODO Get url from item{} as url, caption as caption create data{} for component render
+        // TODO Get url from item{} as url, caption as caption create params{} for component render
     }
 
     onMount(async () => {
@@ -92,11 +97,11 @@
     });
 </script>
 
-<h5>Media Item</h5>
+<h6>Media Item</h6>
 
 {#if component}
     <div class="item">
-        <svelte:component this={component} args={data} />
+        <svelte:component this={component} args={params} />
     </div>
 {:else}
     <h5>Loading media item...</h5>

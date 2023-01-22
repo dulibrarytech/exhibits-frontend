@@ -5,15 +5,23 @@
 
     export let args = {};
 
-    var kalturaId = null;
-    var embedCode = null;
-    var url = null;
-    var type = null;
-
     console.log("TEST Audio_Player data in:", args)
 
+    let {
+        url=null, 
+        kalturaId=null, 
+        embedCode=null, 
+        caption=null, 
+        mimeType=null
+        
+    } = args;
+
     $: {
-        if(!type) type = args.type || null;
+        render();
+    }
+
+    const render = () => {
+        if(!url && !kalturaId && !embedCode) console.error("Error loading audio content: path to source not found")
     }
 </script>
 
@@ -26,11 +34,13 @@
             <Embed_Code_Content code={embedCode} /> <!-- Enforce <audio></audio> in embed code string. EmbedCode removes <script> code-->
         {:else if url}
             <div class="content">   
-                {#if type}
-                    <audio src={url} {type} controls></audio>
+                {#if mimeType}
+                    <audio src={url} type={mimeType} controls></audio>
                 {:else}
                     <audio src={url} controls></audio>
                 {/if}
+                
+                {#if caption}<p>{caption}</p>{/if}
             </div>
         {:else}
             <h6>Loading audio content...</h6>

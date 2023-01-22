@@ -5,15 +5,23 @@
 
     export let args = {};
 
-    var kalturaId = null;
-    var embedCode = null;
-    var url = null;
-    var type = null;
-
     console.log("TEST Video_Player data in:", args)
 
+    let {
+        url=null, 
+        kalturaId=null, 
+        embedCode=null, 
+        caption=null, 
+        mimeType=null
+        
+    } = args;
+
     $: {
-        if(!type) type = args.type || null;
+        render();
+    }
+
+    const render = () => {
+        if(!url && !kalturaId && !embedCode) console.error("Error loading video content: path to source not found")
     }
 </script>
 
@@ -23,14 +31,16 @@
         {#if kalturaId}
             <Kaltura_Content id={kalturaId} />
         {:else if embedCode}
-            <Embed_Code_Content code={embedCode} /> <!-- Enforce <audio></audio> in embed code string. EmbedCode removes <script> code-->
+            <Embed_Code_Content code={embedCode} /> <!-- Enforce <video></video> in embed code string. EmbedCode removes <script> code-->
         {:else if url}
-            <div class="content"> 
-                {#if type}
-                    <video src={url} {type} controls></video>
+            <div class="content">   
+                {#if mimeType}
+                    <video src={url} type={mimeType} controls></video>
                 {:else}
                     <video src={url} controls></video>
                 {/if}
+                
+                {#if caption}<p>{caption}</p>{/if}
             </div>
         {:else}
             <h6>Loading video content...</h6>

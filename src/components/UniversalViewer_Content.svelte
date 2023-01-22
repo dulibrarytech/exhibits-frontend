@@ -13,7 +13,7 @@
 
 <script>
     export let manifest;
-    export let type = null;
+    console.log("TEST UV manifest rx:", manifest)
 
     var UV;
 
@@ -28,6 +28,7 @@
 	}
 </script>
 
+<h6>IIIF Content</h6>
 <div class="uv content" id="uv"></div>
 
 <style>

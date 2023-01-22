@@ -24,6 +24,10 @@ a:visited {
 	color: rgb(0,80,160);
 }
 
+h6 {
+	font-size: 0.8em;
+}
+
 label {
 	display: block;
 }
