@@ -7,7 +7,7 @@
 
     var { iiifManifestUrl } = Configuration;
 
-    const VIEWER_METADATA = {
+    const VIEWER_METADATA = { // TODO move to settings? (data layer)
         title: "title"
     }
 
@@ -15,19 +15,18 @@
 
     let { type = null, metadata = {} } = args;
 
-    let id; // iiif resource id, for the manifest url
+    let resourceId; // iiif resource id, for the manifest url
     let manifest = null; 
     let viewerMetadata = {};
 
     $: {
-        id = item.url || "[id field missing]";
-        console.log("TEST IIIF item id:", id)
+        resourceId = item.url || "[id field missing]";
         render();
     }
 
     const render = () => {
         /* Create iiif manifest url */
-        manifest = iiifManifestUrl.replace('{item_id}', id);
+        manifest = iiifManifestUrl.replace('{item_id}', resourceId);
 
         /* Add metadata fields to viewer metadata display */
         for(let field in VIEWER_METADATA) {

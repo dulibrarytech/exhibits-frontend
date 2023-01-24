@@ -3,14 +3,18 @@
 
     export let item = {};
 
-    let text = item.text || "";
+    var text = "";
 
-    $: {
+    const render = () => {
+        text = item.text || "";
+
         // TODO Remove script tags, other dangerous entities
     }
+
+    render();
 </script>
 
 <div class="item">
-    <h4>Text Item</h4>
+    <h6>Text Item</h6>
     <Text_Content content={text} />
 </div>
