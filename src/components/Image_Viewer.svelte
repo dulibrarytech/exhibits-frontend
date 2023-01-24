@@ -15,29 +15,40 @@
     console.log("Image viewer data in:", args)
 
     let {
-        url = "",
-        imageType = "standard",
+        url = null,
+        imageType = null,
         caption = ""
 
     } = args;
 
     let sourceUrl = null;
-    let viewer = "html";
+    let viewer = HTML_VIEWER;
     let placeholder = false;
     let altText = "Image";
 
     const URL_PATTERN = /^https?:\/\//;
 
+    const HTML_VIEWER = "html";
+    const TILE_VIEWER = "openseadragon";
+    const STANDARD_IMAGE = "standard";
+    const TILE_IMAGE = "tile";
+
+    const STANDARD_IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "gif"];
+    const TILE_IMAGE_EXTENSIONS = ["tif", "tiff"];
+
     const render = () => {
+        if(!url) console.error("Missing resource url");
+        if(!imageType) imageType = getImageType(url || "");
+
         /* Get the source url for the image based on the image type and url format. */
-        /* Use the openseadragon viewer for large files present in resource storage */
-        if(imageType == "standard") {
+        if(imageType == STANDARD_IMAGE) {
             if(URL_PATTERN.test(url) == false) {
                 sourceUrl = getImageFilePath(url);
             }
             else sourceUrl = url;
         }
-        else if(imageType == "large") {
+        /* Use the Openseadragon viewer for large files */
+        else if(imageType == TILE_IMAGE) {
             if(URL_PATTERN.test(url) == false) {
                 sourceUrl = getImageServerUrl(url);
                 viewer = "openseadragon";
@@ -60,6 +71,16 @@
         return `${Configuration.imageServerUrl}/iiif/2/${filename}/info.json`;
     }
 
+    const getImageType = (filename) => {
+        let type = null;
+        let extension = filename.substring( (filename.lastIndexOf('.')+1) );
+
+        if(STANDARD_IMAGE_EXTENSIONS.includes(extension)) type = STANDARD_IMAGE;
+        else if (TILE_IMAGE_EXTENSIONS.includes(extension)) type = TILE_IMAGE;
+
+        return type;
+    }
+
     onMount(async () => {
         render();
     });
@@ -69,18 +90,22 @@
     <h6>Image viewer</h6>
     <div class="image">
         {#if sourceUrl}
-            {#if viewer == "standard"}
+
+            {#if viewer == HTML_VIEWER}
                 <div class="content">
                     <img src={sourceUrl} alt={altText} title={altText}/>
                     <span class="caption">{caption}</span>
                 </div>
-            {:else if viewer == "openseadragon"}
+
+            {:else if viewer == TILE_VIEWER}
                 <OpenSeadragon_Content url={sourceUrl} {altText}/>
+
             {:else}
                 <h6>Error</h6>>
+
             {/if}
         {:else if placeholder}
-            <img src="/error" />
+            <img src="/error" alt="error" />
         {:else}
             <h5>Loading image content...</h5>
         {/if}
