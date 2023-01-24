@@ -4,15 +4,12 @@
     import Media_Item from './Media_Item.svelte';
     import IIIF_Item from './IIIF_Item.svelte';
     
-    export let item; // this component may not use item data, just passes on to iiif or media item
+    export let item;
     export let args = {};
 
-    /* Repository object fields to add to the exhibit item */
-    //const EXHIBIT_ITEM_FIELDS = ['kaltura_id'];
-
-    /* Map repository field to exhibit item field. These fields will be added to the exhibit item data object or override the field if it exists */
+    /* Add repository item fields to the exhibit item. e.g. "{exhibit item field}:{repository field}" "*/
     const EXHIBIT_ITEM_FIELDS = {
-        "entry_id": "kaltura_id",
+        "kaltura_id": "entry_id",
         "mime_type": "mime_type"
     }
 
@@ -75,10 +72,10 @@
         let data = {};
 
         let value;
-        for(let field in EXHIBIT_ITEM_FIELDS) {
-            console.log("field", EXHIBIT_ITEM_FIELDS[field])
-            value = repositoryItem[field] || null;
-            if(value) data[ EXHIBIT_ITEM_FIELDS[field] ] = repositoryItem[field];
+        for(let exhibitField in EXHIBIT_ITEM_FIELDS) {
+            repoField = EXHIBIT_ITEM_FIELDS[key];
+            value = repositoryItem[repoField];
+            if(value) data[exhibitField] = value;
         }
 
         return data;
@@ -88,11 +85,7 @@
 <div class="item">
     <h6 class="dev-label">Repository item</h6>
     {#if component}
-        <!-- run -->
-        <!-- <svelte:component this={component} {item} args={params} /> -->
-
-        <!-- dev -->
-        <h5>Component: {component}</h5>
+        <svelte:component this={component} {item} args={params} />
     {:else if message}
         <h5>{message}</h5>
     {/if}
