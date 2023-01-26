@@ -38,7 +38,7 @@
 
     const render = () => {
         if(!url) console.error("Missing resource url");
-        if(!imageType) imageType = getImageType(url || "");
+        else if(!imageType) imageType = getImageType(url || "");
 
         /* Get the source url for the image based on the image type and url format. */
         if(imageType == STANDARD_IMAGE) {
@@ -57,7 +57,7 @@
         }
         else {
             placeholder = true;
-            console.error(`Invalid image type: ${type} Resource: ${url}`);
+            console.error(`Invalid image type: ${imageType} Resource url: ${url}`);
         }
 
         if(caption) altText = caption;
@@ -73,10 +73,13 @@
 
     const getImageType = (filename) => {
         let type = null;
-        let extension = filename.substring( (filename.lastIndexOf('.')+1) );
-
-        if(STANDARD_IMAGE_EXTENSIONS.includes(extension)) type = STANDARD_IMAGE;
-        else if (TILE_IMAGE_EXTENSIONS.includes(extension)) type = TILE_IMAGE;
+        
+        if(filename.indexOf('.') < 0) console.error(`Image source url or filename must contain a file extension. Resource: ${filename}`);
+        else {
+            let extension = filename.substring( (filename.lastIndexOf('.')+1) );
+            if(STANDARD_IMAGE_EXTENSIONS.includes(extension)) type = STANDARD_IMAGE;
+            else if (TILE_IMAGE_EXTENSIONS.includes(extension)) type = TILE_IMAGE;
+        }
 
         return type;
     }
