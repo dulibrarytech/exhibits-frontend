@@ -64,7 +64,7 @@
     }
 
     const renderImageViewer = () => {
-        let url = item.image || url;
+        if(!url) url = item.image || null;
 
         params = {url, caption};
         component = Image_Viewer;
@@ -110,5 +110,5 @@
         <svelte:component this={component} args={params} />
     </div>
 {:else}
-    <h5>Loading media item...</h5>
+    <h5>Loading...</h5>
 {/if}

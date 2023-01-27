@@ -74,7 +74,7 @@
     const getImageType = (filename) => {
         let type = null;
         
-        if(filename.indexOf('.') < 0) console.error(`Image source url or filename must contain a file extension. Resource: ${filename}`);
+        if(filename.indexOf('.') < 0) console.error(`Image source url or filename must contain a file extension. Resource: ${filename}`); // Determine type by head request/content type?
         else {
             let extension = filename.substring( (filename.lastIndexOf('.')+1) );
             if(STANDARD_IMAGE_EXTENSIONS.includes(extension)) type = STANDARD_IMAGE;

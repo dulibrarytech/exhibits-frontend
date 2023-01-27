@@ -22,3 +22,9 @@
         {/if}
     </div>
 </div>
+
+<style>
+    iframe {
+        width: 100%;
+    }
+</style>

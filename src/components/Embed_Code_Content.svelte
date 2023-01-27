@@ -16,8 +16,17 @@
 </script>
 
 <div class="embed content">
+    <div>
     <h6>Embed code content</h6>
     {@html code}
+    </div>
 </div>
+
+<style>
+    content audio,
+    content video {
+        width: 100%;
+    }
+</style>
 
 

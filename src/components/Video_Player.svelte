@@ -47,3 +47,9 @@
         {/if}
     </div>
 </div>
+
+<style>
+    .content video {
+        width: 100%;
+    }
+</style>
