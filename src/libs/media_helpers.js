@@ -31,7 +31,7 @@ import { Settings } from '../config/settings.js';
 export const getItemTypeForMimeType = (mimeType) => {
     console.log("Mime type in:", mimeType)
     let type = null;
-    let types = Settings.itemTypes;
+    let types = Settings.mimeTypes;
 
     for(let key in types) {
         if(types[key].includes(mimeType)) {

@@ -8,9 +8,10 @@ export const Configuration = {
   exhibitsIndexName: EXHIBITS_INDEX_NAME,
   repositoryDomain: REPOSITORY_DOMAIN,
   repositoryDatastreamEndpoint: REPOSITORY_DATASTREAM_ENDPOINT,
+  repositoryTNDatastreamEndpoint: REPOSITORY_THUMBNAIL_DATASTREAM_ENDPOINT,
   repositoryItemDataEndpoint: REPOSITORY_ITEM_DATA_ENDPOINT,
   iiifManifestUrl: IIIF_MANIFEST_URL,
-  imageServerUrl: IMAGE_SERVER_URL,
+  iiifImageServerUrl: IIIF_IMAGE_SERVER_URL,
   resourceLocation: RESOURCE_LOCATION
 }
 

@@ -4,6 +4,7 @@
      * Responsible for extracting data from the exhibit item and converting it to data for the presentation components
     */
     import { onMount } from 'svelte';
+    import { Settings } from '../config/settings.js';
     
     import Image_Viewer from './Image_Viewer.svelte';
     import Audio_Player from './Audio_Player.svelte';
@@ -23,6 +24,8 @@
     /* args object for child components */
     var params = {};
 
+    let {itemTypes} = Settings;
+
     console.log("Media_Item data in:", item, type)
 
     $: {
@@ -31,29 +34,29 @@
         
         mimeType = args.mimeType || item.mime_type || null;
         caption = args.caption || null;
-
         init();
     }
 
     const init = () => {
         switch(type) {
-            case "image":
+            case itemTypes.IMAGE:
+            case itemTypes.LARGE_IMAGE:
                 renderImageViewer();
                 break;
 
-            case "audio":
+            case itemTypes.AUDIO:
                 renderAudioPlayer();
                 break;
 
-            case "video":
+            case itemTypes.VIDEO:
                 renderVideoPlayer();
                 break;
 
-            case "pdf":
+            case itemTypes.PDF:
                 renderPdfViewer();
                 break;
 
-            case "external":
+            case itemTypes.EXTERNAL_SOURCE:
                 renderIframeViewer();
                 break;
 

@@ -1,6 +1,6 @@
 <script>
     import { getItemTypeForMimeType } from '../libs/media_helpers';
-    import { repository } from '../libs/repository';
+    import { Repository } from '../libs/repository';
     import Media_Item from './Media_Item.svelte';
     import IIIF_Item from './IIIF_Item.svelte';
     
@@ -38,7 +38,7 @@
     const render = () => {
         message = "Loading content...";
 
-        repository.getItemData(itemId)
+        Repository.getItemData(itemId)
         .then((repoItem) => {
             message = "";
 
@@ -49,7 +49,7 @@
             }
             else {
                 /* Get params from the repo item for the media item */
-                params.url = repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null )
+                params.url = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null )
                 params = {...params, ...getExhibitItemData(repoItem)};
                 console.log("TEST repo item: non iiif: params object for media item:", params)
 

@@ -4,6 +4,7 @@
     export let width = "600";
     export let height = "400";
 
+    // TODO: to settings
     const KALTURA_DOMAIN = "https://cdnapisec.kaltura.com";
     const PARTNER_ID = "2357732";
     const UI_ID = "44058172";

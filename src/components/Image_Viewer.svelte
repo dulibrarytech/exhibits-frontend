@@ -68,7 +68,8 @@
     }
 
     const getImageServerUrl = (filename) => {
-        return `${Configuration.imageServerUrl}/iiif/2/${filename}/info.json`;
+        return `${Configuration.iiifImageServerUrl}/iiif/2/${filename}/info.json`;
+        // return iiif.js::getInfoUrl(filename)
     }
 
     const getImageType = (filename) => {

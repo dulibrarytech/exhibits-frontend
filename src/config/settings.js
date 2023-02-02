@@ -3,28 +3,38 @@
  * Update this file or via admin UI
  */
 
-import { writable } from 'svelte/store'
+
+const ITEM_TYPES = {
+    IMAGE: "image",
+    LARGE_IMAGE: "large_image",
+    AUDIO: "audio",
+    VIDEO: "video",
+    PDF: "pdf",
+    REPO: "repo",
+    EXTERNAL_SOURCE: "external"
+}
 
 export const Settings = {
+    itemTypes: ITEM_TYPES,
     /*
      * 
      */
-    itemTypes: {
-        "image":        ['image/jpg', 'image/jpeg', 'image/png'], // use <img>
-        "large_image":  ['image/tiff'], // use OSD viewer
-        "audio":        ['audio/mp3', 'audio/mpeg'], // audio player (html initially)
-        "video":        ['video/mp4', 'video/mov'], // video player (html initially)
-        "pdf":          ['application/pdf'] // pdf viewer
+    mimeTypes: {
+        [ITEM_TYPES.IMAGE]:        ['image/jpg', 'image/jpeg', 'image/png'], // use <img>
+        [ITEM_TYPES.LARGE_IMAGE]:  ['image/tiff'], // use OSD viewer
+        [ITEM_TYPES.AUDIO]:        ['audio/mp3', 'audio/mpeg'], // audio player (html initially)
+        [ITEM_TYPES.VIDEO]:        ['video/mp4', 'video/mov'], // video player (html initially)
+        [ITEM_TYPES.PDF]:          ['application/pdf'] // pdf viewer
     },
 
     /*
      * 
      */
     fileExtensions: {
-        "image":        ['jpg', 'jpeg', 'png'],
-        "large_image":  ['tif', 'tiff'],
-        "audio":        ['mp3'],
-        "video":        ['mp4'],
-        "pdf":          ['pdf']
+        [ITEM_TYPES.IMAGE]:        ['jpg', 'jpeg', 'png'],
+        [ITEM_TYPES.LARGE_IMAGE]:  ['tif', 'tiff'],
+        [ITEM_TYPES.AUDIO]:        ['mp3'],
+        [ITEM_TYPES.VIDEO]:        ['mp4'],
+        [ITEM_TYPES.PDF]:          ['pdf']
     }
 }

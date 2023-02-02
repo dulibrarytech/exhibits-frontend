@@ -26,9 +26,10 @@
 import { Configuration } from '../config/config.js';
 import axios from 'axios';
 
-export const repository = (() => {
+export const Repository = (() => {
     var {   repositoryDomain,
-            repositoryDatastreamEndpoint, 
+            repositoryDatastreamEndpoint,
+            repositoryTNDatastreamEndpoint,
             repositoryItemDataEndpoint
             
         } = Configuration;
@@ -76,6 +77,10 @@ export const repository = (() => {
         return `${repositoryDomain}${(repositoryDatastreamEndpoint.replace("{item_id}", id))}`;
     }
 
+    const getItemTNDatastreamUrl = (id) => {
+        return `${repositoryDomain}${(repositoryTNDatastreamEndpoint.replace("{item_id}", id))}`;
+    }
+
     const getItemIIIFManifestUrl = (id) => {
         let url = null;
         if(id) {
@@ -88,6 +93,7 @@ export const repository = (() => {
         getItemData,
         getItemDatastream,
         getItemDatastreamUrl,
+        getItemTNDatastreamUrl,
         getItemIIIFManifestUrl
     };
 })()
