@@ -29,6 +29,8 @@
 <!-- If display title page before entry -->
 <!-- <div id="exhibit-title-page"></div> -->
 
+<!-- Banner -->
+
 <div class="exhibit-page">
     <h3>Exhibit ID: {id}</h3>
 

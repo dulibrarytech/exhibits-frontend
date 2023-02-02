@@ -9,6 +9,7 @@
     let component = null;
 
     onMount(async () => {
+        console.log("Media Display")
         let {item_type} = item;
         if(item_type) {
             if(item_type == "repo") {

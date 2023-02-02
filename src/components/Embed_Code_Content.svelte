@@ -23,10 +23,7 @@
 </div>
 
 <style>
-    content audio,
-    content video {
-        width: 100%;
-    }
+
 </style>
 
 
