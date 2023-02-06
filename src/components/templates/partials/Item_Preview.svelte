@@ -112,4 +112,6 @@
         {/if}
         {#if title}<div class="title">{title}</div>{/if}
         {#if description}<div class="description">{description}</div>{/if}
+
+        <!-- TODO layout options here (item_right, etc) -->
 </div>
