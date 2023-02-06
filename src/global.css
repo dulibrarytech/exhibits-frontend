@@ -75,6 +75,13 @@ main.container {
 	margin-top: 3em;
 }
 
+/* begin Default theme */
+.caption {
+	font-style: italic;
+	font-size: 0.8em;
+}
+/* end Default theme */
+
 footer {
 	/* height: 150px; */
 	flex-shrink: 0;
