@@ -1,6 +1,4 @@
 <script>
-    // import Text_Display from '../Text_Display.svelte';
-    // import Media_Display from '../Media_Display.svelte';
     import Item from './partials/Item.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
 
@@ -16,7 +14,7 @@
 
             let gridItems = [];
             for(let item of items) {
-                let {uuid, template = null} = item;
+                let {uuid, template = "row"} = item;
 
                 if(template == "row") {
                     if(gridItems.length > 0) {
@@ -24,7 +22,6 @@
                             type: "item-grid",
                             items: gridItems
                         })
-
                         gridItems = [];
                     }
                     sorted.push(item);
@@ -47,10 +44,23 @@
 <div class="container template">
     <h1>Timeline template</h1>
     {#if sorted}
-        {#each sorted as {type}, index}
-            {#if type == "item"} 
+        {#each sorted as {type, text = "", subtext = ""}, index}
+            {#if type == "heading"} 
+                <h6>Section heading</h6>
+                <div class="section-heading">
+                    <div class="heading-title">
+                        <h3>{text}</h3>
+                    </div>
+                    <div class="heading-subtitle">
+                        <h5>{subtext}</h5>
+                    </div>
+                </div>
+                
+            {:else if type == "item"} 
+                <h6>Item</h6>
                 <Item item={sorted[index]} />
             {:else if type == "item-grid"}
+                <h6>Item Grid</h6>
                 <Item_Grid items={sorted[index].items} />
             {/if}
         {/each}

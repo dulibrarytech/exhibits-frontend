@@ -20,7 +20,7 @@
 </script>
 
 <div class="item">
-    <!-- {#if is_published == 1} 
+    {#if is_published == 1} 
         <div class="section row">
             {#if layout == ITEM_POSITION.RIGHT}
                 <div class="col-md-6 col-sm-12">
@@ -56,6 +56,5 @@
                 </div>
             {/if}
         </div>
-    {/if} -->
-    {item.caption}
+    {/if}
 </div>

@@ -1,7 +1,6 @@
 <script>
-    import { Settings } from '../../config/settings.js';
-    import { Configuration } from '../../config/config.js';
-    import { Repository } from '../../libs/repository';
+    import { Settings } from '../../../config/settings.js';
+    import { Repository } from '../../../libs/repository';
 
     export let item;
     export let url = null; // linkto
@@ -11,16 +10,18 @@
 
     var id = null;
     var tnUrl = null;
+    var date = null;
     var title = null;
-    var caption = null;
+    var description = null;
 
-    var ITEM_STORAGE_LOCATION = Configuration.resourceLocation || "";
-    var PLACEHOLDER = `${ITEM_STORAGE_LOCATION}/placeholder/tn_placeholder.jpg`;
+    const THUMBNAIL_IMAGE_LOCATION = "/images/thumbnail"; // TODO add user upload thumbnail location (in file storage). keep default tn images in public folder for now
+    const DEFAULT_THUMBNAIL = `${THUMBNAIL_IMAGE_LOCATION}/image-tn.png`;
 
     $: {
         id = url || item.url || null;
+        date = item.date || null;
         title = item.title || null;
-        caption = item.caption || null;
+        description = item.description || item.caption || null;
 
         tnUrl = getThumbnailUrl();
     }
@@ -29,10 +30,10 @@
         let url = null;
 
         if(thumbnail) {
-            url = `${ITEM_STORAGE_LOCATION}/${thumbnail}`;
+            url = `${THUMBNAIL_IMAGE_LOCATION}/${thumbnail}`;
         }
         else if(item.thumbnail) {
-            url = `${ITEM_STORAGE_LOCATION}/${item.thumbnail}`;
+            url = `${THUMBNAIL_IMAGE_LOCATION}/${item.thumbnail}`;
         }
         else {
             let {itemTypes} = Settings;
@@ -40,28 +41,28 @@
 
             switch(item_type) {
                 case itemTypes.REPO:
-                    url = getRepositoryItemTNUrl() || PLACEHOLDER;
+                    url = getRepositoryItemTNUrl() || DEFAULT_THUMBNAIL;
                     break;
 
                 case itemTypes.IMAGE:
-                    url = getImageItemTNUrl() || PLACEHOLDER;
+                    url = getImageItemTNUrl() || DEFAULT_THUMBNAIL;
                     break;
 
                 case itemTypes.LARGE_IMAGE:
-                    url = getLargeImageItemTNUrl() || PLACEHOLDER;
+                    url = getLargeImageItemTNUrl() || DEFAULT_THUMBNAIL;
                     break;
 
                 case itemTypes.AUDIO:
                 case itemTypes.VIDEO:
-                    url = getAudioVideoItemTNUrl() || PLACEHOLDER;
+                    url = getAudioVideoItemTNUrl() || DEFAULT_THUMBNAIL;
                     break;
 
                 case itemTypes.PDF:
-                    url = getPdfItemTNUrl() || PLACEHOLDER;
+                    url = getPdfItemTNUrl() || DEFAULT_THUMBNAIL;
                     break;
 
                 case itemTypes.EXTERNAL_SOURCE:
-                    url = getExternalItemTNUrl() || PLACEHOLDER;
+                    url = getExternalItemTNUrl() || DEFAULT_THUMBNAIL;
                     break;
 
                 default:
@@ -103,11 +104,12 @@
 </script>
 
 <div class="item-preview">
-        {#if title}{title}{/if}
+        {#if date}<div class="date">{date}</div>{/if}
         {#if tnUrl}
             <img src={tnUrl} />
         {:else}
             <img src='/error' />
         {/if}
-        {#if caption}{caption}{/if}
+        {#if title}<div class="title">{title}</div>{/if}
+        {#if description}<div class="description">{description}</div>{/if}
 </div>

@@ -33,6 +33,12 @@
 
 <div class="exhibit-page">
     <h3>Exhibit ID: {id}</h3>
+    <div class="banner">
+        hero banner
+    </div>
+    <div class="introduction">
+        intro text
+    </div>
 
     {#if template}
         <svelte:component this={template} items={exhibit.items} />
