@@ -9,6 +9,8 @@
     $: {
         if(!url) url = args.url || null;
         if(!caption) caption = args.caption || "";
+
+        url = `${url}#toolbar=0&navpanes=0&scrollbar=0`;
     }
 </script>
 
@@ -26,5 +28,6 @@
 <style>
     iframe {
         width: 100%;
+        height: 60vh;
     }
 </style>

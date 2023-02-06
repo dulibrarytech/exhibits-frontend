@@ -16,13 +16,14 @@
 
     let {
         url = null,
+        filename = null,
         imageType = null,
         caption = ""
 
     } = args;
 
     let sourceUrl = null;
-    let viewer = HTML_VIEWER;
+    let viewer = null;
     let placeholder = false;
     let altText = "Image";
 
@@ -40,20 +41,13 @@
         if(!url) console.error("Missing resource url");
         else if(!imageType) imageType = getImageType(url || "");
 
-        /* Get the source url for the image based on the image type and url format. */
         if(imageType == STANDARD_IMAGE) {
-            if(URL_PATTERN.test(url) == false) {
-                sourceUrl = getImageFilePath(url);
-            }
-            else sourceUrl = url;
+            sourceUrl = url;
+            viewer = HTML_VIEWER;
         }
-        /* Use the Openseadragon viewer for large files */
         else if(imageType == TILE_IMAGE) {
-            if(URL_PATTERN.test(url) == false) {
-                sourceUrl = getImageServerUrl(url);
-                viewer = "openseadragon";
-            }
-            else sourceUrl = url;
+            sourceUrl = filename ? getImageServerUrl(filename) : url;
+            viewer = TILE_VIEWER;
         }
         else {
             placeholder = true;
@@ -63,13 +57,8 @@
         if(caption) altText = caption;
     }
 
-    const getImageFilePath = (filename) => {
-        return `${Configuration.resourceLocation}/${filename}`;
-    }
-
     const getImageServerUrl = (filename) => {
         return `${Configuration.iiifImageServerUrl}/iiif/2/${filename}/info.json`;
-        // return iiif.js::getInfoUrl(filename)
     }
 
     const getImageType = (filename) => {

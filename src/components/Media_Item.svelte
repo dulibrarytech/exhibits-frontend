@@ -4,6 +4,7 @@
      * Responsible for extracting data from the exhibit item and converting it to data for the presentation components
     */
     import { onMount } from 'svelte';
+    import { Configuration } from '../config/config';
     import { Settings } from '../config/settings.js';
     
     import Image_Viewer from './Image_Viewer.svelte';
@@ -15,7 +16,8 @@
     export let item = {}; // data layer
     export let args = {};
 
-    var url = null;
+    var resource = null;
+    var filename = null;
     var mimeType;
     var caption;
     var type = null;
@@ -26,18 +28,26 @@
 
     let {itemTypes} = Settings;
 
+    const URL_PATTERN = /^https?:\/\//;
+
     console.log("Media_Item data in:", item, type)
 
     $: {
-        if(!url) url = args.url || item.url || "";
-        if(!type) type = args.type || item.item_type || "undefined";
-        
+        resource = args.url || item.url || null;
+        type = args.type || item.item_type || "undefined";
         mimeType = args.mimeType || item.mime_type || null;
-        caption = args.caption || null;
-        init();
+        caption = args.caption || item.caption || null;
+
+        if(URL_PATTERN.test(resource) == false) {
+            filename = resource;
+            resource = `${Configuration.resourceLocation}/${resource}` // filename
+        }
+
+        if(!resource) console.error(`Missing path to resource. Item: ${item.uuid}`)
+        else render();
     }
 
-    const init = () => {
+    const render = () => {
         switch(type) {
             case itemTypes.IMAGE:
             case itemTypes.LARGE_IMAGE:
@@ -67,13 +77,14 @@
     }
 
     const renderImageViewer = () => {
-        if(!url) url = item.image || null;
+        let url = resource;
 
-        params = {url, caption};
+        params = {url, filename, caption};
         component = Image_Viewer;
     }
 
     const renderAudioPlayer = () => {
+        let url = resource;
         let kalturaId = item.kaltura_id || null;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
@@ -83,6 +94,7 @@
     }
 
     const renderVideoPlayer = () => {
+        let url = resource;
         let kalturaId = item.kaltura_id || null;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
@@ -92,18 +104,18 @@
     }
 
     const renderPdfViewer = () => {
+        let url = resource;
+
         params = {url, caption}; 
         component = PDF_Viewer;
     }
 
     const renderIframeViewer = () => {
+        let url = resource;
+        
         params = {url, caption}; 
         component = Embed_Iframe_Viewer;
     }
-
-    onMount(async () => {
-        init();
-    });
 </script>
 
 <h6>Media Item</h6>
