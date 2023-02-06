@@ -19,6 +19,7 @@
     <div class="pdf content">
         {#if url}
             <iframe src={url} title={caption} /> 
+            {#if caption}<span class="caption">{caption}</span>{/if}
         {:else}
             <h6>Loading pdf content...</h6>
         {/if}
