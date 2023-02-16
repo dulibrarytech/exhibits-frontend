@@ -34,7 +34,7 @@ export const Repository = (() => {
             
         } = Configuration;
 
-    /*
+    /**
     * Fetches the item data from the repository
     *
     * @param {string} id - The item id
@@ -54,7 +54,7 @@ export const Repository = (() => {
         return data;
     }
 
-    /*
+    /**
     * Returns the item resource datastream
     *
     * @param {string} id - The item id
