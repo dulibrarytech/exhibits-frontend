@@ -80,7 +80,6 @@
 </script>
 
 <div class="image-viewer">
-    <h6>Image viewer</h6>
     <div class="image">
         {#if sourceUrl}
 

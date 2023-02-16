@@ -10,7 +10,6 @@
 </script>
 
 <div class="image-viewer">
-    <h6>IIIF Viewer</h6>
     <div class="image">
         {#if manifest}
             <UniversalViewer_Content {manifest} {type} />

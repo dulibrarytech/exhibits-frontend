@@ -83,7 +83,6 @@
 </script>
 
 <div class="item">
-    <h6 class="dev-label">Repository item</h6>
     {#if component}
         <svelte:component this={component} {item} args={params} />
     {:else if message}

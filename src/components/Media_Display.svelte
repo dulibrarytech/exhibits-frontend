@@ -34,7 +34,6 @@
 </script>
 
 {#if component}
-    <h6>Media display</h6>
     <svelte:component this={component} {item} {args} />
 {:else}
     <h5>Loading item...</h5>

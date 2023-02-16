@@ -28,7 +28,6 @@
 	}
 </script>
 
-<h6>IIIF Content</h6>
 <div class="uv content" id="uv"></div>
 
 <style>

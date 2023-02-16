@@ -38,7 +38,6 @@
 </script>
 
 <div class="item">
-    <h6>IIIF Item</h6>
     {#if manifest}
         <IIIF_Viewer {manifest} metedata={viewerMetadata} {type} />
     {/if}

@@ -13,7 +13,6 @@
 </script>
 
 <div class="iframe-viewer">
-    <h6>Iframe viewer</h6>
     <div class="external-content content">
         {#if url}
             <iframe src={url} title={caption} /> 

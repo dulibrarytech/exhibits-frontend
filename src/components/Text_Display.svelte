@@ -4,5 +4,4 @@
     export let item;
 </script>
 
-<h6>Text display</h6>
 <Text_Item {item} />

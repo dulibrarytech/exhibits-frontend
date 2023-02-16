@@ -72,7 +72,6 @@
 </script>
 
 <div class="container template">
-    <h1>Timeline template</h1>
     {#if sorted}
         {#each sorted as {type = "", text = "", subtext = ""}, index} <!-- default null; if/else below-->
             {#if type == "heading"} 
@@ -90,7 +89,7 @@
                 <h6>Item</h6>
                 <Item item={sorted[index]} />
             {:else if type == "item-grid"}
-            <!-- {:else if Array.isArray(sorted[index])} '2' -->
+                <!-- {:else if Array.isArray(sorted[index])} '2' -->
                 <h6>Item Grid</h6>
                 <Item_Grid items={sorted[index].items} />
                 <!-- <Item_Grid items={sorted[index]} /> '2' -->

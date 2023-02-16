@@ -17,8 +17,7 @@
 
 <div class="embed content">
     <div>
-    <h6>Embed code content</h6>
-    {@html code}
+        {@html code}
     </div>
 </div>
 

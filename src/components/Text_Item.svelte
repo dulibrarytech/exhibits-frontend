@@ -15,6 +15,5 @@
 </script>
 
 <div class="item">
-    <h6>Text Item</h6>
     <Text_Content content={text} />
 </div>

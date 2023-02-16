@@ -5,8 +5,6 @@
 
     export let args = {};
 
-    console.log("TEST Audio_Player data in:", args)
-
     let {
         url=null, 
         kalturaId=null, 
@@ -26,7 +24,6 @@
 </script>
 
 <div class="audio-player">
-    <h6>Audio player</h6>
     <div class="audio">
         {#if kalturaId}
             <Kaltura_Content id={kalturaId} />

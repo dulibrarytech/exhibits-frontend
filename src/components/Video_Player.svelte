@@ -26,7 +26,6 @@
 </script>
 
 <div class="video-player">
-    <h6>Video player</h6>
     <div class="video">
         {#if kalturaId}
             <Kaltura_Content id={kalturaId} />

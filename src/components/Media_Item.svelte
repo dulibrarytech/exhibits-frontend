@@ -118,8 +118,6 @@
     }
 </script>
 
-<h6>Media Item</h6>
-
 {#if component}
     <div class="item">
         <svelte:component this={component} args={params} />

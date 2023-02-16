@@ -15,7 +15,6 @@
 </script>
 
 <div class="pdf-viewer">
-    <h6>PDF viewer</h6>
     <div class="pdf content">
         {#if url}
             <iframe src={url} title={caption} /> 
