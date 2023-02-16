@@ -24,5 +24,6 @@
     .item {
         min-width: 22%;
         padding: 5px;
+        width: 21%;
     }
 </style>

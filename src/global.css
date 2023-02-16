@@ -24,8 +24,9 @@ a:visited {
 	color: rgb(0,80,160);
 }
 
-h6 {
-	font-size: 0.8em;
+h6.dev-label {
+	font-size: 0.65em;
+	color: #e5e3e1;
 }
 
 label {
