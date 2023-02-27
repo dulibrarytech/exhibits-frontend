@@ -1,14 +1,21 @@
 <script>
+    'use strict'
+    
+    // import settings
     import Item from './partials/Item.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
 
     export let items;
 
-    var sorted = null;
+    var template = null;
+
+    const ROW = "row";
+    const GRID = "grid";
 
     const render = () => {
-        if(!sorted) {
-            sorted = sortTemplateItems(items)
+        if(!template) {
+            template = sortTemplateItems(items);
+            console.log("Template", template)
         }
     }
 
@@ -31,34 +38,24 @@
 
         for(let index = 0; index<items.length; index++) {
             let item = items[index];
-            let {uuid, template = "row"} = item;
+            let {uuid, template = ROW, columns = 4} = item;
 
-            if(template == "row") {
-                /* if there are items in the item grid item array, push the array to the sorted items before pushing this row item. reset the grid item array */
+            if(template == ROW) { // TODO add constant
+                /* end case - terminated consecutive grid items. push the grid items to the template */
                 if(gridItems.length > 0) {
-                    sorted.push({
-                        type: "item-grid",
-                        items: gridItems
-                    });
-                    //sorted.push(gridItems); '2'
+                    appendGrid(sorted, gridItems, columns);
                     gridItems = [];
                 }
 
-                /* push the row item to the sorted items array */
-                sorted.push(item);
+                appendRow(sorted, item);
             }
 
-            else if(template == "grid") {
-                /* add the item to the array of grid items */
+            else if(template == GRID) {
                 gridItems.push(item);
 
-                /* end case - push the grid items array to the sorted items array, if this is the last item */
+                /* end case - last exhibit item. push the grid items to the template */
                 if(index >= items.length-1) {
-                    sorted.push({
-                        type: "item-grid",
-                        items: gridItems
-                    });
-                    //sorted.push(gridItems); '2'
+                    appendGrid(sorted, gridItems, columns);
                 }
             }
 
@@ -68,12 +65,25 @@
         return sorted;
     }
 
-    render(); // on mount
+    const appendRow = (template, item) => {
+        template.push(item);
+    }
+
+    const appendGrid = (template, items = [], columns = 4) => { // TODO from settings.gridColumnDefault
+        template.push({
+            type: "item-grid",
+            items,
+            columns
+        });
+    }
+
+    render();
 </script>
 
 <div class="container template">
-    {#if sorted}
-        {#each sorted as {type = "", text = "", subtext = ""}, index} <!-- default null; if/else below-->
+    {#if template}
+        {#each template as {type = "", text = "", subtext = ""}, index} <!-- default null; if/else below-->
+        <!-- exhibit section heading -->
             {#if type == "heading"} 
                 <h6>Section heading</h6>
                 <div class="section-heading">
@@ -85,14 +95,15 @@
                     </div>
                 </div>
                 
-            {:else if type == "item"} 
+            <!--exhibit item - row layout -->
+            {:else if type == "item"}
                 <h6>Item</h6>
-                <Item item={sorted[index]} />
+                <Item item={template[index]} />
+
+            <!-- exhibit item - grid layout -->
             {:else if type == "item-grid"}
-                <!-- {:else if Array.isArray(sorted[index])} '2' -->
                 <h6>Item Grid</h6>
-                <Item_Grid items={sorted[index].items} />
-                <!-- <Item_Grid items={sorted[index]} /> '2' -->
+                <Item_Grid items={template[index].items} columns={template[index].columns}/>
             {/if}
         {/each}
     {/if}

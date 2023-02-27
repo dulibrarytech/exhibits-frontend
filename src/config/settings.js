@@ -66,7 +66,15 @@ export const Settings = {
     },
 
     /*
-     * Component properties
+     * Template properties
      */
-    itemPreviewLayout: "tn_right"
+    itemPositionOptions: {
+        RIGHT: "item_right",
+        LEFT: "item_left",
+        TOP: "item_top",
+        BOTTOM: "item_bottom",
+        ITEM_ONLY: "item_only",
+        TEXT_ONLY: "text_only"
+    },
+    gridItemDefaultLayout: "item_top"
 }

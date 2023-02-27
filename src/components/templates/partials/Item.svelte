@@ -1,18 +1,13 @@
 <script>
+    'use strict'
+    
+    import { Settings } from '../../../config/settings';
     import Text_Display from '../../Text_Display.svelte';
     import Media_Display from '../../Media_Display.svelte';
 
     export let item = {};
-    console.log("TEST row item in:", item)
 
-    const ITEM_POSITION = {
-        TOP: 'item_top',
-        BOTTOM: 'item_bottom',
-        LEFT: 'item_left',
-        RIGHT: 'item_right',
-        ITEM_ONLY: 'item_only',
-        TEXT_ONLY: 'text_only'
-    }
+    const ITEM_POSITION = Settings.itemPositionOptions;
 
     let {is_published, layout, uuid} = item;
 

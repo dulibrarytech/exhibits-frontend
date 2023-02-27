@@ -11,8 +11,6 @@
             exhibits = data;
         }
         else console.log("No exhibits found.");
-
-        console.log("TEST Exhibits:", exhibits);
     }
 
     onMount(async () => {

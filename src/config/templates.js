@@ -1,7 +1,9 @@
 import { writable } from 'svelte/store'
 
-import Timeline from '../components/templates/Timeline.svelte'; 
+import Vertical_Scroll from '../components/templates/Vertical_Scroll.svelte'; 
 
 export const Templates = writable({
-    "timeline": Timeline
+    "timeline": Vertical_Scroll,
+    "narrative": Vertical_Scroll
+    //"item_centered": Item_Page
 })

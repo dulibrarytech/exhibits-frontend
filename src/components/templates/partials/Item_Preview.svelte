@@ -1,24 +1,17 @@
 <script>
-    'use strict'
-
+    'use strict' 
+    
     import { Configuration } from '../../../config/config';
     import { Settings } from '../../../config/settings';
     import { Repository } from '../../../libs/repository';
     import { Kaltura } from '../../../libs/kaltura';
 
     export let item;
-    export let url = null; // overrides item 'url' field
-    export let link = null; // linkto
-    export let onclick = null; // f()
-    export let thumbnail = null; // filename, overrides item 'thumbnail' field
-
-    console.log("TEST Item preview item in:", item)
+    export let url = null;
 
     var id = null;
+    var thumbnail = null;
     var tnUrl = null;
-    var date = null;
-    var title = null;
-    var description = null;
 
     var {
         thumbnailImageLocation,
@@ -31,23 +24,12 @@
     const THUMBNAIL_ICON = Settings.thumbnailIcon;
     const THUMBNAIL_PATH = `${thumbnailImageLocation}`;
 
-    const THUMBNAIL_POSITION = {
-        TOP: 'tn_top',
-        BOTTOM: 'tn_bottom',
-        LEFT: 'tn_left',
-        RIGHT: 'tn_right',
-        TN_ONLY: 'tn_only',
-        TEXT_ONLY: 'tn_only'
-    }
-
     $: {
-        id = url || item.url || null;
-        date = item.date || null;
-        title = item.title || null;
-        description = item.description || item.caption || null;
+        if(!url) id = item.url || null;
+        thumbnail = item.thumbnail || null;
         tnUrl = getThumbnailUrl();
     }
- 
+
     const getRepositoryItemTNUrl = () => {
         return id ? Repository.getItemTNDatastreamUrl(id) : null;
     }
@@ -113,37 +95,23 @@
         }
 
         return url;
-    }
+    } 
 </script>
 
 <div class="item-preview">
-        {#if date}<div class="date">{date}</div>{/if}
-        {#if tnUrl}
-            <img src={tnUrl} />
-        {:else}
-            <img src='/error' />
-        {/if}
-        {#if title}<div class="title">{title}</div>{/if}
-        {#if description}<div class="description">{description}</div>{/if}
-
-        <!-- TODO layout options here (item_right, etc) -->
-        <!-- {#if itemPreviewLayout == THUMBNAIL_POSITION.RIGHT}
-            <div class="data">
-                <div class="date">{date}</div>
-                <div class="title">{title}</div>
-                <div class="description">{description}</div>
-            </div>
-            
-            <div class="thumbnail" style="width: {thumbnailImageWidth | 'auto'}; height: {thumbnailImageHeight || 'auto'}">
-                {#if tnUrl}
-                    <img src={tnUrl} />
-                {:else}
-                    <img src='/error' />
-                {/if}
-            </div>
-        {/if} -->
+    {#if tnUrl}
+        <img src={tnUrl} />
+    {:else}
+        <img src='/error' />
+    {/if}
 </div>
 
 <style>
+    img {
+        width: 100%;
+    }
 
+    .item-preview {
+        margin-bottom: 1em;
+    }
 </style>
