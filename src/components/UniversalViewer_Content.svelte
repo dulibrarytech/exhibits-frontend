@@ -13,7 +13,6 @@
 
 <script>
     export let manifest;
-    console.log("TEST UV manifest rx:", manifest)
 
     var UV;
 

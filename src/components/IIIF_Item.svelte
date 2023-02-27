@@ -33,8 +33,6 @@
             if(metadata[ VIEWER_METADATA[field] ]) viewerMetadata[ field ] = metadata[ VIEWER_METADATA[field] ];
         }
     }
-
-    console.log("TEST iiif item manifest/metadata:", manifest, metadata)
 </script>
 
 <div class="item">
