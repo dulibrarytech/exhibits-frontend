@@ -5,7 +5,7 @@
     var exhibits = [];
 
     const init = async () => {
-        const data = await index.getAllExhibits();
+        const data = await index.getExhibits();
 
         if(data.length > 0) {
             exhibits = data;

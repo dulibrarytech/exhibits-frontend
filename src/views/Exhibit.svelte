@@ -11,7 +11,7 @@
 
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
-        exhibit = await index.getExhibitById(id);
+        exhibit = await index.getExhibit(id);
 
         if(exhibit) {
             let {data} = exhibit;

@@ -19,10 +19,22 @@
 import { Configuration } from '../config/config.js';
 import axios from 'axios';
 
+/**
+ * Exhibits@DU: Elastic index interface module
+ * 
+ * Fetch data from elastic api or exhibits app backend api
+ */
 export const index = (() => {
     var {exhibitsIndexDomain, exhibitsIndexName} = Configuration;
 
-    const getAllExhibits = async () => {
+    /**
+     * getExhibits()
+     * 
+     * Fetches all exhibits, return
+     * 
+     * @returns {Object} exhibits - array of all exhibits
+     */
+    const getExhibits = async () => {
         let exhibits = [];
         
         try {
@@ -31,6 +43,8 @@ export const index = (() => {
 
             // TODO
             // let response = await axios.get(`${ELASTIC_URL}/ELASTIC_INDEX/_search`, {query: '*'});
+            // TODO backend api
+            // let data = await axios.get([get all exhibits endpoint])
             
             exhibits = response.data;
         }
@@ -41,7 +55,20 @@ export const index = (() => {
         return exhibits;
     }
 
-    const getExhibitById = async (id) => {
+    /**
+     * getExhibit()
+     * 
+     * Fetches the exhibit data and item array from the exhibits backend api, and combines them into a single object
+     * 
+     * @param {string} id 
+     * 
+     * @typedef {Object} exhibit
+     * @property {Object} data - exhibit data
+     * @property {Object} items - exhibit item array
+     * 
+     * @returns exhibit
+     */
+    const getExhibit = async (id) => {
         let exhibit = null;
 
         try {
@@ -49,8 +76,10 @@ export const index = (() => {
             let response = await axios.get(`http://localhost:5678/api/v1/exhibits/${id}`);
             let data = response.data;
 
-            // TODO
+            // TODO no index api, direct index request
             // let data = await axios.get(`${exhibitsIndexDomain}/exhibitsIndexName/_search`, {query: {id field == id}});
+            // TODO backend api
+            // let data = await axios.get([get exhibit (data) endpoint])
 
             // Test
             response = await axios.get(`http://localhost:5678/api/v1/exhibits/${id}/items`);
@@ -58,6 +87,8 @@ export const index = (() => {
 
             // TODO
             // let sections = await axios.get(`${exhibitsIndexDomain}/exhibitsIndexName/_search`, {query: {'is_member_of': id});
+            // TODO backend api
+            // let data = await axios.get([get exhibit items endpoint])
 
             exhibit = {data, items};
         }
@@ -69,7 +100,7 @@ export const index = (() => {
     }
 
     return {
-        getAllExhibits,
-        getExhibitById
+        getExhibits,
+        getExhibit
     }
 })()
