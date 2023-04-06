@@ -8,7 +8,7 @@
 
 2. cd into project folder
 
-3. Run 'npm i'
+3. run 'npm i'
 
 4. Set environment variables
 
@@ -16,16 +16,16 @@ See .env_sample for required fields
 
 Create .env file in project root, add fields
 
-##### To add .env fields as global variables
+5. run 'npm build'
 
-1. Add field to .env
-
-2. Add .env fields to rollup.config.js file "environment variables initialization" section
-
-##### 5. Run 'npm build'
-
-##### 6. Run startup script: 'sh start_app.sh'
+6. run startup script: 'sh start_app.sh'. 
 
 #### Cantaloupe Image Server
+
+### Dev server
+
+#### Run app on included dev server:
+
+From command line run 'npm run dev'
 
 
