@@ -4,7 +4,7 @@ import Test_Component from './test/Test_Component.svelte';
 import NotFound from './views/NotFound.svelte';
 
 const routes = [
-    {name: '/', component: Exhibits},
+    {name: '/', component: Exhibits}, // TODO add redirect to /exhibits
     {name: '/exhibits', component: Exhibits},
     {name: '/exhibit/:id', component: Exhibit},
 
