@@ -82,8 +82,8 @@
 
 <div class="container template">
     {#if template}
-        {#each template as {type = "", text = "", subtext = ""}, index} <!-- default null; if/else below-->
-        <!-- exhibit section heading -->
+        {#each template as {type = "", text = "", subtext = ""}, index} <!-- DEV default null; if/else below-->
+            <!-- exhibit section heading -->
             {#if type == "heading"} 
                 <h6>Section heading</h6>
                 <div class="section-heading">

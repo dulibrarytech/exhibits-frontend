@@ -34,6 +34,7 @@
                 <div class="title">{title}</div>
                 <div class="description">{description}</div>
             </div>
+            
         {:else if layout == ITEM_POSITION.LEFT}
             <div class="float-right">
                 <div class="title">{title}</div>
@@ -42,17 +43,21 @@
             <div class="float-left">
                 <Item_Preview {item} />
             </div>
+
         {:else if layout == ITEM_POSITION.TOP}
             <div class="title">{title}</div>
             <Item_Preview {item} />
             <div class="description"><p>{description}</p></div>
+
         {:else if layout == ITEM_POSITION.BOTTOM}
             <div class="title">{title}</div>
             <div class="description">{description}</div>
             <Item_Preview {item} />
+
         {:else if layout == ITEM_POSITION.TEXT_ONLY}
             <div class="title">{title}</div>
             <div class="description">{description}</div>
+
         {:else if layout == ITEM_POSITION.ITEM_ONLY}
             <Item_Preview {item} />
         {/if}
