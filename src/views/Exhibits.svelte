@@ -25,8 +25,6 @@
     {#each exhibits as {uuid, title}}
         <a href="/exhibit/{uuid}">{title}</a>
     {/each}
-
-    <!-- Grid -->
 </div>
 
 <style>
