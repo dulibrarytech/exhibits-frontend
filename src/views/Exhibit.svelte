@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { index } from '../libs/index.js';
     import { Templates } from '../config/templates.js';
+    import Navigation from '../components/templates/partials/Navigation.svelte';
 
     export let currentRoute;
 
@@ -9,21 +10,34 @@
     var exhibit = {};
     var template = null;
     var sections = null;
+    var items = [];
 
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
         exhibit = await index.getExhibit(id);
 
-        console.log("TEST exhibit init():", exhibit)
-
         if(exhibit) {
             let {data} = exhibit;
+
             template = $Templates[data.template] || null;
             if(!template) console.error(`Could not find a template for ${data.template}`);
 
-            // TODO get heading objects, assn to sections[]
+            items = exhibit.items;
+            sections = getHeadings(items);
         }
         else window.location.replace('/404');
+    }
+
+    const getHeadings = (items) => {
+        let headings = items.filter((item) => {
+            return item.type == 'heading';
+
+        }).map((heading) => {
+            heading['id'] = heading.text.replace(/\s/g, '-').toLowerCase().replace(/[^a-zA-Z0-9-]*/g, "");
+            return heading;
+        });
+
+        return headings;
     }
 
     onMount(async () => {
@@ -33,8 +47,6 @@
 
 <!-- If display title page before entry -->
 <!-- <div id="exhibit-title-page"></div> -->
-
-<!-- Banner -->
 
 <div class="exhibit-page">
     <h3>Exhibit ID: {id}</h3>
@@ -49,10 +61,10 @@
     <!--  -->
 
     <!-- navbar -->
-    <!-- <Navigation {sections} /> -->
+    <Navigation {sections} />
 
     {#if template}
-        <svelte:component this={template} items={exhibit.items} />
+        <svelte:component this={template} {items} />
     {:else}
         <h3>Loading template...</h3>
     {/if}
