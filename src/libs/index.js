@@ -39,10 +39,10 @@ export const index = (() => {
         
         try {
             // Test
-            let response = await axios.get('http://localhost:5678/api/v1/exhibits');
+            let response = await axios.get('http://localhost:5678/api/v1/exhibit');
 
             // TODO
-            // let response = await axios.get(`${ELASTIC_URL}/ELASTIC_INDEX/_search`, {query: '*'});
+            // let response = await axios.get(`${exhibitsIndexDomain}/exhibitsIndexName/_search`, {query: '*'});
             // TODO backend api
             // let data = await axios.get([get all exhibits endpoint])
             
@@ -58,7 +58,7 @@ export const index = (() => {
     /**
      * getExhibit()
      * 
-     * Fetches the exhibit data and item array from the exhibits backend api, and combines them into a single object
+     * Fetches the exhibit data object and exhibit item array from the backend api, and combines them into a single object
      * 
      * @param {string} id 
      * 
