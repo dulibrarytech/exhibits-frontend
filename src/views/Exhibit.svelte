@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { index } from '../libs/index.js';
     import { Templates } from '../config/templates.js';
-    import Navigation from '../components/templates/partials/Navigation.svelte';
+    import Navigation from '../components/Navigation.svelte';
 
     export let currentRoute;
 
