@@ -3,15 +3,15 @@
      * Media_Item
      * Responsible for extracting data from the exhibit item and converting it to data for the presentation components
     */
-    import { onMount } from 'svelte';
     import { Configuration } from '../config/config';
-    import { Settings } from '../config/settings.js';
     
     import Image_Viewer from './Image_Viewer.svelte';
     import Audio_Player from './Audio_Player.svelte';
     import Video_Player from './Video_Player.svelte';
     import PDF_Viewer from './PDF_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
+
+    import {ITEM_TYPE} from '../config/global-constants';
 
     export let item = {}; // data layer
     export let args = {};
@@ -26,11 +26,7 @@
     /* args object for child components */
     var params = {};
 
-    let {itemTypes} = Settings;
-
     const URL_PATTERN = /^https?:\/\//;
-
-    console.log("Media_Item data in:", item, type)
 
     $: {
         resource = args.url || item.url || null;
@@ -49,24 +45,24 @@
 
     const render = () => {
         switch(type) {
-            case itemTypes.IMAGE:
-            case itemTypes.LARGE_IMAGE:
+            case ITEM_TYPE.IMAGE:
+            case ITEM_TYPE.LARGE_IMAGE:
                 renderImageViewer();
                 break;
 
-            case itemTypes.AUDIO:
+            case ITEM_TYPE.AUDIO:
                 renderAudioPlayer();
                 break;
 
-            case itemTypes.VIDEO:
+            case ITEM_TYPE.VIDEO:
                 renderVideoPlayer();
                 break;
 
-            case itemTypes.PDF:
+            case ITEM_TYPE.PDF:
                 renderPdfViewer();
                 break;
 
-            case itemTypes.EXTERNAL_SOURCE:
+            case ITEM_TYPE.EXTERNAL_SOURCE:
                 renderIframeViewer();
                 break;
 

@@ -1,6 +1,6 @@
 /**
  * Application configuration settings
- * Not user assigned. Import from env file.
+ * .env configuration
  */
 
 export const Configuration = {
