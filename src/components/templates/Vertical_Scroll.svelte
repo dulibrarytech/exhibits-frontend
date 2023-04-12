@@ -82,10 +82,20 @@
 
 <div class="container template">
     {#if template}
-        {#each template as {type = "", text = "", subtext = ""}, index} <!-- DEV default null; if/else below-->
+        {#each template as {type = "", text = "", subtext = "", id = null}, index} <!-- DEV default null; if/else below-->
             <!-- exhibit section heading -->
             {#if type == "heading"} 
                 <h6>Section heading</h6>
+                {#if id}
+                <div {id} class="section-heading">
+                    <div class="section-title">
+                        <h3>{text}</h3>
+                    </div>
+                    <div class="section-subtitle">
+                        <h5>{subtext}</h5>
+                    </div>
+                </div>
+                {:else}
                 <div class="section-heading">
                     <div class="section-title">
                         <h3>{text}</h3>
@@ -94,6 +104,8 @@
                         <h5>{subtext}</h5>
                     </div>
                 </div>
+                {/if}
+                    
                 
             <!--exhibit item - row layout -->
             {:else if type == "item"}

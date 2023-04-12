@@ -1,22 +1,22 @@
 <script>
     export let sections = null;
 
-    // const init = () => {
-    //     console.log("TEST navigation init(): sections:", sections)
-    // }
-
-    // $: {
-    //     console.log("INIT")
-    //     init();
-    // }
+    function onClickNavigationLink (event) {
+		event.preventDefault()
+		const link = event.currentTarget
+		const anchorId = new URL(link.href).hash.replace('#', '')
+		const anchor = document.getElementById(anchorId)
+		window.scrollTo({
+			top: anchor.offsetTop,
+			behavior: 'smooth'
+		})
+	}
 </script>
 
 <div class="navigation">
     {#if sections}
-        <h5>Navbar</h5>
-
-        {#each sections as section}
-            {section}
+        {#each sections as {id, text}}
+            <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
         {/each}
     {/if}
 </div>

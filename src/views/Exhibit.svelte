@@ -23,21 +23,21 @@
             if(!template) console.error(`Could not find a template for ${data.template}`);
 
             items = exhibit.items;
-            sections = getHeadings(items);
+            sections = getSections(items);
         }
         else window.location.replace('/404');
     }
 
-    const getHeadings = (items) => {
-        let headings = items.filter((item) => {
+    const getSections = (items) => {
+        let sections = items.filter((item) => {
             return item.type == 'heading';
 
         }).map((heading) => {
-            heading['id'] = heading.text.replace(/\s/g, '-').toLowerCase().replace(/[^a-zA-Z0-9-]*/g, "");
+            heading['id'] = heading.text.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]*/g, "").toLowerCase();
             return heading;
         });
 
-        return headings;
+        return sections;
     }
 
     onMount(async () => {
@@ -60,11 +60,10 @@
     </div>
     <!--  -->
 
-    <!-- navbar -->
     <Navigation {sections} />
 
     {#if template}
-        <svelte:component this={template} {items} />
+        <svelte:component this={template} {sections} {items} />
     {:else}
         <h3>Loading template...</h3>
     {/if}
