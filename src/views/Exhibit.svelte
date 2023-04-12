@@ -2,6 +2,8 @@
     import { onMount } from 'svelte';
     import { index } from '../libs/index.js';
     import { Templates } from '../config/templates.js';
+
+    import Hero from '../templates/Hero.svelte';
     import Navigation from '../components/Navigation.svelte';
 
     export let currentRoute;
@@ -51,14 +53,7 @@
 <div class="exhibit-page">
     <h3>Exhibit ID: {id}</h3>
 
-    <!-- TODO combine banner and intro section, implement in banner components. Get banner type from exhibit object? -->
-    <div class="banner">
-        hero banner
-    </div>
-    <div class="introduction">
-        intro text
-    </div>
-    <!--  -->
+    <Hero data={exhibit.data} />
 
     <Navigation {sections} />
 
