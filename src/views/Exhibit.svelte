@@ -1,4 +1,6 @@
 <script>
+    'use-strict'
+
     import { onMount } from 'svelte';
     import { index } from '../libs/index.js';
     import { Templates } from '../config/templates.js';
@@ -13,13 +15,15 @@
     var template = null;
     var sections = null;
     var items = [];
+    var data = null;
 
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
         exhibit = await index.getExhibit(id);
 
         if(exhibit) {
-            let {data} = exhibit;
+            //let {data} = exhibit;
+            data = exhibit.data;
 
             template = $Templates[data.template] || null;
             if(!template) console.error(`Could not find a template for ${data.template}`);
@@ -51,10 +55,7 @@
 <!-- <div id="exhibit-title-page"></div> -->
 
 <div class="exhibit-page">
-    <h3>Exhibit ID: {id}</h3>
-
-    <Hero data={exhibit.data} />
-
+    <Hero {data} />
     <Navigation {sections} />
 
     {#if template}

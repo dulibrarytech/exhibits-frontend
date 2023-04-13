@@ -56,7 +56,9 @@ export const Settings = {
     },
 
     /*
-     * Template properties
+     * Template properties 
+     * TODO add options to readme
      */
-    gridItemDefaultLayout: "item_top"
+    gridItemDefaultLayout: "item_top",
+    defaultBannerTemplate: "banner_1"
 }
