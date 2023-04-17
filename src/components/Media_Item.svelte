@@ -3,7 +3,7 @@
      * Media_Item
      * Responsible for extracting data from the exhibit item and converting it to data for the presentation components
     */
-    import { Configuration } from '../config/config';
+    import { Resource } from '../libs/resource';
     
     import Image_Viewer from './Image_Viewer.svelte';
     import Audio_Player from './Audio_Player.svelte';
@@ -36,7 +36,7 @@
 
         if(URL_PATTERN.test(resource) == false) {
             filename = resource;
-            resource = `${Configuration.resourceLocation}/${resource}` // filename
+            resource = Resource.getUrl(filename);
         }
 
         if(!resource) console.error(`Missing path to resource. Item: ${item.uuid}`)

@@ -15,6 +15,8 @@
  */
 
 /**
+ * Exhibits@du
+ *
  * Media helper functions
  * media_helpers.js
  * 
@@ -29,7 +31,6 @@ import { Settings } from '../config/settings.js';
  * @param {string} mimeType : The item mime type 
  */
 export const getItemTypeForMimeType = (mimeType) => {
-    console.log("Mime type in:", mimeType)
     let type = null;
     let types = Settings.mimeTypes;
 

@@ -1,11 +1,11 @@
 <script>
     import { onMount } from 'svelte';
-    import { index } from '../libs/index.js';
+    import { Index } from '../libs/index.js';
 
     var exhibits = [];
 
     const init = async () => {
-        const data = await index.getExhibits();
+        const data = await Index.getExhibits();
 
         if(data.length > 0) {
             exhibits = data;

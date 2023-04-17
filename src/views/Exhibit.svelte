@@ -2,7 +2,7 @@
     'use-strict'
 
     import { onMount } from 'svelte';
-    import { index } from '../libs/index.js';
+    import { Index } from '../libs/index.js';
     import { Templates } from '../config/templates.js';
 
     import Hero from '../templates/Hero.svelte';
@@ -19,10 +19,9 @@
 
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
-        exhibit = await index.getExhibit(id);
+        exhibit = await Index.getExhibit(id);
 
         if(exhibit) {
-            //let {data} = exhibit;
             data = exhibit.data;
 
             template = $Templates[data.template] || null;
@@ -39,6 +38,7 @@
             return item.type == 'heading';
 
         }).map((heading) => {
+            /* replace whitespace characters with '-', remove all non alphanumeric characters */
             heading['id'] = heading.text.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]*/g, "").toLowerCase();
             return heading;
         });

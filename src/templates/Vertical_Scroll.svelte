@@ -83,29 +83,29 @@
 <div class="container template">
     {#if template}
         {#each template as {type = "", text = "", subtext = "", id = null}, index} <!-- DEV default null; if/else below-->
-            <!-- exhibit section heading -->
+
+            <!-- exhibit section heading TODO: simplify this code -->
             {#if type == "heading"} 
                 <h6>Section heading</h6>
                 {#if id}
-                <div {id} class="section-heading">
-                    <div class="section-title">
-                        <h3>{text}</h3>
+                    <div {id} class="section-heading">
+                        <div class="section-title">
+                            <h3>{text}</h3>
+                        </div>
+                        <div class="section-subtitle">
+                            <h5>{subtext}</h5>
+                        </div>
                     </div>
-                    <div class="section-subtitle">
-                        <h5>{subtext}</h5>
-                    </div>
-                </div>
                 {:else}
-                <div class="section-heading">
-                    <div class="section-title">
-                        <h3>{text}</h3>
+                    <div class="section-heading">
+                        <div class="section-title">
+                            <h3>{text}</h3>
+                        </div>
+                        <div class="section-subtitle">
+                            <h5>{subtext}</h5>
+                        </div>
                     </div>
-                    <div class="section-subtitle">
-                        <h5>{subtext}</h5>
-                    </div>
-                </div>
-                {/if}
-                    
+                {/if}       
                 
             <!--exhibit item - row layout -->
             {:else if type == "item"}
@@ -116,7 +116,9 @@
             {:else if type == "item-grid"}
                 <h6>Item Grid</h6>
                 <Item_Grid items={template[index].items} columns={template[index].columns}/>
+
             {/if}
+
         {/each}
     {/if}
 </div>

@@ -3,6 +3,7 @@
 
     import { Settings } from '../config/settings';
     import { Banners } from '../config/templates';
+    import { Resource } from '../libs/resource';
 
     export let data = null;
 
@@ -13,11 +14,19 @@
 
     $: {
         if(data) {
+            let {background_image} = data;
+            let image = null;
+
             banner = $Banners[data.banner || DEFAULT_BANNER];
             if(!banner) console.error("Could not create hero section: no banner selection specified for exhibit");
 
+            if(/^.+\.(jpg|jpeg|png)$/g.test(background_image) == true) {
+                image = Resource.getUrl(background_image);
+            }
+            else console.error(`Invalid hero image type. Allowed types: jpg, jpeg, png. File: ${background_image}`);
+
             args = {
-                image: data.background_image || "unset",
+                image,
                 title: data.title || "",
                 subtitle: data.subtitle || null,
                 description: data.description || null

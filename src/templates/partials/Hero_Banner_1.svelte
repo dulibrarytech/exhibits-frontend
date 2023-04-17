@@ -10,7 +10,7 @@
 
     export let args = {};
 
-    let {image="unset", title="exhibit title", subtitle=null, description=null} = args;
+    let {image=null, title="exhibit title", subtitle=null, description=null} = args;
 </script>
 
 <div class="banner-1"> <!-- TODO min height -->

@@ -20,11 +20,11 @@ import { Configuration } from '../config/config.js';
 import axios from 'axios';
 
 /**
- * Exhibits@DU: Elastic index interface module
+ * Elastic index interface module
  * 
  * Fetch data from elastic api or exhibits app backend api
  */
-export const index = (() => {
+export const Index = (() => {
     var {exhibitsIndexDomain, exhibitsIndexName} = Configuration;
 
     /**
