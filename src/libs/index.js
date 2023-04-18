@@ -73,7 +73,7 @@ export const Index = (() => {
 
         try {
             // Test
-            let response = await axios.get(`http://localhost:5678/api/v1/exhibits/${id}`);
+            let response = await axios.get(`http://localhost:5678/api/v1/exhibit/${id}`);
             let data = response.data;
 
             // TODO no index api, direct index request
@@ -82,7 +82,7 @@ export const Index = (() => {
             // let data = await axios.get([get exhibit (data) endpoint])
 
             // Test
-            response = await axios.get(`http://localhost:5678/api/v1/exhibits/${id}/items`);
+            response = await axios.get(`http://localhost:5678/api/v1/exhibit/${id}/items`);
             let items = response.data;
 
             // TODO

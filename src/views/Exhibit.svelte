@@ -12,6 +12,7 @@
 
     var id;
     var exhibit = {};
+    var theme = null;
     var template = null;
     var sections = null;
     var items = [];
@@ -23,12 +24,19 @@
 
         if(exhibit) {
             data = exhibit.data;
+            let {template, css = null} = data;
 
             template = $Templates[data.template] || null;
-            if(!template) console.error(`Could not find a template for ${data.template}`);
+            if(!template) {
+                console.error(`Could not find a template for ${data.template}`);
+            }
+            else {
+                items = exhibit.items;
+                sections = getSections(items);
 
-            items = exhibit.items;
-            sections = getSections(items);
+                if(css?.exhibit) theme = css.exhibit;
+                setTheme();
+            }
         }
         else window.location.replace('/404');
     }
@@ -44,6 +52,13 @@
         });
 
         return sections;
+    }
+
+    const setTheme = () => {
+        let exhibit = document.querySelector('.exhibit-page');
+        for(let style in theme) {
+            exhibit.style[style] = theme[style];
+        }
     }
 
     onMount(async () => {

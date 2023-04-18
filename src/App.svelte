@@ -6,7 +6,7 @@
 </script>
 
 <Header />
-<main class="container">
+<main class="container-1700">
   <Router {routes} />
 </main>
 <Footer />

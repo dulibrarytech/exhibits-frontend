@@ -29,8 +29,6 @@
     $: {
         if(!itemId) itemId = args.id || item.url || null;
         if(!isIIIF) isIIIF = args.isIIIF || item.is_iiif || false;
-        console.log("TEST repo item: itemId/isIIIF:", itemId, isIIIF)
-
         if(itemId) render();
         else console.error("Repository item id is null");
     }
@@ -43,24 +41,17 @@
             message = "";
 
             if(isIIIF) {
-                console.log("TEST repo item: is iiif")
-
                 component = IIIF_Item;
             }
             else {
                 /* Get params from the repo item for the media item */
                 params.url = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null )
                 params = {...params, ...getExhibitItemData(repoItem)};
-                console.log("TEST repo item: non iiif: params object for media item:", params)
-
                 component = Media_Item;
             }
 
             params.type = getItemTypeForMimeType( repoItem[MIME_TYPE_FIELD] || null );
             params.metadata = repoItem[METADATA_OBJECT_FIELD] || {};
-
-            console.log("TEST repo item: component:", component)
-            console.log("TEST repo item: all params:", params)
         })
         .catch((error) => {
             message = "Error retrieving data";

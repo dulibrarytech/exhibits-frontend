@@ -39,7 +39,7 @@
         border-width: 1px;
         border-color: #e5e3e1;
         margin-top: 2em;
-        padding: 2em
+        /* padding: 2em */
     }
 
     :global(.test) {
