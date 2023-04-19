@@ -4,7 +4,7 @@ import { Configuration } from '../config/config.js';
 import axios from 'axios';
 
 /**
- * Exhibits@DU: Resource access interface module
+ * Exhibits@DU: Resource access interface
  * 
  * Fetch or stream resources from local filesystem or a remote api
  */

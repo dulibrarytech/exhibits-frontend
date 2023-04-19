@@ -12,7 +12,6 @@
 
     var id;
     var exhibit = {};
-    var theme = null;
     var template = null;
     var sections = null;
     var items = [];
@@ -24,9 +23,8 @@
 
         if(exhibit) {
             data = exhibit.data;
-            let {template, css = null} = data;
-
             template = $Templates[data.template] || null;
+
             if(!template) {
                 console.error(`Could not find a template for ${data.template}`);
             }
@@ -34,8 +32,8 @@
                 items = exhibit.items;
                 sections = getSections(items);
 
-                if(css?.exhibit) theme = css.exhibit;
-                setTheme();
+                let css = data.css?.exhibit;
+                if(css) setTheme(css);
             }
         }
         else window.location.replace('/404');
@@ -46,7 +44,6 @@
             return item.type == 'heading';
 
         }).map((heading) => {
-            /* replace whitespace characters with '-', remove all non alphanumeric characters */
             heading['id'] = heading.text.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]*/g, "").toLowerCase();
             return heading;
         });
@@ -54,10 +51,10 @@
         return sections;
     }
 
-    const setTheme = () => {
+   const setTheme = (css) => {
         let exhibit = document.querySelector('.exhibit-page');
-        for(let style in theme) {
-            exhibit.style[style] = theme[style];
+        for(let style in css) {
+            exhibit.style[style] = css[style];
         }
     }
 

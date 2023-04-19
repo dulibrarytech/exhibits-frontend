@@ -22,8 +22,8 @@
     });
 </script>
 
-<div class="banner-1">
-    <div class="banner">
+<!-- <div class="banner-1"> -->
+    <header class="banner">
         <img src={image} alt={title}/>
         <div class="title-text">
             <div id="title" class="overlay-text text">{title}</div>
@@ -31,19 +31,30 @@
             {#if subtitle}<div id="subtitle" class="overlay-text text">{subtitle}</div>{/if}
         </div>
         
-    </div>
+    </header>
 
     {#if description}
-        <div class="introduction">
-            {description}
-        </div>
+        <section class="introduction">
+            <div class="container px-4">
+                <div class="row gx-4 justify-content-center">
+                    <div class="col-lg-8">
+                        <p>{description}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     {/if}
-</div>
+<!-- </div> -->
 
 <style>
+    header {
+        padding: 0;
+    }
+
     hr {
         height: 6px;
     }
+
     .banner {
         position: relative;
     }
