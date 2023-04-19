@@ -11,7 +11,7 @@
         try {
             viewer = OpenSeadragon({
                 id: "openseadragon1",
-                prefixUrl: "/images/openseadragon/",
+                prefixUrl: "/assets/images/openseadragon/",
                 tileSources: url
             });
         }
