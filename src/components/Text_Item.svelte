@@ -14,6 +14,6 @@
     render();
 </script>
 
-<div class="item">
+<div class="text-item">
     <Text_Content content={text} />
 </div>

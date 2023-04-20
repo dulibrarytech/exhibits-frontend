@@ -1,6 +1,15 @@
 <script>
     export let sections = null;
 
+    const init = () => {
+        // for(let section of sections) {
+        //     //section.hover = 
+        //     if(section.text.length > 30) {
+        //         section.text = text.substring(0, 30).concat('...');
+        //     }
+        // }
+    }
+
     function onClickNavigationLink (event) {
 		event.preventDefault()
 		const link = event.currentTarget
@@ -11,6 +20,8 @@
 			behavior: 'smooth'
 		})
 	}
+
+    $: init();
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-light sticky-top" id="mainNav">
@@ -20,7 +31,7 @@
             <ul class="nav navbar-nav ms-auto">
                 {#if sections}
                     {#each sections as {id, text}}
-                        <li class="px-4">
+                        <li class="px-4" title={text}>
                             <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
                         </li>
                     {/each}
@@ -48,7 +59,11 @@
         padding-left: 0rem !important;
     }
 
-    .navbar-nav a:hover {
+    .navbar-nav a {
         text-decoration: none;
+    }
+
+    .navbar-nav a:hover {
+        text-decoration: underline;
     }
 </style>

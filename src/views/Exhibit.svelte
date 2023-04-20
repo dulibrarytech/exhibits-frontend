@@ -67,10 +67,10 @@
 <!-- <div id="exhibit-title-page"></div> -->
 
 <div class="exhibit-page">
-    <Hero {data} />
-    <Navigation {sections} />
-
     {#if template}
+        <Hero {data} />
+        <Navigation {sections} />
+        
         <svelte:component this={template} {sections} {items} />
     {:else}
         <h3>Loading template...</h3>

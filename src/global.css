@@ -1,3 +1,12 @@
+/*
+ * Add styles here if they are: 
+ *
+ * 1: Global styles, or html elements by type
+ * 2: Affecting more than one component, or a class of components
+ *
+ * If style only affects one component, add them to the component's <style> section
+ */
+
 html, body {
 	width: 100%;
 	height: 100%;
@@ -76,6 +85,22 @@ main.container {
 	font-style: italic;
 	font-size: 0.8em;
 }
+
+.template {
+	margin-top: 80px;
+}
+
+.section-heading {
+    margin-bottom: 55px;
+}
+
+.item {
+	margin-bottom: 80px;
+}
+
+.media-item {
+	margin-bottom: 30px;
+}å
 /* end Default theme */
 
 footer {

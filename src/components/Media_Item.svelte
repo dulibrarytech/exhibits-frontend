@@ -115,9 +115,13 @@
 </script>
 
 {#if component}
-    <div class="item">
+    <div class="media-item">
         <svelte:component this={component} args={params} />
     </div>
 {:else}
     <h5>Loading...</h5>
 {/if}
+
+<style>
+    
+</style>

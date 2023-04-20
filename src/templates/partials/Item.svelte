@@ -8,6 +8,8 @@
 
     export let item = {};
 
+    const VERTICAL_ITEM_MARGIN = "30px";
+
     let {is_published, layout, uuid} = item;
 
     if(Object.values(ITEM_POSITION).includes(layout) == false) console.error(`Invalid layout value: item: ${uuid}`);
@@ -32,12 +34,16 @@
                 </div>
             {:else if layout == ITEM_POSITION.TOP}
                 <div class="col-md-12">
-                    <Media_Display {item} />
+                    <div style="margin-bottom: {VERTICAL_ITEM_MARGIN}">
+                        <Media_Display {item} />
+                    </div>
                     <Text_Display {item} />
                 </div>
             {:else if layout == ITEM_POSITION.BOTTOM}
                 <div class="col-md-12">
-                    <Text_Display {item} />
+                    <div style="margin-bottom: {VERTICAL_ITEM_MARGIN}">
+                        <Text_Display {item} />
+                    </div>
                     <Media_Display {item} />
                 </div>
             {:else if layout == ITEM_POSITION.ITEM_ONLY}
@@ -52,3 +58,7 @@
         </div>
     {/if}
 </div>
+
+<style>
+    
+</style>
