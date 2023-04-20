@@ -38,7 +38,7 @@
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
-                        <p>{description}</p>
+                        <p>{@html description}</p>
                     </div>
                 </div>
             </div>
@@ -59,14 +59,14 @@
         position: relative;
     }
 
+    .introduction {
+        font-style: inherit;
+    }
+
     .title-text {
         position: absolute;
         top: 0;
-        padding: 45px;
-    }
-
-    .overlay-text {
-        
+        padding: 45px 80px;
     }
 
     #title {

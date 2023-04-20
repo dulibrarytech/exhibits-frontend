@@ -38,9 +38,18 @@
     }
 
     const setTheme = () => {
+        let {image, intro} = theme;
+        
         document.querySelectorAll('.banner').forEach((element) => {
-            for(let style in theme) {
-                element.style[style] = theme[style];
+            for(let style in image) {
+                element.style[style] = image[style];
+            }
+        });
+
+        document.querySelectorAll('.introduction').forEach((element) => {
+            for(let style in intro) {
+                console.log("Setting intro")
+                element.style[style] = intro[style];
             }
         });
     }
