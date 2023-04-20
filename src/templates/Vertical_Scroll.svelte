@@ -86,7 +86,6 @@
 
             <!-- exhibit section heading TODO: simplify this code -->
             {#if type == "heading"} 
-                <h6>Section heading</h6>
                 {#if id}
                     <div {id} class="section-heading">
                         <div class="section-title">
@@ -109,16 +108,13 @@
                 
             <!--exhibit item - row layout -->
             {:else if type == "item"}
-                <h6>Item</h6>
                 <Item item={template[index]} />
 
             <!-- exhibit item - grid layout -->
             {:else if type == "item-grid"}
-                <h6>Item Grid</h6>
                 <Item_Grid items={template[index].items} columns={template[index].columns}/>
 
             {/if}
-
         {/each}
     {/if}
 </div>

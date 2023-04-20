@@ -1,28 +1,12 @@
- /**
-    Copyright 2022 University of Denver
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-
-    You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-    
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
- */
-
 'use strict'
 
 import { Configuration } from '../config/config.js';
 import axios from 'axios';
 
 /**
- * Elastic index interface module
+ * Dev index interface module
  * 
- * Fetch data from elastic api or exhibits app backend api
+ * Fetches data from test data server
  */
 export const Index = (() => {
     var {exhibitsIndexDomain, exhibitsIndexName} = Configuration;
@@ -38,14 +22,7 @@ export const Index = (() => {
         let exhibits = [];
         
         try {
-            // Test
             let response = await axios.get('http://localhost:5678/api/v1/exhibit');
-
-            // TODO
-            // let response = await axios.get(`${exhibitsIndexDomain}/exhibitsIndexName/_search`, {query: '*'});
-            // TODO backend api
-            // let data = await axios.get([get all exhibits endpoint])
-            
             exhibits = response.data;
         }
         catch(e) {
@@ -72,23 +49,11 @@ export const Index = (() => {
         let exhibit = null;
 
         try {
-            // Test
             let response = await axios.get(`http://localhost:5678/api/v1/exhibit/${id}`);
             let data = response.data;
 
-            // TODO no index api, direct index request
-            // let data = await axios.get(`${exhibitsIndexDomain}/exhibitsIndexName/_search`, {query: {id field == id}});
-            // TODO backend api
-            // let data = await axios.get([get exhibit (data) endpoint])
-
-            // Test
             response = await axios.get(`http://localhost:5678/api/v1/exhibit/${id}/items`);
             let items = response.data;
-
-            // TODO
-            // let sections = await axios.get(`${exhibitsIndexDomain}/exhibitsIndexName/_search`, {query: {'is_member_of': id});
-            // TODO backend api
-            // let data = await axios.get([get exhibit items endpoint])
 
             exhibit = {data, items};
         }
