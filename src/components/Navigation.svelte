@@ -13,27 +13,14 @@
 	}
 </script>
 
-<!-- <div class="navigation">
-    {#if sections}
-        {#each sections as {id, text}}
-            <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
-        {/each}
-    {/if}
-</div> -->
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" id="mainNav">
-    <div class="container px-4">
-        <!-- <a class="navbar-brand" href="#page-top">Start Bootstrap</a> -->
+<nav class="navbar navbar-expand-lg navbar-light sticky-top" id="mainNav">
+    <div class="container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto">
-                <!-- <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> -->
+            <ul class="nav navbar-nav ms-auto">
                 {#if sections}
                     {#each sections as {id, text}}
-                        <!-- <a href="#{id}" on:click={onClickNavigationLink}>{text}</a> -->
-                        <li class="nav-item">
+                        <li class="px-4">
                             <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
                         </li>
                     {/each}
@@ -44,8 +31,24 @@
 </nav>
 
 <style>
-    /* .navigation {
-        height: 50px;
+    .navbar {
         background: #e5e3e1;
-    } */
+        min-height: 4.2em;
+    }
+
+    .navbar-nav {
+        width: 100%
+    }
+
+    .navbar-nav a {
+        color: #383838;
+    }
+
+    .navbar-nav li {
+        padding-left: 0rem !important;
+    }
+
+    .navbar-nav a:hover {
+        text-decoration: none;
+    }
 </style>
