@@ -6,7 +6,7 @@
     import { Templates } from '../config/templates.js';
 
     import Hero from '../templates/Hero.svelte';
-    import Navigation_Top from '../components/Navigation_Top.svelte';
+    import Navigation_Side from '../components/Navigation_Side.svelte';
 
     export let currentRoute;
 
@@ -63,15 +63,22 @@
     });
 </script>
 
-<!-- If display title page before entry -->
-<!-- <div id="exhibit-title-page"></div> -->
-
 <div class="exhibit-page">
     {#if template}
         <Hero {data} />
-        <Navigation_Top {sections} />
+
+        <div id="wrapper">
+            <div id="sidebar-wrapper">
+                <Navigation_Side {sections} />
+            </div>
+
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <svelte:component this={template} {sections} {items} />
+                </div>
+            </div>
+        </div>
         
-        <svelte:component this={template} {sections} {items} />
     {:else}
         <h3>Loading template...</h3>
     {/if}
