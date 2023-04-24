@@ -3,16 +3,19 @@
 
     import { onMount } from 'svelte';
     import { Index } from '../libs/index.js';
-    import { Templates } from '../config/templates.js';
+    //import { Templates } from '../config/templates.js';
+    import { Templates, Page_Layouts } from '../config/templates.js';
 
-    import Hero from '../templates/Hero.svelte';
-    import Navigation_Top from '../components/Navigation_Top.svelte';
+    // To page layout?
+    // import Hero from '../templates/Hero.svelte';
+    // import Navigation_Top from '../components/Navigation_Top.svelte';
 
     export let currentRoute;
 
     var id;
     var exhibit = {};
     var template = null;
+    var pageLayout = null;
     var sections = null;
     var items = [];
     var data = null;
@@ -23,7 +26,11 @@
 
         if(exhibit) {
             data = exhibit.data;
-            template = $Templates[data.template] || null;
+
+            pageLayout = $Page_Layouts[data.page_layout] || null; // TODO get default from settings
+            template = $Templates[data.template] || null;  // TODO get default from settings
+
+            console.log("TEST exhibit page page layout/exhibit template:", pageLayout, template)
 
             if(!template) {
                 console.error(`Could not find a template for ${data.template}`);
@@ -32,8 +39,8 @@
                 items = exhibit.items;
                 sections = getSections(items);
 
-                let css = data.css?.exhibit;
-                if(css) setTheme(css);
+                let styles = data.styles?.exhibit;
+                if(styles) setTheme(styles);
             }
         }
         else window.location.replace('/404');
@@ -51,22 +58,19 @@
         return sections;
     }
 
-   const setTheme = (css) => {
+   const setTheme = (styles) => {
         let exhibit = document.querySelector('.exhibit-page');
-        for(let style in css) {
-            exhibit.style[style] = css[style];
+        for(let style in styles) {
+            exhibit.style[style] = styles[style];
         }
     }
 
-    onMount(async () => {
+    onMount(async () => { // TODO catch event when page has loaded?
         init();
     });
 </script>
 
-<!-- If display title page before entry -->
-<!-- <div id="exhibit-title-page"></div> -->
-
-<div class="exhibit-page">
+<!-- <div class="exhibit-page">
     {#if template}
         <Hero {data} />
         <Navigation_Top {sections} />
@@ -75,7 +79,13 @@
     {:else}
         <h3>Loading template...</h3>
     {/if}
-</div>
+</div> -->
+
+{#if pageLayout}
+    <svelte:component this={pageLayout} {data} {template} {sections} {items} />
+{:else}
+    <h3>Loading page...</h3>
+{/if}
 
 <style>
 

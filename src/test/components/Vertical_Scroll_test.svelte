@@ -1,5 +1,5 @@
 <script>
-    import Vertical_Scroll from '../../templates/Vertical_Scroll.svelte';
+    import Vertical_Scroll from '../../templates/Exhibit_Vertical_Scroll.svelte';
 
     let items = [
         /* heading as separate object in exhibit (with order) ? */

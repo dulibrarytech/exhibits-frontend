@@ -80,7 +80,7 @@
     render();
 </script>
 
-<div class="container template">
+<div class="container exhibit-template">
     {#if template}
         {#each template as {type = "", text = "", subtext = "", id = null}, index} <!-- DEV default null; if/else below-->
 
