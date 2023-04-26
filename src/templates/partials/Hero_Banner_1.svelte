@@ -61,6 +61,8 @@
 
     .introduction {
         font-style: inherit;
+        padding-top: 75px;
+        padding-bottom: 75px;
     }
 
     .title-text {

@@ -15,7 +15,7 @@
 
     $: {
         if(data) {
-            let { hero_image = "", css = null } = data;
+            let { hero_image = "", styles = null } = data;
             let image = null;
 
             banner = $Banners[data.banner || DEFAULT_BANNER];
@@ -26,7 +26,7 @@
             }
             else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
 
-            if(css?.hero) theme = css.hero;
+            if(styles?.hero) theme = styles.hero;
 
             args = {
                 image,
@@ -48,7 +48,6 @@
 
         document.querySelectorAll('.introduction').forEach((element) => {
             for(let style in intro) {
-                console.log("Setting intro")
                 element.style[style] = intro[style];
             }
         });
