@@ -22,29 +22,27 @@
     });
 </script>
 
-<!-- <div class="banner-1"> -->
-    <header class="banner">
-        <img src={image} alt={title}/>
-        <div class="title-text">
-            <div id="title" class="overlay-text text">{title}</div>
-            <hr>
-            {#if subtitle}<div id="subtitle" class="overlay-text text">{subtitle}</div>{/if}
-        </div>
-        
-    </header>
+<header class="banner">
+    <img src={image} alt={title}/>
+    <div class="title-text">
+        <div id="title" class="overlay-text text">{title}</div>
+        <hr>
+        {#if subtitle}<div id="subtitle" class="overlay-text text">{subtitle}</div>{/if}
+    </div>
+    
+</header>
 
-    {#if description}
-        <section class="introduction">
-            <div class="container px-4">
-                <div class="row gx-4 justify-content-center">
-                    <div class="col-lg-8">
-                        <p>{@html description}</p>
-                    </div>
+{#if description}
+    <section class="introduction">
+        <div class="container px-4">
+            <div class="row gx-4 justify-content-center">
+                <div class="col-lg-8">
+                    <p>{@html description}</p>
                 </div>
             </div>
-        </section>
-    {/if}
-<!-- </div> -->
+        </div>
+    </section>
+{/if}
 
 <style>
     header {
@@ -68,14 +66,48 @@
     .title-text {
         position: absolute;
         top: 0;
-        padding: 45px 80px;
+        padding: 30px;
     }
 
     #title {
-        font-size: 4.2em;
+        font-size: 2.2em;
     }
 
     #subtitle {
-        font-size: 1.8em;
+        font-size: 0.8em;
+    }
+
+    @media (min-width: 992px) {
+        #title {
+            font-size: 4.2em;
+        }
+
+        #subtitle {
+            font-size: 1.8em;
+        }
+    }
+
+    @media (min-width: 768px) {
+        #title {
+            font-size: 3.2em;
+        }
+
+        #subtitle {
+            font-size: 1.3em;
+        }
+
+        .title-text {
+            padding: 45px 80px;
+        }
+    }
+
+    @media (min-width: 576px) {
+        #title {
+            font-size: 2.7em;
+        }
+
+        #subtitle {
+            font-size: 1em;
+        }
     }
 </style>

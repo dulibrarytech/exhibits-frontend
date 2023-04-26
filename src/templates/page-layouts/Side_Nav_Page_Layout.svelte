@@ -15,14 +15,13 @@
         <div class="container-fluid">
             <div id="sidebar-container" class="row flex-nowrap">
                 <div class="col-auto">
-                <!-- <div class="col-md-2 px-2"> -->
                     <div id="sidebar" class="collapse collapse-horizontal show border-end">
                         <Navigation_Side {sections} />
                     </div>
                 </div>
 
                 <div class="col ps-md-2 pt-2">
-                    <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none"><i class="bi bi-list bi-lg py-2 p-1"></i>MM</a>
+                    <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none"><i class="bi bi-list"></i></a>
                     <div class="exhibit-template-wrapper">
                         <svelte:component this={template} {sections} {items} />
                     </div>
@@ -36,6 +35,11 @@
 </div>
 
 <style>
+    #menu-toggle {
+        color: #757575;
+        font-size: 1.7em;
+    }
+
     .exhibit-template-wrapper {
         padding-left: 3.2em;
         padding-right: 3.2em;
@@ -54,7 +58,7 @@
         position: sticky;
         top: 0;
         background: #e5e3e1;
-        padding: 1.4em;
+        padding: 25px;
     }
 
     #menu-toggle {
@@ -70,7 +74,7 @@
     
     :global(#sidebar-nav a) {
         margin-bottom: 0.9em;
-        color: initial;
+        color: #757575;
     }
 
     @media (min-width: 768px) {
@@ -78,9 +82,21 @@
             display: flex;
         }
 
+        #sidebar {
+            padding: 10px;
+        }
+
         :global(#sidebar-nav) {
             margin-bottom: 0.7em;
             width: 225px;
+        }
+
+        :global(#sidebar-nav a) {
+            margin-bottom: 0.9em;
+            border-style: solid;
+            border-radius: 5px;
+            border-color: #d5d5d5;
+            padding: 6px;
         }
     }
 </style>
