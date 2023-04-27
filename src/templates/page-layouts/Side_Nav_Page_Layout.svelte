@@ -1,5 +1,7 @@
 <!-- Requires bootstrap 5x -->
 <script>
+    import {createEventDispatcher} from 'svelte';
+
     import Hero from '../Hero.svelte';
     import Navigation_Side from '../Navigation_Side.svelte';
 
@@ -7,6 +9,12 @@
     export let template = null;
     export let sections = [];
     export let items = [];
+
+    const dispatch = createEventDispatcher();
+
+    const onMountTemplate = () => {
+        dispatch('mount', {});
+    }
 </script>
 
 <div class="exhibit-page">
@@ -23,7 +31,7 @@
                 <div class="col ps-md-2 pt-2">
                     <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none"><i class="bi bi-list"></i></a>
                     <div class="exhibit-template-wrapper">
-                        <svelte:component this={template} {sections} {items} />
+                        <svelte:component this={template} {sections} {items} on:mount={onMountTemplate}/>
                     </div>
                 </div>
             </div>
@@ -84,7 +92,7 @@
         }
 
         #sidebar {
-            padding: 10px;
+            padding: 30px 10px 10px 10px;
         }
 
         :global(#sidebar-nav) {
@@ -94,9 +102,9 @@
 
         :global(#sidebar-nav a) {
             margin-bottom: 0.9em;
-            border-style: solid;
+            /* border-style: solid;
             border-radius: 5px;
-            border-color: #757575;
+            border-color: #757575; */
             padding: 6px;
         }
     }

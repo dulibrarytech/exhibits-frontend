@@ -80,14 +80,14 @@ main.container {
 	margin-top: 3em;
 }
 
-/* begin Default theme */
+/* begin Default theme (move to exhibit template component?) */
 .caption {
 	font-style: italic;
 	font-size: 0.8em;
 }
 
 .exhibit-template {
-	margin-top: 80px;
+	margin-top: 40px;
 }
 
 .section-heading {

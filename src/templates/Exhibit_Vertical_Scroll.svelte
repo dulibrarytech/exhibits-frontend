@@ -1,11 +1,15 @@
 <script>
     'use strict'
+    import { onMount } from 'svelte';
+    import {createEventDispatcher} from 'svelte';
     
     // import settings
     import Item from './partials/Item.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
 
     export let items;
+
+    const dispatch = createEventDispatcher();
 
     var template = null;
 
@@ -15,7 +19,6 @@
     const render = () => {
         if(!template) {
             template = sortTemplateItems(items);
-            console.log("Template", template)
         }
     }
 
@@ -78,6 +81,10 @@
     }
 
     render();
+
+    onMount(async () => {
+        dispatch('mount', {});
+    });
 </script>
 
 <div class="container exhibit-template">
