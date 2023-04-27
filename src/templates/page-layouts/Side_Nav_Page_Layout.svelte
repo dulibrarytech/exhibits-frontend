@@ -64,6 +64,7 @@
     #menu-toggle {
         position: sticky;
         top: 7px;
+        left: 7px;
     }
     
     /* Navigation_Side subcomponent width */
@@ -88,14 +89,14 @@
 
         :global(#sidebar-nav) {
             margin-bottom: 0.7em;
-            width: 225px;
+            width: 320px;
         }
 
         :global(#sidebar-nav a) {
             margin-bottom: 0.9em;
             border-style: solid;
             border-radius: 5px;
-            border-color: #d5d5d5;
+            border-color: #757575;
             padding: 6px;
         }
     }
