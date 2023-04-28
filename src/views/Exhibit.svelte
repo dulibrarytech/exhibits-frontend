@@ -49,9 +49,18 @@
     }
 
    const setTheme = (styles) => {
-        let exhibit = document.querySelector('.exhibit-template');
-        for(let style in styles) {
-            exhibit.style[style] = styles[style];
+        let {template, section_heading} = styles;
+
+        let templateElement = document.querySelector('.exhibit-template');
+        for(let style in template) {
+            templateElement.style[style] = template[style];
+        }
+
+        let headingElements = document.querySelectorAll(".section-heading");
+        for(let heading of headingElements) {
+            for(let style in section_heading) {
+                heading.style[style] = section_heading[style];
+            }
         }
     }
 

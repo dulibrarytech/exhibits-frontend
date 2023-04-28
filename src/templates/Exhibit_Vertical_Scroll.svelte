@@ -3,7 +3,6 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     
-    // import settings
     import Item from './partials/Item.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
 
@@ -11,14 +10,14 @@
 
     const dispatch = createEventDispatcher();
 
-    var template = null;
+    var exhibit = null;
 
     const ROW = "row";
     const GRID = "grid";
 
     const render = () => {
-        if(!template) {
-            template = sortTemplateItems(items);
+        if(!exhibit) {
+            exhibit = sortTemplateItems(items);
         }
     }
 
@@ -68,12 +67,12 @@
         return sorted;
     }
 
-    const appendRow = (template, item) => {
-        template.push(item);
+    const appendRow = (items, item) => {
+        items.push(item);
     }
 
-    const appendGrid = (template, items = [], columns = 4) => { // TODO from settings.gridColumnDefault
-        template.push({
+    const appendGrid = (exhibit, items = [], columns = 4) => { // TODO from settings.gridColumnDefault
+        exhibit.push({
             type: "item-grid",
             items,
             columns
@@ -88,8 +87,8 @@
 </script>
 
 <div class="container exhibit-template">
-    {#if template}
-        {#each template as {type = "", text = "", subtext = "", id = null}, index} <!-- DEV default null; if/else below-->
+    {#if exhibit}
+        {#each exhibit as {type = "", text = "", subtext = "", id = null}, index} <!-- DEV default null; if/else below-->
 
             <!-- exhibit section heading TODO: simplify this code -->
             {#if type == "heading"} 
@@ -101,6 +100,7 @@
                         <div class="section-subtitle">
                             <h5>{subtext}</h5>
                         </div>
+                        <hr>
                     </div>
                 {:else}
                     <div class="section-heading">
@@ -110,16 +110,17 @@
                         <div class="section-subtitle">
                             <h5>{subtext}</h5>
                         </div>
+                        <hr>
                     </div>
                 {/if}       
                 
             <!--exhibit item - row layout -->
             {:else if type == "item"}
-                <Item item={template[index]} />
+                <Item item={exhibit[index]} />
 
             <!-- exhibit item - grid layout -->
             {:else if type == "item-grid"}
-                <Item_Grid items={template[index].items} columns={template[index].columns}/>
+                <Item_Grid items={exhibit[index].items} columns={exhibit[index].columns}/>
 
             {/if}
         {/each}

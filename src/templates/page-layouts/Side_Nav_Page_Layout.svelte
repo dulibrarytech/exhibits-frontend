@@ -44,8 +44,7 @@
 
 <style>
     #menu-toggle {
-        color: #757575;
-        font-size: 1.7em;
+        display: none;
     }
 
     .exhibit-template-wrapper {
@@ -87,6 +86,12 @@
     }
 
     @media (min-width: 768px) {
+        #menu-toggle {
+            display: inline;
+            color: #757575;
+            font-size: 1.7em;
+        }
+    
         #sidebar-container {
             display: flex;
         }
