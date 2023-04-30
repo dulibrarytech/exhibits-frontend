@@ -24,17 +24,17 @@
     });
 </script>
 
-<header class="banner">
-    <div class="hero-image">
-        <div class="hero-text">
+<div class="banner">
+    <section class="hero-image">
+        <div class="hero-image-text">
             <div id="title" class="overlay-text text">{title}</div>
             <hr>
             {#if subtitle}<div id="subtitle" class="overlay-text text">{subtitle}</div>{/if}
         </div>
-    </div>
+    </section>
     
     {#if description}
-        <section class="introduction">
+        <section class="hero-text">
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-8">
@@ -44,7 +44,7 @@
             </div>
         </section>
     {/if}
-</header>
+</div>
 
 <style>
     header {
@@ -76,7 +76,7 @@
         /* height: 100%; */
     }
 
-    .hero-text {
+    .hero-image-text {
         text-align: center;
         position: absolute;
         top: 50%;

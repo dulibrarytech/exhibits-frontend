@@ -128,5 +128,19 @@
 </div>
 
 <style>
+.exhibit-template {
+	margin-top: 75px;
+}
 
+.section-heading {
+    margin-bottom: 55px;
+}
+
+.section-heading h3 {
+    font-size: 1.75em;
+}
+
+:global(.caption) {
+    color: darkgrey;
+}
 </style>

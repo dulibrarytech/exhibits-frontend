@@ -25,8 +25,10 @@ export const Templates = writable({
 /************************************************
  * hero banner components
  ************************************************/
-import Hero_Banner_1 from '../templates/partials/Hero_Banner_1.svelte'; 
+import Hero_Banner_1 from '../templates/partials/Hero_Banner_1.svelte';
+import Hero_Banner_2 from '../templates/partials/Hero_Banner_2.svelte';
 
 export const Banners = writable({
-    "banner_1": Hero_Banner_1
+    "banner_1": Hero_Banner_1,
+    "banner_2": Hero_Banner_2
 })

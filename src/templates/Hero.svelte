@@ -38,31 +38,40 @@
     }
 
     const setTheme = () => {
-        let {image, intro} = theme;
+        let {image, text} = theme;
         
-        document.querySelectorAll('.banner').forEach((element) => {
+        document.querySelectorAll('.hero-image').forEach((element) => {
             for(let style in image) {
                 element.style[style] = image[style];
             }
         });
 
-        document.querySelectorAll('.introduction').forEach((element) => {
-            for(let style in intro) {
-                element.style[style] = intro[style];
+        document.querySelectorAll('.hero-text').forEach((element) => {
+            for(let style in text) {
+                element.style[style] = text[style];
             }
         });
     }
 </script>
 
-<div class="hero-section">
+<header class="hero-section">
     {#if banner}
         <svelte:component this={banner} {args} on:mount={setTheme} />
     {/if}
-</div>
+</header>
 
 <style>
     :global(.banner > img) {
         width: 100%;
         height: 100%;
+    }
+
+    :global(.hero-image) {
+        min-height: 200px;
+        background: grey;
+    }
+
+    :global(.hero-text) {
+        background: grey;
     }
 </style>
