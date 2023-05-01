@@ -132,12 +132,17 @@
 </div>
 
 <style>
+hr {
+    margin: 0;
+}
+
 .exhibit-template {
 	margin-top: 75px;
 }
 
 .section-heading {
-    margin-bottom: 55px;
+    /* margin-bottom: 55px; */
+    padding-top: 55px;
 }
 
 .section-heading h3 {

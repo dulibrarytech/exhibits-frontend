@@ -22,6 +22,12 @@
         for(let style in styles.item) {
             itemElement.style[style] = styles.item[style];  
         }
+
+        /* TEMP: if this item is preceded by a header item, set the background of the header to match the item background */
+        if(itemElement.previousElementSibling.classList.contains('section-heading')) {
+            let heading = itemElement.previousElementSibling;
+            if(styles.item?.background) heading.style.background = styles.item.background;
+        }
     }
 
     onMount(async () => {
@@ -79,7 +85,7 @@
 
 <style>
     .item {
-        margin-bottom: 80px;
+        /* margin-bottom: 80px; */
         padding-top: 50px;
         padding-bottom: 50px;
     }

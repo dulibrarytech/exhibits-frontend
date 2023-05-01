@@ -19,8 +19,6 @@
     }
 
     const setTheme = () => {
-        //let itemTextElement = textElement.querySelector(".text-item");
-        console.log("TEST itemTextElement", textElement)
         for(let style in styles) {
             textElement.style[style] = styles[style];  
         }
