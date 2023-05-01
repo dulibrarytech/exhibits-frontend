@@ -80,21 +80,6 @@ main.container {
 	margin-top: 3em;
 }
 
-/* begin Default theme (TODO move to exhibit template components) */
-.caption {
-	font-style: italic;
-	font-size: 0.8em;
-}
-
-.item {
-	margin-bottom: 80px;
-}
-
-.item-component {
-	margin-bottom: 30px;
-}
-/* end Default theme */
-
 footer {
 	flex-shrink: 0;
 	min-height: 150px;

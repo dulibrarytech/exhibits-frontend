@@ -1,19 +1,36 @@
 <script>
+    import { onMount } from 'svelte';
+
     import Text_Content from './Text_Content.svelte';
 
     export let item = {};
 
     var text = "";
+    var styles = null;
+    var textElement;
 
-    const render = () => {
+    const init = () => {
         text = item.text || "";
+        styles = item.styles?.item_text || null;
 
         // TODO Remove script tags, other dangerous entities
+
+        if(styles) setTheme();
     }
 
-    render();
+    const setTheme = () => {
+        //let itemTextElement = textElement.querySelector(".text-item");
+        console.log("TEST itemTextElement", textElement)
+        for(let style in styles) {
+            textElement.style[style] = styles[style];  
+        }
+    }
+
+    onMount(async () => {
+        init();
+    });
 </script>
 
-<div class="text-item">
+<div class="text-item" bind:this={textElement} >
     <Text_Content content={text} />
 </div>

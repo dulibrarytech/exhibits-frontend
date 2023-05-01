@@ -7,8 +7,6 @@
     export let items = [];
     export let columns = 4; 
 
-    console.log("TEST GRID", (12 % 1))
-
     const BOOTSTRAP_GRID_SIZE = "lg" // sm, md, lg;
 
     var columnValue = "3";
