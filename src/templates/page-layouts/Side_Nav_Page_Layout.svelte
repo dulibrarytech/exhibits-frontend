@@ -12,6 +12,12 @@
 
     const dispatch = createEventDispatcher();
 
+    let menuButtonDisplay = "none";
+
+    const toggleMenuButtonDisplay = () => {
+        menuButtonDisplay = menuButtonDisplay == "none" ? "inline" : "none";
+    }
+
     const onMountTemplate = () => {
         dispatch('mount', {});
     }
@@ -25,14 +31,15 @@
                 <div class="col-auto">
                     <div id="sidebar" class="collapse collapse-horizontal show border-end">
                         <Navigation_Side {sections} />
+
+                        <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} ><i class="bi bi-chevron-left"></i></a>
                     </div>
                 </div>
 
-                <div class="col ps-md-2 pt-2">
-                    <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none"><i class="bi bi-list"></i></a>
-                    <div class="exhibit-template-wrapper">
-                        <svelte:component this={template} {sections} {items} on:mount={onMountTemplate}/>
-                    </div>
+                <div class="col pt-2">
+                    <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay}" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
+                    
+                    <svelte:component this={template} {sections} {items} on:mount={onMountTemplate}/>
                 </div>
             </div>
         </div>
@@ -43,15 +50,6 @@
 </div>
 
 <style>
-    #menu-toggle {
-        display: none;
-    }
-
-    .exhibit-template-wrapper {
-        padding-left: 3.2em;
-        padding-right: 3.2em;
-    }
-
     #sidebar-container {
         display: block;
     }
@@ -72,6 +70,14 @@
         position: sticky;
         top: 7px;
         left: 7px;
+        background: white;
+    }
+
+    #menu-close {
+        color: #757575;
+        font-size: 1.7em;
+        padding: 0px;
+        margin-left: -8px;
     }
     
     /* Navigation_Side subcomponent width */
@@ -87,7 +93,7 @@
 
     @media (min-width: 768px) {
         #menu-toggle {
-            display: inline;
+            /* display: inline; */
             color: #757575;
             font-size: 1.7em;
         }

@@ -86,7 +86,7 @@
     });
 </script>
 
-<div class="container exhibit-template">
+<div class="exhibit-template">
     {#if exhibit}
         {#each exhibit as {type = "", text = "", subtext = "", id = null}, index} <!-- DEV default null; if/else below-->
 
@@ -94,23 +94,27 @@
             {#if type == "heading"} 
                 {#if id}
                     <div {id} class="section-heading">
-                        <div class="section-title">
-                            <h3>{text}</h3>
+                        <div class="container">
+                            <div class="section-title">
+                                <h3>{text}</h3>
+                            </div>
+                            <div class="section-subtitle">
+                                <h5>{subtext}</h5>
+                            </div>
+                            <hr>
                         </div>
-                        <div class="section-subtitle">
-                            <h5>{subtext}</h5>
-                        </div>
-                        <hr>
                     </div>
                 {:else}
                     <div class="section-heading">
-                        <div class="section-title">
-                            <h3>{text}</h3>
+                        <div class="container">
+                            <div class="section-title">
+                                <h3>{text}</h3>
+                            </div>
+                            <div class="section-subtitle">
+                                <h5>{subtext}</h5>
+                            </div>
+                            <hr>
                         </div>
-                        <div class="section-subtitle">
-                            <h5>{subtext}</h5>
-                        </div>
-                        <hr>
                     </div>
                 {/if}       
                 
@@ -141,6 +145,6 @@
 }
 
 :global(.caption) {
-    color: darkgrey;
+    color: inherit;
 }
 </style>

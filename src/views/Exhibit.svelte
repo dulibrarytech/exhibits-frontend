@@ -49,7 +49,7 @@
     }
 
    const setTheme = (styles) => {
-        let {template, sectionHeading} = styles;
+        let {template, section_heading} = styles;
 
         let templateElement = document.querySelector('.exhibit-template');
         for(let style in template) {
@@ -58,8 +58,8 @@
 
         let headingElements = document.querySelectorAll(".section-heading");
         for(let heading of headingElements) {
-            for(let style in sectionHeading) {
-                heading.style[style] = sectionHeading[style];
+            for(let style in section_heading) {
+                heading.style[style] = section_heading[style];
             }
         }
     }
@@ -81,5 +81,9 @@
 {/if}
 
 <style>
-
+/* :global(.hero-text),
+:global(.item),
+:global(.section-heading) {
+    padding: 50px;
+} */
 </style>
