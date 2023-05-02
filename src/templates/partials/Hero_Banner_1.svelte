@@ -76,6 +76,12 @@
         /* height: 100%; */
     }
 
+    .hero-text {
+        color: white;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
     .hero-image-text {
         text-align: center;
         position: absolute;
