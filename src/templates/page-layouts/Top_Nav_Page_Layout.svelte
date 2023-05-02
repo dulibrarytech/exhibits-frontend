@@ -45,4 +45,12 @@
         border-width: 1px;
         border-color: #c5c3c1;
     }
+
+    button.navbar-toggler {
+        margin: 0;
+    }
+
+    button.navbar-toggler:focus {
+        box-shadow: none;
+    }
 </style>
