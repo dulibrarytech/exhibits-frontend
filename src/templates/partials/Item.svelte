@@ -25,7 +25,7 @@
             if(style == "backgroundImage") {
                 let filename = styles.item[style];
                 itemElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
-                itemElement.style['backgroundSize'] = "contain";
+                //itemElement.style['backgroundSize'] = "contain";
             }
 
             else {
@@ -96,6 +96,7 @@
 
     .item-component {
         margin-bottom: 30px;
+        padding: 0;
     }
 
     :global(.caption) {
