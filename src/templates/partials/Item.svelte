@@ -44,7 +44,7 @@
         <div class="container">
             <div class="section row">
                 {#if layout == ITEM_POSITION.RIGHT}
-                    <div class="item-component col-md-6 col-sm-12">
+                    <div class="item-component col-md-6 col-sm-12 text-left">
                         <Text_Display {item} />
                     </div>
                     <div class="item-component col-md-6 col-sm-12">
@@ -54,7 +54,7 @@
                     <div class="item-component col-lg-6 col-md-12">
                         <Media_Display {item} />
                     </div>
-                    <div class="item-component col-lg-6 col-md-12">
+                    <div class="item-component col-lg-6 col-md-12 text-right">
                         <Text_Display {item} />
                     </div>
                 {:else if layout == ITEM_POSITION.TOP}
@@ -97,6 +97,14 @@
     .item-component {
         margin-bottom: 30px;
         padding: 0;
+    }
+
+    :global(.text-left .text-item) {
+        padding-right: 25px;
+    }
+
+    :global(.text-right .text-item) {
+        padding-left: 25px;
     }
 
     :global(.caption) {

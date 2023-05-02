@@ -3,6 +3,7 @@
      * Media_Item
      * Responsible for extracting data from the exhibit item and converting it to data for the presentation components
     */
+    import { onMount } from 'svelte';
     import { Resource } from '../libs/resource';
     
     import Image_Viewer from './Image_Viewer.svelte';
@@ -16,12 +17,15 @@
     export let item = {}; // data layer
     export let args = {};
 
+    let mediaElement;
+
     var resource = null;
     var filename = null;
     var mimeType;
     var caption;
     var type = null;
     var component = null;
+    var styles = null;
 
     /* args object for child components */
     var params = {};
@@ -33,6 +37,7 @@
         type = args.type || item.item_type || "undefined";
         mimeType = args.mimeType || item.mime_type || null;
         caption = args.caption || item.caption || null;
+        styles = item.styles?.item_media || null;
 
         if(URL_PATTERN.test(resource) == false) {
             filename = resource;
@@ -41,6 +46,12 @@
 
         if(!resource) console.error(`Missing path to resource. Item: ${item.uuid}`)
         else render();
+    }
+
+    const setTheme = () => {
+        for(let style in styles) {
+            mediaElement.style[style] = styles[style];  
+        }
     }
 
     const render = () => {
@@ -112,10 +123,14 @@
         params = {url, caption}; 
         component = Embed_Iframe_Viewer;
     }
+
+    onMount(async () => {
+        if(styles) setTheme();
+    });
 </script>
 
 {#if component}
-    <div class="media-item">
+    <div class="media-item" bind:this={mediaElement}>
         <svelte:component this={component} args={params} />
     </div>
 {:else}
