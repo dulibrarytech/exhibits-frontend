@@ -21,10 +21,28 @@
 <div class="exhibit-page">
     {#if template}
         <Hero {data} />
-        <Navigation_Top {sections} />
+
+        <nav class="exhibit-navigation navbar navbar-expand-lg navbar-light sticky-top" id="mainNav">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <Navigation_Top {sections} />
+                </div>
+            </div>
+        </nav>
         
         <svelte:component this={template} {sections} {items} />
     {:else}
         <h3>Loading template...</h3>
     {/if}
 </div>
+
+<style>
+    .navbar {
+        background: #e5e3e1;
+        min-height: 4.2em;
+        border-bottom-style: solid;
+        border-width: 1px;
+        border-color: #c5c3c1;
+    }
+</style>

@@ -29,7 +29,7 @@
         <div class="container-fluid">
             <div id="sidebar-container" class="row flex-nowrap">
                 <div class="col-auto">
-                    <div id="sidebar" class="collapse collapse-horizontal show border-end">
+                    <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end">
                         <Navigation_Side {sections} />
 
                         <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} ><i class="bi bi-chevron-left"></i></a>

@@ -50,7 +50,7 @@
     }
 
    const setTheme = (styles) => {
-        let {template, section_heading} = styles;
+        let {template, section_heading, navigation} = styles;
 
         let templateElement = document.querySelector('.exhibit-template');
         for(let style in template) {
@@ -58,7 +58,7 @@
                 let filename = template[style];
                 let pageElement = document.querySelector(".exhibit-page")
                 pageElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
-                pageElement.style['backgroundSize'] = "contain";
+                //pageElement.style['backgroundSize'] = "contain";
             }
 
             else {
@@ -70,6 +70,21 @@
         for(let heading of headingElements) {
             for(let style in section_heading) {
                 heading.style[style] = section_heading[style];
+            }
+        }
+
+        let navigationMenu = document.querySelector('.exhibit-navigation');
+        for(let style in navigation) {
+            if(style == "color") {
+                let navigationLinks = document.querySelectorAll('.exhibit-navigation ul li a');
+                console.log("TEST nav links", navigationLinks, "cur style:", navigation[style])
+                for(let link of navigationLinks) {
+                    console.log("TEST link", link)
+                    link.style.color = navigation[style];
+                }
+            }
+            else {
+                navigationMenu.style[style] = navigation[style];
             }
         }
     }

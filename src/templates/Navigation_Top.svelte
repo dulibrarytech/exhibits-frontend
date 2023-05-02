@@ -36,32 +36,17 @@
     $: init();
 </script>
 
-<nav class="navbar navbar-expand-lg navbar-light sticky-top" id="mainNav">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="nav navbar-nav ms-auto">
-                {#if sectionHeadings}
-                    {#each sectionHeadings as {id, text}}
-                        <li class="px-4" title={text}>
-                            <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
-                        </li>
-                    {/each}
-                {/if}
-            </ul>
-        </div>
-    </div>
-</nav>
+<ul class="nav navbar-nav ms-auto">
+    {#if sectionHeadings}
+        {#each sectionHeadings as {id, text}}
+            <li class="px-4" title={text}>
+                <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
+            </li>
+        {/each}
+    {/if}
+</ul>
 
 <style>
-    .navbar {
-        background: #e5e3e1;
-        min-height: 4.2em;
-        border-bottom-style: solid;
-        border-width: 1px;
-        border-color: #c5c3c1;
-    }
-
     .navbar-nav {
         width: 100%;
         margin-top: 5px;
