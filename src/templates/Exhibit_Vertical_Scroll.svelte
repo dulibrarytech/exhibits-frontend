@@ -137,12 +137,13 @@ hr {
 }
 
 .exhibit-template {
-	margin-top: 75px;
+	padding-top: 55px;
 }
 
 .section-heading {
     /* margin-bottom: 55px; */
     padding-top: 55px;
+    margin-bottom: 55px;
 }
 
 .section-heading h3 {

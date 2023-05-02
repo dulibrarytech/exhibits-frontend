@@ -2,6 +2,7 @@
     'use-strict'
 
     import { onMount } from 'svelte';
+    import { Resource } from '../libs/resource';
     import { Index } from '../libs/index.js';
     import { Templates, Page_Layouts } from '../config/templates.js';
 
@@ -53,7 +54,16 @@
 
         let templateElement = document.querySelector('.exhibit-template');
         for(let style in template) {
-            templateElement.style[style] = template[style];
+            if(style == "backgroundImage") {
+                let filename = template[style];
+                let pageElement = document.querySelector(".exhibit-page")
+                pageElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
+                pageElement.style['backgroundSize'] = "contain";
+            }
+
+            else {
+                templateElement.style[style] = template[style];  
+            }
         }
 
         let headingElements = document.querySelectorAll(".section-heading");

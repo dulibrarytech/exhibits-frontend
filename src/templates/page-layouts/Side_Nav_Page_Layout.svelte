@@ -36,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="col pt-2">
+                <div class="col">
                     <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay}" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
                     
                     <svelte:component this={template} {sections} {items} on:mount={onMountTemplate}/>

@@ -2,6 +2,7 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import { Resource } from '../../libs/resource';
     
     import Text_Display from '../../components/Text_Display.svelte';
     import Media_Display from '../../components/Media_Display.svelte';
@@ -20,13 +21,16 @@
 
     const setTheme = (styles) => {
         for(let style in styles.item) {
-            itemElement.style[style] = styles.item[style];  
-        }
 
-        /* TEMP: if this item is preceded by a header item, set the background of the header to match the item background */
-        if(itemElement.previousElementSibling.classList.contains('section-heading')) {
-            let heading = itemElement.previousElementSibling;
-            if(styles.item?.background) heading.style.background = styles.item.background;
+            if(style == "backgroundImage") {
+                let filename = styles.item[style];
+                itemElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
+                itemElement.style['backgroundSize'] = "contain";
+            }
+
+            else {
+                itemElement.style[style] = styles.item[style];  
+            }
         }
     }
 
