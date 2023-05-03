@@ -18,6 +18,7 @@
     var id = null;
     var thumbnail = null;
     var tnUrl = null;
+    var caption = null;
 
     var {
         thumbnailImageLocation,
@@ -32,9 +33,11 @@
 
     $: {
         if(!url) id = item.url || null;
+
         thumbnail = item.thumbnail || null;
         tnUrl = getThumbnailUrl();
         styles = item.styles || null;
+        caption = item.caption || null;
     }
 
     const setTheme = (styles) => {
@@ -119,6 +122,7 @@
 <div class="item-preview" bind:this={itemPreviewElement} >
     {#if tnUrl}
         <img src={tnUrl} />
+        {#if caption}<span class="caption">{caption}</span>{/if}
     {:else}
         <img src='/error' />
     {/if}
@@ -132,5 +136,9 @@
     .item-preview {
         margin-bottom: 1em;
         margin: 0 auto;
+    }
+
+    .caption {
+        margin-top: 10px;
     }
 </style>

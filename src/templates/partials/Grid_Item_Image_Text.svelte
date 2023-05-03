@@ -19,13 +19,11 @@
     var date = null;
     var title = null;
     var description = null;
-    var caption = null;
 
     $: {
         date = item.date || null;
         title = item.title || null;
         description = item.text || null;
-        caption = item.caption || null;
         layout = item.layout || Settings.gridItemDefaultLayout;
         styles = item.styles || null;
     }
@@ -46,7 +44,7 @@
 <div class="grid-item" bind:this={gridItemElement} >
     <a href="#"> <!-- TODO link to url, if repo item -> disc layer, else is user setting? -->
         {#if date}
-            <div class="date-heading">
+            <div class="date-heading exhibit-heading">
                 <div class="item-date">{date}</div>
                 <hr>
                 <br>
@@ -56,7 +54,6 @@
         {#if layout == ITEM_POSITION.RIGHT}
             <div class="float-right">
                 <Item_Preview {item} />
-                <div class="caption">{caption}</div>
             </div> 
             <div class="float-left">
                 <div class="title">{title}</div>
@@ -70,14 +67,12 @@
             </div>
             <div class="float-left">
                 <Item_Preview {item} />
-                <div class="caption">{caption}</div>
             </div>
 
         {:else if layout == ITEM_POSITION.TOP}
-            <div class="title">{title}</div>
+            <div class="title bottom-margin">{title}</div>
             <Item_Preview {item} />
-            <div class="caption">{caption}</div>
-            <div class="description"><p>{description}</p></div>
+            <div class="description top-margin"><p>{description}</p></div>
 
         {:else if layout == ITEM_POSITION.BOTTOM}
             <div class="title">{title}</div>
@@ -90,7 +85,6 @@
 
         {:else if layout == ITEM_POSITION.ITEM_ONLY}
             <Item_Preview {item} />
-            <div class="caption">{caption}</div>
         {/if}
     </a>
 </div>
@@ -104,6 +98,14 @@
         text-decoration: none;
     }
 
+    .top-margin {
+        margin-top: 40px;
+    }
+
+    .bottom-margin {
+        margin-bottom: 20px;
+    }
+
     .grid-item {
         padding: 15px;
     }
@@ -112,11 +114,18 @@
         font-weight: bold;
     }
 
+    .date-heading {
+        font-size: 1.2em;
+    }
+
+    .description {
+        text-align: left;
+    }
+
     .float-left {float: left}
     .float-right {float: right}
 
     .title {
         font-weight: bold;
-        margin-bottom: 1em;
     }
 </style>
