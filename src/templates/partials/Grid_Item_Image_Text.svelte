@@ -1,6 +1,7 @@
 <script>
     'use strict'
 
+    import { onMount } from 'svelte';
     import { Settings } from '../../config/settings';
     import Item_Preview from '../../templates/partials/Item_Preview.svelte';
 
@@ -11,25 +12,52 @@
     export let link = null; // linkto
     export let onclick = null; // f()
 
+    let gridItemElement = null;
+    let styles = null;
+
     var layout = null;
     var date = null;
     var title = null;
     var description = null;
+    var caption = null;
 
     $: {
         date = item.date || null;
         title = item.title || null;
-        description = item.description || item.caption || item.text || null;
+        description = item.text || null;
+        caption = item.caption || null;
         layout = item.layout || Settings.gridItemDefaultLayout;
+        styles = item.styles || null;
     }
+
+    const setTheme = (styles) => {
+        let {item_text = {}} = styles;
+
+        for(let style in item_text) {
+            gridItemElement.style[style] = item_text[style];
+        }
+    }
+
+    onMount(async (test) => {
+        setTheme(styles || {}); 
+    });
 </script>
 
-<div class="grid-item">
+<div class="grid-item" bind:this={gridItemElement} >
     <a href="#"> <!-- TODO link to url, if repo item -> disc layer, else is user setting? -->
+        {#if date}
+            <div class="date-heading">
+                <div class="item-date">{date}</div>
+                <hr>
+                <br>
+            </div> 
+        {/if}
+
         {#if layout == ITEM_POSITION.RIGHT}
             <div class="float-right">
                 <Item_Preview {item} />
-            </div>
+                <div class="caption">{caption}</div>
+            </div> 
             <div class="float-left">
                 <div class="title">{title}</div>
                 <div class="description">{description}</div>
@@ -42,11 +70,13 @@
             </div>
             <div class="float-left">
                 <Item_Preview {item} />
+                <div class="caption">{caption}</div>
             </div>
 
         {:else if layout == ITEM_POSITION.TOP}
             <div class="title">{title}</div>
             <Item_Preview {item} />
+            <div class="caption">{caption}</div>
             <div class="description"><p>{description}</p></div>
 
         {:else if layout == ITEM_POSITION.BOTTOM}
@@ -60,6 +90,7 @@
 
         {:else if layout == ITEM_POSITION.ITEM_ONLY}
             <Item_Preview {item} />
+            <div class="caption">{caption}</div>
         {/if}
     </a>
 </div>
@@ -71,6 +102,14 @@
 
     a:hover {
         text-decoration: none;
+    }
+
+    .grid-item {
+        padding: 15px;
+    }
+
+    .item-date {
+        font-weight: bold;
     }
 
     .float-left {float: left}

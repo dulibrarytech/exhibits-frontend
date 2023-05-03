@@ -138,5 +138,7 @@
 {/if}
 
 <style>
-    
+    .media-item {
+        margin: 0 auto;
+    }
 </style>

@@ -32,3 +32,9 @@
 <div class="text-item" bind:this={textElement} >
     <Text_Content content={text} />
 </div>
+
+<style>
+    .text-item {
+        text-align: left;
+    }
+</style>

@@ -42,7 +42,7 @@
             let item = items[index];
             let {uuid, template = ROW, columns = 4} = item;
 
-            if(template == ROW) { // TODO add constant
+            if(template == ROW) {
                 /* end case - terminated consecutive grid items. push the grid items to the template */
                 if(gridItems.length > 0) {
                     appendGrid(sorted, gridItems, columns);
@@ -93,7 +93,7 @@
             <!-- exhibit section heading TODO: simplify this code -->
             {#if type == "heading"} 
                 {#if id}
-                    <div {id} class="section-heading">
+                    <div {id} class="section-heading exhibit-heading">
                         <div class="container">
                             <div class="section-title">
                                 <h3>{text}</h3>
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                 {:else}
-                    <div class="section-heading">
+                    <div class="section-heading exhibit-heading">
                         <div class="container">
                             <div class="section-title">
                                 <h3>{text}</h3>
@@ -143,7 +143,7 @@ hr {
 .section-heading {
     /* margin-bottom: 55px; */
     padding-top: 55px;
-    margin-bottom: 55px;
+    padding-bottom: 55px;
 }
 
 .section-heading h3 {

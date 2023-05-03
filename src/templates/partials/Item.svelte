@@ -1,4 +1,5 @@
 <script>
+    // TODO move to components folder this is not a template
     'use strict'
 
     import { onMount } from 'svelte';
@@ -22,10 +23,17 @@
     const setTheme = (styles) => {
         for(let style in styles.item) {
 
+            if(style == "background") {
+                let previousItem = itemElement.previousElementSibling;
+                if(previousItem.classList.contains('section-heading')) {
+                    previousItem.style.background = styles.item[style];
+                }
+            }
+
             if(style == "backgroundImage") {
                 let filename = styles.item[style];
                 itemElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
-                //itemElement.style['backgroundSize'] = "contain";
+                //itemElement.style['backgroundSize'] = "contain"; <-- default?
             }
 
             else {

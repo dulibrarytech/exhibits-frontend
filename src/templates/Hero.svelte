@@ -7,24 +7,25 @@
 
     export let data = null;
 
+    let args = {};
+
     const DEFAULT_BANNER = Settings.defaultBannerTemplate;
 
     let banner = null;
     let theme = {};
-    let args = {};
+    let image = null;
+    let disclaimer = null;
 
     $: {
         if(data) {
-            let { hero_image = "", styles = null } = data;
-            let image = null;
+            let { hero_image = null, styles = null } = data;
 
             banner = $Banners[data.banner || DEFAULT_BANNER];
             if(!banner) console.error("Could not create hero section: no banner selection specified for exhibit");
 
-            if(/^.+\.(jpg|jpeg|png)$/g.test(hero_image) == true) {
-                image = Resource.getUrl(hero_image);
-            }
-            else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
+            disclaimer = data.disclaimer || null;
+
+            if(hero_image) setImage(hero_image);
 
             if(styles?.hero) theme = styles.hero;
 
@@ -35,6 +36,13 @@
                 description: data.description || null
             }
         }
+    }
+
+    const setImage = (filename) => {
+        if(/^.+\.(jpg|jpeg|png)$/g.test(filename) == true) {
+            image = Resource.getUrl(filename);
+        }
+        else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
     }
 
     const setTheme = () => {
@@ -58,9 +66,20 @@
     {#if banner}
         <svelte:component this={banner} {args} on:mount={setTheme} />
     {/if}
+
+    {#if disclaimer }
+        <div class="user-disclaimer">
+            {@html disclaimer}
+        </div>
+    {/if}
 </header>
 
 <style>
+    .user-disclaimer {
+        min-height: 4.2em;
+        padding: 1.3em 1.6em;
+    }
+
     :global(.banner > img) {
         width: 100%;
         height: 100%;

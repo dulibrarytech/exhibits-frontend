@@ -1,6 +1,7 @@
 <script>
     'use strict' 
     
+    import { onMount } from 'svelte';
     import { Configuration } from '../../config/config';
     import { Settings } from '../../config/settings';
     import { Repository } from '../../libs/repository';
@@ -10,6 +11,9 @@
 
     export let item;
     export let url = null;
+
+    let itemPreviewElement;
+    let styles = null;
 
     var id = null;
     var thumbnail = null;
@@ -30,6 +34,15 @@
         if(!url) id = item.url || null;
         thumbnail = item.thumbnail || null;
         tnUrl = getThumbnailUrl();
+        styles = item.styles || null;
+    }
+
+    const setTheme = (styles) => {
+        let {item_media = {}} = styles;
+
+        for(let style in item_media) {
+            itemPreviewElement.style[style] = item_media[style];
+        }
     }
 
     const getRepositoryItemTNUrl = () => {
@@ -97,9 +110,13 @@
 
         return url;
     } 
+
+    onMount(async () => {
+        if(styles) setTheme(styles); 
+    });
 </script>
 
-<div class="item-preview">
+<div class="item-preview" bind:this={itemPreviewElement} >
     {#if tnUrl}
         <img src={tnUrl} />
     {:else}
@@ -114,5 +131,6 @@
 
     .item-preview {
         margin-bottom: 1em;
+        margin: 0 auto;
     }
 </style>

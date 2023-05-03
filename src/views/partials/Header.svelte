@@ -1,6 +1,6 @@
 <div class="du-header w-100 header-logo-wrapper">
     <div class="header-logo">
-        <a href="https://library.du.edu" title="University Libraries" target="_blank"><img src="../assets/images/du-logo2.gif" alt="University of Denver Logo" /></a>
+        <a href="https://library.du.edu" title="University Libraries" target="_blank"><img src="../assets/images/logo3.gif" alt="University of Denver Logo" /></a>
     </div>
 </div>
 

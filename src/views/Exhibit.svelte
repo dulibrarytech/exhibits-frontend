@@ -26,6 +26,9 @@
             pageLayout = $Page_Layouts[data.page_layout] || null; // TODO get default from settings
             template = $Templates[data.template] || null;  // TODO get default from settings
 
+            if(!pageLayout) {
+                console.error(`Could not find a layout for ${data.page_layout}`);
+            }
             if(!template) {
                 console.error(`Could not find a template for ${data.template}`);
             }
@@ -50,7 +53,7 @@
     }
 
    const setTheme = (styles) => {
-        let {template, section_heading, navigation} = styles;
+        let {template, heading, navigation} = styles;
 
         let templateElement = document.querySelector('.exhibit-template');
         for(let style in template) {
@@ -58,7 +61,7 @@
                 let filename = template[style];
                 let pageElement = document.querySelector(".exhibit-page")
                 pageElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
-                //pageElement.style['backgroundSize'] = "contain";
+                //pageElement.style['backgroundSize'] = "contain"; // <-- default?
             }
 
             else {
@@ -66,10 +69,10 @@
             }
         }
 
-        let headingElements = document.querySelectorAll(".section-heading");
-        for(let heading of headingElements) {
-            for(let style in section_heading) {
-                heading.style[style] = section_heading[style];
+        let headingElements = document.querySelectorAll(".exhibit-heading");
+        for(let element of headingElements) {
+            for(let style in heading) {
+                element.style[style] = heading[style];
             }
         }
 
@@ -77,9 +80,7 @@
         for(let style in navigation) {
             if(style == "color") {
                 let navigationLinks = document.querySelectorAll('.exhibit-navigation ul li a');
-                console.log("TEST nav links", navigationLinks, "cur style:", navigation[style])
                 for(let link of navigationLinks) {
-                    console.log("TEST link", link)
                     link.style.color = navigation[style];
                 }
             }
@@ -102,13 +103,9 @@
 {#if pageLayout}
     <svelte:component this={pageLayout} {data} {template} {sections} {items} on:mount={onMountPage}/>
 {:else}
-    <h3>Loading page...</h3>
+    <h3>Loading exhibit...</h3>
 {/if}
 
 <style>
-/* :global(.hero-text),
-:global(.item),
-:global(.section-heading) {
-    padding: 50px;
-} */
+
 </style>
