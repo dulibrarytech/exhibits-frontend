@@ -68,14 +68,14 @@
     {/if}
 
     {#if disclaimer }
-        <div class="user-disclaimer">
+        <div class="disclaimer">
             {@html disclaimer}
         </div>
     {/if}
 </header>
 
 <style>
-    .user-disclaimer {
+    .disclaimer {
         min-height: 4.2em;
         padding: 1.3em 1.6em;
     }

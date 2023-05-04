@@ -39,7 +39,7 @@
 <ul class="nav navbar-nav ms-auto">
     {#if sectionHeadings}
         {#each sectionHeadings as {id, text}}
-            <li class="px-4" title={text}>
+            <li class="px-1" title={text}>
                 <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
             </li>
         {/each}
@@ -54,11 +54,17 @@
 
     .navbar-nav a {
         color: #383838;
+        padding: 3px;
     }
 
     .navbar-nav li {
         padding-left: 0rem !important;
         margin-bottom: 5px;
+    }
+
+    .navbar-nav li:not(:last-child)::after {
+        content: '|';
+        font-weight: bold;
     }
 
     .navbar-nav a {

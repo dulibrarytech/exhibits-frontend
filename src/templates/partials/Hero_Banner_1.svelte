@@ -37,7 +37,7 @@
         <section class="hero-text">
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
-                    <div class="col-lg-8">
+                    <div class="col-lg-10">
                         <p>{@html description}</p>
                     </div>
                 </div>
@@ -92,40 +92,40 @@
     }
 
     #title {
-        font-size: 2.2em;
+        font-size: 4.2em;
     }
 
     #subtitle {
-        font-size: 0.8em;
+        font-size: 2.8em;
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 576px) {
         #title {
-            font-size: 4.2em;
+            font-size: 5.7em;
         }
 
         #subtitle {
-            font-size: 1.8em;
+            font-size: 1.85em;
         }
     }
 
     @media (min-width: 768px) {
         #title {
-            font-size: 3.2em;
+            font-size: 6.2em;
         }
 
         #subtitle {
-            font-size: 1.3em;
+            font-size: 2.35em;
         }
     }
 
-    @media (min-width: 576px) {
+    @media (min-width: 992px) {
         #title {
-            font-size: 2.7em;
+            font-size: 7.2em;
         }
 
         #subtitle {
-            font-size: 1em;
+            font-size: 2.75em;
         }
     }
 </style>

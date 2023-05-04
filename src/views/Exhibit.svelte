@@ -53,7 +53,7 @@
     }
 
    const setTheme = (styles) => {
-        let {template, heading, navigation} = styles;
+        let {template={}, heading={}, navigation={}, navigation_link={}, disclaimer={}} = styles;
 
         let templateElement = document.querySelector('.exhibit-template');
         for(let style in template) {
@@ -76,16 +76,28 @@
             }
         }
 
+        //////////////////////////////////////////////////////////////////////////////////
+        // move to page layout or nav component. whatever has access to item data
+        //////////////////////////////////////////////////////////////////////////////////
         let navigationMenu = document.querySelector('.exhibit-navigation');
         for(let style in navigation) {
-            if(style == "color") {
-                let navigationLinks = document.querySelectorAll('.exhibit-navigation ul li a');
-                for(let link of navigationLinks) {
-                    link.style.color = navigation[style];
-                }
+            navigationMenu.style[style] = navigation[style];
+        }
+
+        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation ul li a');
+        for(let link of navigationMenuLinks) {
+            for(let style in navigation_link) {
+                link.style[style] = navigation_link[style];
             }
-            else {
-                navigationMenu.style[style] = navigation[style];
+        }
+        //////////////////////////////////////////////////////////////////////////////////
+        // end move to page layout or nav component. whatever has access to item data
+        //////////////////////////////////////////////////////////////////////////////////
+
+        let disclaimerElement = document.querySelector(".disclaimer");
+        if(disclaimerElement) {
+            for(let style in disclaimer) {
+                disclaimerElement.style[style] = disclaimer[style];
             }
         }
     }
