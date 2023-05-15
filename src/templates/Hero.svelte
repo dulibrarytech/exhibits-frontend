@@ -2,7 +2,8 @@
     'use strict'
 
     import { Settings } from '../config/settings';
-    import { Banners } from '../config/templates';
+    // import { Banners } from '../config/templates';
+    import { Banners } from '../templates/config/hero-banner';
     import { Resource } from '../libs/resource';
 
     export let data = null;

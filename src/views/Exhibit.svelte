@@ -4,7 +4,9 @@
     import { onMount } from 'svelte';
     import { Resource } from '../libs/resource';
     import { Index } from '../libs/index.js';
-    import { Templates, Page_Layouts } from '../config/templates.js';
+    // import { Templates, Page_Layouts } from '../config/templates.js';
+    import { Templates } from '../templates/config/exhibit.js';
+    import { Page_Layouts } from '../templates/config/page-layout.js';
 
     export let currentRoute;
 
