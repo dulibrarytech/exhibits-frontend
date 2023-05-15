@@ -14,7 +14,7 @@
     let banner = null;
     let theme = {};
     let image = null;
-    let disclaimer = null;
+    let alert = null;
 
     $: {
         if(data) {
@@ -23,7 +23,7 @@
             banner = $Banners[data.banner || DEFAULT_BANNER];
             if(!banner) console.error("Could not create hero section: no banner selection specified for exhibit");
 
-            disclaimer = data.disclaimer || null;
+            alert = data.alert || null;
 
             if(hero_image) setImage(hero_image);
 
@@ -46,7 +46,7 @@
     }
 
     const setTheme = () => {
-        let {image, text} = theme;
+        let {image, text, alert} = theme;
         
         document.querySelectorAll('.hero-image').forEach((element) => {
             for(let style in image) {
@@ -59,6 +59,13 @@
                 element.style[style] = text[style];
             }
         });
+
+        let alertElement = document.querySelector(".alert");
+        if(alertElement) {
+            for(let style in alert) {
+                alertElement.style[style] = alert[style];
+            }
+        }
     }
 </script>
 
@@ -67,17 +74,18 @@
         <svelte:component this={banner} {args} on:mount={setTheme} />
     {/if}
 
-    {#if disclaimer }
-        <div class="disclaimer">
-            {@html disclaimer}
+    {#if alert }
+        <div class="alert">
+            {@html alert}
         </div>
     {/if}
 </header>
 
 <style>
-    .disclaimer {
+    .alert {
         min-height: 4.2em;
         padding: 1.3em 1.6em;
+        margin-bottom: 0;
     }
 
     :global(.banner > img) {

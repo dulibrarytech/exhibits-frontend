@@ -53,7 +53,26 @@
     }
 
    const setTheme = (styles) => {
-        let {template={}, heading={}, navigation={}, navigation_link={}, disclaimer={}} = styles;
+        let {heading={}, navigation={}, template={}} = styles;
+
+        let headingElements = document.querySelectorAll(".exhibit-heading");
+        for(let element of headingElements) {
+            for(let style in heading) {
+                element.style[style] = heading[style];
+            }
+        }
+
+        let navigationMenu = document.querySelector('.exhibit-navigation');
+        for(let style in navigation.menu) {
+            navigationMenu.style[style] = navigation.menu[style];
+        }
+
+        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation ul li a');
+        for(let link of navigationMenuLinks) {
+            for(let style in navigation.links) {
+                link.style[style] = navigation.links[style];
+            }
+        }
 
         let templateElement = document.querySelector('.exhibit-template');
         for(let style in template) {
@@ -66,38 +85,6 @@
 
             else {
                 templateElement.style[style] = template[style];  
-            }
-        }
-
-        let headingElements = document.querySelectorAll(".exhibit-heading");
-        for(let element of headingElements) {
-            for(let style in heading) {
-                element.style[style] = heading[style];
-            }
-        }
-
-        //////////////////////////////////////////////////////////////////////////////////
-        // move to page layout or nav component. whatever has access to item data
-        //////////////////////////////////////////////////////////////////////////////////
-        let navigationMenu = document.querySelector('.exhibit-navigation');
-        for(let style in navigation) {
-            navigationMenu.style[style] = navigation[style];
-        }
-
-        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation ul li a');
-        for(let link of navigationMenuLinks) {
-            for(let style in navigation_link) {
-                link.style[style] = navigation_link[style];
-            }
-        }
-        //////////////////////////////////////////////////////////////////////////////////
-        // end move to page layout or nav component. whatever has access to item data
-        //////////////////////////////////////////////////////////////////////////////////
-
-        let disclaimerElement = document.querySelector(".disclaimer");
-        if(disclaimerElement) {
-            for(let style in disclaimer) {
-                disclaimerElement.style[style] = disclaimer[style];
             }
         }
     }

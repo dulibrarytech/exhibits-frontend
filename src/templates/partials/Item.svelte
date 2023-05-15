@@ -23,12 +23,13 @@
     const setTheme = (styles) => {
         for(let style in styles.item) {
 
-            if(style == "background") {
-                let previousItem = itemElement.previousElementSibling;
-                if(previousItem.classList.contains('section-heading')) {
-                    previousItem.style.background = styles.item[style];
-                }
-            }
+            // if the item is preceded by a heading, set the background of the heading to match the item (confirm)
+            // if(style == "background") {
+            //     let previousItem = itemElement.previousElementSibling;
+            //     if(previousItem.classList.contains('section-heading')) {
+            //         previousItem.style.background = styles.item[style];
+            //     }
+            // }
 
             if(style == "backgroundImage") {
                 let filename = styles.item[style];
