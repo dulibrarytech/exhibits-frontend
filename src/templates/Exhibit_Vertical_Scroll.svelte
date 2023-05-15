@@ -3,7 +3,7 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     
-    import Item from './partials/Item.svelte';
+    import Item from '../components/Item.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
 
     export let items;

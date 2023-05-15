@@ -3,12 +3,12 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import { Resource } from '../../libs/resource';
+    import { Resource } from '../libs/resource';
     
-    import Text_Display from '../../components/Text_Display.svelte';
-    import Media_Display from '../../components/Media_Display.svelte';
+    import Text_Display from './Text_Display.svelte';
+    import Media_Display from './Media_Display.svelte';
 
-    import { ITEM_POSITION } from '../../config/global-constants';
+    import { ITEM_POSITION } from '../config/global-constants';
 
     export let item = {};
 
