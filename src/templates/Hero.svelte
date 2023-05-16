@@ -2,48 +2,53 @@
     'use strict'
 
     import { Settings } from '../config/settings';
-    // import { Banners } from '../config/templates';
     import { Banners } from '../templates/config/hero-banner';
     import { Resource } from '../libs/resource';
 
     export let data = null;
 
-    let args = {};
+    let bannerData = {};
 
     const DEFAULT_BANNER = Settings.defaultBannerTemplate;
 
-    let banner = null;
     let theme = {};
+    let banner = null;
     let image = null;
     let alert = null;
 
-    $: {
-        if(data) {
-            let { hero_image = null, styles = null } = data;
+    $: if(data) init();
 
-            banner = $Banners[data.banner || DEFAULT_BANNER];
-            if(!banner) console.error("Could not create hero section: no banner selection specified for exhibit");
+    const init = () => {
+        let { 
+            styles = null, 
+            banner_template = null, 
+            hero_image = null, 
+            alert_text = null
+            
+        } = data;
+        
+        if(styles?.hero) theme = styles.hero;
+        banner = $Banners[banner_template || DEFAULT_BANNER];
+        if(hero_image) image = getImagePath(hero_image);
+        if(alert_text) alert = alert_text;
 
-            alert = data.alert || null;
-
-            if(hero_image) setImage(hero_image);
-
-            if(styles?.hero) theme = styles.hero;
-
-            args = {
-                image,
-                title: data.title || "",
-                subtitle: data.subtitle || null,
-                description: data.description || null
-            }
+        bannerData = {
+            image,
+            title: data.title || "",
+            subtitle: data.subtitle || null,
+            description: data.description || null
         }
     }
 
-    const setImage = (filename) => {
+    const getImagePath = (filename) => {
+        let path = "";
+
         if(/^.+\.(jpg|jpeg|png)$/g.test(filename) == true) {
-            image = Resource.getUrl(filename);
+            path = Resource.getUrl(filename);
         }
         else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
+
+        return path;
     }
 
     const setTheme = () => {
@@ -72,7 +77,7 @@
 
 <header class="hero-section">
     {#if banner}
-        <svelte:component this={banner} {args} on:mount={setTheme} />
+        <svelte:component this={banner} args={bannerData} on:mount={setTheme} />
     {/if}
 
     {#if alert }
