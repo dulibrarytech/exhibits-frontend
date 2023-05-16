@@ -3,7 +3,7 @@ import { writable } from 'svelte/store';
 /**********************************************
  * import exhibit templates
  **********************************************/
-import Exhibit_Vertical_Scroll from '../Exhibit_Vertical_Scroll.svelte'; 
+import Exhibit_Vertical_Scroll from '../Exhibit__Vertical_Scroll.svelte'; 
 
 /**********************************************
  * {component id} : {component}

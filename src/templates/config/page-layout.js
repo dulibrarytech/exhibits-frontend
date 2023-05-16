@@ -3,13 +3,13 @@ import { writable } from 'svelte/store';
 /**********************************************
  * exhibit page layout template components
  **********************************************/
-import Top_Nav_Page_Layout from '../page-layouts/Top_Nav_Page_Layout.svelte';
-import Side_Nav_Page_Layout from '../page-layouts/Side_Nav_Page_Layout.svelte';
+import Page_Layout__Top_Nav from '../Page_Layout__Top_Nav.svelte';
+import Page_Layout__Side_Nav from '../Page_Layout__Side_Nav.svelte';
 
 /**********************************************
  * {component id} : {component}
  **********************************************/
 export const Page_Layouts = writable({
-    "top_nav": Top_Nav_Page_Layout,
-    "side_nav": Side_Nav_Page_Layout
+    "top_nav": Page_Layout__Top_Nav,
+    "side_nav": Page_Layout__Side_Nav
 })
