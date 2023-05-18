@@ -2,15 +2,12 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import { Settings } from '../../config/settings';
-    import Item_Preview from '../../templates/partials/Item_Preview.svelte';
+    import { Settings } from '../../../../config/settings';
+    import Item_Preview from '../../../../components/Item_Preview.svelte';
 
-    import {ITEM_POSITION} from '../../config/global-constants';
+    import {ITEM_POSITION} from '../../../../config/global-constants';
 
     export let item;
-    export let url = null; // overrides item 'url' field
-    export let link = null; // linkto
-    export let onclick = null; // f()
 
     let gridItemElement = null;
     let styles = null;

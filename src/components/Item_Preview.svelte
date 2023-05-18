@@ -2,12 +2,12 @@
     'use strict' 
     
     import { onMount } from 'svelte';
-    import { Configuration } from '../../config/config';
-    import { Settings } from '../../config/settings';
-    import { Repository } from '../../libs/repository';
-    import { Kaltura } from '../../libs/kaltura';
+    import { Configuration } from '../config/config';
+    import { Settings } from '../config/settings';
+    import { Repository } from '../libs/repository';
+    import { Kaltura } from '../libs/kaltura';
 
-    import {ITEM_TYPE} from '../../config/global-constants';
+    import {ITEM_TYPE} from '../config/global-constants';
 
     export let item;
     export let url = null;

@@ -3,8 +3,8 @@ import { writable } from 'svelte/store';
 /************************************************
  * hero banner components
  ************************************************/
-import Hero_Banner_1 from '../partials/Hero_Banner_1.svelte';
-import Hero_Banner_2 from '../partials/Hero_Banner_2.svelte';
+import Hero_Banner_1 from '../exhibit/hero/partial/Hero_Banner_1.svelte';
+import Hero_Banner_2 from '../exhibit/hero/partial/Hero_Banner_2.svelte';
 
 /**********************************************
  * {component id} : {component}
