@@ -60,5 +60,7 @@ export const Settings = {
      * TODO add options to readme
      */
     gridItemDefaultLayout: "item_top",
-    defaultBannerTemplate: "banner_1"
+    defaultBannerTemplate: "banner_1",
+
+    default_home_hero_image: null
 }

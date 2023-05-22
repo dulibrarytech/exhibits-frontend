@@ -18,18 +18,17 @@
     const dispatch = createEventDispatcher();
 
     onMount(async () => {
-        dispatch('mount', {});
-        
         document.querySelector('.hero-image').style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${image}")`;
+        dispatch('mount', {});
     });
 </script>
 
 <div class="banner">
     <section class="hero-image">
         <div class="hero-image-text">
-            <div id="title" class="overlay-text text">{title}</div>
+            <div class="overlay-text text title">{title}</div>
             <hr>
-            {#if subtitle}<div id="subtitle" class="overlay-text text">{subtitle}</div>{/if}
+            {#if subtitle}<div class="overlay-text text subtitle">{subtitle}</div>{/if}
         </div>
     </section>
     
@@ -57,7 +56,6 @@
 
     .banner {
         position: relative;
-        /* min-height: 50%; */
         height: 50%
     }
 
@@ -73,7 +71,6 @@
         background-size: cover;
         position: relative;
         min-height: 700px;
-        /* height: 100%; */
     }
 
     .hero-text {
@@ -91,40 +88,40 @@
         color: white;
     }
 
-    #title {
+    .title {
         font-size: 4.2em;
     }
 
-    #subtitle {
+    .subtitle {
         font-size: 2.8em;
     }
 
     @media (min-width: 576px) {
-        #title {
+        .title {
             font-size: 5.7em;
         }
 
-        #subtitle {
+        .subtitle {
             font-size: 1.85em;
         }
     }
 
     @media (min-width: 768px) {
-        #title {
+        .title {
             font-size: 6.2em;
         }
 
-        #subtitle {
+        .subtitle {
             font-size: 2.35em;
         }
     }
 
     @media (min-width: 992px) {
-        #title {
+        .title {
             font-size: 7.2em;
         }
 
-        #subtitle {
+        .subtitle {
             font-size: 2.75em;
         }
     }

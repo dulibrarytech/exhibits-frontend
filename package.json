@@ -29,6 +29,7 @@
     "openseadragon": "^3.1.0",
     "path": "^0.12.7",
     "sirv-cli": "^1.0.0",
+    "svelte-carousel": "^1.0.25",
     "svelte-router-spa": "^6.0.3"
   },
   "scripts": {

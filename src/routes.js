@@ -1,4 +1,4 @@
-import Exhibits from './views/Exhibits.svelte';
+import Home from './views/Home.svelte';
 import Exhibit from './views/Exhibit.svelte';
 import Test_Component from './test/Test_Component.svelte';
 import Test_View from './test/Test_View.svelte';
@@ -8,12 +8,12 @@ const routes = [
     /**********************
      * root
      **********************/
-    {name: '/', component: Exhibits}, // TODO add redirect to /exhibits
+    {name: '/', component: Home}, // TODO add redirect to /exhibits
 
     /**********************
      * exhibit
      **********************/
-    {name: '/exhibit', component: Exhibits},
+    {name: '/exhibit', component: Home},
     {name: '/exhibit/:id', component: Exhibit},
 
     /**********************

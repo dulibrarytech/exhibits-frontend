@@ -42,12 +42,10 @@
 
     const getImagePath = (filename) => {
         let path = "";
-
         if(/^.+\.(jpg|jpeg|png)$/g.test(filename) == true) {
             path = Resource.getUrl(filename);
         }
         else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
-
         return path;
     }
 
