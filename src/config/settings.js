@@ -57,10 +57,14 @@ export const Settings = {
 
     /*
      * Template properties 
-     * TODO add options to readme
      */
     gridItemDefaultLayout: "item_top",
     defaultBannerTemplate: "banner_1",
 
-    default_home_hero_image: null
+    /*
+     * Homepage settings
+     */
+    defaultHeroImage: null,
+    heroSliderAutoplayEnabled: false,
+    heroSliderAutoplayDuration: 5000
 }

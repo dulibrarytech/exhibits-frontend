@@ -10,18 +10,22 @@
 
     export let items = [];
 
-    const DEFAULT_HERO_IMAGE = Settings.default_home_hero_image || null;
+    const DEFAULT_HERO_IMAGE = Settings.defaultHeroImage || null;
     const DEFAULT_BANNER = Settings.defaultBannerTemplate;
+
+    let autoplay = Settings.heroSliderAutoplayEnabled || false;
+    let autoplayDuration = Settings.heroSliderAutoplayDuration || "3000";
 
     let carousel; // for calling methods of the carousel instance
     let featured = [];
 
     const init = () => {
+        let id, image, banner, styles;
+
         let filtered = items.filter((item) => {
             return item.is_featured || false;
         });
 
-        let id, image, banner, styles;
         for(let item of filtered) {
             let {
                 title=null, 
@@ -40,6 +44,7 @@
         }
     }
 
+    /* Returns relative path to the file in the resource library */
     const getImagePath = (filename) => {
         let path = "";
         if(/^.+\.(jpg|jpeg|png)$/g.test(filename) == true) {
@@ -49,10 +54,7 @@
         return path;
     }
 
-    const handleNextClick = () => {
-        carousel.goToNext()
-    }
-
+    /* Apply exhibit hero theme to each exhibit banner in the featured exhibit slider */
     const setSliderImageTheme = () => {
         let imageElement, textElement; // banner elements
 
@@ -60,16 +62,19 @@
             let {image={}, text={}} = featured[index].styles;
 
             imageElement = document.querySelector(`[data-index='${index}'] .banner .hero-image`);
-            for(let style in image) {
-                imageElement.style[style] = image[style];
+            if(imageElement) {
+                for(let style in image) {
+                    imageElement.style[style] = image[style];
+                }
             }
 
             textElement  = document.querySelector(`[data-index='${index}'] .banner .hero-text`);
-            for(let style in text) {
-                textElement.style[style] = text[style];
+            if(textElement) {
+                for(let style in text) {
+                    textElement.style[style] = text[style];
+                }
             }
         }
-
     }
 
     $: init();
@@ -79,10 +84,10 @@
     });
 </script>
 
-<div class="hero "> <!-- TODO: bootstrap grid rows -->
+<div class="hero">
     {#if featured.length > 0}
 
-        <Carousel bind:this={carousel} autoplay="true" autoplayDuration="5000">
+        <Carousel bind:this={carousel} {autoplay} {autoplayDuration}>
             {#each featured as item, index} 
                 <div class="slider-item" data-index="{index}">
                     <a href="/exhibit/{item.id}"><svelte:component this={item.banner} args={item} height="400px" /></a>
