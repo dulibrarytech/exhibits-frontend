@@ -1,7 +1,3 @@
-<!-- <svelte:head>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-</svelte:head> -->
-
 <script>
     'use strict'
 
@@ -25,22 +21,22 @@
             return item.is_featured || false;
         });
 
-        let image, banner, styles;
+        let id, image, banner, styles;
         for(let item of filtered) {
             let {
                 title=null, 
                 subtitle=null, 
                 hero_image=null, 
-                description=null, // need in exhibits hero slider?
-                banner_template = null
+                banner_template=null
 
             } = item;
 
+            id = item.uuid;
             image = hero_image ? getImagePath(hero_image) : null;
             banner = $Banners[banner_template || DEFAULT_BANNER];
             styles = item.styles.hero || null;
 
-            featured.push({title, subtitle, image, banner, styles});
+            featured.push({id, image, banner, styles, title, subtitle});
         }
     }
 
@@ -79,18 +75,17 @@
     $: init();
 
     onMount(async () => {
-        console.log("TEST mount hero comp")
         setSliderImageTheme();
     });
 </script>
 
 <div class="hero "> <!-- TODO: bootstrap grid rows -->
     {#if featured.length > 0}
-    
-        <Carousel bind:this={carousel}>
+
+        <Carousel bind:this={carousel} autoplay="true" autoplayDuration="5000">
             {#each featured as item, index} 
                 <div class="slider-item" data-index="{index}">
-                    <svelte:component this={item.banner} args={item} />
+                    <a href="/exhibit/{item.id}"><svelte:component this={item.banner} args={item} height="400px" /></a>
                 </div>
             {/each}
         </Carousel>
@@ -103,7 +98,7 @@
 
 <style>
     .hero {
-        height: 400px;
+        min-height: 400px;
         background: #e5e3e1;
     }
 </style>

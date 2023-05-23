@@ -12,6 +12,7 @@
     import {createEventDispatcher} from 'svelte';
 
     export let args = {};
+    export let height = "700px";
 
     let {image=null, title="exhibit title", subtitle=null, description=null} = args;
 
@@ -24,7 +25,7 @@
 </script>
 
 <div class="banner">
-    <section class="hero-image">
+    <section class="hero-image" style="height: {height}">
         <div class="hero-image-text">
             <div class="overlay-text text title">{title}</div>
             <hr>
@@ -56,7 +57,7 @@
 
     .banner {
         position: relative;
-        height: 50%
+        height: 50%;
     }
 
     .introduction {
@@ -70,7 +71,7 @@
         background-repeat: no-repeat;
         background-size: cover;
         position: relative;
-        min-height: 700px;
+        /* min-height: 700px; */
     }
 
     .hero-text {
