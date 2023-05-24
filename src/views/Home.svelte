@@ -31,13 +31,24 @@
 </script>
 
 <div class="homepage"> <!-- TODO add bootstrap grid -->
-    {#if featured}
-        <Hero_Slider items={featured} />
-    {/if}
 
-    {#if exhibits}
-        <Exhibit_Preview_Grid {exhibits} />
-    {:else}
-        <h6>No exhibits found</h6>
-    {/if}
+    <div class="row">
+        {#if featured}
+            <div class="col-lg-12">
+                <Hero_Slider items={featured} />
+            </div>
+        {/if}
+    </div>
+
+    <div class="row">
+        {#if exhibits}
+            <div class="col-lg-12">
+                <Exhibit_Preview_Grid {exhibits} />
+            </div>
+            
+        {:else}
+            <h6>No exhibits found</h6>
+        {/if}
+    </div>
+
 </div>
