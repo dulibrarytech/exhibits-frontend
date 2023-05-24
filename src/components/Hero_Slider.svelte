@@ -106,4 +106,26 @@
         min-height: 400px;
         background: #e5e3e1;
     }
+
+    :global(.sc-carousel__arrow-container) {
+        position: absolute;
+        z-index: 10;
+        top: calc(50% - 40px);
+    }
+    
+    :global(.sc-carousel-arrow__circle) {
+        width: 40px !important;
+        height: 40px !important;
+        background-color: white !important;
+        opacity: 0.29 !important;
+    }
+
+    :global(.sc-carousel-arrow__arrow) {
+        width: 10px;
+        height: 10px;
+    }
+
+    :global(.sc-carousel__arrow-container:nth-of-type(3)) {
+        right: 0;
+    }
 </style>
