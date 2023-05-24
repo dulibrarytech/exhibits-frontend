@@ -10,3 +10,9 @@
   <Router {routes} />
 </main>
 <Footer />
+
+<style>
+  main {
+    min-height: calc(100vh - 200px); /* top header height => 50px, footer height => 150px */
+  }
+</style>
