@@ -55,7 +55,7 @@
     }
 
     /* Apply exhibit hero theme to each exhibit banner in the featured exhibit slider */
-    const setSliderImageTheme = () => {
+    const setSlideTheme = () => {
         let imageElement, textElement; // banner elements
 
         for(let index in featured) {
@@ -80,7 +80,7 @@
     $: init();
 
     onMount(async () => {
-        setSliderImageTheme();
+        setSlideTheme();
     });
 </script>
 
@@ -89,8 +89,8 @@
 
         <Carousel bind:this={carousel} {autoplay} {autoplayDuration}>
             {#each featured as item, index} 
-                <div class="slider-item" data-index="{index}">
-                    <a href="/exhibit/{item.id}"><svelte:component this={item.banner} args={item} height="400px" /></a>
+                <div class="slider-item slide" data-index="{index}">
+                    <a href="/exhibit/{item.id}"><svelte:component this={item.banner} args={item} height="400px" on:mount={setSlideTheme} /></a> <!-- TODO banner height in settings -->
                 </div>
             {/each}
         </Carousel>
@@ -110,7 +110,7 @@
     :global(.sc-carousel__arrow-container) {
         position: absolute;
         z-index: 10;
-        top: calc(50% - 40px);
+        top: calc(50% - 20px);
     }
     
     :global(.sc-carousel-arrow__circle) {

@@ -14,18 +14,22 @@
     export let args = {};
     export let height = "700px";
 
-    let {image=null, title="exhibit title", subtitle=null, description=null} = args;
+    let {image=null, title="untitled", subtitle=null, description=null} = args;
+
+    let imageElement;
+    let textElement;
 
     const dispatch = createEventDispatcher();
 
     onMount(async () => {
-        document.querySelector('.hero-image').style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${image}")`;
-        dispatch('mount', {});
+        imageElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${image}")`;
+
+        dispatch('mount', {imageElement, textElement});
     });
 </script>
 
 <div class="banner">
-    <section class="hero-image" style="height: {height}">
+    <section class="hero-image" style="height: {height}" bind:this={imageElement}>
         <div class="hero-image-text">
             <div class="overlay-text text title">{title}</div>
             <hr>
@@ -34,7 +38,7 @@
     </section>
     
     {#if description}
-        <section class="hero-text">
+        <section class="hero-text" bind:this={textElement}>
             <div class="container px-4">
                 <div class="row gx-4 justify-content-center">
                     <div class="col-lg-10">

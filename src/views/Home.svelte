@@ -30,7 +30,7 @@
     });
 </script>
 
-<div class="homepage">
+<div class="homepage"> <!-- TODO add bootstrap grid -->
     {#if featured}
         <Hero_Slider items={featured} />
     {/if}
