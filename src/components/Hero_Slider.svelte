@@ -61,7 +61,7 @@
         for(let index in featured) {
             let {image={}, text={}} = featured[index].styles;
 
-            imageElement = document.querySelector(`[data-index='${index}'] .banner .hero-image`);
+            imageElement = document.querySelector(`[data-index='${index}'] .banner .hero-image-text`);
             if(imageElement) {
                 for(let style in image) {
                     imageElement.style[style] = image[style];

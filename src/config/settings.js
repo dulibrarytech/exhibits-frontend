@@ -54,6 +54,8 @@ export const Settings = {
         VIDEO: "video-tn.png",
         PDF: "pdf-tn.png"
     },
+    // exhibitThumbnailWidth: "200",
+    // exhibitThumbnailHeight: "",
 
     /*
      * Template properties 

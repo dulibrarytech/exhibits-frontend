@@ -52,7 +52,7 @@
     const setTheme = () => {
         let {image, text, alert} = theme;
         
-        document.querySelectorAll('.hero-image').forEach((element) => {
+        document.querySelectorAll('.hero-image-text').forEach((element) => {
             for(let style in image) {
                 element.style[style] = image[style];
             }

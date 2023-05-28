@@ -9,14 +9,44 @@ import axios from 'axios';
  * Fetch or stream resources from local filesystem or a remote api
  */
 export const Resource = (() => {
-    var {resourceLocation} = Configuration;
+    var { 
+        resourceLocation,
+        iiifImageServerUrl
+    
+    } = Configuration;
 
     /**
      * 
      */
     const getUrl = (filename) => {
-        let url = "";
-        url = `${resourceLocation}/${filename}`; // local folder for dev
+        return `${resourceLocation}/${filename}`; // local folder for dev
+    }
+
+    /**
+     * 
+     */
+    const getImageDerivativeUrl = (args) => {
+        let url;
+
+        let {
+            type="resize", 
+            filename=null, 
+            length="400", 
+            width="400",
+            offsetX="0",
+            offsetY="0"
+
+        } = args;
+
+        switch(type) {
+            case 'resize':
+                url = `${iiifImageServerUrl}/iiif/2/${filename}/full/${length},${width}/0/default.jpg`;
+                break;
+
+            case 'crop':
+                url = `${iiifImageServerUrl}/iiif/2/${filename}/${offsetX},${offsetY},${length},${width}/max/0/default.jpg`
+        }
+
         return url;
     }
 
@@ -37,6 +67,7 @@ export const Resource = (() => {
 
     return {
         getUrl,
+        getImageDerivativeUrl,
         fetchFile,
         streamFile,
         getInfo
