@@ -1,7 +1,11 @@
 <header class="du-header w-100 header-logo-wrapper">
-    <div class="header-logo">
+    <span class="header-logo">
         <a href="https://library.du.edu" title="University Libraries" target="_blank"><img src="../assets/images/logo3.gif" alt="University of Denver Logo" /></a>
-    </div>
+    </span>
+
+    <span class="site-link">
+        <a href="#">Exhibits @ DU</a>
+    </span>
 </header>
 
 <style>
@@ -12,7 +16,18 @@
 
     .du-header .header-logo {
         position: relative;
-        top: 4px;
-        left: 5px;
+        left: 10px;
+        top: 5px;
+    }
+
+    .du-header .site-link {
+        position: relative;
+        left: 40px;
+        top: 7px;
+    }
+
+    .du-header .site-link a {
+        color: white;
+        font-weight: bold;
     }
 </style>
