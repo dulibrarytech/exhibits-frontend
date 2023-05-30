@@ -18,10 +18,10 @@
         thumbnail = exhibit.thumbnail_image || "/notfound";
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
-        styles = exhibit.styles.hero || null;
+        styles = exhibit.styles.hero || {};
     }
 
-    const setTheme = (styles) => {
+    const setTheme = () => {
         let {image = {}} = styles;
 
         /* Set the title text color to match the color of the exhibit hero image text */
@@ -31,7 +31,7 @@
     }
 
     onMount(async () => {
-        setTheme(styles); 
+        setTheme(); 
     });
 </script>
 
@@ -39,12 +39,12 @@
     {#if exhibitPath}
         <a href="{exhibitPath}" bind:this={titleTextElement}>
             <div class="exhibit-thumbnail">
-                <img src="{thumbnail}" alt={title}/>
+                <img src="{thumbnail}" alt={title} title="{title}"/>
 
-                <div class="title">
+                <!-- <div class="title">
                     {title}
-                    {#if subtitle}<br>{subtitle}{/if}
-                </div>
+                    {#if subtitle}<hr>{subtitle}{/if}
+                </div> -->
             </div>
         </a>
     {/if}
@@ -58,7 +58,8 @@
 
     .exhibit-preview a,
     .exhibit-preview a:visited {
-        color: inherit;
+        /* color: inherit; */
+        color: white;
     }
 
     .exhibit-thumbnail {
@@ -76,5 +77,9 @@
         bottom: 0;
         z-index: 10;
         padding: 20px;
+    }
+
+    .title hr {
+        height: 2px;
     }
 </style>

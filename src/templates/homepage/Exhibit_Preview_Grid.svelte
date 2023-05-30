@@ -1,6 +1,7 @@
 <script>
     'use strict'
 
+    import { onMount } from 'svelte';
     import { Resource } from '../../libs/resource';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
 
@@ -29,6 +30,10 @@
     }
 
     $: init();
+
+    onMount(async () => {
+        
+    });
 </script>
 
 <div class="exhibits-preview-grid">
@@ -48,7 +53,11 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-evenly;
-        margin: 0 auto;
+        margin: 6px auto;
         width: 90%;
+    }
+
+    .grid-item {
+        padding: 12px;
     }
 </style>
