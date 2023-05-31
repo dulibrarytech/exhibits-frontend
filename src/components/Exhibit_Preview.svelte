@@ -6,6 +6,8 @@
     export let exhibit = {};
 
     let titleTextElement;
+    let overlayDisplay;
+    let ovly;
 
     let exhibitPath = null;
     let thumbnail = null;
@@ -30,12 +32,25 @@
         }
     }
 
+    const mouseOver = (e) => {
+        overlayDisplay = "block";
+    }
+
+    const mouseOut = (e) => {
+        overlayDisplay = "none";
+    }
+
+    const setOverlayDisplay = (isVisible=true) => {
+        overlayDisplay = isVisible ? "block" : "none";
+    }
+
     onMount(async () => {
+        setOverlayDisplay(false);
         setTheme(); 
     });
 </script>
 
-<div class="exhibit-preview">
+<div class="exhibit-preview" on:mouseenter={mouseOver} on:mouseleave={mouseOut}>
     {#if exhibitPath}
         <a href="{exhibitPath}" bind:this={titleTextElement}>
             <div class="exhibit-thumbnail">
@@ -48,6 +63,10 @@
             </div>
         </a>
     {/if}
+</div>
+
+<div class="overlay" style="display:{overlayDisplay}" bind:this={ovly}>
+    <!-- overlay content -->
 </div>
 
 <style>
@@ -82,5 +101,18 @@
 
     .title hr {
         height: 2px;
+    }
+
+    .overlay {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        background-color: red;
+        opacity: 0.6;
+        pointer-events: none;
     }
 </style>

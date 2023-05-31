@@ -60,6 +60,7 @@
 
     .grid-item {
         /* padding: 12px; */
+        position: relative;
     }
 
     .col-lg-3 {
