@@ -40,21 +40,41 @@
         {/if}
     </div>
 
-    <div class="row">
-        {#if exhibits}
-            <div class="col-lg-12">
-                <Exhibit_Preview_Grid {exhibits} />
-            </div>
-            
-        {:else}
-            <h6>No exhibits found</h6>
-        {/if}
-    </div>
+    <div class="container">
+        <div class="row heading">
+            <h3>Exhibits @ DU</h3>
+        </div>
 
+        <div class="row">
+            {#if exhibits}
+                <div class="col-lg-12">
+                    <Exhibit_Preview_Grid {exhibits} />
+                </div>
+            {:else}
+                <h6>No exhibits found</h6>
+            {/if}
+        </div>
+    </div>
 </div>
 
 <style>
-    .homepage > .row {
+    .homepage .row {
         margin-bottom: 24px;
+    }
+
+    .homepage .row>* {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .homepage h3 {
+        color: #8b2332;
+        padding: 15px 0;
+        margin-bottom: 0;
+    }
+    
+    .container {
+        width: 95%;
+        margin: 0 auto;
     }
 </style>

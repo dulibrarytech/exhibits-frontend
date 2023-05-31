@@ -52,12 +52,17 @@
     .exhibits-preview-grid {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-evenly;
+        justify-content: space-between;
+        column-gap: 14px;
+        row-gap: 26px;
         margin: 6px auto;
-        width: 90%;
     }
 
     .grid-item {
-        padding: 12px;
+        /* padding: 12px; */
+    }
+
+    .col-lg-3 {
+        width: 23.5%;
     }
 </style>
