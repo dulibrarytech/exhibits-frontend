@@ -4,7 +4,7 @@
     </span>
 
     <span class="site-link">
-        <a href="#">Exhibits @ DU</a>
+        <a href="/">Exhibits @ DU</a>
     </span>
 </header>
 
@@ -27,7 +27,7 @@
     }
 
     .du-header .site-link a {
-        color: white;
+        color: #d8d8d8;
         font-weight: bold;
     }
 </style>
