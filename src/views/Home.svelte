@@ -3,6 +3,7 @@
     import { Index } from '../libs/index.js';
 
     import Hero_Slider from '../components/Hero_Slider.svelte';
+    import Search_Box from '../components/Search_Box.svelte';
     import Exhibit_Preview_Grid from '../templates/homepage/Exhibit_Preview_Grid.svelte';
 
     var exhibits = null;
@@ -17,6 +18,8 @@
         else {
             featured = getFeaturedExhibits(exhibits);
         }
+
+        // init search box - add fields (from Settings object) set "searchData" local var?
     }
 
     const getFeaturedExhibits = (exhibits) => {
@@ -42,10 +45,17 @@
 
     <div class="container">
         <div class="row heading">
-            <h3>Exhibits @ DU</h3>
+            <div class="col-md-6">
+                <h3>Exhibits @ DU</h3>
+            </div>
+            <div class="col-md-6">
+                <div class="exhibits-search">
+                    <Search_Box />
+                </div>
+            </div>
         </div>
 
-        <div class="row">
+        <div class="row preview-section">
             {#if exhibits}
                 <div class="col-lg-12">
                     <Exhibit_Preview_Grid {exhibits} />
@@ -62,10 +72,10 @@
         margin-bottom: 24px;
     }
 
-    .homepage .row>* {
+    /* .homepage .row.preview-section>* {
         padding-left: 0;
         padding-right: 0;
-    }
+    } */
 
     .homepage h3 {
         color: #8b2332;
@@ -76,5 +86,11 @@
     .container {
         width: 95%;
         margin: 0 auto;
+    }
+
+    .exhibits-search {
+        float: right;
+        position: relative;
+        top: 14px;
     }
 </style>

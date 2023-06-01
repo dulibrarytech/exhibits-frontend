@@ -64,8 +64,16 @@ export const Index = (() => {
         return exhibit;
     }
 
+    /**
+     * searchIndex()
+     */
+    const searchIndex = () => {
+
+    }
+
     return {
         getExhibits,
-        getExhibit
+        getExhibit,
+        searchIndex
     }
 })()
