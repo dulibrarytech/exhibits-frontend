@@ -7,7 +7,6 @@
 
     let titleTextElement;
     let overlayDisplay;
-    let ovly;
 
     let exhibitPath = null;
     let thumbnail = null;
@@ -65,9 +64,9 @@
     {/if}
 </div>
 
-<div class="overlay" style="display:{overlayDisplay}" bind:this={ovly}>
-    <!-- overlay content -->
-</div>
+<div class="overlay" style="display:{overlayDisplay}"></div>
+
+<div class="overlay-text" style="display:{overlayDisplay}">VISIT</div>
 
 <style>
     .exhibit-preview a {
@@ -111,8 +110,22 @@
         top: 0;
         left: 0;
         z-index: 10;
-        background-color: red;
-        opacity: 0.6;
+        background-color: #181818;
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    .overlay-text {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: calc(50% - 13px);
+        left: 0;
+        z-index: 11;
+        color: white;
+        font-size: 24px;
+        text-align: center;
         pointer-events: none;
     }
 </style>
