@@ -57,14 +57,13 @@
 
 <style>
     .item-grid {
-        display: flex;
+        display: inline-flex;
         flex-wrap: wrap;
-        justify-content: space-evenly;
         margin: 0 auto;
         width: 90%;
     }
 
     :global(.item-grid .item) {
-        padding: 2vw;
+        padding: 1.2vw;
     }
 </style>

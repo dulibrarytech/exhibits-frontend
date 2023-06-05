@@ -44,7 +44,6 @@
             <div class="date-heading exhibit-heading">
                 <div class="item-date">{date}</div>
                 <hr>
-                <br>
             </div> 
         {/if}
 
@@ -117,6 +116,7 @@
 
     .description {
         text-align: left;
+        font-size: 0.9em;
     }
 
     .float-left {float: left}
