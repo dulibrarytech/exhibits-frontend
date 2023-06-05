@@ -5,6 +5,7 @@
     
     import Item from '../../../components/Item.svelte';
     import Item_Grid from './partial/Item_Grid.svelte';
+    import Vertical_Timeline_Item_Grid from './partial/Vertical_Timeline_Item_Grid.svelte';
 
     export let items;
 
@@ -12,8 +13,16 @@
 
     var exhibit = null;
 
-    const ROW = "row";
-    const GRID = "grid";
+    const ITEM_TYPES = {
+        ITEM: "item",
+        HEADING: "heading"
+    }
+
+    const ITEM_TEMPLATES = {
+        ROW: "row",
+        GRID: "grid",
+        VERTICAL_TIMELINE: "vertical-timeline"
+    }
 
     const render = () => {
         if(!exhibit) {
@@ -26,7 +35,7 @@
      * Creates an array of row and grid items in sequential order, by item.order property
      * 
      * e.g. IN: [{template:"row", type:"item"}, {template:"row", type:"item"}, {template:"grid", type:"item"}, {template:"grid", type:"item"}, {template:"row", type:"item"}]
-     *      OUT: [{template:"row", type:"item"}, {template:"row", type:"item"}, {type:"item-grid", gridItems: [{template:"grid", type:"item"}, {template:"grid", type:"item"}]}, {template:"grid", type:"item"}]
+     *      OUT: [{template:"row", type:"item"}, {template:"row", type:"item"}, {type:"[grid|timeline-grid]", gridItems: [{template:"grid", type:"item"}, {template:"grid", type:"item"}]}, {template:"grid", type:"item"}]
      * 
      * - A item with "row" layout will be inserted to the display as a full width row entity
      * - Items with "grid" layout will be added to a sub-array, which will contain the set of consecutive (by 'order') items of "grid" layout.
@@ -40,24 +49,41 @@
 
         for(let index = 0; index<items.length; index++) {
             let item = items[index];
-            let {uuid, template = ROW, columns = 4} = item;
+            let {uuid, template = ITEM_TEMPLATES.ROW, columns = 4} = item;
 
-            if(template == ROW) {
-                /* end case - terminated consecutive grid items. push the grid items to the template */
-                if(gridItems.length > 0) {
-                    appendGrid(sorted, gridItems, columns);
-                    gridItems = [];
-                }
-
-                appendRow(sorted, item);
+            if(template == ITEM_TEMPLATES.ROW) {
+                sorted.push(item);
             }
 
-            else if(template == GRID) {
+            else if(template == ITEM_TEMPLATES.GRID) {
                 gridItems.push(item);
 
-                /* end case - last exhibit item. push the grid items to the template */
-                if(index >= items.length-1) {
-                    appendGrid(sorted, gridItems, columns);
+                /* end current grid if the next item is a row template */
+                if(items[index+1]?.template != ITEM_TEMPLATES.GRID) {
+
+                    sorted.push({
+                        type: ITEM_TEMPLATES.GRID,
+                        items: gridItems,
+                        columns
+                    });
+
+                    gridItems = [];
+                }
+            }
+
+            else if(template == ITEM_TEMPLATES.VERTICAL_TIMELINE) {
+                gridItems.push(item);
+
+                /* end current grid if the next item is a row template */
+                if(items[index+1]?.template != ITEM_TEMPLATES.VERTICAL_TIMELINE) {
+
+                    sorted.push({
+                        type: ITEM_TEMPLATES.VERTICAL_TIMELINE,
+                        items: gridItems,
+                        columns
+                    });
+
+                    gridItems = [];
                 }
             }
 
@@ -65,18 +91,6 @@
         }
 
         return sorted;
-    }
-
-    const appendRow = (items, item) => {
-        items.push(item);
-    }
-
-    const appendGrid = (exhibit, items = [], columns = 4) => { // TODO from settings.gridColumnDefault
-        exhibit.push({
-            type: "item-grid",
-            items,
-            columns
-        });
     }
 
     render();
@@ -90,8 +104,9 @@
     {#if exhibit}
         {#each exhibit as {type = "", text = "", subtext = "", id = null}, index} <!-- DEV default null; if/else below-->
 
-            <!-- exhibit section heading TODO: simplify this code -->
-            {#if type == "heading"} 
+            <!-- exhibit heading -->
+            {#if type == ITEM_TYPES.HEADING} 
+                <!-- <Exhibit_Heading {text} {subtext} /> -->
                 {#if id}
                     <div {id} class="section-heading exhibit-heading">
                         <div class="container">
@@ -119,12 +134,16 @@
                 {/if}       
                 
             <!--exhibit item - row layout -->
-            {:else if type == "item"}
+            {:else if type == ITEM_TYPES.ITEM}
                 <Item item={exhibit[index]} />
 
             <!-- exhibit item - grid layout -->
-            {:else if type == "item-grid"}
+            {:else if type == ITEM_TEMPLATES.GRID}
                 <Item_Grid items={exhibit[index].items} columns={exhibit[index].columns}/>
+
+            <!-- exhibit item - vertical timeline grid layout -->
+            {:else if type == ITEM_TEMPLATES.VERTICAL_TIMELINE}
+                <Vertical_Timeline_Item_Grid items={exhibit[index].items} />
 
             {/if}
         {/each}
