@@ -6,6 +6,7 @@
     import Item from '../../../components/Item.svelte';
     import Item_Grid from './partial/Item_Grid.svelte';
     import Vertical_Timeline_Item_Grid from './partial/Vertical_Timeline_Item_Grid.svelte';
+    import Exhibit_Heading from './partial/Exhibit_Heading.svelte';
 
     export let items;
 
@@ -106,32 +107,7 @@
 
             <!-- exhibit heading -->
             {#if type == ITEM_TYPES.HEADING} 
-                <!-- <Exhibit_Heading {text} {subtext} /> -->
-                {#if id}
-                    <div {id} class="section-heading exhibit-heading">
-                        <div class="container">
-                            <div class="section-title">
-                                <h3>{text}</h3>
-                            </div>
-                            <div class="section-subtitle">
-                                <h5>{subtext}</h5>
-                            </div>
-                            <hr>
-                        </div>
-                    </div>
-                {:else}
-                    <div class="section-heading exhibit-heading">
-                        <div class="container">
-                            <div class="section-title">
-                                <h3>{text}</h3>
-                            </div>
-                            <div class="section-subtitle">
-                                <h5>{subtext}</h5>
-                            </div>
-                            <hr>
-                        </div>
-                    </div>
-                {/if}       
+                <Exhibit_Heading {id} {text} {subtext} />
                 
             <!--exhibit item - row layout -->
             {:else if type == ITEM_TYPES.ITEM}
@@ -159,15 +135,14 @@ hr {
 	padding-top: 55px;
 }
 
-.section-heading {
-    /* margin-bottom: 55px; */
+/* .section-heading {
     padding-top: 55px;
     padding-bottom: 55px;
 }
 
 .section-heading h3 {
     font-size: 1.75em;
-}
+} */
 
 :global(.caption) {
     color: inherit;
