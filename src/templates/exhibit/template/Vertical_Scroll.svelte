@@ -59,7 +59,7 @@
             else if(template == ITEM_TEMPLATES.GRID) {
                 gridItems.push(item);
 
-                /* end current grid if the next item is a row template */
+                /* end current grid if the next item has a different template type */
                 if(items[index+1]?.template != ITEM_TEMPLATES.GRID) {
 
                     sorted.push({
@@ -75,7 +75,7 @@
             else if(template == ITEM_TEMPLATES.VERTICAL_TIMELINE) {
                 gridItems.push(item);
 
-                /* end current grid if the next item is a row template */
+                /* end current grid if the next item has a different template type */
                 if(items[index+1]?.template != ITEM_TEMPLATES.VERTICAL_TIMELINE) {
 
                     sorted.push({
