@@ -57,6 +57,7 @@
     #sidebar-container > div {
         padding-right: 0;
         padding-left: 0;
+        /* width: 25%; */
     }
 
     #sidebar {
@@ -104,6 +105,7 @@
 
         #sidebar {
             padding: 30px 10px 10px 10px;
+            /* max-width: 400px; */
         }
 
         :global(#sidebar-nav) {

@@ -46,7 +46,7 @@
         {#each items as item}
             {#if item.is_published}
 
-                <div class="item col-lg-{bootstrapColumnValue} col-md-{bootstrapColumnValue+1} col-sm-{bootstrapColumnValue+2}"> <!-- move this to inside the GIIT component? -->
+                <div class="item col-xl-{bootstrapColumnValue} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}">
                     <Grid_Item_Image_Text {item} /> 
                 </div>
 
