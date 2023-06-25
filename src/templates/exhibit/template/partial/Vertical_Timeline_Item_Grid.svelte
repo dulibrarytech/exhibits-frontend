@@ -15,8 +15,14 @@
 
     export let items = [];
 
+    let verticalStartPosition = "left";
+    let verticalTrigger = "150px";
+
     const init = () => {
-        Timeline.timeline(document.querySelectorAll('.timeline'));
+        Timeline.timeline(document.querySelectorAll('.timeline'), {
+            verticalStartPosition,
+            verticalTrigger
+        });
     }
 
     onMount(async () => {
