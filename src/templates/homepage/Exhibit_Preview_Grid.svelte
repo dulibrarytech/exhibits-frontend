@@ -52,7 +52,7 @@
     .exhibits-preview-grid {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         column-gap: 14px;
         row-gap: 26px;
         margin: 6px auto;
