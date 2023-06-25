@@ -7,7 +7,8 @@
     import Exhibit_Preview_Grid from '../templates/homepage/Exhibit_Preview_Grid.svelte';
 
     var exhibits = null;
-    var featured = null;
+    var featuredExhibits = null;
+    var recentExhibits = null;
 
     const render = async () => {
         exhibits = await Index.getExhibits();
@@ -16,15 +17,22 @@
             console.log("No exhibits found");
         }
         else {
-            featured = getFeaturedExhibits(exhibits);
+            featuredExhibits = getFeaturedExhibits(exhibits);
+            recentExhibits = getRecentExhibits(exhibits);
         }
 
-        // init search box - add fields (from Settings object) set "searchData" local var?
+        // TODO init search box - add fields (from Settings object) set "searchData" local var?
     }
 
     const getFeaturedExhibits = (exhibits) => {
         return exhibits.filter((exhibit) => {
             return exhibit.is_featured || false;
+        });
+    }
+
+    const getRecentExhibits = (exhibits) => {
+        return exhibits.filter((exhibit) => {
+            // TODO initially: get current date, filter on last 60 days, sort by date descending
         });
     }
 
@@ -36,17 +44,45 @@
 <div class="homepage"> <!-- TODO add bootstrap grid -->
 
     <div class="row">
-        {#if featured}
+        {#if featuredExhibits}
             <div class="col-lg-12">
-                <Hero_Slider items={featured} />
+                <Hero_Slider items={featuredExhibits} />
             </div>
         {/if}
     </div>
 
     <div class="container">
         <div class="row heading">
+            <div class="col-lg-12">
+                <h3>Featured</h3>
+            </div>
+        </div>
+
+        <div class="row preview-section">
+            {#if featuredExhibits}
+                <div class="col-lg-12">
+                    <Exhibit_Preview_Grid exhibits={featuredExhibits} />
+                </div>
+            {/if}
+        </div>
+
+        <div class="row heading">
+            <div class="col-lg-12">
+                <h3>Just Added</h3>
+            </div>
+        </div>
+
+        <div class="row preview-section">
+            {#if recentExhibits}
+                <div class="col-lg-12">
+                    <Exhibit_Preview_Grid exhibits={recentExhibits} />
+                </div>
+            {/if}
+        </div>
+
+        <div class="row heading">
             <div class="col-md-6">
-                <h3>Exhibits @ DU</h3>
+                <h3>Explore</h3>
             </div>
             <div class="col-md-6">
                 <div class="exhibits-search">
@@ -71,11 +107,6 @@
     .homepage .row {
         margin-bottom: 24px;
     }
-
-    /* .homepage .row.preview-section>* {
-        padding-left: 0;
-        padding-right: 0;
-    } */
 
     .homepage h3 {
         color: #8b2332;

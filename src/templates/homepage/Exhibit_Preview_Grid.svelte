@@ -1,8 +1,6 @@
 <script>
     'use strict'
 
-    import { onMount } from 'svelte';
-    import { Resource } from '../../libs/resource';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
 
     export let exhibits = [];
@@ -11,29 +9,11 @@
 
     const init = () => {
         for(let exhibit of exhibits) {
-            let  {thumbnail_image=null, hero_image=null} = exhibit;
-
-            if(!thumbnail_image) {
-                exhibit.thumbnail_image = Resource.getImageDerivativeUrl({
-                    type: 'crop',
-                    filename: hero_image || "",
-                    width: "400",
-                    height: "400"
-                });
-            }
-            else {
-                exhibit.thumbnail_image = Resource.getUrl(thumbnail_image);
-            }
-
             previews.push(exhibit);
         }
     }
 
     $: init();
-
-    onMount(async () => {
-        
-    });
 </script>
 
 <div class="exhibits-preview-grid">
@@ -59,7 +39,6 @@
     }
 
     .grid-item {
-        /* padding: 12px; */
         position: relative;
     }
 
