@@ -12,6 +12,7 @@
     import Audio_Player_test from './components/Audio_Player_test.svelte';
     import Video_Player_test from './components/Video_Player_test.svelte';
     import Vertical_Scroll_test from './components/Vertical_Scroll_test.svelte';
+    import Vertical_Timeline_test from './components/Vertical_Timeline_test.svelte';
 
     export let currentRoute;
 
@@ -25,7 +26,8 @@
         Image_Viewer_test,
         Audio_Player_test,
         Video_Player_test,
-        Vertical_Scroll_test
+        Vertical_Scroll_test,
+        Vertical_Timeline_test
     }
 
     let component;

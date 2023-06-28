@@ -28,7 +28,6 @@
     }
 
     let data = tests["E"];
-    console.log("Test data:", data)
 </script>
 
 <div class="test">
