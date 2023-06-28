@@ -59,6 +59,10 @@
         padding: 0;
     }
 
+    .timeline__content:after {
+        border-left: 11px solid lightgray;
+    }
+
     :global(.grid-item) {
         border-radius: 10px;
     }
