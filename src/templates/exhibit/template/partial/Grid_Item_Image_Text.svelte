@@ -2,14 +2,17 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import {createEventDispatcher} from 'svelte';
     import { Settings } from '../../../../config/settings';
+
     import Item_Preview from '../../../../components/Item_Preview.svelte';
 
     import {ITEM_POSITION} from '../../../../config/global-constants';
 
     export let item;
 
-    let gridItemElement = null;
+    let itemElement;
+    let textElement = null;
     let styles = null;
 
     var layout = null;
@@ -25,20 +28,31 @@
         styles = item.styles || null;
     }
 
-    const setTheme = (styles) => {
-        let {item_text = {}} = styles;
+    const dispatch = createEventDispatcher();
 
-        for(let style in item_text) {
-            gridItemElement.style[style] = item_text[style];
+    const setTheme = (styles) => {
+        let {item_text = {}, item={}} = styles;
+
+        /* set item styles */
+        for(let style in item) {
+            itemElement.style[style] = item[style];
+        }
+
+        /* set text (description) section styles */
+        if(textElement) {
+            for(let style in item_text) {
+                textElement.style[style] = item_text[style];
+            }
         }
     }
 
-    onMount(async (test) => {
-        setTheme(styles || {}); 
+    onMount(() => {
+        setTheme(styles); 
+        dispatch('mount-item', this) // <-- return styles, to set to current item via .timeline__content
     });
 </script>
 
-<div class="grid-item" bind:this={gridItemElement} >
+<div class="grid-item" bind:this={itemElement}>
     <a href="#"> <!-- TODO link to url, if repo item -> disc layer, else is user setting? -->
         {#if date}
             <div class="date-heading exhibit-heading">
@@ -53,13 +67,13 @@
             </div> 
             <div class="float-left">
                 <div class="title">{title}</div>
-                <div class="description">{description}</div>
+                <div class="description" bind:this={textElement}>{description}</div>
             </div>
             
         {:else if layout == ITEM_POSITION.LEFT}
             <div class="float-right">
                 <div class="title">{title}</div>
-                <div class="description">{description}</div>
+                <div class="description" bind:this={textElement}>{description}</div>
             </div>
             <div class="float-left">
                 <Item_Preview {item} />
@@ -68,16 +82,16 @@
         {:else if layout == ITEM_POSITION.TOP}
             <div class="title bottom-margin">{title}</div>
             <Item_Preview {item} />
-            <div class="description top-margin"><p>{description}</p></div>
+            <div class="description top-margin" bind:this={textElement}><p>{description}</p></div>
 
         {:else if layout == ITEM_POSITION.BOTTOM}
             <div class="title">{title}</div>
-            <div class="description">{description}</div>
+            <div class="description" bind:this={textElement}>{description}</div>
             <Item_Preview {item} />
 
         {:else if layout == ITEM_POSITION.TEXT_ONLY}
             <div class="title">{title}</div>
-            <div class="description">{description}</div>
+            <div class="description" bind:this={textElement}>{description}</div>
 
         {:else if layout == ITEM_POSITION.ITEM_ONLY}
             <Item_Preview {item} />
@@ -117,6 +131,11 @@
     .description {
         text-align: left;
         font-size: 0.9em;
+        padding: 8px;
+    }
+
+    .description p {
+        margin-bottom: 0;
     }
 
     .float-left {float: left}
