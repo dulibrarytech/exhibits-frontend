@@ -2,7 +2,6 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import {createEventDispatcher} from 'svelte';
     import { Settings } from '../../../../config/settings';
 
     import Item_Preview from '../../../../components/Item_Preview.svelte';
@@ -28,8 +27,6 @@
         styles = item.styles || null;
     }
 
-    const dispatch = createEventDispatcher();
-
     const setTheme = (styles) => {
         let {item_text = {}, item={}} = styles;
 
@@ -48,7 +45,6 @@
 
     onMount(() => {
         setTheme(styles); 
-        dispatch('mount-item', this) // <-- return styles, to set to current item via .timeline__content
     });
 </script>
 
