@@ -141,6 +141,12 @@
             "thumbnail": "27e8d544f03300b782ab2bf39d3cbb8a.jpeg",
             "type": "item",
             "layout": "item_top", // is this needed when the item is opened in popup or separate page? only 'description' is displayed with an item on page/popup?
+            "styles": {
+                "item": {
+                    "background": "gray",
+                    "color": "white"
+                }
+            },
             "is_published": 1,
             "order": 10,
             "created": "2022-10-13T20:24:20.000Z"
@@ -157,9 +163,21 @@
             "columns": "4",
             "item_type": "image",
             "url": "6cf1a7cf3bd10f588bd0122d05346877.jpeg",
-            "text": "test text",
+            "text": "first mentioned as a nickname for the football team in the Clarion. No likeness or cartoon associated with the nickname; the team is also called \“Fighting Ministers",
             "type": "item",
             "layout": "item_top",
+            "styles": {
+                "item": {
+                    "background": "#7CBA70",
+                    "color": "white"
+                },
+                "item_text": {
+                    "color": "yellow"
+                },
+                "item_media": {
+                    "width": "80%"
+                }
+            },
             "is_published": 1,
             "order": 11,
             "created": "2022-10-13T20:24:20.000Z"
@@ -247,18 +265,18 @@
 </script>
 
 <h4>Vertical Timeline</h4>
-<!-- <div class="label">
-    <h3>1850-1900</h3>
+<div class="label">
+    <h3>1850</h3>
 </div>
 <div class="test">
     <Vertical_Timeline items={section1} />
-</div> -->
+</div>
 
 <div class="label">
-    <h3>1900-2000</h3>
+    <h3>1900</h3>
 </div>
 <div class="test">
-    <Vertical_Timeline items={allItems} />
+    <Vertical_Timeline items={section2} />
 </div>
 
 <style>

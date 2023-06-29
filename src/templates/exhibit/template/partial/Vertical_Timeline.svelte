@@ -6,24 +6,13 @@
      */
     'use strict'
 
-    import { onMount } from 'svelte';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
 
     export let items=[];
 
     let sorted = null;
-    
-    var timeStart;
-    var timeEnd;
-    var timeRange;
 
     const init = () => {
-        timeStart = parseInt( items[0]?.timestamp );
-        timeEnd = parseInt( items[ items.length-1 ]?.timestamp );
-
-        if(isNaN(timeStart) || isNaN(timeEnd)) throw 'Timeline cound not determine date range'
-
-        timeRange = (timeEnd - timeStart);
         sorted = sortByDate(items);
     }
 
@@ -50,18 +39,6 @@
             console.error(error);
         }
     }
-
-    // onMount(async () => {
-    //     console.log("TEST VT mounted")
-
-    //     try {
-    //         applyItemOffsets();
-    //     }
-    //     catch (error) {
-    //         console.error(error);
-    //     }
-    // });
-
 </script>
 
 <div class="timeline">
@@ -74,7 +51,7 @@
                 
                 {#each sorted.left as item}
                     <div class="timeline-item" id="timeline-item-{item.uuid || ''}">
-                        <div class="timeline-connector-left"></div>
+                        <div class="timeline-connector timeline-connector-left"></div>
                         <Grid_Item_Image_Text {item} />
                     </div>
                 {/each}
@@ -85,7 +62,7 @@
                 
                 {#each sorted.right as item}
                     <div class="timeline-item">
-                        <div class="timeline-connector-right"></div>
+                        <div class="timeline-connector timeline-connector-right"></div>
                         <Grid_Item_Image_Text {item} />
                     </div>
                 {/each}
@@ -111,21 +88,30 @@
         padding-top: 250px;
     }
 
-    .timeline-connector-left {
-        position:  relative;
+    .timeline-item {
+        position: relative;
+    }
+
+    :global(.timeline-item .grid-item) {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .timeline-connector {
+        position: absolute;
         border-bottom-style: solid;
-        border-bottom-color: grey;
-        left: 18px;
-        top: 30%;
+        border-bottom-color: gray;
+        border-bottom-width: 3px;
         z-index: -10;
+        width: 35%;
+        top: 50%;
+    }
+
+    .timeline-connector-left {
+        right: -15px;
     }
 
     .timeline-connector-right {
-        position:  relative;
-        border-bottom-style: solid;
-        border-bottom-color: grey;
-        right: 18px;
-        top: 575px;
-        z-index: -10;
+        left: -15px;
     }
 </style>

@@ -97,7 +97,7 @@
 
 <style>
     a {
-        color: initial;
+        color: inherit;
     }
 
     a:hover {
