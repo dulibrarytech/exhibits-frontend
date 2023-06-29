@@ -197,9 +197,21 @@
             "columns": "4",
             "item_type": "image",
             "url": "69cc54aa37cc876deb529821667e2f89.jpeg",
-            "text": "test text",
+            "text": "Clarion article “Denver ‘Battling Ministers’ Seek Fitting Name: War Cry to Replace Outworn Slogans is Big Contest Aim” highlights student desire to change nickname to something that better reflects the school mission and spirit.",
             "type": "item",
             "layout": "item_top",
+            "styles": {
+                "item": {
+                    "width": "50%",
+                    "background": "#E8BC84"
+                },
+                "item_text": {
+                    "color": "white"
+                },
+                "item_media": {
+                    "width": "80%"
+                }
+            },
             "is_published": 1,
             "order": 12,
             "created": "2022-10-13T20:24:20.000Z"
@@ -216,7 +228,7 @@
             "columns": "4",
             "item_type": "image",
             "url": "e5dda358941b0bd63e474a5a27a723c0.jpeg",
-            "text": "test text",
+            "text": "Clarion article “Denver ‘Battling Ministers’ Seek Fitting Name: War Cry to Replace Outworn Slogans is Big Contest Aim” highlights student desire to change nickname to something that better reflects the school mission and spirit.",
             "type": "item",
             "layout": "item_top",
             "is_published": 1,
@@ -264,7 +276,7 @@
     ]
 </script>
 
-<h4>Vertical Timeline</h4>
+<!-- <h4>Vertical Timeline</h4> -->
 <div class="label">
     <h3>1850</h3>
 </div>

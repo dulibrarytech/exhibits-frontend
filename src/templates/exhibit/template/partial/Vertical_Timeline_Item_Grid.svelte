@@ -59,8 +59,12 @@
         padding: 0;
     }
 
-    .timeline__content:after {
+    :global(.timeline__item--left .timeline__content:after) {
         border-left: 11px solid lightgray;
+    }
+
+    :global(.timeline__item--right .timeline__content:after) {
+        border-right: 11px solid lightgray !important;
     }
 
     :global(.grid-item) {
