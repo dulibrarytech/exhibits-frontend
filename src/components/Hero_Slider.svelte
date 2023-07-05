@@ -56,22 +56,26 @@
 
     /* Apply exhibit hero theme to each exhibit banner in the featured exhibit slider */
     const setSlideTheme = () => {
-        let imageElement, textElement; // banner elements
+        let imageElement, textElement;
 
         for(let index in featured) {
-            let {image={}, text={}} = featured[index].styles;
+            let {image=null, text=null} = featured[index].styles || {};
 
-            imageElement = document.querySelector(`[data-index='${index}'] .banner .hero-image-text`);
-            if(imageElement) {
-                for(let style in image) {
-                    imageElement.style[style] = image[style];
+            if(image) {
+                imageElement = document.querySelector(`[data-index='${index}'] .banner .hero-image-text`);
+                if(imageElement) {
+                    for(let style in image) {
+                        imageElement.style[style] = image[style];
+                    }
                 }
             }
 
-            textElement  = document.querySelector(`[data-index='${index}'] .banner .hero-text`);
-            if(textElement) {
-                for(let style in text) {
-                    textElement.style[style] = text[style];
+            if(text) {
+                textElement  = document.querySelector(`[data-index='${index}'] .banner .hero-text`);
+                if(textElement) {
+                    for(let style in text) {
+                        textElement.style[style] = text[style];
+                    }
                 }
             }
         }
