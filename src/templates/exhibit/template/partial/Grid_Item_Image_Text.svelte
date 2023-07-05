@@ -90,7 +90,9 @@
             <div class="description" bind:this={textElement}>{description}</div>
 
         {:else if layout == ITEM_POSITION.ITEM_ONLY}
-            <Item_Preview {item} />
+            <div class="item-no-text">
+                <Item_Preview {item} />
+            </div>
         {/if}
     </a>
 </div>
@@ -104,16 +106,16 @@
         text-decoration: none;
     }
 
+    .grid-item {
+        padding: 15px;
+    }
+
     .top-margin {
         margin-top: 40px;
     }
 
     .bottom-margin {
         margin-bottom: 20px;
-    }
-
-    .grid-item {
-        padding: 15px;
     }
 
     .item-date {
@@ -139,5 +141,9 @@
 
     .title {
         font-weight: bold;
+    }
+
+    :global(.item-preview) {
+        width: 90%;
     }
 </style>

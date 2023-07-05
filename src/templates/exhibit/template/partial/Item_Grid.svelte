@@ -14,11 +14,6 @@
 
     var bootstrapColumnValue;
 
-    $: {
-        bootstrapColumnValue = 12 / columns;
-        styles = items[0]?.styles;
-    }
-
     const setTheme = (styles) => {
         let {item = {}} = styles;
 
@@ -37,11 +32,13 @@
     }
 
     onMount(async (test) => {
+        bootstrapColumnValue = 12 / columns;
+        styles = items[0]?.styles;
         if(styles) setTheme(styles); 
     });
 </script>
 
-<div class="grid-section" bind:this={gridElement} >
+<div class="grid-section container" bind:this={gridElement} >
     <div class="item-grid">
         {#each items as item}
             {#if item.is_published}
@@ -56,14 +53,21 @@
 </div>
 
 <style>
+    .grid-section {
+        display: flex;
+    }
+
     .item-grid {
         display: inline-flex;
         flex-wrap: wrap;
         margin: 0 auto;
-        width: 90%;
     }
 
-    :global(.item-grid .item) {
-        padding: 1.2vw;
+    :global(.item-grid .item:nth-child(odd)) {
+        padding: 30px 30px 30px 0;
+    }
+
+    :global(.item-grid .item:nth-child(even)) {
+        padding: 30px 0 30px 30px;
     }
 </style>
