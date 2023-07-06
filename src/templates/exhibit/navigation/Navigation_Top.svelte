@@ -54,7 +54,9 @@
 
     .navbar-nav a {
         color: #383838;
-        padding: 3px;
+        padding: 8px;
+        font-size: 18px;
+        font-weight: bold;
     }
 
     .navbar-nav li {
@@ -62,10 +64,14 @@
         margin-bottom: 5px;
     }
 
-    .navbar-nav li:not(:last-child)::after {
+    .navbar-nav li:not(:last-child) {
+        margin-right: 5px;
+    }
+
+    /* .navbar-nav li:not(:last-child)::after {
         content: '|';
         font-weight: bold;
-    }
+    } */
 
     .navbar-nav a {
         text-decoration: none;

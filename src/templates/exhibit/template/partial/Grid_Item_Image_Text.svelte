@@ -143,7 +143,7 @@
         font-weight: bold;
     }
 
-    :global(.item-preview) {
+    /* :global(.item-preview) {
         width: 90%;
-    }
+    } */
 </style>

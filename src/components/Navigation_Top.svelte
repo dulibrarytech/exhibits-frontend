@@ -53,6 +53,7 @@
 
     .navbar-nav a {
         color: #383838;
+        font-size: 18px;
     }
 
     .navbar-nav li {
