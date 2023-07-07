@@ -147,4 +147,8 @@ hr {
 :global(.caption) {
     color: inherit;
 }
+
+:global(.exhibit-template > *) {
+    margin-bottom: 85px;
+}
 </style>

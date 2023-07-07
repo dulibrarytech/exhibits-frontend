@@ -6,6 +6,7 @@
     import { Index } from '../libs/index.js';
     import { Templates } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
+    import { _getPagesCountByParticlesCountLimited } from 'svelte-carousel/src/utils/page';
 
     export let currentRoute;
 
@@ -56,6 +57,21 @@
    const setTheme = (styles) => {
         let {heading={}, navigation={}, template={}} = styles;
 
+        /* apply styles to entire exhibit */
+        let templateElement = document.querySelector('.exhibit-template');
+        for(let style in template) {
+            if(style == "backgroundImage") {
+                let filename = template[style];
+                let pageElement = document.querySelector(".exhibit-page")
+                pageElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
+                //pageElement.style['backgroundSize'] = "contain"; // <-- default?
+            }
+
+            else {
+                templateElement.style[style] = template[style];  
+            }
+        }
+
         let headingElements = document.querySelectorAll(".exhibit-heading");
         for(let element of headingElements) {
             for(let style in heading) {
@@ -75,19 +91,7 @@
             }
         }
 
-        let templateElement = document.querySelector('.exhibit-template');
-        for(let style in template) {
-            if(style == "backgroundImage") {
-                let filename = template[style];
-                let pageElement = document.querySelector(".exhibit-page")
-                pageElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
-                //pageElement.style['backgroundSize'] = "contain"; // <-- default?
-            }
 
-            else {
-                templateElement.style[style] = template[style];  
-            }
-        }
     }
 
     const onMountPage = (event) => {
