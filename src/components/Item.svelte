@@ -1,5 +1,4 @@
 <script>
-    // TODO move to components folder this is not a template
     'use strict'
 
     import { onMount } from 'svelte';
@@ -16,7 +15,7 @@
 
     let itemElement;
     
-    let {is_published, layout, uuid, styles = null} = item;
+    let {title=null, is_published=0, layout, uuid, styles = null} = item;
 
     if(Object.values(ITEM_POSITION).includes(layout) == false) console.error(`Invalid layout value: item: ${uuid}`);
 
@@ -26,7 +25,6 @@
             if(style == "backgroundImage") {
                 let filename = styles.item[style];
                 itemElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
-                //itemElement.style['backgroundSize'] = "contain"; <-- default?
             }
 
             else {
@@ -44,6 +42,8 @@
     {#if is_published == 1} 
         <div class="container">
             <div class="section row">
+                {#if title}<div class="title">{title}</div>{/if}
+
                 {#if layout == ITEM_POSITION.RIGHT}
                     <div class="item-component col-md-6 col-sm-12 text-left">
                         <Text_Display {item} />
@@ -102,6 +102,11 @@
         padding: 0;
     }
 
+    .title {
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+
     :global(.text-left .text-item) {
         padding-right: 25px;
     }
@@ -113,5 +118,9 @@
     :global(.caption) {
         font-style: italic;
         font-size: 0.8em;
+    }
+
+    :global(button:not(:first-child)) {
+        margin-left: 20px;
     }
 </style>
