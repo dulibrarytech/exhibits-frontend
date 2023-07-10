@@ -103,11 +103,11 @@
 
 <div class="exhibit-template">
     {#if exhibit}
-        {#each exhibit as {type = "", text = "", subtext = "", id = null}, index} <!-- DEV default null; if/else below-->
+        {#each exhibit as {type = "", text = "", subtext = "", id = null, is_visible=null}, index}
 
             <!-- exhibit heading -->
             {#if type == ITEM_TYPES.HEADING} 
-                <Exhibit_Heading {id} {text} {subtext} />
+                <Exhibit_Heading {id} {text} {subtext} display={is_visible} />
                 
             <!--exhibit item - row layout -->
             {:else if type == ITEM_TYPES.ITEM}
