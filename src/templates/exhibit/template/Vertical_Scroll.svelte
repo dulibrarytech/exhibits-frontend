@@ -103,52 +103,45 @@
 
 <div class="exhibit-template">
     {#if exhibit}
-        {#each exhibit as {type = "", text = "", subtext = "", id = null, is_visible=null}, index}
+        <div class="exhibit-items">
+            {#each exhibit as {type = "", text = "", subtext = "", id = null, is_visible=null}, index}
 
-            <!-- exhibit heading -->
-            {#if type == ITEM_TYPES.HEADING} 
-                <Exhibit_Heading {id} {text} {subtext} display={is_visible} />
-                
-            <!--exhibit item - row layout -->
-            {:else if type == ITEM_TYPES.ITEM}
-                <Item item={exhibit[index]} />
+                <!-- exhibit heading -->
+                {#if type == ITEM_TYPES.HEADING} 
+                    <Exhibit_Heading {id} {text} {subtext} display={is_visible} />
+                    
+                <!--exhibit item - row layout -->
+                {:else if type == ITEM_TYPES.ITEM}
+                    <Item item={exhibit[index]} />
 
-            <!-- exhibit item - grid layout -->
-            {:else if type == ITEM_TEMPLATES.GRID}
-                <Item_Grid items={exhibit[index].items} columns={exhibit[index].columns}/>
+                <!-- exhibit item - grid layout -->
+                {:else if type == ITEM_TEMPLATES.GRID}
+                    <Item_Grid items={exhibit[index].items} columns={exhibit[index].columns}/>
 
-            <!-- exhibit item - vertical timeline grid layout -->
-            {:else if type == ITEM_TEMPLATES.VERTICAL_TIMELINE}
-                <Vertical_Timeline_Item_Grid items={exhibit[index].items} />
+                <!-- exhibit item - vertical timeline grid layout -->
+                {:else if type == ITEM_TEMPLATES.VERTICAL_TIMELINE}
+                    <Vertical_Timeline_Item_Grid items={exhibit[index].items} />
 
-            {/if}
-        {/each}
+                {/if}
+            {/each}
+        </div>
     {/if}
 </div>
 
 <style>
-hr {
-    margin: 0;
-}
-
 .exhibit-template {
-	padding-top: 55px;
+    padding-top: 85px;
 }
 
-/* .section-heading {
-    padding-top: 55px;
-    padding-bottom: 55px;
+:global(.item) {
+    margin-bottom: 85px;
 }
-
-.section-heading h3 {
-    font-size: 1.75em;
-} */
 
 :global(.caption) {
     color: inherit;
 }
 
-:global(.exhibit-template > *) {
+/* :global(.exhibit-template > *) {
     margin-bottom: 85px;
-}
+} */
 </style>

@@ -51,10 +51,6 @@
 </div>
 
 <style>
-    /* .timeline__item--left > div {
-        float: right;
-    } */
-
     .timeline__content {
         padding: 0;
     }

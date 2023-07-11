@@ -24,36 +24,29 @@
     });
 </script>
 
-<div class="grid-section" bind:this={gridElement} >
-
+<div class="grid-content" bind:this={gridElement} >
     <div class="container">
-
         <div class="item-grid">
             {#each items as item}
                 {#if item.is_published}
-                    <div class="item col-xl-{bootstrapColumnValue} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}">
+                    <div class="col-xl-{bootstrapColumnValue} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}">
                         <Grid_Item_Image_Text {item} /> 
                     </div>
                 {/if}
             {/each}
         </div>
-
     </div>
-
 </div>
 
 <style>
-    .grid-section .container {
+    .grid-content .container {
         display: flex;
+        padding-top: 85px;
     }
 
     .item-grid {
         display: inline-flex;
         flex-wrap: wrap;
         margin: 0 auto;
-    }
-
-    :global(.item-grid .item) {
-        padding: 15px;
     }
 </style>

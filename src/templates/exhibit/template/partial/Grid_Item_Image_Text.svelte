@@ -48,53 +48,55 @@
     });
 </script>
 
-<div class="grid-item" bind:this={itemElement}>
-    <a href="#"> <!-- TODO link to url, if repo item -> disc layer, else is user setting? -->
-        {#if date}
-            <div class="date-heading exhibit-heading">
-                <div class="item-date">{date}</div>
-                <hr>
-            </div> 
-        {/if}
-
-        {#if layout == ITEM_POSITION.RIGHT}
-            <div class="float-right">
+<div class="grid-section">
+    <div class="grid-item" bind:this={itemElement}>
+        <a href="#">
+            {#if date}
+                <div class="date-heading exhibit-heading">
+                    <div class="item-date">{date}</div>
+                    <hr>
+                </div> 
+            {/if}
+    
+            {#if layout == ITEM_POSITION.RIGHT}
+                <div class="float-right">
+                    <Item_Preview {item} />
+                </div> 
+                <div class="float-left">
+                    <div class="title">{title}</div>
+                    <div class="description" bind:this={textElement}>{description}</div>
+                </div>
+                
+            {:else if layout == ITEM_POSITION.LEFT}
+                <div class="float-right">
+                    <div class="title">{title}</div>
+                    <div class="description" bind:this={textElement}>{description}</div>
+                </div>
+                <div class="float-left">
+                    <Item_Preview {item} />
+                </div>
+    
+            {:else if layout == ITEM_POSITION.TOP}
+                <div class="title bottom-margin">{title}</div>
                 <Item_Preview {item} />
-            </div> 
-            <div class="float-left">
+                <div class="description top-margin" bind:this={textElement}><p>{description}</p></div>
+    
+            {:else if layout == ITEM_POSITION.BOTTOM}
                 <div class="title">{title}</div>
                 <div class="description" bind:this={textElement}>{description}</div>
-            </div>
-            
-        {:else if layout == ITEM_POSITION.LEFT}
-            <div class="float-right">
+                <Item_Preview {item} />
+    
+            {:else if layout == ITEM_POSITION.TEXT_ONLY}
                 <div class="title">{title}</div>
                 <div class="description" bind:this={textElement}>{description}</div>
-            </div>
-            <div class="float-left">
-                <Item_Preview {item} />
-            </div>
-
-        {:else if layout == ITEM_POSITION.TOP}
-            <div class="title bottom-margin">{title}</div>
-            <Item_Preview {item} />
-            <div class="description top-margin" bind:this={textElement}><p>{description}</p></div>
-
-        {:else if layout == ITEM_POSITION.BOTTOM}
-            <div class="title">{title}</div>
-            <div class="description" bind:this={textElement}>{description}</div>
-            <Item_Preview {item} />
-
-        {:else if layout == ITEM_POSITION.TEXT_ONLY}
-            <div class="title">{title}</div>
-            <div class="description" bind:this={textElement}>{description}</div>
-
-        {:else if layout == ITEM_POSITION.ITEM_ONLY}
-            <div class="item-no-text">
-                <Item_Preview {item} />
-            </div>
-        {/if}
-    </a>
+    
+            {:else if layout == ITEM_POSITION.ITEM_ONLY}
+                <div class="item-no-text">
+                    <Item_Preview {item} />
+                </div>
+            {/if}
+        </a>
+    </div>
 </div>
 
 <style>
@@ -106,8 +108,14 @@
         text-decoration: none;
     }
 
+    .grid-section {
+        padding: 30px;
+        margin-bottom: 85px;
+    }
+
     .grid-item {
         padding: 15px;
+        margin-bottom: 85px;
     }
 
     .top-margin {
@@ -141,9 +149,6 @@
 
     .title {
         font-weight: bold;
+        margin-bottom: 30px;
     }
-
-    /* :global(.item-preview) {
-        width: 90%;
-    } */
 </style>
