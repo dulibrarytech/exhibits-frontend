@@ -1,4 +1,5 @@
 import Home from './views/Home.svelte';
+import Home_2 from './views/Home_2.svelte';
 import Exhibit from './views/Exhibit.svelte';
 import Test_Component from './test/Test_Component.svelte';
 import Test_View from './test/Test_View.svelte';
@@ -8,7 +9,7 @@ const routes = [
     /**********************
      * root
      **********************/
-    {name: '/', component: Home}, // TODO add redirect to /exhibits
+    {name: '/', component: Home},
 
     /**********************
      * exhibit
