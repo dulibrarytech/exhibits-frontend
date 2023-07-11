@@ -33,7 +33,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        column-gap: 14px;
+        column-gap: 25px;
         row-gap: 26px;
         margin: 6px auto;
     }
