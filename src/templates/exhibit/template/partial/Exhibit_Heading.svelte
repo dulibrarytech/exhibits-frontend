@@ -14,7 +14,6 @@
             <div class="section-subtitle">
                 <h5>{subtext}</h5>
             </div>
-            <hr>
         </div>
     {/if}
 </div>
