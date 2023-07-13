@@ -15,6 +15,8 @@
 
     export let items = [];
 
+    let timelineSection;
+
     let verticalStartPosition = "left";
     let verticalTrigger = "150px";
 
@@ -23,6 +25,15 @@
             verticalStartPosition,
             verticalTrigger
         });
+
+        let styles = items[0]?.styles?.item_grid;
+        if(styles) setTheme(styles);
+    }
+
+    const setTheme = (styles) => {
+        for(let style in styles) {
+            timelineSection.style[style] = styles[style];
+        }
     }
 
     onMount(async () => {
@@ -38,37 +49,39 @@
     });
 </script>
 
-<div class="timeline container">
-    <div class="timeline__wrap">
-        <div class="timeline__items">
-            {#each items as item}
-                {#if item.is_published}
-                    {#if item.year_label}
-                        <div class="timeline__item top-offset">
-                            <div class="timeline-label">
-                                <h3>{item.year_label}</h3>
+<div class="timeline-section" bind:this={timelineSection}>
+    <div class="timeline container">
+        <div class="timeline__wrap">
+            <div class="timeline__items">
+                {#each items as item}
+                    {#if item.is_published}
+                        {#if item.year_label}
+                            <div class="timeline__item top-offset">
+                                <div class="timeline-label">
+                                    <h3>{item.year_label}</h3>
+                                </div>
+                                <div class="timeline__content" id="item-{item.uuid}">
+                                    <Grid_Item_Image_Text {item} />
+                                </div>
                             </div>
-                            <div class="timeline__content" id="item-{item.uuid}">
-                                <Grid_Item_Image_Text {item} />
+                        {:else}
+                            <div class="timeline__item">
+                                <div class="timeline__content" id="item-{item.uuid}">
+                                    <Grid_Item_Image_Text {item} />
+                                </div>
                             </div>
-                        </div>
-                    {:else}
-                        <div class="timeline__item">
-                            <div class="timeline__content" id="item-{item.uuid}">
-                                <Grid_Item_Image_Text {item} />
-                            </div>
-                        </div>
+                        {/if}
                     {/if}
-                {/if}
-            {/each}
+                {/each}
+            </div>
         </div>
     </div>
 </div>
 
 <style>
     .timeline {
-        margin-top: 80px;
-        margin-bottom: 80px;
+        padding-top: 80px;
+        padding-bottom: 80px;
     }
 
     .timeline__content {
