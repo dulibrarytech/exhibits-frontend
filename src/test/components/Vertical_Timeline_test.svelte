@@ -16,13 +16,14 @@
             "description": "University of Denver (DU) founder John Evans poses for a portrait. Evans was also one of the founders of Northwestern University, as well as the second governor of the Colorado Territory.",
             "caption": "University of Denver founded by John Evans, also Colorado's Second Territorial Governor.",
             "template": "grid",
-            "columns": "4",
+            // "columns": "4",
             "item_type": "image",
             "url": "27e8d544f03300b782ab2bf39d3cbb8a.jpeg",
             "text": "test text",
             "thumbnail": "27e8d544f03300b782ab2bf39d3cbb8a.jpeg",
             "type": "item",
             "layout": "item_top", // is this needed when the item is opened in popup or separate page? only 'description' is displayed with an item on page/popup?
+            "year_label": "1900",
             "is_published": 1,
             "order": 10,
             "created": "2022-10-13T20:24:20.000Z"
@@ -36,7 +37,7 @@
             "description": "Sand Creek Massacre. More than 160 Cheyenne and Arapaho people - primarily women, children, and elders - are massacred by the Colorado Third Cavalry, led by DU trustee Colonel John Chivington.",
             "caption": "Sand Creek Massacre",
             "template": "grid",
-            "columns": "4",
+            // "columns": "4",
             "item_type": "image",
             "url": "6cf1a7cf3bd10f588bd0122d05346877.jpeg",
             "text": "test text",
@@ -55,7 +56,7 @@
             "description": "The \"Fighting Parsons\" is first mentioned as a nickname for the football team in the Clarion. No likeness or cartoon associated with the nickname; the team is also called \“Fighting Ministers.\"",
             "caption": "Clipping of \"Ministers Snapped in Action\" article in the DU Clarion vol. 27.",
             "template": "grid",
-            "columns": "4",
+            // "columns": "4",
             "item_type": "image",
             "url": "69cc54aa37cc876deb529821667e2f89.jpeg",
             "text": "test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text ",
@@ -74,12 +75,13 @@
             "description": "Clarion article “Denver ‘Battling Ministers’ Seek Fitting Name: War Cry to Replace Outworn Slogans is Big Contest Aim” highlights student desire to change nickname to something that better reflects the school mission and spirit.",
             "caption": "Clarion article “Denver ‘Battling Ministers’",
             "template": "grid",
-            "columns": "4",
+            // "columns": "4",
             "item_type": "image",
             "url": "e5dda358941b0bd63e474a5a27a723c0.jpeg",
             "text": "test text",
             "type": "item",
             "layout": "item_top",
+            "year_label": "1950",
             "is_published": 1,
             "order": 13,
             "created": "2022-10-13T20:24:20.000Z"
@@ -93,7 +95,7 @@
             "description": "Pioneers first mentioned in 1924-25 (vol 27) Kynewisbok, the student yearbook; in subsequent years (such as this image from the 1925-26 yearbook), the University added a “Pioneer Day” to their Homecoming celebrations, where faculty, students, and staff would dress in 1890s costume, often with white students in costume as Native Americans.",
             "caption": "caption text",
             "template": "grid",
-            "columns": "4",
+            // "columns": "4",
             "item_type": "image",
             "url": "a72e0377e0dce115e5bc71fac040dbdb.png",
             "text": "test text",
@@ -112,7 +114,7 @@
             "description": "\"Pioneer Pete\" character appears first as illustrations and then as a mascot-type in the 1950s. “Pioneer Pete” was a person in costume who appeared at football games",
             "caption": "caption text",
             "template": "grid",
-            "columns": "4",
+            // "columns": "4",
             "item_type": "image",
             "url": "b2d4e85c511220df168e4240583de4e5.png",
             "text": "test text",
@@ -134,7 +136,7 @@
             "description": "University of Denver (DU) founder John Evans poses for a portrait. Evans was also one of the founders of Northwestern University, as well as the second governor of the Colorado Territory.",
             "caption": "University of Denver founded by John Evans, also Colorado's Second Territorial Governor.",
             "template": "grid",
-            "columns": "4",
+            // "columns": "4",
             "item_type": "image",
             "url": "27e8d544f03300b782ab2bf39d3cbb8a.jpeg",
             "text": "test text",
@@ -160,7 +162,7 @@
             "description": "Sand Creek Massacre. More than 160 Cheyenne and Arapaho people - primarily women, children, and elders - are massacred by the Colorado Third Cavalry, led by DU trustee Colonel John Chivington.",
             "caption": "Sand Creek Massacre",
             "template": "grid",
-            "columns": "4",
+            // "columns": "4",
             "item_type": "image",
             "url": "6cf1a7cf3bd10f588bd0122d05346877.jpeg",
             "text": "first mentioned as a nickname for the football team in the Clarion. No likeness or cartoon associated with the nickname; the team is also called \“Fighting Ministers",
@@ -277,19 +279,19 @@
 </script>
 
 <!-- <h4>Vertical Timeline</h4> -->
-<div class="label">
+<!-- <div class="label">
     <h3>1850</h3>
-</div>
+</div> -->
 <div class="test">
-    <Vertical_Timeline items={section1} />
+    <Vertical_Timeline items={allItems} />
 </div>
 
-<div class="label">
+<!-- <div class="label">
     <h3>1900</h3>
-</div>
-<div class="test">
+</div> -->
+<!-- <div class="test">
     <Vertical_Timeline items={section2} />
-</div>
+</div> -->
 
 <style>
     .label {

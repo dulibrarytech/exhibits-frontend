@@ -4,7 +4,7 @@
 
 <script>
     /*
-     * extracted from https://github.com/squarechip/timeline
+     * https://github.com/squarechip/timeline
      */
     'use strict'
 
@@ -27,32 +27,69 @@
 
     onMount(async () => {
         init();
+
+        document.querySelectorAll('.timeline__item.animated').forEach((item) => {
+            item.classList.remove('animated');
+        });
+
+        document.querySelectorAll('.timeline__item.top-offset').forEach((item) => {
+            item.style.marginTop = "80px";
+        });
     });
 </script>
 
 <div class="timeline container">
     <div class="timeline__wrap">
         <div class="timeline__items">
-
             {#each items as item}
                 {#if item.is_published}
-
-                    <div class="timeline__item">
-                        <div class="timeline__content" id="item-{item.uuid}">
-                            <Grid_Item_Image_Text {item} />
+                    {#if item.year_label}
+                        <div class="timeline__item top-offset">
+                            <div class="timeline-label">
+                                <h3>{item.year_label}</h3>
+                            </div>
+                            <div class="timeline__content" id="item-{item.uuid}">
+                                <Grid_Item_Image_Text {item} />
+                            </div>
                         </div>
-                    </div>
-
+                    {:else}
+                        <div class="timeline__item">
+                            <div class="timeline__content" id="item-{item.uuid}">
+                                <Grid_Item_Image_Text {item} />
+                            </div>
+                        </div>
+                    {/if}
                 {/if}
             {/each}
-
         </div>
     </div>
 </div>
 
 <style>
+    .timeline {
+        margin-top: 80px;
+        margin-bottom: 80px;
+    }
+
     .timeline__content {
         padding: 0;
+    }
+
+    .timeline-label h3 {
+        margin-bottom: 0;
+        padding: 0.1em;
+    }
+
+    .timeline-label {
+        position: absolute;
+        background: lightgray;
+        color: black;
+        border-radius: 5px;
+        top: -50px;
+    }
+
+    :global(.timeline-item.top-offset) {
+        top: 80px;
     }
 
     :global(.timeline__item--left .timeline__content:after) {
@@ -65,5 +102,13 @@
 
     :global(.grid-item) {
         border-radius: 10px;
+    }
+
+    :global(.timeline__item--left .timeline-label) {
+        right: -35px;
+    }
+
+    :global(.timeline__item--right .timeline-label) {
+        left: -35px;
     }
 </style>

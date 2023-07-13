@@ -34,6 +34,8 @@
     $: {
         try {
             init();
+
+            console.log("TEST items in", items)
         }
         catch (error) {
             console.error(error);
@@ -50,7 +52,14 @@
             <div class="col-6 left-items">
                 
                 {#each sorted.left as item}
+
                     <div class="timeline-item" id="timeline-item-{item.uuid || ''}">
+                        {#if item.year_label}
+                            <div class="timeline-label">
+                                <h3>{item.year_label}</h3>
+                            </div>
+                        {/if}
+
                         <div class="timeline-connector timeline-connector-left"></div>
                         <Grid_Item_Image_Text {item} />
                     </div>
@@ -62,6 +71,13 @@
                 
                 {#each sorted.right as item}
                     <div class="timeline-item">
+
+                        {#if item.year_label}
+                            <div class="timeline-label">
+                                <h3>{item.year_label}</h3>
+                            </div>
+                        {/if}
+
                         <div class="timeline-connector timeline-connector-right"></div>
                         <Grid_Item_Image_Text {item} />
                     </div>
@@ -90,6 +106,19 @@
 
     .timeline-item {
         position: relative;
+    }
+
+    .timeline-label {
+        position: absolute;
+        right: -38px;
+        z-index: 10;
+        background: grey;
+        border-radius: 9px;
+    }
+
+    .timeline-label h3 {
+        margin-bottom: 0;
+        padding: 0.1em;
     }
 
     :global(.timeline-item .grid-item) {
