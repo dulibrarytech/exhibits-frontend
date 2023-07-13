@@ -39,9 +39,11 @@
 </div>
 
 <style>
+    .grid-content {
+        padding-top: 80px;
+    }
     .grid-content .container {
         display: flex;
-        padding-top: 85px;
     }
 
     .item-grid {
