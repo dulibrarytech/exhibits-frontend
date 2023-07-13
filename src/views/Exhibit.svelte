@@ -57,14 +57,13 @@
    const setTheme = (styles) => {
         let {heading={}, navigation={}, template={}} = styles;
 
-        /* apply styles to entire exhibit */
+        /* Exhibit template theme */
         let templateElement = document.querySelector('.exhibit-template');
         for(let style in template) {
             if(style == "backgroundImage") {
-                let filename = template[style];
-                let pageElement = document.querySelector(".exhibit-page")
-                pageElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
-                //pageElement.style['backgroundSize'] = "contain"; // <-- default?
+                let filename = template[style];  
+                let exhibitPage = document.querySelector(".exhibit-page");              
+                if(exhibitPage) exhibitPage.style[style] = `url('${ Resource.getUrl(filename) }')`;
             }
 
             else {
@@ -72,6 +71,7 @@
             }
         }
 
+        /* Exhibit heading theme */
         let headingElements = document.querySelectorAll(".exhibit-heading");
         for(let element of headingElements) {
             for(let style in heading) {
@@ -79,19 +79,19 @@
             }
         }
 
+        /* Navigation menu bar (top) or section (side) theme */
         let navigationMenu = document.querySelector('.exhibit-navigation');
         for(let style in navigation.menu) {
             navigationMenu.style[style] = navigation.menu[style];
         }
 
+        /* Navigation menu link theme, does not affect navigation menu */
         let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation ul li a');
         for(let link of navigationMenuLinks) {
             for(let style in navigation.links) {
                 link.style[style] = navigation.links[style];
             }
         }
-
-
     }
 
     const onMountPage = (event) => {
