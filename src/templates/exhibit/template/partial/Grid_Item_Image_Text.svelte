@@ -44,7 +44,7 @@
     }
 
     onMount(() => {
-        setTheme(styles); 
+        if(styles) setTheme(styles); 
     });
 </script>
 
@@ -115,7 +115,6 @@
 
     .grid-item {
         padding: 15px;
-        margin-bottom: 85px;
     }
 
     .top-margin {
