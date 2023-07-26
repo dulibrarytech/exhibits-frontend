@@ -34,8 +34,6 @@
     $: {
         try {
             init();
-
-            console.log("TEST items in", items)
         }
         catch (error) {
             console.error(error);

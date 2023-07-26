@@ -9,7 +9,7 @@ const routes = [
     /**********************
      * root
      **********************/
-    {name: '/', component: Home},
+    {name: '/', component: Home_2},
 
     /**********************
      * exhibit

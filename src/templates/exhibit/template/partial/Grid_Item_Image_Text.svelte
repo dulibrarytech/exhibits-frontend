@@ -22,7 +22,7 @@
     $: {
         date = item.date || null;
         title = item.title || null;
-        description = item.text || null;
+        description = item.description || item.text || "text not found";
         layout = item.layout || Settings.gridItemDefaultLayout;
         styles = item.styles || null;
     }
@@ -64,13 +64,13 @@
                 </div> 
                 <div class="float-left">
                     <div class="title">{title}</div>
-                    <div class="description" bind:this={textElement}>{description}</div>
+                    <div class="description" bind:this={textElement}>{@html description}</div>
                 </div>
                 
             {:else if layout == ITEM_POSITION.LEFT}
                 <div class="float-right">
                     <div class="title">{title}</div>
-                    <div class="description" bind:this={textElement}>{description}</div>
+                    <div class="description" bind:this={textElement}>{@html description}</div>
                 </div>
                 <div class="float-left">
                     <Item_Preview {item} />
@@ -79,16 +79,16 @@
             {:else if layout == ITEM_POSITION.TOP}
                 <div class="title bottom-margin">{title}</div>
                 <Item_Preview {item} />
-                <div class="description top-margin" bind:this={textElement}><p>{description}</p></div>
+                <div class="description top-margin" bind:this={textElement}><p>{@html description}</p></div>
     
             {:else if layout == ITEM_POSITION.BOTTOM}
                 <div class="title">{title}</div>
-                <div class="description" bind:this={textElement}>{description}</div>
+                <div class="description" bind:this={textElement}>{@html description}</div>
                 <Item_Preview {item} />
     
             {:else if layout == ITEM_POSITION.TEXT_ONLY}
-                <div class="title">{title}</div>
-                <div class="description" bind:this={textElement}>{description}</div>
+                {#if title}<div class="title">{title}</div>{/if}
+                <div class="description" bind:this={textElement}>{@html description}</div>
     
             {:else if layout == ITEM_POSITION.ITEM_ONLY}
                 <div class="item-no-text">
@@ -109,7 +109,6 @@
     }
 
     .grid-section {
-        padding: 30px;
         margin-bottom: 85px;
     }
 

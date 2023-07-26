@@ -130,7 +130,7 @@
 
 <style>
 .exhibit-template {
-    padding-top: 85px;
+    /* padding-top: 85px; */
 }
 
 :global(.item) {

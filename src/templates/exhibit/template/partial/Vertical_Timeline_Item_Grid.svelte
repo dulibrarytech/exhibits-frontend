@@ -117,6 +117,11 @@
         border-radius: 10px;
     }
 
+    :global(.timeline .grid-section) {
+        padding: 0;
+        margin-bottom: 0px !important;
+    }
+
     :global(.timeline__item--left .timeline-label) {
         right: -35px;
     }

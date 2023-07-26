@@ -51,4 +51,8 @@
         flex-wrap: wrap;
         margin: 0 auto;
     }
+
+    :global(.item-grid .grid-section) {
+        padding: 30px;
+    }
 </style>
