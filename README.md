@@ -54,6 +54,10 @@ FilesystemCache.pathname = /var/cache/{cache location}
 
 copy 'delegates.rb' file into cantaloupe root folder (replace if existing file)
 
+#### start_server.sh
+
+Update with Cantaloupe path
+
 ## App Configuration 
 
 ### Environment variables
