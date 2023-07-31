@@ -28,10 +28,12 @@
     
     <section class="hero-text">
         <div class="container">
+            {#if title}
             <div class="title-text">
                 <div id="title" class="overlay-text text">{title}</div>
                 {#if subtitle}<div id="subtitle" class="overlay-text text">{subtitle}</div>{/if}
             </div>
+            {/if}
             {#if description}
                 <hr>
                 <div class="description-text">

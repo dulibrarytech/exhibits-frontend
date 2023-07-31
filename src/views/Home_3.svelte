@@ -1,4 +1,4 @@
-<!-- homepage option with fullwidth hero image -->
+<!-- homepage option with no hero image -->
 
 <script>
     import { onMount } from 'svelte';
@@ -49,20 +49,11 @@
 </script>
 
 <div class="homepage">
-
-    {#if featuredExhibits}
-        <div class="row">
-            <div class="col-lg-12">
-                <Hero_Slider items={featuredExhibits} />
-            </div>
-        </div>
-    {/if}
-
     <div class="container">
         {#if featuredExhibits}
             <div class="row heading">
                 <div class="col-lg-12">
-                    <h3>Featured</h3>
+                    <h3>Featured Exhibits</h3>
                 </div>
             </div>
             <div class="row preview-section">
@@ -109,8 +100,12 @@
 </div>
 
 <style>
+    .homepage {
+        padding: 50px 0;
+    }
+
     .homepage .row {
-        margin-bottom: 24px;
+        margin-bottom: 50px;
     }
 
     .homepage h3 {
@@ -128,5 +123,9 @@
         float: right;
         position: relative;
         top: 14px;
+    }
+
+    .featured > .container {
+        padding: 0;
     }
 </style>

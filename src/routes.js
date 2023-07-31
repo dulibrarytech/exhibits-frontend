@@ -1,15 +1,21 @@
 import Home from './views/Home.svelte';
 import Home_2 from './views/Home_2.svelte';
+import Home_3 from './views/Home_3.svelte';
+
 import Exhibit from './views/Exhibit.svelte';
+
 import Test_Component from './test/Test_Component.svelte';
 import Test_View from './test/Test_View.svelte';
+
 import NotFound from './views/NotFound.svelte';
 
 const routes = [
     /**********************
      * root
      **********************/
-    {name: '/', component: Home_2},
+    {name: '/', component: Home},
+    {name: '/home2', component: Home_2},
+    {name: '/home3', component: Home_3},
 
     /**********************
      * exhibit
