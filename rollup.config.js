@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const production = !process.env.ROLLUP_WATCH;
+const production = process.env.NODE_ENV == "production";
 
 function serve() {
 	let server;
@@ -69,7 +69,8 @@ export default {
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
-		!production && livereload('public'),
+		// !production && livereload('public'),
+		!production && livereload({watch: 'public', port: 35730}),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
