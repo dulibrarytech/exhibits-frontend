@@ -14,6 +14,8 @@ const routes = [
      * root
      **********************/
     {name: '/', component: Home},
+
+    // Test Home pages //
     {name: '/home2', component: Home_2},
     {name: '/home3', component: Home_3},
 
