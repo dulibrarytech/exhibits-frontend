@@ -134,7 +134,7 @@
 }
 
 :global(.item) {
-    margin-bottom: 85px;
+    /* margin-bottom: 85px; */
 }
 
 :global(.caption) {

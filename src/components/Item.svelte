@@ -15,7 +15,14 @@
 
     let itemElement;
     
-    let {title=null, is_published=0, layout, uuid, styles = null} = item;
+    let {
+        uuid, 
+        title = null, 
+        is_published = 0, 
+        layout = ITEM_POSITION.RIGHT,  
+        styles = null
+
+    } = item;
 
     if(Object.values(ITEM_POSITION).includes(layout) == false) console.error(`Invalid layout value: item: ${uuid}`);
 
@@ -94,7 +101,9 @@
         padding-bottom: 50px;
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 85px;
+        /* margin-bottom: 85px; */
+        /* margin-bottom: 42px;
+        margin-top: 42px; */
     }
 
     .item-component {
