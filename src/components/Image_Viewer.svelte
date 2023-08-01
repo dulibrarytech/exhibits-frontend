@@ -18,7 +18,7 @@
         url = null,
         filename = null,
         imageType = null,
-        caption = ""
+        caption = null
 
     } = args;
 
@@ -86,7 +86,7 @@
             {#if viewer == HTML_VIEWER}
                 <div class="content">
                     <img src={sourceUrl} alt={altText} title={altText}/>
-                    <span class="caption">{caption}</span>
+                    {#if caption}<span class="caption">{caption}</span>{/if}
                 </div>
 
             {:else if viewer == TILE_VIEWER}
