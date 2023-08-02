@@ -16,3 +16,9 @@ export const ITEM_POSITION = {
     ITEM_ONLY: "item_only",
     TEXT_ONLY: "text_only"
 }
+
+export const MEDIA_BLOCK_WIDTH = {
+    HALF: "half",
+    THIRD: "third",
+    QUARTER: "quarter"
+}

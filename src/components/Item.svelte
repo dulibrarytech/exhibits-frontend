@@ -7,7 +7,7 @@
     import Text_Display from './Text_Display.svelte';
     import Media_Display from './Media_Display.svelte';
 
-    import { ITEM_POSITION } from '../config/global-constants';
+    import { ITEM_POSITION, MEDIA_BLOCK_WIDTH } from '../config/global-constants';
 
     export let item = {};
 
@@ -20,6 +20,7 @@
         title = null, 
         is_published = 0, 
         layout = ITEM_POSITION.RIGHT,  
+        media_width = MEDIA_BLOCK_WIDTH.HALF,
         styles = null
 
     } = item;
@@ -52,19 +53,53 @@
                 {#if title}<div class="title">{title}</div>{/if}
 
                 {#if layout == ITEM_POSITION.RIGHT}
-                    <div class="item-component col-md-6 col-sm-12 text-left">
-                        <Text_Display {item} />
-                    </div>
-                    <div class="item-component col-md-6 col-sm-12">
-                        <Media_Display {item} />
-                    </div>
+                    {#if media_width == MEDIA_BLOCK_WIDTH.HALF}
+                        <div class="item-component col-lg-6 col-md-6 col-sm-12 text-left">
+                            <Text_Display {item} />
+                        </div>
+                        <div class="item-component col-lg-6 col-md-6 col-sm-12">
+                            <Media_Display {item} />
+                        </div>
+                    {:else if media_width == MEDIA_BLOCK_WIDTH.THIRD}
+                        <div class="item-component col-lg-8 col-md-6 col-sm-12 text-left">
+                            <Text_Display {item} />
+                        </div>
+                        <div class="item-component col-lg-4 col-md-6 col-sm-12">
+                            <Media_Display {item} />
+                        </div>
+                    {:else if media_width == MEDIA_BLOCK_WIDTH.QUARTER}
+                        <div class="item-component col-lg-9 col-md-6 col-sm-12 text-left">
+                            <Text_Display {item} />
+                        </div>
+                        <div class="item-component col-lg-3 col-md-6 col-sm-12">
+                            <Media_Display {item} />
+                        </div>
+                    {/if}
+
                 {:else if layout == ITEM_POSITION.LEFT}
-                    <div class="item-component col-lg-6 col-md-12">
-                        <Media_Display {item} />
-                    </div>
-                    <div class="item-component col-lg-6 col-md-12 text-right">
-                        <Text_Display {item} />
-                    </div>
+                    {#if media_width == MEDIA_BLOCK_WIDTH.HALF}
+                        <div class="item-component col-lg-6 col-md-6 col-md-12">
+                            <Media_Display {item} />
+                        </div>
+                        <div class="item-component col-lg-6 col-md-6 col-md-12 text-right">
+                            <Text_Display {item} />
+                        </div>
+                    {:else if media_width == MEDIA_BLOCK_WIDTH.THIRD}
+                        <div class="item-component col-lg-4 col-md-6 col-md-12">
+                            <Media_Display {item} />
+                        </div>
+                        <div class="item-component col-lg-8 col-md-6 col-md-12 text-right">
+                            <Text_Display {item} />
+                        </div>
+                    {:else if media_width == MEDIA_BLOCK_WIDTH.QUARTER}
+                        <div class="item-component col-lg-3 col-md-6 col-md-12">
+                            <Media_Display {item} />
+                        </div>
+                        <div class="item-component col-lg-9 col-md-6 col-md-12 text-right">
+                            <Text_Display {item} />
+                        </div>
+                    {/if}
+
                 {:else if layout == ITEM_POSITION.TOP}
                     <div class="col-md-12">
                         <div style="margin-bottom: {VERTICAL_ITEM_MARGIN}">
@@ -74,6 +109,7 @@
                             <Text_Display {item} />
                         </div>
                     </div>
+
                 {:else if layout == ITEM_POSITION.BOTTOM}
                     <div class="col-md-12">
                         <div style="margin-bottom: {VERTICAL_ITEM_MARGIN}">
@@ -81,14 +117,17 @@
                         </div>
                         <Media_Display {item} />
                     </div>
+
                 {:else if layout == ITEM_POSITION.ITEM_ONLY}
                     <div class="col-md-12">
                         <Media_Display {item} />
                     </div>
+
                 {:else if layout == ITEM_POSITION.TEXT_ONLY}
                     <div class="col-md-12">
                         <Text_Display {item} />
                     </div>
+
                 {/if}
             </div>
         </div>
@@ -104,6 +143,7 @@
         /* margin-bottom: 85px; */
         /* margin-bottom: 42px;
         margin-top: 42px; */
+        margin-bottom: 80px;
     }
 
     .item-component {
