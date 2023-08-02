@@ -1,10 +1,25 @@
 <script>
-'use strict'
+    'use strict'
 
+    import { onMount } from 'svelte';
+    import jQuery from 'jquery';
 
+    jQuery.noConflict(true)
+
+    console.log("jQuery:", jQuery('.site-link'))
+
+    jQuery('#testid').hide()
+
+    onMount(() => {
+		//window.jQuery = jQuery;
+
+        //console.log("window jQuery:", jQuery)
+
+        //siteSticky();
+	});
 </script>
 
-<div class="main-menu">
+<div class="main-menu" id="testid">
     <a href="#"><i class="bi bi-list"></i></a>
 </div>
 

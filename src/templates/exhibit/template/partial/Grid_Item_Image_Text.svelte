@@ -55,6 +55,7 @@
                 <div class="date-heading exhibit-heading">
                     <div class="item-date">{date}</div>
                     <hr>
+                    <br>
                 </div> 
             {/if}
     
@@ -63,13 +64,13 @@
                     <Item_Preview {item} />
                 </div> 
                 <div class="float-left">
-                    <div class="title">{title}</div>
+                    {#if title}<div class="title">{title}</div>{/if}
                     <div class="description" bind:this={textElement}>{@html description}</div>
                 </div>
                 
             {:else if layout == ITEM_POSITION.LEFT}
                 <div class="float-right">
-                    <div class="title">{title}</div>
+                    {#if title}<div class="title">{title}</div>{/if}
                     <div class="description" bind:this={textElement}>{@html description}</div>
                 </div>
                 <div class="float-left">
@@ -77,12 +78,12 @@
                 </div>
     
             {:else if layout == ITEM_POSITION.TOP}
-                <div class="title bottom-margin">{title}</div>
+                {#if title}<div class="title">{title}</div>{/if}
                 <Item_Preview {item} />
                 <div class="description top-margin" bind:this={textElement}><p>{@html description}</p></div>
     
             {:else if layout == ITEM_POSITION.BOTTOM}
-                <div class="title">{title}</div>
+                {#if title}<div class="title">{title}</div>{/if}
                 <div class="description" bind:this={textElement}>{@html description}</div>
                 <Item_Preview {item} />
     
@@ -92,6 +93,7 @@
     
             {:else if layout == ITEM_POSITION.ITEM_ONLY}
                 <div class="item-no-text">
+                    {#if title}<div class="title">{title}</div>{/if}
                     <Item_Preview {item} />
                 </div>
             {/if}
@@ -126,6 +128,7 @@
 
     .item-date {
         font-weight: bold;
+        font-size: 1.2em;
     }
 
     .date-heading {

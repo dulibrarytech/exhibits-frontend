@@ -79,6 +79,10 @@
 </div>
 
 <style>
+    .timeline-section {
+        padding: 80px 0;
+    }
+
     .timeline {
         padding-top: 80px;
         padding-bottom: 80px;
