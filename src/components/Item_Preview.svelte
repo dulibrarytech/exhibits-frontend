@@ -131,11 +131,13 @@
 <style>
     img {
         width: 100%;
+        pointer-events: none;
     }
 
     .item-preview {
         margin-bottom: 1em;
         margin: 0 auto;
+        pointer-events: none;
     }
 
     .caption {

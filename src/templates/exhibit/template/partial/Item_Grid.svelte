@@ -3,10 +3,13 @@
     'use strict'
     
     import { onMount } from 'svelte';
+    import { createEventDispatcher } from 'svelte';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
 
     export let items = [];
-    export let columns = 4; 
+    export let columns = 4;
+
+    const dispatch = createEventDispatcher();
 
     let gridElement;
 
@@ -16,6 +19,11 @@
         for(let style in styles) {
             gridElement.style[style] = styles[style];
         }
+    }
+
+    const onClickPreview = (event) => {
+        let itemId = event.detail.itemId || null;
+        if(itemId) dispatch('click-item', {itemId});
     }
 
     onMount(async () => {
@@ -30,7 +38,7 @@
             {#each items as item}
                 {#if item.is_published}
                     <div class="col-xl-{bootstrapColumnValue} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}">
-                        <Grid_Item_Image_Text {item} /> 
+                        <Grid_Item_Image_Text {item} on:click-preview={onClickPreview} /> 
                     </div>
                 {/if}
             {/each}

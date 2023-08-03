@@ -12,7 +12,11 @@
 
     const dispatch = createEventDispatcher();
 
-    // on mount disatch 'loaded'
+    const onClickItem = (event) => {
+        let itemId = event.detail.itemId || null;
+        dispatch('click-item', {itemId});
+    }
+
     onMount(async () => {
         dispatch('mount', {});
     });
@@ -31,7 +35,7 @@
             </div>
         </nav>
         
-        <svelte:component this={template} {sections} {items} />
+        <svelte:component this={template} {sections} {items} on:click-item={onClickItem} />
     {:else}
         <h3>Loading template...</h3>
     {/if}

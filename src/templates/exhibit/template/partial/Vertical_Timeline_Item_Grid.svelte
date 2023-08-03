@@ -9,11 +9,14 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import { createEventDispatcher } from 'svelte';
 
     import {Timeline} from '../../../../libs/timeline';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
 
     export let items = [];
+
+    const dispatch = createEventDispatcher();
 
     let timelineSection;
 
@@ -34,6 +37,11 @@
         for(let style in styles) {
             timelineSection.style[style] = styles[style];
         }
+    }
+
+    const onClickPreview = (event) => {
+        let itemId = event.detail.itemId || null;
+        if(itemId) dispatch('click-item', {itemId});
     }
 
     onMount(async () => {
@@ -61,13 +69,13 @@
                                     <h3>{item.year_label}</h3>
                                 </div>
                                 <div class="timeline__content" id="item-{item.uuid}">
-                                    <Grid_Item_Image_Text {item} />
+                                    <Grid_Item_Image_Text {item} on:click-preview={onClickPreview} />
                                 </div>
                             </div>
                         {:else}
                             <div class="timeline__item">
                                 <div class="timeline__content" id="item-{item.uuid}">
-                                    <Grid_Item_Image_Text {item} />
+                                    <Grid_Item_Image_Text {item} on:click-preview={onClickPreview} />
                                 </div>
                             </div>
                         {/if}

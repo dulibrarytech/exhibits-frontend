@@ -7,6 +7,7 @@
     import { Templates } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
     import { _getPagesCountByParticlesCountLimited } from 'svelte-carousel/src/utils/page';
+    import Modal_Media_Display from '../components/Modal_Media_Display.svelte';
 
     export let currentRoute;
 
@@ -17,6 +18,8 @@
     var sections = null;
     var items = [];
     var data = null;
+    var modalItem = null;
+    var modalDialog = null;
 
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
@@ -54,7 +57,13 @@
         return sections;
     }
 
-   const setTheme = (styles) => {
+    const getItemById = (id) => {
+        return items.find((data) => {
+            return data.uuid == id;
+        }) || null;
+    }
+
+    const setTheme = (styles) => {
         let {heading={}, navigation={}, template={}} = styles;
 
         /* Exhibit template theme */
@@ -99,13 +108,25 @@
         if(styles) setTheme(styles);
     }
 
+    const onOpenViewerModal = (event) => {
+        modalItem = getItemById(event.detail.itemId || null);
+        if(!modalDialog) modalDialog = Modal_Media_Display;
+    }
+
+    const onCloseViewerModal = (event) => {
+        modalItem = null;
+        modalDialog = null;
+    }
+
     onMount(async () => {
         init();
     });
 </script>
 
 {#if pageLayout}
-    <svelte:component this={pageLayout} {data} {template} {sections} {items} on:mount={onMountPage}/>
+    <svelte:component this={pageLayout} {data} {template} {sections} {items} on:mount={onMountPage} on:click-item={onOpenViewerModal} />
+
+    {#if modalDialog}<svelte:component this={modalDialog} item={modalItem} on:close={onCloseViewerModal}/>{/if}
 {:else}
     <h3>Loading exhibit...</h3>
 {/if}

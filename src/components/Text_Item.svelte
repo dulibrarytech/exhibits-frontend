@@ -35,7 +35,6 @@
 
 <style>
     .text-item {
-        text-align: left;
         height: 100%;
     }
 </style>

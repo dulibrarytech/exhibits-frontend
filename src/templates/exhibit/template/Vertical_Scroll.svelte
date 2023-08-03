@@ -94,6 +94,11 @@
         return sorted;
     }
 
+    const onClickItem = (event) => {
+        let itemId = event.detail.itemId || null;
+        dispatch('click-item', {itemId});
+    }
+
     render();
 
     onMount(async () => {
@@ -116,7 +121,7 @@
 
                 <!-- exhibit item - grid layout -->
                 {:else if type == ITEM_TEMPLATES.GRID}
-                    <Item_Grid items={exhibit[index].items} columns={exhibit[index].columns}/>
+                    <Item_Grid items={exhibit[index].items} columns={exhibit[index].columns} on:click-item={onClickItem} />
 
                 <!-- exhibit item - vertical timeline grid layout -->
                 {:else if type == ITEM_TEMPLATES.VERTICAL_TIMELINE}

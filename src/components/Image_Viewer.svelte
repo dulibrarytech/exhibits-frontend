@@ -12,8 +12,6 @@
 
     export let args;
 
-    console.log("Image viewer data in:", args)
-
     let {
         url = null,
         filename = null,
