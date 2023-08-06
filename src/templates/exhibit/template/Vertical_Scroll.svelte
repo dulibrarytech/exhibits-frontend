@@ -125,7 +125,7 @@
 
                 <!-- exhibit item - vertical timeline grid layout -->
                 {:else if type == ITEM_TEMPLATES.VERTICAL_TIMELINE}
-                    <Vertical_Timeline_Item_Grid items={exhibit[index].items} />
+                    <Vertical_Timeline_Item_Grid items={exhibit[index].items} on:click-item={onClickItem} />
 
                 {/if}
             {/each}

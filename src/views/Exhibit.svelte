@@ -111,11 +111,13 @@
     const onOpenViewerModal = (event) => {
         modalItem = getItemById(event.detail.itemId || null);
         if(!modalDialog) modalDialog = Modal_Media_Display;
+        document.body.classList.add('modal-open');
     }
 
     const onCloseViewerModal = (event) => {
         modalItem = null;
         modalDialog = null;
+        document.body.classList.remove('modal-open');
     }
 
     onMount(async () => {
@@ -132,5 +134,9 @@
 {/if}
 
 <style>
-
+    :global(body.modal-open) {
+		height: 100vh;
+		overflow-y: hidden;
+		padding-right: 15px; /* Avoid width reflow */
+	}
 </style>
