@@ -24,7 +24,10 @@
 		<div>
 			<div class="modal-menu">
 				<!-- svelte-ignore a11y-autofocus -->
-				<button on:click={() => dialog.close()}>close</button>
+				<button id="openseadragon-zoom-in" title="Zoom In"><i class="bi bi-plus-lg"></i></button>
+				<button id="openseadragon-zoom-out"><i class="bi bi-dash"></i></button>
+				<button id="openseadragon-zoom-initial"><i class="bi bi-house"></i></button>
+				<button on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
 			</div>
 
 			<div class="modal-content" >
@@ -44,7 +47,15 @@
 	.modal-menu {
 		height: 50px;
 		pointer-events: initial;
+		display: inline-flex;
 	}
+	
+	.modal-menu button {
+		color: #818181;
+		min-width: 42px;
+		font-size: 18px;
+	}
+
 
 	.modal-content {
 		background: #3C4043;
@@ -54,8 +65,8 @@
 	}
 
 	:global(.modal-item-viewer .media-item) {
-		/* width: 100%; */
-		width: 67vw;
+		width: 100%;
+		/* width: 67vw; */
 	}
 
 	:global(.modal-item-viewer .media-item .caption) {

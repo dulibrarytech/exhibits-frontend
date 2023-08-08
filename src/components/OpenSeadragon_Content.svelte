@@ -3,7 +3,6 @@
     import OpenSeadragon from 'openseadragon'
 
     export let url;
-    export let altText = "Image";
 
     var viewer = null;
 
@@ -13,12 +12,18 @@
                 id: "openseadragon1",
                 prefixUrl: "/assets/images/openseadragon/",
                 tileSources: url,
-                zoomPerScroll: 1.0
+                zoomPerScroll: 1.2,
+                showFullPageControl: false,
+                zoomInButton: "openseadragon-zoom-in",
+                zoomOutButton: "openseadragon-zoom-out",
+                homeButton: "openseadragon-zoom-initial"
             });
         }
         catch(e) {
             console.error(`Error initializing OpenSeadragon viewer: ${e}`);
         }
+
+        document.querySelector("#openseadragon1").addEventListener("mousewheel", ()=>{}, false);
     });
 </script>
 
