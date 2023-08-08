@@ -38,6 +38,7 @@
 <style>
 	.modal-item-viewer {
 		height: 100vh;
+		width: 100%;
 	}
 
 	.modal-menu {
@@ -69,7 +70,7 @@
 	}
 
 	dialog {
-		max-width: 85%;
+		width: 85%;
 		border-radius: 0.2em;
 		border: none;
 		padding: 0;
@@ -82,6 +83,7 @@
 	}
 	dialog > div {
 		padding: 1em;
+		width: 100%;
 	}
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
