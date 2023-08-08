@@ -40,6 +40,12 @@
             return false;
         });
 
+        // dev
+        recents.push(exhibits[2])
+        recents.push(exhibits[4])
+        recents.push(exhibits[6])
+        recents.push(exhibits[8])
+
         return recents.length > 0 ? recents : null;
     }
 
@@ -52,8 +58,13 @@
     <div class="container">
         {#if featuredExhibits}
             <div class="row heading">
-                <div class="col-lg-12">
-                    <h3>Featured Exhibits</h3>
+                <div class="col-md-6">
+                    <h3>Featured</h3>
+                </div>
+                <div class="col-md-6">
+                    <div class="exhibits-search">
+                        <Search_Box />
+                    </div>
                 </div>
             </div>
             <div class="row preview-section">
@@ -76,7 +87,22 @@
             </div>
         {/if}
 
-        <div class="row heading">
+        {#if exhibits}
+            <div class="row heading">
+                <div class="col-lg-12">
+                    <h3>Exhibits</h3>
+                </div>
+            </div>
+            <div class="row preview-section">
+                <div class="col-lg-12">
+                    <Exhibit_Preview_Grid {exhibits} />
+                </div>
+            </div>
+        {:else}
+            <h6>No exhibits found</h6>
+        {/if}
+
+        <!-- <div class="row heading">
             <div class="col-md-6">
                 <h3>Explore</h3>
             </div>
@@ -95,7 +121,7 @@
             {:else}
                 <h6>No exhibits found</h6>
             {/if}
-        </div>
+        </div> -->
     </div>
 </div>
 

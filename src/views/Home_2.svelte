@@ -40,6 +40,12 @@
             return false;
         });
 
+        // dev
+        recents.push(exhibits[2])
+        recents.push(exhibits[4])
+        recents.push(exhibits[6])
+        recents.push(exhibits[8])
+
         return recents.length > 0 ? recents : null;
     }
 
@@ -59,7 +65,7 @@
     {/if}
 
     <div class="container">
-        {#if featuredExhibits}
+        <!-- {#if featuredExhibits}
             <div class="row heading">
                 <div class="col-lg-12">
                     <h3>Featured</h3>
@@ -70,7 +76,7 @@
                     <Exhibit_Preview_Grid exhibits={featuredExhibits} />
                 </div>
             </div>
-        {/if}
+        {/if} -->
 
         {#if recentExhibits}
             <div class="row heading">
@@ -87,7 +93,7 @@
 
         <div class="row heading">
             <div class="col-md-6">
-                <h3>Explore</h3>
+                <h3>Exhibits</h3>
             </div>
             <div class="col-md-6">
                 <div class="exhibits-search">
