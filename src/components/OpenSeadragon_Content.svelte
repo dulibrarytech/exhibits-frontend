@@ -12,7 +12,8 @@
             viewer = OpenSeadragon({
                 id: "openseadragon1",
                 prefixUrl: "/assets/images/openseadragon/",
-                tileSources: url
+                tileSources: url,
+                zoomPerScroll: 1.0
             });
         }
         catch(e) {
@@ -21,7 +22,7 @@
     });
 </script>
 
-<div class="openseadragon content" id="openseadragon1" title={altText}></div>
+<div class="openseadragon content" id="openseadragon1"></div>
 <!-- <div class="openseadragon content" id="openseadragon1" style="width: 100%" title={altText}></div> --> <!-- dev -->
 <!-- <div style='height: 75vh'></div> --> <!-- dev -->
 

@@ -54,7 +54,8 @@
 	}
 
 	:global(.modal-item-viewer .media-item) {
-		width: 100%;
+		/* width: 100%; */
+		width: 67vw;
 	}
 
 	:global(.modal-item-viewer .media-item .caption) {
@@ -67,6 +68,10 @@
 
 	:global(.modal-item-viewer .openseadragon) {
 		width: unset;
+	}
+
+	:global(.modal-item-viewer .text-item .content) {
+		padding: 2.4em;
 	}
 
 	dialog {
