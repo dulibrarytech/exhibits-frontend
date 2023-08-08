@@ -13,11 +13,11 @@ const routes = [
     /**********************
      * root
      **********************/
-    {name: '/', component: Home_2},
+    {name: '/', component: Home_3},
 
     // Test Home pages //
-    {name: '/home2', component: Home},
-    {name: '/home3', component: Home_3},
+    {name: '/home2', component: Home_2},
+    {name: '/home3', component: Home},
 
     /**********************
      * exhibit

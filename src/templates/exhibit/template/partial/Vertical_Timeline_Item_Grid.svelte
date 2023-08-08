@@ -41,7 +41,6 @@
 
     const onClickPreview = (event) => {
         let itemId = event.detail.itemId || null;
-        console.log("TEST clicked TL preview:", itemId)
         if(itemId) dispatch('click-item', {itemId});
     }
 

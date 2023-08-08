@@ -46,10 +46,10 @@
 	}
 
 	.modal-content {
-		overflow-x: hidden;
-    	overflow-y: scroll;
-    	height: 85vh;
 		background: #3C4043;
+		border: none;
+		height: 86vh;
+    	overflow-y: scroll;
 	}
 
 	:global(.modal-item-viewer .media-item) {
@@ -74,7 +74,6 @@
 		border: none;
 		padding: 0;
 		overflow: hidden;
-    	height: 94vh;
 		background: #e5e3e1;
 		
 	}

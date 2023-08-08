@@ -22,7 +22,8 @@
 </script>
 
 <div class="openseadragon content" id="openseadragon1" title={altText}></div>
-<!-- <div class="openseadragon content" id="openseadragon1" style="width: 100%" title={altText}></div> -->
+<!-- <div class="openseadragon content" id="openseadragon1" style="width: 100%" title={altText}></div> --> <!-- dev -->
+<!-- <div style='height: 75vh'></div> --> <!-- dev -->
 
 <style>
 .openseadragon {
