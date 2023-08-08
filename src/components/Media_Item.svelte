@@ -14,18 +14,20 @@
 
     import {ITEM_TYPE} from '../config/global-constants';
 
-    export let item = {}; // data layer
+    export let item = {};
     export let args = {};
 
     let mediaElement;
 
-    var resource = null;
-    var filename = null;
+    var resource;
+    var type;
     var mimeType;
     var caption;
-    var type = null;
+    var isTileImage;
+    var styles;
+
+    var filename = null;
     var component = null;
-    var styles = null;
 
     /* args object for child components */
     var params = {};
@@ -37,6 +39,7 @@
         type = args.type || item.item_type || "undefined";
         mimeType = args.mimeType || item.mime_type || null;
         caption = args.caption || item.caption || null;
+        isTileImage = args.isTileImage || false;
         styles = item.styles?.item_media || null;
 
         if(URL_PATTERN.test(resource) == false) {
@@ -86,7 +89,7 @@
     const renderImageViewer = () => {
         let url = resource;
 
-        params = {url, filename, caption};
+        params = {url, filename, caption, isTileImage};
         component = Image_Viewer;
     }
 

@@ -14,7 +14,7 @@
         {#if manifest}
             <UniversalViewer_Content {manifest} {type} />
         {:else}
-            <h5>Loading content...</h5>>
+            <h5>Loading content...</h5>
         {/if}
     </div>
 </div>

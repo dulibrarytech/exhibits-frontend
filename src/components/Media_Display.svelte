@@ -4,13 +4,13 @@
     import Media_Item from './Media_Item.svelte';
 
     export let item = {};
-
-    let args = {};
+    export let args = {};
+    
     let component = null;
 
     onMount(async () => {
-        console.log("Media Display")
         let {item_type} = item;
+
         if(item_type) {
             if(item_type == "repo") {
                 // args = {
@@ -27,7 +27,7 @@
                 component = Media_Item;
             }
         }
-        else console.error("Item type not found");
+        else console.error("Item type not found:", item_type);
     });
 </script>
 

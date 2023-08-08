@@ -21,10 +21,11 @@
     });
 </script>
 
-<div class="openseadragon content" id="openseadragon1" style="width: 800px; height: 600px;" title={altText}></div>
+<div class="openseadragon content" id="openseadragon1" title={altText}></div>
+<!-- <div class="openseadragon content" id="openseadragon1" style="width: 100%" title={altText}></div> -->
 
 <style>
-#openseadragon1 {
-    width: 100% !important;
+.openseadragon {
+    height: 75vh;
 }
 </style>

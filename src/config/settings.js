@@ -20,7 +20,7 @@ export const Settings = {
      * File extensions for item type
      */
     fileExtensions: {
-        [ITEM_TYPE.IMAGE]:        ['jpg', 'jpeg', 'png'],
+        [ITEM_TYPE.IMAGE]:        ['jpg', 'jpeg', 'png', 'gif'],
         [ITEM_TYPE.LARGE_IMAGE]:  ['tif', 'tiff'],
         [ITEM_TYPE.AUDIO]:        ['mp3'],
         [ITEM_TYPE.VIDEO]:        ['mp4'],

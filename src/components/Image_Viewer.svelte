@@ -8,6 +8,7 @@
      */
     import { onMount } from 'svelte';
     import { Configuration } from '../config/config';
+    import { Settings } from '../config/settings';
     import OpenSeadragon_Content from './OpenSeadragon_Content.svelte';
 
     export let args;
@@ -16,7 +17,8 @@
         url = null,
         filename = null,
         imageType = null,
-        caption = null
+        caption = null,
+        isTileImage = false
 
     } = args;
 
@@ -25,27 +27,25 @@
     let placeholder = false;
     let altText = "Image";
 
-    const URL_PATTERN = /^https?:\/\//;
-
     const HTML_VIEWER = "html";
     const TILE_VIEWER = "openseadragon";
     const STANDARD_IMAGE = "standard";
     const TILE_IMAGE = "tile";
 
-    const STANDARD_IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "gif"];
-    const TILE_IMAGE_EXTENSIONS = ["tif", "tiff"];
+    const STANDARD_IMAGE_EXTENSIONS = Settings.fileExtensions['image'];
+    const TILE_IMAGE_EXTENSIONS = Settings.fileExtensions['large_image'];
 
     const render = () => {
         if(!url) console.error("Missing resource url");
         else if(!imageType) imageType = getImageType(url || "");
 
-        if(imageType == STANDARD_IMAGE) {
-            sourceUrl = url;
-            viewer = HTML_VIEWER;
-        }
-        else if(imageType == TILE_IMAGE) {
+        if(isTileImage || imageType == TILE_IMAGE) {
             sourceUrl = filename ? getImageServerUrl(filename) : url;
             viewer = TILE_VIEWER;
+        }
+        else if(imageType == STANDARD_IMAGE) {
+            sourceUrl = url;
+            viewer = HTML_VIEWER;
         }
         else {
             placeholder = true;
@@ -65,8 +65,12 @@
         if(filename.indexOf('.') < 0) console.error(`Image source url or filename must contain a file extension. Resource: ${filename}`); // Determine type by head request/content type?
         else {
             let extension = filename.substring( (filename.lastIndexOf('.')+1) );
-            if(STANDARD_IMAGE_EXTENSIONS.includes(extension)) type = STANDARD_IMAGE;
-            else if (TILE_IMAGE_EXTENSIONS.includes(extension)) type = TILE_IMAGE;
+            if(STANDARD_IMAGE_EXTENSIONS.includes(extension)) {
+                type = STANDARD_IMAGE;
+            }
+            else if (TILE_IMAGE_EXTENSIONS.includes(extension)) {
+                type = TILE_IMAGE;
+            }
         }
 
         return type;
@@ -91,7 +95,7 @@
                 <OpenSeadragon_Content url={sourceUrl} {altText}/>
 
             {:else}
-                <h6>Error</h6>>
+                <h6>Error</h6>
 
             {/if}
         {:else if placeholder}

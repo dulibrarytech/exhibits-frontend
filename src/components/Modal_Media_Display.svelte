@@ -28,7 +28,7 @@
 			</div>
 
 			<div class="modal-content" >
-				<Media_Display {item} />
+				<Media_Display {item} args={{isTileImage: true}}/>
 				<Text_Display {item} />
 			</div>
 		</div>
@@ -53,7 +53,7 @@
 	}
 
 	:global(.modal-item-viewer .media-item) {
-		/* width: 100%; */
+		width: 100%;
 	}
 
 	:global(.modal-item-viewer .media-item .caption) {
@@ -62,6 +62,10 @@
 
 	:global(.modal-item-viewer .text-item) {
 		background: white;
+	}
+
+	:global(.modal-item-viewer .openseadragon) {
+		width: unset;
 	}
 
 	dialog {
