@@ -28,7 +28,7 @@
         <Hero {data} />
         <div class="container-fluid">
             <div id="sidebar-container" class="row flex-nowrap">
-                <div class="col-auto">
+                <div class="col-auto"> <!-- TODO set to exhibit bg color? -->
                     <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end">
                         <Navigation_Side {sections} />
 
@@ -57,7 +57,6 @@
     #sidebar-container > div {
         padding-right: 0;
         padding-left: 0;
-        /* width: 25%; */
     }
 
     #sidebar {
@@ -94,7 +93,6 @@
 
     @media (min-width: 768px) {
         #menu-toggle {
-            /* display: inline; */
             color: #757575;
             font-size: 1.7em;
         }
@@ -105,7 +103,6 @@
 
         #sidebar {
             padding: 30px 10px 10px 10px;
-            /* max-width: 400px; */
         }
 
         :global(#sidebar-nav) {
@@ -115,9 +112,6 @@
 
         :global(#sidebar-nav a) {
             margin-bottom: 0.9em;
-            /* border-style: solid;
-            border-radius: 5px;
-            border-color: #757575; */
             padding: 6px;
         }
     }

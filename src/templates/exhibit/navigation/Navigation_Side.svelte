@@ -20,10 +20,16 @@
     $: init();
 </script>
 
-<div id="sidebar-nav" class="list-group border-0 rounded-0 text-sm-start">
+<div id="sidebar-nav" class="nav-link list-group border-0 rounded-0 text-sm-start">
     {#if sections}
         {#each sections as {id, text}, index}
             <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
         {/each}
     {/if}
 </div>
+
+<style>
+    #sidebar-nav a {
+        font-weight: bold;
+    }
+</style>

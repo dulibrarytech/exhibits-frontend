@@ -95,7 +95,7 @@
         }
 
         /* Navigation menu link theme, does not affect navigation menu */
-        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation ul li a');
+        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation .nav-link a'); // TODO upgrade to set via nav component method? need pointer to component
         for(let link of navigationMenuLinks) {
             for(let style in navigation.links) {
                 link.style[style] = navigation.links[style];

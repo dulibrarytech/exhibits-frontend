@@ -36,7 +36,7 @@
     $: init();
 </script>
 
-<ul class="nav navbar-nav ms-auto">
+<ul class="nav nav-link navbar-nav ms-auto">
     {#if sectionHeadings}
         {#each sectionHeadings as {id, text}}
             <li class="px-1" title={text}>
@@ -67,11 +67,6 @@
     .navbar-nav li:not(:last-child) {
         margin-right: 5px;
     }
-
-    /* .navbar-nav li:not(:last-child)::after {
-        content: '|';
-        font-weight: bold;
-    } */
 
     .navbar-nav a {
         text-decoration: none;
