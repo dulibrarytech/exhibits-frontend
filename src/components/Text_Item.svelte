@@ -6,22 +6,10 @@
     export let item = {};
 
     var text = "";
-    var styles = null;
     var textElement;
 
     const init = () => {
         text = item.text || "";
-        styles = item.styles?.item_text || null;
-
-        // TODO Remove script tags, other dangerous entities
-
-        if(styles) setTheme();
-    }
-
-    const setTheme = () => {
-        for(let style in styles) {
-            textElement.style[style] = styles[style];  
-        }
     }
 
     onMount(async () => {
