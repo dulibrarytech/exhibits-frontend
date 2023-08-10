@@ -25,6 +25,7 @@
     "@rollup/plugin-replace": "^5.0.1",
     "@types/openseadragon": "^3.0.4",
     "axios": "^0.21.1",
+    "bootstrap-icons": "^1.10.5",
     "dotenv": "^16.0.3",
     "jquery": "^3.7.0",
     "openseadragon": "^3.1.0",
