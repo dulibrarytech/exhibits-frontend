@@ -30,8 +30,8 @@
         <div class="container">
             {#if title}
             <div class="title-text">
-                <div id="title" class="overlay-text text">{title}</div>
-                {#if subtitle}<div id="subtitle" class="overlay-text text">{subtitle}</div>{/if}
+                <div id="title" class="overlay-text text">{@html title}</div>
+                {#if subtitle}<div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
             </div>
             {/if}
             {#if description}

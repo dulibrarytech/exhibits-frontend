@@ -31,8 +31,8 @@
 <div class="banner">
     <section class="hero-image" style="height: {height}" bind:this={imageElement}>
         <div class="hero-image-text">
-            <div class="overlay-text text title">{title}</div>
-            {#if subtitle}<div class="overlay-text text subtitle">{subtitle}</div>{/if}
+            <div class="overlay-text text title">{@html title}</div>
+            {#if subtitle}<div class="overlay-text text subtitle">{@html subtitle}</div>{/if}
         </div>
     </section>
     

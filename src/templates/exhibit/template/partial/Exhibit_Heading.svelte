@@ -9,10 +9,10 @@
     {#if display}
         <div class="section-heading container">
             <div class="section-title">
-                <h3>{text}</h3>
+                <h3>{@html text}</h3>
             </div>
             <div class="section-subtitle">
-                <h5>{subtext}</h5>
+                <h5>{@html subtext}</h5>
             </div>
         </div>
     {/if}
