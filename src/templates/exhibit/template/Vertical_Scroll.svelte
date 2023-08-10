@@ -22,7 +22,7 @@
     const ITEM_TEMPLATES = {
         ROW: "row",
         GRID: "grid",
-        VERTICAL_TIMELINE: "vertical-timeline"
+        VERTICAL_TIMELINE: "vertical_timeline"
     }
 
     const render = () => {
