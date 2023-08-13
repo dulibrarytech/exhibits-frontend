@@ -29,10 +29,8 @@
     <section class="hero-text">
         {#if description}
             <div class="description-text">
-                <div class="row">
-                    <div class="col-lg-12 description-text-content">
-                        <p>{@html description}</p>
-                    </div>
+                <div class="description-text-content">
+                    <p>{@html description}</p>
                 </div>
             </div>
         {/if}
