@@ -36,6 +36,10 @@
             }
 
             else {
+                if(style == "width") {
+                    itemElement.style.marginBottom = "80px";
+                }
+
                 itemElement.style[style] = styles.item[style];  
             }
         }
@@ -50,7 +54,7 @@
     {#if is_published == 1} 
         <div class="container">
             <div class="section row">
-                {#if title}<div class="title">{title}</div>{/if}
+                {#if title}<div class="title">{@html title}</div>{/if}
 
                 {#if layout == ITEM_POSITION.RIGHT}
                     {#if media_width == MEDIA_BLOCK_WIDTH.HALF}
@@ -140,10 +144,6 @@
         padding-bottom: 50px;
         margin-left: auto;
         margin-right: auto;
-        /* margin-bottom: 85px; */
-        /* margin-bottom: 42px;
-        margin-top: 42px; */
-        margin-bottom: 80px;
     }
 
     .item-component {
@@ -154,14 +154,6 @@
     .title {
         margin-bottom: 30px;
         font-weight: bold;
-    }
-
-    :global(.text-left .text-item) {
-        padding-right: 25px;
-    }
-
-    :global(.text-right .text-item) {
-        padding-left: 25px;
     }
 
     :global(.caption) {

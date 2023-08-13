@@ -24,7 +24,6 @@
     var mimeType;
     var caption;
     var isTileImage;
-    var styles;
 
     var filename = null;
     var component = null;
@@ -40,7 +39,6 @@
         mimeType = args.mimeType || item.mime_type || null;
         caption = args.caption || item.caption || null;
         isTileImage = args.isTileImage || false;
-        styles = item.styles?.item_media || null;
 
         if(URL_PATTERN.test(resource) == false) {
             filename = resource;
@@ -49,12 +47,6 @@
 
         if(!resource) console.error(`Missing path to resource. Item: ${item.uuid}`)
         else render();
-    }
-
-    const setTheme = () => {
-        for(let style in styles) {
-            mediaElement.style[style] = styles[style];  
-        }
     }
 
     const render = () => {
@@ -126,10 +118,6 @@
         params = {url, caption}; 
         component = Embed_Iframe_Viewer;
     }
-
-    onMount(async () => {
-        if(styles) setTheme();
-    });
 </script>
 
 {#if component}

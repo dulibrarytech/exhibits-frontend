@@ -38,12 +38,8 @@
     
     {#if description}
         <section class="hero-text" bind:this={textElement}>
-            <div class="container px-4">
-                <div class="row gx-4 justify-content-center">
-                    <div class="col-lg-10">
-                        <p>{@html description}</p>
-                    </div>
-                </div>
+            <div class="description-text">
+                <p>{@html description}</p>
             </div>
         </section>
     {/if}
@@ -52,10 +48,6 @@
 <style>
     header {
         padding: 0;
-    }
-
-    hr {
-        height: 6px;
     }
 
     .banner {
@@ -74,13 +66,10 @@
         background-repeat: no-repeat;
         background-size: cover;
         position: relative;
-        /* min-height: 700px; */
     }
 
     .hero-text {
         color: white;
-        padding-top: 50px;
-        padding-bottom: 50px;
     }
 
     .hero-image-text {
@@ -99,6 +88,10 @@
 
     .subtitle {
         font-size: 1em;
+    }
+
+    .description-text > p {
+        margin: 0;
     }
 
     @media (min-width: 460px) {

@@ -5,7 +5,7 @@
      * hero template
      *
      * fullwidth hero image
-     * fullwidth title and descriptive text section 
+     * fullwidth title and description
      */
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
@@ -27,24 +27,18 @@
     <section class="hero-image"></section>
     
     <section class="hero-text">
-        <div class="container">
-            {#if title}
-            <div class="title-text">
-                <div id="title" class="overlay-text text">{@html title}</div>
-                {#if subtitle}<div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
-            </div>
-            {/if}
-            {#if description}
-                <hr>
-                <div class="description-text">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <p>{@html description}</p>
-                        </div>
-                    </div>
-                </div>
-            {/if}
+        {#if title}
+        <div class="title-text">
+            <div id="title" class="overlay-text text">{@html title}</div>
+            {#if subtitle}<div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
         </div>
+        {/if}
+        {#if description}
+            <hr>
+            <div class="description-text">
+                <p>{@html description}</p>
+            </div>
+        {/if}
     </section>
 </div>
 
@@ -73,11 +67,7 @@
     }
 
     .hero-text {
-        /* text-align: center; */
         color: white;
-        /* padding: 3.75em 0; */
-        padding-top: 50px;
-        padding-bottom: 50px;
     }
 
     .hero-text-line {
@@ -89,17 +79,12 @@
         height: 6px;
     }
 
-    .title-text {
-        margin-bottom: 3.75em;
-    }
-
-    .description-text {
-        margin-top: 3.75em;
+    .description-text > p {
+        margin: 0;
     }
 
     #title {
         font-size: 2.2em;
-        margin-bottom: 0.25em;
     }
 
     #subtitle {

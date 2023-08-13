@@ -11,7 +11,6 @@
 
     const DEFAULT_BANNER = Settings.defaultBannerTemplate;
 
-    let theme = {};
     let banner = null;
     let image = null;
     let alert = null;
@@ -20,14 +19,12 @@
 
     const init = () => {
         let { 
-            styles = null, 
             banner_template = null, 
             hero_image = null, 
             alert_text = null
             
         } = data;
         
-        if(styles?.hero) theme = styles.hero;
         banner = $Banners[banner_template || DEFAULT_BANNER];
         if(hero_image) image = getImagePath(hero_image);
         if(alert_text) alert = alert_text;
@@ -48,34 +45,11 @@
         else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
         return path;
     }
-
-    const setTheme = () => {
-        let {image, text, alert} = theme;
-        
-        document.querySelectorAll('.hero-image-text').forEach((element) => {
-            for(let style in image) {
-                element.style[style] = image[style];
-            }
-        });
-
-        document.querySelectorAll('.hero-text').forEach((element) => {
-            for(let style in text) {
-                element.style[style] = text[style];
-            }
-        });
-
-        let alertElement = document.querySelector(".alert");
-        if(alertElement) {
-            for(let style in alert) {
-                alertElement.style[style] = alert[style];
-            }
-        }
-    }
 </script>
 
 <header class="hero-section">
     {#if banner}
-        <svelte:component this={banner} args={bannerData} on:mount={setTheme} />
+        <svelte:component this={banner} args={bannerData} />
     {/if}
 
     {#if alert }

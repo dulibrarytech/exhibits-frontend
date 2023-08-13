@@ -2,7 +2,12 @@
     export let content = "";
 </script>
 
-<div class="content">
-    <!-- <h6 class="dev-label">Text content</h6> -->
+<div class="text-content">
     {@html content}
 </div>
+
+<style>
+    .text-content {
+        height: 100%;
+    }
+</style>
