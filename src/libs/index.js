@@ -11,6 +11,9 @@ import axios from 'axios';
 export const Index = (() => {
     var {exhibitsIndexDomain, exhibitsIndexName} = Configuration;
 
+    const INDEX_API_DOMAIN = 'http://localhost:5678/api/v1';
+    const EXHIBIT_ENDPOINT = INDEX_API_DOMAIN + '/exhibit';
+
     /**
      * getExhibits()
      * 
@@ -22,11 +25,11 @@ export const Index = (() => {
         let exhibits = [];
         
         try {
-            let response = await axios.get('http://localhost:5678/api/v1/exhibit');
+            let response = await axios.get(EXHIBIT_ENDPOINT);
             exhibits = response.data;
         }
         catch(e) {
-            console.error(e);
+            console.error(`Could not connect to index at '${INDEX_API_DOMAIN}': ${e}`);
         }
         
         return exhibits;
