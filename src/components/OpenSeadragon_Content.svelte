@@ -27,12 +27,23 @@
     });
 </script>
 
-<div class="openseadragon content" id="openseadragon1"></div>
-<!-- <div class="openseadragon content" id="openseadragon1" style="width: 100%" title={altText}></div> --> <!-- dev -->
-<!-- <div style='height: 75vh'></div> --> <!-- dev -->
+<div class="openseadragon-container">
+    <div class="controls">
+        <button id="openseadragon-zoom-in" title="Zoom In"><i class="bi bi-plus-lg"></i></button>
+        <button id="openseadragon-zoom-out"><i class="bi bi-dash"></i></button>
+        <button id="openseadragon-zoom-initial"><i class="bi bi-house"></i></button>
+    </div>
+    
+    <div class="openseadragon content" id="openseadragon1"></div>
+</div>
 
 <style>
 .openseadragon {
     height: 75vh;
+}
+
+.openseadragon-container {
+    padding: 15px;
+    background: #616161;
 }
 </style>

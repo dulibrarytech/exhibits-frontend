@@ -8,8 +8,13 @@
     const dispatch = createEventDispatcher();
 
 	let dialog; // HTMLDialogElement
+	let title;
 
 	$: if (dialog && item) dialog.showModal();
+
+	$: {
+		title = item.title || null;
+	}
 
     const closeDialog = () => {
         dispatch('close', {});
@@ -22,17 +27,46 @@
 
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div>
-			<div class="modal-menu">
-				<!-- svelte-ignore a11y-autofocus -->
-				<button id="openseadragon-zoom-in" title="Zoom In"><i class="bi bi-plus-lg"></i></button>
-				<button id="openseadragon-zoom-out"><i class="bi bi-dash"></i></button>
-				<button id="openseadragon-zoom-initial"><i class="bi bi-house"></i></button>
-				<button on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
-			</div>
+			<div class="dialog-content">
 
-			<div class="modal-content" >
-				<Media_Display {item} args={{isTileImage: true}}/>
-				<Text_Display {item} />
+				<!-- dialog controls -->
+				<div class="row dialog-controls">
+					<div class="col-lg-7 col-md-8 col-sm-12">
+						<button on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
+					</div>
+
+					<div class="col-lg-5 col-md-4 col-sm-12">
+						<!-- controls for text section or leave empty -->
+					</div>
+				</div>
+
+				<div class="row dialog-content">
+					<div class="col-lg-12">
+						<div class="row">
+
+							<div class="col-lg-7 col-md-8 col-sm-12">
+								<Media_Display {item} args={{isTileImage: true}}/>
+							</div>
+
+							<div class="col-lg-5 col-md-4 col-sm-12">
+								{#if title}<div class="title">{title}</div>{/if}
+								<div class="text">
+									<Text_Display {item} />
+								</div>
+							</div>
+						</div>
+
+						<!-- viewer-links -->
+						<div class="row">
+							<div class="col-lg-12">
+
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
 			</div>
 		</div>
 	</dialog>
@@ -85,8 +119,14 @@
 		padding: 2.4em;
 	}
 
+	:global(.modal-item-viewer .text-item) {
+		padding: 15px;
+		overflow: hidden;
+		overflow-y: scroll;
+	}
+
 	dialog {
-		width: 85%;
+		width: 100%;
 		border-radius: 0.2em;
 		border: none;
 		padding: 0;
@@ -125,5 +165,9 @@
 	}
 	button {
 		display: block;
+	}
+
+	.text {
+		height: 100%;
 	}
 </style>
