@@ -5,7 +5,6 @@
     import { Configuration } from '../config/config';
     import { Settings } from '../config/settings';
     import { Repository } from '../libs/repository';
-    import { Kaltura } from '../libs/kaltura';
 
     import {ITEM_TYPE} from '../config/global-constants';
 
@@ -23,9 +22,9 @@
     var {
         thumbnailImageLocation,
         thumbnailImageHeight,
-        thumbnailImageWidth,
-        itemPreviewLayout
+        thumbnailImageWidth
         //enableIIIFImageItemThumbnail
+
     } = Settings;
 
     const THUMBNAIL_ICON = Settings.thumbnailIcon;
@@ -48,26 +47,27 @@
         }
     }
 
-    const getRepositoryItemTNUrl = () => {
+    const getRepositoryThumbnailUrl = () => {
         return id ? Repository.getItemTNDatastreamUrl(id) : null;
     }
 
-    const getImageItemTNUrl = () => {
+    const getImageThumbnailUrl = () => {
         return id ? `${Configuration.iiifImageServerUrl}/iiif/2/${id}/full/${thumbnailImageWidth},${thumbnailImageHeight}/0/default.jpg` : null;
     }
 
-    const getAudioVideoItemTNUrl = () => {
-        let url = null;
-        let {kaltura_id = null} = item;
-        if(kaltura_id) url = Kaltura.getThumbnailUrl(kaltura_id);
-        return url;
+    const getAudioThumbnailUrl = () => {
+        return null;
     }
 
-    const getPdfItemTNUrl = () => {
-        return id ? `${Configuration.iiifImageServerUrl}/iiif/2/${id}/full/${thumbnailImageWidth},${thumbnailImageHeight}/0/default.jpg` : null; // cantaloupe?
+    const getVideoThumbnailUrl = () => {
+        return null;
     }
 
-    const getExternalItemTNUrl = () => {
+    const getPdfThumbnailUrl = () => {
+        return id ? `${Configuration.iiifImageServerUrl}/iiif/2/${id}/full/${thumbnailImageWidth},${thumbnailImageHeight}/0/default.jpg` : null;
+    }
+
+    const getExternalThumbnailUrl = () => {
         return null;
     }
 
@@ -85,29 +85,34 @@
 
             switch(item_type) {
                 case ITEM_TYPE.REPO:
-                    url = getRepositoryItemTNUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.DEFAULT}`;
+                    url = getRepositoryThumbnailUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.DEFAULT}`;
                     break;
 
                 case ITEM_TYPE.IMAGE:
                 case ITEM_TYPE.LARGE_IMAGE:
-                    url = getImageItemTNUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.IMAGE}`;
+                    url = getImageThumbnailUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.IMAGE}`;
                     break;
 
                 case ITEM_TYPE.AUDIO:
+                    url = getAudioThumbnailUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.AUDIO}`;
+                    break;
+
                 case ITEM_TYPE.VIDEO:
-                    url = getAudioVideoItemTNUrl() || ITEM_TYPE.AUDIO ? `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.AUDIO}` : `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.VIDEO}`;
+                    url = getVideoThumbnailUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.VIDEO}`;
                     break;
 
                 case ITEM_TYPE.PDF:
-                    url = getPdfItemTNUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.PDF}`;
+                    url = getPdfThumbnailUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.PDF}`;
                     break;
 
                 case ITEM_TYPE.EXTERNAL_SOURCE:
-                    url = getExternalItemTNUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.DEFAULT}`;
+                    url = getExternalThumbnailUrl() || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.DEFAULT}`;
                     break;
 
                 default:
-                    console.error(`Could not render item preview, invalid item type: ${item_type}`)
+                    console.error(`Invalid item type: ${item_type}`);
+                    url = `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.DEFAULT}`;
+                    break;
             }
         }
 

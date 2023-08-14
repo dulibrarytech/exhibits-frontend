@@ -87,21 +87,19 @@
 
     const renderAudioPlayer = () => {
         let url = resource;
-        let kalturaId = item.kaltura_id || null;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
 
-        params = {url, kalturaId, embedCode, caption, mimeType}; 
+        params = {url, embedCode, caption, mimeType}; 
         component = Audio_Player;
     }
 
     const renderVideoPlayer = () => {
         let url = resource;
-        let kalturaId = item.kaltura_id || null;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         
-        params = {url, kalturaId, embedCode, caption, mimeType}; 
+        params = {url, embedCode, caption, mimeType}; 
         component = Video_Player;
     }
 

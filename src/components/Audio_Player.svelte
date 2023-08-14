@@ -1,5 +1,4 @@
 <script>
-    import Kaltura_Content from "./Kaltura_Content.svelte";
     import Embed_Code_Content from "./Embed_Code_Content.svelte";
     //import JWPlayer_Content from "./JWPlayer_Content.svelte";
 
@@ -7,7 +6,6 @@
 
     let {
         url=null, 
-        kalturaId=null, 
         embedCode=null, 
         caption=null, 
         mimeType=null
@@ -25,9 +23,7 @@
 
 <div class="audio-player">
     <div class="audio">
-        {#if kalturaId}
-            <Kaltura_Content id={kalturaId} />
-        {:else if embedCode}
+        {#if embedCode}
             <Embed_Code_Content code={embedCode} /> <!-- Enforce <audio></audio> in embed code string. EmbedCode removes <script> code-->
         {:else if url}
             <div class="content">   
