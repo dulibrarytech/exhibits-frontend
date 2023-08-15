@@ -4,8 +4,6 @@
     var url = null;
     var caption = null;
 
-    console.log("TEST PDF viewer data in:", args)
-
     $: {
         if(!url) url = args.url || null;
         if(!caption) caption = args.caption || "";
@@ -17,7 +15,8 @@
 <div class="pdf-viewer">
     <div class="pdf-content">
         {#if url}
-            <iframe src={url} title={caption} /> 
+            <!-- <iframe src={url} title={caption} />  -->
+            <object data={url} type="application/pdf" width="100%" height="100%"></object>
         {:else}
             <h6>Loading pdf content...</h6>
         {/if}
