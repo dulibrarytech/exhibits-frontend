@@ -68,7 +68,7 @@
     }
 
     const getExternalThumbnailUrl = () => {
-        return null;
+        return item.url || null;
     }
 
     const getThumbnailUrl = () => {
