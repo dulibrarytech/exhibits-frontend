@@ -22,7 +22,5 @@
 </div>
 
 <style>
-    .text-item {
-        height: 100%;
-    }
+
 </style>

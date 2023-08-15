@@ -40,17 +40,21 @@
 					</div>
 				</div>
 
-				<div class="row dialog-content">
+				<div class="row item-content">
 					<div class="col-lg-12">
 						<div class="row">
 
-							<div class="col-lg-7 col-md-8 col-sm-12">
+							<div class="col-lg-7 col-md-8 col-sm-12 media-display-container">
 								<Media_Display {item} args={{isTileImage: true}}/>
 							</div>
 
-							<div class="col-lg-5 col-md-4 col-sm-12">
-								{#if title}<div class="title">{title}</div>{/if}
+							<div class="col-lg-5 col-md-4 col-sm-12 text-display-container">
 								<div class="text">
+									{#if title}
+										<div class="title">{title}</div>
+										<hr>
+										<br>
+									{/if}
 									<Text_Display {item} />
 								</div>
 							</div>
@@ -78,6 +82,11 @@
 		width: 100%;
 	}
 
+	.modal-item-viewer .text {
+		background: white;
+		padding: 30px 15px 30px 30px;
+	}
+
 	.modal-menu {
 		height: 50px;
 		pointer-events: initial;
@@ -91,16 +100,31 @@
 	}
 
 
-	.modal-content {
-		background: #3C4043;
-		border: none;
+	.dialog-content {
+		height: 100%;
+	}
+
+	.item-content {
 		height: 86vh;
-    	overflow-y: scroll;
+	}
+
+	.item-content > div {
+		max-height: 100%;
+	}
+
+	.item-content .row {
+		height: 100%;
+	}
+
+	.media-display-container,
+	.text-display-container {
+		height: 100%;
 	}
 
 	:global(.modal-item-viewer .media-item) {
 		width: 100%;
 		/* width: 67vw; */
+		height: 100%;
 	}
 
 	:global(.modal-item-viewer .media-item .caption) {
@@ -109,24 +133,29 @@
 
 	:global(.modal-item-viewer .text-item) {
 		background: white;
+		max-height: 88%;
+    	overflow-y: scroll;
+	}
+
+	:global(.modal-item-viewer .openseadragon-container) {
+		height: 100%;
 	}
 
 	:global(.modal-item-viewer .openseadragon) {
 		width: unset;
 	}
 
-	:global(.modal-item-viewer .text-item .content) {
-		padding: 2.4em;
+	:global(.modal-item-viewer .text .text-item .text-content) {
+		padding-right: 15px;
 	}
 
-	:global(.modal-item-viewer .text-item) {
-		padding: 15px;
-		overflow: hidden;
-		overflow-y: scroll;
+	:global(.modal-item-viewer .text .text-item) {
+
 	}
 
 	dialog {
 		width: 100%;
+		height: 100%;
 		border-radius: 0.2em;
 		border: none;
 		padding: 0;

@@ -134,6 +134,10 @@
         margin-bottom: 0px !important;
     }
 
+    :global(.timeline .item-preview) {
+        width:65%;
+    }
+
     :global(.timeline__item--left .timeline-label) {
         right: -35px;
     }
