@@ -56,12 +56,12 @@
 							</div>
 						</div>
 
-						<!-- viewer-links -->
-						<div class="row">
+						<!-- viewer-links *need scrolling modal if any more content is below the item media/text div -->
+						<!-- <div class="row">
 							<div class="col-lg-12">
 
 							</div>
-						</div>
+						</div> -->
 
 					</div>
 
@@ -141,11 +141,21 @@
 
 	:global(.modal-item-viewer .openseadragon-container) {
 		height: 100%;
+		padding: 0px !important;
+		overflow: hidden;
 	}
 
 	:global(.modal-item-viewer .openseadragon) {
 		width: unset;
+		height: 100% !important;
 	}
+
+	/* :global(.modal-item-viewer .openseadragon-container .controls) {
+		padding-top: 8px;
+    	padding-left: 8px;
+		position: absolute;
+    	z-index: 10;
+	} */
 
 	:global(.modal-item-viewer .text .text-item .text-content) {
 		padding-right: 15px;
@@ -177,6 +187,22 @@
 
 	:global(.modal-item-viewer .item-content .video-player .video *) {
 		height: 95%;
+	}
+
+	:global(.modal-item-viewer .item-content .pdf-viewer) {
+		height: 100%;
+	}
+
+	:global(.modal-item-viewer .item-content .pdf-viewer *) {
+		height: 100%;
+	}
+
+	:global(.modal-item-viewer .item-content .iframe-viewer) {
+		height: 100%;
+	}
+
+	:global(.modal-item-viewer .item-content .iframe-viewer *) {
+		height: 100%;
 	}
 
 	dialog {

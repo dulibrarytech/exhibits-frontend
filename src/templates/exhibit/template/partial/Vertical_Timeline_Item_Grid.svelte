@@ -125,8 +125,9 @@
         border-right: 11px solid lightgray !important;
     }
 
-    :global(.grid-item) {
+    :global(.timeline .grid-item) {
         border-radius: 10px;
+        padding: 45px !important;
     }
 
     :global(.timeline .grid-section) {
@@ -135,7 +136,7 @@
     }
 
     :global(.timeline .item-preview) {
-        width:65%;
+        /* width:65%; */
     }
 
     :global(.timeline__item--left .timeline-label) {

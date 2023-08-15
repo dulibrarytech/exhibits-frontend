@@ -39,11 +39,20 @@
 
 <style>
 .openseadragon {
-    height: 75vh;
+    height: 81vh;
 }
 
 .openseadragon-container {
     padding: 15px;
     background: #616161;
+    overflow: hidden;
 }
+
+.openseadragon-container > .controls {
+    padding-top: 8px;
+    padding-left: 8px;
+    position: absolute;
+    z-index: 10;
+}
+
 </style>
