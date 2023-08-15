@@ -32,7 +32,8 @@
 				<!-- dialog controls -->
 				<div class="row dialog-controls">
 					<div class="col-lg-7 col-md-8 col-sm-12">
-						<button on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
+						<!-- <button class="button-close" on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button> -->
+						<button class="button-close" on:click={() => dialog.close()}><i class="bi bi-chevron-left"></i></button>
 					</div>
 
 					<div class="col-lg-5 col-md-4 col-sm-12">
@@ -105,7 +106,8 @@
 	}
 
 	.item-content {
-		height: 86vh;
+		/* height: 86vh; */
+		height: 95%;
 	}
 
 	.item-content > div {
@@ -116,9 +118,14 @@
 		height: 100%;
 	}
 
-	.media-display-container,
+	.media-display-container {
+		height: 100%;
+		padding-right: 0px;
+	}
+
 	.text-display-container {
 		height: 100%;
+		padding-left: 0px;
 	}
 
 	:global(.modal-item-viewer .media-item) {
@@ -167,8 +174,9 @@
 		background: rgba(0, 0, 0, 0.5);
 	}
 	dialog > div {
-		padding: 1em;
+		/* padding: 1em; */
 		width: 100%;
+		height: 100%;
 	}
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -192,8 +200,12 @@
 			opacity: 1;
 		}
 	}
-	button {
+
+	.button-close {
 		display: block;
+		position: relative;
+		top: 4px;
+		left: 4px;
 	}
 
 	.text {
