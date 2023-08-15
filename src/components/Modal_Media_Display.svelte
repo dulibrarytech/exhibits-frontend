@@ -51,12 +51,7 @@
 
 							<div class="col-lg-5 col-md-4 col-sm-12 text-display-container">
 								<div class="text">
-									{#if title}
-										<div class="title">{title}</div>
-										<hr>
-										<br>
-									{/if}
-									<Text_Display {item} />
+									<Text_Display {item} title={item.title || null} />
 								</div>
 							</div>
 						</div>
@@ -140,7 +135,7 @@
 
 	:global(.modal-item-viewer .text-item) {
 		background: white;
-		max-height: 88%;
+		max-height: 100%;
     	overflow-y: scroll;
 	}
 
@@ -167,6 +162,21 @@
 		padding: 30px;
 		position: absolute;
 		bottom: 0;
+	}
+
+	:global(.modal-item-viewer .item-content .video-player) {
+		height: 100%;
+    	background: #616161;
+		color: white;
+	}
+
+	:global(.modal-item-viewer .item-content .video-player .video) {
+		height: 100%;
+    	padding: 30px;
+	}
+
+	:global(.modal-item-viewer .item-content .video-player .video *) {
+		height: 95%;
 	}
 
 	dialog {
