@@ -32,8 +32,8 @@
 				<!-- dialog controls -->
 				<div class="row dialog-controls">
 					<div class="col-lg-7 col-md-8 col-sm-12">
-						<!-- <button class="button-close" on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button> -->
-						<button class="button-close" on:click={() => dialog.close()}><i class="bi bi-chevron-left"></i></button>
+						<button class="button-close" on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
+						<!-- <button class="button-close" on:click={() => dialog.close()}><i class="bi bi-chevron-left"></i></button> -->
 					</div>
 
 					<div class="col-lg-5 col-md-4 col-sm-12">
@@ -156,8 +156,17 @@
 		padding-right: 15px;
 	}
 
-	:global(.modal-item-viewer .text .text-item) {
+	:global(.modal-item-viewer .item-content .audio-player) {
+		background: #616161;
+		color: white;
+		height: 100%;
+		position: relative;
+	}
 
+	:global(.modal-item-viewer .item-content .audio-player .audio) {
+		padding: 30px;
+		position: absolute;
+		bottom: 0;
 	}
 
 	dialog {

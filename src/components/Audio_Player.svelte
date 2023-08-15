@@ -33,7 +33,7 @@
                     <audio src={url} controls></audio>
                 {/if}
                 
-                {#if caption}<p>{caption}</p>{/if}
+                {#if caption}<p><i>{caption}</i></p>{/if}
             </div>
         {:else}
             <h6>Loading audio content...</h6>
