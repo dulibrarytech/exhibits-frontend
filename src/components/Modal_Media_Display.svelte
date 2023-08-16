@@ -83,26 +83,16 @@
 		padding: 30px 15px 30px 30px;
 	}
 
-	.modal-menu {
-		height: 50px;
-		pointer-events: initial;
-		display: inline-flex;
-	}
-	
-	.modal-menu button {
-		color: #818181;
-		min-width: 42px;
-		font-size: 18px;
-	}
-
-
 	.dialog-content {
 		height: 100%;
 	}
 
+	.dialog-controls {
+		height: 6%;
+	}
+
 	.item-content {
-		/* height: 86vh; */
-		height: 95%;
+		height: 94%;
 	}
 
 	.item-content > div {
@@ -125,7 +115,6 @@
 
 	:global(.modal-item-viewer .media-item) {
 		width: 100%;
-		/* width: 67vw; */
 		height: 100%;
 	}
 
@@ -149,13 +138,6 @@
 		width: unset;
 		height: 100% !important;
 	}
-
-	/* :global(.modal-item-viewer .openseadragon-container .controls) {
-		padding-top: 8px;
-    	padding-left: 8px;
-		position: absolute;
-    	z-index: 10;
-	} */
 
 	:global(.modal-item-viewer .text .text-item .text-content) {
 		padding-right: 15px;
@@ -219,7 +201,6 @@
 		background: rgba(0, 0, 0, 0.5);
 	}
 	dialog > div {
-		/* padding: 1em; */
 		width: 100%;
 		height: 100%;
 	}
@@ -249,8 +230,8 @@
 	.button-close {
 		display: block;
 		position: relative;
-		top: 4px;
-		left: 4px;
+		top: 5px;
+		left: 8px;
 	}
 
 	.text {
