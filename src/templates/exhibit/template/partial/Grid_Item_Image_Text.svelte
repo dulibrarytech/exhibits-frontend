@@ -71,7 +71,7 @@
         {#if layout == ITEM_POSITION.RIGHT}
 
             <div class="float-right">
-                <a href data-itemm-id={id} on:click={showModalViewer}>
+                <a href data-item-id={id} on:click={showModalViewer}>
                     <Item_Preview {item} />
                 </a>
             </div> 

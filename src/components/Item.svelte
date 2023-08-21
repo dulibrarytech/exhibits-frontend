@@ -2,6 +2,7 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import { createEventDispatcher } from 'svelte';
     import { Resource } from '../libs/resource';
     
     import Text_Display from './Text_Display.svelte';
@@ -14,6 +15,7 @@
     const VERTICAL_ITEM_MARGIN = "30px";
 
     let itemElement;
+    let modalViewerLink;
     
     let {
         uuid, 
@@ -24,6 +26,8 @@
         styles = null
 
     } = item;
+
+    const dispatch = createEventDispatcher();
 
     if(Object.values(ITEM_POSITION).includes(layout) == false) console.error(`Invalid layout value: item: ${uuid}`);
 
@@ -45,6 +49,11 @@
         }
     }
 
+    const showModalViewer = (event) => {
+        let itemId = modalViewerLink.getAttribute('data-item-id') || null;
+        if(itemId) dispatch('click-item', {itemId});
+    }
+
     onMount(async () => {
         if(styles) setTheme(styles)
     });
@@ -62,42 +71,54 @@
                             <Text_Display {item} />
                         </div>
                         <div class="item-component col-lg-6 col-md-6 col-sm-12">
-                            <Media_Display {item} />
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <Media_Display {item} />
+                            </a>
                         </div>
                     {:else if media_width == MEDIA_BLOCK_WIDTH.THIRD}
                         <div class="item-component col-lg-8 col-md-6 col-sm-12 text-left">
                             <Text_Display {item} />
                         </div>
                         <div class="item-component col-lg-4 col-md-6 col-sm-12">
-                            <Media_Display {item} />
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <Media_Display {item} />
+                            </a>
                         </div>
                     {:else if media_width == MEDIA_BLOCK_WIDTH.QUARTER}
                         <div class="item-component col-lg-9 col-md-6 col-sm-12 text-left">
                             <Text_Display {item} />
                         </div>
                         <div class="item-component col-lg-3 col-md-6 col-sm-12">
-                            <Media_Display {item} />
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <Media_Display {item} />
+                            </a>
                         </div>
                     {/if}
 
                 {:else if layout == ITEM_POSITION.LEFT}
                     {#if media_width == MEDIA_BLOCK_WIDTH.HALF}
                         <div class="item-component col-lg-6 col-md-6 col-md-12">
-                            <Media_Display {item} />
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <Media_Display {item} />
+                            </a>
                         </div>
                         <div class="item-component col-lg-6 col-md-6 col-md-12 text-right">
                             <Text_Display {item} />
                         </div>
                     {:else if media_width == MEDIA_BLOCK_WIDTH.THIRD}
                         <div class="item-component col-lg-4 col-md-6 col-md-12">
-                            <Media_Display {item} />
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <Media_Display {item} />
+                            </a>
                         </div>
                         <div class="item-component col-lg-8 col-md-6 col-md-12 text-right">
                             <Text_Display {item} />
                         </div>
                     {:else if media_width == MEDIA_BLOCK_WIDTH.QUARTER}
                         <div class="item-component col-lg-3 col-md-6 col-md-12">
-                            <Media_Display {item} />
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <Media_Display {item} />
+                            </a>
                         </div>
                         <div class="item-component col-lg-9 col-md-6 col-md-12 text-right">
                             <Text_Display {item} />
@@ -107,7 +128,9 @@
                 {:else if layout == ITEM_POSITION.TOP}
                     <div class="col-md-12">
                         <div style="margin-bottom: {VERTICAL_ITEM_MARGIN}">
-                            <Media_Display {item} />
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <Media_Display {item} />
+                            </a>
                         </div>
                         <div>
                             <Text_Display {item} />
@@ -119,12 +142,17 @@
                         <div style="margin-bottom: {VERTICAL_ITEM_MARGIN}">
                             <Text_Display {item} />
                         </div>
-                        <Media_Display {item} />
+                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                            <Media_Display {item} />
+                        </a>
+                        
                     </div>
 
                 {:else if layout == ITEM_POSITION.ITEM_ONLY}
                     <div class="col-md-12">
-                        <Media_Display {item} />
+                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                            <Media_Display {item} />
+                        </a>
                     </div>
 
                 {:else if layout == ITEM_POSITION.TEXT_ONLY}
@@ -163,5 +191,10 @@
 
     :global(button:not(:first-child)) {
         margin-left: 20px;
+    }
+
+    :global(.item .item-component a) {
+        color: black;
+        text-decoration: none;;
     }
 </style>

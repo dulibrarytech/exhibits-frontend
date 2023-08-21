@@ -12,8 +12,7 @@
     const dispatch = createEventDispatcher();
 
     let gridElement;
-
-    var bootstrapColumnValue = 12 / columns;
+    let bootstrapColumnValue = 12 / columns;
 
     const setTheme = (styles) => {
         for(let style in styles) {
