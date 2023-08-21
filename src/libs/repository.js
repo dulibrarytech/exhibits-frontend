@@ -18,7 +18,8 @@
  * Digital repository interface
  * repository_interface.js
  * 
- * Functions for retrieving data from external digital repository
+ * 1. construct repository api request urls 
+ * 2. fetch datastream from the repository by item id
  */
 
 'use strict'

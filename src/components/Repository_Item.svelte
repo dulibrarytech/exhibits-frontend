@@ -7,12 +7,6 @@
     export let item;
     export let args = {};
 
-    /* Add repository item fields to the exhibit item. e.g. "{exhibit item field}:{repository field}" "*/
-    const EXHIBIT_ITEM_FIELDS = {
-        "kaltura_id": "entry_id",
-        "mime_type": "mime_type"
-    }
-
     /* Define repository item fields */
     const ID_FIELD = "pid";
     const MIME_TYPE_FIELD = "mime_type";
@@ -40,36 +34,22 @@
         .then((repoItem) => {
             message = "";
 
+            params.url = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null )
+            params = {...params, ...repoItem};
+            params.type = getItemTypeForMimeType( repoItem[MIME_TYPE_FIELD] || null );
+            params.metadata = repoItem[METADATA_OBJECT_FIELD] || {};
+
             if(isIIIF) {
                 component = IIIF_Item;
             }
             else {
-                /* Get params from the repo item for the media item */
-                params.url = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null )
-                params = {...params, ...getExhibitItemData(repoItem)};
                 component = Media_Item;
             }
-
-            params.type = getItemTypeForMimeType( repoItem[MIME_TYPE_FIELD] || null );
-            params.metadata = repoItem[METADATA_OBJECT_FIELD] || {};
         })
         .catch((error) => {
-            message = "Error retrieving data";
+            message = "Error retrieving data from repository";
             console.error(`Error connecting to repository: ${error}`);
         });
-    }
-
-    const getExhibitItemData = (repositoryItem) => {
-        let data = {};
-
-        let value;
-        for(let exhibitField in EXHIBIT_ITEM_FIELDS) {
-            repoField = EXHIBIT_ITEM_FIELDS[key];
-            value = repositoryItem[repoField];
-            if(value) data[exhibitField] = value;
-        }
-
-        return data;
     }
 </script>
 
