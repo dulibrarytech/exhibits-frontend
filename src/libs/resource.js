@@ -6,7 +6,7 @@ import axios from 'axios';
 /**
  * Exhibits@DU: Resource access interface
  * 
- * Fetch or stream resources from local filesystem or a remote api
+ * Fetch or stream resources from local filesystem or remote api (wasabi, cantaloupe)
  */
 export const Resource = (() => {
     var { 
@@ -31,8 +31,8 @@ export const Resource = (() => {
         let {
             type="resize", 
             filename=null, 
-            length="400", 
-            width="400",
+            width="", 
+            height="",
             offsetX="0",
             offsetY="0"
 
@@ -40,14 +40,18 @@ export const Resource = (() => {
 
         switch(type) {
             case 'resize':
-                url = `${iiifImageServerUrl}/iiif/2/${filename}/full/${length},${width}/0/default.jpg`;
+                url = `${iiifImageServerUrl}/iiif/2/${filename}/full/${width},${height}/0/default.jpg`;
                 break;
 
             case 'crop':
-                url = `${iiifImageServerUrl}/iiif/2/${filename}/${offsetX},${offsetY},${length},${width}/max/0/default.jpg`
+                url = `${iiifImageServerUrl}/iiif/2/${filename}/${offsetX},${offsetY},${width},${height}/max/0/default.jpg`
         }
 
         return url;
+    }
+
+    const getImageTileSourceUrl = (filename) => {
+        return `${Configuration.iiifImageServerUrl}/iiif/2/${filename}/info.json`;
     }
 
     /**
@@ -68,6 +72,7 @@ export const Resource = (() => {
     return {
         getUrl,
         getImageDerivativeUrl,
+        getImageTileSourceUrl,
         fetchFile,
         streamFile,
         getInfo

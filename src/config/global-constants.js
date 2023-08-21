@@ -22,3 +22,8 @@ export const MEDIA_BLOCK_WIDTH = {
     THIRD: "third",
     QUARTER: "quarter"
 }
+
+export const VIEWER_TYPE = {
+    STATIC: "static",
+    INTERACTIVE: "interactive"
+}

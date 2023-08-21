@@ -2,8 +2,8 @@
     /**
      * Media_Item
      * Responsible for extracting data from the exhibit item and converting it to data for the presentation components
+     * 
     */
-    import { onMount } from 'svelte';
     import { Resource } from '../libs/resource';
     
     import Image_Viewer from './Image_Viewer.svelte';
@@ -12,7 +12,7 @@
     import PDF_Viewer from './PDF_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
-    import {ITEM_TYPE} from '../config/global-constants';
+    import {ITEM_TYPE, VIEWER_TYPE} from '../config/global-constants';
 
     export let item = {};
     export let args = {};
@@ -20,12 +20,13 @@
     let mediaElement;
 
     var resource;
-    var type;
+    var filename;
+    var itemType;
     var mimeType;
+    var viewerType;
     var caption;
-    var isTileImage;
 
-    var filename = null;
+    //var filename = null;
     var component = null;
 
     /* args object for child components */
@@ -35,25 +36,30 @@
 
     $: {
         resource = args.url || item.url || null;
-        type = args.type || item.item_type || "undefined";
+        itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
         caption = args.caption || item.caption || null;
-        isTileImage = args.isTileImage || false;
+        viewerType = args.viewerType || VIEWER_TYPE.STATIC;
 
+        /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
         if(URL_PATTERN.test(resource) == false) {
             filename = resource;
-            resource = Resource.getUrl(filename);
+            resource = Resource.getUrl(resource);
         }
+        /* else: just pass on the resource url to the viewer */
 
-        if(!resource) console.error(`Missing path to resource. Item: ${item.uuid}`)
+        if(!resource) console.error(`Missing path or url to resource. Item: ${item.uuid}`)
         else render();
     }
 
     const render = () => {
-        switch(type) {
+        switch(itemType) {
             case ITEM_TYPE.IMAGE:
+                renderStandardImageViewer();
+                break;
+
             case ITEM_TYPE.LARGE_IMAGE:
-                renderImageViewer();
+                renderLargeImageViewer();
                 break;
 
             case ITEM_TYPE.AUDIO:
@@ -73,15 +79,56 @@
                 break;
 
             default:
-                console.error(`Invalid item type: ${type}`)
+                console.error(`Invalid item type: ${itemType}`)
                 break;
         }
     }
 
-    const renderImageViewer = () => {
+    const renderStandardImageViewer = () => {
         let url = resource;
+        let imageType = itemType;
+        let isTileImage = false;
 
-        params = {url, filename, caption, isTileImage};
+        if(viewerType == VIEWER_TYPE.STATIC) {
+            isTileImage = false;
+        }
+        else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
+            if(URL_PATTERN.test(resource) == false) {
+                isTileImage = true;
+                url = Resource.getImageTileSourceUrl(filename);
+            }
+            else console.error(`Can't render a tile image from remote url. Resource url: ${url}`);
+        }
+
+        params = {url, caption, isTileImage, imageType};
+        component = Image_Viewer;
+    }
+
+    const renderLargeImageViewer = () => {
+        let url = null;
+        let imageType = itemType;
+        let isTileImage = true;
+
+        if(URL_PATTERN.test(resource) == false) {
+            if(viewerType == VIEWER_TYPE.STATIC) {
+                isTileImage = false;
+
+                /* get jpg derivative to display on the page */
+                url = Resource.getImageDerivativeUrl({
+                    filename,
+                    height: "600"
+                })
+            }
+            else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
+                isTileImage = true;
+
+                // get tile source url */
+                url = Resource.getImageTileSourceUrl(filename);
+            }
+        }
+        else console.error(`Can't render a tile image from remote url. Resource url: ${url}`);
+
+        params = {url, caption, isTileImage, imageType};
         component = Image_Viewer;
     }
 

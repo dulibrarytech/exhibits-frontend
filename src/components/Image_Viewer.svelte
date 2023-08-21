@@ -7,16 +7,12 @@
      * Currently no OpenSeadragon viewing of remote tiff images. Only local images can be served as tiled images due to functionality of tile server (Cantaloupe)
      */
     import { onMount } from 'svelte';
-    import { Configuration } from '../config/config';
-    import { Settings } from '../config/settings';
     import OpenSeadragon_Content from './OpenSeadragon_Content.svelte';
 
     export let args;
 
     let {
         url = null,
-        filename = null,
-        imageType = null,
         caption = null,
         isTileImage = false
 
@@ -29,51 +25,19 @@
 
     const HTML_VIEWER = "html";
     const TILE_VIEWER = "openseadragon";
-    const STANDARD_IMAGE = "standard";
-    const TILE_IMAGE = "tile";
-
-    const STANDARD_IMAGE_EXTENSIONS = Settings.fileExtensions['image'];
-    const TILE_IMAGE_EXTENSIONS = Settings.fileExtensions['large_image'];
 
     const render = () => {
         if(!url) console.error("Missing resource url");
-        else if(!imageType) imageType = getImageType(url || "");
 
-        if(isTileImage || imageType == TILE_IMAGE) {
-            sourceUrl = filename ? getImageServerUrl(filename) : url;
+        if(isTileImage) {
             viewer = TILE_VIEWER;
         }
-        else if(imageType == STANDARD_IMAGE) {
-            sourceUrl = url;
-            viewer = HTML_VIEWER;
-        }
         else {
-            placeholder = true;
-            console.error(`Invalid image type: ${imageType} Resource url: ${url}`);
+            viewer = HTML_VIEWER;
         }
 
         if(caption) altText = caption;
-    }
-
-    const getImageServerUrl = (filename) => {
-        return `${Configuration.iiifImageServerUrl}/iiif/2/${filename}/info.json`;
-    }
-
-    const getImageType = (filename) => {
-        let type = null;
-        
-        if(filename.indexOf('.') < 0) console.error(`Image source url or filename must contain a file extension. Resource: ${filename}`); // Determine type by head request/content type?
-        else {
-            let extension = filename.substring( (filename.lastIndexOf('.')+1) );
-            if(STANDARD_IMAGE_EXTENSIONS.includes(extension)) {
-                type = STANDARD_IMAGE;
-            }
-            else if (TILE_IMAGE_EXTENSIONS.includes(extension)) {
-                type = TILE_IMAGE;
-            }
-        }
-
-        return type;
+        sourceUrl = url;
     }
 
     onMount(async () => {

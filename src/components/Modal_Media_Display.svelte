@@ -31,12 +31,12 @@
 
 				<!-- dialog controls -->
 				<div class="row dialog-controls">
-					<div class="col-lg-7 col-md-8 col-sm-12">
+					<div class="col-lg-8 col-md-9 col-sm-12">
 						<button class="button-close" on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
 						<!-- <button class="button-close" on:click={() => dialog.close()}><i class="bi bi-chevron-left"></i></button> -->
 					</div>
 
-					<div class="col-lg-5 col-md-4 col-sm-12">
+					<div class="col-lg-4 col-md-3 col-sm-12">
 						<!-- controls for text section or leave empty -->
 					</div>
 				</div>
@@ -45,11 +45,11 @@
 					<div class="col-lg-12">
 						<div class="row">
 
-							<div class="col-lg-7 col-md-8 col-sm-12 media-display-container">
-								<Media_Display {item} args={{isTileImage: true}}/>
+							<div class="col-lg-8 col-md-9 col-sm-12 media-display-container">
+								<Media_Display {item} args={{viewerType: 'interactive'}}/>
 							</div>
 
-							<div class="col-lg-5 col-md-4 col-sm-12 text-display-container">
+							<div class="col-lg-4 col-md-3 col-sm-12 text-display-container">
 								<div class="text">
 									<Text_Display {item} title={item.title || null} />
 								</div>

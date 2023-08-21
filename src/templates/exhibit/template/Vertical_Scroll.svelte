@@ -117,7 +117,7 @@
                     
                 <!--exhibit item - row layout -->
                 {:else if type == ITEM_TYPES.ITEM}
-                    <Item item={exhibit[index]} />
+                    <Item item={exhibit[index]} on:click-item={onClickItem} />
 
                 <!-- exhibit item - grid layout -->
                 {:else if type == ITEM_TEMPLATES.GRID}
