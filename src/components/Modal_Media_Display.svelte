@@ -79,7 +79,8 @@
 	}
 
 	.modal-item-viewer .text {
-		background: white;
+		/* background: white; */
+		background: #F4F2EC;
 		padding: 30px 15px 30px 30px;
 	}
 
@@ -122,21 +123,22 @@
 		color: white;
 	}
 
-	:global(.modal-item-viewer .text-item) {
-		background: white;
-		max-height: 100%;
-    	overflow-y: scroll;
-	}
-
 	:global(.modal-item-viewer .openseadragon-container) {
 		height: 100%;
 		padding: 0px !important;
 		overflow: hidden;
+		background: white !important;
 	}
 
 	:global(.modal-item-viewer .openseadragon) {
 		width: unset;
 		height: 100% !important;
+	}
+
+	:global(.modal-item-viewer .text-item) {
+		/* background: white; */
+		max-height: 100%;
+    	overflow-y: scroll;
 	}
 
 	:global(.modal-item-viewer .text .text-item .text-content) {
@@ -198,7 +200,7 @@
 		
 	}
 	dialog::backdrop {
-		background: rgba(0, 0, 0, 0.5);
+		background: rgba(0, 0, 0, 0.8);
 	}
 	dialog > div {
 		width: 100%;
