@@ -1,5 +1,6 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
+    import { onMount } from 'svelte';
+	import {createEventDispatcher} from 'svelte';
     import Media_Display from './Media_Display.svelte';
 	import Text_Display from './Text_Display.svelte';
 
@@ -10,7 +11,7 @@
 	let dialog; // HTMLDialogElement
 	let title;
 
-	$: {
+	const render = () => {
 		title = data.title || null;
 		if (dialog && data) dialog.showModal();
 	}
@@ -18,10 +19,13 @@
     const closeDialog = () => {
         dispatch('close', {});
     }
+
+	onMount(async () => {
+        render();
+    });
 </script>
 
-<div class="modal-item-viewer">
-<!-- <div B class="modal-dialog-window"> -->
+<div class="modal-dialog-window">
 
 	<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 	<dialog bind:this={dialog} on:close={closeDialog}>
@@ -44,10 +48,7 @@
 
 				<!-- item content (media/text) -->
 				<div class="row item-content">
-
-					<!-- Insert inner component here if dialog is abstracted -->
-					<!-- B <div class="modal-item-viewer"> -->
-					<div class="col-lg-12">
+					<div class="col-lg-12 modal-item-viewer">
 						<div class="row">
 							<div class="col-lg-8 col-md-9 col-sm-12 media-display-container">
 								<Media_Display item={data} args={{viewerType: 'interactive'}}/>
@@ -61,8 +62,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- B </div> -->
-
 			</div>
 		</div>
 
@@ -70,7 +69,7 @@
 </div>
 
 <style>
-	.modal-item-viewer {
+	.modal-dialog-window {
 		height: 100vh;
 		width: 100%;
 	}
