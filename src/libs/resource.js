@@ -1,7 +1,7 @@
 'use strict'
 
+import { Settings } from '../config/settings';
 import { Configuration } from '../config/config.js';
-import axios from 'axios';
 
 /**
  * Exhibits@DU: Resource access interface
@@ -15,10 +15,16 @@ export const Resource = (() => {
     
     } = Configuration;
 
+    var {
+        thumbnailImageHeight,
+        thumbnailImageWidth
+
+    } = Settings;
+
     /**
      * 
      */
-    const getUrl = (filename) => {
+    const getUrl = (filename="null") => { // TODO rename to getFilePath()
         return `${resourceLocation}/${filename}`; // local folder for dev
     }
 
@@ -50,8 +56,16 @@ export const Resource = (() => {
         return url;
     }
 
-    const getImageTileSourceUrl = (filename) => {
+    const getImageTileSourceUrl = (filename="null") => {
         return `${Configuration.iiifImageServerUrl}/iiif/2/${filename}/info.json`;
+    }
+
+    const getImageThumbnailUrl = (filename="null") => {
+        return `${Configuration.iiifImageServerUrl}/iiif/2/${filename}/full/${thumbnailImageWidth},${thumbnailImageHeight}/0/default.jpg`;
+    }
+
+    const getPdfThumbnailUrl = (filename="null") => {
+        return `${Configuration.iiifImageServerUrl}/iiif/2/${filename}/full/${thumbnailImageWidth},${thumbnailImageHeight}/0/default.jpg`;
     }
 
     /**
@@ -73,6 +87,8 @@ export const Resource = (() => {
         getUrl,
         getImageDerivativeUrl,
         getImageTileSourceUrl,
+        getImageThumbnailUrl,
+        getPdfThumbnailUrl,
         fetchFile,
         streamFile,
         getInfo

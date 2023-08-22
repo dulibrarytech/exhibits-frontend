@@ -2,9 +2,9 @@
     'use strict' 
     
     import { onMount } from 'svelte';
-    import { Configuration } from '../config/config';
     import { Settings } from '../config/settings';
     import { Repository } from '../libs/repository';
+    import { Resource } from '../libs/resource';
 
     import {ITEM_TYPE} from '../config/global-constants';
 
@@ -19,13 +19,7 @@
     var tnUrl = null;
     var caption = null;
 
-    var {
-        thumbnailImageLocation,
-        thumbnailImageHeight,
-        thumbnailImageWidth
-        //enableIIIFImageItemThumbnail
-
-    } = Settings;
+    var {thumbnailImageLocation} = Settings;
 
     const THUMBNAIL_ICON = Settings.thumbnailIcon;
     const THUMBNAIL_PATH = `${thumbnailImageLocation}`;
@@ -52,7 +46,7 @@
     }
 
     const getImageThumbnailUrl = () => {
-        return id ? `${Configuration.iiifImageServerUrl}/iiif/2/${id}/full/${thumbnailImageWidth},${thumbnailImageHeight}/0/default.jpg` : null;
+        return id ? Resource.getImageThumbnailUrl(id) : null;
     }
 
     const getAudioThumbnailUrl = () => {
@@ -64,7 +58,7 @@
     }
 
     const getPdfThumbnailUrl = () => {
-        return id ? `${Configuration.iiifImageServerUrl}/iiif/2/${id}/full/${thumbnailImageWidth},${thumbnailImageHeight}/0/default.jpg` : null;
+        return id ? Resource.getPdfThumbnailUrl(id) : null;
     }
 
     const getExternalThumbnailUrl = () => {
