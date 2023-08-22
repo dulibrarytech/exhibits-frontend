@@ -12,6 +12,15 @@
 
 <div class="page">
     <h2>About the Curators</h2>
-    {#if html}{html}{/if}
+    <hr>
+    <div class="page-content">
+        {#if html}{html}{/if}
+    </div>
 </div>
+
+<style>
+    .page-content {
+        margin-top: 55px;
+    }
+</style>
 
