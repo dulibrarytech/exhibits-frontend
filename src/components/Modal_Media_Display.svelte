@@ -3,17 +3,16 @@
     import Media_Display from './Media_Display.svelte';
 	import Text_Display from './Text_Display.svelte';
 
-    export let item = null;
+    export let data = null;
 
     const dispatch = createEventDispatcher();
 
 	let dialog; // HTMLDialogElement
 	let title;
 
-	$: if (dialog && item) dialog.showModal();
-
 	$: {
-		title = item.title || null;
+		title = data.title || null;
+		if (dialog && data) dialog.showModal();
 	}
 
     const closeDialog = () => {
@@ -22,6 +21,8 @@
 </script>
 
 <div class="modal-item-viewer">
+<!-- <div B class="modal-dialog-window"> -->
+
 	<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 	<dialog bind:this={dialog} on:close={closeDialog}>
 
@@ -33,7 +34,7 @@
 				<div class="row dialog-controls">
 					<div class="col-lg-8 col-md-9 col-sm-12">
 						<button class="button-close" on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
-						<!-- <button class="button-close" on:click={() => dialog.close()}><i class="bi bi-chevron-left"></i></button> -->
+						<!-- <button class="button-close" on:click={() => dialog.close()}><i class="bi bi-chevron-left"></i>Back</button> --> <!-- "< back" button -->
 					</div>
 
 					<div class="col-lg-4 col-md-3 col-sm-12">
@@ -41,34 +42,30 @@
 					</div>
 				</div>
 
+				<!-- item content (media/text) -->
 				<div class="row item-content">
+
+					<!-- Insert inner component here if dialog is abstracted -->
+					<!-- B <div class="modal-item-viewer"> -->
 					<div class="col-lg-12">
 						<div class="row">
-
 							<div class="col-lg-8 col-md-9 col-sm-12 media-display-container">
-								<Media_Display {item} args={{viewerType: 'interactive'}}/>
+								<Media_Display item={data} args={{viewerType: 'interactive'}}/>
 							</div>
 
 							<div class="col-lg-4 col-md-3 col-sm-12 text-display-container">
 								<div class="text">
-									<Text_Display {item} title={item.title || null} />
+									<Text_Display item={data} title={data.title || null} />
 								</div>
 							</div>
 						</div>
-
-						<!-- viewer-links *need scrolling modal if any more content is below the item media/text div -->
-						<!-- <div class="row">
-							<div class="col-lg-12">
-
-							</div>
-						</div> -->
-
 					</div>
-
 				</div>
+				<!-- B </div> -->
 
 			</div>
 		</div>
+
 	</dialog>
 </div>
 
