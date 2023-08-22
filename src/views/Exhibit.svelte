@@ -4,10 +4,12 @@
     import { onMount } from 'svelte';
     import { Resource } from '../libs/resource';
     import { Index } from '../libs/index.js';
-    import { Templates } from '../templates/config/exhibit.js';
+    import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
-    import { _getPagesCountByParticlesCountLimited } from 'svelte-carousel/src/utils/page';
+
+    import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
     import Modal_Media_Display from '../components/Modal_Media_Display.svelte';
+    import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
 
     export let currentRoute;
 
@@ -18,8 +20,8 @@
     var sections = null;
     var items = [];
     var data = null;
-    var modalItem = null;
     var modalDialog = null;
+    var modalDialogData = null;
 
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
@@ -63,6 +65,16 @@
         }) || null;
     }
 
+    const getPageById = (id) => {
+        let pageComponent = null;
+
+        for(let page in $Popup_Pages) {
+            if(page == id) pageComponent = $Popup_Pages[page];
+        }
+
+        return pageComponent;
+    }
+
     const setTheme = (styles) => {
         let {heading={}, navigation={}, template={}} = styles;
 
@@ -103,21 +115,33 @@
         }
     }
 
-    const onMountPage = (event) => {
-        let styles = data.styles?.exhibit;
-        if(styles) setTheme(styles);
-    }
-
     const onOpenViewerModal = (event) => {
-        modalItem = getItemById(event.detail.itemId || null);
+        modalDialogData = getItemById(event.detail.itemId || null);
         if(!modalDialog) modalDialog = Modal_Media_Display;
         document.body.classList.add('modal-open');
     }
 
-    const onCloseViewerModal = (event) => {
-        modalItem = null;
+    const onOpenPageModal = (event) => {
+        modalDialogData = {
+            page: data,
+            container: getPageById(event.detail.pageId) // ret About_The_Curators
+        };
+
+        if(!modalDialog) modalDialog = Modal_Page_Display;
+        document.body.classList.add('modal-open');
+    }
+
+    const onCloseModal = (event) => {
+        modalDialogData = null;
         modalDialog = null;
         document.body.classList.remove('modal-open');
+    }
+
+    const onOpenExternalPage = (event) => {} // TBD what is the scope of the exhibit menu?
+
+    const onMountPage = (event) => {
+        let styles = data.styles?.exhibit;
+        if(styles) setTheme(styles);
     }
 
     onMount(async () => {
@@ -126,9 +150,11 @@
 </script>
 
 {#if pageLayout}
+    <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
+
     <svelte:component this={pageLayout} {data} {template} {sections} {items} on:mount={onMountPage} on:click-item={onOpenViewerModal} />
 
-    {#if modalDialog}<svelte:component this={modalDialog} item={modalItem} on:close={onCloseViewerModal}/>{/if}
+    {#if modalDialog}<svelte:component this={modalDialog} data={modalDialogData} on:close={onCloseModal}/>{/if}
 {:else}
     <h3>Loading exhibit...</h3>
 {/if}

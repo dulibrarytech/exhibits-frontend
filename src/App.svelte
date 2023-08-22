@@ -5,12 +5,12 @@
 
   import Header from "./views/partials/Header.svelte";
   import Footer from "./views/partials/Footer.svelte";
-  import Main_Menu from "./components/Main_Menu.svelte";
+  import Site_Menu from "./components/Site_Menu.svelte";
 </script>
 
 <Header />
 <main class="container-1700">
-  <Main_Menu {links} />
+  <Site_Menu {links} />
   <Router {routes} />
 </main>
 <Footer />
