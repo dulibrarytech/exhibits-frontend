@@ -30,9 +30,14 @@
         height: 60vh;
     }
 
+    .pdf-viewer {
+        height: 100%;
+    }
+
     .pdf-content {
         border-style: solid;
         border-width: 1px;
         border-color: #e5e3e1;
+        height: 100%;
     }
 </style>

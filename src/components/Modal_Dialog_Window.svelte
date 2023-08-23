@@ -1,32 +1,17 @@
 <script>
     import { onMount } from 'svelte';
-    import {createEventDispatcher} from 'svelte';
+	import {createEventDispatcher} from 'svelte';
 
-    export let data = null;
+    export let modalDisplay = null;
+    export let modalData = null;
 
-	let dialog; // HTMLDialogElement
-    let container = null;
-    let pageData = null;
-
-    var message = "Loading...";
+    let dialog; // HTMLDialogElement
 
     const dispatch = createEventDispatcher();
 
-	const render = () => {
-        container = data.container || null;
-        pageData = data.page || null;
-
-		if (dialog && container) {
+    const render = () => {
+		if (dialog && modalData) {
             dialog.showModal();
-        }
-        else {
-            console.error("Can't open dialog, no content available"); // TODO show error dialog?
-            closeDialog();
-        }
-
-        if(!pageData) {
-            message = "Error opening page";
-            console.error("Page data object is null");
         }
 	}
 
@@ -34,12 +19,13 @@
         dispatch('close', {});
     }
 
-    onMount(async () => {
+	onMount(async () => {
         render();
     });
 </script>
 
 <div class="modal-dialog-window">
+    
 	<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 	<dialog bind:this={dialog} on:close={closeDialog}>
 
@@ -47,46 +33,48 @@
 		<div>
 			<div class="dialog-content">
 
-                <!-- dialog controls -->
+				<!-- dialog controls -->
 				<div class="row dialog-controls">
-					<div class="col-12">
+					<div class="col-lg-8 col-md-9 col-sm-12">
 						<button class="button-close" on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
 						<!-- <button class="button-close" on:click={() => dialog.close()}><i class="bi bi-chevron-left"></i>Back</button> --> <!-- "< back" button -->
 					</div>
+
+					<div class="col-lg-4 col-md-3 col-sm-12">
+						<!-- controls for text section or leave empty -->
+					</div>
 				</div>
 
-                <!-- dynamic component=page pass data into page component-->
-                <div class="page-display">
-                    {#if pageData}
-                        <svelte:component this={container} data={pageData} />
-                    {:else}
-                        <h3>{message}</h3>
-                    {/if}
+				<!-- display content -->
+				<div class="row display-content">
+                    <svelte:component this={modalDisplay} data={modalData} on:close={closeDialog} />
                 </div>
-                
 			</div>
 		</div>
 
 	</dialog>
+
 </div>
 
 <style>
-	.modal-dialog-window {
+    .modal-dialog-window {
 		height: 100vh;
 		width: 100%;
 	}
 
-    .page-display {
-        padding:55px;
-        background: white;
-        height: 100%;
-    }
-
-	.dialog-content {
+    .dialog-content {
 		height: 100%;
 	}
 
-	dialog {
+	.dialog-controls {
+		height: 6%;
+	}
+
+	.display-content {
+		height: 94%;
+	}
+
+    dialog {
 		width: 100%;
 		height: 100%;
 		border-radius: 0.2em;
@@ -131,9 +119,5 @@
 		position: relative;
 		top: 4px;
 		left: 8px;
-	}
-
-	.text {
-		height: 100%;
 	}
 </style>

@@ -6,7 +6,6 @@
      * 
      * Currently no OpenSeadragon viewing of remote tiff images. Only local images can be served as tiled images due to functionality of tile server (Cantaloupe)
      */
-    import { onMount } from 'svelte';
     import OpenSeadragon_Content from './OpenSeadragon_Content.svelte';
 
     export let args;
@@ -40,9 +39,7 @@
         sourceUrl = url;
     }
 
-    onMount(async () => {
-        render();
-    });
+    $: render();
 </script>
 
 <div class="image-viewer">

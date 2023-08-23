@@ -8,6 +8,7 @@
     import { Page_Layouts } from '../templates/config/page-layout.js';
 
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
+    import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
     import Modal_Media_Display from '../components/Modal_Media_Display.svelte';
     import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
 
@@ -154,7 +155,8 @@
 
     <svelte:component this={pageLayout} {data} {template} {sections} {items} on:mount={onMountPage} on:click-item={onOpenViewerModal} />
 
-    {#if modalDialog}<svelte:component this={modalDialog} data={modalDialogData} on:close={onCloseModal}/>{/if}
+    <!-- {#if modalDialog}<svelte:component this={modalDialog} data={modalDialogData} on:close={onCloseModal}/>{/if} -->
+    {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={onCloseModal} />{/if}  <!-- UPDATE var names in open() functions -->
 {:else}
     <h3>Loading exhibit...</h3>
 {/if}

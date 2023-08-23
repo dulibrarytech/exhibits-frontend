@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from 'svelte';
     import Repository_Item from './Repository_Item.svelte';
     import Media_Item from './Media_Item.svelte';
 
@@ -8,8 +7,7 @@
     
     let component = null;
 
-    onMount(async () => {
-        let {item_type} = item;
+    let {item_type} = item;
 
         if(item_type) {
             if(item_type == "repo") {
@@ -27,8 +25,9 @@
                 component = Media_Item;
             }
         }
-        else console.error("Item type not found:", item_type);
-    });
+        else {
+            console.error("Item type not found:", item_type);
+        }
 </script>
 
 {#if component}
