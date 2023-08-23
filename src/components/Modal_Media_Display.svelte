@@ -60,7 +60,7 @@
 		height: 100%;
 
 		position: relative;
-		padding: 30px;
+		/* padding: 30px; */
 		background: grey;
 	}
 
@@ -93,18 +93,20 @@
 		background: #616161;
 		color: white;
 		height: 100%;
-		position: absolute;
-		bottom: 10px;
+		/* position: absolute;
+		bottom: 10px; */
+		padding: 0 30px;
 	}
 
 	:global(.modal-item-viewer .audio-player .audio) {
 		position: absolute;
-		bottom: 0;
+		bottom: 15px;
 	}
 
 	:global(.modal-item-viewer .video-player) {
 		height: 100%;
 		color: white;
+		padding: 0 30px;
 	}
 
 	:global(.modal-item-viewer .video-player .video) {
