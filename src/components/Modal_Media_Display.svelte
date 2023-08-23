@@ -2,12 +2,17 @@
     import Media_Display from './Media_Display.svelte';
 	import Text_Display from './Text_Display.svelte';
 
+	import {stripHtmlTags} from '../libs/data_helpers';
+
     export let data = null;
 
 	let title;
+	let text;
 
     $: {
         title = data.title || null;
+
+		if(data.text) data.text = stripHtmlTags(data.text);
     }
 </script>
 
