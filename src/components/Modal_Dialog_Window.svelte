@@ -67,11 +67,11 @@
 	}
 
 	.dialog-controls {
-		height: 6%;
+		height: 50px;
 	}
 
 	.display-content {
-		height: 94%;
+		height: calc(100% - 50px);
 	}
 
     dialog {
@@ -117,7 +117,8 @@
 	.button-close {
 		display: block;
 		position: relative;
-		top: 4px;
+		top: 5px;
 		left: 8px;
+		height: 40px;
 	}
 </style>
