@@ -48,7 +48,7 @@
     });
 </script>
 
-<div class="homepage">
+<div class="homepage page">
     <div class="container">
         {#if featuredExhibits}
             <div class="row heading">
@@ -100,10 +100,6 @@
 </div>
 
 <style>
-    .homepage {
-        padding: 50px 0;
-    }
-
     .homepage .row {
         margin-bottom: 50px;
     }

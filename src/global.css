@@ -13,7 +13,7 @@ html, body {
 }
 
 body {
-	color: #333;
+	color: #616161;
 	margin: 0;
 	/* display: flex;
   	flex-direction: column; */
@@ -78,6 +78,10 @@ main.container {
 	/* min-height: calc(100vh - (50px + 150px)); */
 	flex: 1 0 auto;
 	margin-top: 3em;
+}
+
+.page {
+	padding: 50px 0;
 }
 
 footer {
