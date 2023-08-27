@@ -4,6 +4,11 @@
 
 export const Menu_Links = [
     {
+        "label": "Exhibits",
+        "url": "/exhibits",
+        "open_new_tab": false
+    },
+    {
         "label": "What's On",
         "url": "/whats-on",
         "open_new_tab": false

@@ -4,30 +4,22 @@
      */
     'use strict'
 
-    import { onMount } from 'svelte';
-    //import jQuery from 'jquery';
     import { Menu_Links } from '../config/menu.js';
 
     let links = null;
 
-    //jQuery.noConflict(true)
-
-    //console.log("jQuery:", jQuery('.site-link'))
-
-    //jQuery('#testid').hide()
-
     $: links = Menu_Links;
 
-    onMount(() => {
-		//window.jQuery = jQuery;
+    const onClickLink = (event) => {
+        let url;
+        let location = event.target.getAttribute('data-href') || "#";
+        let target = event.target.getAttribute('data-target') || "self";
 
-        //console.log("window jQuery:", jQuery)
+        url = location;
 
-        //siteSticky();
-        
-        // iterate Menu, adding links to links[]
-        // OR links = Menu_Links
-	});
+        if(target == "blank") window.open(url, '_blank');
+        else window.location.replace(url);
+    }
 </script>
 
 <div class="site-menu-toggle">
@@ -40,9 +32,9 @@
     <div class="site-menu-links card card-body">
         {#each links as link}
             {#if link.open_new_tab}
-                <a href={link.url} target="_blank">{link.label}</a>
+                <a href data-href={link.url} data-target="blank" on:click={onClickLink}>{link.label}</a>
             {:else}
-                <a href={link.url}>{link.label}</a>
+                <a href data-href={link.url} on:click={onClickLink}>{link.label}</a>
             {/if}
         {/each}
     </div>

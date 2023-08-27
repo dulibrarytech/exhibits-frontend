@@ -10,7 +10,7 @@
     }
 </script>
 
-<div class="page">
+<div class="modal-page">
     <h2>About the Curators</h2>
     <hr>
     <div class="page-content">
