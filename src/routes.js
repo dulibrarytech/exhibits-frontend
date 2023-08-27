@@ -4,6 +4,10 @@ import Home_3 from './views/Home_3.svelte';
 
 import Exhibit from './views/Exhibit.svelte';
 
+import Whats_On from './views/Whats_On.svelte';
+import Events from './views/Events.svelte';
+import Student_Curated from './views/Student_Curated.svelte';
+
 import Test_Component from './test/Test_Component.svelte';
 import Test_View from './test/Test_View.svelte';
 
@@ -14,6 +18,7 @@ const routes = [
      * root
      **********************/
     {name: '/', component: Home_3},
+    {name: '/exhibits', component: Home_3},
 
     // Test Home pages //
     {name: '/home2', component: Home_2},
@@ -24,6 +29,14 @@ const routes = [
      **********************/
     {name: '/exhibit', component: Home},
     {name: '/exhibit/:id', component: Exhibit},
+
+    /**********************
+     * site pages
+     **********************/
+    {name: '/whats-on', component: Whats_On},
+    {name: '/events', component: Events},
+    {name: '/student-curated', component: Student_Curated},
+
 
     /**********************
      * test
