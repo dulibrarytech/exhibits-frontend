@@ -12,7 +12,7 @@
 
 <style>
     .footer-content {
-        padding: 2em;
+        padding: 2em 0;
         color: white;
     }
 </style>
