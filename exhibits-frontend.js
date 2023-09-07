@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
         next();
     }
     catch(e) {
-        console.log("Access: " + e, req.url);
+        console.log("Error: " + e, req.url);
         console.log("Req host: " + req.headers.host);
         res.sendStatus(404);
     }

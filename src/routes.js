@@ -1,9 +1,8 @@
 import Home from './views/Home.svelte';
 import Home_2 from './views/Home_2.svelte';
 import Home_3 from './views/Home_3.svelte';
-
 import Exhibit from './views/Exhibit.svelte';
-
+import Search from './views/Search.svelte';
 import Whats_On from './views/Whats_On.svelte';
 import Events from './views/Events.svelte';
 import Student_Curated from './views/Student_Curated.svelte';
@@ -25,13 +24,14 @@ const routes = [
     {name: '/home3', component: Home},
 
     /**********************
-     * exhibit
+     * app pages
      **********************/
     {name: '/exhibit', component: Home},
     {name: '/exhibit/:id', component: Exhibit},
+    {name: '/search', component: Search},
 
     /**********************
-     * site pages
+     * user content pages
      **********************/
     {name: '/whats-on', component: Whats_On},
     {name: '/events', component: Events},
