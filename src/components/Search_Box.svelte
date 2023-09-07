@@ -3,26 +3,29 @@
 
     import { onMount } from 'svelte';
 
-    export let data = {};
+    export let endpoint = null;
+    export let params = {};
 
-    // internal data fields (in instance)
     let index;
     let fields;
     let query;
     let placeholder;
-
-    // form fields, set default in init()
-    let type; // search type ie 'and/or' default is and
+    let url;
+    let type;
 
     const init = () => {
-        console.log("TEST init search: data:", data)
-        // set local data fields for index, search field array, search type, etc
+        // set local data fields for endpoint, index, search field array, search type, etc
     }
 
     const search = () => {
-        // construct elastic request url
-        // submit via index.js searchIndex()
-        // dispatch event and results
+        query = query.replace(/ /g, ',');
+        url = `${endpoint}?q=${query}`;
+
+        for(let key in params) {
+          url = url.concat(`&${key}=${params[key]}`);
+        }
+
+        window.location.replace(url);
     }
 
     onMount(async () => {
