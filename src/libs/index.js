@@ -11,8 +11,9 @@ import axios from 'axios';
 export const Index = (() => {
     var {exhibitsIndexDomain, exhibitsIndexName} = Configuration;
 
-    const INDEX_API_DOMAIN = 'http://localhost:5678/api/v1';
-    const EXHIBIT_ENDPOINT = INDEX_API_DOMAIN + '/exhibit';
+    const INDEX_API_DOMAIN = exhibitsIndexDomain;
+    const EXHIBIT_ROUTE = INDEX_API_DOMAIN + '/exhibit';
+    const SEARCH_ROUTE = INDEX_API_DOMAIN + '/search';
 
     /**
      * getExhibits()
@@ -25,7 +26,7 @@ export const Index = (() => {
         let exhibits = [];
         
         try {
-            let response = await axios.get(EXHIBIT_ENDPOINT);
+            let response = await axios.get(EXHIBIT_ROUTE);
             exhibits = response.data;
         }
         catch(e) {
@@ -52,6 +53,7 @@ export const Index = (() => {
         let exhibit = null;
 
         try {
+            // TODO use endpoint const as in getExhibits()
             let response = await axios.get(`http://localhost:5678/api/v1/exhibit/${id}`);
             let data = response.data;
 
@@ -69,9 +71,36 @@ export const Index = (() => {
 
     /**
      * searchIndex()
+     * 
+     * @typedef {object} data
+     * @property {object} [terms = []]
+     * @property {string} [boolean = "or"]
+     * @property {object} [fields = []]
+     * 
+     * @param {string} [exhibitId = null] - exhibit uuid. If null, all exhibits are searched. If present, search is scoped to that exhibit
+     * 
+     * @returns results array from elastic response data
      */
-    const searchIndex = () => {
+    const searchIndex = async (data = {}, exhibitId = null) => {
+        let results = [];
+        // impl
+        // build elastic DSL query object with data (terms, bool, fields) if id, add the 'is_member_of_exhibit=id' clause to the query array
+        // call elastic async (as in other f()s here) and return results array (array extracted from elastic response object)
 
+        // dev
+        let terms = data.terms.toString();
+        let url = `http://localhost:5678/api/v1/search?q=${terms}`; 
+        if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
+
+        try {
+            let response = await axios.get(url);
+            results = response.data || [];
+        }
+        catch(error) {
+            console.error(`Could not retrieve data from index. Url: ${url} Error: ${error}`);
+        }
+
+        return results;
     }
 
     return {

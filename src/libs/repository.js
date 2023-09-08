@@ -16,10 +16,7 @@
 
 /**
  * Digital repository interface
- * repository_interface.js
- * 
- * 1. construct repository api request urls 
- * 2. fetch datastream from the repository by item id
+ * repository.js
  */
 
 'use strict'

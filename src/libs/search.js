@@ -15,14 +15,14 @@
  */
 
 /**
- * Search functions
+ * Search module
  * search.js
  */
 
 'use strict'
 
 import { Configuration } from '../config/config.js';
-import axios from 'axios';
+import { Index } from './index.js';
 
 export const Search = (() => {
 
@@ -38,18 +38,18 @@ export const Search = (() => {
      * 
      * @returns 
      */
-    const search = async (terms = "", exhibitId = null) => {
-        // gets terms from search box (A: in array, constructed in Search_Box component, B: as string, constructed in sb comp, as comma sep vals)
-        // create data object for index::searchIndex():
-        // terms array, individual terms or single string 
-        // boolean, use default, user control tbd
-        // fields - array, use title, description, text now. user control tbd
+    const execute = async (terms, boolean, fields, exhibitId) => {
+        let data = {
+            terms: terms.toLowerCase().split(','),
+            boolean,
+            fields: fields.split(',')
+        }
 
-        // call index::searchIndex(data, exhibitId) async, then (redirect?) to results page with results array* (array could be crosswalked here to a format that works better for Search_Results.svelte)
+        return await Index.searchIndex(data, exhibitId); // async, then (redirect?) to results page with results array* (array could be crosswalked here to a format that works better for Search_Results.svelte)
     }
 
     return {
-        search
-    };
+        execute
+    }
 
-});
+})()
