@@ -64,7 +64,7 @@
     }
 
     .site-menu a {
-        color: #616161;
+        color: #313131;
     }
 
     .site-menu a:not(:first-child) {
