@@ -83,21 +83,32 @@ export const Index = (() => {
      */
     const searchIndex = async (data = {}, exhibitId = null) => {
         let results = [];
-        // impl
-        // build elastic DSL query object with data (terms, bool, fields) if id, add the 'is_member_of_exhibit=id' clause to the query array
-        // call elastic async (as in other f()s here) and return results array (array extracted from elastic response object)
+        // [impl:]
+        // build elastic DSL query object with data (terms, bool, fields) *if id => add the 'is_member_of_exhibit=id' clause to the query array AND type=item. IF no id, use item=exhibit*
+        // if(exhibitId) {
+        // }
+        // else {
+        // }
+        // call elastic async (as in other f()s here) and return results array (array extracted from elastic response object => response.hits.hits, length => response.hits.total.value)
+        // let url = "" // es api
+        // [end impl]
 
-        // dev
+        // [dev:]
         let terms = data.terms.toString();
         let url = `http://localhost:5678/api/v1/search?q=${terms}`; 
         if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
+        console.log("TEST url for index search:", url)
+        // [end dev]
 
         try {
             let response = await axios.get(url);
+            console.log("TEST index response:", response)
             results = response.data || [];
         }
         catch(error) {
-            console.error(`Could not retrieve data from index. Url: ${url} Error: ${error}`);
+            //if(error.response.status == 404) console.log("Exhibit not found");
+            //else 
+            console.error(`Could not retrieve data from index. Url: ${url} Error: ${error} Request status: ${error.response.status}`);
         }
 
         return results;

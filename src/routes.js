@@ -1,6 +1,4 @@
 import Home from './views/Home.svelte';
-import Home_2 from './views/Home_2.svelte';
-import Home_3 from './views/Home_3.svelte';
 import Exhibit from './views/Exhibit.svelte';
 import Search from './views/Search.svelte';
 import Whats_On from './views/Whats_On.svelte';
@@ -11,6 +9,9 @@ import Test_Component from './test/Test_Component.svelte';
 import Test_View from './test/Test_View.svelte';
 
 import NotFound from './views/NotFound.svelte';
+
+import Home_2 from './views/Home_2.svelte';
+import Home_3 from './views/Home_3.svelte';
 
 const routes = [
     /**********************

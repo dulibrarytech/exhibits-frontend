@@ -21,31 +21,44 @@
 
 'use strict'
 
-import { Configuration } from '../config/config.js';
 import { Index } from './index.js';
+import { Settings } from '../config/settings.js';
 
 export const Search = (() => {
 
     var {   
         
-    } = Configuration;
+    } = Settings;
 
     /**
      * search()
      * 
-     * @param {string} [terms = ""] - search terms, as csv string
-     * @param {string} [exhibitId = ""] - exhibit id, if search is scoped to an exhibit
+     * @param {string} [terms = ""] - search terms (csv string)
+     * @param {string} [exhibitId = ""] - exhibit id. search will be scoped to the items in this exhibit
      * 
      * @returns 
      */
     const execute = async (terms, boolean, fields, exhibitId) => {
+        let results = [];
         let data = {
             terms: terms.toLowerCase().split(','),
             boolean,
             fields: fields.split(',')
         }
 
-        return await Index.searchIndex(data, exhibitId); // async, then (redirect?) to results page with results array* (array could be crosswalked here to a format that works better for Search_Results.svelte)
+        let response = await Index.searchIndex(data, exhibitId);
+
+        // get the fields for the results view TODO: add to settings
+        for(let result of response) {
+            let {title, description} = result;
+
+            results.push({
+                "title": title,
+                "description": description
+            });
+        }
+
+        return results;
     }
 
     return {
