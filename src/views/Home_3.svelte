@@ -14,6 +14,7 @@
 
     const render = async () => {
         exhibits = await Index.getExhibits();
+        console.log("TEST exhibits", exhibits)
 
         if(exhibits.length == 0) {
             console.log("No exhibits found");
@@ -63,7 +64,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="exhibits-search">
-                        <Search_Box />
+                        <Search_Box endpoint="/search"/>
+                        <!-- <Search_Box endpoint="/search" params={{exhibitId: "2"}}/> --> <!-- test -->
                     </div>
                 </div>
             </div>

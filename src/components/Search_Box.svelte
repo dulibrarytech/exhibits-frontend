@@ -6,12 +6,9 @@
     export let endpoint = null;
     export let params = {};
 
-    let index;
-    let fields;
     let query;
     let placeholder;
     let url;
-    let type;
 
     const init = () => {
         // set local data fields for endpoint, index, search field array, search type, etc
