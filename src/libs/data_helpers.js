@@ -27,11 +27,12 @@
 import { Settings } from '../config/settings.js';
 
 /**
- * Get the image type for a mime type
+ * Removes all html tags
  * @param {string} html : html string
  * 
  * @returns string with html tags removed
  */
 export const stripHtmlTags = (html) => {
-    return html.replace(/(<([^>]+)>)/gi, "");
+    //return html.replace(/(<([^>]+)>)/gi, "");
+    return html.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))?>/gi, ""); // remove tags with and without attributes
 }

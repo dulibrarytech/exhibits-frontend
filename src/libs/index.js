@@ -95,14 +95,13 @@ export const Index = (() => {
 
         // [dev:]
         let terms = data.terms.toString();
-        let url = `http://localhost:5678/api/v1/search?q=${terms}`; 
+        let page = data.page;
+        let url = `http://localhost:5678/api/v1/search?q=${terms}&page=${page}`; 
         if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
-        console.log("TEST url for index search:", url)
         // [end dev]
 
         try {
             let response = await axios.get(url);
-            console.log("TEST index response:", response)
             results = response.data || [];
         }
         catch(error) {

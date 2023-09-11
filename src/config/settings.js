@@ -68,5 +68,16 @@ export const Settings = {
      */
     defaultHeroImage: null,
     heroSliderAutoplayEnabled: false,
-    heroSliderAutoplayDuration: 5000
+    heroSliderAutoplayDuration: 5000,
+
+    /*
+     * Fields shown in search result display
+     *
+     * {"display field": "backend (index) field"}
+     */
+    searchResultFields: {
+        "title": "title",
+        "description": "description",
+        "date": "date"
+    }
 }

@@ -25,10 +25,7 @@ import { Index } from './index.js';
 import { Settings } from '../config/settings.js';
 
 export const Search = (() => {
-
-    var {   
-        
-    } = Settings;
+    let resultFields = Settings.searchResultFields;
 
     /**
      * search()
@@ -38,24 +35,26 @@ export const Search = (() => {
      * 
      * @returns 
      */
-    const execute = async (terms, boolean, fields, exhibitId) => {
+    const execute = async (terms, boolean, fields, exhibitId, page) => {
         let results = [];
+
         let data = {
             terms: terms.toLowerCase().split(','),
             boolean,
-            fields: fields.split(',')
+            fields: fields.split(','),
+            page
         }
 
         let response = await Index.searchIndex(data, exhibitId);
 
-        // get the fields for the results view TODO: add to settings
-        for(let result of response) {
-            let {title, description} = result;
-
-            results.push({
-                "title": title,
-                "description": description
-            });
+        // get the fields for the results view
+        let result;
+        for(let item of response) {
+            result = {};
+            for(let field in resultFields) {
+                result[field] = item[ resultFields[field] ] || ""
+            }
+            results.push(result);
         }
 
         return results;

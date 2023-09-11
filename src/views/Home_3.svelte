@@ -14,7 +14,6 @@
 
     const render = async () => {
         exhibits = await Index.getExhibits();
-        console.log("TEST exhibits", exhibits)
 
         if(exhibits.length == 0) {
             console.log("No exhibits found");
