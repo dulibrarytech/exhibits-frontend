@@ -2,7 +2,8 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import { Resource } from '../libs/resource';
+    // import { Resource } from '../libs/resource';
+    import { getExhibitThumbnailUrl } from '../libs/media_helpers';
 
     export let exhibit = {};
 
@@ -15,31 +16,15 @@
     let subtitle;
     let styles;
 
-    $: {
+    $: init();
+
+    const init = () => {
         exhibitPath = `/exhibit/${exhibit.uuid}`;
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
         styles = exhibit.styles.hero || {};
-
-        init();
-    }
-
-    const init = () => {
-        if(!thumbnail) {
-            let  {thumbnail_image=null, hero_image=null} = exhibit;
-
-            if(!thumbnail_image) {
-                thumbnail = Resource.getImageDerivativeUrl({
-                    type: 'crop',
-                    filename: hero_image || "",
-                    width: "400",
-                    height: "400"
-                });
-            }
-            else {
-                thumbnail = Resource.getUrl(thumbnail_image);
-            }
-        }
+        
+        if(!thumbnail) thumbnail = getExhibitThumbnailUrl(exhibit);
     }
 
     const setTheme = () => {
