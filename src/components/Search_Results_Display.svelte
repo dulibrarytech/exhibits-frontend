@@ -9,6 +9,7 @@
     export let data = {};
 
     let resultFields = Settings.searchResultFields;
+    let terms = "";
 
     $: {
         results.forEach((result) => {
@@ -16,6 +17,8 @@
                 result[field] = stripHtmlTags(result[field]);
             }
         });
+
+        terms = data.terms?.replace(/,/g, ' ');
     }
 </script>
 
@@ -25,15 +28,20 @@
         <div class="container">
             <div class="row ng-scope">
 
-                <div class="col-md-3 col-md-push-9">
-                    <h4>Facets</h4>
-                    <ul class="nav nav-pills nav-stacked search-result-categories mt">
-                        <li><a href="#">Facet<span class="badge">[count]</span></a></li>
-                    </ul>
+                <div class="col-md-3 col-md-push-9 results-sidebar">
+                    <div>
+                        <button on:click|preventDefault={()=>(history.go(-2))}>Back</button>
+                    </div>
+                    <div class="facets">
+                        <h4>Facets</h4>
+                        <ul class="nav nav-pills nav-stacked search-result-categories mt">
+                            <li><a href="#">Facet<span class="badge">[count]</span></a></li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="col-md-9 col-md-pull-3">
-                    <p class="search-results-count">Found {results.length} results for "{data.terms}"</p>
+                <div class="col-md-9 col-md-pull-3 results-container">
+                    <p class="search-results-count">Found {results.length} results for "{terms}"</p>
 
                     {#each results as result, index} 
                         <Search_Result {result} {index} />
@@ -146,5 +154,9 @@
         cursor: default;
         background-color: #337ab7;
         border-color: #337ab7;
+    }
+
+    .results-sidebar > div:not(:first-child) {
+        margin-top: 30px;
     }
 </style>

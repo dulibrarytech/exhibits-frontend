@@ -16,7 +16,7 @@
     }
 
     const search = () => {
-        query = query.replace(/ /g, ',');
+        query = query.replace(/ /g, ',').toLowerCase();
         url = `${endpoint}?q=${query}`;
 
         for(let key in params) {
