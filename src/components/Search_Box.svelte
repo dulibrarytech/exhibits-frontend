@@ -2,6 +2,7 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import { prevent_default } from 'svelte/internal';
 
     export let endpoint = null;
     export let params = {};
@@ -23,6 +24,16 @@
         }
 
         window.location.replace(url);
+    }
+
+    const onKeyPress = (event) => {
+        // execute search if the search input box is active and the enter key is pressed
+        if(document.activeElement.getAttribute('id') == "searchbox" &&
+           event.keyCode == 13) {
+
+            event.preventDefault();
+            search();
+        }
     }
 
     onMount(async () => {
@@ -52,6 +63,8 @@
       </div> -->
     </div>
   </form>
+
+  <svelte:window on:keydown={onKeyPress} />
   
   <style>
     .radio-group {

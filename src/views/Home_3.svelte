@@ -1,10 +1,11 @@
 <!-- homepage option with no hero image -->
 
 <script>
+    'use strict'
+
     import { onMount } from 'svelte';
     import { Index } from '../libs/index.js';
 
-    import Hero_Slider from '../components/Hero_Slider.svelte';
     import Search_Box from '../components/Search_Box.svelte';
     import Exhibit_Preview_Grid from '../templates/homepage/Exhibit_Preview_Grid.svelte';
 

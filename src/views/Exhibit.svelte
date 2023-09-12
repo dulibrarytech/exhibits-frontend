@@ -138,7 +138,7 @@
         document.body.classList.remove('modal-open');
     }
 
-    const onOpenExternalPage = (event) => {} // TBD what is the scope of the exhibit menu?
+    const onOpenExternalPage = (event) => {}
 
     const onMountPage = (event) => {
         let styles = data.styles?.exhibit;
