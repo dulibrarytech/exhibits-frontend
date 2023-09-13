@@ -78,7 +78,6 @@ export const Resource = (() => {
      * getExhibitThumbnailUrl
      */
     const getExhibitThumbnailUrl = (exhibit) => {
-        console.log("TEST getExhibitThumbnailUrl", exhibit)
         let thumbnail = null;
         let  {thumbnail_image=null, hero_image=null} = exhibit;
 
@@ -101,7 +100,6 @@ export const Resource = (() => {
      * getItemThumbnailUrl
      */
     const getItemThumbnailUrl = (item) => {
-        console.log("TEST getExhibitItemThumbnailUrl", item)
         let thumbnail = null;
         let  {thumbnail_image = null} = item;
 

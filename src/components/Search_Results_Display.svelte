@@ -28,8 +28,6 @@
             if(!result.thumbnail_image) result.thumbnail_image = Resource.getThumbnailUrl(result);
         });
 
-        console.log("TEST searchresultsdisplay has processed results:", results)
-
         terms = terms?.replace(/,/g, ' ');
     }
 </script>

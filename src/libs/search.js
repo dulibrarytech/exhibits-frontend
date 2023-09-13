@@ -59,8 +59,6 @@ export const Search = (() => {
             results.push(item);
         }
 
-        console.log("TEST search.js returning results:", results)
-
         return results;
     }
 
