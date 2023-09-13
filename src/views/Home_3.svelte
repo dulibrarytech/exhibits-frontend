@@ -65,7 +65,7 @@
                 <div class="col-md-6">
                     <div class="exhibits-search">
                         <Search_Box endpoint="/search"/>
-                        <!-- <Search_Box endpoint="/search" params={{exhibitId: "2"}}/> --> <!-- test -->
+                        <!-- <Search_Box endpoint="/search" params={{entity: "item", id: "2"}}/> --> <!-- test -->
                     </div>
                 </div>
             </div>

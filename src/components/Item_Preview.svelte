@@ -2,7 +2,7 @@
     'use strict' 
     
     import { onMount } from 'svelte';
-    import { getItemThumbnailUrl } from '../libs/media_helpers';
+    import { Resource } from '../libs/resource';
 
     export let item;
 
@@ -15,7 +15,7 @@
     $: init();
 
     const init = () => {
-        thumbnail = getItemThumbnailUrl(item);
+        thumbnail = Resource.getItemThumbnailUrl(item);
         styles = item.styles || null;
         caption = item.caption || null;
     }

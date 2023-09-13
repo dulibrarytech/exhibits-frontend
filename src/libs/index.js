@@ -105,8 +105,6 @@ export const Index = (() => {
             results = response.data || [];
         }
         catch(error) {
-            //if(error.response.status == 404) console.log("Exhibit not found");
-            //else 
             console.error(`Could not retrieve data from index. Url: ${url} Error: ${error} Request status: ${error.response.status}`);
         }
 

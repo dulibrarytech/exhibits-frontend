@@ -1,3 +1,8 @@
+export const ENTITY_TYPE = {
+    EXHIBIT: "exhibit",
+    EXHIBIT_ITEM: "item"
+}
+
 export const ITEM_TYPE = {
     IMAGE: "image",
     LARGE_IMAGE: "large_image",

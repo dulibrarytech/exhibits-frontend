@@ -2,11 +2,13 @@
     export let result = {};
     export let index = null;
 
+    let thumbnail;
     let title;
     let description; 
     let date;
 
     $: {
+        thumbnail = result.thumbnail_image || null;
         title = result.title || "No Title";
         description = result.description || null;
         date = result.date || null;
@@ -15,10 +17,13 @@
 </script>
 
 <section class="search-result-item">
-    <a class="image-link" href="#"><img class="image" src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+    {#if thumbnail}<a class="image-link" href="#"><img class="image" src={thumbnail}></a>{/if}
     <div class="search-result-item-body">
         <div class="row">
+            <!-- left side content -->
             <!-- <div class="col-sm-9"> -->
+
+            <!-- fullwidth -->
             <div class="col-sm-12">
                 <h4 class="search-result-item-heading title"><a href="#">{title}</a></h4>
                 <hr>
@@ -39,7 +44,9 @@
     .search-result-item {
         padding: 20px;
         background-color: #fff;
-        border-radius: 4px
+        border-radius: 4px;
+        /* position: relative;
+        top: 20px; */
     }
 
     .search-result-item:after,

@@ -2,23 +2,35 @@
     'use strict'
 
     import Search_Result from '../templates/search/partials/Search_Result.svelte';
-    import { Settings } from '../config/settings.js';
+    import { Settings } from '../config/settings';
+    import { Resource } from '../libs/resource';
     import {stripHtmlTags} from '../libs/data_helpers';
+
+    import {ENTITY_TYPE} from '../config/global-constants';
 
     export let results = [];
     export let data = {};
 
-    let resultFields = Settings.searchResultFields;
+    let displayFields = {};
     let terms = "";
 
     $: {
+        let {entity = "", terms = ""} = data;
+
+        if(entity == ENTITY_TYPE.EXHIBIT) displayFields = Settings.searchFieldsExhibit;
+        else if(entity == ENTITY_TYPE.EXHIBIT_ITEM) displayFields = Settings.searchFieldsExhibitItem;
+
         results.forEach((result) => {
-            for(let field in resultFields) {
+            for(let field in displayFields) {
                 result[field] = stripHtmlTags(result[field]);
             }
+
+            if(!result.thumbnail_image) result.thumbnail_image = Resource.getThumbnailUrl(result);
         });
 
-        terms = data.terms?.replace(/,/g, ' ');
+        console.log("TEST searchresultsdisplay has processed results:", results)
+
+        terms = terms?.replace(/,/g, ' ');
     }
 </script>
 

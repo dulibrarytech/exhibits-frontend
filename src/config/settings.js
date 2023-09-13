@@ -70,14 +70,17 @@ export const Settings = {
     heroSliderAutoplayEnabled: false,
     heroSliderAutoplayDuration: 5000,
 
-    /*
-     * Fields shown in search result display
-     *
-     * {"display field": "backend (index) field"}
+    /* 
+     * Index fields included in search (in 'search all', when search field is not specified by user)
+     * {index field name}:{human display name}
      */
-    searchResultFields: {
-        "title": "title",
-        "description": "description",
-        "date": "date"
+    searchFieldsExhibit: {
+        "title": "Title",
+        "description": "Description"
+    },
+
+    searchFieldsExhibitItem: {
+        "title": "Title",
+        "description": "Description"
     }
 }

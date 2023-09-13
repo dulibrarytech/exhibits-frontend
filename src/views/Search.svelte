@@ -12,25 +12,37 @@
     let terms;
     let boolean;
     let fields;
-    let exhibitId;
+    let entity;
+    let id;
     let page;
 
     const init = () => {
         terms = currentRoute.queryParams.q || "";
         boolean = currentRoute.queryParams.bool || "and";
         fields = currentRoute.queryParams.fields || "title";
-        exhibitId = currentRoute.queryParams.exhibitId || null;
+        entity = currentRoute.queryParams.index || "exhibit";
+        id = currentRoute.queryParams.id || null;
         page = currentRoute.queryParams.page || "1";
 
-        data = {
-            terms
+        if(validateData()) {
+            data = {
+                terms,
+                entity
+            }
+            executeSearch();
         }
-
-        executeSearch();
+        else console.error("Invalid query params");
     }
   
     const executeSearch = async () => {
-        results = await Search.execute(terms, boolean, fields, exhibitId, page);
+        results = await Search.execute(terms, boolean, fields, id, page);
+    }
+
+    const validateData = () => {
+        let isValid = true;
+
+
+        return isValid;
     }
 
     $: init();

@@ -2,7 +2,6 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import { prevent_default } from 'svelte/internal';
 
     export let endpoint = null;
     export let params = {};
