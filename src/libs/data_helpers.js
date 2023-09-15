@@ -27,6 +27,29 @@
 import { Settings } from '../config/settings.js';
 
 /**
+ * Find an item by id
+ * @param {string} id - item 'uuid' value
+ * 
+ * @returns {object} item - item with uuid matching the input id
+ */
+export const getItemById = (id, items) => {
+    let item = null, gridItem = null;
+
+    /* find if an item uuid matches id */
+    item = items.find((item) => {
+
+        /* look if the item contains an 'items' array. If it does, see if any items in the array have a uuid which matches id */
+        gridItem = item.items?.find((childItem) => {
+            return childItem.uuid == id;
+        })
+
+        return item?.uuid == id || gridItem?.uuid == id;
+    });
+    
+    return gridItem || item;
+} 
+
+/**
  * Removes all html tags
  * @param {string} html : html string
  * 

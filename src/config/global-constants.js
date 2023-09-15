@@ -1,6 +1,19 @@
 export const ENTITY_TYPE = {
     EXHIBIT: "exhibit",
-    EXHIBIT_ITEM: "item"
+    EXHIBIT_HEADING: "exhibit_heading",
+    ITEM: "item",
+    GRID: "grid",
+    TIMELINE_GRID: "timeline-grid"
+}
+
+export const EXHIBIT_TEMPLATE = {
+    VERTICAL_SCROLL: "vertical_scroll"
+}
+
+export const ITEM_TEMPLATE = {
+    ROW: "row",
+    GRID: "grid",
+    VERTICAL_TIMELINE: "vertical_timeline"
 }
 
 export const ITEM_TYPE = {

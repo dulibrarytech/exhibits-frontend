@@ -8,30 +8,22 @@
     import Vertical_Timeline_Item_Grid from './partial/Vertical_Timeline_Item_Grid.svelte';
     import Exhibit_Heading from './partial/Exhibit_Heading.svelte';
 
+    import {ENTITY_TYPE, ITEM_TEMPLATE} from '../../../config/global-constants';
+
     export let items;
 
     const dispatch = createEventDispatcher();
 
     var exhibit = null;
 
-    const ITEM_TYPES = {
-        ITEM: "item",
-        HEADING: "heading"
-    }
-
-    const ITEM_TEMPLATES = {
-        ROW: "row",
-        GRID: "grid",
-        VERTICAL_TIMELINE: "vertical_timeline"
-    }
-
     const render = () => {
         if(!exhibit) {
-            exhibit = sortTemplateItems(items);
+            exhibit = sortTemplateItems(items); // should order on "sort" field?
         }
     }
 
     /**
+     * Defunct
      * 
      * Creates an array of row and grid items in sequential order, by item.order property
      * 
@@ -44,54 +36,58 @@
      * 
      * @param items Array<Object> Array of item objects
      */
+    // const sortTemplateItems = (items) => {
+    //     let sorted = [];
+    //     let gridItems = [];
+
+    //     for(let index = 0; index<items.length; index++) {
+    //         let item = items[index];
+    //         let {uuid, template = ITEM_TEMPLATE.ROW, columns = 4} = item;
+
+    //         if(template == ITEM_TEMPLATE.ROW) {
+    //             sorted.push(item);
+    //         }
+
+    //         else if(template == ITEM_TEMPLATE.GRID) {
+    //             gridItems.push(item);
+
+    //             /* end current grid if the next item has a different template type */
+    //             if(items[index+1]?.template != ITEM_TEMPLATE.GRID) {
+
+    //                 sorted.push({
+    //                     type: ITEM_TEMPLATE.GRID,
+    //                     items: gridItems,
+    //                     columns
+    //                 });
+
+    //                 gridItems = [];
+    //             }
+    //         }
+
+    //         else if(template == ITEM_TEMPLATE.VERTICAL_TIMELINE) {
+    //             gridItems.push(item);
+
+    //             /* end current grid if the next item has a different template type */
+    //             if(items[index+1]?.template != ITEM_TEMPLATE.VERTICAL_TIMELINE) {
+
+    //                 sorted.push({
+    //                     type: ITEM_TEMPLATE.VERTICAL_TIMELINE,
+    //                     items: gridItems,
+    //                     columns
+    //                 });
+
+    //                 gridItems = [];
+    //             }
+    //         }
+
+    //         else console.error(`Invalid template value: ${template} Item id: ${uuid}`);
+    //     }
+
+    //     return sorted;
+    // }
+
     const sortTemplateItems = (items) => {
-        let sorted = [];
-        let gridItems = [];
-
-        for(let index = 0; index<items.length; index++) {
-            let item = items[index];
-            let {uuid, template = ITEM_TEMPLATES.ROW, columns = 4} = item;
-
-            if(template == ITEM_TEMPLATES.ROW) {
-                sorted.push(item);
-            }
-
-            else if(template == ITEM_TEMPLATES.GRID) {
-                gridItems.push(item);
-
-                /* end current grid if the next item has a different template type */
-                if(items[index+1]?.template != ITEM_TEMPLATES.GRID) {
-
-                    sorted.push({
-                        type: ITEM_TEMPLATES.GRID,
-                        items: gridItems,
-                        columns
-                    });
-
-                    gridItems = [];
-                }
-            }
-
-            else if(template == ITEM_TEMPLATES.VERTICAL_TIMELINE) {
-                gridItems.push(item);
-
-                /* end current grid if the next item has a different template type */
-                if(items[index+1]?.template != ITEM_TEMPLATES.VERTICAL_TIMELINE) {
-
-                    sorted.push({
-                        type: ITEM_TEMPLATES.VERTICAL_TIMELINE,
-                        items: gridItems,
-                        columns
-                    });
-
-                    gridItems = [];
-                }
-            }
-
-            else console.error(`Invalid template value: ${template} Item id: ${uuid}`);
-        }
-
-        return sorted;
+        return items; // TODO impl: sort items [] on "order" field ascending. Need to add 'order' field to grid items from first child item.
     }
 
     const onClickItem = (event) => {
@@ -112,21 +108,20 @@
             {#each exhibit as {type = "", text = "", subtext = "", id = null, is_visible=null}, index}
 
                 <!-- exhibit heading -->
-                {#if type == ITEM_TYPES.HEADING} 
+                {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
                     <Exhibit_Heading {id} {text} {subtext} display={is_visible} />
                     
                 <!--exhibit item - row layout -->
-                {:else if type == ITEM_TYPES.ITEM}
+                {:else if type == ENTITY_TYPE.ITEM}
                     <Item item={exhibit[index]} on:click-item={onClickItem} />
 
-                <!-- exhibit item - grid layout -->
-                {:else if type == ITEM_TEMPLATES.GRID}
-                    <Item_Grid items={exhibit[index].items} columns={exhibit[index].columns} on:click-item={onClickItem} />
+                <!-- exhibit item container - grid -->
+                {:else if type == ITEM_TEMPLATE.GRID}
+                    <Item_Grid grid={exhibit[index]} on:click-item={onClickItem} />
 
-                <!-- exhibit item - vertical timeline grid layout -->
-                {:else if type == ITEM_TEMPLATES.VERTICAL_TIMELINE}
-                    <Vertical_Timeline_Item_Grid items={exhibit[index].items} on:click-item={onClickItem} />
-
+                <!-- exhibit item container - vertical timeline grid -->
+                {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
+                    <Vertical_Timeline_Item_Grid grid={exhibit[index]} on:click-item={onClickItem} />
                 {/if}
             {/each}
         </div>

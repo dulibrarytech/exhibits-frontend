@@ -11,7 +11,6 @@
 
     $: {
         title = data.title || null;
-
 		if(data.text) data.text = stripHtmlTags(data.text);
     }
 </script>

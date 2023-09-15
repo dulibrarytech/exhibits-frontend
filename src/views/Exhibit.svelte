@@ -14,6 +14,8 @@
 
     export let currentRoute;
 
+    import {getItemById} from '../libs/data_helpers';
+
     var id;
     var exhibit = {};
     var template = null;
@@ -58,12 +60,6 @@
         });
 
         return sections;
-    }
-
-    const getItemById = (id) => {
-        return items.find((data) => {
-            return data.uuid == id;
-        }) || null;
     }
 
     const getPageById = (id) => {
@@ -117,7 +113,7 @@
     }
 
     const onOpenViewerModal = (event) => {
-        modalDialogData = getItemById(event.detail.itemId || null);
+        modalDialogData = getItemById((event.detail.itemId || null), items);
         if(!modalDialog) modalDialog = Modal_Media_Display;
         document.body.classList.add('modal-open');
     }

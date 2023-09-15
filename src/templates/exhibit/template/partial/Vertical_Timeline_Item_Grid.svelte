@@ -14,23 +14,20 @@
     import {Timeline} from '../../../../libs/timeline';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
 
-    export let items = [];
+    export let grid = {};
 
     const dispatch = createEventDispatcher();
 
     let timelineSection;
+    let items;
+    let styles;
 
     let verticalStartPosition = "left";
     let verticalTrigger = "150px";
 
     const init = () => {
-        Timeline.timeline(document.querySelectorAll('.timeline'), {
-            verticalStartPosition,
-            verticalTrigger
-        });
-
-        let styles = items[0]?.styles?.item_grid;
-        if(styles) setTheme(styles);
+        items = grid.items || [];
+        styles = grid.styles?.item_grid || null;
     }
 
     const setTheme = (styles) => {
@@ -44,8 +41,13 @@
         if(itemId) dispatch('click-item', {itemId});
     }
 
+    $: init();
+
     onMount(async () => {
-        init();
+        Timeline.timeline(document.querySelectorAll('.timeline'), {
+            verticalStartPosition,
+            verticalTrigger
+        });
 
         document.querySelectorAll('.timeline__item.animated').forEach((item) => {
             item.classList.remove('animated');
@@ -54,11 +56,13 @@
         document.querySelectorAll('.timeline__item.top-offset').forEach((item) => {
             item.style.marginTop = "80px";
         });
+
+        if(styles) setTheme(styles);
     });
 </script>
 
 <div class="timeline-section" bind:this={timelineSection}>
-    <div class="timeline container">
+    <div class="timeline">
         <div class="timeline__wrap">
             <div class="timeline__items">
                 {#each items as item}
@@ -94,6 +98,8 @@
     .timeline {
         padding-top: 80px;
         padding-bottom: 80px;
+        max-width: 90%;
+        margin: 0 auto;
     }
 
     .timeline__content {
@@ -145,5 +151,21 @@
 
     :global(.timeline__item--right .timeline-label) {
         left: -35px;
+    }
+
+    @media (min-width: 1400px) {
+        .timeline {
+            max-width: 55%;  /*get px val*/
+        }
+    }
+    @media (min-width: 1200px) {
+        .timeline {
+            max-width: 65%;
+        }
+    }
+    @media (min-width: 992px) {
+        .timeline {
+            max-width: 80%;
+        }
     }
 </style>
