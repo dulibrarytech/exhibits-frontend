@@ -5,9 +5,9 @@
 
     export let endpoint = null;
     export let params = {};
+    export let placeholder = "";
 
     let query;
-    let placeholder;
     let url;
 
     const init = () => {
@@ -15,8 +15,8 @@
     }
 
     const search = () => {
-        query = query.replace(/ /g, ',').toLowerCase();
-        url = `${endpoint}?q=${query}`;
+        let queryValue = query.replace(/ /g, ',').toLowerCase().trim();
+        url = `${endpoint}?q=${queryValue}`;
 
         for(let key in params) {
           url = url.concat(`&${key}=${params[key]}`);
@@ -40,48 +40,40 @@
     });
 </script>
 
-<form>
-    <div class="form-group">
-      <div class="search-form">
-        <input id="searchbox" type="search" bind:value={query} placeholder={placeholder}/>
-        <button type="button" on:click|preventDefault={search}>Search</button>
-      </div>
-  
-      <!-- IF input fields is not null (impl input fields vs per search sel fields. OR remove the user selection from this search box (simple index search - user does not specify fields))-->
-      <!-- <div class="radio-group">
-        {#if multiFieldSearch === false && searchFields.length > 1}
-          {#each searchFields as {fieldName, fieldLabel}, index}
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="searchField" value="{fieldName}" data-index={index} bind:group={searchField} on:change={onSelectSearchField} data-label id="search-{fieldName}" checked={searchField==fieldName}>
-              <label class="form-check-label" for="search-{fieldName}">
-                {fieldLabel}
-              </label>
-            </div>
-          {/each}
-        {/if}
-      </div> -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-inline" action="/search" accept-charset="UTF-8" method="get">
+        <div class="input-group flex-fill">
+          <input class="form-control" id="searchbox" type="search" bind:value={query} {placeholder} aria-label={placeholder}>
+          <div class="input-group-append">
+            <button type="button" on:click|preventDefault={search} class="btn btn-secondary button" data-disable-with="Search">Search</button>
+          </div> 
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
+</div>
 
-  <svelte:window on:keydown={onKeyPress} />
-  
-  <style>
-    .radio-group {
-      display: inline-flex;
-    }
-  
-    .radio-group .form-check:not(:first-child) {
-      margin-left: 2em;
-    }
-  
-    .form-group {
-      border-style: solid;
-      border-width: 1px;
-      border-color: #e5e3e1;
-      border-radius: 3px;
-    }
+<svelte:window on:keydown={onKeyPress} />
 
-    .search-form >* {
-        margin: 0 0 0 0;
-    }
-  </style>
+<style>
+  .radio-group {
+    display: inline-flex;
+  }
+
+  .radio-group .form-check:not(:first-child) {
+    margin-left: 2em;
+  }
+
+  .form-group {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #e5e3e1;
+    border-radius: 3px;
+  }
+
+  .search-form >* {
+      margin: 0 0 0 0;
+  }
+</style>
