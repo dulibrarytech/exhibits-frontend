@@ -69,7 +69,7 @@ export const Resource = (() => {
         if(entity.type == ENTITY_TYPE.EXHIBIT) {
             return getExhibitThumbnailUrl(entity);
         }
-        else if(entity.type = ENTITY_TYPE.EXHIBIT_ITEM) {
+        else if(entity.type = ENTITY_TYPE.ITEM) {
             return getItemThumbnailUrl(entity);
         }
     }

@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="exhibits-search">
-                        <Search_Box endpoint="/search"/>
+                        <Search_Box endpoint="/search" placeholder="Search exhibits"/>
                         <!-- <Search_Box endpoint="/search" params={{entity: "item", id: "2"}}/> --> <!-- test -->
                     </div>
                 </div>
@@ -89,7 +89,7 @@
             </div>
         {/if}
 
-        {#if exhibits}
+        {#if exhibits && exhibits.length > 0}
             <div class="row heading">
                 <div class="col-lg-12">
                     <h3>Exhibits</h3>
@@ -147,6 +147,10 @@
         float: right;
         position: relative;
         top: 14px;
+    }
+
+    :global(.exhibits-search > .container) {
+        padding: 0;
     }
 
     .featured > .container {

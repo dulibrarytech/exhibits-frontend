@@ -3,12 +3,14 @@
     export let index = null;
 
     let thumbnail;
+    let link;
     let title;
     let description; 
     let date;
 
     $: {
         thumbnail = result.thumbnail_image || null;
+        link = result.link || "#";
         title = result.title || "No Title";
         description = result.description || null;
         date = result.date || null;
@@ -17,7 +19,7 @@
 </script>
 
 <section class="search-result-item">
-    {#if thumbnail}<a class="image-link" href="#"><img class="image" src={thumbnail}></a>{/if}
+    {#if thumbnail}<a class="image-link" href={link}><img class="image" src={thumbnail}></a>{/if}
     <div class="search-result-item-body">
         <div class="row">
             <!-- left side content -->
@@ -25,7 +27,7 @@
 
             <!-- fullwidth -->
             <div class="col-sm-12">
-                <h4 class="search-result-item-heading title"><a href="#">{title}</a></h4>
+                <h4 class="search-result-item-heading title"><a href={link}>{title}</a></h4>
                 <hr>
                 {#if date}<p class="info">{date}</p>{/if} <!-- update class when this field is determined -->
                 {#if description}<p class="description">{description}</p>{/if}

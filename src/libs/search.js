@@ -25,8 +25,6 @@ import { Index } from './index.js';
 import { Settings } from '../config/settings.js';
 
 export const Search = (() => {
-    //let resultFields = Settings.searchResultDisplayFields;
-
     /**
      * search()
      * 
@@ -48,14 +46,7 @@ export const Search = (() => {
         let response = await Index.searchIndex(data, exhibitId);
 
         // update the response data, test fields, etc
-        //let result;
         for(let item of response) {
-            // result = {};
-            // for(let field in resultFields) {
-            //     result[field] = item[ resultFields[field] ] || ""
-            // }
-            // result.url = item.url || null;
-            // results.push(result);
             results.push(item);
         }
 
