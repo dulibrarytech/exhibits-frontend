@@ -12,13 +12,21 @@
     export let data = {};
 
     let displayFields = {};
-    let terms = "";
+    let displayTerms = "";
+    let linkPath = "";
 
     $: {
         let {entity = "", terms = ""} = data;
 
-        if(entity == ENTITY_TYPE.EXHIBIT) displayFields = Settings.searchFieldsExhibit;
-        else if(entity == ENTITY_TYPE.EXHIBIT_ITEM) displayFields = Settings.searchFieldsExhibitItem;
+        if(entity == ENTITY_TYPE.EXHIBIT) {
+            displayFields = Settings.searchFieldsExhibit;
+            linkPath = `/exhibit`;
+        }
+        else if(entity == ENTITY_TYPE.ITEM) {
+            displayFields = Settings.searchFieldsExhibitItem;
+            //linkPath = `/exhibit/${exhibitId}/item`;
+            linkPath = `#`; // TBD - how to open items
+        }
 
         results.forEach((result) => {
             for(let field in displayFields) {
@@ -26,9 +34,15 @@
             }
 
             if(!result.thumbnail_image) result.thumbnail_image = Resource.getThumbnailUrl(result);
+            if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
         });
 
-        terms = terms?.replace(/,/g, ' ');
+        displayTerms = terms?.replace(/,/g, ' ');
+    }
+
+    const onBack = () => {
+        //window.location.replace(document.referrer);
+        history.go(-2);
     }
 </script>
 
@@ -40,7 +54,7 @@
 
                 <div class="col-md-3 col-md-push-9 results-sidebar">
                     <div>
-                        <button on:click|preventDefault={()=>(history.go(-2))}>Back</button>
+                        <button on:click|preventDefault={onBack}>Back</button>
                     </div>
                     <div class="facets">
                         <h4>Facets</h4>
@@ -51,7 +65,29 @@
                 </div>
 
                 <div class="col-md-9 col-md-pull-3 results-container">
-                    <p class="search-results-count">Found {results.length} results for "{terms}"</p>
+                    <p class="search-results-count">Found {results.length} results forn "{displayTerms}"</p>
+
+                    <!-- TODO move to component -->
+                    <!-- {#if results.length > 0}
+                        <div class="text-align-center">
+                            <ul class="pagination pagination-sm">
+                                <li class="disabled"><a href="#">Prev</a>
+                                </li>
+                                <li class="active"><a href="#">1</a>
+                                </li>
+                                <li><a href="#">2</a>
+                                </li>
+                                <li><a href="#">3</a>
+                                </li>
+                                <li><a href="#">4</a>
+                                </li>
+                                <li><a href="#">5</a>
+                                </li>
+                                <li><a href="#">Next</a>
+                                </li>
+                            </ul>
+                        </div>
+                    {/if} -->
 
                     {#each results as result, index} 
                         <Search_Result {result} {index} />
@@ -108,7 +144,7 @@
     }
 
     :global(.search-result-item + .search-result-item) {
-        margin-top: 20px
+        margin-top: 70px
     }
 
     .pagination {
