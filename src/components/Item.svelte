@@ -168,20 +168,25 @@
 
 <style>
     .item {
-        padding-top: 50px;
-        padding-bottom: 50px;
+        padding-top: 4.5em;
+        padding-bottom: 4.5em;
         margin-left: auto;
         margin-right: auto;
     }
 
     .item-component {
-        margin-bottom: 30px;
+        /* margin-bottom: 30px; */
         padding: 0;
     }
 
     .title {
         margin-bottom: 30px;
         font-weight: bold;
+    }
+
+    :global(.item > .container) {
+        padding-right: 3.3em;
+        padding-left: 3.3em;
     }
 
     :global(.caption) {
@@ -193,8 +198,21 @@
         margin-left: 20px;
     }
 
-    :global(.item .item-component a) {
+    :global(.item-component a) {
         color: black;
-        text-decoration: none;;
+        text-decoration: none;
+    }
+
+    :global(.item-component > a) {
+        height: 100%;
+        display: block;
+    }
+
+    :global(.item-component .media-item) {
+        height: 100%;
+    }
+
+    :global(.item-component .image > .content) {
+        height: 100%;
     }
 </style>

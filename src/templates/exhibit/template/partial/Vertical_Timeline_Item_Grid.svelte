@@ -61,7 +61,7 @@
     });
 </script>
 
-<div class="timeline-section" bind:this={timelineSection}>
+<div class="vertical-timeline-item-grid" bind:this={timelineSection}>
     <div class="timeline">
         <div class="timeline__wrap">
             <div class="timeline__items">
@@ -91,8 +91,9 @@
 </div>
 
 <style>
-    .timeline-section {
-        padding: 80px 0;
+    .vertical-timeline-item-grid {
+        padding-top: 45px;
+        margin-bottom: 80px;
     }
 
     .timeline {

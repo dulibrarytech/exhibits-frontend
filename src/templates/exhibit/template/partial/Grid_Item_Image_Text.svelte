@@ -58,83 +58,77 @@
     });
 </script>
 
-<div class="grid-section">
-    <div class="grid-item" bind:this={itemElement}>
-        {#if date}
-            <div class="date-heading exhibit-heading">
-                <div class="item-date">{date}</div>
-                <hr>
-                <br>
-            </div> 
-        {/if}
+<div class="grid-item" bind:this={itemElement}>
+    {#if date}
+        <div class="date-heading exhibit-heading">
+            <div class="item-date">{date}</div>
+            <hr>
+            <br>
+        </div> 
+    {/if}
 
-        {#if layout == ITEM_POSITION.RIGHT}
+    {#if layout == ITEM_POSITION.RIGHT}
 
-            <div class="float-right">
-                <a href data-item-id={id} on:click={showModalViewer}>
-                    <Item_Preview {item} />
-                </a>
-            </div> 
-            <div class="float-left">
-                {#if title}<div class="title">{title}</div>{/if}
-                <div class="description" bind:this={textElement}>{@html description}</div>
-            </div>
-            
-        {:else if layout == ITEM_POSITION.LEFT} 
-            <div class="float-right">
-                {#if title}<div class="title">{title}</div>{/if}
-                <div class="description" bind:this={textElement}>{@html description}</div>
-            </div>
-            <div class="float-left">
-                <a href data-item-id={id} on:click={showModalViewer}>
-                    <Item_Preview {item} />
-                </a>
-            </div>
+        <div class="float-right">
+            <a href data-item-id={id} on:click={showModalViewer}>
+                <Item_Preview {item} />
+            </a>
+        </div> 
+        <div class="float-left">
+            {#if title}<div class="title">{title}</div>{/if}
+            <div class="description" bind:this={textElement}>{@html description}</div>
+        </div>
+        
+    {:else if layout == ITEM_POSITION.LEFT} 
+        <div class="float-right">
+            {#if title}<div class="title">{title}</div>{/if}
+            <div class="description" bind:this={textElement}>{@html description}</div>
+        </div>
+        <div class="float-left">
+            <a href data-item-id={id} on:click={showModalViewer}>
+                <Item_Preview {item} />
+            </a>
+        </div>
 
-        {:else if layout == ITEM_POSITION.TOP}
+    {:else if layout == ITEM_POSITION.TOP}
+        {#if title}<div class="title">{title}</div>{/if}
+        <a href data-item-id={id} on:click={showModalViewer}>
+            <Item_Preview {item} />
+        </a>
+        <div class="description top-margin" bind:this={textElement}><p>{@html description}</p></div>
+
+    {:else if layout == ITEM_POSITION.BOTTOM}
+        {#if title}<div class="title">{title}</div>{/if}
+        <div class="description" bind:this={textElement}>{@html description}</div>
+        <a href data-item-id={id} on:click={showModalViewer}>
+            <Item_Preview {item} />
+        </a>
+        
+    {:else if layout == ITEM_POSITION.TEXT_ONLY}
+        {#if title}<div class="title">{title}</div>{/if}
+        <div class="description" bind:this={textElement}>{@html description}</div>
+
+    {:else if layout == ITEM_POSITION.ITEM_ONLY}
+        <div class="item-no-text">
             {#if title}<div class="title">{title}</div>{/if}
             <a href data-item-id={id} on:click={showModalViewer}>
                 <Item_Preview {item} />
             </a>
-            <div class="description top-margin" bind:this={textElement}><p>{@html description}</p></div>
-
-        {:else if layout == ITEM_POSITION.BOTTOM}
-            {#if title}<div class="title">{title}</div>{/if}
-            <div class="description" bind:this={textElement}>{@html description}</div>
-            <a href data-item-id={id} on:click={showModalViewer}>
-                <Item_Preview {item} />
-            </a>
-            
-        {:else if layout == ITEM_POSITION.TEXT_ONLY}
-            {#if title}<div class="title">{title}</div>{/if}
-            <div class="description" bind:this={textElement}>{@html description}</div>
-
-        {:else if layout == ITEM_POSITION.ITEM_ONLY}
-            <div class="item-no-text">
-                {#if title}<div class="title">{title}</div>{/if}
-                <a href data-item-id={id} on:click={showModalViewer}>
-                    <Item_Preview {item} />
-                </a>
-            </div>
-        {/if}
-    </div>
+        </div>
+    {/if}
 </div>
 
 <style>
+    .grid-item {
+        padding: 30px;
+    }
+
     a {
         color: inherit;
     }
 
     a:hover {
         text-decoration: none;
-    }
-
-    .grid-section {
-        margin-bottom: 85px;
-    }
-
-    .grid-item {
-        padding: 15px;
     }
 
     .top-margin {

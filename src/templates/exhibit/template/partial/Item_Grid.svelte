@@ -39,9 +39,9 @@
     });
 </script>
 
-<div class="grid-content" bind:this={gridElement} >
+<div class="item-grid" bind:this={gridElement} >
     <div class="container">
-        <div class="item-grid">
+        <div class="grid-content">
             {#if items}
                 {#each items as item}
                     {#if item.is_published}
@@ -56,20 +56,26 @@
 </div>
 
 <style>
-    .grid-content {
-        padding-top: 80px;
+    .item-grid {
+        margin-bottom: 80px;
+        padding-top: 45px;
+        padding-bottom: 45px;
     }
-    .grid-content .container {
+    .item-grid > .container {
         display: flex;
     }
 
-    .item-grid {
+    .grid-content {
         display: inline-flex;
         flex-wrap: wrap;
         margin: 0 auto;
     }
 
-    :global(.item-grid .grid-section) {
-        padding: 30px;
+    .grid-content > div {
+        padding: 45px;
+    }
+
+    :global(.item-grid .grid-item) {
+        padding: 45px;
     }
 </style>

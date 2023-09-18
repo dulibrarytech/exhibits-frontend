@@ -11,7 +11,7 @@ export const Timeline = (() => {
     let winWidth = window.innerWidth;
     let resizeTimer;
     let currentIndex = 0;
-    // Set default settings
+   
     const defaultSettings = {
       forceVerticalMode: {
         type: 'integer',
