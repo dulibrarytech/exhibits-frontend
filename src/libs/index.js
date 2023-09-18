@@ -54,10 +54,11 @@ export const Index = (() => {
 
         try {
             // TODO use endpoint const as in getExhibits()
-            let response = await axios.get(`http://localhost:5678/api/v1/exhibit/${id}`);
+            //let response = await axios.get(`http://localhost:5678/api/v1/exhibit/${id}`);
+            let response = await axios.get(`${EXHIBIT_ROUTE}/${id}`);
             let data = response.data;
 
-            response = await axios.get(`http://localhost:5678/api/v1/exhibit/${id}/items`);
+            response = await axios.get(`${EXHIBIT_ROUTE}/${id}/items`);
             let items = response.data;
 
             exhibit = {data, items};
@@ -96,7 +97,7 @@ export const Index = (() => {
         // [dev:]
         let terms = data.terms.toString();
         let page = data.page;
-        let url = `http://localhost:5678/api/v1/search?q=${terms}&page=${page}`; 
+        let url = `${SEARCH_ROUTE}?q=${terms}&page=${page}`; 
         if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
         // [end dev]
 
