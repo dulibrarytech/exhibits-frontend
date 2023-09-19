@@ -78,9 +78,17 @@ export const Settings = {
         "title": "Title",
         "description": "Description"
     },
-
     searchFieldsExhibitItem: {
         "title": "Title",
         "description": "Description"
-    }
+    },
+
+    /*
+     * Styles permitted to be applied by the exhibit creator 
+     */
+    userThemeStyles: ['color', 'background', 'backgroundColor', 'backgroundImage', 'fontFamily', 'fontWeight', 'textAlign']
+
+    // userThemeStyles: {
+    //     THEME_OBJECT.EXHIBIT_TEMPLATE: ['color', 'background', 'backgroundColor', 'fontFamily', 'fontWeight', 'textAlign']
+    // }
 }

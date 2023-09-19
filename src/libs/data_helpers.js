@@ -56,6 +56,21 @@ export const getItemById = (id, items) => {
  * @returns string with html tags removed
  */
 export const stripHtmlTags = (html) => {
-    //return html.replace(/(<([^>]+)>)/gi, "");
     return html.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))?>/gi, ""); // remove tags with and without attributes
+}
+
+/**
+ * Iterates a style object and removes any invalid style properties
+ * Accepted properties are defined in settings.userThemeStyles
+ * 
+ * @param {object} styles - user theme style object
+ * 
+ * @returns {object} styles - the styles object with all unrecognized styles removed
+ */
+export const validateUserThemeStyles = (styles) => {
+    for(let style in styles) {
+        if(Settings.userThemeStyles.includes(style) === false) delete styles[style];
+    }
+
+    return styles;
 }

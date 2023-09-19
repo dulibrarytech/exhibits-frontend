@@ -45,3 +45,11 @@ export const VIEWER_TYPE = {
     STATIC: "static",
     INTERACTIVE: "interactive"
 }
+
+export const THEME_OBJECT = {
+    EXHIBIT_TEMPLATE: "exhibit_template",
+    EXHIBIT_NAVIGATION_ITEMS: "exhibit_navigation_items",
+    EXHIBIT_NAVIGATION_LINKS: "exhibit_navigation_links",
+    EXHIBIT_ITEM: "exhibit_item",
+    EXHIBIT_ITEM_GRID: "exhibit_item_grid"
+}

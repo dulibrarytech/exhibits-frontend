@@ -14,7 +14,7 @@
 
     export let currentRoute;
 
-    import { getItemById } from '../libs/data_helpers';
+    import { getItemById, validateUserThemeStyles } from '../libs/data_helpers';
 
     var id;
     var exhibit = {};
