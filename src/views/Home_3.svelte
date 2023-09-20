@@ -5,26 +5,34 @@
 
     import { onMount } from 'svelte';
     import { Index } from '../libs/index.js';
+    import { Settings } from '../config/settings.js';
 
     import Search_Box from '../components/Search_Box.svelte';
     import Exhibit_Preview_Grid from '../templates/homepage/Exhibit_Preview_Grid.svelte';
 
     var exhibits = null;
+    var message = "";
     var featuredExhibits = null;
     var recentExhibits = null;
-
-    const render = async () => {
+    var exhibitSearchFields;
+    
+    const init = async () => {
+        exhibitSearchFields = Settings.searchFieldsExhibit || [];
+        message = "Loading exhibits...";
         exhibits = await Index.getExhibits();
+        
+        if(exhibits) render();
+        else message = "Could not retrieve exhibits";
+    }
 
-        if(exhibits.length == 0) {
-            console.log("No exhibits found");
-        }
-        else {
+    const render = () => {
+        if(exhibits?.length > 0) {
             featuredExhibits = getFeaturedExhibits(exhibits);
             recentExhibits = getRecentExhibits(exhibits);
         }
-
-        // TODO init search box - add fields (from Settings object) set "searchData" local var?
+        else {
+            message = "No exhibits found";
+        }
     }
 
     const getFeaturedExhibits = (exhibits) => {
@@ -51,7 +59,7 @@
     }
 
     onMount(async () => {
-        render();
+        init();
     });
 </script>
 
@@ -64,8 +72,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="exhibits-search">
-                        <Search_Box endpoint="/search" placeholder="Search exhibits"/>
-                        <!-- <Search_Box endpoint="/search" params={{entity: "item", id: "2"}}/> --> <!-- test -->
+                        <Search_Box endpoint="/search" fields={exhibitSearchFields} placeholder="Search exhibits"/>
+                        <!-- <Search_Box endpoint="/search" params={{entity: "item", id: "2"}}/> --> <!-- DEV test item search. this is an 'exhibit' entity search (on home page) -->
                     </div>
                 </div>
             </div>
@@ -101,7 +109,7 @@
                 </div>
             </div>
         {:else}
-            <h6>No exhibits found</h6>
+            <h6>{message}</h6>
         {/if}
 
         <!-- <div class="row heading">

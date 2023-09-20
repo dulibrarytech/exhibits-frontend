@@ -4,20 +4,31 @@
     import { onMount } from 'svelte';
 
     export let endpoint = null;
-    export let params = {};
+    export let params = {}; // params to append to querystring
+    export let fields = [];
     export let placeholder = "";
 
     let query;
     let url;
 
+    const DEFAULT_SEARCH_FIELD = "title";
+
     const init = () => {
-        // set local data fields for endpoint, index, search field array, search type, etc
+        if(fields.length == 0) fields.push(DEFAULT_SEARCH_FIELD);
     }
 
     const search = () => {
-        let queryValue = query.replace(/ /g, ',').toLowerCase().trim();
-        url = `${endpoint}?q=${queryValue}`;
+        url = `${endpoint}`;
 
+        // append the query value from the search box
+        let queryString = query.replace(/ /g, ',').toLowerCase().trim();
+        url = url.concat(`?q=${queryString}`);
+
+        // append the search fields
+        let fieldString = Object.keys(fields).toString();
+        if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
+
+        // append all parameters
         for(let key in params) {
           url = url.concat(`&${key}=${params[key]}`);
         }
@@ -34,6 +45,10 @@
             search();
         }
     }
+
+    const onSelectSearchField = () => {};
+
+    const onSelectSearchTermBoolean = () => {};
 
     onMount(async () => {
         init(); 

@@ -53,3 +53,17 @@ export const THEME_OBJECT = {
     EXHIBIT_ITEM: "exhibit_item",
     EXHIBIT_ITEM_GRID: "exhibit_item_grid"
 }
+
+export const INDEX_FIELD = {
+    PID: "uuid",
+    MEMBER_OF_EXHIBIT: "is_member_of_exhibit",
+    TITLE: "title",
+    DESCRIPTION: "description",
+    DATE: "date"
+}
+
+export const SEARCH_BOOLEAN = {
+    AND: "and",
+    OR: "or",
+    NOT: "not"
+}

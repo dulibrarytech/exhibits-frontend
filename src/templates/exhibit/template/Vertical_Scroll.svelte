@@ -19,7 +19,6 @@
     const render = () => {
         if(!exhibit) {
             exhibit = sortTemplateItems(items); // should order on "sort" field?
-            console.log("TEST exhibit:", exhibit)
         }
     }
 

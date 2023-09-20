@@ -51,12 +51,24 @@ export const getItemById = (id, items) => {
 
 /**
  * Removes all html tags
- * @param {string} html : html string
+ * @param {string} string : a string
  * 
- * @returns string with html tags removed
+ * @returns the string with html tags removed
  */
-export const stripHtmlTags = (html) => {
-    return html.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))?>/gi, ""); // remove tags with and without attributes
+export const stripHtmlTags = (string) => {
+    return string ? string.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))?>/gi, "") : null; // remove tags with and without attributes
+}
+
+/**
+ * Removes all html tags and inner content, along with object characters ({}, [])
+ * Disables any object/array structures in a url
+ * 
+ * @param {string} string : a string
+ * 
+ * @returns the string with html tags/content and object characters removed
+ */
+export const stripHtmlAndObjectCharacters = (string) => {
+    return stripHtmlTags(string).replace(/[{}\[\]:<>]/gi, "");
 }
 
 /**

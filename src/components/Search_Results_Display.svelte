@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="col-md-9 col-md-pull-3 results-container">
-                    <p class="search-results-count">Found {results.length} results forn "{displayTerms}"</p>
+                    <p class="search-results-count">Found <span style="font-weight: bold">{results.length} results</span> for "<span style="font-weight: bold">{displayTerms}</span>"</p>
 
                     <!-- TODO move to component -->
                     <!-- {#if results.length > 0}

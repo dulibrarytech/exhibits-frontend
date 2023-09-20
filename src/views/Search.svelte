@@ -2,7 +2,9 @@
     'use strict'
 
     import {Search} from '../libs/search.js';
+    import {stripHtmlAndObjectCharacters, stripHtmlTags} from '../libs/data_helpers';
     import Search_Results_Display from '../components/Search_Results_Display.svelte';
+    import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN} from '../config/global-constants.js';
 
     export let currentRoute;
 
@@ -17,14 +19,14 @@
     let page;
 
     const init = () => {
-        terms = currentRoute.queryParams.q || "";
-        boolean = currentRoute.queryParams.bool || "and";
-        fields = currentRoute.queryParams.fields || "title";
-        entity = currentRoute.queryParams.index || "exhibit";
-        id = currentRoute.queryParams.id || null;
+        terms = sanitizeParameterValue(currentRoute.queryParams.q) || "";
+        boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
+        fields = sanitizeParameterValue(currentRoute.queryParams.fields) || INDEX_FIELD.TITLE;
+        entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT; // validate
+        id = currentRoute.queryParams.id || null; // validate
         page = currentRoute.queryParams.page || "1";
 
-        if(validateData()) {
+        if(validateUrlParameters()) {
             data = {
                 terms,
                 entity
@@ -35,15 +37,27 @@
     }
   
     const executeSearch = async () => {
+        terms = terms.split(',');
+        fields = fields.split(',');
+
         results = await Search.execute(terms, boolean, fields, id, page);
     }
 
-    const validateData = () => {
+    const validateUrlParameters = () => {
         let isValid = true;
 
-        // validate all query param fields here
+        // boolean is value
+        // entity is entity
+        // id is alphanumeric
+        // page is numeric
 
         return isValid;
+    }
+
+    const sanitizeParameterValue = (value) => {
+        let sanitized = null;
+        if(value) sanitized = stripHtmlAndObjectCharacters(value.trim());
+        return sanitized;
     }
 
     $: init();

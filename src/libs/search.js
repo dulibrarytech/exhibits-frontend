@@ -37,9 +37,9 @@ export const Search = (() => {
         let results = [];
 
         let data = {
-            terms: terms.toLowerCase().split(','),
+            terms,
             boolean,
-            fields: fields.split(','),
+            fields,
             page
         }
 
