@@ -1,4 +1,7 @@
 <script>
+    /*
+     * template downloaded from: https://www.bootdey.com/snippets/view/Search-users-page-result
+     */
     export let result = {};
     export let index = null;
 
@@ -30,7 +33,7 @@
                 <h4 class="search-result-item-heading title"><a href={link}>{title}</a></h4>
                 <hr>
                 {#if date}<p class="info">{date}</p>{/if} <!-- update class when this field is determined -->
-                {#if description}<p class="description">{description}</p>{/if}
+                {#if description}<p class="description">{@html description}</p>{/if}
             </div>
 
             <!-- right side content -->

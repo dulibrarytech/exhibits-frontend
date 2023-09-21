@@ -10,6 +10,7 @@
 
     let query;
     let url;
+    let selectedField;
 
     const DEFAULT_SEARCH_FIELD = "title";
 
@@ -25,7 +26,7 @@
         url = url.concat(`?q=${queryString}`);
 
         // append the search fields
-        let fieldString = Object.keys(fields).toString();
+        let fieldString = Object.keys(fields).toString(); // test for selected field in dropdown. If present, assign this to fieldString. else, get array keys
         if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
 
         // append all parameters

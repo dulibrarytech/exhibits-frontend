@@ -1,4 +1,8 @@
 <script>
+    /*
+     * exhibits-frontend 
+     * search results page - executes search with url query data, displays results
+     */
     'use strict'
 
     import {Search} from '../libs/search.js';
@@ -37,6 +41,7 @@
     }
   
     const executeSearch = async () => {
+        /* converts csv string values to arrays for the search.execute() function */
         terms = terms.split(',');
         fields = fields.split(',');
 
@@ -46,17 +51,24 @@
     const validateUrlParameters = () => {
         let isValid = true;
 
-        // boolean is value
-        // entity is entity
-        // id is alphanumeric
-        // page is numeric
+        // boolean must be global value
+        if(boolean && Object.values(SEARCH_BOOLEAN).includes(boolean) === false) isValid = false;
+
+        // entity must be global value 
+        if(entity && Object.values(ENTITY_TYPE).includes(entity) === false) isValid = false;
+
+        // id must be hex value
+        if(id && /^[a-fA-F0-9]+$/g.test(id) === false) isValid = false;
+
+        // page must be numeric
+        if(page && isNaN(page) === true) isValid = false;
 
         return isValid;
     }
 
     const sanitizeParameterValue = (value) => {
         let sanitized = null;
-        if(value) sanitized = stripHtmlAndObjectCharacters(value.trim());
+        if(value) sanitized = stripHtmlAndObjectCharacters(value.trim()); // TEMP refer to elastic query docs
         return sanitized;
     }
 

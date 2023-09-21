@@ -86,6 +86,7 @@ export const Index = (() => {
         let results = [];
         // [impl:]
         // build elastic DSL query object with data (terms, bool, fields) *if id => add the 'is_member_of_exhibit=id' clause to the query array AND type=item. IF no id, use item=exhibit*
+        // -> escape quotes
         // if(exhibitId) {
         // }
         // else {

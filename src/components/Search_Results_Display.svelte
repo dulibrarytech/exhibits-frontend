@@ -1,4 +1,7 @@
 <script>
+    /*
+     * template downloaded from: https://www.bootdey.com/snippets/view/Search-users-page-result
+     */
     'use strict'
 
     import Search_Result from '../templates/search/partials/Search_Result.svelte';
@@ -15,9 +18,12 @@
     let displayTerms = "";
     let linkPath = "";
 
-    $: {
+    $: render();
+
+    const render = () => {
         let {entity = "", terms = ""} = data;
 
+        /* get the display data for the results, for exhibit or exhibit item based on search entity type */
         if(entity == ENTITY_TYPE.EXHIBIT) {
             displayFields = Settings.searchFieldsExhibit;
             linkPath = `/exhibit`;
@@ -28,20 +34,46 @@
             linkPath = `#`; // TBD - how to open items
         }
 
+        results = formatResults(terms, results);
+
+        /* formats the search terms for the terms label. replaces word separating comma with single space, single and double quotes are removed */
+        displayTerms = terms?.replace(/[,]/g, ' ').replace(/["']/g, '');
+    }
+
+    const formatResults = (terms, results) => {
+
+        /* adds result display data to each search result e.g. adding links, updating content, etc */
         results.forEach((result) => {
             for(let field in displayFields) {
+
+                // Removes html from user content, search result will display only the text
                 result[field] = stripHtmlTags(result[field]);
+
+                // Adds search term highlight markup to content
+                result[field] = highlightTerms(terms, result[field]);
             }
 
             if(!result.thumbnail_image) result.thumbnail_image = Resource.getThumbnailUrl(result);
+
             if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
         });
 
-        displayTerms = terms?.replace(/,/g, ' ');
+        return results;
+    }
+
+    /* adds the html markup for the search term highlighting to each term in the display text */
+    const highlightTerms = (terms, text) => {
+        let pattern;
+
+        terms.split(',').forEach((term) => {
+            pattern = new RegExp(`${term}`, "gi");
+            text = text.replace(pattern, `<span class="text-highlight">${term}</span>`);
+        });
+
+        return text;
     }
 
     const onBack = () => {
-        //window.location.replace(document.referrer);
         history.go(-2);
     }
 </script>
@@ -204,5 +236,9 @@
 
     .results-sidebar > div:not(:first-child) {
         margin-top: 30px;
+    }
+
+    :global(.text-highlight) {
+        background: yellow;
     }
 </style>

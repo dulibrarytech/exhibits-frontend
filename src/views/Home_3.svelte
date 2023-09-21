@@ -20,7 +20,7 @@
         exhibitSearchFields = Settings.searchFieldsExhibit || [];
         message = "Loading exhibits...";
         exhibits = await Index.getExhibits();
-        
+
         if(exhibits) render();
         else message = "Could not retrieve exhibits";
     }
@@ -49,11 +49,12 @@
             return false;
         });
 
-        // dev
+        // DEV
         recents.push(exhibits[2])
         recents.push(exhibits[4])
         recents.push(exhibits[6])
         recents.push(exhibits[8])
+        // end DEV
 
         return recents.length > 0 ? recents : null;
     }
@@ -73,7 +74,9 @@
                 <div class="col-md-6">
                     <div class="exhibits-search">
                         <Search_Box endpoint="/search" fields={exhibitSearchFields} placeholder="Search exhibits"/>
-                        <!-- <Search_Box endpoint="/search" params={{entity: "item", id: "2"}}/> --> <!-- DEV test item search. this is an 'exhibit' entity search (on home page) -->
+                        <!-- DEV test item search. this is an 'exhibit' entity search (on home page) -->
+                        <!-- <Search_Box endpoint="/search" params={{entity: "item", id: "2"}}/> -->
+                        <!-- end DEV -->
                     </div>
                 </div>
             </div>
@@ -111,27 +114,6 @@
         {:else}
             <h6>{message}</h6>
         {/if}
-
-        <!-- <div class="row heading">
-            <div class="col-md-6">
-                <h3>Explore</h3>
-            </div>
-            <div class="col-md-6">
-                <div class="exhibits-search">
-                    <Search_Box />
-                </div>
-            </div>
-        </div>
-
-        <div class="row preview-section">
-            {#if exhibits}
-                <div class="col-lg-12">
-                    <Exhibit_Preview_Grid {exhibits} />
-                </div>
-            {:else}
-                <h6>No exhibits found</h6>
-            {/if}
-        </div> -->
     </div>
 </div>
 
