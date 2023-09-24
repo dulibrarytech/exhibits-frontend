@@ -1,6 +1,6 @@
 export const ENTITY_TYPE = {
     EXHIBIT: "exhibit",
-    EXHIBIT_HEADING: "exhibit_heading",
+    EXHIBIT_HEADING: "heading",
     ITEM: "item",
     GRID: "grid",
     TIMELINE_GRID: "timeline-grid"

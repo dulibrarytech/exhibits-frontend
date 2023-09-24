@@ -50,6 +50,14 @@
         border-color: #c5c3c1;
     }
 
+    .navbar > .container {
+        max-width: 100%;
+    }
+
+    :global(.navbar-expand-lg .navbar-nav) {
+        gap: 15px;
+    }
+
     button.navbar-toggler {
         margin: 0;
     }

@@ -93,13 +93,13 @@
 <style>
     .vertical-timeline-item-grid {
         padding-top: 45px;
-        margin-bottom: 80px;
+        margin: 0 auto 80px auto;
+        width: 90%;
     }
 
     .timeline {
         padding-top: 80px;
         padding-bottom: 80px;
-        max-width: 90%;
         margin: 0 auto;
     }
 
@@ -154,19 +154,19 @@
         left: -35px;
     }
 
-    @media (min-width: 1400px) {
+    /* @media (min-width: 1400px) {
         .timeline {
-            max-width: 55%;  /*get px val*/
+            max-width: 55%;
         }
     }
     @media (min-width: 1200px) {
         .timeline {
             max-width: 65%;
         }
-    }
+    } */
     @media (min-width: 992px) {
         .timeline {
-            max-width: 80%;
+            max-width: 50%;
         }
     }
 </style>
