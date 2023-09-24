@@ -3,12 +3,12 @@ import { writable } from 'svelte/store';
 /**********************************************
  * import exhibit templates
  **********************************************/
-import Vertical_Scroll from '../exhibit/template/Vertical_Scroll.svelte';
+import Vertical_Scroll from '../Vertical_Scroll.svelte';
 
 /**********************************************
  * import popup pages
  **********************************************/
-import About_The_Curators from '../exhibit/popup/About_The_Curators.svelte';
+import About_The_Curators from '../popup/About_The_Curators.svelte';
 
 /**********************************************
  * {component id} : {component}

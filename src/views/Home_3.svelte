@@ -8,7 +8,7 @@
     import { Settings } from '../config/settings.js';
 
     import Search_Box from '../components/Search_Box.svelte';
-    import Exhibit_Preview_Grid from '../templates/homepage/Exhibit_Preview_Grid.svelte';
+    import Exhibit_Preview_Grid from '../templates/Exhibit_Preview_Grid.svelte';
 
     var exhibits = null;
     var message = "";

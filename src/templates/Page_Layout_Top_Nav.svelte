@@ -2,8 +2,8 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     
-    import Hero from '../hero/Hero.svelte';
-    import Navigation_Top from '../navigation/Navigation_Top.svelte';
+    import Hero from './Hero.svelte';
+    import Navigation_Top from './Navigation_Top.svelte';
 
     export let data = {};
     export let template = null;

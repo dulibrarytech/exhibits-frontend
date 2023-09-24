@@ -4,7 +4,7 @@
      */
     'use strict'
 
-    import Search_Result from '../templates/search/partials/Search_Result.svelte';
+    import Search_Result from '../templates/partials/Search_Result.svelte';
     import { Settings } from '../config/settings';
     import { Resource } from '../libs/resource';
     import {stripHtmlTags} from '../libs/data_helpers';

@@ -3,12 +3,12 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     
-    import Item from '../../../components/Item.svelte';
-    import Item_Grid from './partial/Item_Grid.svelte';
-    import Vertical_Timeline_Item_Grid from './partial/Vertical_Timeline_Item_Grid.svelte';
-    import Exhibit_Heading from './partial/Exhibit_Heading.svelte';
+    import Item from '../components/Item.svelte';
+    import Item_Grid from './partials/Item_Grid.svelte';
+    import Vertical_Timeline_Item_Grid from './partials/Vertical_Timeline_Item_Grid.svelte';
+    import Exhibit_Heading from './partials/Exhibit_Heading.svelte';
 
-    import {ENTITY_TYPE, ITEM_TEMPLATE} from '../../../config/global-constants';
+    import {ENTITY_TYPE, ITEM_TEMPLATE} from '../config/global-constants';
 
     export let items;
 

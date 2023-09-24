@@ -4,7 +4,7 @@
 </svelte:head>
 
 <script>
-    import Vertical_Timeline from '../../templates/exhibit/template/partial/Vertical_Timeline.svelte';
+    import Vertical_Timeline from '../../templates/partials/Vertical_Timeline.svelte';
 
     let allItems = [
         {

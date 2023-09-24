@@ -3,11 +3,11 @@
 
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import { Settings } from '../../../../config/settings';
+    import { Settings } from '../../config/settings';
 
-    import Item_Preview from '../../../../components/Item_Preview.svelte';
+    import Item_Preview from '../../components/Item_Preview.svelte';
 
-    import {ITEM_POSITION} from '../../../../config/global-constants';
+    import {ITEM_POSITION} from '../../config/global-constants';
 
     export let item;
 

@@ -2,8 +2,8 @@
 <script>
     import {createEventDispatcher} from 'svelte';
 
-    import Hero from '../hero/Hero.svelte';
-    import Navigation_Side from '../navigation/Navigation_Side.svelte';
+    import Hero from './Hero.svelte';
+    import Navigation_Side from './Navigation_Side.svelte';
 
     export let data = {};
     export let template = null;

@@ -1,7 +1,7 @@
 <script>
     'use strict'
 
-    import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
+    import Exhibit_Preview from '../components/Exhibit_Preview.svelte';
 
     export let exhibits = [];
 

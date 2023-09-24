@@ -11,7 +11,7 @@
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
 
-    import {Timeline} from '../../../../libs/timeline';
+    import {Timeline} from '../../libs/timeline';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
 
     export let grid = {};
