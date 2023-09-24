@@ -154,19 +154,19 @@
         left: -35px;
     }
 
-    /* @media (min-width: 1400px) {
+    @media (min-width: 1400px) {
         .timeline {
-            max-width: 55%;
+            max-width: 70%;
         }
     }
     @media (min-width: 1200px) {
         .timeline {
             max-width: 65%;
         }
-    } */
+    }
     @media (min-width: 992px) {
         .timeline {
-            max-width: 50%;
+            max-width: 60%;
         }
     }
 </style>
