@@ -69,6 +69,7 @@
         display: inline-flex;
         flex-wrap: wrap;
         margin: 0 auto;
+        justify-content: center;
     }
 
     .grid-content > div {
