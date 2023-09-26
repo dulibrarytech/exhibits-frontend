@@ -23,7 +23,8 @@ export const ITEM_TYPE = {
     VIDEO: "video",
     PDF: "pdf",
     REPO: "repo",
-    EXTERNAL_SOURCE: "external"
+    EXTERNAL_SOURCE: "external",
+    TEXT: "text"
 }
 
 export const ITEM_POSITION = {

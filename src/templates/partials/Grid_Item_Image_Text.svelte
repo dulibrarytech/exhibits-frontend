@@ -7,7 +7,7 @@
 
     import Item_Preview from '../../components/Item_Preview.svelte';
 
-    import {ITEM_POSITION} from '../../config/global-constants';
+    import {ITEM_POSITION, ITEM_TYPE} from '../../config/global-constants';
 
     export let item;
 
@@ -18,17 +18,19 @@
     let textElement = null;
     let styles = null;
 
-    var layout = null;
-    var date = null;
-    var title = null;
-    var description = null;
+    //var layout = null;
+    let type;
+    var date;
+    var title;
+    var description;
 
     $: {
         id = item.uuid || "null";
         date = item.date || null;
         title = item.title || null;
-        description = item.description || item.text || "text not found";
-        layout = item.layout || Settings.gridItemDefaultLayout;
+        description = item.description || null;
+        //layout = item.layout || Settings.gridItemDefaultLayout;
+        type = item.item_type || null;
         styles = item.styles || null;
     }
 
@@ -67,55 +69,13 @@
         </div> 
     {/if}
 
-    {#if layout == ITEM_POSITION.RIGHT}
-
-        <div class="float-right">
-            <a href data-item-id={id} on:click={showModalViewer}>
-                <Item_Preview {item} />
-            </a>
-        </div> 
-        <div class="float-left">
-            {#if title}<div class="title">{title}</div>{/if}
-            <div class="description" bind:this={textElement}>{@html description}</div>
-        </div>
-        
-    {:else if layout == ITEM_POSITION.LEFT} 
-        <div class="float-right">
-            {#if title}<div class="title">{title}</div>{/if}
-            <div class="description" bind:this={textElement}>{@html description}</div>
-        </div>
-        <div class="float-left">
-            <a href data-item-id={id} on:click={showModalViewer}>
-                <Item_Preview {item} />
-            </a>
-        </div>
-
-    {:else if layout == ITEM_POSITION.TOP}
-        {#if title}<div class="title">{title}</div>{/if}
+    {#if title}<div class="title">{title}</div>{/if}
+    {#if type != ITEM_TYPE.TEXT}
         <a href data-item-id={id} on:click={showModalViewer}>
             <Item_Preview {item} />
         </a>
-        <div class="description top-margin" bind:this={textElement}><p>{@html description}</p></div>
-
-    {:else if layout == ITEM_POSITION.BOTTOM}
-        {#if title}<div class="title">{title}</div>{/if}
-        <div class="description" bind:this={textElement}>{@html description}</div>
-        <a href data-item-id={id} on:click={showModalViewer}>
-            <Item_Preview {item} />
-        </a>
-        
-    {:else if layout == ITEM_POSITION.TEXT_ONLY}
-        {#if title}<div class="title">{title}</div>{/if}
-        <div class="description" bind:this={textElement}>{@html description}</div>
-
-    {:else if layout == ITEM_POSITION.ITEM_ONLY}
-        <div class="item-no-text">
-            {#if title}<div class="title">{title}</div>{/if}
-            <a href data-item-id={id} on:click={showModalViewer}>
-                <Item_Preview {item} />
-            </a>
-        </div>
     {/if}
+    {#if description && description.length > 0}<div class="description top-margin" bind:this={textElement}><p>{@html description}</p></div>{/if}
 </div>
 
 <style>
