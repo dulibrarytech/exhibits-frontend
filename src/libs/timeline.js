@@ -127,7 +127,7 @@ export const Timeline = (() => {
         if (!wrap) {
           throw new Error(`${warningLabel} .timeline__wrap ${errorPart} ${timelineName}`);
         } else {
-          scroller = wrap.querySelector('.timeline__items');
+          scroller = wrap.querySelector('.timeline__items');  
           if (!scroller) {
             throw new Error(`${warningLabel} .timeline__items ${errorPart} .timeline__wrap`);
           } else {
@@ -371,11 +371,26 @@ export const Timeline = (() => {
           lastVisibleIndex = i;
         }
         const divider = tl.settings.verticalStartPosition === 'left' ? 1 : 0;
-        if (i % 2 === divider && window.innerWidth > tl.settings.forceVerticalMode) {
-          item.classList.add('timeline__item--right');
-        } else {
-          item.classList.add('timeline__item--left');
+        if(window.innerWidth > tl.settings.forceVerticalMode) {
+
+          // manual placement on l/r: if right layout class present, position on right
+          if (item.classList.contains('layout--right')) {
+            item.classList.add('timeline__item--right');
+          }
+          // manual placement on l/r: if left layout class present, position on left
+          else if(item.classList.contains('layout--left')) {
+            item.classList.add('timeline__item--left');
+          }
+
+          // if no layout class, places even index on right, odd index on left
+          else if(i % 2 === divider) {
+            item.classList.add('timeline__item--right');
+          }
+          else {
+            item.classList.add('timeline__item--left');
+          }
         }
+        
       });
       for (let i = 0; i < lastVisibleIndex; i += 1) {
         tl.items[i].classList.remove('animated', 'fadeIn');

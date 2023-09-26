@@ -43,6 +43,19 @@
 
     $: init();
 
+    const getPositionClass = (item) => {
+        let className = '';
+
+        if(item?.layout == 'left') {
+            className = 'layout--left';
+        }
+        else if(item?.layout == 'right') {
+            className = 'layout--right';
+        }
+        
+        return className;
+    }
+
     onMount(async () => {
         Timeline.timeline(document.querySelectorAll('.timeline'), {
             verticalStartPosition,
@@ -67,22 +80,24 @@
             <div class="timeline__items">
                 {#each items as item}
                     {#if item.is_published}
-                        {#if item.year_label}
-                            <div class="timeline__item top-offset">
-                                <div class="timeline-label">
-                                    <h3>{item.year_label}</h3>
-                                </div>
+                        <!-- {#if item.year_label} -->
+                            <div class="timeline__item top-offset {getPositionClass(item)}"> <!-- 'timeline__item--right', 'timeline__item--left', '' -->
+                                {#if item.year_label}
+                                    <div class="timeline-label">
+                                        <h3>{item.year_label}</h3>
+                                    </div>
+                                {/if}
                                 <div class="timeline__content" id="item-{item.uuid}">
                                     <Grid_Item_Image_Text {item} on:click-preview={onClickPreview} />
                                 </div>
                             </div>
-                        {:else}
+                        <!-- {:else}
                             <div class="timeline__item">
                                 <div class="timeline__content" id="item-{item.uuid}">
                                     <Grid_Item_Image_Text {item} on:click-preview={onClickPreview} />
                                 </div>
                             </div>
-                        {/if}
+                        {/if} -->
                     {/if}
                 {/each}
             </div>
