@@ -1,3 +1,4 @@
+<!-- Requires bootstrap 5x -->
 <script>
     export let sections = null;
 
@@ -5,29 +6,30 @@
 
     }
 
+    function onClickNavigationLink (event) {
+		event.preventDefault()
+		const link = event.currentTarget
+		const anchorId = new URL(link.href).hash.replace('#', '')
+		const anchor = document.getElementById(anchorId)
+		window.scrollTo({
+			top: anchor.offsetTop,
+			behavior: 'smooth'
+		})
+	}
+
     $: init();
 </script>
 
-<!-- Sidebar -->
-<ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-
+<div id="sidebar-nav" class="nav-link list-group border-0 rounded-0 text-sm-start">
     {#if sections}
         {#each sections as {id, text}, index}
-
-            {#if index === 0}
-                <li class="active" title={text}>
-                    <a href="#{id}">{text}</a>
-                </li>
-            {:else}
-                <li title={text}>
-                    <a href="#{id}">{text}</a>
-                </li>
-            {/if}
-            
+            <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
         {/each}
     {/if}
-</ul>
+</div>
 
 <style>
-
+    #sidebar-nav a {
+        font-weight: bold;
+    }
 </style>

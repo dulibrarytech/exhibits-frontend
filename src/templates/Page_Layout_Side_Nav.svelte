@@ -3,7 +3,7 @@
     import {createEventDispatcher} from 'svelte';
 
     import Hero from './Hero.svelte';
-    import Navigation_Side from './Navigation_Side.svelte';
+    import Navigation_Side from '../components/Navigation_Side.svelte';
 
     export let data = {};
     export let template = null;
