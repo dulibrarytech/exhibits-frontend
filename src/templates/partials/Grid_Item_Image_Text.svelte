@@ -3,22 +3,20 @@
 
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import { Settings } from '../../config/settings';
-
     import Item_Preview from '../../components/Item_Preview.svelte';
 
-    import {ITEM_POSITION, ITEM_TYPE} from '../../config/global-constants';
+    import {ITEM_TYPE} from '../../config/global-constants';
 
     export let item;
 
     const dispatch = createEventDispatcher();
 
     let id = null;
-    let itemElement;
-    let textElement = null;
     let styles = null;
 
-    //var layout = null;
+    let itemElement;
+    let textElement;
+
     let type;
     var date;
     var title;
@@ -29,7 +27,6 @@
         date = item.date || null;
         title = item.title || null;
         description = item.description || null;
-        //layout = item.layout || Settings.gridItemDefaultLayout;
         type = item.item_type || null;
         styles = item.styles || null;
     }

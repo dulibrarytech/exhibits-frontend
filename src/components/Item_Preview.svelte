@@ -4,11 +4,10 @@
     import { onMount } from 'svelte';
     import { Resource } from '../libs/resource';
 
-    export let item;
+    export let item = {};
 
     let itemPreviewElement;
     let styles = null;
-
     var thumbnail = null;
     var caption = null;
 
@@ -55,6 +54,8 @@
     }
 
     .caption {
-        margin-top: 10px;
+        margin-top: 1rem;
+        text-decoration: none;
+        color: inherit;
     }
 </style>

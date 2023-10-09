@@ -3,10 +3,11 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     
+    import Exhibit_Heading from './partials/Exhibit_Heading.svelte';
     import Item from '../components/Item.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
-    import Vertical_Timeline_Item_Grid from './partials/Vertical_Timeline_Item_Grid.svelte';
-    import Exhibit_Heading from './partials/Exhibit_Heading.svelte';
+    //import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline.svelte';
+    import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline_2.svelte';
 
     import {ENTITY_TYPE, ITEM_TEMPLATE} from '../config/global-constants';
 
@@ -18,12 +19,13 @@
 
     const render = () => {
         if(!exhibit) {
-            exhibit = sortTemplateItems(items); // should order on "sort" field?
+            exhibit = sortTemplateItems(items);
         }
     }
 
     const sortTemplateItems = (items) => {
-        return items; // TODO impl: sort items [] on "order" field ascending. Need to add 'order' field to grid items from first child item.
+        // TODO: sort exhibit items, grid should contain order, so sort on order field asc.
+        return items; 
     }
 
     const onClickItem = (event) => {
@@ -57,7 +59,7 @@
 
                 <!-- exhibit item container - vertical timeline grid -->
                 {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
-                    <Vertical_Timeline_Item_Grid grid={exhibit[index]} on:click-item={onClickItem} />
+                    <Item_Grid_Vertical_Timeline grid={exhibit[index]} on:click-item={onClickItem} />
                 {/if}
             {/each}
         </div>
@@ -69,15 +71,7 @@
     padding-top: 85px;
 }
 
-:global(.item) {
-    /* margin-bottom: 85px; */
-}
-
 :global(.caption) {
     color: inherit;
 }
-
-/* :global(.exhibit-template > *) {
-    margin-bottom: 85px;
-} */
 </style>
