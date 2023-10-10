@@ -5,6 +5,7 @@
     import Grid_Item_Vertical_Timeline_2 from './Grid_Item_Vertical_Timeline_2.svelte';
 
     export let grid = {};
+    export let id = null;
 
     const dispatch = createEventDispatcher();
 
@@ -90,7 +91,7 @@
     });
 </script>
 
-<div class="vertical-timeline-item-grid__2" bind:this={timelineSection}>
+<div class="vertical-timeline-item-grid" id={id ?? undefined} bind:this={timelineSection}>
 
     <div class="container">
         <div class="timeline-wrapper">
@@ -270,34 +271,34 @@
         padding: 0.75rem;
     }
 
-    .vertical-timeline-item-grid__2 {
+    .vertical-timeline-item-grid {
         padding-top: 80px;
     }
 
     /* if height set on cards */
-    /* :global(.vertical-timeline-item-grid__2 .vertical-timeline-grid-item) {
+    /* :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
         height: 610px;
     } */
 
-    :global(.vertical-timeline-item-grid__2 .timeline-right .vertical-timeline-grid-item) {
+    :global(.vertical-timeline-item-grid .timeline-right .vertical-timeline-grid-item) {
         margin-top: 6.2em;
     }
 
-    :global(.vertical-timeline-item-grid__2 .timeline__card::before) {
+    :global(.vertical-timeline-item-grid .timeline__card::before) {
         content: none;
     }
 
-    :global(.vertical-timeline-item-grid__2 .timeline-left .timeline__card) {
+    :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
         margin-left: 0;
         margin-right: 9.65vw;
     }
 
-    :global(.vertical-timeline-item-grid__2 .timeline-right .timeline__card) {
+    :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
         margin-right: 0;
         margin-left: 9.65vw;
     }
 
-    :global(.vertical-timeline-item-grid__2 .timeline-left .timeline__card::after) {
+    :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
         content: "";
         width: 9.65vw;
         height: 6px;
@@ -308,7 +309,7 @@
         right: -166px;
     }
 
-    :global(.vertical-timeline-item-grid__2 .timeline-right .timeline__card::before) {
+    :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
         content: "";
         width: 9.65vw;
         height: 6px;
@@ -319,7 +320,7 @@
         left: -166px;
     }
 
-    :global(.vertical-timeline-item-grid__2 .card__title) {
+    :global(.vertical-timeline-item-grid .card__title) {
         margin-top: 1.5rem;
     }
 </style>

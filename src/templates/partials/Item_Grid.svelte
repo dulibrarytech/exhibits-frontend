@@ -7,6 +7,7 @@
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
 
     export let grid = {};
+    export let id = null;
 
     const dispatch = createEventDispatcher();
 
@@ -39,7 +40,7 @@
     });
 </script>
 
-<div class="item-grid" bind:this={gridElement} >
+<div class="item-grid" id={id ?? undefined} bind:this={gridElement} >
     <div class="container">
         <div class="grid-content">
             {#if items}

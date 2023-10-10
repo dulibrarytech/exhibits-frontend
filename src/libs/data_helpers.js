@@ -86,3 +86,13 @@ export const validateUserThemeStyles = (styles) => {
 
     return styles;
 }
+
+/**
+ * Converts all characters to lowercase, replaces spaces with '-' character, removes all non alphanumeric characters
+ * 
+ * @param {string} string - the string to convert to html id format
+ * @returns - converted string
+ */
+export const getHtmlIdString = (string) => {
+    return string.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]*/g, "").toLowerCase();
+}

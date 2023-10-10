@@ -43,23 +43,23 @@
 <div class="exhibit-template">
     {#if exhibit}
         <div class="exhibit-items">
-            {#each exhibit as {type = "", text = "", subtext = "", id = null, is_visible=null}, index}
+            {#each exhibit as {type = "", text = "", subtext = "", anchorId = null, is_visible=null}, index}
 
                 <!-- exhibit heading -->
                 {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
-                    <Exhibit_Heading {id} {text} {subtext} display={is_visible} />
+                    <Exhibit_Heading id={anchorId} {text} {subtext} display={is_visible} />
                     
                 <!--exhibit item - row layout -->
                 {:else if type == ENTITY_TYPE.ITEM}
-                    <Item item={exhibit[index]} on:click-item={onClickItem} />
+                    <Item id={anchorId} item={exhibit[index]} on:click-item={onClickItem} />
 
                 <!-- exhibit item container - grid -->
                 {:else if type == ITEM_TEMPLATE.GRID}
-                    <Item_Grid grid={exhibit[index]} on:click-item={onClickItem} />
+                    <Item_Grid id={anchorId} grid={exhibit[index]} on:click-item={onClickItem} />
 
                 <!-- exhibit item container - vertical timeline grid -->
                 {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
-                    <Item_Grid_Vertical_Timeline grid={exhibit[index]} on:click-item={onClickItem} />
+                    <Item_Grid_Vertical_Timeline id={anchorId} grid={exhibit[index]} on:click-item={onClickItem} />
                 {/if}
             {/each}
         </div>

@@ -11,6 +11,7 @@
     import { ITEM_POSITION, MEDIA_BLOCK_WIDTH } from '../config/global-constants';
 
     export let item = {};
+    export let id = null;
 
     const VERTICAL_ITEM_MARGIN = "30px";
 
@@ -59,7 +60,7 @@
     });
 </script>
 
-<div class="item" data-uuid={uuid} bind:this={itemElement}>
+<div class="item" id={id ?? undefined} data-uuid={uuid} bind:this={itemElement}>
     {#if is_published == 1} 
         <div class="container">
             <div class="section row">

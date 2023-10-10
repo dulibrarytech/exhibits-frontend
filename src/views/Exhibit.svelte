@@ -6,15 +6,16 @@
     import { Index } from '../libs/index.js';
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
+    import { getItemById, getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
 
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
     import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
     import Modal_Media_Display from '../components/Modal_Media_Display.svelte';
     import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
 
-    export let currentRoute;
+    import {ENTITY_TYPE} from '../config/global-constants';
 
-    import { getItemById, validateUserThemeStyles } from '../libs/data_helpers';
+    export let currentRoute;
 
     var id;
     var exhibit = {};
@@ -44,22 +45,52 @@
             }
             else {
                 items = exhibit.items;
-                sections = getSections(items);
+                sections = createPageSections(items);
             }
         }
         else window.location.replace('/404');
     }
 
-    const getSections = (items) => {
-        let sections = items.filter((item) => {
-            return item.type == 'heading';
+    const createPageSections = (items) => {
+        let headings = [];
+        let heading = null;
 
-        }).map((heading) => {
-            heading['id'] = heading.text.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]*/g, "").toLowerCase();
-            return heading;
-        });
+        for(let index in items) {
+            let item = items[index];
+            let {type = "", title = null, text = ""}  = item;
 
-        return sections;
+            // If the item is a heading, add a new heading
+            if(type == ENTITY_TYPE.EXHIBIT_HEADING) {
+                
+                // Push the previous heading to the heading array
+                if(heading) headings.push(heading);
+
+                heading = {
+                    id: getHtmlIdString(text),
+                    text: stripHtmlTags(text),
+                    subheadings: []
+                }
+
+                item.anchorId = heading.id;
+            }
+
+            // If this item is in a heading section, and it has a title, add a subheading
+            else if(heading && title) {
+                heading.subheadings.push({
+                    id: getHtmlIdString(title),
+                    text: stripHtmlTags(title)
+                });
+
+                item.anchorId = heading.id;
+            }
+
+            // End case: push current heading to the headings array if this is the last item in the exhibit
+            if(parseInt(index) == items.length-1) {
+                if(heading) headings.push(heading);
+            }
+        }
+
+        return headings;
     }
 
     const getPageById = (id) => {
@@ -151,8 +182,7 @@
 
     <svelte:component this={pageLayout} {data} {template} {sections} {items} on:mount={onMountPage} on:click-item={onOpenViewerModal} />
 
-    <!-- {#if modalDialog}<svelte:component this={modalDialog} data={modalDialogData} on:close={onCloseModal}/>{/if} -->
-    {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={onCloseModal} />{/if}  <!-- UPDATE var names in open() functions -->
+    {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={onCloseModal} />{/if}
 {:else}
     <h3>Loading exhibit...</h3>
 {/if}
