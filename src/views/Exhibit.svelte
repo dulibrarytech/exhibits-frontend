@@ -54,6 +54,7 @@
     const createPageSections = (items) => {
         let headings = [];
         let heading = null;
+        let subheading = null;
 
         for(let index in items) {
             let item = items[index];
@@ -76,12 +77,15 @@
 
             // If this item is in a heading section, and it has a title, add a subheading
             else if(heading && title) {
-                heading.subheadings.push({
+
+                subheading = {
                     id: getHtmlIdString(title),
                     text: stripHtmlTags(title)
-                });
+                }
 
-                item.anchorId = heading.id;
+                heading.subheadings.push(subheading);
+
+                item.anchorId = subheading.id;
             }
 
             // End case: push current heading to the headings array if this is the last item in the exhibit
@@ -135,7 +139,7 @@
         }
 
         /* Navigation menu link theme, does not affect navigation menu */
-        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation .nav-link a'); // TODO upgrade to set via nav component method? need pointer to component
+        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation .nav-link a.main-menu-link'); // TODO upgrade to set via nav component method? need pointer to component
         for(let link of navigationMenuLinks) {
             for(let style in navigation.links) {
                 link.style[style] = navigation.links[style];

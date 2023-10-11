@@ -59,7 +59,7 @@
     });
 </script>
 
-<div class="vertical-timeline-grid-item">
+<div class="vertical-timeline-grid-item item">
     <div class="timeline__card card" bind:this={itemElement}>
         <header class="card__header">
             <!-- <time class="time" datetime="2008-02-02">

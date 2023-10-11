@@ -5,7 +5,7 @@
 
     const init = () => {
         //sectionHeadings = truncateHeadingText(sections);
-        sectionHeadings = sections; // dev
+        sectionHeadings = sections;
     }
 
     const truncateHeadingText = (sections) => {
@@ -38,9 +38,20 @@
 
 <ul class="nav nav-link navbar-nav ms-auto">
     {#if sectionHeadings}
-        {#each sectionHeadings as {id, text}}
+        {#each sectionHeadings as {id, text, subheadings = null}}
             <li class="px-1" title={text}>
-                <a href="#{id}" on:click={onClickNavigationLink}>{text}</a>
+                <a class="main-menu-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a>
+            
+
+                {#if subheadings.length > 0}
+
+                    <div class="dropdown-nav">
+                        {#each subheadings as {id, text}}
+                            <a class="dropdown-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a>
+                        {/each}
+                    </div>
+                
+                {/if}
             </li>
         {/each}
     {/if}
@@ -74,5 +85,35 @@
 
     .navbar-nav a:hover {
         text-decoration: underline;
+    }
+
+    .dropdown-nav {
+        position: absolute;
+        background: #e5e3e1;
+        padding: 15px;
+        display: none;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    a.main-menu-link {
+        display: block;
+    }
+
+    a.dropdown-link {
+        display: block;
+    }
+
+    /* .nav > li:hover .dropdown-nav {
+        display: block;
+    } */
+
+    /* .nav > li:hover {
+        background: red
+    } */
+
+    .navbar-nav > li:hover .dropdown-nav {
+        display: block;
     }
 </style>

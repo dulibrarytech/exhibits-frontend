@@ -64,7 +64,7 @@
     {#if is_published == 1} 
         <div class="container">
             <div class="section row">
-                {#if title}<div class="title">{@html title}</div>{/if}
+                <!-- {#if title}<div class="title">{@html title}</div>{/if} -->
 
                 {#if layout == ITEM_POSITION.RIGHT}
                     {#if media_width == MEDIA_BLOCK_WIDTH.HALF}

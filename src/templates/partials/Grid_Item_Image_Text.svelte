@@ -57,7 +57,7 @@
     });
 </script>
 
-<div class="grid-item" bind:this={itemElement}>
+<div class="grid-item item" bind:this={itemElement}>
     {#if date}
         <div class="date-heading exhibit-heading">
             <div class="item-date">{date}</div>
