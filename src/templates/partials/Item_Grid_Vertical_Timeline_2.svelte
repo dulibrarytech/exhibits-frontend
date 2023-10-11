@@ -275,10 +275,11 @@
         padding-top: 80px;
     }
 
-    /* if height set on cards */
-    /* :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
-        height: 610px;
-    } */
+    :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
+        /* height: 610px; */
+        position: relative;
+        z-index: 0;
+    }
 
     :global(.vertical-timeline-item-grid .timeline-right .vertical-timeline-grid-item) {
         margin-top: 6.2em;
@@ -300,22 +301,22 @@
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
         content: "";
-        width: 9.65vw;
-        height: 6px;
+        width: 20.65vw;
+        height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
-        z-index: 0;
+        z-index: -1;
         top: 150px;
         right: -166px;
     }
 
     :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
         content: "";
-        width: 9.65vw;
-        height: 6px;
+        width: 20.65vw;
+        height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
-        z-index: 0;
+        z-index: -1;
         top: 150px;
         left: -166px;
     }
