@@ -64,7 +64,7 @@
     }
 
     .navbar-nav a {
-        color: #383838;
+        color: #505050;
         padding: 8px;
         font-size: 18px;
         font-weight: bold;
