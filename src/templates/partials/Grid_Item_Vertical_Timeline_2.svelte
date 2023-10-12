@@ -29,7 +29,7 @@
         title = item.title || null;
         description = item.description || null;
         type = item.item_type || null;
-        media = item.media || item.url || null;
+        media = item.media || null;
         styles = item.styles || null;
     }
 
@@ -76,7 +76,7 @@
         {#if title}<div class="card__title">{title}</div>{/if}
         <hr>
         <div class="card__content">
-            {#if media}
+            {#if media} 
                 <a href data-item-id={id} on:click={showModalViewer}>
                     <Item_Preview {item} />
                 </a>
@@ -159,8 +159,6 @@
     */
     
     .card{
-        border-radius: var(--timelineCardBorderRadius, 2px);
-        /* border-left: var(--timelineCardBorderLeftWidth, 3px) solid var(--timelineCardBorderLeftColor, var(--uiTimelineMainColor)); */
         box-shadow: var(--timelineCardBoxShadow, 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24));
         background-color: var(--timelineCardBackgroundColor, #fff);
     }

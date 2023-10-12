@@ -268,11 +268,11 @@
         text-align: center;
         background-color: #303030;
         color: #e5e3e1;
-        padding: 0.75rem;
+        border-radius: 5px;
     }
 
     .vertical-timeline-item-grid {
-        padding-top: 80px;
+        padding: 80px 0;
     }
 
     :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
@@ -287,6 +287,10 @@
 
     :global(.vertical-timeline-item-grid .timeline__card::before) {
         content: none;
+    }
+
+    :global(.vertical-timeline-item-grid .card) {
+        border-radius: 5px;
     }
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
@@ -324,4 +328,38 @@
     :global(.vertical-timeline-item-grid .card__title) {
         margin-top: 1.5rem;
     }
+
+    /* @media (min-width: 992px) {
+        :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
+            margin-left: 0;
+            margin-right: 9.65vw;
+        }
+
+        :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
+            margin-right: 0;
+            margin-left: 9.65vw;
+        }
+
+        :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
+            content: "";
+            width: 20.65vw;
+            height: 2px;
+            background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
+            position: absolute;
+            z-index: -1;
+            top: 150px;
+            right: -166px;
+        }
+
+        :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
+            content: "";
+            width: 20.65vw;
+            height: 2px;
+            background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
+            position: absolute;
+            z-index: -1;
+            top: 150px;
+            left: -166px;
+        }
+    } */
 </style>
