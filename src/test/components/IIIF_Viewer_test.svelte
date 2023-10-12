@@ -23,7 +23,7 @@
 </script>
 
 <div class="test">
-    <IIIF_Viewer url={data.url} />
+    <IIIF_Viewer url={data.media} />
 </div>
 
 <style>

@@ -35,7 +35,7 @@
     const URL_PATTERN = /^https?:\/\//;
 
     $: {
-        resource = args.url || item.url || null;
+        resource = args.media || item.media || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
         caption = args.caption || item.caption || null;

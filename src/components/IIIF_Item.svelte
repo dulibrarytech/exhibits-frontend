@@ -11,8 +11,6 @@
         title: "title"
     }
 
-    var { IIIFManifestUrl } = Configuration;
-
     let { type = null, metadata = {} } = args;
 
     let resourceId; // iiif resource id, for the manifest url
@@ -20,7 +18,7 @@
     let viewerMetadata = {};
 
     $: {
-        resourceId = item.url || "[id field missing]";
+        resourceId = item.media || "[id field missing]";
         render();
     }
 

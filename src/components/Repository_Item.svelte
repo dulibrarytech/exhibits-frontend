@@ -21,7 +21,7 @@
     var params = {};
 
     $: {
-        if(!itemId) itemId = args.id || item.url || null;
+        if(!itemId) itemId = args.id || item.media || null;
         if(!isIIIF) isIIIF = args.isIIIF || item.is_iiif || false;
         if(itemId) render();
         else console.error("Repository item id is null");
@@ -34,7 +34,7 @@
         .then((repoItem) => {
             message = "";
 
-            params.url = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null )
+            params.media = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null )
             params = {...params, ...repoItem};
             params.type = getItemTypeForMimeType( repoItem[MIME_TYPE_FIELD] || null );
             params.metadata = repoItem[METADATA_OBJECT_FIELD] || {};

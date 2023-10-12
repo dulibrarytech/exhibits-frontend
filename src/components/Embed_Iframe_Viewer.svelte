@@ -7,7 +7,7 @@
     console.log("Embed external viewer data in:", args)
 
     $: {
-        if(!url) url = args.url || null;
+        if(!url) url = args.media || null;
         if(!caption) caption = args.caption || "";
     }
 </script>

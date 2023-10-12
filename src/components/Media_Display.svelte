@@ -13,13 +13,13 @@
             if(item_type == "repo") {
                 // args = {
                 //     isIIIF: item.is_iiif, 
-                //     id: item.url
+                //     id: item.media
                 // }
                 component = Repository_Item;
             }
             else {
                 // args = {
-                //     url: item.url,
+                //     url: item.media,
                 //     type: item_type
                 // }
                 component = Media_Item;

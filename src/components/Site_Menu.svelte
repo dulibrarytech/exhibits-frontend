@@ -32,9 +32,9 @@
     <div class="site-menu-links card card-body">
         {#each links as link}
             {#if link.open_new_tab}
-                <a href data-href={link.url} data-target="blank" on:click={onClickLink}>{link.label}</a>
+                <a href data-href={link.media} data-target="blank" on:click={onClickLink}>{link.label}</a>
             {:else}
-                <a href data-href={link.url} on:click={onClickLink}>{link.label}</a>
+                <a href data-href={link.media} on:click={onClickLink}>{link.label}</a>
             {/if}
         {/each}
     </div>

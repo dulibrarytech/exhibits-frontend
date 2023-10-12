@@ -116,24 +116,24 @@ export const Resource = (() => {
 
             switch(item_type) {
                 case ITEM_TYPE.REPO:
-                    thumbnail = getRepositoryThumbnailUrl(item.url) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.DEFAULT}`;
+                    thumbnail = getRepositoryThumbnailUrl(item.media) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.DEFAULT}`;
                     break;
 
                 case ITEM_TYPE.IMAGE:
                 case ITEM_TYPE.LARGE_IMAGE:
-                    thumbnail = getImageThumbnailUrl(item.url) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.IMAGE}`;
+                    thumbnail = getImageThumbnailUrl(item.media) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.IMAGE}`;
                     break;
 
                 case ITEM_TYPE.AUDIO:
-                    thumbnail = getAudioThumbnailUrl(item.url) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.AUDIO}`;
+                    thumbnail = getAudioThumbnailUrl(item.media) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.AUDIO}`;
                     break;
 
                 case ITEM_TYPE.VIDEO:
-                    thumbnail = getVideoThumbnailUrl(item.url) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.VIDEO}`;
+                    thumbnail = getVideoThumbnailUrl(item.media) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.VIDEO}`;
                     break;
 
                 case ITEM_TYPE.PDF:
-                    thumbnail = getPdfThumbnailUrl(item.url) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.PDF}`;
+                    thumbnail = getPdfThumbnailUrl(item.media) || `${THUMBNAIL_PATH}/${THUMBNAIL_ICON.PDF}`;
                     break;
 
                 case ITEM_TYPE.EXTERNAL_SOURCE:
@@ -171,7 +171,7 @@ export const Resource = (() => {
     }
 
     const getExternalThumbnailUrl = (item) => {
-        return item.url || null;
+        return item.media || null;
     }
 
     /**
