@@ -29,9 +29,7 @@
     <section class="hero-text">
         {#if description}
             <div class="description-text">
-                <div class="description-text-content">
-                    <p>{@html description}</p>
-                </div>
+                <p>{@html description}</p>
             </div>
         {/if}
     </section>
@@ -53,9 +51,5 @@
 
     .hero-text {
         color: white;
-    }
-
-    .description-text-content > p {
-        margin: 0;
     }
 </style>

@@ -64,6 +64,7 @@
         min-height: 4.2em;
         padding: 1.3em 1.6em;
         margin-bottom: 0;
+        background-color: lightgoldenrodyellow;
     }
 
     :global(.banner > img) {
@@ -78,5 +79,9 @@
 
     :global(.hero-text) {
         background: grey;
+    }
+
+    :global(.description-text) {
+        padding: 4.65em;
     }
 </style>

@@ -113,14 +113,19 @@
         /* Exhibit template theme */
         let templateElement = document.querySelector('.exhibit-template');
         for(let style in template) {
-            if(style == "backgroundImage") {
+            /* handle special cases that affect the exhibit template */
+            if(style == 'backgroundImage') {
                 let filename = template[style];  
                 let exhibitPage = document.querySelector(".exhibit-page");              
                 if(exhibitPage) exhibitPage.style[style] = `url('${ Resource.getUrl(filename) }')`;
             }
-
             else {
                 templateElement.style[style] = template[style];  
+            }
+            
+            /* apply the exhibit template background color style to the description text section */
+            if(style == 'backgroundColor' || style == 'background') {
+                document.querySelector('.hero-section .description-text').style[style] = template[style];
             }
         }
 
