@@ -13,7 +13,6 @@
     export let item = {};
     export let id = null;
 
-    const VERTICAL_ITEM_MARGIN = "30px";
     const DEFAULT_MEDIA_WIDTH = "50";
 
     let itemElement;
@@ -25,7 +24,7 @@
         text = "",
         is_published = 0, 
         layout = MEDIA_POSITION.RIGHT,  
-        media_width,
+        media_width = DEFAULT_MEDIA_WIDTH,
         wrap_text = 0,
         styles = null
 
@@ -107,26 +106,27 @@
                     {/if}
                     
                 {:else if layout == MEDIA_POSITION.TOP}
-                    <div class="item-content">
-                        <div style="margin-bottom: {VERTICAL_ITEM_MARGIN}">
+                    <div class="item-content media-top">
+                        <div class="media">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
                                 <Media_Display {item} />
                             </a>
                         </div>
-                        <div>
+                        <div class="text">
                             <Text_Display {item} />
                         </div>
                     </div>
 
                 {:else if layout == MEDIA_POSITION.BOTTOM}
-                    <div class="item-content">
-                        <div style="margin-bottom: {VERTICAL_ITEM_MARGIN}">
+                    <div class="item-content media-bottom">
+                        <div class="text">
                             <Text_Display {item} />
                         </div>
-                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                            <Media_Display {item} />
-                        </a>
-                        
+                        <div class="media">
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <Media_Display {item} />
+                            </a>
+                        </div>
                     </div>
 
                 {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
@@ -156,12 +156,15 @@
         display: flex;
     }
 
+    .item a { color: inherit }
+
     .item-content {
         width: 100%;
     }
 
     .media-right > .media {
         float: right;
+        padding: 0 0 30px 30px;
     }
 
     .media-right > .text {
@@ -170,10 +173,19 @@
 
     .media-left > .media {
         float: left;
+        padding: 0 30px 30px 0;
     }
 
     .media-left > .text {
         float: right;
+    }
+
+    .media-top > .media {
+        padding: 0 0 30px 0;
+    }
+
+    .media-bottom > .media {
+        padding: 30px 0 0 0;
     }
 
     :global(.item > .container) {
