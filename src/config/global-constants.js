@@ -27,12 +27,12 @@ export const ITEM_TYPE = {
     TEXT: "text"
 }
 
-export const ITEM_POSITION = {
-    RIGHT: "item_right",
-    LEFT: "item_left",
-    TOP: "item_top",
-    BOTTOM: "item_bottom",
-    ITEM_ONLY: "item_only",
+export const MEDIA_POSITION = {
+    RIGHT: "media_right",
+    LEFT: "media_left",
+    TOP: "media_top",
+    BOTTOM: "media_bottom",
+    MEDIA_ONLY: "media_only",
     TEXT_ONLY: "text_only"
 }
 
