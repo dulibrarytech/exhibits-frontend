@@ -4,6 +4,8 @@
     import { Settings } from '../config/settings';
     import { Banners } from './config/hero-banner';
     import { Resource } from '../libs/resource';
+    import { stripHtmlAndObjectCharacters, stripHtmlTags, sanitizeHtmlString } from '../libs/data_helpers';
+
     import Alert from '../components/Alert.svelte';
 
     export let data = null;
@@ -28,7 +30,8 @@
         
         banner = $Banners[banner_template || DEFAULT_BANNER];
         if(hero_image) image = getImagePath(hero_image);
-        if(alert_text) alert = alert_text;
+        if(alert_text) alert = sanitizeHtmlString(alert_text);
+        //alert = alert_text;
 
         bannerData = {
             image,

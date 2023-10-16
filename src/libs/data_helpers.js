@@ -25,6 +25,7 @@
 'use strict' 
 
 import { Settings } from '../config/settings.js';
+import sanitizeHtml from 'sanitize-html';
 
 /**
  * Find an item by id
@@ -50,17 +51,27 @@ export const getItemById = (id, items) => {
 } 
 
 /**
- * Removes all html tags
+ * Removes all html tags, preserves inner content
  * @param {string} string : a string
  * 
  * @returns the string with html tags removed
  */
 export const stripHtmlTags = (string) => {
-    return string ? string.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))?>/gi, "") : null; // remove tags with and without attributes
+    return string ? string.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))??>/gi, "") : null; // remove tags with and without attributes
 }
 
 /**
- * Removes all html tags and inner content, along with object characters ({}, [])
+ * Removes all html tags and inner content
+ * @param {string} string : a string
+ * 
+ * @returns the string with html tags removed
+ */
+export const stripHtmlContent = (string) => {
+    return string ? string.replace(/<.+>(.*?)<\/.+>/gi, "") : null;
+}
+
+/**
+ * Removes curly braces, square brackets, colon, and greater/less than characters
  * Disables any object/array structures in a url
  * 
  * @param {string} string : a string
@@ -69,6 +80,17 @@ export const stripHtmlTags = (string) => {
  */
 export const stripHtmlAndObjectCharacters = (string) => {
     return stripHtmlTags(string).replace(/[{}\[\]:<>]/gi, "");
+}
+
+/**
+ * Removes script tags and other interactive elements
+ * 
+ * @param {string} string : a string
+ * 
+ * @returns the string with html tags/content and object characters removed
+ */
+export const sanitizeHtmlString = (string) => {
+    return sanitizeHtml(string);
 }
 
 /**
