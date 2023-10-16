@@ -19,7 +19,8 @@ export const Resource = (() => {
 
     var {
         thumbnailImageHeight,
-        thumbnailImageWidth
+        thumbnailImageWidth,
+        thumbnailImageLocation
 
     } = Settings;
 
@@ -82,7 +83,7 @@ export const Resource = (() => {
         let  {thumbnail_image=null, hero_image=null} = exhibit;
 
         if(!thumbnail_image) {
-            thumbnail = Resource.getImageDerivativeUrl({
+            thumbnail = getImageDerivativeUrl({
                 type: 'crop',
                 filename: hero_image || "",
                 width: "400",
@@ -90,7 +91,7 @@ export const Resource = (() => {
             });
         }
         else {
-            thumbnail = Resource.getUrl(thumbnail_image);
+            thumbnail = `${thumbnailImageLocation}/${thumbnail_image}`;
         }
 
         return thumbnail;
