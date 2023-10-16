@@ -188,11 +188,6 @@
         padding: 30px 0 0 0;
     }
 
-    :global(.item > .container) {
-        padding-right: 3.3em;
-        padding-left: 3.3em;
-    }
-
     :global(.caption) {
         font-style: italic;
         font-size: 0.8em;

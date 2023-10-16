@@ -4,6 +4,7 @@
     import { Settings } from '../config/settings';
     import { Banners } from './config/hero-banner';
     import { Resource } from '../libs/resource';
+    import Alert from '../components/Alert.svelte';
 
     export let data = null;
 
@@ -53,20 +54,11 @@
     {/if}
 
     {#if alert }
-        <div class="alert">
-            {@html alert}
-        </div>
+        <Alert text={alert} />
     {/if}
 </header>
 
 <style>
-    .alert {
-        min-height: 4.2em;
-        padding: 1.3em 1.6em;
-        margin-bottom: 0;
-        background-color: lightgoldenrodyellow;
-    }
-
     :global(.banner > img) {
         width: 100%;
         height: 100%;

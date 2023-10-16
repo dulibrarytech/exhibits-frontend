@@ -105,14 +105,6 @@
         display: block;
     }
 
-    /* .nav > li:hover .dropdown-nav {
-        display: block;
-    } */
-
-    /* .nav > li:hover {
-        background: red
-    } */
-
     .navbar-nav > li:hover .dropdown-nav {
         display: block;
     }

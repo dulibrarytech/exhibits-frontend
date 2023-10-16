@@ -80,6 +80,11 @@ main.container {
 	margin-top: 3em;
 }
 
+.outer-container {
+	margin: 0 auto;
+    width: 95vw;
+}
+
 .page {
 	padding: 50px 0;
 }

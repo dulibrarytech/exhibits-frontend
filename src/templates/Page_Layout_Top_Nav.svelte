@@ -27,7 +27,7 @@
         <Hero {data} />
 
         <nav class="exhibit-navigation navbar navbar-expand-lg navbar-light sticky-top" id="mainNav">
-            <div class="container">
+            <div class="container outer-container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <Navigation_Top {sections} />
