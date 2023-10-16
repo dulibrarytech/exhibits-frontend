@@ -111,7 +111,6 @@
         let {heading={}, navigation={}, template={}} = styles;
 
         /* Exhibit template theme */
-        let templateElement = document.querySelector('.exhibit-template');
         for(let style in template) {
             /* handle special cases that affect the exhibit template */
             if(style == 'backgroundImage') {
@@ -120,12 +119,8 @@
                 if(exhibitPage) exhibitPage.style[style] = `url('${ Resource.getUrl(filename) }')`;
             }
             else {
-                templateElement.style[style] = template[style];  
-            }
-            
-            /* apply the exhibit template background color style to the description text section */
-            if(style == 'backgroundColor' || style == 'background') {
-                document.querySelector('.hero-section .description-text').style[style] = template[style];
+                /* Apply exhibit template theme to body element */
+                document.body.style[style] = template[style];
             }
         }
 
@@ -144,7 +139,7 @@
         }
 
         /* Navigation menu link theme, does not affect navigation menu */
-        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation .nav-link a.main-menu-link'); // TODO upgrade to set via nav component method? need pointer to component
+        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation .nav-link a.main-menu-link');
         for(let link of navigationMenuLinks) {
             for(let style in navigation.links) {
                 link.style[style] = navigation.links[style];
