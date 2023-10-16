@@ -89,7 +89,7 @@
 
     .dropdown-nav {
         position: absolute;
-        background: #e5e3e1;
+        background: #fff;
         padding: 15px;
         display: none;
         min-width: 160px;
