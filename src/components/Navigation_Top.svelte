@@ -66,7 +66,7 @@
     .navbar-nav a {
         color: #505050;
         padding: 8px;
-        font-size: 18px;
+        font-size: 1em;
         font-weight: bold;
     }
 

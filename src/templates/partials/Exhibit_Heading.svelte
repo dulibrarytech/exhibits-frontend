@@ -20,8 +20,9 @@
 
 <style>
     .section-heading {
-        padding-top: 55px;
-        padding-bottom: 55px;
+        padding-top: 25px;
+        padding-bottom: 25px;
+        font-size: 1.15em;
     }
 
     .section-heading h3 {
