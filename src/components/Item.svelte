@@ -77,11 +77,11 @@
                     </div>
                 {:else}
                     <div class="item-content media-right">
-                        <div class="text" style="width:{100 - media_width}%">
-                            {text}
-                        </div>
                         <div class="media" style="width:{media_width}%">
                             <Media_Display {item} />
+                        </div>
+                        <div class="text" style="width:{100 - media_width}%">
+                            {text}
                         </div>
                     </div>
                 {/if}
@@ -96,11 +96,11 @@
                         </div>
                     {:else}
                         <div class="item-content media-left">
-                            <div class="text" style="width:{100 - media_width}%">
-                                {text}
-                            </div>
                             <div class="media" style="width:{media_width}%">
                                 <Media_Display {item} />
+                            </div>
+                            <div class="text" style="width:{100 - media_width}%">
+                                {text}
                             </div>
                         </div>
                     {/if}
@@ -163,21 +163,21 @@
     }
 
     .media-right > .media {
-        float: right;
-        padding: 0 0 30px 30px;
+        float: none;
+        padding: 0;
     }
 
     .media-right > .text {
-        float: left;
+        float: none;
     }
 
     .media-left > .media {
-        float: left;
-        padding: 0 30px 30px 0;
+        float: none;
+        padding: 0;
     }
 
     .media-left > .text {
-        float: right;
+        float: none;
     }
 
     .media-top > .media {
@@ -207,11 +207,33 @@
         display: block;
     }
 
-    :global(.item-component .media-item) {
-        /* height: 100%; */
-    }
-
     :global(.item-component .image > .content) {
         height: 100%;
+    }
+
+    @media (min-width:768px) {
+        .media-right > .media {
+            float: right;
+            padding: 0 0 30px 30px;
+        }
+
+        .media-right > .text {
+            float: left;
+        }
+
+        .media-left > .media {
+            float: left;
+            padding: 0 30px 30px 0;
+        }
+
+        .media-left > .text {
+            float: right;
+        }
+    }
+
+    @media (max-width:768px) {
+        .media, .text {
+            width: 100% !important;
+        }
     }
 </style>
