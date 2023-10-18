@@ -74,7 +74,7 @@
     }
 
     .grid-content > div {
-        padding: 45px;
+        padding: 30px 15px;
     }
 
     :global(.item-grid .grid-item) {
