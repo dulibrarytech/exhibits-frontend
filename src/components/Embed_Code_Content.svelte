@@ -5,7 +5,6 @@
      */
 
     export let code;
-    console.log("TEST Embed_Code_Content Embed code in:", code)
 
     // TODO Regex check for allowed elements. If fail, show no content, issue console error "Only [allowed elements] allowed"
     const render = () => {

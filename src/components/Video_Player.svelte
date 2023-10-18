@@ -33,7 +33,7 @@
                     <video src={url} controls></video>
                 {/if}
                 
-                {#if caption}<p>{caption}</p>{/if}
+                {#if caption}<div class="caption">{caption}</div>{/if}
             </div>
         {:else}
             <h6>Loading video content...</h6>

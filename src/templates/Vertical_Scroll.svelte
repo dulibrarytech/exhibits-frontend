@@ -67,11 +67,11 @@
 </div>
 
 <style>
-.exhibit-template {
+/* .exhibit-template {
     padding-top: 85px;
-}
+} */
 
 :global(.caption) {
     color: inherit;
 }
-</style>
+</style>X

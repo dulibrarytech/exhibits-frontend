@@ -23,6 +23,7 @@
         padding-top: 25px;
         padding-bottom: 25px;
         font-size: 1.15em;
+        margin-top: 4.5em;
     }
 
     .section-heading h3 {

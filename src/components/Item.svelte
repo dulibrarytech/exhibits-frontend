@@ -7,8 +7,9 @@
     
     import Text_Display from './Text_Display.svelte';
     import Media_Display from './Media_Display.svelte';
+    import Item_Preview from './Item_Preview.svelte';
 
-    import { MEDIA_POSITION, MEDIA_BLOCK_WIDTH } from '../config/global-constants';
+    import { MEDIA_POSITION, MEDIA_BLOCK_WIDTH, ITEM_TYPE } from '../config/global-constants';
 
     export let item = {};
     export let id = null;
@@ -17,22 +18,46 @@
 
     let itemElement;
     let modalViewerLink;
-    
-    let {
-        uuid, 
-        title = null,
-        text = "",
-        is_published = 0, 
-        layout = MEDIA_POSITION.RIGHT,  
-        media_width = DEFAULT_MEDIA_WIDTH,
-        wrap_text = 0,
-        styles = null
+    let mediaComponent;
 
-    } = item;
+    let uuid;
+    let itemType;
+    let title;
+    let text;
+    let isPublished;
+    let layout;
+    let mediaWidth;
+    let wrapText;
+    let styles;
 
     const dispatch = createEventDispatcher();
 
-    if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: item: ${uuid}`);
+    $: init();
+
+    const init = () => {
+
+        uuid        = item.uuid;
+        itemType    = item.item_type || ITEM_TYPE.IMAGE;
+        title       = item.title || null;
+        text        = item.text || "";
+        isPublished = item.is_published ?? 0;
+        layout      = item.layout || MEDIA_POSITION.RIGHT;
+        mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
+        wrapText    = item.wrap_text ?? 1;
+        styles      = item.styles || null;
+
+        if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: item: ${uuid}`);
+
+        switch(itemType) {
+            case ITEM_TYPE.LARGE_IMAGE:
+            case ITEM_TYPE.PDF:
+            case ITEM_TYPE.EXTERNAL_SOURCE:
+                mediaComponent = Item_Preview;
+                break;
+            default:
+                mediaComponent = Media_Display;
+        }
+    }
 
     const setTheme = (styles) => {
         for(let style in styles.item) {
@@ -63,85 +88,94 @@
 </script>
 
 <div class="item" id={id ?? undefined} data-uuid={uuid} bind:this={itemElement}>
-    {#if is_published == 1} 
+    {#if isPublished == 1} 
         <div class="container">
 
             {#if layout == MEDIA_POSITION.RIGHT}
-
-                {#if wrap_text}
+                {#if wrapText}
                     <div class="item-content wrap-text text media-right">
-                        <div class="media" style="width:{media_width}%">
-                            <Media_Display {item} />
+                        <div class="media" style="width:{mediaWidth}%">
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <svelte:component this={mediaComponent} {item} />
+                            </a>
                         </div>
-                        {text}
+                        <Text_Display {item} />
                     </div>
                 {:else}
                     <div class="item-content media-right">
-                        <div class="media" style="width:{media_width}%">
-                            <Media_Display {item} />
+                        <div class="media" style="width:{mediaWidth}%">
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <svelte:component this={mediaComponent} {item} />
+                            </a>
                         </div>
-                        <div class="text" style="width:{100 - media_width}%">
-                            {text}
+                        <div class="text" style="width:{100 - mediaWidth}%">
+                            <Text_Display {item} />
                         </div>
                     </div>
                 {/if}
 
-                {:else if layout == MEDIA_POSITION.LEFT}
-                    {#if wrap_text}
-                        <div class="item-content wrap-text text media-left">
-                            <div class="media" style="width:{media_width}%">
-                                <Media_Display {item} />
-                            </div>
-                            {text}
-                        </div>
-                    {:else}
-                        <div class="item-content media-left">
-                            <div class="media" style="width:{media_width}%">
-                                <Media_Display {item} />
-                            </div>
-                            <div class="text" style="width:{100 - media_width}%">
-                                {text}
-                            </div>
-                        </div>
-                    {/if}
-                    
-                {:else if layout == MEDIA_POSITION.TOP}
-                    <div class="item-content media-top">
-                        <div class="media">
+            {:else if layout == MEDIA_POSITION.LEFT}
+                {#if wrapText}
+                    <div class="item-content wrap-text text media-left">
+                        <div class="media" style="width:{mediaWidth}%">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <Media_Display {item} />
+                                <svelte:component this={mediaComponent} {item} />
                             </a>
                         </div>
-                        <div class="text">
-                            <Text_Display {item} />
-                        </div>
-                    </div>
-
-                {:else if layout == MEDIA_POSITION.BOTTOM}
-                    <div class="item-content media-bottom">
-                        <div class="text">
-                            <Text_Display {item} />
-                        </div>
-                        <div class="media">
-                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <Media_Display {item} />
-                            </a>
-                        </div>
-                    </div>
-
-                {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
-                    <div class="item-content">
-                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                            <Media_Display {item} />
-                        </a>
-                    </div>
-
-                {:else if layout == MEDIA_POSITION.TEXT_ONLY}
-                    <div class="item-content">
                         <Text_Display {item} />
                     </div>
-
+                {:else}
+                    <div class="item-content media-left">
+                        <div class="media" style="width:{mediaWidth}%">
+                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                                <svelte:component this={mediaComponent} {item} />
+                            </a>
+                        </div>
+                        <div class="text" style="width:{100 - mediaWidth}%">
+                            <Text_Display {item} />
+                        </div>
+                    </div>
                 {/if}
+                
+            {:else if layout == MEDIA_POSITION.TOP}
+                <div class="item-content media-top">
+                    <div class="media media-fullwidth" style="width:{mediaWidth}%">
+                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                            <svelte:component this={mediaComponent} {item} />
+                        </a>
+                    </div>
+                    <div class="text">
+                        <Text_Display {item} />
+                    </div>
+                </div>
+
+            {:else if layout == MEDIA_POSITION.BOTTOM}
+                <div class="item-content media-bottom">
+                    <div class="text">
+                        <Text_Display {item} />
+                    </div>
+                    <div class="media media-fullwidth" style="width:{mediaWidth}%">
+                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                            <svelte:component this={mediaComponent} {item} />
+                        </a>
+                    </div>
+                </div>
+
+            {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
+                <div class="item-content">
+                    <div class="media media-fullwidth" style="width:{mediaWidth}%">
+                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                            <svelte:component this={mediaComponent} {item} />
+                        </a>
+                    </div>
+                </div>
+
+            {:else if layout == MEDIA_POSITION.TEXT_ONLY}
+                <div class="item-content">
+                    <Text_Display {item} />
+                </div>
+
+            {/if}
 
         </div>
     {/if}
@@ -160,6 +194,10 @@
 
     .item-content {
         width: 100%;
+    }
+
+    .media-fullwidth {
+        margin: 0 auto;
     }
 
     .media-right > .media {
@@ -188,26 +226,26 @@
         padding: 30px 0 0 0;
     }
 
-    :global(.caption) {
+    :global(.item .caption) {
         font-style: italic;
         font-size: 0.8em;
     }
 
-    :global(button:not(:first-child)) {
+    :global(.item button:not(:first-child)) {
         margin-left: 20px;
     }
 
-    :global(.item-component a) {
+    :global(.item a) {
         color: black;
         text-decoration: none;
     }
 
-    :global(.item-component > a) {
+    :global(.item > a) {
         height: 100%;
         display: block;
     }
 
-    :global(.item-component .image > .content) {
+    :global(.item .image > .content) {
         height: 100%;
     }
 
