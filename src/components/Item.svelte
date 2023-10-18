@@ -24,10 +24,11 @@
     let itemType;
     let title;
     let text;
-    let isPublished;
     let layout;
     let mediaWidth;
     let wrapText;
+    let showTitle;
+    let isPublished;
     let styles;
 
     const dispatch = createEventDispatcher();
@@ -44,6 +45,7 @@
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
         wrapText    = item.wrap_text ?? 1;
+        showTitle   = item.show_title ?? 0;
         styles      = item.styles || null;
 
         if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: item: ${uuid}`);
@@ -139,6 +141,7 @@
                 
             {:else if layout == MEDIA_POSITION.TOP}
                 <div class="item-content media-top">
+                    {#if showTitle}<h4>{title}</h4>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
                             <svelte:component this={mediaComponent} {item} />
@@ -163,6 +166,7 @@
 
             {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
                 <div class="item-content">
+                    {#if showTitle}<h4>{title}</h4>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
                             <svelte:component this={mediaComponent} {item} />
