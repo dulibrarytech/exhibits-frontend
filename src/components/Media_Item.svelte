@@ -44,7 +44,7 @@
         /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
         if(URL_PATTERN.test(resource) == false) {
             filename = resource;
-            resource = Resource.getUrl(resource);
+            resource = Resource.getFileUrl(resource);
         }
         /* else: just pass on the resource url to the viewer */
 

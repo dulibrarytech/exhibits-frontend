@@ -2,17 +2,18 @@
     /*
      * template downloaded from: https://www.bootdey.com/snippets/view/Search-users-page-result
      */
-    export let result = {};
-    export let index = null;
+    import Item_Preview from '../../components/Item_Preview.svelte';
 
-    let thumbnail;
+    export let result = {};
+
+    //let thumbnail;
     let link;
     let title;
     let description; 
     let date;
 
     $: {
-        thumbnail = result.thumbnail_image || null;
+       // thumbnail = result.thumbnail_image || null;
         link = result.link || "#";
         title = result.title || "No Title";
         description = result.description || null;
@@ -22,7 +23,9 @@
 </script>
 
 <section class="search-result-item">
-    {#if thumbnail}<a class="image-link" href={link}><img class="image" src={thumbnail}></a>{/if}
+    <!-- {#if thumbnail}<a class="image-link" href={link}><img class="image" src={thumbnail}></a>{/if} -->
+    <a class="image-link" href={link}><Item_Preview item={result} width="200" /></a>
+
     <div class="search-result-item-body">
         <div class="row">
             <!-- left side content -->

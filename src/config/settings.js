@@ -11,7 +11,7 @@ export const Settings = {
     mimeTypes: {
         [ITEM_TYPE.IMAGE]:        ['image/jpg', 'image/jpeg', 'image/png'], // use <img>
         [ITEM_TYPE.LARGE_IMAGE]:  ['image/tiff'], // use OSD viewer
-        [ITEM_TYPE.AUDIO]:        ['audio/mp3', 'audio/mpeg'], // audio player (html initially)
+        [ITEM_TYPE.AUDIO]:        ['audio/mp3', 'audio/mpeg', 'audio/x-wav'], // audio player (html initially)
         [ITEM_TYPE.VIDEO]:        ['video/mp4', 'video/mov'], // video player (html initially)
         [ITEM_TYPE.PDF]:          ['application/pdf'] // pdf viewer
     },
@@ -42,12 +42,12 @@ export const Settings = {
     kalturaThumbnailHeight: "250",
 
     /*
-     * Thumbnail properties
+     * placeholder image properties
      */
-    thumbnailImageLocation: "/storage/tn",
-    thumbnailImageHeight: "",
-    thumbnailImageWidth: "200",
-    thumbnailIcon: {
+    placeholderImageLocation: "/storage/tn",
+    placeholderImageHeight: "",
+    placeholderImageWidth: "400",
+    placeholderImage: {
         DEFAULT: "image-tn.png",
         IMAGE: "image-tn.png",
         AUDIO: "audio-tn.png",
@@ -69,6 +69,15 @@ export const Settings = {
     defaultHeroImage: null,
     heroSliderAutoplayEnabled: false,
     heroSliderAutoplayDuration: 5000,
+
+    /*
+     * repository 
+     */
+    repositoryObjectDataEndpoint: "/repository/data/{item_id}?key=aec05269d7acf72b1d17f0eb354dd2f0",
+    repositoryDatastreamUrl: "/datastream/{item_id}",
+    repositoryThumbnailDatastreamEndpoint: "tn",
+    repositoryImageDatastreamEndpoint: "jpg",
+    repositoryObjectDatastreamEndpoint: "object",
 
     /* 
      * Index fields included in search (in 'search all', when search field is not specified by user)

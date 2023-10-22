@@ -116,7 +116,7 @@
             if(style == 'backgroundImage') {
                 let filename = template[style];  
                 let exhibitPage = document.querySelector(".exhibit-page");              
-                if(exhibitPage) exhibitPage.style[style] = `url('${ Resource.getUrl(filename) }')`;
+                if(exhibitPage) exhibitPage.style[style] = `url('${ Resource.getFileUrl(filename) }')`;
             }
             else {
                 /* Apply exhibit template theme to body element */

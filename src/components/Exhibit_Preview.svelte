@@ -11,19 +11,29 @@
 
     let exhibitPath = null;
     let thumbnail = null;
+    let heroImage;
     let title;
     let subtitle;
     let styles;
+
+    const EXHIBIT_THUMBNAIL_WIDTH = "400";
+    const EXHIBIT_THUMBNAIL_HEIGHT = "400";
 
     $: init();
 
     const init = () => {
         exhibitPath = `/exhibit/${exhibit.uuid}`;
+        heroImage = exhibit.hero_image || null;
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
         styles = exhibit.styles.hero || {};
         
-        if(!thumbnail) thumbnail = Resource.getExhibitThumbnailUrl(exhibit);
+        if(!thumbnail) thumbnail = Resource.getImageDerivativeUrl({
+            type: 'crop',
+            filename: heroImage || "",
+            width: EXHIBIT_THUMBNAIL_WIDTH,
+            height: EXHIBIT_THUMBNAIL_HEIGHT
+        });
     }
 
     const setTheme = () => {
@@ -92,17 +102,6 @@
         height: 100%;
         position: relative;
         border-radius: 5px;
-    }
-
-    .title {
-        position: absolute;
-        bottom: 0;
-        z-index: 10;
-        padding: 20px;
-    }
-
-    .title hr {
-        height: 2px;
     }
 
     .overlay {

@@ -6,7 +6,6 @@
     import Exhibit_Heading from './partials/Exhibit_Heading.svelte';
     import Item from '../components/Item.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
-    //import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline.svelte';
     import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline_2.svelte';
 
     import {ENTITY_TYPE, ITEM_TEMPLATE} from '../config/global-constants';
@@ -67,11 +66,7 @@
 </div>
 
 <style>
-/* .exhibit-template {
-    padding-top: 85px;
-} */
-
-:global(.caption) {
-    color: inherit;
-}
-</style>X
+    :global(.caption) {
+        color: inherit;
+    }
+</style>

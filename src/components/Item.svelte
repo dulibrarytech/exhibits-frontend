@@ -6,7 +6,6 @@
     import { Resource } from '../libs/resource';
     
     import Text_Display from './Text_Display.svelte';
-    import Media_Display from './Media_Display.svelte';
     import Item_Preview from './Item_Preview.svelte';
 
     import { MEDIA_POSITION, MEDIA_BLOCK_WIDTH, ITEM_TYPE } from '../config/global-constants';
@@ -21,7 +20,7 @@
     let mediaComponent;
 
     let uuid;
-    let itemType;
+    //let itemType;
     let title;
     let text;
     let layout;
@@ -38,7 +37,6 @@
     const init = () => {
 
         uuid        = item.uuid;
-        itemType    = item.item_type || ITEM_TYPE.IMAGE;
         title       = item.title || null;
         text        = item.text || "";
         isPublished = item.is_published ?? 0;
@@ -48,17 +46,7 @@
         showTitle   = item.show_title ?? 0;
         styles      = item.styles || null;
 
-        if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: item: ${uuid}`);
-
-        switch(itemType) {
-            case ITEM_TYPE.LARGE_IMAGE:
-            case ITEM_TYPE.PDF:
-            case ITEM_TYPE.EXTERNAL_SOURCE:
-                mediaComponent = Item_Preview;
-                break;
-            default:
-                mediaComponent = Media_Display;
-        }
+        if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
     }
 
     const setTheme = (styles) => {
@@ -66,14 +54,13 @@
 
             if(style == "backgroundImage") {
                 let filename = styles.item[style];
-                itemElement.style[style] = `url('${ Resource.getUrl(filename) }')`;
+                itemElement.style[style] = `url('${ Resource.getFileUrl(filename) }')`;
             }
 
             else {
                 if(style == "width") {
                     itemElement.style.marginBottom = "80px";
                 }
-
                 itemElement.style[style] = styles.item[style];  
             }
         }
@@ -98,7 +85,7 @@
                     <div class="item-content wrap-text text media-right">
                         <div class="media" style="width:{mediaWidth}%">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <svelte:component this={mediaComponent} {item} />
+                                <Item_Preview {item} />
                             </a>
                         </div>
                         <Text_Display {item} />
@@ -107,7 +94,7 @@
                     <div class="item-content media-right">
                         <div class="media" style="width:{mediaWidth}%">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <svelte:component this={mediaComponent} {item} />
+                                <Item_Preview {item} />
                             </a>
                         </div>
                         <div class="text" style="width:{100 - mediaWidth}%">
@@ -121,7 +108,7 @@
                     <div class="item-content wrap-text text media-left">
                         <div class="media" style="width:{mediaWidth}%">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <svelte:component this={mediaComponent} {item} />
+                                <Item_Preview {item} />
                             </a>
                         </div>
                         <Text_Display {item} />
@@ -130,7 +117,7 @@
                     <div class="item-content media-left">
                         <div class="media" style="width:{mediaWidth}%">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <svelte:component this={mediaComponent} {item} />
+                                <Item_Preview {item} />
                             </a>
                         </div>
                         <div class="text" style="width:{100 - mediaWidth}%">
@@ -144,7 +131,7 @@
                     {#if showTitle}<h4>{title}</h4>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                            <svelte:component this={mediaComponent} {item} />
+                            <Item_Preview {item} />
                         </a>
                     </div>
                     <div class="text">
@@ -159,7 +146,7 @@
                     </div>
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                            <svelte:component this={mediaComponent} {item} />
+                            <Item_Preview {item} />
                         </a>
                     </div>
                 </div>
@@ -169,7 +156,7 @@
                     {#if showTitle}<h4>{title}</h4>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                            <svelte:component this={mediaComponent} {item} />
+                            <Item_Preview {item} />
                         </a>
                     </div>
                 </div>

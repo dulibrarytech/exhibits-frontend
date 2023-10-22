@@ -20,17 +20,27 @@
  */
 
 'use strict'
-
-import { Configuration } from '../config/config.js';
 import axios from 'axios';
 
+import { Configuration } from '../config/config.js';
+import { Settings } from '../config/settings.js';
+import { getItemTypeForMimeType } from '../libs/media_helpers';
+import {ITEM_TYPE} from '../config/global-constants';
+
 export const Repository = (() => {
-    var {   repositoryDomain,
-            repositoryDatastreamEndpoint,
-            repositoryTNDatastreamEndpoint,
-            repositoryItemDataEndpoint
+    var {   
+            repositoryDomain,
             
         } = Configuration;
+
+    var {
+        repositoryObjectDataEndpoint,
+        repositoryDatastreamUrl,
+        repositoryThumbnailDatastreamEndpoint,
+        repositoryImageDatastreamEndpoint,
+        repositoryObjectDatastreamEndpoint
+
+    } = Settings;
 
     /**
     * Fetches the item data from the repository
@@ -38,18 +48,22 @@ export const Repository = (() => {
     * @param {string} id - The item id
     */
     const getItemData = async (id) => {
-        let data = [];
-        let url = `${repositoryDomain}${(repositoryItemDataEndpoint.replace("{item_id}", id))}`;
 
-        try {
-            let response = await axios.get(url);
-            ({data} = response);
-        }
-        catch(e) {
-            throw e;
-        }
+        return new Promise(function(resolve, reject) {
+            let url = `${repositoryDomain}${(repositoryObjectDataEndpoint.replace("{item_id}", id))}`;
 
-        return data;
+            axios.get(url)
+                .then(function (response) {
+                    resolve(response.data);
+                })
+                .catch(function (e) {
+                    reject(e);
+                })
+                .finally(function () {
+                    // always executed
+                });
+
+        });
     }
 
     /**
@@ -72,11 +86,15 @@ export const Repository = (() => {
     }
 
     const getItemDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamEndpoint.replace("{item_id}", id))}`;
+        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryObjectDatastreamEndpoint}`;
     }
 
-    const getItemTNDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryTNDatastreamEndpoint.replace("{item_id}", id))}`;
+    const getItemThumbnailDatastreamUrl = (id) => {
+        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryThumbnailDatastreamEndpoint}`;
+    }
+
+    const getItemImageDatastreamUrl = (id) => {
+        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryImageDatastreamEndpoint}`;
     }
 
     const getItemIIIFManifestUrl = (id) => {
@@ -87,11 +105,47 @@ export const Repository = (() => {
         return url;
     }
 
+    const getPreviewImageUrl = async (id) => {
+        let url = null;
+        let object = await getItemData(id);
+
+        let mimeType = object.mime_type;
+        let itemType = getItemTypeForMimeType(mimeType) || "null";
+
+        switch(itemType) {
+            case ITEM_TYPE.IMAGE: // image ds
+                url = getItemImageDatastreamUrl(id);
+                break;
+
+            case ITEM_TYPE.LARGE_IMAGE: // image ds
+                url = getItemImageDatastreamUrl(id);
+                break;
+
+            case ITEM_TYPE.AUDIO: // null (previews use placeholder image)
+                break;
+
+            case ITEM_TYPE.VIDEO: // null
+                break;
+
+            case ITEM_TYPE.PDF: // pdf ds
+                url = getItemImageDatastreamUrl(id);
+                break;
+
+            default:
+                console.error(`Invalid item type: ${itemType}, repository item mime type: ${mimeType}`);
+                break;
+        }
+
+        return url;
+    }
+
     return {
         getItemData,
         getItemDatastream,
         getItemDatastreamUrl,
-        getItemTNDatastreamUrl,
-        getItemIIIFManifestUrl
+        getItemThumbnailDatastreamUrl,
+        getItemImageDatastreamUrl,
+        getItemIIIFManifestUrl,
+        getPreviewImageUrl
     };
 })()
