@@ -30,7 +30,7 @@
         }
     }
 
-    const onClickPreview = (event) => {
+    const onClickItem = (event) => {
         let itemId = event.detail.itemId || null;
         if(itemId) dispatch('click-item', {itemId});
     }
@@ -47,7 +47,7 @@
                 {#each items as item}
                     {#if item.is_published}
                         <div class="col-xl-{bootstrapColumnValue} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}">
-                            <Grid_Item_Image_Text {item} on:click-preview={onClickPreview} /> 
+                            <Grid_Item_Image_Text {item} on:click-preview={onClickItem} /> 
                         </div>
                     {/if}
                 {/each}

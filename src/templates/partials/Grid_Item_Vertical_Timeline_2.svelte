@@ -49,7 +49,7 @@
         }
     }
 
-    const showModalViewer = (event) => {
+    const onClickPreview = (event) => {
         let itemId = event.target.getAttribute('data-item-id') || null;
         if(itemId) dispatch('click-preview', {itemId});
     }
@@ -77,7 +77,7 @@
         <hr>
         <div class="card__content">
             {#if media} 
-                <a href data-item-id={id} on:click={showModalViewer}>
+                <a href data-item-id={id} on:click={onClickPreview}>
                     <Item_Preview {item} />
                 </a>
             {/if}
