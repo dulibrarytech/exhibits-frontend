@@ -44,12 +44,12 @@
     .site-menu-toggle {
         position: absolute;
         right: 9px;
-        top: -3px;
+        top: -5px;
         z-index: 10;
     }
 
     .site-menu-toggle i {
-        font-size: 2.2em;
+        font-size: 40px;
         color: white;
     }
 

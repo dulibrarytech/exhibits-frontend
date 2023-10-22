@@ -19,6 +19,10 @@ const onClickLink = (event) => {
 </div>
 
 <style>
+    .exhibit-menu {
+        background: white;
+        font-size: 16px;
+    }
     .exhibit-menu-links {
         height: 30px;
         position: relative;
