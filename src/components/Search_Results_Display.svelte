@@ -53,7 +53,7 @@
                 result[field] = highlightTerms(terms, result[field]);
             }
 
-            if(!result.thumbnail_image) result.thumbnail_image = Resource.getThumbnailUrl(result);
+            //if(!result.thumbnail_image) result.thumbnail_image = Resource.getThumbnailUrl(result);
 
             if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
         });

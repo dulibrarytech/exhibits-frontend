@@ -5,6 +5,8 @@
     import { Resource } from '../libs/resource';
 
     export let exhibit = {};
+    export let width = null;
+    export let height = null;
 
     let titleTextElement;
     let overlayDisplay;
@@ -26,13 +28,16 @@
         heroImage = exhibit.hero_image || null;
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
-        styles = exhibit.styles.hero || {};
+        styles = exhibit.styles?.hero || {};
+
+        if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
+        if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
         
         if(!thumbnail) thumbnail = Resource.getImageDerivativeUrl({
             type: 'crop',
             filename: heroImage || "",
-            width: EXHIBIT_THUMBNAIL_WIDTH,
-            height: EXHIBIT_THUMBNAIL_HEIGHT
+            width,
+            height
         });
     }
 

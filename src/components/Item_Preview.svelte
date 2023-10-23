@@ -37,8 +37,8 @@
         styles = item.styles || null;
 
         if(!resource) console.log("Item has null 'media' value");
-        preview = await getPreviewSourceUrl(itemType, resource);
-        if(!preview) console.log("Preview image source url not found")
+        preview = await getPreviewSourceUrl(itemType, resource, width, height);
+        if(!preview) console.log("Preview image source url not found");
     }
 
     const setTheme = (styles) => {
@@ -49,7 +49,7 @@
         }
     }
 
-    const getPreviewSourceUrl = async (itemType, media) => {
+    const getPreviewSourceUrl = async (itemType, media, width=null, height=null) => {
         let url = "";
 
         if(thumbnail) {
