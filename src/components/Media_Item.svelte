@@ -126,7 +126,9 @@
                 url = Resource.getImageTileSourceUrl(filename);
             }
         }
-        else console.error(`Can't render a tile image from remote url. Resource url: ${url}`);
+        else {
+            url = resource;
+        }
 
         params = {url, caption, isTileImage, imageType};
         component = Image_Viewer;

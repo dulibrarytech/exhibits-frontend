@@ -30,6 +30,7 @@ import {ITEM_TYPE} from '../config/global-constants';
 export const Repository = (() => {
     var {   
             repositoryDomain,
+            repositoryIIIFTilesource,
             
         } = Configuration;
 
@@ -97,10 +98,18 @@ export const Repository = (() => {
         return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryImageDatastreamEndpoint}`;
     }
 
-    const getItemIIIFManifestUrl = (id) => {
+    const getIIIFManifestUrl = (id) => {
         let url = null;
         if(id) {
             url = iiifManifestUrl.replace('{item_id}', id);
+        }
+        return url;
+    }
+
+    const getIIIFTilesourceUrl = (id) => {
+        let url = null;
+        if(id) {
+            url = repositoryIIIFTilesource.replace('{item_id}', id);
         }
         return url;
     }
@@ -148,7 +157,8 @@ export const Repository = (() => {
         getItemDatastreamUrl,
         getItemThumbnailDatastreamUrl,
         getItemImageDatastreamUrl,
-        getItemIIIFManifestUrl,
+        getIIIFManifestUrl,
+        getIIIFTilesourceUrl,
         getPreviewImageUrl
     };
 })()

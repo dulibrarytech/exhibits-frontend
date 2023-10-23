@@ -3,11 +3,15 @@
     import { Repository } from '../libs/repository';
     import Media_Item from './Media_Item.svelte';
     import IIIF_Item from './IIIF_Item.svelte';
+
+    import { ITEM_TYPE } from '../config/global-constants.js';
     
     export let item;
     export let args = {};
 
-    /* Define repository item fields */
+    // get repositoryIIIFTilesource 
+
+    /* repository item fields */
     const ID_FIELD = "pid";
     const MIME_TYPE_FIELD = "mime_type";
     const METADATA_OBJECT_FIELD = "display_record";
@@ -34,9 +38,16 @@
         .then((repoItem) => {
             message = "";
 
-            params.media = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null )
-            params = {...params, ...repoItem};
-            params.type = getItemTypeForMimeType( repoItem[MIME_TYPE_FIELD] || null );
+            let type = getItemTypeForMimeType( repoItem[MIME_TYPE_FIELD] || null );
+            if(type == ITEM_TYPE.LARGE_IMAGE) {
+                params.media = Repository.getIIIFTilesourceUrl( repoItem[ID_FIELD] || null ); 
+            }
+            else {
+                params.media = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null ); 
+            }            
+            
+            
+            params = {...params, ...args, ...repoItem, type};
             params.metadata = repoItem[METADATA_OBJECT_FIELD] || {};
 
             if(isIIIF) {
