@@ -22,7 +22,7 @@
     let preview = null;
 
     const PLACEHOLDER_IMAGE = Settings.placeholderImage;
-    const PLACEHOLDER_IMAGE_PATH = Settings.placeholderImageLocation;
+    //const PLACEHOLDER_IMAGE_PATH = Settings.thumbnailImageLocation;
     const LARGE_IMAGE_PREVIEW_WIDTH = 1000;
 
     $: init();
@@ -53,16 +53,16 @@
         let url = "";
 
         if(thumbnail) {
-            url = thumbnail;
+            url = Resource.getThumbnailFileUrl(thumbnail);
         }
         else {
             switch(itemType) {
                 case ITEM_TYPE.REPO:
-                    url = await Repository.getPreviewImageUrl(media) || `${PLACEHOLDER_IMAGE_PATH}/${PLACEHOLDER_IMAGE.DEFAULT}`;
+                    url = await Repository.getPreviewImageUrl(media) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.DEFAULT);
                     break;
 
                 case ITEM_TYPE.IMAGE:
-                    url = Resource.getIIIFImageUrl(media, width, height) || `${PLACEHOLDER_IMAGE_PATH}/${PLACEHOLDER_IMAGE.IMAGE}`;
+                    url = Resource.getIIIFImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
                     break;
 
                 case ITEM_TYPE.LARGE_IMAGE:
@@ -72,19 +72,19 @@
                         height: height || undefined
                     }
 
-                    url = Resource.getImageDerivativeUrl(data) || `${PLACEHOLDER_IMAGE_PATH}/${PLACEHOLDER_IMAGE.IMAGE}`;
+                    url = Resource.getImageDerivativeUrl(data) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
                     break;
 
                 case ITEM_TYPE.AUDIO:
-                    url = Resource.getAudioPreviewImageUrl(media, width, height) || `${PLACEHOLDER_IMAGE_PATH}/${PLACEHOLDER_IMAGE.AUDIO}`;
+                    url = Resource.getAudioPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.AUDIO);
                     break;
 
                 case ITEM_TYPE.VIDEO:
-                    url = Resource.getVideoPreviewImageUrl(media, width, height) || `${PLACEHOLDER_IMAGE_PATH}/${PLACEHOLDER_IMAGE.VIDEO}`;
+                    url = Resource.getVideoPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.VIDEO);
                     break;
 
                 case ITEM_TYPE.PDF:
-                    url = Resource.getPdfPreviewImageUrl(media, width, height) || `${PLACEHOLDER_IMAGE_PATH}/${PLACEHOLDER_IMAGE.PDF}`; 
+                    url = Resource.getPdfPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.PDF);
                     break;
 
                 case ITEM_TYPE.EXTERNAL_SOURCE:

@@ -213,6 +213,7 @@ export const data = [
         "is_member_of_exhibit": "00509704-bdaa-4a6b-a6b0-4f6007b1b2fe",
         "caption": "Single pdf object from repo",
         "template": "custom",
+        "thumbnail": "clarion_hidef.jpg",
         "item_type": "repo",
         "media": "e9874674-eee9-4eb2-a104-85aec1436da1",
         "text": "<div><p>In 2017 UNSW Sydney became the caretaker for the <i><b>Dennis Wolanski Library collection</b></i>. The collection was originally part of the Sydney Opera House performing arts library. The collection is international in scope and focuses on the performing arts in Australia, 1789-1997. It consists of 1,600 archive boxes, containing press clippings, theatre programs, press releases, correspondence, and ephemera, and a card index of 80,000 entries.</p><p>"+

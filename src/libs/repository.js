@@ -122,13 +122,16 @@ export const Repository = (() => {
                 break;
 
             case ITEM_TYPE.AUDIO: // null (previews use placeholder image)
+                url = getItemThumbnailDatastreamUrl(id);
                 break;
 
             case ITEM_TYPE.VIDEO: // null
+                url = getItemThumbnailDatastreamUrl(id);
                 break;
 
             case ITEM_TYPE.PDF: // pdf ds
-                url = getItemImageDatastreamUrl(id);
+                //url = getItemImageDatastreamUrl(id);
+                url = getItemThumbnailDatastreamUrl(id);
                 break;
 
             default:

@@ -9,25 +9,25 @@
 
     let {item_type} = item;
 
-        if(item_type) {
-            if(item_type == "repo") {
-                // args = {
-                //     isIIIF: item.is_iiif, 
-                //     id: item.media
-                // }
-                component = Repository_Item;
-            }
-            else {
-                // args = {
-                //     url: item.media,
-                //     type: item_type
-                // }
-                component = Media_Item;
-            }
+    if(item_type) {
+        if(item_type == "repo") {
+            // args = {
+            //     isIIIF: item.is_iiif, 
+            //     id: item.media
+            // }
+            component = Repository_Item;
         }
         else {
-            console.error("Item type not found:", item_type);
+            // args = {
+            //     url: item.media,
+            //     type: item_type
+            // }
+            component = Media_Item;
         }
+    }
+    else {
+        console.error("Item type not found:", item_type);
+    }
 </script>
 
 {#if component}

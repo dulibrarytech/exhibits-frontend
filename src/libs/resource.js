@@ -1,19 +1,33 @@
 'use strict'
 
 import { Configuration } from '../config/config.js';
+import { Settings } from '../config/settings.js';
 
 export const Resource = (() => {
-    var { 
+    let { 
         resourceLocation,
         iiifImageServerUrl
     
     } = Configuration;
 
+    let {
+        thumbnailImageLocation
+
+    } = Settings;
+
     /**
-     * TODO external image server api
+     * 
      */
     const getFileUrl = (filename="null") => { // TODO rename to getFilePath()
         return `${resourceLocation}/${filename}`; // local folder for dev
+        // TODO stream from remote image server
+    }
+
+    /**
+     * 
+     */
+    const getThumbnailFileUrl = (filename="null") => { // TODO rename to getFilePath()
+        return `${resourceLocation}/${thumbnailImageLocation}/${filename}`; // local folder for dev
         // TODO stream from remote image server
     }
 
@@ -91,6 +105,7 @@ export const Resource = (() => {
 
     return {
         getFileUrl,
+        getThumbnailFileUrl,
         getIIIFImageUrl,
         getAudioPreviewImageUrl,
         getVideoPreviewImageUrl,

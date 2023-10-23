@@ -12,7 +12,7 @@
     let overlayDisplay;
 
     let exhibitPath = null;
-    let thumbnail = null;
+    let thumbnail;
     let heroImage;
     let title;
     let subtitle;
@@ -25,6 +25,7 @@
 
     const init = () => {
         exhibitPath = `/exhibit/${exhibit.uuid}`;
+        thumbnail = exhibit.thumbnail || null;
         heroImage = exhibit.hero_image || null;
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
@@ -33,12 +34,16 @@
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
         
-        if(!thumbnail) thumbnail = Resource.getImageDerivativeUrl({
-            type: 'crop',
-            filename: heroImage || "",
-            width,
-            height
-        });
+        if(!thumbnail) {
+            
+            thumbnail = Resource.getImageDerivativeUrl({
+                type: 'crop',
+                filename: heroImage || "",
+                width,
+                height
+            });
+        }
+        else thumbnail = Resource.getThumbnailFileUrl(thumbnail);
     }
 
     const setTheme = () => {
