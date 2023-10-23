@@ -62,6 +62,17 @@
 		width: 100%;
 	}
 
+	/* dialog control buttons/openseadragon buttons */
+	:global(.modal-dialog-window .dialog-controls button, .modal-dialog-window .controls > button) {
+		width: 40px;
+		height: 40px;
+	}
+	:global(.modal-dialog-window .dialog-controls button > i, .modal-dialog-window .controls > button > i) {
+		bottom: 1px;
+    	position: relative;
+	}
+	/* End dialog control buttons/openseadragon buttons */
+
     .dialog-content {
 		height: 100%;
 	}
