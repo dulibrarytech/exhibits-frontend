@@ -9,8 +9,6 @@
     export let item;
     export let args = {};
 
-    // get repositoryIIIFTilesource 
-
     /* repository item fields */
     const ID_FIELD = "pid";
     const MIME_TYPE_FIELD = "mime_type";
@@ -37,15 +35,14 @@
         Repository.getItemData(itemId)
         .then((repoItem) => {
             message = "";
-
             let type = getItemTypeForMimeType( repoItem[MIME_TYPE_FIELD] || null );
+
             if(type == ITEM_TYPE.LARGE_IMAGE) {
                 params.media = Repository.getIIIFTilesourceUrl( repoItem[ID_FIELD] || null ); 
             }
             else {
                 params.media = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null ); 
             }            
-            
             
             params = {...params, ...args, ...repoItem, type};
             params.metadata = repoItem[METADATA_OBJECT_FIELD] || {};
@@ -64,10 +61,16 @@
     }
 </script>
 
-<div class="item">
+<div class="repository-item">
     {#if component}
         <svelte:component this={component} {item} args={params} />
     {:else if message}
         <h5>{message}</h5>
     {/if}
 </div>
+
+<style>
+    .repository-item {
+        height: 100%;
+    }
+</style>
