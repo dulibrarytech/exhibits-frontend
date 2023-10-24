@@ -1,5 +1,6 @@
 <script>
     'use strict'
+    
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     
@@ -11,6 +12,7 @@
     import {ENTITY_TYPE, ITEM_TEMPLATE} from '../config/global-constants';
 
     export let items;
+    export let styles = null;
 
     const dispatch = createEventDispatcher();
 
@@ -46,7 +48,7 @@
 
                 <!-- exhibit heading -->
                 {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
-                    <Exhibit_Heading id={anchorId} {text} {subtext} display={is_visible} />
+                    <Exhibit_Heading id={anchorId} {text} {subtext} styles={styles?.heading || null} display={is_visible} />
                     
                 <!--exhibit item - row layout -->
                 {:else if type == ENTITY_TYPE.ITEM}

@@ -1,7 +1,15 @@
 <script>
+    'use strict'
+
+    import { onMount } from 'svelte';
+
     export let sections = null;
+    export let styles = null;
 
     let sectionHeadings = null;
+    let navigationElement;
+
+    $: init();
 
     const init = () => {
         //sectionHeadings = truncateHeadingText(sections);
@@ -33,31 +41,80 @@
 		})
 	}
 
-    $: init();
+    const setTheme = (styles) => {
+        let menuStyles = styles.menu || {};
+
+        // set nav section
+        for(let style in menuStyles) {
+            navigationElement.style[style] = menuStyles[style];
+        }
+    }
+    
+
+    onMount(async () => {
+        if(styles) setTheme(styles);
+    });
 </script>
 
-<ul class="nav nav-link navbar-nav ms-auto">
-    {#if sectionHeadings}
-        {#each sectionHeadings as {id, text, subheadings = null}}
-            <li class="px-1" title={text}>
-                <a class="main-menu-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a>
-            
+<nav class="exhibit-navigation navbar navbar-expand-lg navbar-light sticky-top" id="mainNav" bind:this={navigationElement}>
+    <div class="container outer-container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
 
-                {#if subheadings.length > 0}
+            <ul class="nav nav-link navbar-nav ms-auto">
+                {#if sectionHeadings}
+                    {#each sectionHeadings as {id, text, subheadings = null}}
+                        <li class="px-1" title={text}>
+                            <a class="main-menu-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a>
+                        
 
-                    <div class="dropdown-nav">
-                        {#each subheadings as {id, text}}
-                            <a class="dropdown-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a>
-                        {/each}
-                    </div>
-                
+                            {#if subheadings.length > 0}
+
+                                <div class="dropdown-nav">
+                                    {#each subheadings as {id, text}}
+                                        <a class="dropdown-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a>
+                                    {/each}
+                                </div>
+                            
+                            {/if}
+                        </li>
+                    {/each}
                 {/if}
-            </li>
-        {/each}
-    {/if}
-</ul>
+            </ul>
+
+        </div>
+    </div>
+</nav>
 
 <style>
+    .exhibit-navigation > div, .navbar-collapse, ul.nav, ul.nav > li, .dropdown-nav {
+        background-color: inherit;
+    }
+
+    .navbar {
+        background: #e5e3e1;
+        min-height: 4.2em;
+        border-bottom-style: solid;
+        border-width: 1px;
+        border-color: #c5c3c1;
+    }
+
+    .navbar > .container {
+        max-width: 100%;
+    }
+
+    .navbar-expand-lg .navbar-nav {
+        gap: 15px;
+    }
+
+    button.navbar-toggler {
+        margin: 0;
+    }
+
+    button.navbar-toggler:focus {
+        box-shadow: none;
+    }
+
     .navbar-nav {
         width: 100%;
         margin-top: 5px;
@@ -89,7 +146,6 @@
 
     .dropdown-nav {
         position: absolute;
-        background: #fff;
         padding: 15px;
         display: none;
         min-width: 160px;
@@ -99,6 +155,12 @@
 
     a.main-menu-link {
         display: block;
+        background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
+    }
+
+    a.main-menu-link:hover {
+        background-image: linear-gradient(rgb(0 0 0/25%) 0 0);
+        text-decoration: none;
     }
 
     a.dropdown-link {

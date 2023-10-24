@@ -2,7 +2,6 @@
     'use-strict'
 
     import { onMount } from 'svelte';
-    import { Resource } from '../libs/resource';
     import { Index } from '../libs/index.js';
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
@@ -17,10 +16,12 @@
 
     export let currentRoute;
 
+    // TODO remove defs from this section
     var id;
     var exhibit = {};
     var template = null;
-    var pageLayout = null;
+    let styles = null;
+    var pageLayout = null; 
     var sections = null;
     var items = [];
     var data = null;
@@ -30,12 +31,13 @@
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
         exhibit = await Index.getExhibit(id);
+        data = exhibit?.data;
 
-        if(exhibit) {
-            data = exhibit.data;
+        if(exhibit && data) {
 
             pageLayout = $Page_Layouts[data.page_layout] || null; // TODO get default from settings
             template = $Templates[data.template] || null;  // TODO get default from settings
+            styles = data.styles?.exhibit || null; // has navigation, template, heading
 
             if(!pageLayout) {
                 console.error(`Could not find a layout for ${data.page_layout}`);
@@ -44,7 +46,7 @@
                 console.error(`Could not find a template for ${data.template}`);
             }
             else {
-                items = exhibit.items;
+                items = exhibit.items || [];
                 sections = createPageSections(items);
             }
         }
@@ -107,46 +109,6 @@
         return pageComponent;
     }
 
-    const setTheme = (styles) => {
-        let {heading={}, navigation={}, template={}} = styles;
-
-        /* Exhibit template theme */
-        for(let style in template) {
-            /* handle special cases that affect the exhibit template */
-            if(style == 'backgroundImage') {
-                let filename = template[style];  
-                let exhibitPage = document.querySelector(".exhibit-page");              
-                if(exhibitPage) exhibitPage.style[style] = `url('${ Resource.getFileUrl(filename) }')`;
-            }
-            else {
-                /* Apply exhibit template theme to body element */
-                document.body.style[style] = template[style];
-            }
-        }
-
-        /* Exhibit heading theme */
-        let headingElements = document.querySelectorAll(".exhibit-heading");
-        for(let element of headingElements) {
-            for(let style in heading) {
-                element.style[style] = heading[style];
-            }
-        }
-
-        /* Navigation menu bar (top) or section (side) theme */
-        let navigationMenu = document.querySelector('.exhibit-navigation');
-        for(let style in navigation.menu) {
-            navigationMenu.style[style] = navigation.menu[style];
-        }
-
-        /* Navigation menu link theme, does not affect navigation menu */
-        let navigationMenuLinks = document.querySelectorAll('.exhibit-navigation .nav-link a.main-menu-link');
-        for(let link of navigationMenuLinks) {
-            for(let style in navigation.links) {
-                link.style[style] = navigation.links[style];
-            }
-        }
-    }
-
     const onOpenViewerModal = (event) => {
         modalDialogData = getItemById((event.detail.itemId || null), items);
         if(!modalDialog) modalDialog = Modal_Media_Display;
@@ -171,10 +133,7 @@
 
     const onOpenExternalPage = (event) => {}
 
-    const onMountPage = (event) => {
-        let styles = data.styles?.exhibit;
-        if(styles) setTheme(styles);
-    }
+    const onMountPage = (event) => {}
 
     onMount(async () => {
         init();
@@ -184,7 +143,8 @@
 {#if pageLayout}
     <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
 
-    <svelte:component this={pageLayout} {data} {template} {sections} {items} on:mount={onMountPage} on:click-item={onOpenViewerModal} />
+    <!-- exhibit Page_Layout_ -->
+    <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} on:mount={onMountPage} on:click-item={onOpenViewerModal} />
 
     {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={onCloseModal} />{/if}
 {:else}

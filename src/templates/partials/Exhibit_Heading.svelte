@@ -1,11 +1,28 @@
 <script>
+    'use strict'
+
+    import { onMount } from 'svelte';
+
     export let id=null;
     export let text="";
     export let subtext="";
     export let display=true;
+    export let styles = null;
+
+    let headingElement;
+
+    export const setTheme = (styles) => {
+        for(let style in styles) {
+            headingElement.style[style] = styles[style];
+        }
+    }
+
+    onMount(async () => {
+        if(styles) setTheme(styles);
+    });
 </script>
 
-<div id={id ?? undefined} class="exhibit-heading">
+<div id={id ?? undefined} class="exhibit-heading" bind:this={headingElement}>
     {#if display}
         <div class="section-heading container">
             <div class="section-title">
