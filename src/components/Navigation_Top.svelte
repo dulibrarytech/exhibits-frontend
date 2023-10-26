@@ -70,11 +70,11 @@
 
                             {#if subheadings.length > 0}
 
-                                <div class="dropdown-nav">
+                                <ul class="dropdown-nav">
                                     {#each subheadings as {id, text}}
-                                        <a class="dropdown-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a>
+                                        <li><a class="dropdown-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a></li>
                                     {/each}
-                                </div>
+                                </ul>
                             
                             {/if}
                         </li>
@@ -87,6 +87,10 @@
 </nav>
 
 <style>
+    .nav-link, .nav-link a {
+        color: inherit;
+    }
+    
     .exhibit-navigation > div, .navbar-collapse, ul.nav, ul.nav > li, .dropdown-nav {
         background-color: inherit;
     }
@@ -121,7 +125,7 @@
     }
 
     .navbar-nav a {
-        color: #505050;
+        /* color: #505050; */
         padding: 8px;
         font-size: 1em;
         font-weight: bold;
@@ -153,6 +157,13 @@
         z-index: 1;
     }
 
+    .dropdown-nav li {
+        list-style-type: none;
+        border-bottom-style: solid;
+        border-bottom-color: gray;
+        border-bottom-width: 1px;
+    }
+
     a.main-menu-link {
         display: block;
         background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
@@ -160,6 +171,11 @@
 
     a.main-menu-link:hover {
         background-image: linear-gradient(rgb(0 0 0/25%) 0 0);
+        text-decoration: none;
+    }
+
+    a.dropdown-link:hover {
+        background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
         text-decoration: none;
     }
 

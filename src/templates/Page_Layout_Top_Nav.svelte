@@ -21,8 +21,6 @@
     }
 
     const setTheme = (styles) => {
-        console.log("TEST exhibit set theme", styles)
-
         for(let style in styles) {
             pageElement.style[style] = styles[style];
         }

@@ -25,7 +25,7 @@
 
     const init = () => {
         exhibitPath = `/exhibit/${exhibit.uuid}`;
-        thumbnail = exhibit.thumbnail || null;
+        thumbnail = exhibit.thumbnail_image || null;
         heroImage = exhibit.hero_image || null;
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
