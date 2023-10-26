@@ -1,5 +1,5 @@
 <script>
-    import Vertical_Scroll from '../../templates/Vertical_Scroll.svelte';
+    import Vertical_Scroll from '../../templates/Template_Vertical_Scroll.svelte';
 
     import {data} from '../data/vertical-scroll.js';
 </script>

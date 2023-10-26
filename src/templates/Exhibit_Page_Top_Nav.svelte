@@ -2,6 +2,8 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     
+    // import {Fonts} from '../config/fonts'; 
+    
     import Hero from './Hero.svelte';
     import Navigation_Top from '../components/Navigation_Top.svelte';
 
@@ -38,7 +40,7 @@
         <Navigation_Top {sections} styles={styles?.navigation || null} />
 
         <!-- exhibit template -->
-        <svelte:component this={template} {sections} {items} {styles} on:click-item={onClickItem} />
+        <svelte:component this={template} {items} {styles} on:click-item={onClickItem} />
     {:else}
         <h3>Loading template...</h3>
     {/if}

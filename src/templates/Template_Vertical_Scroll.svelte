@@ -16,7 +16,7 @@
 
     const dispatch = createEventDispatcher();
 
-    var exhibit = null;
+    let exhibit = null;
 
     const render = () => {
         if(!exhibit) {
@@ -48,7 +48,7 @@
 
                 <!-- exhibit heading -->
                 {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
-                    <Exhibit_Heading id={anchorId} {text} {subtext} styles={styles?.heading || null} display={is_visible} />
+                    <Exhibit_Heading id={anchorId} {text} styles={styles?.heading || null} display={is_visible} />
                     
                 <!--exhibit item - row layout -->
                 {:else if type == ENTITY_TYPE.ITEM}

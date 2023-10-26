@@ -6,6 +6,7 @@
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
     import { getItemById, getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
+    import { Fonts } from '../config/fonts'; 
 
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
     import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
@@ -28,16 +29,20 @@
     var modalDialog = null;
     var modalDialogData = null;
 
+    const FONT_LOCATION = "../assets/fonts";
+
     const init = async () => {
         id = currentRoute.namedParams.id ?? null;
+        console.log(`Loading exhibit: ${id}`);
+
         exhibit = await Index.getExhibit(id);
         data = exhibit?.data;
 
         if(exhibit && data) {
-
+            await importFonts();
             pageLayout = $Page_Layouts[data.page_layout] || null; // TODO get default from settings
             template = $Templates[data.template] || null;  // TODO get default from settings
-            styles = data.styles?.exhibit || null; // has navigation, template, heading
+            styles = data.styles?.exhibit || null;
 
             if(!pageLayout) {
                 console.error(`Could not find a layout for ${data.page_layout}`);
@@ -53,7 +58,33 @@
         else window.location.replace('/404');
     }
 
+    const importFonts = () => {
+        return new Promise(function(resolve, reject) {
+            let fontLocation, fontFace;
+
+            Fonts.forEach((font) => {
+                console.log("Font in", font)
+                let {name="", file=null, url="./"} = font;
+
+                fontLocation = file ? `${FONT_LOCATION}/${file}` : url;
+                fontFace = new FontFace(name, `url(${fontLocation})`);
+
+                fontFace.load().then(function(loaded) {
+                    document.fonts.add(loaded);
+                    console.log(`Loaded user font: ${name}`);
+                    resolve(true);
+
+                }).catch(function(error) {
+                    console.error(`Error loading font: ${font}. Error: ${error}`);
+                    resolve(false);
+                });
+            });
+        });
+    }
+
     const createPageSections = (items) => {
+        console.log("Creating page sections");
+
         let headings = [];
         let heading = null;
         let subheading = null;
@@ -131,9 +162,9 @@
         document.body.classList.remove('modal-open');
     }
 
-    const onOpenExternalPage = (event) => {}
-
-    const onMountPage = (event) => {}
+    const onMountPage = (event) => {
+        console.log("Exhibit loaded successfully");
+    }
 
     onMount(async () => {
         init();
@@ -142,8 +173,7 @@
 
 {#if pageLayout}
     <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
-
-    <!-- exhibit Page_Layout_ -->
+    <!-- exhibit page -->
     <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} on:mount={onMountPage} on:click-item={onOpenViewerModal} />
 
     {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={onCloseModal} />{/if}

@@ -3,8 +3,8 @@ import { writable } from 'svelte/store';
 /**********************************************
  * exhibit page layout template components
  **********************************************/
-import Top_Nav from '../Page_Layout_Top_Nav.svelte';
-import Side_Nav from '../Page_Layout_Side_Nav.svelte';
+import Top_Nav from '../Exhibit_Page_Top_Nav.svelte';
+import Side_Nav from '../Exhibit_Page_Side_Nav.svelte';
 
 /**********************************************
  * {component id} : {component}
