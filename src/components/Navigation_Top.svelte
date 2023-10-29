@@ -167,6 +167,7 @@
     a.main-menu-link {
         display: block;
         background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
+        border-radius: 3px;
     }
 
     a.main-menu-link:hover {
