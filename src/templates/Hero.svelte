@@ -77,6 +77,6 @@
     }
 
     :global(.description-text) {
-        padding: 4.65em;
+        padding: 50px 8%;
     }
 </style>
