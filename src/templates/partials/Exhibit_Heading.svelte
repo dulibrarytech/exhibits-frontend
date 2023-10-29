@@ -36,14 +36,19 @@
 </div>
 
 <style>
+    .exhibit-heading {
+        height: 104px;
+    }
+
     .section-heading {
         padding-top: 25px;
         padding-bottom: 25px;
-        font-size: 1.15em;
-        margin-top: 4.5em;
+        /* font-size: 1.15em; */
     }
 
     .section-heading h3 {
-        font-size: 1.75em;
+        /* font-size: 1.75em; */
+        margin-bottom: 0;
+        font-size: 45px;
     }
 </style>

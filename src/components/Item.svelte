@@ -88,7 +88,9 @@
                                 <Item_Preview {item} />
                             </a>
                         </div>
-                        <Text_Display {item} />
+                        <div class="text">
+                            <Text_Display {item} />
+                        </div>
                     </div>
                 {:else}
                     <div class="item-content media-right">
@@ -111,7 +113,9 @@
                                 <Item_Preview {item} />
                             </a>
                         </div>
-                        <Text_Display {item} />
+                        <div class="text">
+                            <Text_Display {item} />
+                        </div>
                     </div>
                 {:else}
                     <div class="item-content media-left">
@@ -162,7 +166,7 @@
                 </div>
 
             {:else if layout == MEDIA_POSITION.TEXT_ONLY}
-                <div class="item-content">
+                <div class="item-content text">
                     <Text_Display {item} />
                 </div>
 
@@ -174,8 +178,8 @@
 
 <style>
     .item {
-        padding-top: 4.5em;
-        padding-bottom: 4.5em;
+        padding-top: 50px;
+        padding-bottom: 50px;
         margin-left: auto;
         margin-right: auto;
         display: flex;
@@ -222,7 +226,7 @@
         font-size: 0.8em;
     }
 
-    :global(.item button:not(:first-child)) {
+    :global(.item button.item-button:not(:first-child)) {
         margin-left: 20px;
     }
 
