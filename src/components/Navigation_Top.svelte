@@ -126,7 +126,7 @@
 
     .navbar-nav a {
         /* color: #505050; */
-        padding: 8px;
+        padding: 8px 26px;
         font-size: 1em;
         font-weight: bold;
     }
