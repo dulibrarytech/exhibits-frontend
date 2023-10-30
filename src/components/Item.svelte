@@ -59,11 +59,13 @@
 
             else {
                 if(style == "width") {
-                    itemElement.style.marginBottom = "80px";
+                    itemElement.style.marginBottom = "80px"
                 }
                 itemElement.style[style] = styles.item[style];  
             }
         }
+
+        
     }
 
     const showModalViewer = (event) => {
@@ -72,7 +74,7 @@
     }
 
     onMount(async () => {
-        if(styles) setTheme(styles)
+        if(styles) setTheme(styles);
     });
 </script>
 
@@ -88,9 +90,8 @@
                                 <Item_Preview {item} />
                             </a>
                         </div>
-                        <div class="text">
-                            <Text_Display {item} />
-                        </div>
+                        {#if title}<div class="title">{title}</div><br>{/if}
+                        <Text_Display {item} />
                     </div>
                 {:else}
                     <div class="item-content media-right">
@@ -100,6 +101,7 @@
                             </a>
                         </div>
                         <div class="text" style="width:{100 - mediaWidth}%">
+                            {#if title}<div class="title">{title}</div><br>{/if}
                             <Text_Display {item} />
                         </div>
                     </div>
@@ -113,9 +115,8 @@
                                 <Item_Preview {item} />
                             </a>
                         </div>
-                        <div class="text">
-                            <Text_Display {item} />
-                        </div>
+                        {#if title}<div class="title">{title}</div><br>{/if}
+                        <Text_Display {item} />
                     </div>
                 {:else}
                     <div class="item-content media-left">
@@ -125,6 +126,7 @@
                             </a>
                         </div>
                         <div class="text" style="width:{100 - mediaWidth}%">
+                            {#if title}<div class="title">{title}</div><br>{/if}
                             <Text_Display {item} />
                         </div>
                     </div>
@@ -139,6 +141,7 @@
                         </a>
                     </div>
                     <div class="text">
+                        {#if title}<div class="title">{title}</div><br>{/if}
                         <Text_Display {item} />
                     </div>
                 </div>
@@ -146,6 +149,7 @@
             {:else if layout == MEDIA_POSITION.BOTTOM}
                 <div class="item-content media-bottom">
                     <div class="text">
+                        {#if title}<div class="title">{title}</div><br>{/if}
                         <Text_Display {item} />
                     </div>
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
@@ -167,6 +171,7 @@
 
             {:else if layout == MEDIA_POSITION.TEXT_ONLY}
                 <div class="item-content text">
+                    {#if title}<div class="title">{title}</div><br>{/if}
                     <Text_Display {item} />
                 </div>
 
@@ -186,6 +191,11 @@
     }
 
     .item a { color: inherit }
+
+    .title {
+        text-transform: uppercase;
+        font-size: 1.65em;
+    }
 
     .item-content {
         width: 100%;

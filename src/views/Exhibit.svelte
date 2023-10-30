@@ -40,8 +40,9 @@
 
         if(exhibit && data) {
             await importFonts();
-            pageLayout = $Page_Layouts[data.page_layout] || null; // TODO get default from settings
-            template = $Templates[data.template] || null;  // TODO get default from settings
+
+            pageLayout = $Page_Layouts[data.page_layout] || null;
+            template = $Templates[data.template] || null;
             styles = data.styles?.exhibit || null;
 
             if(!pageLayout) {
@@ -63,7 +64,6 @@
             let fontLocation, fontFace;
 
             Fonts.forEach((font) => {
-                console.log("Font in", font)
                 let {name="", file=null, url="./"} = font;
 
                 fontLocation = file ? `${FONT_LOCATION}/${file}` : url;
