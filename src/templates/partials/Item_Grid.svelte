@@ -44,8 +44,8 @@
 </script>
 
 <div class="item-grid" id={id ?? undefined} bind:this={gridElement} >
-    {#if title}<div class="title">{title}</div><br>{/if}
     <div class="container">
+        {#if title}<div class="title">{title}</div><br>{/if}
         <div class="grid-content">
             {#if items}
                 {#each items as item}
@@ -67,7 +67,7 @@
         padding-bottom: 45px;
     }
     .item-grid > .container {
-        display: flex;
+        /* display: flex; */
     }
 
     .grid-content {

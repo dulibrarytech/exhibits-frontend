@@ -10,6 +10,7 @@
     const dispatch = createEventDispatcher();
 
     let timelineSection;
+    let title;
     let items;
     let sections = null;
     let styles;
@@ -17,6 +18,7 @@
     const DEFAULT_TOP_OFFSET = 100;
 
     const init = () => {
+        title = grid.title || null;
         items = grid.items || [];
         styles = grid.styles?.item_grid || null;
         sections = sortItemsToYearSections(items);
@@ -94,9 +96,10 @@
 <div class="vertical-timeline-item-grid" id={id ?? undefined} bind:this={timelineSection}>
 
     <div class="container">
-        <div class="timeline-wrapper">
+        {#if title}<div class="title">{title}</div><br>{/if}
 
-        {#if sections}
+        <div class="timeline-wrapper">
+            {#if sections}
 
             <!-- for section in sections -->
             {#each sections as section, index}

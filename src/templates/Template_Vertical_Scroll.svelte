@@ -68,6 +68,10 @@
 </div>
 
 <style>
+    :global(.title) {
+        text-transform: uppercase;
+        font-size: 1.65em;
+    }
     :global(.caption) {
         color: inherit;
     }
