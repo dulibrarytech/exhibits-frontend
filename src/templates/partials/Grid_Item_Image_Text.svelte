@@ -4,8 +4,9 @@
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
     import Item_Preview from '../../components/Item_Preview.svelte';
+    import Item from '../../components/Item.svelte';
 
-    import {ITEM_TYPE} from '../../config/global-constants';
+    import {ITEM_TYPE, MEDIA_POSITION} from '../../config/global-constants';
 
     export let item;
 
@@ -22,13 +23,18 @@
     var title;
     var description;
 
+    const DEFAULT_MEDIA_WIDTH = "100";
+
     $: {
         id = item.uuid || "null";
         date = item.date || null;
-        title = item.title || null;
+        //title = item.title || null;
         description = item.description || null;
         type = item.item_type || null;
         styles = item.styles || null;
+
+        if(!item.layout) item.layout = MEDIA_POSITION.TOP;
+        if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
     }
 
     const setTheme = (styles) => {
@@ -48,7 +54,7 @@
     }
 
     const onClickPreview = (event) => {
-        let itemId = event.target.getAttribute('data-item-id') || null;
+        let itemId = event.detail.itemId;
         if(itemId) dispatch('click-preview', {itemId});
     }
 
@@ -57,22 +63,15 @@
     });
 </script>
 
-<div class="grid-item item" bind:this={itemElement}>
+<div class="grid-item" bind:this={itemElement}>
     {#if date}
         <div class="date-heading exhibit-heading">
             <div class="item-date">{date}</div>
             <hr>
-            <br>
         </div> 
     {/if}
 
-    {#if title}<div class="title">{title}</div>{/if}
-    {#if type != ITEM_TYPE.TEXT}
-        <a href data-item-id={id} on:click={onClickPreview}>
-            <Item_Preview {item} />
-        </a>
-    {/if}
-    {#if description && description.length > 0}<div class="description top-margin" bind:this={textElement}><p>{@html description}</p></div>{/if}
+    <Item item={item} on:click-item={onClickPreview} />
 </div>
 
 <style>

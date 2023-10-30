@@ -12,6 +12,8 @@
     const dispatch = createEventDispatcher();
 
     let gridElement;
+
+    let title;
     let items;
     let styles;
     let columns;
@@ -20,6 +22,7 @@
     $: {  // init()
         columns = grid.columns || "2";
         bootstrapColumnValue = 12 / columns;
+        title = grid.title || null;
         items = grid.items || [];
         styles = grid.styles?.item_grid || null;
     }
@@ -41,6 +44,7 @@
 </script>
 
 <div class="item-grid" id={id ?? undefined} bind:this={gridElement} >
+    {#if title}<div class="title">{title}</div><br>{/if}
     <div class="container">
         <div class="grid-content">
             {#if items}
@@ -78,6 +82,11 @@
     }
 
     :global(.item-grid .grid-item) {
-        padding: 45px;
+        padding: 30px;
+    }
+
+    :global(.item-grid .item) {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
     }
 </style>

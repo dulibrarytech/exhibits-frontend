@@ -1,9 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
-    
-    // import {Fonts} from '../config/fonts'; 
-    
+        
     import Hero from './Hero.svelte';
     import Navigation_Top from '../components/Navigation_Top.svelte';
 
