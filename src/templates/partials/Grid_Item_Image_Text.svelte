@@ -8,14 +8,14 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import { createEventDispatcher } from 'svelte';
+    //import { createEventDispatcher } from 'svelte';
     import Item from './Item.svelte';
 
     import {ITEM_TYPE, MEDIA_POSITION} from '../../config/global-constants';
 
     export let item;
 
-    const dispatch = createEventDispatcher();
+    //const dispatch = createEventDispatcher();
 
     let itemElement;
 
@@ -50,11 +50,6 @@
         }
     }
 
-    const onClickPreview = (event) => {
-        let itemId = event.detail.itemId;
-        if(itemId) dispatch('click-preview', {itemId});
-    }
-
     onMount(() => {
         if(styles) setTheme(styles); 
     });
@@ -68,7 +63,7 @@
         </div> 
     {/if}
 
-    <Item item={item} args={{showTitle: false, showPreview: true}} on:click-item={onClickPreview} />
+    <Item item={item} args={{showTitle: false, showPreview: true}} on:click-item />
 
     {#if description}<div class="description">{description}</div>{/if}
 </div>

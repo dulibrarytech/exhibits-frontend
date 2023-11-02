@@ -51,7 +51,7 @@
 
     const onClickPreview = (event) => {
         let itemId = event.target.getAttribute('data-item-id') || null;
-        if(itemId) dispatch('click-preview', {itemId});
+        if(itemId) dispatch('click-item', {itemId});
     }
 
     onMount(() => {

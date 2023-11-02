@@ -1,13 +1,13 @@
 <script>
     'use strict'
     import { onMount } from 'svelte';
-    import { createEventDispatcher } from 'svelte';
+    //import { createEventDispatcher } from 'svelte';
     import Grid_Item_Vertical_Timeline_2 from './Grid_Item_Vertical_Timeline_2.svelte';
 
     export let grid = {};
     export let id = null;
 
-    const dispatch = createEventDispatcher();
+    //const dispatch = createEventDispatcher();
 
     let timelineSection;
     let title;
@@ -30,10 +30,10 @@
         }
     }
 
-    const onClickItem = (event) => {
-        let itemId = event.detail.itemId || null;
-        if(itemId) dispatch('click-item', {itemId});
-    }
+    // const onClickItem = (event) => {
+    //     let itemId = event.detail.itemId || null;
+    //     if(itemId) dispatch('click-item', {itemId});
+    // }
 
     /**
      * Sorts the items into sections defined by 'year_label' field:
@@ -113,7 +113,7 @@
                                     <div class="timeline__cards">
             
                                         {#each section.leftItems as item}
-                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-preview={onClickItem} />
+                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
                                         {/each}
             
                                     </div>
@@ -127,7 +127,7 @@
                                     <div class="timeline__cards">
             
                                         {#each section.rightItems as item}
-                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-preview={onClickItem} />
+                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
                                         {/each}
             
                                     </div>
