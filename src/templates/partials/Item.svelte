@@ -12,12 +12,11 @@
 
     export let item = {};
     export let args = {};
-    export let id = null;
+    export let id = null; // dom element id
 
     const DEFAULT_MEDIA_WIDTH = "50";
 
     let itemElement;
-    let modalViewerLink;
 
     let uuid;
     let title;
@@ -65,8 +64,8 @@
         }
     }
 
-    const showModalViewer = (event) => {
-        let itemId = modalViewerLink.getAttribute('data-item-id') || null;
+    const onClickItem = (event) => {
+        let itemId = event.target.getAttribute('data-item-id');
         if(itemId) dispatch('click-item', {itemId});
     }
 
@@ -83,7 +82,7 @@
                 {#if wrapText}
                     <div class="item-content wrap-text text media-right">
                         <div class="media" style="width:{mediaWidth}%">
-                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                            <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                                 <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
@@ -93,7 +92,7 @@
                 {:else}
                     <div class="item-content media-right">
                         <div class="media" style="width:{mediaWidth}%">
-                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                            <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                                 <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
@@ -108,7 +107,7 @@
                 {#if wrapText}
                     <div class="item-content wrap-text text media-left">
                         <div class="media" style="width:{mediaWidth}%">
-                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                            <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                                 <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
@@ -118,7 +117,7 @@
                 {:else}
                     <div class="item-content media-left">
                         <div class="media" style="width:{mediaWidth}%">
-                            <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                            <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                                 <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
@@ -133,7 +132,7 @@
                 <div class="item-content media-top">
                     {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
-                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                        <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
                     </div>
@@ -151,7 +150,7 @@
                         <Text_Display {item} />
                     </div>
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
-                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                        <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
                     </div>
@@ -161,7 +160,7 @@
                 <div class="item-content">
                     {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
-                        <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
+                        <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
                     </div>

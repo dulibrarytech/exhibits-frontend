@@ -1,10 +1,10 @@
 <script>
     import Repository_Item from './Repository_Item.svelte';
-    
+
     import { ITEM_TYPE } from '../config/global-constants.js';
 
     export let item = null;
-    export let id = null;
+    export let id = null; // dom element id
     export let args = {};
     export let template = null;
 
@@ -15,9 +15,9 @@
 
 {#if item && template}
     {#if isRepoItem}
-        <Repository_Item {id} {item} {args} {template} /> <!-- capture msg, call relayMsg() to dispatch out-->
+        <Repository_Item {id} {item} {args} {template} on:click-item />
     {:else}
-        <svelte:component this={template} {id} {item} {args} /> <!-- capture msg, call relayMsg() to dispatch out-->
+        <svelte:component this={template} {id} {item} {args} on:click-item />
     {/if}
 {:else}
     <h5>Loading item...</h5>

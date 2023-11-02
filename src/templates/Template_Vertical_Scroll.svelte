@@ -30,11 +30,6 @@
         return items; 
     }
 
-    const onClickItem = (event) => {
-        let itemId = event.detail.itemId || null;
-        dispatch('click-item', {itemId});
-    }
-
     render();
 
     onMount(async () => {
@@ -53,15 +48,15 @@
                     
                 <!--exhibit item - row layout -->
                 {:else if type == ENTITY_TYPE.ITEM}
-                    <Item_Display id={anchorId} item={exhibit[index]} on:click-item={onClickItem} template={Item} args={{showPreview: true}}/>
+                    <Item_Display id={anchorId} item={exhibit[index]} on:click-item template={Item} args={{showPreview: true}}/>
 
                 <!-- exhibit item container - grid -->
                 {:else if type == ITEM_TEMPLATE.GRID}
-                    <Item_Grid id={anchorId} grid={exhibit[index]} on:click-item={onClickItem} />
+                    <Item_Grid id={anchorId} grid={exhibit[index]} on:click-item />
 
                 <!-- exhibit item container - vertical timeline grid -->
                 {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
-                    <Item_Grid_Vertical_Timeline id={anchorId} grid={exhibit[index]} on:click-item={onClickItem} />
+                    <Item_Grid_Vertical_Timeline id={anchorId} grid={exhibit[index]} on:click-item />
                 {/if}
             {/each}
         </div>

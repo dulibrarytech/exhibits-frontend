@@ -140,13 +140,13 @@
         return pageComponent;
     }
 
-    const onOpenViewerModal = (event) => {
+    const openViewerModal = (event) => {
         modalDialogData = getItemById((event.detail.itemId || null), items);
         if(!modalDialog) modalDialog = Modal_Item_Display;
         document.body.classList.add('modal-open');
     }
 
-    const onOpenPageModal = (event) => {
+    const openPageModal = (event) => {
         modalDialogData = {
             page: data,
             container: getPageById(event.detail.pageId) // ret About_The_Curators
@@ -156,7 +156,7 @@
         document.body.classList.add('modal-open');
     }
 
-    const onCloseModal = (event) => {
+    const closeModal = (event) => {
         modalDialogData = null;
         modalDialog = null;
         document.body.classList.remove('modal-open');
@@ -172,11 +172,11 @@
 </script>
 
 {#if pageLayout}
-    <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
+    <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  />
     <!-- exhibit page -->
-    <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} on:mount={onMountPage} on:click-item={onOpenViewerModal} />
+    <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} on:mount={onMountPage} on:click-item={openViewerModal} />
 
-    {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={onCloseModal} />{/if}
+    {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
 {:else}
     <h3>Loading exhibit...</h3>
 {/if}

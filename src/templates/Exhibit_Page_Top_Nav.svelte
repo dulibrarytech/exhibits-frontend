@@ -15,11 +15,6 @@
 
     const dispatch = createEventDispatcher();
 
-    const onClickItem = (event) => {
-        let itemId = event.detail.itemId || null;
-        dispatch('click-item', {itemId});
-    }
-
     const setTheme = ({template = null, heading = null}) => {
         // apply user styles to the exhibit page
         if(template) {
@@ -49,7 +44,7 @@
         <Navigation_Top {sections} styles={styles?.navigation || null} />
 
         <!-- exhibit template -->
-        <svelte:component this={template} {items} {styles} on:click-item={onClickItem} />
+        <svelte:component this={template} {items} {styles} on:click-item />
     {:else}
         <h3>Loading template...</h3>
     {/if}

@@ -4,7 +4,7 @@
 
     import { ITEM_TYPE } from '../config/global-constants.js';
     
-    export let id = null; // anchor id
+    export let id = null; // dom element id
     export let item = {};
     export let args = {};
     export let template = null;
@@ -55,7 +55,7 @@
 
 <div class="repository-item">
     {#if renderTemplate}
-        <svelte:component this={template} {id} {item} {args} />
+        <svelte:component this={template} {id} {item} {args} on:click-item />
     {:else}
         <h5>Loading repository item...</h5>
     {/if}
