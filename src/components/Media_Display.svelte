@@ -1,32 +1,21 @@
 <script>
-    import Repository_Item from './Repository_Item.svelte';
     import Media_Item from './Media_Item.svelte';
+    import Media_Item_Preview from './Media_Item_Preview.svelte';
 
     export let item = {};
     export let args = {};
     
     let component = null;
 
-    let {item_type} = item;
+    let {
+        showPreview = false
+    } = args;
 
-    if(item_type) {
-        if(item_type == "repo") {
-            // args = {
-            //     isIIIF: item.is_iiif, 
-            //     id: item.media
-            // }
-            component = Repository_Item;
-        }
-        else {
-            // args = {
-            //     url: item.media,
-            //     type: item_type
-            // }
-            component = Media_Item;
-        }
+    if(showPreview) {
+        component = Media_Item_Preview;
     }
     else {
-        console.error("Item type not found:", item_type);
+        component = Media_Item;
     }
 </script>
 

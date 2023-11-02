@@ -1,71 +1,63 @@
 <script>
     import { getItemTypeForMimeType } from '../libs/media_helpers';
     import { Repository } from '../libs/repository';
-    import Media_Item from './Media_Item.svelte';
-    import IIIF_Item from './IIIF_Item.svelte';
 
     import { ITEM_TYPE } from '../config/global-constants.js';
     
-    export let item;
+    export let id = null; // anchor id
+    export let item = {};
     export let args = {};
+    export let template = null;
 
-    /* repository item fields */
+    let renderTemplate = false;
+    let repositoryItemId = null;
+
+    // TODO: move to settings
     const ID_FIELD = "pid";
     const MIME_TYPE_FIELD = "mime_type";
     const METADATA_OBJECT_FIELD = "display_record";
 
-    let itemId;
-    let isIIIF;
-    let component = null;
-    let message = "";
+    let{
+        showPreview = false
+    } = args;
 
-    /* args object for child components */
-    var params = {};
+    if(!repositoryItemId) repositoryItemId = args.id || item.media || null;
 
-    $: {
-        if(!itemId) itemId = args.id || item.media || null;
-        if(!isIIIF) isIIIF = args.isIIIF || item.is_iiif || false;
-        if(itemId) render();
-        else console.error("Repository item id is null");
-    }
+    const init = () => {
+        console.log("Fetching data from repository...");
 
-    const render = () => {
-        message = "Loading content...";
+        Repository.getItemData(repositoryItemId)
+        .then(async (data) => {
+            item['repository_data'] = data;
 
-        Repository.getItemData(itemId)
-        .then((repoItem) => {
-            message = "";
-            let type = getItemTypeForMimeType( repoItem[MIME_TYPE_FIELD] || null );
+            let repoItemType = getItemTypeForMimeType( data[MIME_TYPE_FIELD] || "unknown_repository_type" );
+            item.item_type = repoItemType;
 
-            if(type == ITEM_TYPE.LARGE_IMAGE) {
-                params.media = Repository.getIIIFTilesourceUrl( repoItem[ID_FIELD] || null ); 
+            if(showPreview) {
+                item.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
+            }
+            else if(type == ITEM_TYPE.LARGE_IMAGE) {
+                item.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null ); 
             }
             else {
-                params.media = Repository.getItemDatastreamUrl( repoItem[ID_FIELD] || null ); 
-            }            
-            
-            params = {...params, ...args, ...repoItem, type};
-            params.metadata = repoItem[METADATA_OBJECT_FIELD] || {};
+                item.media = Repository.getItemDatastreamUrl( data[ID_FIELD] || null ); 
+            }   
 
-            if(isIIIF) {
-                component = IIIF_Item;
-            }
-            else {
-                component = Media_Item;
-            }
+            renderTemplate = true;
         })
         .catch((error) => {
-            message = "Error retrieving data from repository";
-            console.error(`Error connecting to repository: ${error}`);
+            console.error(`Error connecting to repository: Item id: ${item.uuid} Error: ${error}`);
         });
     }
+
+    init();
 </script>
 
 <div class="repository-item">
-    {#if component}
-        <svelte:component this={component} {item} args={params} />
-    {:else if message}
-        <h5>{message}</h5>
+    {#if renderTemplate}
+        <svelte:component this={template} {id} {item} {args} />
+    {:else}
+        <h5>Loading repository item...</h5>
     {/if}
 </div>
 

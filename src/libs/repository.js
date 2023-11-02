@@ -63,7 +63,6 @@ export const Repository = (() => {
                 .finally(function () {
                     // always executed
                 });
-
         });
     }
 

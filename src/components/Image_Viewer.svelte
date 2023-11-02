@@ -54,6 +54,7 @@
 
             {:else if viewer == TILE_VIEWER}
                 <OpenSeadragon_Content url={sourceUrl} {altText}/>
+                {#if caption}<span class="caption">{caption}</span>{/if}
 
             {:else}
                 <h6>Error</h6>

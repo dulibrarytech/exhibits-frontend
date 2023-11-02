@@ -3,14 +3,15 @@
 
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import { Resource } from '../libs/resource';
+    import { Resource } from '../../libs/resource';
     
-    import Text_Display from './Text_Display.svelte';
-    import Item_Preview from './Item_Preview.svelte';
+    import Text_Display from '../../components/Text_Display.svelte';
+    import Media_Display from '../../components/Media_Display.svelte';
 
-    import { MEDIA_POSITION } from '../config/global-constants';
+    import { MEDIA_POSITION } from '../../config/global-constants';
 
     export let item = {};
+    export let args = {};
     export let id = null;
 
     const DEFAULT_MEDIA_WIDTH = "50";
@@ -21,27 +22,30 @@
     let uuid;
     let title;
     let text;
+    let itemType;
     let layout;
     let mediaWidth;
     let wrapText;
-    let showTitle;
     let isPublished;
     let styles;
+
+    let {
+        showTitle = true,
+    } = args;
 
     const dispatch = createEventDispatcher();
 
     $: init();
 
-    const init = () => {
-
+    const init = async () => {
         uuid        = item.uuid;
         title       = item.title || null;
         text        = item.text || "";
+        itemType    = item.item_type || undefined;
         isPublished = item.is_published ?? 0;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
         wrapText    = item.wrap_text ?? 1;
-        showTitle   = item.show_title ?? 1;
         styles      = item.styles || null;
 
         if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
@@ -56,14 +60,9 @@
             }
 
             else {
-                if(style == "width") {
-                    itemElement.style.marginBottom = "80px"
-                }
                 itemElement.style[style] = styles.item[style];  
             }
         }
-
-        
     }
 
     const showModalViewer = (event) => {
@@ -85,21 +84,21 @@
                     <div class="item-content wrap-text text media-right">
                         <div class="media" style="width:{mediaWidth}%">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <Item_Preview {item} />
+                                <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
-                        {#if title}<div class="title">{title}</div><br>{/if}
+                        {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                         <Text_Display {item} />
                     </div>
                 {:else}
                     <div class="item-content media-right">
                         <div class="media" style="width:{mediaWidth}%">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <Item_Preview {item} />
+                                <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
                         <div class="text" style="width:{100 - mediaWidth}%">
-                            {#if title}<div class="title">{title}</div><br>{/if}
+                            {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                             <Text_Display {item} />
                         </div>
                     </div>
@@ -110,21 +109,21 @@
                     <div class="item-content wrap-text text media-left">
                         <div class="media" style="width:{mediaWidth}%">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <Item_Preview {item} />
+                                <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
-                        {#if title}<div class="title">{title}</div><br>{/if}
+                        {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                         <Text_Display {item} />
                     </div>
                 {:else}
                     <div class="item-content media-left">
                         <div class="media" style="width:{mediaWidth}%">
                             <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                                <Item_Preview {item} />
+                                <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
                         <div class="text" style="width:{100 - mediaWidth}%">
-                            {#if title}<div class="title">{title}</div><br>{/if}
+                            {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                             <Text_Display {item} />
                         </div>
                     </div>
@@ -132,10 +131,10 @@
                 
             {:else if layout == MEDIA_POSITION.TOP}
                 <div class="item-content media-top">
-                    {#if title}<div class="title">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                            <Item_Preview {item} />
+                            <Media_Display {item} args={{showPreview: true}} />
                         </a>
                     </div>
                     <div class="text">
@@ -146,31 +145,31 @@
 
             {:else if layout == MEDIA_POSITION.BOTTOM}
                 <div class="item-content media-bottom">
-                    {#if title}<div class="title">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                     <div class="text">
                         <!-- {#if title}<div class="title">{title}</div><br>{/if} -->
                         <Text_Display {item} />
                     </div>
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                            <Item_Preview {item} />
+                            <Media_Display {item} args={{showPreview: true}} />
                         </a>
                     </div>
                 </div>
 
             {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
                 <div class="item-content">
-                    {#if title}<div class="title">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} bind:this={modalViewerLink} on:click|stopPropagation|preventDefault={showModalViewer}>
-                            <Item_Preview {item} />
+                            <Media_Display {item} args={{showPreview: true}} />
                         </a>
                     </div>
                 </div>
 
             {:else if layout == MEDIA_POSITION.TEXT_ONLY}
                 <div class="item-content text">
-                    {#if title}<div class="title">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title">{title}</div><br>{/if}
                     <Text_Display {item} />
                 </div>
 

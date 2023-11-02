@@ -4,7 +4,6 @@
     import { onMount } from 'svelte';
     import { Settings } from '../config/settings';
     import { Resource } from '../libs/resource';
-    import { Repository } from '../libs/repository';
 
     import {ITEM_TYPE} from '../config/global-constants';
 
@@ -22,8 +21,9 @@
     let preview = null;
 
     const PLACEHOLDER_IMAGE = Settings.placeholderImage;
-    //const PLACEHOLDER_IMAGE_PATH = Settings.thumbnailImageLocation;
     const LARGE_IMAGE_PREVIEW_WIDTH = 1000;
+
+    const URL_PATTERN = /^https?:\/\//;
 
     $: init();
 
@@ -36,8 +36,13 @@
         caption = item.caption || null;
         styles = item.styles || null;
 
-        if(!resource) console.log("Item has null 'media' value");
-        preview = await getPreviewSourceUrl(itemType, resource, width, height);
+        if(URL_PATTERN.test(resource) == true) {
+            preview = resource;
+        }
+        else {
+            preview = await getPreviewSourceUrl(itemType, resource, width, height);
+        }
+
         if(!preview) console.log("Preview image source url not found");
     }
 
@@ -57,10 +62,6 @@
         }
         else {
             switch(itemType) {
-                case ITEM_TYPE.REPO:
-                    url = await Repository.getPreviewImageUrl(media) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.DEFAULT);
-                    break;
-
                 case ITEM_TYPE.IMAGE:
                     url = Resource.getIIIFImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
                     break;

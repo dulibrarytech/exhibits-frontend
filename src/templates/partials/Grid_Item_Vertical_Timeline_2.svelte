@@ -3,7 +3,7 @@
 
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import Item_Preview from '../../components/Item_Preview.svelte';
+    import Item_Preview from '../../components/Media_Item_Preview.svelte';
 
     import {ITEM_TYPE} from '../../config/global-constants';
 

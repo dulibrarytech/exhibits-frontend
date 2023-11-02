@@ -1,35 +1,54 @@
-<script>
-    import Media_Display from './Media_Display.svelte';
-	import Text_Display from './Text_Display.svelte';
+<script>	
+    import Media_Display from '../../components/Media_Display.svelte';
+	import Text_Display from '../../components/Text_Display.svelte';
 
-	import {stripHtmlTags} from '../libs/data_helpers';
+	import {stripHtmlTags} from '../../libs/data_helpers';
 
-    export let data = null;
+    export let item = {};
 
+	let itemType;
 	let title;
-	let text;
+	let date;
 
-    $: {
-        title = data.title || null;
-		if(data.text) data.text = stripHtmlTags(data.text);
-    }
+	$: init();
+
+	const init = async () => {
+		itemType = item.item_type || undefined;
+		title = item.title || null;
+		date = item.date || null;
+
+		if(item.text) item.text = stripHtmlTags(data.text);
+		else item.text = item.caption || title || "No description available";
+	}
 </script>
 
-{#if data}
-	<div class="modal-item-viewer">
-		<div class="row">
-			<div class="col-lg-8 col-md-9 col-sm-12 media-display-container">
-				<Media_Display item={data} args={{viewerType: 'interactive'}}/>
-			</div>
+<div class="modal-item-viewer">
+	<div class="row">
+		<div class="col-lg-8 col-md-9 col-sm-12 media-display-container">
+			<Media_Display {item} args={{viewerType: 'interactive'}}/>
+		</div>
 
-			<div class="col-lg-4 col-md-3 col-sm-12 text-display-container">
-				<div class="text">
-					<Text_Display item={data} {title} />
-				</div>
+		<div class="col-lg-4 col-md-3 col-sm-12 text-display-container">
+			<div class="text">
+				<hr>
+				<!-- if title, title -->title
+				<hr>
+				<br>
+				<!-- if date, date -->date
+				
+				<!-- <Text_Display item={data} {title} /> -->
+				<Text_Display {item} />
+
+				<br>
+				<!-- if repo item, add bib number -->bib
+
+				<!-- if repo item, add link to ddu/object -->
+
+				<!-- if repo item, add link to ddu/collection-->
 			</div>
 		</div>
 	</div>
-{/if}
+</div>
 
 <style>
 	.modal-item-viewer {
@@ -97,8 +116,6 @@
 		background: #616161;
 		color: white;
 		height: 100%;
-		/* position: absolute;
-		bottom: 10px; */
 		padding: 0 30px;
 	}
 

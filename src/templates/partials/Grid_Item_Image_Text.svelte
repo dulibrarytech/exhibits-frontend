@@ -1,10 +1,15 @@
 <script>
+    /*
+     * Grid_Item_Image_Text
+     *
+     * Renders an Item component in the Item_Grid structure. Item will show the 'description' text in the grid. 
+     * Item 'layout's will be applied to the Item in the grid. Width of media element will default to 100%.
+     */
     'use strict'
 
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import Item_Preview from '../../components/Item_Preview.svelte';
-    import Item from '../../components/Item.svelte';
+    import Item from './Item.svelte';
 
     import {ITEM_TYPE, MEDIA_POSITION} from '../../config/global-constants';
 
@@ -12,44 +17,36 @@
 
     const dispatch = createEventDispatcher();
 
-    let id = null;
-    let styles = null;
-
     let itemElement;
-    let textElement;
 
+    let id;
+    let date;
     let type;
-    var date;
-    var title;
-    var description;
+    let description;
+    let styles;
 
     const DEFAULT_MEDIA_WIDTH = "100";
 
     $: {
         id = item.uuid || "null";
         date = item.date || null;
-        //title = item.title || null;
-        description = item.description || null;
         type = item.item_type || null;
+        description = item.description || null
         styles = item.styles || null;
 
+        // apply default grid item settings
         if(!item.layout) item.layout = MEDIA_POSITION.TOP;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
+
+        // show the item description text in the grid item. if no description text, remove the item text so it is not displayed in the grid
+        //item.text = description || null;
     }
 
     const setTheme = (styles) => {
-        let {item_text = {}, item={}} = styles;
+        let {item={}} = styles;
 
-        /* set item styles */
         for(let style in item) {
             itemElement.style[style] = item[style];
-        }
-
-        /* set text (description) section styles */
-        if(textElement) {
-            for(let style in item_text) {
-                textElement.style[style] = item_text[style];
-            }
         }
     }
 
@@ -71,7 +68,9 @@
         </div> 
     {/if}
 
-    <Item item={item} on:click-item={onClickPreview} />
+    <Item item={item} args={{showTitle: false, showPreview: true}} on:click-item={onClickPreview} />
+
+    {#if description}<div class="description">{description}</div>{/if}
 </div>
 
 <style>
@@ -79,7 +78,7 @@
         padding: 30px;
     }
 
-    a {
+    /* a {
         color: inherit;
     }
 
@@ -93,7 +92,7 @@
 
     .bottom-margin {
         margin-bottom: 20px;
-    }
+    } */
 
     .item-date {
         font-weight: bold;
@@ -104,7 +103,7 @@
         font-size: 1em;
     }
 
-    .description {
+    /* .description {
         text-align: left;
         font-size: 0.9em;
         padding: 8px;
@@ -120,5 +119,5 @@
     .title {
         font-weight: bold;
         margin-bottom: 30px;
-    }
+    } */
 </style>

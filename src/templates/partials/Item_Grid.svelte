@@ -89,4 +89,9 @@
         padding-top: 0 !important;
         padding-bottom: 0 !important;
     }
+
+    :global(.item-grid .item > .container) {
+        padding-left: 0;
+        padding-right: 0;
+    }
 </style>

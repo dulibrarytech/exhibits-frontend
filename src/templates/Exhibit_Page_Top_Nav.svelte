@@ -30,7 +30,7 @@
 
         // set all item titles' font type to the heading font type
         if(heading?.fontFamily) {
-            document.querySelectorAll('.item .item-content .title').forEach((itemTitle) => {
+            document.querySelectorAll('.exhibit-page .title').forEach((itemTitle) => {
                 itemTitle.style.fontFamily = heading.fontFamily;
             });
         }

@@ -2,7 +2,7 @@
     /*
      * template downloaded from: https://www.bootdey.com/snippets/view/Search-users-page-result
      */
-    import Item_Preview from '../../components/Item_Preview.svelte';
+    import Item_Preview from '../../components/Media_Item_Preview.svelte';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
 
     import { ENTITY_TYPE, EXHIBIT_TEMPLATE } from '../../config/global-constants';

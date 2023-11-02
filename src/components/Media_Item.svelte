@@ -17,6 +17,8 @@
     export let item = {};
     export let args = {};
 
+    console.log("TEST init media item, item:", item, args)
+
     let mediaElement;
 
     var resource;
@@ -26,7 +28,7 @@
     var viewerType;
     var caption;
 
-    //var filename = null;
+    var filename = null;
     var component = null;
 
     /* args object for child components */
@@ -34,7 +36,9 @@
 
     const URL_PATTERN = /^https?:\/\//;
 
-    $: {
+    $: init();
+
+    const init = () => { // init()
         resource = args.media || item.media || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
@@ -42,7 +46,7 @@
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
 
         /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
-        if(URL_PATTERN.test(resource) == false) {
+        if(URL_PATTERN.test(resource) == false) { // TODO data.helper::isUrlFormat()
             filename = resource;
             resource = Resource.getFileUrl(resource);
         }
@@ -129,7 +133,7 @@
         else {
             url = resource;
         }
-
+        
         params = {url, caption, isTileImage, imageType};
         component = Image_Viewer;
     }

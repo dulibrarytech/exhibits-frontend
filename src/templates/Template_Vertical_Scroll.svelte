@@ -5,11 +5,12 @@
     import {createEventDispatcher} from 'svelte';
     
     import Exhibit_Heading from './partials/Exhibit_Heading.svelte';
-    import Item from '../components/Item.svelte';
+    import Item_Display from '../components/Item_Display.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
     import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline_2.svelte';
 
     import {ENTITY_TYPE, ITEM_TEMPLATE} from '../config/global-constants';
+    import Item from './partials/Item.svelte';
 
     export let items;
     export let styles = null;
@@ -52,7 +53,7 @@
                     
                 <!--exhibit item - row layout -->
                 {:else if type == ENTITY_TYPE.ITEM}
-                    <Item id={anchorId} item={exhibit[index]} on:click-item={onClickItem} />
+                    <Item_Display id={anchorId} item={exhibit[index]} on:click-item={onClickItem} template={Item} args={{showPreview: true}}/>
 
                 <!-- exhibit item container - grid -->
                 {:else if type == ITEM_TEMPLATE.GRID}
