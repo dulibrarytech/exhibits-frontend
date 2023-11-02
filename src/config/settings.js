@@ -71,7 +71,7 @@ export const Settings = {
     /*
      * repository 
      */
-    repositoryObjectDataEndpoint: "/repository/data/{item_id}?key=aec05269d7acf72b1d17f0eb354dd2f0",
+    repositoryObjectDataEndpoint: "/repository/data/{item_id}",
     repositoryDatastreamUrl: "/datastream/{item_id}",
     repositoryThumbnailDatastreamEndpoint: "tn",
     repositoryImageDatastreamEndpoint: "jpg",

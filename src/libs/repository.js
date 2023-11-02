@@ -25,11 +25,15 @@ import axios from 'axios';
 import { Configuration } from '../config/config.js';
 import { Settings } from '../config/settings.js';
 import { getItemTypeForMimeType } from '../libs/media_helpers';
+
 import {ITEM_TYPE} from '../config/global-constants';
+
+let apiKey = "";
 
 export const Repository = (() => {
     var {   
             repositoryDomain,
+            repositoryApiKey,
             repositoryIIIFTilesource,
             
         } = Configuration;
@@ -43,6 +47,10 @@ export const Repository = (() => {
 
     } = Settings;
 
+    if(repositoryApiKey) {
+        apiKey = `?${repositoryApiKey}`;
+    }
+
     /**
     * Fetches the item data from the repository
     *
@@ -51,7 +59,7 @@ export const Repository = (() => {
     const getItemData = async (id) => {
 
         return new Promise(function(resolve, reject) {
-            let url = `${repositoryDomain}${(repositoryObjectDataEndpoint.replace("{item_id}", id))}`;
+            let url = `${repositoryDomain}${(repositoryObjectDataEndpoint.replace("{item_id}", id))}${apiKey}`;
 
             axios.get(url)
                 .then(function (response) {
@@ -86,15 +94,15 @@ export const Repository = (() => {
     }
 
     const getItemDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryObjectDatastreamEndpoint}`;
+        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryObjectDatastreamEndpoint}${apiKey}`;
     }
 
     const getItemThumbnailDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryThumbnailDatastreamEndpoint}`;
+        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryThumbnailDatastreamEndpoint}${apiKey}`;
     }
 
     const getItemImageDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryImageDatastreamEndpoint}`;
+        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryImageDatastreamEndpoint}${apiKey}`;
     }
 
     const getIIIFManifestUrl = (id) => {

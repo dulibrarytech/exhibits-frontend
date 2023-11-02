@@ -7,6 +7,7 @@ export const Configuration = {
   exhibitsIndexDomain: EXHIBITS_INDEX_DOMAIN,
   exhibitsIndexName: EXHIBITS_INDEX_NAME,
   repositoryDomain: REPOSITORY_DOMAIN,
+  repositoryApiKey: REPOSITORY_API_KEY,
   repositoryIIIFTilesource: REPOSITORY_IIIF_TILESOURCE,
   iiifManifestUrl: IIIF_MANIFEST_URL,
   iiifImageServerUrl: IIIF_IMAGE_SERVER_URL,
