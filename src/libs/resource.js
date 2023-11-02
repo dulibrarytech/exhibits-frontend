@@ -19,7 +19,6 @@ export const Resource = (() => {
      * 
      */
     const getFileUrl = (filename="null") => { // TODO rename to getFilePath()
-        console.log("TEST getFileUrl: filename:", filename)
         return `${resourceLocation}/${filename}`; // local folder for dev
         // TODO stream from remote image server
     }

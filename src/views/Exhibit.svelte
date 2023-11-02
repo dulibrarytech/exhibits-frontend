@@ -10,7 +10,7 @@
 
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
     import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
-    import Modal_Item_Display from '../templates/partials/Item_Viewer.svelte';
+    import Modal_Item_Display from '../components/Modal_Item_Display.svelte';
     import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
 
     import {ENTITY_TYPE} from '../config/global-constants';
@@ -141,6 +141,7 @@
     }
 
     const openViewerModal = (event) => {
+        
         modalDialogData = getItemById((event.detail.itemId || null), items);
         if(!modalDialog) modalDialog = Modal_Item_Display;
         document.body.classList.add('modal-open');

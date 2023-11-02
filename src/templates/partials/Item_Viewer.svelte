@@ -17,7 +17,7 @@
 		title = item.title || null;
 		date = item.date || null;
 
-		if(item.text) item.text = stripHtmlTags(data.text);
+		if(item.text) item.text = stripHtmlTags(item.text);
 		else item.text = item.caption || title || "No description available";
 	}
 </script>

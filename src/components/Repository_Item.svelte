@@ -11,6 +11,7 @@
 
     let renderTemplate = false;
     let repositoryItemId = null;
+    let repositoryItem = {};
 
     // TODO: move to settings
     const ID_FIELD = "pid";
@@ -28,19 +29,24 @@
 
         Repository.getItemData(repositoryItemId)
         .then(async (data) => {
-            item['repository_data'] = data;
+
+            // Create a copy of the item for a single viewer instance. Original item data should not be updated permanently
+            repositoryItem = structuredClone(item);
+            repositoryItem['repository_data'] = data;
 
             let repoItemType = getItemTypeForMimeType( data[MIME_TYPE_FIELD] || "unknown_repository_type" );
-            item.item_type = repoItemType;
+            repositoryItem.item_type = repoItemType;
 
             if(showPreview) {
-                item.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
+                repositoryItem.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
             }
-            else if(type == ITEM_TYPE.LARGE_IMAGE) {
-                item.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null ); 
+            else if(repositoryItem.item_type == ITEM_TYPE.LARGE_IMAGE || 
+                    repositoryItem.item_type == ITEM_TYPE.IMAGE) {
+
+                repositoryItem.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null ); 
             }
             else {
-                item.media = Repository.getItemDatastreamUrl( data[ID_FIELD] || null ); 
+                repositoryItem.media = Repository.getItemDatastreamUrl( data[ID_FIELD] || null ); 
             }   
 
             renderTemplate = true;
@@ -55,7 +61,7 @@
 
 <div class="repository-item">
     {#if renderTemplate}
-        <svelte:component this={template} {id} {item} {args} on:click-item />
+        <svelte:component this={template} {id} item={repositoryItem} {args} on:click-item />
     {:else}
         <h5>Loading repository item...</h5>
     {/if}

@@ -17,8 +17,6 @@
     export let item = {};
     export let args = {};
 
-    console.log("TEST init media item, item:", item, args)
-
     let mediaElement;
 
     var resource;
@@ -98,10 +96,9 @@
         }
         else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
             if(URL_PATTERN.test(resource) == false) {
-                isTileImage = true;
                 url = Resource.getImageTileSourceUrl(filename);
             }
-            else console.error(`Can't render a tile image from remote url. Resource url: ${url}`);
+            isTileImage = true;
         }
 
         params = {url, caption, isTileImage, imageType};
