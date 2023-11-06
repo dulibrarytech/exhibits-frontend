@@ -22,7 +22,7 @@
 	}
 </script>
 
-<div class="modal-item-viewer">
+<div class="item-viewer">
 	<div class="row">
 		<div class="col-lg-8 col-md-9 col-sm-12 media-display-container">
 			<Media_Display {item} args={{viewerType: 'interactive'}}/>
@@ -30,11 +30,10 @@
 
 		<div class="col-lg-4 col-md-3 col-sm-12 text-display-container">
 			<div class="text">
-				<hr>
-				<!-- if title, title -->title
-				<hr>
-				<br>
-				<!-- if date, date -->date
+
+				{#if title}<hr><div class="title">{title}</div><hr><br>{/if}
+
+				{#if date}<div class="date">{date}</div><br>{/if}
 				
 				<!-- <Text_Display item={data} {title} /> -->
 				<Text_Display {item} />
@@ -51,15 +50,24 @@
 </div>
 
 <style>
-	.modal-item-viewer {
+	.title {
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+
+	.date {
+		font-size: 0.9em;
+	}
+
+	.item-viewer {
 		height: 100%;
 	}
 
-	.modal-item-viewer > .row {
+	.item-viewer > .row {
 		height: 100%;
 	}
 
-	.modal-item-viewer .text {
+	.item-viewer .text {
 		background: #F4F2EC;
 		padding: 30px 15px 30px 30px;
 	}
@@ -78,7 +86,7 @@
 		height: 100%;
 	}
 
-	:global(.modal-item-viewer .media-item) {
+	:global(.item-viewer .media-item) {
 		width: 100%;
 		height: 100%;
 
@@ -87,70 +95,70 @@
 		background: grey;
 	}
 
-	:global(.modal-item-viewer .media-item .caption) {
+	:global(.item-viewer .media-item .caption) {
 		color: white;
 	}
 
-	:global(.modal-item-viewer .openseadragon-container) {
+	:global(.item-viewer .openseadragon-container) {
 		height: 100%;
 		padding: 0px !important;
 		overflow: hidden;
 		background: white !important;
 	}
 
-	:global(.modal-item-viewer .openseadragon) {
+	:global(.item-viewer .openseadragon) {
 		width: unset;
 		height: 100% !important;
 	}
 
-	:global(.modal-item-viewer .text-item) {
+	:global(.item-viewer .text-item) {
 		max-height: 100%;
     	overflow-y: scroll;
 	}
 
-	:global(.modal-item-viewer .text .text-item .text-content) {
+	:global(.item-viewer .text .text-item .text-content) {
 		padding-right: 15px;
 	}
 
-	:global(.modal-item-viewer .audio-player) {
+	:global(.item-viewer .audio-player) {
 		background: #616161;
 		color: white;
 		height: 100%;
 		padding: 0 30px;
 	}
 
-	:global(.modal-item-viewer .audio-player .audio) {
+	:global(.item-viewer .audio-player .audio) {
 		position: absolute;
 		bottom: 15px;
 	}
 
-	:global(.modal-item-viewer .video-player) {
+	:global(.item-viewer .video-player) {
 		height: 100%;
 		color: white;
 		padding: 0 30px;
 	}
 
-	:global(.modal-item-viewer .video-player .video) {
+	:global(.item-viewer .video-player .video) {
 		height: 100%;
 	}
 
-	:global(.modal-item-viewer .video-player .video *) {
+	:global(.item-viewer .video-player .video *) {
 		height: 95%;
 	}
 
-	:global(.modal-item-viewer .pdf-viewer) {
+	:global(.item-viewer .pdf-viewer) {
 		height: 100%;
 	}
 
-	:global(.modal-item-viewer .pdf-viewer *) {
+	:global(.item-viewer .pdf-viewer *) {
 		height: 100%;
 	}
 
-	:global(.modal-item-viewer .iframe-viewer) {
+	:global(.item-viewer .iframe-viewer) {
 		height: 100%;
 	}
 
-	:global(.modal-item-viewer .iframe-viewer *) {
+	:global(.item-viewer .iframe-viewer *) {
 		height: 100%;
 	}
 </style>

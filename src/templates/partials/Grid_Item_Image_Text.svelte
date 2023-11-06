@@ -25,6 +25,8 @@
     let description;
     let styles;
 
+    let tmp;
+
     const DEFAULT_MEDIA_WIDTH = "100";
 
     $: {
@@ -39,7 +41,11 @@
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
 
         // show the item description text in the grid item. if no description text, remove the item text so it is not displayed in the grid
+
         //item.text = description || null;
+
+        tmp = structuredClone(item);
+        tmp.text = description;
     }
 
     const setTheme = (styles) => {
@@ -63,7 +69,7 @@
         </div> 
     {/if}
 
-    <Item item={item} args={{showTitle: false, showPreview: true}} on:click-item />
+    <Item item={tmp} args={{showTitle: false, showPreview: true}} on:click-item />
 
     {#if description}<div class="description">{description}</div>{/if}
 </div>
@@ -73,22 +79,6 @@
         padding: 30px;
     }
 
-    /* a {
-        color: inherit;
-    }
-
-    a:hover {
-        text-decoration: none;
-    }
-
-    .top-margin {
-        margin-top: 40px;
-    }
-
-    .bottom-margin {
-        margin-bottom: 20px;
-    } */
-
     .item-date {
         font-weight: bold;
         font-size: 1.2em;
@@ -97,22 +87,4 @@
     .date-heading {
         font-size: 1em;
     }
-
-    /* .description {
-        text-align: left;
-        font-size: 0.9em;
-        padding: 8px;
-    }
-
-    .description p {
-        margin-bottom: 0;
-    }
-
-    .float-left {float: left}
-    .float-right {float: right}
-
-    .title {
-        font-weight: bold;
-        margin-bottom: 30px;
-    } */
 </style>

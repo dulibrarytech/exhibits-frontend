@@ -89,10 +89,6 @@ main.container {
 	padding: 50px 0;
 }
 
-.item .title {
-	font-size: 1.3em;
-}
-
 footer {
 	flex-shrink: 0;
 	min-height: 150px;

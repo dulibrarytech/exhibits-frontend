@@ -86,7 +86,7 @@
                                 <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
-                        {#if title && showTitle}<div class="title">{title}</div><br>{/if}
+                        {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
                         <Text_Display {item} />
                     </div>
                 {:else}
@@ -97,7 +97,7 @@
                             </a>
                         </div>
                         <div class="text" style="width:{100 - mediaWidth}%">
-                            {#if title && showTitle}<div class="title">{title}</div><br>{/if}
+                            {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
                             <Text_Display {item} />
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                                 <Media_Display {item} args={{showPreview: true}} />
                             </a>
                         </div>
-                        {#if title && showTitle}<div class="title">{title}</div><br>{/if}
+                        {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
                         <Text_Display {item} />
                     </div>
                 {:else}
@@ -122,7 +122,7 @@
                             </a>
                         </div>
                         <div class="text" style="width:{100 - mediaWidth}%">
-                            {#if title && showTitle}<div class="title">{title}</div><br>{/if}
+                            {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
                             <Text_Display {item} />
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                 
             {:else if layout == MEDIA_POSITION.TOP}
                 <div class="item-content media-top">
-                    {#if title && showTitle}<div class="title">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
@@ -144,7 +144,7 @@
 
             {:else if layout == MEDIA_POSITION.BOTTOM}
                 <div class="item-content media-bottom">
-                    {#if title && showTitle}<div class="title">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
                     <div class="text">
                         <!-- {#if title}<div class="title">{title}</div><br>{/if} -->
                         <Text_Display {item} />
@@ -158,7 +158,7 @@
 
             {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
                 <div class="item-content">
-                    {#if title && showTitle}<div class="title">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
                     <div class="media media-fullwidth" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
@@ -168,7 +168,7 @@
 
             {:else if layout == MEDIA_POSITION.TEXT_ONLY}
                 <div class="item-content text">
-                    {#if title && showTitle}<div class="title">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
                     <Text_Display {item} />
                 </div>
 
@@ -188,11 +188,6 @@
     }
 
     .item a { color: inherit }
-
-    .title {
-        text-transform: uppercase;
-        font-size: 1.65em;
-    }
 
     .item-content {
         width: 100%;

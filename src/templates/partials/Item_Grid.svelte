@@ -39,7 +39,7 @@
 
 <div class="item-grid" id={id ?? undefined} bind:this={gridElement} >
     <div class="container">
-        {#if title}<div class="title">{title}</div><br>{/if}
+        {#if title}<div class="title-heading">{title}</div>{/if}
         <div class="grid-content">
             {#if items}
                 {#each items as item}
