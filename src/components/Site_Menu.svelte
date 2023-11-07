@@ -43,13 +43,13 @@
 <style>
     .site-menu-toggle {
         position: absolute;
-        right: 9px;
-        top: -5px;
+        right: 11px;
+        top: -2px;
         z-index: 10;
     }
 
     .site-menu-toggle i {
-        font-size: 40px;
+        font-size: 36px;
         color: white;
     }
 

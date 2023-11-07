@@ -46,7 +46,7 @@
         background-repeat: no-repeat;
         background-size: cover;
         position: relative;
-        min-height: 700px;
+        min-height: 800px;
     }
 
     .hero-text {
