@@ -13,7 +13,7 @@
     var recentExhibits = null;
 
     const render = async () => {
-        exhibits = await Index.getExhibits();
+        exhibits = await Index.getPublicExhibits();
 
         if(exhibits.length == 0) {
             console.log("No exhibits found");

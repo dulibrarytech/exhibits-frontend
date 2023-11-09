@@ -4,6 +4,7 @@
  */
 
 export const Configuration = {
+  exhibitsApiKey: EXHIBITS_API_KEY,
   exhibitsIndexDomain: EXHIBITS_INDEX_DOMAIN,
   exhibitsIndexName: EXHIBITS_INDEX_NAME,
   repositoryDomain: REPOSITORY_DOMAIN,

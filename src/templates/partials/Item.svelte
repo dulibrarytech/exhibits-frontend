@@ -25,7 +25,7 @@
     let layout;
     let mediaWidth;
     let wrapText;
-    let isPublished;
+    //let isPublished;
     let styles;
 
     let {
@@ -41,7 +41,7 @@
         title       = item.title || null;
         text        = item.text || "";
         itemType    = item.item_type || undefined;
-        isPublished = item.is_published ?? 0;
+        //isPublished = item.is_published ?? 0;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
         wrapText    = item.wrap_text ?? 1;
@@ -75,7 +75,7 @@
 </script>
 
 <div class="item" id={id ?? undefined} data-uuid={uuid} bind:this={itemElement}>
-    {#if isPublished == 1} 
+    <!-- {#if isPublished == 1}  -->
         <div class="container">
 
             {#if layout == MEDIA_POSITION.RIGHT}
@@ -175,7 +175,7 @@
             {/if}
 
         </div>
-    {/if}
+    <!-- {/if} -->
 </div>
 
 <style>

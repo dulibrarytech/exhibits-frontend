@@ -12,8 +12,8 @@
     var featuredExhibits = null;
     var recentExhibits = null;
 
-    const render = async () => {
-        exhibits = await Index.getExhibits();
+    const render = () => {
+        exhibits = Index.getPublicExhibits();
 
         if(exhibits.length == 0) {
             console.log("No exhibits found");
@@ -93,7 +93,9 @@
                     <Exhibit_Preview_Grid {exhibits} />
                 </div>
             {:else}
-                <h6>No exhibits found</h6>
+                <div class="container">
+                    <h6>No exhibits found</h6>
+                </div>
             {/if}
         </div>
     </div>

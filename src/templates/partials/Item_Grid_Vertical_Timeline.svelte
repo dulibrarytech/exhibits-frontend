@@ -79,7 +79,7 @@
         <div class="timeline__wrap">
             <div class="timeline__items">
                 {#each items as item}
-                    {#if item.is_published}
+                    <!-- {#if item.is_published} -->
                         <!-- {#if item.year_label} -->
                             <div class="timeline__item top-offset {getPositionClass(item)}"> <!-- 'timeline__item--right', 'timeline__item--left', '' -->
                                 {#if item.year_label}
@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                         {/if} -->
-                    {/if}
+                    <!-- {/if} -->
                 {/each}
             </div>
         </div>

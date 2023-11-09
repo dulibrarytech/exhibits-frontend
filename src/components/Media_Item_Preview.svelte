@@ -10,6 +10,7 @@
     export let item = {};
     export let width = null;
     export let height = null;
+    export let args = {};
 
     let itemPreviewElement;
     let itemType;

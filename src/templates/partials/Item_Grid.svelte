@@ -43,11 +43,11 @@
         <div class="grid-content">
             {#if items}
                 {#each items as item}
-                    {#if item.is_published}
+                    <!-- {#if item.is_published} -->
                         <div class="col-xl-{bootstrapColumnValue} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}">
                             <Grid_Item_Image_Text {item} on:click-item /> 
                         </div>
-                    {/if}
+                    <!-- {/if} -->
                 {/each}
             {/if}
         </div>

@@ -1,3 +1,8 @@
+export const USER_ROLE = {
+    STANDARD: "standard",
+    ADMIN: "admin"
+}
+
 export const ENTITY_TYPE = {
     EXHIBIT: "exhibit",
     EXHIBIT_HEADING: "heading",

@@ -13,18 +13,21 @@
     import Modal_Item_Display from '../components/Modal_Item_Display.svelte';
     import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
 
-    import {ENTITY_TYPE} from '../config/global-constants';
+    import { ENTITY_TYPE, USER_ROLE } from '../config/global-constants';
+    import { validateApiKey } from '../libs/validation';
 
     export let currentRoute;
 
     // TODO remove defs from this section
     var id;
+    var userRole;
     var exhibit = {};
+    var isPublished;
     var template = null;
     let styles = null;
     var pageLayout = null; 
     var sections = null;
-    var items = [];
+    var items = null;
     var data = null;
     var modalDialog = null;
     var modalDialogData = null;
@@ -32,31 +35,42 @@
     const FONT_LOCATION = "../assets/fonts";
 
     const init = async () => {
-        id = currentRoute.namedParams.id ?? null;
-        console.log(`Loading exhibit: ${id}`);
+        let key = currentRoute.queryParams.key || null;
+        userRole = key ? getUserRole(key) : USER_ROLE.STANDARD;
 
+        id = currentRoute.namedParams.id ?? "null";
+        console.log(`Loading exhibit... ID: ${id}`);
         exhibit = await Index.getExhibit(id);
         data = exhibit?.data;
 
-        if(exhibit && data) {
-            await importFonts();
+        if(!exhibit || !data) window.location.replace('/404');
 
-            pageLayout = $Page_Layouts[data.page_layout] || null;
-            template = $Templates[data.template] || null;
-            styles = data.styles?.exhibit || null;
-
-            if(!pageLayout) {
-                console.error(`Could not find a layout for ${data.page_layout}`);
-            }
-            if(!template) {
-                console.error(`Could not find a template for ${data.template}`);
-            }
-            else {
-                items = exhibit.items || [];
-                sections = createPageSections(items);
-            }
+        isPublished = data.is_published || 0; 
+        if(isPublished || userRole == USER_ROLE.ADMIN) {
+            render();
         }
         else window.location.replace('/404');
+    }
+
+    const render = async () => {
+        console.log("Rendering exhibit...");
+        await importFonts();
+
+        pageLayout = $Page_Layouts[data.page_layout] || null;
+        template = $Templates[data.template] || null;
+        styles = data.styles?.exhibit || null;
+
+        if(!pageLayout) {
+            console.error(`Could not find a layout for ${data.page_layout}`);
+        }
+        if(!template) {
+            console.error(`Could not find a template for ${data.template}`);
+        }
+        else {
+            items = exhibit.items || [];
+            if(items.length == 0) console.log("No items found");
+            sections = createPageSections(items);
+        }
     }
 
     const importFonts = () => {
@@ -167,20 +181,36 @@
         console.log("Mount exhibit page");
     }
 
+    const getUserRole = (key) => {
+        let role;
+
+        if(validateApiKey(key)) role = USER_ROLE.ADMIN;
+        else role = USER_ROLE.STANDARD;
+
+        return role;
+    }
+
     onMount(async () => {
         init();
     });
 </script>
 
-{#if pageLayout}
-    <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  />
-    <!-- exhibit page -->
-    <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} on:mount={onMountPage} on:click-item={openViewerModal} />
+<!-- {#if isPublished || userRole == USER_ROLE.ADMIN} -->
 
-    {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
-{:else}
-    <h3>Loading exhibit...</h3>
-{/if}
+    {#if pageLayout}
+        <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  />
+
+        <!-- exhibit page -->
+        <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} on:mount={onMountPage} on:click-item={openViewerModal} /> <!-- args.key -->
+
+        {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
+    {:else}
+        <h3>Loading exhibit...</h3>
+    {/if}
+
+<!-- {:else}
+    <h3>Unauthorized</h3>
+{/if} -->
 
 <style>
     :global(body.modal-open) {

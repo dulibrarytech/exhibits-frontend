@@ -11,6 +11,8 @@
     export let items = [];
     export let styles = null;
 
+    export let args = {};
+
     let pageElement;
 
     const dispatch = createEventDispatcher();
@@ -40,11 +42,11 @@
 <div class="exhibit-page" bind:this={pageElement}>
     {#if template}
         <Hero {data} />
-        <!-- Exhibit_Description html={data.description} /> -->
+        <!-- Exhibit_Description html={data.description} /> TODO determine if required, or impl under <Nav/> -->
         <Navigation_Top {sections} styles={styles?.navigation || null} />
 
         <!-- exhibit template -->
-        <svelte:component this={template} {items} {styles} on:click-item />
+        <svelte:component this={template} {items} {styles} {args} on:click-item /> <!-- args.key -->
     {:else}
         <h3>Loading template...</h3>
     {/if}

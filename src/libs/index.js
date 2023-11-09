@@ -18,7 +18,7 @@ export const Index = (() => {
     /**
      * getExhibits()
      * 
-     * Fetches all exhibits, return
+     * Fetches all exhibits
      * 
      * @returns {Object} exhibits - array of all exhibits
      */
@@ -32,8 +32,23 @@ export const Index = (() => {
         catch(e) {
             console.error(`Could not connect to index at '${INDEX_API_DOMAIN}': ${e}`);
         }
-        
+
         return exhibits;
+    }
+
+    /**
+     * getPublicExhibits()
+     * 
+     * Fetches all published exhibits
+     * 
+     * @returns {Object} exhibits - array of all exhibits
+     */
+    const getPublicExhibits = async () => {
+        let exhibits = await getExhibits();
+
+        return exhibits.filter((exhibit) => {
+            return exhibit.is_published || false;
+        });
     }
 
     /**
@@ -115,6 +130,7 @@ export const Index = (() => {
 
     return {
         getExhibits,
+        getPublicExhibits,
         getExhibit,
         searchIndex
     }
