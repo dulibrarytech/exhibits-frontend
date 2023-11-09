@@ -33,6 +33,7 @@
             {#if subtitle}<div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
         </div>
         {/if}
+        
         {#if description}
             <hr>
             <div class="description-text">

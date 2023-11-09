@@ -4,17 +4,41 @@
 
     import Hero from './Hero.svelte';
     import Navigation_Side from '../components/Navigation_Side.svelte';
+    import Exhibit_Description from './partials/Exhibit_Description.svelte';
 
     export let data = {};
     export let template = null;
     export let sections = [];
     export let items = [];
+    export let styles = null;
 
     export let args = {};
 
     const dispatch = createEventDispatcher();
 
     let menuButtonDisplay = "none";
+    let pageElement;
+
+    const setTheme = ({template = null, heading = null}) => {
+        
+        // apply user styles to the exhibit page and subcpage subsections
+        if(template) {
+            for(let style in template) {
+                pageElement.style[style] = template[style];
+            }
+
+            if(template.backgroundColor) {
+                document.querySelector('.exhibit-description').style.backgroundColor = template.backgroundColor;
+            }
+        }
+
+        // update item title font type to match heading font type
+        if(heading?.fontFamily) {
+            document.querySelectorAll('.exhibit-page .title-heading').forEach((itemTitle) => {
+                itemTitle.style.fontFamily = heading.fontFamily;
+            });
+        }
+    }
 
     const toggleMenuButtonDisplay = () => {
         menuButtonDisplay = menuButtonDisplay == "none" ? "inline" : "none";
@@ -22,12 +46,19 @@
 
     const onMountTemplate = () => {
         dispatch('mount', {});
+        if(styles?.template) setTheme(styles);
     }
 </script>
 
-<div class="exhibit-page">
+<div class="exhibit-page" bind:this={pageElement}>
     {#if template}
         <Hero {data} />
+
+        {#if data.description}
+            <Exhibit_Description content={data.description} /> <!-- ** if not required, put it back in the banner, remove this template ** -->
+        {/if}
+
+        <!-- sidebar section for navigation -->
         <div class="container-fluid">
             <div id="sidebar-container" class="row flex-nowrap">
                 <div class="col-auto"> <!-- TODO set to exhibit bg color? -->
