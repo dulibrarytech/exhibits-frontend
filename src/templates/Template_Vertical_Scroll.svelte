@@ -49,14 +49,15 @@
         <div class="exhibit-items">
             {#each exhibit as {type = "", text = "", anchorId = null, is_visible=null, is_published=false}, index}
 
-                {#if is_published || role == USER_ROLE.ADMIN}
+                <!-- exhibit heading -->
+                {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
+                    <Exhibit_Heading id={anchorId} {text} styles={styles?.heading || null} display={is_visible} />
 
-                    <!-- exhibit heading -->
-                    {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
-                        <Exhibit_Heading id={anchorId} {text} styles={styles?.heading || null} display={is_visible} />
-                        
+                <!-- exhibit items -->
+                {:else if is_published || role == USER_ROLE.ADMIN}
+
                     <!--exhibit item - row layout -->
-                    {:else if type == ENTITY_TYPE.ITEM}
+                    {#if type == ENTITY_TYPE.ITEM}
                         <Item_Display id={anchorId} item={exhibit[index]} on:click-item template={Item} args={{showPreview: true}}/>
 
                     <!-- exhibit item container - grid -->
