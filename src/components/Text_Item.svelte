@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
 
-    import Text_Content from './Text_Content.svelte';
+    import Text_Content from '../templates/partials/Text_Content.svelte';
 
     export let item = {};
     export let title = null;
