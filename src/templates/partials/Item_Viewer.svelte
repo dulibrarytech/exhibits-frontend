@@ -36,14 +36,20 @@
 				{#if date}<div class="date">{date}</div><br>{/if}
 				
 				<!-- <Text_Display item={data} {title} /> -->
-				<Text_Display {item} />
+				<div class="text-section">
+					<Text_Display {item} />
+				</div>
 
-				<br>
-				<!-- if repo item, add bib number -->bib
+				<div class="link-section">
+					<!-- if repo item, add bib number -->
+					<a href="#">bib number link</a>
 
-				<!-- if repo item, add link to ddu/object -->
+					<!-- if repo item, add link to ddu/object -->
+					<a href="#">ddu object link</a>
 
-				<!-- if repo item, add link to ddu/collection-->
+					<!-- if repo item, add link to ddu/collection-->
+					<a href="#">ddu collection link</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -84,6 +90,11 @@
 
     .text {
 		height: 100%;
+	}
+
+	.link-section {
+		margin-top: 20px;
+		display: inline-grid;
 	}
 
 	:global(.item-viewer .media-item) {

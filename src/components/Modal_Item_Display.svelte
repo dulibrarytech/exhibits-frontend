@@ -5,4 +5,16 @@
     export let data = {};
 </script>
 
-<Item_Display item={data} template={Item_Viewer} />
+<div class="modal-item-display">
+    <Item_Display item={data} template={Item_Viewer} />
+</div>
+
+<style>
+    .modal-item-display {
+        height: 100%;
+    }
+
+    :global(.modal-item-display .item-viewer .text-section) {
+        height: 64%;
+    } 
+</style>
