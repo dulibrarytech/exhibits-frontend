@@ -7,6 +7,7 @@
     export let item = {};
 
 	let itemType;
+	let itemData;
 	let title;
 	let date;
 
@@ -14,6 +15,7 @@
 
 	const init = async () => {
 		itemType = item.item_type || undefined;
+		itemData = item.data_display || null;
 		title = item.title || null;
 		date = item.date || null;
 
@@ -35,21 +37,20 @@
 
 				{#if date}<div class="date">{date}</div><br>{/if}
 				
-				<!-- <Text_Display item={data} {title} /> -->
 				<div class="text-section">
 					<Text_Display {item} />
 				</div>
 
-				<div class="link-section">
-					<!-- if repo item, add bib number -->
-					<a href="#">bib number link</a>
+				{#if itemData}
+					<div class="data-section">
+						<ul>
+							{#each itemData as {label = null, value = 'unset'}}
+								<li>{#if label}{label}:{/if}{@html value}</li>
+							{/each}
+						</ul>
+					</div>
+				{/if}
 
-					<!-- if repo item, add link to ddu/object -->
-					<a href="#">ddu object link</a>
-
-					<!-- if repo item, add link to ddu/collection-->
-					<a href="#">ddu collection link</a>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -92,17 +93,28 @@
 		height: 100%;
 	}
 
-	.link-section {
+	.data-section {
 		margin-top: 20px;
 		display: inline-grid;
+	}
+
+	.data-section ul {
+		padding-left: 0;
+	}
+
+	.data-section li {
+		list-style-type: none;
+		margin-bottom: 4px;
+	}
+
+	:global(.data-section li a) {
+		text-decoration: underline;
 	}
 
 	:global(.item-viewer .media-item) {
 		width: 100%;
 		height: 100%;
-
 		position: relative;
-		/* padding: 30px; */
 		background: grey;
 	}
 

@@ -24,25 +24,31 @@
 
     if(!repositoryItemId) repositoryItemId = args.id || item.media || null;
 
-    const init = () => {
+    const init = async () => {
         console.log("Fetching data from repository...");
 
-        Repository.getItemData(repositoryItemId)
-        .then(async (data) => {
-
-            // Create a copy of the item for a single viewer instance. Original item data should not be updated permanently
+        try {
+            let data = await Repository.getItemData(repositoryItemId);
             repositoryItem = structuredClone(item);
-            repositoryItem['repository_data'] = data;
 
+            // set the exhibit item type to the repository item type
             let repoItemType = getItemTypeForMimeType( data[MIME_TYPE_FIELD] || "unknown_repository_type" );
             repositoryItem.item_type = repoItemType;
 
+            // get parent collection data
+            let collectionData = await Repository.getItemData(data.is_member_of_collection);
+            data['collection_id'] = collectionData?.pid || null;
+            data['collection_name'] = collectionData?.title || null;
+
+            // append the repository data to the item
+            repositoryItem['data_display'] = getItemDisplayData(data);
+            repositoryItem['repository_data'] = data;
+
+            // get the media url to access the repository item preview image, image tilesource or object datastream based on item type
             if(showPreview) {
                 repositoryItem.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
             }
-            else if(repositoryItem.item_type == ITEM_TYPE.LARGE_IMAGE || 
-                    repositoryItem.item_type == ITEM_TYPE.IMAGE) {
-
+            else if(repositoryItem.item_type == ITEM_TYPE.LARGE_IMAGE || repositoryItem.item_type == ITEM_TYPE.IMAGE) {
                 repositoryItem.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null ); 
             }
             else {
@@ -50,10 +56,41 @@
             }   
 
             renderTemplate = true;
-        })
-        .catch((error) => {
+        }
+        catch(error) {
             console.error(`Error connecting to repository: Item id: ${item.uuid} Error: ${error}`);
+        }
+    }
+
+    const getItemDisplayData = (item) => {
+        let display = [];
+
+        // display local id
+        let localIdentifier = item.display_record.identifiers.find((identifier) => {
+            return identifier.type == 'local';
+        }).identifier;
+        display.push({
+            "label": null,
+            "value": localIdentifier
         });
+
+        // link to object
+        let objectLink = `https://specialcollections.du.edu/object/${item.pid || 'null'}`;
+        display.push({
+            "label": null,
+            "value": `<a href="${objectLink}">Record in the University Libraries' Digital Repository</a>`
+        });
+
+        // link to collection
+        if(item.is_member_of_collection) {
+            let collectionLink = `https://specialcollections.du.edu/object/${item.collection_id || 'null'}`;
+            display.push({
+                "label": null,
+                "value": `<a href="${collectionLink}">${item.collection_name || "Parent Collection"}</a>`
+            });
+        }
+
+        return display;
     }
 
     init();

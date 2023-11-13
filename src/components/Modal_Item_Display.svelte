@@ -15,6 +15,6 @@
     }
 
     :global(.modal-item-display .item-viewer .text-section) {
-        height: 64%;
+        height: 69%;
     } 
 </style>
