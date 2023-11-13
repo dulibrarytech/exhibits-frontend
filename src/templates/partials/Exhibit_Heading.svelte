@@ -22,7 +22,9 @@
     });
 </script>
 
-<div id={id ?? undefined} class="exhibit-heading" bind:this={headingElement}>
+<div class="exhibit-heading" bind:this={headingElement}>
+    <div id={id ?? undefined} class="anchor-offset"></div>
+
     {#if display}
         <div class="section-heading container">
             <div class="section-title">
@@ -50,5 +52,10 @@
         /* font-size: 1.75em; */
         margin-bottom: 0;
         font-size: 45px;
+    }
+
+    .anchor-offset {
+        position: relative;
+        top: -81px;
     }
 </style>

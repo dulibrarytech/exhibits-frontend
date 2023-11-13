@@ -19,7 +19,7 @@
     const dispatch = createEventDispatcher();
 
     const setTheme = ({template = null, heading = null}) => {
-        
+
         // apply user styles to the exhibit page and subcpage subsections
         if(template) {
             for(let style in template) {

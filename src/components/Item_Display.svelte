@@ -15,9 +15,9 @@
 
 {#if item && template}
     {#if isRepoItem}
-        <Repository_Item {id} {item} {args} {template} on:click-item />
+        <Repository_Item {id} {item} {args} {template} on:click-item on:mount />
     {:else}
-        <svelte:component this={template} {id} {item} {args} on:click-item />
+        <svelte:component this={template} {id} {item} {args} on:click-item on:mount />
     {/if}
 {:else}
     <h5>Loading item...</h5>

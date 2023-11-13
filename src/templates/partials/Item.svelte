@@ -25,7 +25,6 @@
     let layout;
     let mediaWidth;
     let wrapText;
-    //let isPublished;
     let styles;
 
     let {
@@ -41,7 +40,6 @@
         title       = item.title || null;
         text        = item.text || "";
         itemType    = item.item_type || undefined;
-        //isPublished = item.is_published ?? 0;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
         wrapText    = item.wrap_text ?? 1;
@@ -71,111 +69,112 @@
 
     onMount(async () => {
         if(styles) setTheme(styles);
+        dispatch('mount', {});
     });
 </script>
 
-<div class="item" id={id ?? undefined} data-uuid={uuid} bind:this={itemElement}>
-    <!-- {#if isPublished == 1}  -->
-        <div class="container">
+<div class="item" data-uuid={uuid} bind:this={itemElement}>
+    <div id={id ?? undefined} class="anchor-offset"></div>
 
-            {#if layout == MEDIA_POSITION.RIGHT}
-                {#if wrapText}
-                    <div class="item-content wrap-text text media-right">
-                        <div class="media" style="width:{mediaWidth}%">
-                            <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                                <Media_Display {item} args={{showPreview: true}} />
-                            </a>
-                        </div>
-                        {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
-                        <Text_Display {item} />
-                    </div>
-                {:else}
-                    <div class="item-content media-right">
-                        <div class="media" style="width:{mediaWidth}%">
-                            <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                                <Media_Display {item} args={{showPreview: true}} />
-                            </a>
-                        </div>
-                        <div class="text" style="width:{100 - mediaWidth}%">
-                            {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
-                            <Text_Display {item} />
-                        </div>
-                    </div>
-                {/if}
+    <div class="container">
 
-            {:else if layout == MEDIA_POSITION.LEFT}
-                {#if wrapText}
-                    <div class="item-content wrap-text text media-left">
-                        <div class="media" style="width:{mediaWidth}%">
-                            <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                                <Media_Display {item} args={{showPreview: true}} />
-                            </a>
-                        </div>
-                        {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
-                        <Text_Display {item} />
-                    </div>
-                {:else}
-                    <div class="item-content media-left">
-                        <div class="media" style="width:{mediaWidth}%">
-                            <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                                <Media_Display {item} args={{showPreview: true}} />
-                            </a>
-                        </div>
-                        <div class="text" style="width:{100 - mediaWidth}%">
-                            {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
-                            <Text_Display {item} />
-                        </div>
-                    </div>
-                {/if}
-                
-            {:else if layout == MEDIA_POSITION.TOP}
-                <div class="item-content media-top">
-                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
-                    <div class="media media-fullwidth" style="width:{mediaWidth}%">
+        {#if layout == MEDIA_POSITION.RIGHT}
+            {#if wrapText}
+                <div class="item-content wrap-text text media-right">
+                    <div class="media" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
                     </div>
-                    <div class="text">
-                        <!-- {#if title}<div class="title">{title}</div><br>{/if} -->
-                        <Text_Display {item} />
-                    </div>
-                </div>
-
-            {:else if layout == MEDIA_POSITION.BOTTOM}
-                <div class="item-content media-bottom">
-                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
-                    <div class="text">
-                        <!-- {#if title}<div class="title">{title}</div><br>{/if} -->
-                        <Text_Display {item} />
-                    </div>
-                    <div class="media media-fullwidth" style="width:{mediaWidth}%">
-                        <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <Media_Display {item} args={{showPreview: true}} />
-                        </a>
-                    </div>
-                </div>
-
-            {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
-                <div class="item-content">
-                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
-                    <div class="media media-fullwidth" style="width:{mediaWidth}%">
-                        <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <Media_Display {item} args={{showPreview: true}} />
-                        </a>
-                    </div>
-                </div>
-
-            {:else if layout == MEDIA_POSITION.TEXT_ONLY}
-                <div class="item-content text">
                     {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
                     <Text_Display {item} />
                 </div>
-
+            {:else}
+                <div class="item-content media-right">
+                    <div class="media" style="width:{mediaWidth}%">
+                        <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                            <Media_Display {item} args={{showPreview: true}} />
+                        </a>
+                    </div>
+                    <div class="text" style="width:{100 - mediaWidth}%">
+                        {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                        <Text_Display {item} />
+                    </div>
+                </div>
             {/if}
 
-        </div>
-    <!-- {/if} -->
+        {:else if layout == MEDIA_POSITION.LEFT}
+            {#if wrapText}
+                <div class="item-content wrap-text text media-left">
+                    <div class="media" style="width:{mediaWidth}%">
+                        <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                            <Media_Display {item} args={{showPreview: true}} />
+                        </a>
+                    </div>
+                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                    <Text_Display {item} />
+                </div>
+            {:else}
+                <div class="item-content media-left">
+                    <div class="media" style="width:{mediaWidth}%">
+                        <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                            <Media_Display {item} args={{showPreview: true}} />
+                        </a>
+                    </div>
+                    <div class="text" style="width:{100 - mediaWidth}%">
+                        {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                        <Text_Display {item} />
+                    </div>
+                </div>
+            {/if}
+            
+        {:else if layout == MEDIA_POSITION.TOP}
+            <div class="item-content media-top">
+                {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                <div class="media media-fullwidth" style="width:{mediaWidth}%">
+                    <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                        <Media_Display {item} args={{showPreview: true}} />
+                    </a>
+                </div>
+                <div class="text">
+                    <!-- {#if title}<div class="title">{title}</div><br>{/if} -->
+                    <Text_Display {item} />
+                </div>
+            </div>
+
+        {:else if layout == MEDIA_POSITION.BOTTOM}
+            <div class="item-content media-bottom">
+                {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                <div class="text">
+                    <!-- {#if title}<div class="title">{title}</div><br>{/if} -->
+                    <Text_Display {item} />
+                </div>
+                <div class="media media-fullwidth" style="width:{mediaWidth}%">
+                    <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                        <Media_Display {item} args={{showPreview: true}} />
+                    </a>
+                </div>
+            </div>
+
+        {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
+            <div class="item-content">
+                {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                <div class="media media-fullwidth" style="width:{mediaWidth}%">
+                    <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                        <Media_Display {item} args={{showPreview: true}} />
+                    </a>
+                </div>
+            </div>
+
+        {:else if layout == MEDIA_POSITION.TEXT_ONLY}
+            <div class="item-content text">
+                {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                <Text_Display {item} />
+            </div>
+
+        {/if}
+
+    </div>
 </div>
 
 <style>
@@ -188,6 +187,11 @@
     }
 
     .item a { color: inherit }
+
+    .anchor-offset {
+        position: relative;
+        top: -120px;
+    }
 
     .item-content {
         width: 100%;
