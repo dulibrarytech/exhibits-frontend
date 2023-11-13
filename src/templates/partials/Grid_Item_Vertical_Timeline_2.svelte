@@ -3,9 +3,8 @@
 
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import Item_Preview from '../../components/Media_Item_Preview.svelte';
 
-    import {ITEM_TYPE} from '../../config/global-constants';
+    import Item_Preview from '../../components/Media_Item_Preview.svelte';
 
     export let item = {};
 
@@ -60,6 +59,7 @@
 </script>
 
 <div class="vertical-timeline-grid-item item">
+    
     <div class="timeline__card card" bind:this={itemElement}>
         <header class="card__header">
             <!-- <time class="time" datetime="2008-02-02">
@@ -182,7 +182,6 @@
     }
 
     /* DU updates */
-
     p.description {
         margin-top: 1rem;
     }

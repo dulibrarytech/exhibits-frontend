@@ -4,9 +4,11 @@
     
     import { onMount } from 'svelte';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
+    import {USER_ROLE} from '../../config/global-constants';
 
     export let grid = {};
     export let id = null;
+    export let args = {};
 
     let gridElement;
 
@@ -15,6 +17,11 @@
     let styles;
     let columns;
     let bootstrapColumnValue;
+
+    let {
+        role = USER_ROLE.STANDARD
+
+    } = args;
 
     const init = () => {
         columns = grid.columns || "2";
@@ -37,17 +44,23 @@
     });
 </script>
 
-<div class="item-grid" id={id ?? undefined} bind:this={gridElement} >
+<div class="item-grid" bind:this={gridElement} >
+    <div id={id ?? undefined} class="anchor-offset"></div>
+
     <div class="container">
         {#if title}<div class="title-heading">{title}</div>{/if}
         <div class="grid-content">
             {#if items}
                 {#each items as item}
-                    <!-- {#if item.is_published} -->
+
+                    {#if item.is_published || role == USER_ROLE.ADMIN}
+
                         <div class="col-xl-{bootstrapColumnValue} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}">
                             <Grid_Item_Image_Text {item} on:click-item /> 
                         </div>
-                    <!-- {/if} -->
+
+                    {/if}
+
                 {/each}
             {/if}
         </div>
@@ -60,8 +73,10 @@
         padding-top: 45px;
         padding-bottom: 45px;
     }
-    .item-grid > .container {
-        /* display: flex; */
+
+    .anchor-offset {
+        position: relative;
+        top: -120px;
     }
 
     .grid-content {

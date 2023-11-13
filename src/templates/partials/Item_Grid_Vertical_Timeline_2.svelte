@@ -1,19 +1,23 @@
 <script>
     'use strict'
     import { onMount } from 'svelte';
-    //import { createEventDispatcher } from 'svelte';
     import Grid_Item_Vertical_Timeline_2 from './Grid_Item_Vertical_Timeline_2.svelte';
+    import {USER_ROLE} from '../../config/global-constants';
 
     export let grid = {};
     export let id = null;
-
-    //const dispatch = createEventDispatcher();
+    export let args = {};
 
     let timelineSection;
     let title;
     let items;
     let sections = null;
     let styles;
+
+    let {
+        role = USER_ROLE.STANDARD
+
+    } = args;
 
     const DEFAULT_TOP_OFFSET = 100;
 
@@ -29,11 +33,6 @@
             timelineSection.style[style] = styles[style];
         }
     }
-
-    // const onClickItem = (event) => {
-    //     let itemId = event.detail.itemId || null;
-    //     if(itemId) dispatch('click-item', {itemId});
-    // }
 
     /**
      * Sorts the items into sections defined by 'year_label' field:
@@ -93,8 +92,9 @@
     });
 </script>
 
-<div class="vertical-timeline-item-grid" id={id ?? undefined} bind:this={timelineSection}>
-
+<div class="vertical-timeline-item-grid" bind:this={timelineSection}>
+    <div id={id ?? undefined} class="anchor-offset"></div>
+    
     <div class="container">
         {#if title}<div class="title-heading">{title}</div><br>{/if}
 
@@ -111,11 +111,13 @@
                             <div class="timeline timeline-left">
                                 <div class="timeline__group">
                                     <div class="timeline__cards">
-            
                                         {#each section.leftItems as item}
-                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
+
+                                            {#if item.is_published || role == USER_ROLE.ADMIN}
+                                                <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
+                                            {/if}
+
                                         {/each}
-            
                                     </div>
                                 </div>
                             </div>
@@ -125,11 +127,13 @@
                             <div class="timeline timeline-right">
                                 <div class="timeline__group">
                                     <div class="timeline__cards">
-            
                                         {#each section.rightItems as item}
-                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
+
+                                            {#if item.is_published || role == USER_ROLE.ADMIN}
+                                                <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
+                                            {/if}
+
                                         {/each}
-            
                                     </div>
                                 </div>
                             </div>
@@ -278,6 +282,11 @@
         padding: 80px 0;
     }
 
+    .anchor-offset {
+        position: relative;
+        top: -120px;
+    }
+
     :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
         /* height: 610px; */
         position: relative;
@@ -331,38 +340,4 @@
     :global(.vertical-timeline-item-grid .card__title) {
         margin-top: 1.5rem;
     }
-
-    /* @media (min-width: 992px) {
-        :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
-            margin-left: 0;
-            margin-right: 9.65vw;
-        }
-
-        :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
-            margin-right: 0;
-            margin-left: 9.65vw;
-        }
-
-        :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
-            content: "";
-            width: 20.65vw;
-            height: 2px;
-            background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
-            position: absolute;
-            z-index: -1;
-            top: 150px;
-            right: -166px;
-        }
-
-        :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
-            content: "";
-            width: 20.65vw;
-            height: 2px;
-            background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
-            position: absolute;
-            z-index: -1;
-            top: 150px;
-            left: -166px;
-        }
-    } */
 </style>

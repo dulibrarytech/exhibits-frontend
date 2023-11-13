@@ -53,20 +53,20 @@
                 {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
                     <Exhibit_Heading id={anchorId} {text} styles={styles?.heading || null} display={is_visible} />
 
+                <!-- exhibit item container - grid -->
+                {:else if type == ITEM_TEMPLATE.GRID}
+                    <Item_Grid id={anchorId} grid={exhibit[index]} args={{role}} on:click-item />
+
+                <!-- exhibit item container - vertical timeline grid -->
+                {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
+                    <Item_Grid_Vertical_Timeline id={anchorId} grid={exhibit[index]} args={{role}} on:click-item />
+
                 <!-- exhibit items -->
                 {:else if is_published || role == USER_ROLE.ADMIN}
 
                     <!--exhibit item - row layout -->
                     {#if type == ENTITY_TYPE.ITEM}
                         <Item_Display id={anchorId} item={exhibit[index]} on:click-item template={Item} args={{showPreview: true}}/>
-
-                    <!-- exhibit item container - grid -->
-                    {:else if type == ITEM_TEMPLATE.GRID}
-                        <Item_Grid id={anchorId} grid={exhibit[index]} on:click-item />
-
-                    <!-- exhibit item container - vertical timeline grid -->
-                    {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
-                        <Item_Grid_Vertical_Timeline id={anchorId} grid={exhibit[index]} on:click-item />
                     {/if}
 
                 {/if}
