@@ -38,6 +38,6 @@
         background-repeat: no-repeat;
         background-size: cover;
         position: relative;
-        min-height: 800px;
+        min-height: 81vh;
     }
 </style>
