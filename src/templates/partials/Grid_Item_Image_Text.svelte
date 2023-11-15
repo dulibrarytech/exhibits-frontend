@@ -15,7 +15,6 @@
     export let item;
 
     let htmlElement;
-    let gridItem;
 
     let id;
     let date;
@@ -35,9 +34,6 @@
         // apply default grid item settings
         if(!item.layout) item.layout = MEDIA_POSITION.TOP;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
-
-        gridItem = structuredClone(item);
-        gridItem.text = description;
     }
 
     const setTheme = (styles) => {
@@ -61,7 +57,7 @@
         </div> 
     {/if}
 
-    <Item item={gridItem} args={{showTitle: false, showPreview: true}} on:click-item />
+    <Item {item} args={{showTitle: false, showPreview: true}} on:click-item />
 
     {#if description}<div class="description">{description}</div>{/if}
 </div>
@@ -82,6 +78,6 @@
 
     .description {
         font-size: 0.9em;
-        margin-top: 10px;
+        margin-top: 20px;
     }
 </style>

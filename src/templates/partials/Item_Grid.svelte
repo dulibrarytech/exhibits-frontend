@@ -106,4 +106,9 @@
         padding-left: 0;
         padding-right: 0;
     }
+
+    :global(.item-grid .item .caption) {
+        font-style: italic;
+        font-size: 0.7em;
+    }
 </style>
