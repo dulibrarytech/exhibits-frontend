@@ -17,6 +17,7 @@
     const DEFAULT_MEDIA_WIDTH = "50";
 
     let itemElement;
+    let titleElement;
 
     let uuid;
     let title;
@@ -28,7 +29,8 @@
     let styles;
 
     let {
-        showTitle = true,
+        showTitle = true
+
     } = args;
 
     const dispatch = createEventDispatcher();
@@ -42,7 +44,7 @@
         itemType    = item.item_type || undefined;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
-        wrapText    = item.wrap_text ?? 1;
+        wrapText    = item.wrap_text ?? true;
         styles      = item.styles || null;
 
         if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
@@ -50,7 +52,7 @@
 
     const setTheme = (styles) => {
         for(let style in styles.item) {
-
+        
             if(style == "backgroundImage") {
                 let filename = styles.item[style];
                 itemElement.style[style] = `url('${ Resource.getFileUrl(filename) }')`;
@@ -69,7 +71,7 @@
 
     onMount(async () => {
         if(styles) setTheme(styles);
-        dispatch('mount', {});
+        dispatch('mount-template-item', {type: "item"});
     });
 </script>
 
@@ -86,7 +88,7 @@
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
                     </div>
-                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                     <Text_Display {item} />
                 </div>
             {:else}
@@ -97,7 +99,7 @@
                         </a>
                     </div>
                     <div class="text" style="width:{100 - mediaWidth}%">
-                        {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                        {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                         <Text_Display {item} />
                     </div>
                 </div>
@@ -111,7 +113,7 @@
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
                     </div>
-                    {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                    {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                     <Text_Display {item} />
                 </div>
             {:else}
@@ -122,7 +124,7 @@
                         </a>
                     </div>
                     <div class="text" style="width:{100 - mediaWidth}%">
-                        {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                        {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                         <Text_Display {item} />
                     </div>
                 </div>
@@ -130,23 +132,21 @@
             
         {:else if layout == MEDIA_POSITION.TOP}
             <div class="item-content media-top">
-                {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                 <div class="media media-fullwidth" style="width:{mediaWidth}%">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview: true}} />
                     </a>
                 </div>
                 <div class="text">
-                    <!-- {#if title}<div class="title">{title}</div><br>{/if} -->
                     <Text_Display {item} />
                 </div>
             </div>
 
         {:else if layout == MEDIA_POSITION.BOTTOM}
             <div class="item-content media-bottom">
-                {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                 <div class="text">
-                    <!-- {#if title}<div class="title">{title}</div><br>{/if} -->
                     <Text_Display {item} />
                 </div>
                 <div class="media media-fullwidth" style="width:{mediaWidth}%">
@@ -158,7 +158,7 @@
 
         {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
             <div class="item-content">
-                {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                 <div class="media media-fullwidth" style="width:{mediaWidth}%">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview: true}} />
@@ -168,7 +168,7 @@
 
         {:else if layout == MEDIA_POSITION.TEXT_ONLY}
             <div class="item-content text">
-                {#if title && showTitle}<div class="title-heading">{title}</div><br>{/if}
+                {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                 <Text_Display {item} />
             </div>
 

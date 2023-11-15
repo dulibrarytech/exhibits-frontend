@@ -2,14 +2,17 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import {createEventDispatcher} from 'svelte';
 
-    export let id=null;
-    export let text="";
-    export let subtext="";
-    export let display=true;
+    export let id = null;
+    export let text = "";
+    export let subtext = "";
+    export let display = true;
     export let styles = null;
 
     let headingElement;
+
+    const dispatch = createEventDispatcher();
 
     export const setTheme = (styles) => {
         for(let style in styles) {
@@ -19,6 +22,7 @@
 
     onMount(async () => {
         if(styles) setTheme(styles);
+        dispatch('mount-template-item', {type: "heading"});
     });
 </script>
 

@@ -8,24 +8,20 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    //import { createEventDispatcher } from 'svelte';
     import Item from './Item.svelte';
 
-    import {ITEM_TYPE, MEDIA_POSITION} from '../../config/global-constants';
+    import {MEDIA_POSITION} from '../../config/global-constants';
 
     export let item;
 
-    //const dispatch = createEventDispatcher();
-
-    let itemElement;
+    let htmlElement;
+    let gridItem;
 
     let id;
     let date;
     let type;
     let description;
     let styles;
-
-    let tmp;
 
     const DEFAULT_MEDIA_WIDTH = "100";
 
@@ -40,19 +36,15 @@
         if(!item.layout) item.layout = MEDIA_POSITION.TOP;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
 
-        // show the item description text in the grid item. if no description text, remove the item text so it is not displayed in the grid
-
-        //item.text = description || null;
-
-        tmp = structuredClone(item);
-        tmp.text = description;
+        gridItem = structuredClone(item);
+        gridItem.text = description;
     }
 
     const setTheme = (styles) => {
         let {item={}} = styles;
 
         for(let style in item) {
-            itemElement.style[style] = item[style];
+            htmlElement.style[style] = item[style];
         }
     }
 
@@ -61,7 +53,7 @@
     });
 </script>
 
-<div class="grid-item" bind:this={itemElement}>
+<div class="grid-item" bind:this={htmlElement}>
     {#if date}
         <div class="date-heading exhibit-heading">
             <div class="item-date">{date}</div>
@@ -69,7 +61,7 @@
         </div> 
     {/if}
 
-    <Item item={tmp} args={{showTitle: false, showPreview: true}} on:click-item />
+    <Item item={gridItem} args={{showTitle: false, showPreview: true}} on:click-item />
 
     {#if description}<div class="description">{description}</div>{/if}
 </div>
@@ -86,5 +78,10 @@
 
     .date-heading {
         font-size: 1em;
+    }
+
+    .description {
+        font-size: 0.9em;
+        margin-top: 10px;
     }
 </style>

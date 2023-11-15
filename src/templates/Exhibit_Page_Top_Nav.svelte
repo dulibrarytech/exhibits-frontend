@@ -20,7 +20,7 @@
 
     const setTheme = ({template = null, heading = null}) => {
 
-        // apply user styles to the exhibit page and subcpage subsections
+        // apply user styles to the exhibit page and page subsections
         if(template) {
             for(let style in template) {
                 pageElement.style[style] = template[style];
@@ -39,9 +39,12 @@
         }
     }
 
+    const onMountItems = () => {
+        if(styles) setTheme(styles);
+    }
+
     onMount(async () => {
         dispatch('mount', {});
-        if(styles?.template) setTheme(styles);
     });
 </script>
 
@@ -57,12 +60,8 @@
         {/if}
 
         <!-- exhibit template -->
-        <svelte:component this={template} {items} {styles} {args} on:click-item />
+        <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
     {:else}
         <h3>Loading template...</h3>
     {/if}
 </div>
-
-<style>
-
-</style>

@@ -3,7 +3,9 @@
     'use strict'
     
     import { onMount } from 'svelte';
+    import {createEventDispatcher} from 'svelte';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
+
     import {USER_ROLE} from '../../config/global-constants';
 
     export let grid = {};
@@ -23,6 +25,8 @@
 
     } = args;
 
+    const dispatch = createEventDispatcher();
+
     const init = () => {
         columns = grid.columns || "2";
         bootstrapColumnValue = 12 / columns;
@@ -41,6 +45,7 @@
 
     onMount(async () => {
         if(styles) setTheme(styles);
+        dispatch('mount-template-item', {});
     });
 </script>
 
@@ -52,7 +57,6 @@
         <div class="grid-content">
             {#if items}
                 {#each items as item}
-
                     {#if item.is_published || role == USER_ROLE.ADMIN}
 
                         <div class="col-xl-{bootstrapColumnValue} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}">
@@ -60,7 +64,6 @@
                         </div>
 
                     {/if}
-
                 {/each}
             {/if}
         </div>
@@ -69,7 +72,7 @@
 
 <style>
     .item-grid {
-        margin-bottom: 80px;
+        /* margin-bottom: 80px; */
         padding-top: 45px;
         padding-bottom: 45px;
     }

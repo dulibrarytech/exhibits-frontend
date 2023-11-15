@@ -18,17 +18,23 @@
 
     const dispatch = createEventDispatcher();
 
-    let exhibit = null;
+    let sortedItems = null;
     let role;
+    let templateItemCount;
+    var templateItemsMounted;
 
     const init = () => {
         role = args.userRole || USER_ROLE.STANDARD;
+        
+        templateItemCount = items.length;
+        templateItemsMounted = 0;
+
         render();
     }
 
     const render = () => {
-        if(!exhibit) {
-            exhibit = sortTemplateItems(items);
+        if(!sortedItems) {
+            sortedItems = sortTemplateItems(items);
         }
     }
 
@@ -37,37 +43,39 @@
         return items; 
     }
 
+    const onMountTemplateItem = (event) => {
+        if(templateItemsMounted++ >= templateItemCount-1) {
+            dispatch('mount-items', {});
+        }
+    }
+
     init();
 
     onMount(async () => {
-        dispatch('mount', {});
+        dispatch('mount-template', {});
     });
 </script>
 
 <div class="exhibit-template">
-    {#if exhibit}
+    {#if sortedItems}
         <div class="exhibit-items">
-            {#each exhibit as {type = "", text = "", anchorId = null, is_visible=null, is_published=false}, index}
+            {#each sortedItems as {type = "", text = "", anchorId = null, is_visible=null}, index}
 
                 <!-- exhibit heading -->
                 {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
-                    <Exhibit_Heading id={anchorId} {text} styles={styles?.heading || null} display={is_visible} />
+                    <Exhibit_Heading id={anchorId} {text} styles={styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
 
                 <!-- exhibit item container - grid -->
                 {:else if type == ITEM_TEMPLATE.GRID}
-                    <Item_Grid id={anchorId} grid={exhibit[index]} args={{role}} on:click-item />
+                    <Item_Grid id={anchorId} grid={sortedItems[index]} args={{role}} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                 <!-- exhibit item container - vertical timeline grid -->
                 {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
-                    <Item_Grid_Vertical_Timeline id={anchorId} grid={exhibit[index]} args={{role}} on:click-item />
+                    <Item_Grid_Vertical_Timeline id={anchorId} grid={sortedItems[index]} args={{role}} on:click-item on:mount-template-item={onMountTemplateItem} />
 
-                <!-- exhibit items -->
-                {:else if is_published || role == USER_ROLE.ADMIN}
-
-                    <!--exhibit item - row layout -->
-                    {#if type == ENTITY_TYPE.ITEM}
-                        <Item_Display id={anchorId} item={exhibit[index]} on:click-item template={Item} args={{showPreview: true}}/>
-                    {/if}
+                <!--exhibit item - row layout -->
+                {:else if type == ENTITY_TYPE.ITEM}
+                    <Item_Display id={anchorId} item={sortedItems[index]} template={Item} args={{role, showPreview: true}} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                 {/if}
             {/each}

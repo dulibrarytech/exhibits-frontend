@@ -1,7 +1,9 @@
 <script>
     'use strict'
     import { onMount } from 'svelte';
+    import {createEventDispatcher} from 'svelte';
     import Grid_Item_Vertical_Timeline_2 from './Grid_Item_Vertical_Timeline_2.svelte';
+    
     import {USER_ROLE} from '../../config/global-constants';
 
     export let grid = {};
@@ -18,6 +20,8 @@
         role = USER_ROLE.STANDARD
 
     } = args;
+
+    const dispatch = createEventDispatcher();
 
     const DEFAULT_TOP_OFFSET = 100;
 
@@ -89,6 +93,7 @@
 
     onMount(async () => {
         if(styles) setTheme(styles);
+        dispatch('mount-template-item', {});
     });
 </script>
 

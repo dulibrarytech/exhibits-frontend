@@ -15,7 +15,9 @@
 
     // TODO: move to settings
     const ID_FIELD = "pid";
+    const TITLE_FIELD = "title";
     const MIME_TYPE_FIELD = "mime_type";
+    const PARENT_COLLECTION_ID = "is_member_of_collection";
     const METADATA_OBJECT_FIELD = "display_record";
 
     let{
@@ -36,9 +38,9 @@
             repositoryItem.item_type = repoItemType;
 
             // get parent collection data
-            let collectionData = await Repository.getItemData(data.is_member_of_collection);
-            data['collection_id'] = collectionData?.pid || null;
-            data['collection_name'] = collectionData?.title || null;
+            let collectionData = await Repository.getItemData(data[PARENT_COLLECTION_ID]);
+            data['collection_id'] = collectionData[ID_FIELD] || null;
+            data['collection_name'] = collectionData[TITLE_FIELD] || null;
 
             // append the repository data to the item
             repositoryItem['data_display'] = getItemDisplayData(data);
@@ -58,7 +60,7 @@
             renderTemplate = true;
         }
         catch(error) {
-            console.error(`Error connecting to repository: Item id: ${item.uuid} Error: ${error}`);
+            console.error(`Error repository data error: Item id: ${item.uuid} Error: ${error}`);
         }
     }
 
@@ -96,13 +98,11 @@
     init();
 </script>
 
-<div class="repository-item">
-    {#if renderTemplate}
-        <svelte:component this={template} {id} item={repositoryItem} {args} on:click-item />
-    {:else}
-        <h5>Loading repository item...</h5>
-    {/if}
-</div>
+{#if renderTemplate}
+    <div class="repository-item">
+        <svelte:component this={template} {id} item={repositoryItem} {args} on:click-item on:mount-template-item />
+    </div>
+{/if}
 
 <style>
     .repository-item {
