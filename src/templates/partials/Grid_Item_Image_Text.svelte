@@ -31,8 +31,7 @@
         description = item.description || null
         styles = item.styles || null;
 
-        // apply default grid item settings
-        if(!item.layout) item.layout = MEDIA_POSITION.TOP;
+        if(!item.layout) item.layout = MEDIA_POSITION.MEDIA_ONLY;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
     }
 
