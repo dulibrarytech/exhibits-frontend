@@ -17,15 +17,17 @@
     let textElement;
 
     let type;
-    var date;
-    var title;
-    var description;
+    let date;
+    let title;
+    let caption;
+    let description;
     let media;
 
     $: {
         id = item.uuid || "null";
         date = item.date || null;
         title = item.title || null;
+        caption = item.caption || null;
         description = item.description || null;
         type = item.item_type || null;
         media = item.media || null;
@@ -80,6 +82,7 @@
                 <a href data-item-id={id} on:click={onClickPreview}>
                     <Item_Preview {item} />
                 </a>
+                {#if caption}<div class="caption">{caption}</div>{/if}
             {/if}
             {#if description && description.length > 0}<p class="description">{description}</p>{/if}
         </div>
@@ -186,7 +189,11 @@
         margin-top: 1rem;
     }
 
-    :global(.vertical-timeline-grid-item .caption) {
-        font-size: 0.6em;
+    .caption {
+        margin-top: 1rem;
+        text-decoration: none;
+        color: inherit;
+        font-style: italic;
+        font-size: 0.8em;
     }
 </style>

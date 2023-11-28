@@ -85,7 +85,11 @@
 
 <style>
     :global(.caption) {
+        margin-top: 1rem;
+        text-decoration: none;
         color: inherit;
+        font-style: italic;
+        font-size: 0.85em;
     }
 
     :global(.title-heading) {

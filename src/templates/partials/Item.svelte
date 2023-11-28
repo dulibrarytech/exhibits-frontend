@@ -21,6 +21,7 @@
 
     let uuid;
     let title;
+    let caption;
     let text;
     let itemType;
     let layout;
@@ -40,6 +41,7 @@
     const init = async () => {
         uuid        = item.uuid;
         title       = item.title || null;
+        caption     = item.caption || null;
         text        = item.text || "";
         itemType    = item.item_type || undefined;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
@@ -87,6 +89,7 @@
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
                     {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                     <Text_Display {item} />
@@ -97,6 +100,7 @@
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
                     <div class="text" style="width:{100 - mediaWidth}%">
                         {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
@@ -112,6 +116,7 @@
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
                     {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
                     <Text_Display {item} />
@@ -122,6 +127,7 @@
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview: true}} />
                         </a>
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
                     <div class="text" style="width:{100 - mediaWidth}%">
                         {#if title && showTitle}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
@@ -137,6 +143,7 @@
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview: true}} />
                     </a>
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
                 <div class="text">
                     <Text_Display {item} />
@@ -153,6 +160,7 @@
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview: true}} />
                     </a>
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
             </div>
 
@@ -163,6 +171,7 @@
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview: true}} />
                     </a>
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
             </div>
 
@@ -225,6 +234,14 @@
 
     .media-bottom > .media {
         padding: 30px 0 0 0;
+    }
+
+    .caption {
+        margin-top: 1rem;
+        text-decoration: none;
+        color: inherit;
+        font-style: italic;
+        font-size: 0.85em;
     }
 
     :global(.item .caption) {

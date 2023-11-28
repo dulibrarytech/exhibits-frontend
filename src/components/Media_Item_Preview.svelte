@@ -17,7 +17,6 @@
     let resource;
     let thumbnail;
     let title;
-    let caption = null;
     let styles = null;
     let preview = null;
 
@@ -34,7 +33,6 @@
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
         title = item.title || null;
-        caption = item.caption || null;
         styles = item.styles || null;
 
         if(URL_PATTERN.test(resource) == true) {
@@ -110,7 +108,6 @@
 <div class="item-preview" bind:this={itemPreviewElement} >
     {#if preview}
         <img src={preview} />
-        {#if caption}<span class="caption">{caption}</span>{/if}
     {:else}
         <img src='/error' />
     {/if}
@@ -126,11 +123,5 @@
         margin-bottom: 1em;
         margin: 0 auto;
         pointer-events: none;
-    }
-
-    .caption {
-        margin-top: 1rem;
-        text-decoration: none;
-        color: inherit;
     }
 </style>
