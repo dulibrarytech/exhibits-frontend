@@ -1,8 +1,7 @@
 <script>
     'use strict'
     /*
-     * Hero_Banner_2
-     * hero template
+     * hero template #3
      *
      * fullwidth hero image
      * fullwidth description section, no title text

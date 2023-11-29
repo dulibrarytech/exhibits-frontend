@@ -1,11 +1,9 @@
 <script>
     'use strict'
     /*
-     * Hero_Banner_2
-     * hero template
+     * hero template #4
      *
-     * fullwidth hero image
-     * fullwidth description section, no title text
+     * fullwidth hero image, no title 
      */
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';

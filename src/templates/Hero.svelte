@@ -9,6 +9,7 @@
     import Alert from '../components/Alert.svelte';
 
     export let data = null;
+    export let styles = {};
 
     let bannerData = {};
 
@@ -53,7 +54,7 @@
 
 <header class="hero-section">
     {#if banner}
-        <svelte:component this={banner} args={bannerData} />
+        <svelte:component this={banner} args={bannerData} {styles} /> <!-- export let styles -->
     {/if}
 
     {#if alert }

@@ -1,11 +1,10 @@
 <script>
     'use strict'
     /*
-     * Hero_Banner_2
-     * hero template
+     * hero template #2
      *
      * fullwidth hero image
-     * fullwidth title and description
+     * fullwidth title and description section below image
      */
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
@@ -28,10 +27,10 @@
     
     <section class="hero-text">
         {#if title}
-        <div class="title-text">
-            <div id="title" class="overlay-text text">{@html title}</div>
-            {#if subtitle}<div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
-        </div>
+            <div class="title-text">
+                <div id="title" class="overlay-text text">{@html title}</div>
+                {#if subtitle}<div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
+            </div>
         {/if}
         
         {#if description}
@@ -44,19 +43,9 @@
 </div>
 
 <style>
-    header {
-        padding: 0;
-    }
-
     .banner {
         position: relative;
         height: 50%
-    }
-
-    .introduction {
-        font-style: inherit;
-        padding-top: 75px;
-        padding-bottom: 75px;
     }
 
     .hero-image {

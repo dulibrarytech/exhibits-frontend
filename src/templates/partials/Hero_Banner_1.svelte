@@ -1,11 +1,10 @@
 <script>
     'use strict'
     /*
-     * Hero_Banner_1 
-     * hero template
+     * hero template #1
      *
      * fullwidth hero image
-     * title and subtitle overlay
+     * title overlay
      * fullwidth descriptive text section 
      */
     import { onMount } from 'svelte';
@@ -46,19 +45,9 @@
 </div>
 
 <style>
-    header {
-        padding: 0;
-    }
-
     .banner {
         position: relative;
         height: 50%;
-    }
-
-    .introduction {
-        font-style: inherit;
-        padding-top: 75px;
-        padding-bottom: 75px;
     }
 
     .hero-image {
