@@ -10,7 +10,7 @@
     import { onMount } from 'svelte';
     import Item from './Item.svelte';
 
-    import {MEDIA_POSITION} from '../../config/global-constants';
+    import { MEDIA_POSITION, ITEM_TYPE } from '../../config/global-constants';
 
     export let item;
 
@@ -31,7 +31,7 @@
         description = item.description || null
         styles = item.styles || null;
 
-        if(!item.layout) item.layout = MEDIA_POSITION.MEDIA_ONLY;
+        if(!item.layout) item.layout = (type == ITEM_TYPE.TEXT) ? MEDIA_POSITION.TEXT_ONLY : MEDIA_POSITION.MEDIA_ONLY;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
     }
 
