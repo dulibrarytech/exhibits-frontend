@@ -40,12 +40,11 @@
     }
 
     const setTheme = ({grid = {}, heading = null}) => {
-        // apply grid styles to dom style object
         Object.assign(timelineSection.style, grid)
 
         if(titleElement && heading) {
             titleElement.style.fontFamily = heading.fontFamily || 'inherit';
-            titleElement.style.color = heading.color || 'inherit';
+            //titleElement.style.color = heading.color || 'inherit';
         }
     }
 

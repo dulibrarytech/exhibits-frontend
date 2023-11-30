@@ -15,9 +15,7 @@
     const dispatch = createEventDispatcher();
 
     export const setTheme = (styles) => {
-        for(let style in styles) {
-            headingElement.style[style] = styles[style];
-        }
+        Object.assign(headingElement.style, styles);
     }
 
     onMount(async () => {

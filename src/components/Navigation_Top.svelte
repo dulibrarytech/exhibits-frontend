@@ -43,13 +43,8 @@
 
     const setTheme = (styles) => {
         let menuStyles = styles.menu || {};
-
-        // set nav section
-        for(let style in menuStyles) {
-            navigationElement.style[style] = menuStyles[style];
-        }
+        Object.assign(navigationElement.style, menuStyles)
     }
-    
 
     onMount(async () => {
         if(styles) setTheme(styles);

@@ -52,26 +52,16 @@
         if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
     }
 
-    const setTheme = ({item = {}, heading = null}) => { // item = {} temp -> item = null
-        for(let style in item) {
-            if(style == "backgroundImage") {
-                let filename = item[style];
-                itemElement.style[style] = `url('${ Resource.getFileUrl(filename) }')`;
-            }
-            else {
-                itemElement.style[style] = item[style];  
-            }
+    const setTheme = ({item = {}, heading = {}}) => {
+        Object.assign(itemElement.style, item);
+
+        if(item.backgroundImage) {
+            itemElement.style.backgroundImage = `url('${ Resource.getFileUrl(item.backgroundImage ) }')`;
         }
 
-        // B
-        // itemElement.style = item;
-        // if(item.backgroundImage) {
-        //     itemElement.style.backgroundImage = `url('${ Resource.getFileUrl(item.backgroundImage ) }')`;
-        // }
-
-        if(titleElement && heading) {
+        if(titleElement) {
             titleElement.style.fontFamily = heading.fontFamily || 'inherit';
-            titleElement.style.color = heading.color || 'inherit';
+            //titleElement.style.color = heading.color || 'inherit';
         }
     }
 

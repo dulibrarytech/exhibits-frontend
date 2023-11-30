@@ -17,7 +17,7 @@
     onMount(async () => {
         dispatch('mount', {});
         
-        document.querySelector('.hero-image').style.backgroundImage = `url("${image}")`;
+        document.querySelector('.hero-image').style.backgroundImage = `url("${image}")`; // use bind element
     });
 </script>
 

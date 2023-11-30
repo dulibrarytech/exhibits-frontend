@@ -64,18 +64,14 @@
             if(image) {
                 imageElement = document.querySelector(`[data-index='${index}'] .banner .hero-image-text`);
                 if(imageElement) {
-                    for(let style in image) {
-                        imageElement.style[style] = image[style];
-                    }
+                    Object.assign(imageElement.style, image)
                 }
             }
 
             if(text) {
                 textElement  = document.querySelector(`[data-index='${index}'] .banner .hero-text`);
                 if(textElement) {
-                    for(let style in text) {
-                        textElement.style[style] = text[style];
-                    }
+                    Object.assign(textElement.style, text)
                 }
             }
         }

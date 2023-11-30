@@ -34,19 +34,12 @@
         styles = item.styles || null;
     }
 
-    const setTheme = (styles) => {
-        let {item_text = {}, item={}} = styles;
+    const setTheme = ({item = {}, item_text = {}}) => {
+        Object.assign(itemElement.style, item)
 
-        /* set item styles */
-        for(let style in item) {
-            itemElement.style[style] = item[style];
-        }
-
-        /* set text (description) section styles */
+        /* set description section styles */
         if(textElement) {
-            for(let style in item_text) {
-                textElement.style[style] = item_text[style];
-            }
+            Object.assign(textElement.style, item_text)
         }
     }
 

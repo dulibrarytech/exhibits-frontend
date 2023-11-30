@@ -18,11 +18,9 @@
 
     const dispatch = createEventDispatcher();
 
-    const setTheme = ({template = null, heading = null}) => {
-        if(template) {
-            for(let style in template) {
-                pageElement.style[style] = template[style];
-            }
+    const setTheme = (styles) => {
+        if(styles.template) {
+            Object.assign(pageElement.style, styles.template);
         }
     }
 

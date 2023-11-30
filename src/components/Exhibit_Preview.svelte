@@ -28,7 +28,7 @@
         heroImage = exhibit.hero_image || null;
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
-        styles = exhibit.styles?.hero || {};
+        styles = exhibit.styles?.hero || {}; // template styles
 
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
@@ -44,16 +44,8 @@
         else thumbnail = Resource.getThumbnailFileUrl(thumbnail);
     }
 
-    const setTheme = () => {
-        let exhibit_hero_image = styles.image || {};
-        for(let style in exhibit_hero_image) {
-            titleTextElement.style[style] = exhibit_hero_image[style];
-        }
-    }
-
     onMount(async () => {
         setOverlayDisplay(false);
-        setTheme(); 
     });
 </script>
 

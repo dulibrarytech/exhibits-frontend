@@ -29,11 +29,10 @@
             
         } = data;
         
-        banner = $Banners[banner_template || DEFAULT_BANNER];
         if(hero_image) image = getImagePath(hero_image);
         if(alert_text) alert = sanitizeHtmlString(alert_text);
-        //alert = alert_text;
 
+        banner = $Banners[banner_template || DEFAULT_BANNER];
         bannerData = {
             image,
             title: data.title || "",
@@ -54,7 +53,7 @@
 
 <header class="hero-section">
     {#if banner}
-        <svelte:component this={banner} args={bannerData} {styles} /> <!-- export let styles -->
+        <svelte:component this={banner} args={bannerData} {styles} />
     {/if}
 
     {#if alert }

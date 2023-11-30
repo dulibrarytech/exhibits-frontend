@@ -31,9 +31,7 @@
     }
 
     const setTheme = (styles) => {
-        for(let style in styles) {
-            timelineSection.style[style] = styles[style];
-        }
+        Object.assign(timelineSection.style, styles)
     }
 
     const onClickPreview = (event) => {

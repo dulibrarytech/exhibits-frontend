@@ -19,24 +19,9 @@
     let menuButtonDisplay = "none";
     let pageElement;
 
-    const setTheme = ({template = null, heading = null}) => {
-        
-        // apply user styles to the exhibit page and subcpage subsections
-        if(template) {
-            for(let style in template) {
-                pageElement.style[style] = template[style];
-            }
-
-            if(template.backgroundColor) {
-                document.querySelector('.exhibit-description').style.backgroundColor = template.backgroundColor;
-            }
-        }
-
-        // update item title font type to match heading font type
-        if(heading?.fontFamily) {
-            document.querySelectorAll('.exhibit-page .title-heading').forEach((itemTitle) => {
-                itemTitle.style.fontFamily = heading.fontFamily;
-            });
+    const setTheme = (styles) => {   
+        if(styles.template) {
+            Object.assign(pageElement.style, styles.template);
         }
     }
 
@@ -63,7 +48,7 @@
             <div id="sidebar-container" class="row flex-nowrap">
                 <div class="col-auto"> <!-- TODO set to exhibit bg color? -->
                     <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end">
-                        <Navigation_Side {sections} />
+                        <Navigation_Side {sections} styles={styles?.navigation || null} />
 
                         <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} ><i class="bi bi-chevron-left"></i></a>
                     </div>
@@ -72,7 +57,7 @@
                 <div class="col">
                     <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay}" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
                     
-                    <svelte:component this={template} {sections} {items} {args} on:mount={onMountTemplate}/>
+                    <svelte:component this={template} {sections} {items} {args} {styles} on:mount={onMountTemplate}/>
                 </div>
             </div>
         </div>

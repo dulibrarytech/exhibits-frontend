@@ -35,12 +35,8 @@
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
     }
 
-    const setTheme = (styles) => {
-        let {item={}} = styles;
-
-        for(let style in item) {
-            htmlElement.style[style] = item[style];
-        }
+    const setTheme = ({item = {}}) => {
+        Object.assign(htmlElement.style, item)
     }
 
     onMount(() => {

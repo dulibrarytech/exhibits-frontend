@@ -1,7 +1,6 @@
 <script>
     'use strict' 
     
-    import { onMount } from 'svelte';
     import { Settings } from '../config/settings';
     import { Resource } from '../libs/resource';
 
@@ -43,14 +42,6 @@
         }
 
         if(!preview) console.log("Preview image source url not found");
-    }
-
-    const setTheme = (styles) => {
-        let {item_media = {}} = styles;
-
-        for(let style in item_media) {
-            itemPreviewElement.style[style] = item_media[style];
-        }
     }
 
     const getPreviewSourceUrl = async (itemType, media, width=null, height=null) => {
@@ -99,10 +90,6 @@
 
         return url;
     }
-
-    onMount(async () => {
-        if(styles) setTheme(styles); 
-    });
 </script>
 
 <div class="item-preview" bind:this={itemPreviewElement} >
