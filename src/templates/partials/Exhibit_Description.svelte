@@ -9,6 +9,6 @@
 <style>
     .exhibit-description {
         height: 100%;
-        padding: 50px;
+        padding: 50px 115px;
     }
 </style>
