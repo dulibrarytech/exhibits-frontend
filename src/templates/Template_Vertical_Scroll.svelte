@@ -8,9 +8,9 @@
     import Item_Display from '../components/Item_Display.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
     import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline_2.svelte';
+    import Item from './partials/Item.svelte';
 
     import {ENTITY_TYPE, ITEM_TEMPLATE, USER_ROLE} from '../config/global-constants';
-    import Item from './partials/Item.svelte';
 
     export let items;
     export let styles = null;
@@ -18,12 +18,13 @@
 
     const dispatch = createEventDispatcher();
 
-    let sortedItems = null;
+    let sortedItems;
     let role;
     let templateItemCount;
     var templateItemsMounted;
 
     const init = () => {
+        sortedItems = null;
         role = args.userRole || USER_ROLE.STANDARD;
         
         templateItemCount = items.length;
@@ -67,15 +68,15 @@
 
                 <!-- exhibit item container - grid -->
                 {:else if type == ITEM_TEMPLATE.GRID}
-                    <Item_Grid id={anchorId} grid={sortedItems[index]} args={{role}} on:click-item on:mount-template-item={onMountTemplateItem} />
+                    <Item_Grid id={anchorId} grid={sortedItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                 <!-- exhibit item container - vertical timeline grid -->
                 {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
-                    <Item_Grid_Vertical_Timeline id={anchorId} grid={sortedItems[index]} args={{role}} on:click-item on:mount-template-item={onMountTemplateItem} />
+                    <Item_Grid_Vertical_Timeline id={anchorId} grid={sortedItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                 <!--exhibit item - row layout -->
                 {:else if type == ENTITY_TYPE.ITEM}
-                    <Item_Display id={anchorId} item={sortedItems[index]} template={Item} args={{role, showPreview: true}} on:click-item on:mount-template-item={onMountTemplateItem} />
+                    <Item_Display id={anchorId} item={sortedItems[index]} template={Item} args={{role, showPreview: true}} {styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                 {/if}
             {/each}

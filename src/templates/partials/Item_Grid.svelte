@@ -11,14 +11,17 @@
     export let grid = {};
     export let id = null;
     export let args = {};
+    export let templateStyles = {};
 
     let gridElement;
+    let titleElement;
 
     let title;
     let items;
-    let styles;
     let columns;
     let bootstrapColumnValue;
+
+    let styles = {};
 
     let {
         role = USER_ROLE.STANDARD
@@ -32,19 +35,27 @@
         bootstrapColumnValue = 12 / columns;
         title = grid.title || null;
         items = grid.items || [];
-        styles = grid.styles?.item_grid || null;
+
+        styles = {
+            grid: grid.styles?.item_grid || {},
+            heading: templateStyles.heading || null
+        }
     }
 
-    const setTheme = (styles) => {
-        for(let style in styles) {
-            gridElement.style[style] = styles[style];
+    const setTheme = ({grid = {}, heading = null}) => {
+        // apply grid styles to dom style object
+        Object.assign(gridElement.style, grid);
+
+        if(titleElement && heading) {
+            titleElement.style.fontFamily = heading.fontFamily || 'inherit';
+            titleElement.style.color = heading.color || 'inherit';
         }
     }
 
     $: init();
 
     onMount(async () => {
-        if(styles) setTheme(styles);
+        setTheme(styles);
         dispatch('mount-template-item', {});
     });
 </script>
@@ -53,7 +64,8 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     <div class="container">
-        {#if title}<div class="title-heading">{title}</div>{/if}
+        {#if title}<div class="title-heading" bind:this={titleElement}>{title}</div>{/if}
+
         <div class="grid-content">
             {#if items}
                 {#each items as item}
@@ -72,7 +84,6 @@
 
 <style>
     .item-grid {
-        /* margin-bottom: 80px; */
         padding-top: 45px;
         padding-bottom: 45px;
     }

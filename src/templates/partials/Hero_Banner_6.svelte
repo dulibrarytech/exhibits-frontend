@@ -16,9 +16,6 @@
 
     onMount(async () => {
         dispatch('mount', {});
-
-        console.log("TEST mounted banner: banner element:", document.querySelector('.banner'))
-        console.log("TEST mounted description: description element:", document.querySelector('.description-text'))
         
         document.querySelector('.hero-image').style.backgroundImage = `url("${image}")`;
     });

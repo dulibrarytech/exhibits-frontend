@@ -19,23 +19,10 @@
     const dispatch = createEventDispatcher();
 
     const setTheme = ({template = null, heading = null}) => {
-
-        // apply user styles to the exhibit page and page subsections
         if(template) {
             for(let style in template) {
                 pageElement.style[style] = template[style];
             }
-
-            if(template.backgroundColor) {
-                document.querySelector('.exhibit-description').style.backgroundColor = template.backgroundColor;
-            }
-        }
-
-        // update item title font type to match heading font type
-        if(heading?.fontFamily) {
-            document.querySelectorAll('.exhibit-page .title-heading').forEach((itemTitle) => {
-                itemTitle.style.fontFamily = heading.fontFamily;
-            });
         }
     }
 
@@ -54,7 +41,6 @@
 
         <Navigation_Top {sections} styles={styles?.navigation || null} />
 
-        <!-- ** if not required, put it back in the banner, remove this template ** -->
         {#if data.description}
             <Exhibit_Description content={data.description} />
         {/if}

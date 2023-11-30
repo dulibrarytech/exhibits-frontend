@@ -1,4 +1,5 @@
 <script>
+    import { createEventDispatcher } from 'svelte';
     import { getItemTypeForMimeType } from '../libs/media_helpers';
     import { Repository } from '../libs/repository';
 
@@ -8,10 +9,12 @@
     export let item = {};
     export let args = {};
     export let template = null;
-
+;
     let renderTemplate = false;
     let repositoryItemId = null;
     let repositoryItem = {};
+
+    const dispatch = createEventDispatcher();
 
     // TODO: move to settings
     const ID_FIELD = "pid";
@@ -61,6 +64,7 @@
         }
         catch(error) {
             console.error(`Error repository data error: Item id: ${item.uuid} Error: ${error}`);
+            dispatch('mount-template-item', {type: "item"});
         }
     }
 

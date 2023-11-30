@@ -97,7 +97,7 @@
     }
 
     const createPageSections = (items) => {
-        console.log("Creating page sections");
+        console.log("Creating page sections: items:", items);
 
         let headings = [];
         let heading = null;

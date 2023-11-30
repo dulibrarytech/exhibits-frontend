@@ -9,12 +9,15 @@
     export let grid = {};
     export let id = null;
     export let args = {};
+    export let templateStyles = {};
+
+    let titleElement;
 
     let timelineSection;
     let title;
     let items;
     let sections = null;
-    let styles;
+    let styles = {};
 
     let {
         role = USER_ROLE.STANDARD
@@ -28,13 +31,21 @@
     const init = () => {
         title = grid.title || null;
         items = grid.items || [];
-        styles = grid.styles?.item_grid || null;
         sections = sortItemsToYearSections(items);
+
+        styles = {
+            grid: grid.styles?.item_grid || {},
+            heading: templateStyles.heading || null
+        }
     }
 
-    const setTheme = (styles) => {
-        for(let style in styles) {
-            timelineSection.style[style] = styles[style];
+    const setTheme = ({grid = {}, heading = null}) => {
+        // apply grid styles to dom style object
+        Object.assign(timelineSection.style, grid)
+
+        if(titleElement && heading) {
+            titleElement.style.fontFamily = heading.fontFamily || 'inherit';
+            titleElement.style.color = heading.color || 'inherit';
         }
     }
 
@@ -92,7 +103,7 @@
     $: init();
 
     onMount(async () => {
-        if(styles) setTheme(styles);
+        setTheme(styles);
         dispatch('mount-template-item', {});
     });
 </script>
@@ -101,7 +112,7 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
     
     <div class="container">
-        {#if title}<div class="title-heading">{title}</div><br>{/if}
+        {#if title}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
 
         <div class="timeline-wrapper">
             {#if sections}
