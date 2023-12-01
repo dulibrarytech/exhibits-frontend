@@ -240,7 +240,7 @@
         text-decoration: none;
         color: inherit;
         font-style: italic;
-        font-size: 0.85em;
+        /* font-size: 0.85em; */
     }
 
     :global(.item .caption) {

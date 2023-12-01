@@ -41,19 +41,17 @@
 
 <style>
     .exhibit-heading {
-        height: 104px;
+        font-size: 47px; 
     }
 
     .section-heading {
-        padding-top: 25px;
-        padding-bottom: 25px;
-        /* font-size: 1.15em; */
+        padding-top: 0.532em; /* 25px @ 47px heading font */
+        padding-bottom: 0.319em; /* 15px @ 47px heading font */
     }
 
     .section-heading h3 {
-        /* font-size: 1.75em; */
         margin-bottom: 0;
-        font-size: 45px;
+        font-size: inherit;
     }
 
     .anchor-offset {

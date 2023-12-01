@@ -122,7 +122,7 @@
     .navbar-nav a {
         /* color: #505050; */
         padding: 8px 26px;
-        font-size: 1em;
+        font-size: 1.2em;
         font-weight: bold;
     }
 

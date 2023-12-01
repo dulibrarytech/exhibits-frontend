@@ -85,17 +85,23 @@
 </div>
 
 <style>
+    .exhibit-template {
+        font-size: inherit;
+        line-height: 1.579em;
+    }
+
     :global(.caption) {
         margin-top: 1rem;
         text-decoration: none;
         color: inherit;
         font-style: italic;
-        font-size: 0.85em;
+        font-size: 0.842em;
+        line-height: 1.452em;
     }
 
     :global(.title-heading) {
         font-weight: bold;
-        font-size: 1.65em;
+        font-size: 1.737em;
         text-transform: uppercase;
     }
 </style>

@@ -10,5 +10,7 @@
     .exhibit-description {
         height: 100%;
         padding: 50px 115px;
+        font-size: 1.263em;
+        line-height: 1.375em;
     }
 </style>
