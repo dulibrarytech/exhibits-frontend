@@ -203,6 +203,7 @@
 
     .item-content {
         width: 100%;
+        height: 100%;
     }
 
     .media-fullwidth {
@@ -226,6 +227,21 @@
     .media-left > .text {
         float: none;
     }
+
+    /* .media-left.wrap-text > .media {
+        padding: 0 50px 50px 0;
+    }
+
+    .media-right.wrap-text > .media {
+        padding: 0 0 50px 50px;
+    } */
+
+    /* .media-left:not(.wrap-text) > .media,
+    .media-left:not(.wrap-text) > .text,
+    .media-right:not(.wrap-text) > .media,
+    .media-right:not(.wrap-text) > .text {
+        height: 100%;
+    } */
 
     .media-top > .media {
         padding: 0 0 30px 0;
@@ -269,7 +285,7 @@
     @media (min-width:768px) {
         .media-right > .media {
             float: right;
-            padding: 0 0 30px 30px;
+            /* padding: 0 0 30px 30px; */
         }
 
         .media-right > .text {
@@ -278,11 +294,34 @@
 
         .media-left > .media {
             float: left;
-            padding: 0 30px 30px 0;
+            /* padding: 0 30px 30px 0; */
         }
 
         .media-left > .text {
             float: right;
+        }
+
+        .media-left:not(.wrap-text) > .media,
+        .media-left:not(.wrap-text) > .text,
+        .media-right:not(.wrap-text) > .media,
+        .media-right:not(.wrap-text) > .text {
+            height: 100%;
+        }
+
+        /* pad around the media element if text wraps */
+        .media-left.wrap-text > .media {
+            padding: 0 50px 50px 0;
+        }
+        .media-right.wrap-text > .media {
+            padding: 0 0 50px 50px;
+        }
+
+        /* add side padding to text if the text does not wrap */
+        .media-left .text {
+            padding-left: 50px;
+        }
+        .media-right .text {
+            padding-right: 50px;
         }
     }
 
