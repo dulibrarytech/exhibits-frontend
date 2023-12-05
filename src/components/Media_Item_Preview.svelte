@@ -9,7 +9,6 @@
     export let item = {};
     export let width = null;
     export let height = null;
-    export let args = {};
 
     let itemPreviewElement;
     let itemType;
@@ -27,65 +26,62 @@
     $: init();
 
     const init = async () => {
-
         itemType = item.item_type || ITEM_TYPE.IMAGE;
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
         title = item.title || null;
         styles = item.styles || null;
 
-        if(URL_PATTERN.test(resource) == true) {
+        if(thumbnail) {
+            preview = Resource.getThumbnailFileUrl(thumbnail);
+        }
+        else if(URL_PATTERN.test(resource) == true) {
             preview = resource;
         }
         else {
-            preview = await getPreviewSourceUrl(itemType, resource, width, height);
+            preview = await getPreviewUrl(itemType, resource, width, height);
         }
 
         if(!preview) console.log("Preview image source url not found");
     }
 
-    const getPreviewSourceUrl = async (itemType, media, width=null, height=null) => {
+    const getPreviewUrl = async (itemType, media, width=null, height=null) => {
         let url = "";
 
-        if(thumbnail) {
-            url = Resource.getThumbnailFileUrl(thumbnail);
-        }
-        else {
-            switch(itemType) {
-                case ITEM_TYPE.IMAGE:
-                    url = Resource.getIIIFImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
-                    break;
+        switch(itemType) {
+            case ITEM_TYPE.IMAGE:
+                url = Resource.getIIIFImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
+                break;
 
-                case ITEM_TYPE.LARGE_IMAGE:
-                    let data = {
-                        filename: media,
-                        width: width || LARGE_IMAGE_PREVIEW_WIDTH,
-                        height: height || undefined
-                    }
+            case ITEM_TYPE.LARGE_IMAGE:
+                let data = {
+                    filename: media,
+                    width: width || LARGE_IMAGE_PREVIEW_WIDTH,
+                    height: height || undefined
+                }
 
-                    url = Resource.getImageDerivativeUrl(data) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
-                    break;
+                url = Resource.getImageDerivativeUrl(data) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
+                break;
 
-                case ITEM_TYPE.AUDIO:
-                    url = Resource.getAudioPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.AUDIO);
-                    break;
+            case ITEM_TYPE.AUDIO:
+                url = Resource.getAudioPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.AUDIO);
+                break;
 
-                case ITEM_TYPE.VIDEO:
-                    url = Resource.getVideoPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.VIDEO);
-                    break;
+            case ITEM_TYPE.VIDEO:
+                url = Resource.getVideoPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.VIDEO);
+                break;
 
-                case ITEM_TYPE.PDF:
-                    url = Resource.getPdfPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.PDF);
-                    break;
+            case ITEM_TYPE.PDF:
+                url = Resource.getPdfPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.PDF);
+                break;
 
-                case ITEM_TYPE.EXTERNAL_SOURCE:
-                    url = media;
-                    break;
+            case ITEM_TYPE.EXTERNAL_SOURCE:
+                url = media;
+                break;
 
-                default:
-                    console.error(`Invalid item type: ${itemType} Item: ${item.id}`);
-                    break;
-            }
+            default:
+                console.error(`Invalid item type: ${itemType} Item: ${item.id}`);
+                break;
         }
 
         return url;
@@ -94,9 +90,9 @@
 
 <div class="item-preview" bind:this={itemPreviewElement} >
     {#if preview}
-        <img src={preview} />
+        <img src={preview} alt={title} />
     {:else}
-        <img src='/error' />
+        <img src='/error' alt="Error" />
     {/if}
 </div>
 
