@@ -1,7 +1,6 @@
 <script>
     'use strict'
-
-    import { onMount } from 'svelte';
+    
     import { Resource } from '../libs/resource';
 
     export let exhibit = {};
@@ -43,10 +42,6 @@
         }
         else thumbnail = Resource.getThumbnailFileUrl(thumbnail);
     }
-
-    onMount(async () => {
-        setOverlayDisplay(false);
-    });
 </script>
 
 <div class="exhibit-preview">
