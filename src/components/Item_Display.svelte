@@ -18,7 +18,6 @@
     } = args;
 
     let {item_type, is_published = false} = item;
-    let itemStyles;
     let isRepoItem;
     var renderItem = false;
 
@@ -28,8 +27,8 @@
         isRepoItem = (item_type == ITEM_TYPE.REPO);
         renderItem = item && (is_published || role == USER_ROLE.ADMIN);
 
-        itemStyles = JSON.parse(item.styles || "{}");
-        if(templateStyles.heading) itemStyles['heading'] = templateStyles.heading;
+        item.styles = JSON.parse(item.styles || "{}");
+        if(templateStyles.heading) item.styles['heading'] = templateStyles.heading;
     }
 
     init();
