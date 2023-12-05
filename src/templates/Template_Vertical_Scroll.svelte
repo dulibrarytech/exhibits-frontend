@@ -34,6 +34,7 @@
     }
 
     const render = () => {
+        console.log("Rendering template...");
         if(!sortedItems) {
             sortedItems = sortTemplateItems(items);
         }
@@ -78,12 +79,12 @@
 
                     <!--exhibit item - row layout -->
                     {:else if type == ENTITY_TYPE.ITEM}
-                        <Item_Display id={anchorId} item={sortedItems[index]} template={Item} args={{role, showPreview: true}} {styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                        <Item_Display id={anchorId} item={sortedItems[index]} template={Item} args={{role, showPreview: true}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                     {/if}
 
                 </div>
-                
+
             {/each}
         </div>
     {/if}

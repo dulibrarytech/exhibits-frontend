@@ -10,7 +10,7 @@
     export let id = null; // dom element id
     export let args = {};
     export let template = null;
-    export let styles = {};
+    export let templateStyles = {};
 
     let {
         role
@@ -18,6 +18,7 @@
     } = args;
 
     let {item_type, is_published = false} = item;
+    let itemStyles;
     let isRepoItem;
     var renderItem = false;
 
@@ -27,8 +28,8 @@
         isRepoItem = (item_type == ITEM_TYPE.REPO);
         renderItem = item && (is_published || role == USER_ROLE.ADMIN);
 
-        // Append external style objects to the item
-        if(styles.heading && item.styles) item.styles['heading'] = styles.heading;
+        itemStyles = JSON.parse(item.styles || "{}");
+        if(templateStyles.heading) itemStyles['heading'] = templateStyles.heading;
     }
 
     init();

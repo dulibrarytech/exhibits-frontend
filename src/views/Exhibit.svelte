@@ -19,18 +19,20 @@
     export let currentRoute;
 
     // TODO remove defs from this section
-    var id;
-    var userRole;
-    var exhibit = {};
-    var isPublished;
-    var template = null;
+    let id;
+    let userRole;
+    let exhibit = {};
+    let isPublished;
+    let template = null;
     let styles = null;
-    var pageLayout = null; 
-    var sections = null;
-    var items = null;
-    var data = null;
-    var modalDialog = null;
-    var modalDialogData = null;
+    let pageLayout = null; 
+    let sections = null;
+    let items = null;
+    let data = null;
+    let modalDialog = null;
+    let modalDialogData = null;
+
+    var renderPage = false;
 
     const FONT_LOCATION = "../assets/fonts";
 
@@ -40,10 +42,12 @@
 
         id = currentRoute.namedParams.id ?? "null";
         console.log(`Loading exhibit... ID: ${id}`);
+
         exhibit = await Index.getExhibit(id);
         data = exhibit?.data;
-
         if(!exhibit || !data) window.location.replace('/404');
+
+        styles = JSON.parse(data.styles).exhibit || {};
 
         isPublished = data.is_published || 0; 
         if(isPublished || userRole == USER_ROLE.ADMIN) {
@@ -58,7 +62,6 @@
 
         pageLayout = $Page_Layouts[data.page_layout] || null;
         template = $Templates[data.template] || null;
-        styles = data.styles?.exhibit || null;
 
         if(!pageLayout) {
             console.error(`Could not find a layout for ${data.page_layout}`);
@@ -67,9 +70,14 @@
             console.error(`Could not find a template for ${data.template}`);
         }
         else {
+            console.log("Retrieving items...");
             items = exhibit.items || [];
             if(items.length == 0) console.log("No items found");
+
+            console.log("Creating page sections...");
             sections = createPageSections(items);
+
+            renderPage = true;
         }
     }
 
@@ -97,8 +105,6 @@
     }
 
     const createPageSections = (items) => {
-        console.log("Creating page sections: items:", items);
-
         let headings = [];
         let heading = null;
         let subheading = null;
@@ -197,7 +203,7 @@
 
 <!-- {#if isPublished || userRole == USER_ROLE.ADMIN} -->
 
-    {#if pageLayout}
+    {#if renderPage}
         <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  />
 
         <!-- exhibit page -->
