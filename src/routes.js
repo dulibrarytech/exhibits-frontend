@@ -27,7 +27,6 @@ const routes = [
     /**********************
      * app pages
      **********************/
-    {name: '/exhibit', component: Home},
     {name: '/exhibit/:id', component: Exhibit},
     {name: '/search', component: Search},
 
