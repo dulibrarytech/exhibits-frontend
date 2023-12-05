@@ -47,7 +47,12 @@
         data = exhibit?.data;
         if(!exhibit || !data) window.location.replace('/404');
 
-        styles = JSON.parse(data.styles).exhibit || {};
+        try {
+            styles = JSON.parse(data.styles).exhibit || {};
+        }
+        catch(error) {
+            console.error(`Error loading exhibit styles: ${error}`);
+        }
 
         isPublished = data.is_published || 0; 
         if(isPublished || userRole == USER_ROLE.ADMIN) {

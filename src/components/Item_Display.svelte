@@ -17,7 +17,7 @@
 
     } = args;
 
-    let {item_type, is_published = false} = item;
+    let {uuid, item_type, is_published = false} = item;
     let isRepoItem;
     var renderItem = false;
 
@@ -27,7 +27,13 @@
         isRepoItem = (item_type == ITEM_TYPE.REPO);
         renderItem = item && (is_published || role == USER_ROLE.ADMIN);
 
-        item.styles = JSON.parse(item.styles || "{}");
+        try {
+            item.styles = JSON.parse(item.styles || "{}");
+        }
+        catch(error) {
+            console.error(`Error loading item styles: ${error}; uuid: ${uuid}`);
+        }
+
         if(templateStyles.heading) item.styles['heading'] = templateStyles.heading;
     }
 
