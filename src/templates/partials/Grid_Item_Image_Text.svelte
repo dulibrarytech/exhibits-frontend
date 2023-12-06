@@ -29,7 +29,13 @@
         date = item.date || null;
         type = item.item_type || null;
         description = item.description || null
-        styles = item.styles || null;
+
+        try {
+            styles = JSON.parse(item.styles) || {};
+        }
+        catch(error) {
+            console.error(`Error loading item styles: ${error}; uuid: ${uuid}`);
+        }
 
         if(!item.layout) item.layout = (type == ITEM_TYPE.TEXT) ? MEDIA_POSITION.TEXT_ONLY : MEDIA_POSITION.MEDIA_ONLY;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;

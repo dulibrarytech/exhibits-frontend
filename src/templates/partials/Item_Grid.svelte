@@ -13,6 +13,8 @@
     export let args = {};
     export let templateStyles = {};
 
+    let styles;
+
     let gridElement;
     let titleElement;
 
@@ -20,8 +22,6 @@
     let items;
     let columns;
     let bootstrapColumnValue;
-
-    let styles = {};
 
     let {
         role = USER_ROLE.STANDARD
@@ -31,13 +31,23 @@
     const dispatch = createEventDispatcher();
 
     const init = () => {
+        let {uuid} = grid;
+        let gridStyles;
+
         columns = grid.columns || "2";
         bootstrapColumnValue = 12 / columns;
         title = grid.title || null;
         items = grid.items || [];
 
+        try {
+            gridStyles = JSON.parse(grid.styles).item_grid || {};
+        }
+        catch(error) {
+            console.error(`Error loading grid styles: ${error}; uuid: ${uuid}`);
+        }
+
         styles = {
-            grid: grid.styles?.item_grid || {},
+            grid: gridStyles,
             heading: templateStyles.heading || null
         }
     }

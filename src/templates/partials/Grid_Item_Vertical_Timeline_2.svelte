@@ -14,7 +14,6 @@
     let styles = null;
 
     let itemElement;
-    let textElement;
 
     let type;
     let date;
@@ -31,16 +30,17 @@
         description = item.description || null;
         type = item.item_type || null;
         media = item.media || null;
-        styles = item.styles || null;
+
+       try {
+            styles = JSON.parse(item.styles) || {};
+        }
+        catch(error) {
+            console.error(`Error loading item styles: ${error}; uuid: ${uuid}`);
+        }
     }
 
-    const setTheme = ({item = {}, item_text = {}}) => {
+    const setTheme = ({item = {}}) => {
         Object.assign(itemElement.style, item)
-
-        /* set description section styles */
-        if(textElement) {
-            Object.assign(textElement.style, item_text)
-        }
     }
 
     const onClickPreview = (event) => {

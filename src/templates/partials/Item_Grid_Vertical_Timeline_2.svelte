@@ -26,15 +26,23 @@
 
     const dispatch = createEventDispatcher();
 
-    const DEFAULT_TOP_OFFSET = 100;
-
     const init = () => {
+        let {uuid} = grid;
+        let gridStyles;
+
         title = grid.title || null;
         items = grid.items || [];
         sections = sortItemsToYearSections(items);
 
+        try {
+            gridStyles = JSON.parse(grid.styles).item_grid || {};
+        }
+        catch(error) {
+            console.error(`Error loading grid styles: ${error}; uuid: ${uuid}`);
+        }
+
         styles = {
-            grid: grid.styles?.item_grid || {},
+            grid: gridStyles,
             heading: templateStyles.heading || null
         }
     }
@@ -44,7 +52,6 @@
 
         if(titleElement && heading) {
             titleElement.style.fontFamily = heading.fontFamily || 'inherit';
-            //titleElement.style.color = heading.color || 'inherit';
         }
     }
 
