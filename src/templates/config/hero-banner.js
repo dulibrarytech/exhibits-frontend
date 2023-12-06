@@ -14,10 +14,10 @@ import Hero_Banner_6 from '../partials/Hero_Banner_6.svelte';
  * {component id} : {component}
  **********************************************/
 export const Banners = writable({
-    "banner_1": Hero_Banner_1,
-    "banner_2": Hero_Banner_2,
-    "banner_3": Hero_Banner_3,
-    "banner_4": Hero_Banner_4,
-    "banner_5": Hero_Banner_5,
-    "banner_6": Hero_Banner_6
+    "banner_1": Hero_Banner_4,
+    "banner_2": Hero_Banner_5,
+    "banner_3": Hero_Banner_6,
+    // "banner_4": Hero_Banner_1,
+    // "banner_5": Hero_Banner_2,
+    // "banner_6": Hero_Banner_3
 })
