@@ -19,7 +19,7 @@
     const init = async () => {
         exhibitSearchFields = Settings.searchFieldsExhibit || [];
         message = "Loading exhibits...";
-        exhibits = await Index.getPublicExhibits();
+        exhibits = await Index.getExhibits();
 
         if(exhibits) render();
         else message = "Could not retrieve exhibits";
