@@ -9,11 +9,11 @@ import axios from 'axios';
  * Fetches data from test data server
  */
 export const Index = (() => {
-    var {exhibitsIndexDomain, exhibitsIndexName} = Configuration;
+    var {exhibitsClientApiDomain} = Configuration;
 
-    const INDEX_API_DOMAIN = exhibitsIndexDomain;
-    const EXHIBIT_ROUTE = INDEX_API_DOMAIN + '/exhibit';
-    const SEARCH_ROUTE = INDEX_API_DOMAIN + '/search';
+    const API_DOMAIN = exhibitsClientApiDomain;
+    const EXHIBIT_ROUTE = API_DOMAIN + '/exhibit';
+    const SEARCH_ROUTE = API_DOMAIN + '/search';
 
     /**
      * getExhibits()
@@ -30,7 +30,7 @@ export const Index = (() => {
             exhibits = response.data;
         }
         catch(e) {
-            console.error(`Could not connect to index at '${INDEX_API_DOMAIN}': ${e}`);
+            console.error(`Could not connect to index at '${API_DOMAIN}': ${e}`);
         }
 
         if(isAdmin != true) {
