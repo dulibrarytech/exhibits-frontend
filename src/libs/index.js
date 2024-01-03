@@ -30,7 +30,7 @@ export const Index = (() => {
             exhibits = response.data;
         }
         catch(e) {
-            console.error(`Could not connect to index at '${API_DOMAIN}': ${e}`);
+            console.error(`Could not connect to server at '${API_DOMAIN}': ${e}`);
         }
 
         if(isAdmin != true) {
@@ -38,7 +38,7 @@ export const Index = (() => {
                 return exhibit.is_published || false;
             });
         }
-
+        
         return exhibits;
     }
 

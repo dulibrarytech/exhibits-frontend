@@ -1,6 +1,7 @@
 <script>
     'use strict'
     
+    import { Settings } from '../config/settings';
     import { Resource } from '../libs/resource';
 
     export let exhibit = {};
@@ -18,6 +19,7 @@
 
     const EXHIBIT_THUMBNAIL_WIDTH = "400";
     const EXHIBIT_THUMBNAIL_HEIGHT = "400";
+    const PLACEHOLDER_IMAGE = Settings.exhibitDefaultImage;
 
     $: init();
 
@@ -32,15 +34,25 @@
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
         
-        if(!thumbnail) {
-            thumbnail = Resource.getImageDerivativeUrl({
-                type: 'crop',
-                filename: heroImage || "",
-                width,
-                height
-            });
+        // if(!thumbnail) {
+        //     thumbnail = Resource.getImageDerivativeUrl({
+        //         type: 'crop',
+        //         filename: heroImage || "no-image-available",
+        //         width,
+        //         height
+        //     });
+        // }
+        // else thumbnail = Resource.getThumbnailFileUrl(thumbnail);
+
+        if(thumbnail) {
+
         }
-        else thumbnail = Resource.getThumbnailFileUrl(thumbnail);
+        else if(heroImage) {
+
+        }
+        else {
+            
+        }
     }
 </script>
 

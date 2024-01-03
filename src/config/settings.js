@@ -42,7 +42,7 @@ export const Settings = {
     kalturaThumbnailHeight: "250",
 
     /*
-     * file storage
+     * thumbnail images
      */
     thumbnailImageLocation: "tn",
     placeholderImageHeight: "",
@@ -54,6 +54,7 @@ export const Settings = {
         VIDEO: "video-tn.png",
         PDF: "pdf-tn.png"
     },
+    exhibitDefaultImage: "exhibit-default.png",
 
     /*
      * Template properties 
