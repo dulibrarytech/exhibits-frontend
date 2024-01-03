@@ -49,11 +49,15 @@
             return false;
         });
 
+        /////
         // DEV
-        recents.push(exhibits[3])
+        ///////
         recents.push(exhibits[1])
-        recents.push(exhibits[4])
+        // recents.push(exhibits[1])
+        // recents.push(exhibits[4])
+        /////
         // end DEV
+        ///////
 
         return recents.length > 0 ? recents : null;
     }

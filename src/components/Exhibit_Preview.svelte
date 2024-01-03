@@ -29,43 +29,30 @@
         heroImage = exhibit.hero_image || null;
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
-        styles = exhibit.styles?.hero || {}; // template styles
+        styles = exhibit.styles?.hero || {};
 
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
-        
-        // if(!thumbnail) {
-        //     thumbnail = Resource.getImageDerivativeUrl({
-        //         type: 'crop',
-        //         filename: heroImage || "no-image-available",
-        //         width,
-        //         height
-        //     });
-        // }
-        // else thumbnail = Resource.getThumbnailFileUrl(thumbnail);
 
         if(thumbnail) {
-
+            thumbnail = Resource.getThumbnailFileUrl(thumbnail);
         }
         else if(heroImage) {
-
-        }
-        else {
-            
+            thumbnail = Resource.getImageDerivativeUrl({
+                type: 'crop',
+                filename: heroImage || "no-image-available",
+                width,
+                height
+            });
         }
     }
 </script>
 
 <div class="exhibit-preview">
     {#if exhibitPath}
-        <a href="{exhibitPath}" bind:this={titleTextElement}>
+        <a href={exhibitPath} bind:this={titleTextElement}>
             <div class="exhibit-thumbnail">
-                <img src="{thumbnail}" alt={title} title="{title}"/>
-
-                <!-- <div class="title">
-                    {title}
-                    {#if subtitle}<hr>{subtitle}{/if}
-                </div> -->
+                <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE)}';" />
             </div>
         </a>
     {/if}
