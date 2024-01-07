@@ -27,6 +27,7 @@ export const Index = (() => {
         
         try {
             let response = await axios.get(EXHIBIT_ROUTE);
+            console.log("TEST exh fetched:", response)
             exhibits = response.data;
         }
         catch(e) {
