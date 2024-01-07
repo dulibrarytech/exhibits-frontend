@@ -79,9 +79,8 @@ export default {
 
 		// Assign .env fields as global variables here:
 		replace({
-			EXHIBITS_API_KEY: JSON.stringify(process.env.EXHIBITS_API_KEY),
-			EXHIBITS_INDEX_DOMAIN: JSON.stringify(process.env.EXHIBITS_INDEX_DOMAIN),
-			EXHIBITS_INDEX_NAME: JSON.stringify(process.env.EXHIBITS_INDEX_NAME),
+			EXHIBITS_CLIENT_API_KEY: JSON.stringify(process.env.EXHIBITS_API_KEY),
+			EXHIBITS_CLIENT_API_DOMAIN: JSON.stringify(process.env.EXHIBITS_CLIENT_API_DOMAIN),
 			REPOSITORY_DOMAIN: JSON.stringify(process.env.REPOSITORY_DOMAIN),
 			REPOSITORY_API_KEY: JSON.stringify(process.env.REPOSITORY_API_KEY),
 			REPOSITORY_IIIF_TILESOURCE: JSON.stringify(process.env.REPOSITORY_IIIF_TILESOURCE),
