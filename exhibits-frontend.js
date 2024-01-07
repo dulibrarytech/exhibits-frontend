@@ -1,5 +1,6 @@
 require('dotenv').config();
 const compress = require('compression');
+const axios = require('axios');
 
 var express = require('express');
 var app = express();
@@ -26,6 +27,24 @@ app.use(function(req, res, next) {
 app.get('*', (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 })
+
+// test image server
+axios.get(process.env.IIIF_IMAGE_SERVER_URL)
+  .then(function (response) {
+    console.log(`Image server is online at '${process.env.IIIF_IMAGE_SERVER_URL}'`);
+  })
+  .catch(function (error) {
+    console.error(`Image server is unavailable at '${process.env.IIIF_IMAGE_SERVER_URL}' ${error}`);
+  });
+
+// test exhibits server
+axios.get(process.env.EXHIBITS_API_DOMAIN)
+  .then(function (response) {
+    console.log(`Exhibits server is online at '${process.env.EXHIBITS_API_DOMAIN}'`);
+  })
+  .catch(function (error) {
+    console.error(`Exhibits server is unavailable at '${process.env.EXHIBITS_API_DOMAIN}' ${error}`);
+  });
 
 app.listen(process.env.NODE_PORT || 5000, () => {
   console.log(`Exhibits frontend is running on port ${process.env.NODE_PORT} in ${process.env.NODE_ENV} mode`);
