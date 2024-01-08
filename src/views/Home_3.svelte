@@ -10,14 +10,12 @@
     import Search_Box from '../components/Search_Box.svelte';
     import Exhibit_Preview_Grid from '../templates/Exhibit_Preview_Grid.svelte';
 
-    var exhibits = null;
+    let exhibits = null;
     var message = "";
-    var featuredExhibits = null;
-    var recentExhibits = null;
-    var exhibitSearchFields;
+    let featuredExhibits = null;
+    let recentExhibits = null;
     
     const init = async () => {
-        exhibitSearchFields = Settings.searchFieldsExhibit || [];
         message = "Loading exhibits...";
         exhibits = await Index.getExhibits();
 
@@ -44,22 +42,19 @@
     }
 
     const getRecentExhibits = (exhibits) => {
-        let recents = exhibits.filter((exhibit) => {
-            // TODO initially: get current date, filter on last 60 days, sort by date descending
-            return false;
-        });
+        let recentExhibits = [];
 
-        /////
-        // DEV
-        ///////
-        recents.push(exhibits[1])
-        // recents.push(exhibits[1])
-        // recents.push(exhibits[4])
-        /////
-        // end DEV
-        ///////
+        let minDate = new Date().setDate(new Date().getDate() - Settings.recentExhibitsPeriod)
 
-        return recents.length > 0 ? recents : null;
+        recentExhibits = exhibits.filter((exhibit) => {
+            if(exhibit.created && new Date(exhibit.created) >= minDate) return true;
+            else return false;
+
+        }).sort(function(a, b) {
+            return new Date(b.created) - new Date(a.created);
+        });;
+
+        return recentExhibits.length > 0 ? recentExhibits : null;
     }
 
     onMount(async () => {
@@ -76,7 +71,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="exhibits-search">
-                        <Search_Box endpoint="/search" fields={exhibitSearchFields} placeholder="Search exhibits"/>
+                        <Search_Box endpoint="/search" fields={Settings.searchFieldsExhibit} placeholder="Search exhibits"/>
                         <!-- DEV test item search. this is an 'exhibit' entity search (on home page) -->
                         <!-- <Search_Box endpoint="/search" params={{entity: "item", id: "2"}}/> -->
                         <!-- end DEV -->
@@ -93,7 +88,7 @@
         {#if recentExhibits}
             <div class="row heading">
                 <div class="col-lg-12">
-                    <h3>Just Added</h3>
+                    <h3>Recently Added</h3>
                 </div>
             </div>
             <div class="row preview-section">

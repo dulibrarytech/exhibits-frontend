@@ -78,6 +78,12 @@ export const Settings = {
     repositoryImageDatastreamEndpoint: "jpg",
     repositoryObjectDatastreamEndpoint: "object",
 
+    /*
+     * Time period for exhibit to be displayed in the 'Recently Added' exhibits section
+     * In days  (e.g. 30 days: an exhibit is no longer shown in the 'recently added' section if it was added > 30 days ago)
+     */
+    recentExhibitsPeriod: 30,
+
     /* 
      * Index fields included in search (in 'search all', when search field is not specified by user)
      * {index field name}:{human display name}
