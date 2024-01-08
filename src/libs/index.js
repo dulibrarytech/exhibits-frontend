@@ -27,17 +27,17 @@ export const Index = (() => {
         
         try {
             let response = await axios.get(EXHIBIT_ROUTE);
-            console.log("TEST exh fetched:", response)
             exhibits = response.data;
+
+            if(isAdmin != true) {
+                exhibits = exhibits.filter((exhibit) => {
+                    return exhibit.is_published || false;
+                });
+            }
         }
         catch(e) {
-            console.error(`Could not connect to server at '${API_DOMAIN}': ${e}`);
-        }
-
-        if(isAdmin != true) {
-            exhibits = exhibits.filter((exhibit) => {
-                return exhibit.is_published || false;
-            });
+            console.error(`Error fetching exhibits. Server: '${EXHIBIT_ROUTE}': ${e}`);
+            exhibits = null;
         }
         
         return exhibits;
