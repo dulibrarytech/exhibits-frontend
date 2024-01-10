@@ -25,7 +25,9 @@
 'use strict' 
 
 import { Settings } from '../config/settings.js';
+
 import sanitizeHtml from 'sanitize-html';
+import {encode, decode} from 'html-entities';
 
 /**
  * Find an item by id
@@ -57,7 +59,10 @@ export const getItemById = (id, items) => {
  * @returns the string with html tags removed
  */
 export const stripHtmlTags = (string) => {
-    return string ? string.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))??>/gi, "") : null; // remove tags with and without attributes
+
+    return sanitizeHtml( decode(string), {
+        allowedTags: []
+    })
 }
 
 /**
@@ -110,9 +115,10 @@ export const validateUserThemeStyles = (styles) => {
 }
 
 /**
+ * Creates an html element id string
  * Converts all characters to lowercase, replaces spaces with '-' character, removes all non alphanumeric characters
  * 
- * @param {string} string - the string to convert to html id format
+ * @param {string} string - the string to convert to id string format
  * @returns - converted string
  */
 export const getHtmlIdString = (string) => {

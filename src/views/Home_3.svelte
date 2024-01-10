@@ -6,14 +6,15 @@
     import { onMount } from 'svelte';
     import { Index } from '../libs/index.js';
     import { Settings } from '../config/settings.js';
+    import { stripHtmlTags } from '../libs/data_helpers';
 
     import Search_Box from '../components/Search_Box.svelte';
     import Exhibit_Preview_Grid from '../templates/Exhibit_Preview_Grid.svelte';
 
     let exhibits = null;
-    var message = "";
     let featuredExhibits = null;
     let recentExhibits = null;
+    var message = "";
     
     const init = async () => {
         message = "Loading exhibits...";
@@ -25,15 +26,32 @@
 
     const render = () => {
         if(exhibits?.length > 0) {
-            featuredExhibits = getFeaturedExhibits(exhibits);
-            recentExhibits = getRecentExhibits(exhibits);
+
+            exhibits.forEach((exhibit) => {
+                exhibit.title = stripHtmlTags(exhibit.title);
+            });
+
+            exhibits = getSortedExhibits();
+            featuredExhibits = getFeaturedExhibits();
+            recentExhibits = getRecentExhibits();
         }
         else {
             message = "No exhibits found";
         }
     }
 
-    const getFeaturedExhibits = (exhibits) => {
+    const getSortedExhibits = () => {
+        return exhibits.sort(function(a, b){
+            var titleA=a.title.toLowerCase(), titleB=b.title.toLowerCase()
+            if (titleA < titleB)
+                return -1 
+            if (titleA > titleB)
+                return 1
+            return 0
+        })
+    }
+
+    const getFeaturedExhibits = () => {
         let featured = exhibits.filter((exhibit) => {
             return exhibit.is_featured || false;
         });
@@ -41,7 +59,7 @@
         return featured.length > 0 ? featured : null;
     }
 
-    const getRecentExhibits = (exhibits) => {
+    const getRecentExhibits = () => {
         let recentExhibits = [];
 
         let minDate = new Date().setDate(new Date().getDate() - Settings.recentExhibitsPeriod)
@@ -52,7 +70,7 @@
 
         }).sort(function(a, b) {
             return new Date(b.created) - new Date(a.created);
-        });;
+        });
 
         return recentExhibits.length > 0 ? recentExhibits : null;
     }
@@ -72,9 +90,6 @@
                 <div class="col-md-6">
                     <div class="exhibits-search">
                         <Search_Box endpoint="/search" fields={Settings.searchFieldsExhibit} placeholder="Search exhibits"/>
-                        <!-- DEV test item search. this is an 'exhibit' entity search (on home page) -->
-                        <!-- <Search_Box endpoint="/search" params={{entity: "item", id: "2"}}/> -->
-                        <!-- end DEV -->
                     </div>
                 </div>
             </div>
@@ -138,10 +153,6 @@
     }
 
     :global(.exhibits-search > .container) {
-        padding: 0;
-    }
-
-    .featured > .container {
         padding: 0;
     }
 </style>
