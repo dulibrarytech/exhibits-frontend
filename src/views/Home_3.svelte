@@ -14,41 +14,30 @@
     let exhibits = null;
     let featuredExhibits = null;
     let recentExhibits = null;
+    let publicExhibits = null;
     var message = "";
     
     const init = async () => {
-        message = "Loading exhibits...";
+        message = "Retrieving exhibits...";
         exhibits = await Index.getExhibits();
 
         if(exhibits) render();
-        else message = "Could not retrieve exhibits";
+        else message = "Error retrieving exhibits";
     }
 
     const render = () => {
         if(exhibits?.length > 0) {
+            message = "Loading exhibits...";
 
-            exhibits.forEach((exhibit) => {
-                exhibit.title = stripHtmlTags(exhibit.title);
-            });
+            formatExhibitFields(exhibits);
 
-            exhibits = getSortedExhibits();
             featuredExhibits = getFeaturedExhibits();
             recentExhibits = getRecentExhibits();
+            publicExhibits = exhibits;
         }
         else {
             message = "No exhibits found";
         }
-    }
-
-    const getSortedExhibits = () => {
-        return exhibits.sort(function(a, b){
-            var titleA=a.title.toLowerCase(), titleB=b.title.toLowerCase()
-            if (titleA < titleB)
-                return -1 
-            if (titleA > titleB)
-                return 1
-            return 0
-        })
     }
 
     const getFeaturedExhibits = () => {
@@ -73,6 +62,12 @@
         });
 
         return recentExhibits.length > 0 ? recentExhibits : null;
+    }
+
+    const formatExhibitFields = (exhibits) => {
+        exhibits.forEach((exhibit) => {
+            exhibit.title = stripHtmlTags(exhibit.title);
+        });
     }
 
     onMount(async () => {
@@ -113,7 +108,7 @@
             </div>
         {/if}
 
-        {#if exhibits && exhibits.length > 0}
+        {#if publicExhibits && publicExhibits.length > 0}
             <div class="row heading">
                 <div class="col-lg-12">
                     <h3>Exhibits</h3>
