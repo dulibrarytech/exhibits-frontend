@@ -5,7 +5,7 @@
 
 export const Configuration = {
   exhibitsClientApiKey: EXHIBITS_API_KEY,
-  exhibitsClientApiDomain: EXHIBITS_API_DOMAIN,
+  exhibitsApiDomain: EXHIBITS_API_DOMAIN,
   repositoryDomain: REPOSITORY_DOMAIN,
   repositoryApiKey: REPOSITORY_API_KEY,
   repositoryIIIFTilesource: REPOSITORY_IIIF_TILESOURCE,

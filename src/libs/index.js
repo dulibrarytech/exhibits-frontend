@@ -9,11 +9,9 @@ import axios from 'axios';
  * Fetches data from test data server
  */
 export const Index = (() => {
-    var {exhibitsClientApiDomain} = Configuration;
-
-    const API_DOMAIN = exhibitsClientApiDomain;
-    const EXHIBIT_ROUTE = API_DOMAIN + '/exhibit';
-    const SEARCH_ROUTE = API_DOMAIN + '/search';
+    const API_DOMAIN = Configuration.exhibitsApiDomain;
+    const EXHIBIT_ENDPOINT = API_DOMAIN + '/exhibit';
+    const SEARCH_ENDPOINT = API_DOMAIN + '/search';
 
     /**
      * getExhibits()
@@ -26,7 +24,7 @@ export const Index = (() => {
         let exhibits = [];
         
         try {
-            let response = await axios.get(EXHIBIT_ROUTE);
+            let response = await axios.get(EXHIBIT_ENDPOINT);
             exhibits = response.data;
 
             if(isAdmin != true) {
@@ -36,7 +34,7 @@ export const Index = (() => {
             }
         }
         catch(e) {
-            console.error(`Error fetching exhibits. Server: '${EXHIBIT_ROUTE}': ${e}`);
+            console.error(`Error fetching exhibits. Server: '${EXHIBIT_ENDPOINT}': ${e}`);
             exhibits = null;
         }
         
@@ -62,10 +60,10 @@ export const Index = (() => {
         try {
             // TODO use endpoint const as in getExhibits()
             //let response = await axios.get(`http://localhost:5678/api/v1/exhibit/${id}`);
-            let response = await axios.get(`${EXHIBIT_ROUTE}/${id}`);
+            let response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}`);
             let data = response.data;
 
-            response = await axios.get(`${EXHIBIT_ROUTE}/${id}/items`);
+            response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}/items`);
             let items = response.data;
 
             exhibit = {data, items};
@@ -91,23 +89,12 @@ export const Index = (() => {
      */
     const searchIndex = async (data = {}, exhibitId = null) => {
         let results = [];
-        // [impl:]
-        // build elastic DSL query object with data (terms, bool, fields) *if id => add the 'is_member_of_exhibit=id' clause to the query array AND type=item. IF no id, use item=exhibit*
-        // -> escape quotes
-        // if(exhibitId) {
-        // }
-        // else {
-        // }
-        // call elastic async (as in other f()s here) and return results array (array extracted from elastic response object => response.hits.hits, length => response.hits.total.value)
-        // let url = "" // es api
-        // [end impl]
-
-        // [dev:]
+        
         let terms = data.terms.toString();
         let page = data.page;
-        let url = `${SEARCH_ROUTE}?q=${terms}&page=${page}`; 
+        let url = `${SEARCH_ENDPOINT}?q=${terms}&page=${page}`; 
+        
         if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
-        // [end dev]
 
         try {
             let response = await axios.get(url);
