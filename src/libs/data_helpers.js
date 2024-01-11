@@ -53,16 +53,50 @@ export const getItemById = (id, items) => {
 } 
 
 /**
- * Removes all html tags, preserves inner content
+ * Strips all html tags - Preserves inner content
+ * 
+ * @param {string} string : a string
+ * @param {allowedTags} object : array of tag names to retain in the string
+ * 
+ * @returns the string with html tags removed
+ */
+export const stripHtmlTags = (string, allowedTags=[]) => {
+    return sanitizeHtml( decode(string), {
+        allowedTags
+    })
+}
+
+/**
+ * Permits non reactive html tags - Removes 'script' and other reactive tags
+ * see https://github.com/apostrophecms/sanitize-html: sanitizeHtml() for list of allowed tags
+ * 
  * @param {string} string : a string
  * 
  * @returns the string with html tags removed
  */
-export const stripHtmlTags = (string) => {
+export const sanitizeHtmlString = (string) => {
+    //return sanitizeHtml(string) // TODO why is this stripping style attributes?
+    return string.replace(/<script>(.*?)<\/script>/g, "");
+}
 
-    return sanitizeHtml( decode(string), {
-        allowedTags: []
-    })
+/**
+ * Converts html entities to html elements
+ * @param {string} string : a string with entities
+ * 
+ * @returns the string with html entities converted to elements
+ */
+export const decodeHtmlEntities = (string) => {
+    return decode(string);
+}
+
+/**
+ * Converts html elements to html entities
+ * @param {string} string : a string with html elements
+ * 
+ * @returns the string with html elements converted to entities
+ */
+export const encodeHtmlEntitles = (string) => {
+    return encode(string);
 }
 
 /**
@@ -87,16 +121,6 @@ export const stripHtmlAndObjectCharacters = (string) => {
     return stripHtmlTags(string).replace(/[{}\[\]:<>]/gi, "");
 }
 
-/**
- * Removes script tags and other interactive elements
- * 
- * @param {string} string : a string
- * 
- * @returns the string with html tags/content and object characters removed
- */
-export const sanitizeHtmlString = (string) => {
-    return sanitizeHtml(string);
-}
 
 /**
  * Iterates a style object and removes any invalid style properties

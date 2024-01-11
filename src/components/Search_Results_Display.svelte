@@ -6,13 +6,13 @@
 
     import Search_Result from '../templates/partials/Search_Result.svelte';
     import { Settings } from '../config/settings';
-    import { Resource } from '../libs/resource';
     import {stripHtmlTags} from '../libs/data_helpers';
 
     import {ENTITY_TYPE} from '../config/global-constants';
 
     export let results = [];
     export let data = {};
+    export let facets = null;
 
     let displayFields = {};
     let displayTerms = "";
@@ -34,7 +34,7 @@
             linkPath = `#`; // TBD - how to open items
         }
 
-        results = formatResults(terms, results);
+        formatResults(terms, results);
 
         /* formats the search terms for the terms label. replaces word separating comma with single space, single and double quotes are removed */
         displayTerms = terms?.replace(/[,]/g, ' ').replace(/["']/g, '');
@@ -46,19 +46,17 @@
         results.forEach((result) => {
             for(let field in displayFields) {
 
-                // Removes html from user content, search result will display only the text
-                result[field] = stripHtmlTags(result[field]);
+                if(result[field]) {
+                    // Removes html from user content, search result will display only the text
+                    result[field] = stripHtmlTags(result[field]);
 
-                // Adds search term highlight markup to content
-                result[field] = highlightTerms(terms, result[field]);
+                    // Adds search term highlight markup to content
+                    result[field] = highlightTerms(terms, result[field]);
+                }
             }
-
-            //if(!result.thumbnail_image) result.thumbnail_image = Resource.getThumbnailUrl(result);
 
             if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
         });
-
-        return results;
     }
 
     /* adds the html markup for the search term highlighting to each term in the display text */
@@ -88,12 +86,14 @@
                     <div>
                         <button on:click|preventDefault={onBack}>Back</button>
                     </div>
+                    <!-- {#if facets} -->
                     <div class="facets">
                         <h4>Facets</h4>
                         <ul class="nav nav-pills nav-stacked search-result-categories mt">
                             <li><a href="#">Facet<span class="badge">[count]</span></a></li>
                         </ul>
                     </div>
+                    <!-- {/if} -->
                 </div>
 
                 <div class="col-md-9 col-md-pull-3 results-container">

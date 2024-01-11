@@ -12,19 +12,21 @@
 
     import {ENTITY_TYPE, ITEM_TEMPLATE, USER_ROLE} from '../config/global-constants';
 
-    export let items;
+    export let items = [];
     export let styles = null;
     export let args = {};
 
     const dispatch = createEventDispatcher();
 
-    let sortedItems;
+    let displayItems;
     let role;
     let templateItemCount;
     var templateItemsMounted;
 
     const init = () => {
-        sortedItems = null;
+        console.log("Initializing template...");
+
+        displayItems = null;
         role = args.userRole || USER_ROLE.STANDARD;
         
         templateItemCount = items.length-1;
@@ -35,13 +37,11 @@
 
     const render = () => {
         console.log("Rendering template...");
-        if(!sortedItems) {
-            sortedItems = sortTemplateItems(items);
-        }
+        if(!displayItems) displayItems = formatTemplateItems(items);
     }
 
-    const sortTemplateItems = (items) => {
-        // TODO: sort exhibit items, grid should contain order, so sort on order field asc.
+    const formatTemplateItems = (items) => {
+        // TODO: update any data field
         return items; 
     }
 
@@ -59,9 +59,9 @@
 </script>
 
 <div class="exhibit-template">
-    {#if sortedItems}
+    {#if displayItems}
         <div class="exhibit-items">
-            {#each sortedItems as {type = "", text = "", anchorId = null, is_visible=null}, index}
+            {#each displayItems as {type = "", text = "", anchorId = null, is_visible=null}, index}
 
                 <div class="exhibit-item">
 
@@ -71,15 +71,15 @@
 
                     <!-- exhibit item container - grid -->
                     {:else if type == ITEM_TEMPLATE.GRID}
-                        <Item_Grid id={anchorId} grid={sortedItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                        <Item_Grid id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                     <!-- exhibit item container - vertical timeline grid -->
                     {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
-                        <Item_Grid_Vertical_Timeline id={anchorId} grid={sortedItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                        <Item_Grid_Vertical_Timeline id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                     <!--exhibit item - row layout -->
                     {:else if type == ENTITY_TYPE.ITEM}
-                        <Item_Display id={anchorId} item={sortedItems[index]} template={Item} args={{role, showPreview: true}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                        <Item_Display id={anchorId} item={displayItems[index]} template={Item} args={{role, showPreview: true}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                     {/if}
 

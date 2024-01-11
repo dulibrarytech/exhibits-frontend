@@ -13,7 +13,7 @@
     export let args = {};
     export let templateStyles = {};
 
-    let styles;
+    let itemDisplay = null;
 
     let gridElement;
     let titleElement;
@@ -21,7 +21,8 @@
     let title;
     let items;
     let columns;
-    let bootstrapColumnValue;
+    //let bootstrapColumnValue;
+    let styles;
 
     let {
         role = USER_ROLE.STANDARD
@@ -35,7 +36,7 @@
         let gridStyles;
 
         columns = grid.columns || "2";
-        bootstrapColumnValue = 12 / columns;
+        //bootstrapColumnValue = 12 / columns;
         title = grid.title || null;
         items = grid.items || [];
 
@@ -50,6 +51,8 @@
             grid: gridStyles,
             heading: templateStyles.heading || null
         }
+
+        render();
     }
 
     const setTheme = ({grid = {}, heading = null}) => {
@@ -60,6 +63,10 @@
             titleElement.style.fontFamily = heading.fontFamily || 'inherit';
             //titleElement.style.color = heading.color || 'inherit';
         }
+    }
+
+    const render = () => {
+        itemDisplay = items;
     }
 
     $: init();
@@ -77,11 +84,13 @@
         {#if title}<div class="title-heading" bind:this={titleElement}>{title}</div>{/if}
 
         <div class="grid-content">
-            {#if items}
-                {#each items as item}
+            {#if itemDisplay}
+                {#each itemDisplay as item}
                     {#if item.is_published || role == USER_ROLE.ADMIN}
+                        <!-- add bootstrap classes -->
 
-                        <div class="col-xl-{bootstrapColumnValue} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}">
+                        <!-- <div class="col-xl-{(bootstrapColumnValue)} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}"> -->
+                        <div class="col-xl-{(12/columns)} col-lg-{(12/columns)+1} col-md-{(12/columns)+2} col-sm-{(12/columns)+3}">
                             <Grid_Item_Image_Text {item} on:click-item /> 
                         </div>
 

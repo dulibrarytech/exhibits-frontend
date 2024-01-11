@@ -216,7 +216,7 @@
 
         {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
     {:else}
-        <h3>Loading exhibit...</h3>
+        <div class="container page"><h3>Loading exhibit...</h3></div>
     {/if}
 
 <!-- {:else}

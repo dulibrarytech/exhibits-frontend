@@ -16,6 +16,7 @@
 
     let data = {};
     let terms;
+    let facets;
     let boolean;
     let fields;
     let entity;
@@ -24,6 +25,7 @@
 
     const init = () => {
         terms = sanitizeParameterValue(currentRoute.queryParams.q) || "";
+        facets = null;
         boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
         fields = sanitizeParameterValue(currentRoute.queryParams.fields) || INDEX_FIELD.TITLE;
         entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT; // validate
@@ -46,6 +48,9 @@
         fields = fields.split(',');
 
         results = await Search.execute(terms, boolean, fields, id, page);
+
+        // TODO get facets and results from "response" from Search.exe()  {results, facets}
+        // facets = 
     }
 
     const validateUrlParameters = () => {
@@ -78,7 +83,7 @@
 <div class="search-page page">
     <div class="search-results container">
         {#if results}
-            <Search_Results_Display {results} {data} />
+            <Search_Results_Display {results} {data} {facets} />
         {:else}
             <h3>No results found.</h3>
         {/if}
