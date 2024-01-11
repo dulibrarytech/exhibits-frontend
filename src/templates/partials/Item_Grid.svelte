@@ -21,7 +21,6 @@
     let title;
     let items;
     let columns;
-    //let bootstrapColumnValue;
     let styles;
 
     let {
@@ -36,7 +35,6 @@
         let gridStyles;
 
         columns = grid.columns || "2";
-        //bootstrapColumnValue = 12 / columns;
         title = grid.title || null;
         items = grid.items || [];
 
@@ -56,16 +54,18 @@
     }
 
     const setTheme = ({grid = {}, heading = null}) => {
-        // apply grid styles to dom style object
         Object.assign(gridElement.style, grid);
 
         if(titleElement && heading) {
             titleElement.style.fontFamily = heading.fontFamily || 'inherit';
-            //titleElement.style.color = heading.color || 'inherit';
         }
     }
 
     const render = () => {
+        items = items.sort(function(a, b) {
+            return a.order - b.order
+        });
+
         itemDisplay = items;
     }
 
@@ -87,9 +87,7 @@
             {#if itemDisplay}
                 {#each itemDisplay as item}
                     {#if item.is_published || role == USER_ROLE.ADMIN}
-                        <!-- add bootstrap classes -->
 
-                        <!-- <div class="col-xl-{(bootstrapColumnValue)} col-lg-{bootstrapColumnValue+1} col-md-{bootstrapColumnValue+2} col-sm-{bootstrapColumnValue+3}"> -->
                         <div class="col-xl-{(12/columns)} col-lg-{(12/columns)+1} col-md-{(12/columns)+2} col-sm-{(12/columns)+3}">
                             <Grid_Item_Image_Text {item} on:click-item /> 
                         </div>
