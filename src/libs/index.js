@@ -1,7 +1,7 @@
 'use strict'
 
 import { Configuration } from '../config/config.js';
-import { decodeHtmlEntities, sanitizeHtmlString } from '../libs/data_helpers';
+import { sanitizeObjectData } from '../libs/data_helpers';
 import axios from 'axios';
 
 /**
@@ -13,22 +13,6 @@ export const Index = (() => {
     const API_DOMAIN = Configuration.exhibitsApiDomain;
     const EXHIBIT_ENDPOINT = API_DOMAIN + '/exhibit';
     const SEARCH_ENDPOINT = API_DOMAIN + '/search';
-
-    /**
-     * 
-     * @param {*} object - any object
-     * 
-     * Iterates object keys and decodes entities, and sanitizes html 
-     * 
-     * @returns false
-     */
-    const sanitizeObjectData = (object) => {
-        Object.keys(object).forEach(function(key, index) {
-            if(typeof object[key] == 'string') {
-                object[key] = sanitizeHtmlString( decodeHtmlEntities(object[key]) );
-            }
-        });
-    }
 
     /**
      * getExhibits()
@@ -44,7 +28,7 @@ export const Index = (() => {
             let response = await axios.get(EXHIBIT_ENDPOINT);
             exhibits = response.data;
 
-            for(let exhibit of exhibits) sanitizeObjectData(exhibit);
+            sanitizeObjectData(exhibits);
 
             if(isAdmin != true) {
                 exhibits = exhibits.filter((exhibit) => {
@@ -78,13 +62,10 @@ export const Index = (() => {
 
         try {
             let response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}`);
-            let data = response.data;
+            let data = sanitizeObjectData(response.data);
 
             response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}/items`);
-            let items = response.data;
-
-            sanitizeObjectData(data)
-            for(let item of items) sanitizeObjectData(item);
+            let items = sanitizeObjectData(response.data);
 
             exhibit = {data, items};
         }

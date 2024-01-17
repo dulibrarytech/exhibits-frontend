@@ -148,3 +148,25 @@ export const validateUserThemeStyles = (styles) => {
 export const getHtmlIdString = (string) => {
     return string.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]*/g, "").toLowerCase();
 }
+
+/**
+ * 
+ * @param {*} object - any object
+ * 
+ * Iterates object keys and decodes entities, and sanitizes html 
+ * 
+ * @returns false
+ */
+export const sanitizeObjectData = (object) => {
+    Object.keys(object).forEach(function(key, index) {
+
+        if(typeof object[key] == 'string') {
+            object[key] = sanitizeHtmlString( decodeHtmlEntities(object[key]) );
+        }
+        else if(typeof object[key] == 'object') {
+            sanitizeObjectData(object[key]); // object/array of objects
+        }
+    });
+
+    return object;
+}
