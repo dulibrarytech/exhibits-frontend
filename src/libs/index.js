@@ -25,8 +25,8 @@ export const Index = (() => {
         let exhibits = [];
         
         try {
-            let response = await axios.get(EXHIBIT_ENDPOINT);
-            exhibits = response.data;
+            let {data} = await axios.get(EXHIBIT_ENDPOINT);
+            exhibits = data;
 
             sanitizeObjectData(exhibits);
 
@@ -88,26 +88,29 @@ export const Index = (() => {
      * 
      * @returns results array from elastic response data
      */
-    const searchIndex = async (data = {}, exhibitId = null) => {
-        let results = [];
+    const searchIndex = async (searchData = {}, exhibitId = null) => {    
+        let results = {}; 
+        let aggregations = null;  
+        let terms = searchData.terms.toString();
+        let page = searchData.page;
         
-        let terms = data.terms.toString();
-        let page = data.page;
         let url = `${SEARCH_ENDPOINT}?q=${terms}&page=${page}`; 
         
         if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
 
         try {
-            let response = await axios.get(url);
-            results = response.data || [];
+            let {data} = await axios.get(url);
+
+            results = data.results;
+            aggregations = data.aggregations;
+
+            for(let result of results) sanitizeObjectData(result);
         }
         catch(error) {
             console.error(`Could not retrieve data from index. Url: ${url} Error: ${error} Request status: ${error.response.status}`);
         }
 
-        for(let result of results) sanitizeObjectData(result);
-
-        return results;
+        return {results, aggregations}; 
     }
 
     return {

@@ -45,6 +45,7 @@
 
         exhibit = await Index.getExhibit(id);
         data = exhibit?.data;
+
         if(!exhibit || !data) window.location.replace('/404');
 
         try {

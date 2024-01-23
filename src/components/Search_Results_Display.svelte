@@ -11,8 +11,8 @@
     import {ENTITY_TYPE} from '../config/global-constants';
 
     export let results = [];
-    export let data = {};
     export let facets = null;
+    export let displayData = {};
 
     let displayFields = {};
     let displayTerms = "";
@@ -21,7 +21,7 @@
     $: render();
 
     const render = () => {
-        let {entity = "", terms = ""} = data;
+        let {entity = "", terms = ""} = displayData;
 
         /* get the display data for the results, for exhibit or exhibit item based on search entity type */
         if(entity == ENTITY_TYPE.EXHIBIT) {
@@ -35,9 +35,10 @@
         }
 
         formatResults(terms, results);
+        //formatFacets(facets);
 
         /* formats the search terms for the terms label. replaces word separating comma with single space, single and double quotes are removed */
-        displayTerms = terms?.replace(/[,]/g, ' ').replace(/["']/g, '');
+        displayTerms = terms.replace(/[,]/g, ' ').replace(/["']/g, '');
     }
 
     const formatResults = (terms, results) => {
@@ -57,6 +58,10 @@
 
             if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
         });
+    }
+
+    const formatFacets = (facets) => {
+
     }
 
     /* adds the html markup for the search term highlighting to each term in the display text */
@@ -86,14 +91,16 @@
                     <div>
                         <button on:click|preventDefault={onBack}>Back</button>
                     </div>
-                    <!-- {#if facets} -->
-                    <div class="facets">
-                        <h4>Facets</h4>
-                        <ul class="nav nav-pills nav-stacked search-result-categories mt">
-                            <li><a href="#">Facet<span class="badge">[count]</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- {/if} -->
+
+                    {#if facets}
+                        <div class="facets">
+                            <h4>Facets</h4>
+                            <ul class="nav nav-pills nav-stacked search-result-categories mt">
+                                <li><a href="#">Facet<span class="badge">[count]</span></a></li>
+                            </ul>
+                        </div>
+                    {/if}
+
                 </div>
 
                 <div class="col-md-9 col-md-pull-3 results-container">

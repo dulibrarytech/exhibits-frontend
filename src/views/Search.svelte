@@ -13,10 +13,10 @@
     export let currentRoute;
 
     var results = null;
+    var facets = null;
 
-    let data = {};
+    let displayData = {};
     let terms;
-    let facets;
     let boolean;
     let fields;
     let entity;
@@ -24,17 +24,17 @@
     let page;
 
     const init = () => {
-        terms = sanitizeParameterValue(currentRoute.queryParams.q) || "";
+        terms = currentRoute.queryParams.q?.split(',') || "";
+        fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
         facets = null;
         boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
-        fields = sanitizeParameterValue(currentRoute.queryParams.fields) || INDEX_FIELD.TITLE;
-        entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT; // validate
-        id = currentRoute.queryParams.id || null; // validate
+        entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT;
+        id = currentRoute.queryParams.id || null;
         page = currentRoute.queryParams.page || "1";
 
         if(validateUrlParameters()) {
-            data = {
-                terms,
+            displayData = {
+                terms: terms.toString(),
                 entity
             }
             executeSearch();
@@ -43,14 +43,9 @@
     }
   
     const executeSearch = async () => {
-        /* converts csv string values to arrays for the search.execute() function */
-        terms = terms.split(',');
-        fields = fields.split(',');
-
-        results = await Search.execute(terms, boolean, fields, id, page);
-
-        // TODO get facets and results from "response" from Search.exe()  {results, facets}
-        // facets = 
+        let response = await Search.execute(terms, boolean, fields, id, page);
+        results = response.results || [];
+        facets = response.facets || null;
     }
 
     const validateUrlParameters = () => {
@@ -83,7 +78,7 @@
 <div class="search-page page">
     <div class="search-results container">
         {#if results}
-            <Search_Results_Display {results} {data} {facets} />
+            <Search_Results_Display {results} {facets} {displayData} />
         {:else}
             <h3>No results found.</h3>
         {/if}

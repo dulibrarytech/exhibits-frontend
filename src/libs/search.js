@@ -22,7 +22,6 @@
 'use strict'
 
 import { Index } from './index.js';
-import { Settings } from '../config/settings.js';
 
 export const Search = (() => {
     /**
@@ -34,7 +33,7 @@ export const Search = (() => {
      * @returns 
      */
     const execute = async (terms, boolean, fields, exhibitId, page) => {
-        let results = [];
+        let facets = [];
 
         let data = {
             terms,
@@ -43,14 +42,25 @@ export const Search = (() => {
             page
         }
 
-        let response = await Index.searchIndex(data, exhibitId);
+        let {results = [], aggregations = []} = await Index.searchIndex(data, exhibitId);
 
-        // update the response data, test fields, etc
-        for(let item of response) {
-            results.push(item);
+        for(let field in aggregations) {
+            let facet = {
+                field,
+                types: []
+            };
+
+            for(let {key, doc_count} of aggregations[field]) {
+                facet.types.push({
+                    value: key, 
+                    count: doc_count
+                });
+            }
+
+            facets.push(facet);
         }
 
-        return results;
+        return {results, facets};
     }
 
     return {
