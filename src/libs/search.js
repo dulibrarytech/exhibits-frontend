@@ -32,17 +32,19 @@ export const Search = (() => {
      * 
      * @returns 
      */
-    const execute = async (terms, boolean, fields, exhibitId, page) => {
-        let facets = [];
+    const execute = async (data) => {
+        let limitOptions = [];
 
-        let data = {
-            terms,
-            boolean,
-            fields,
-            page
-        }
+        let { // TODO to object assn, and cnvt params to {} ^^^
+            terms = [],
+            boolean = 'AND',
+            fields = [],
+            facets = null,
+            page = 1,
+            exhibitId = null
+        } = data
 
-        let {results = [], aggregations = []} = await Index.searchIndex(data, exhibitId);
+        let {results = [], aggregations = []} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
 
         for(let field in aggregations) {
             let facet = {
@@ -57,10 +59,10 @@ export const Search = (() => {
                 });
             }
 
-            facets.push(facet);
+            limitOptions.push(facet);
         }
 
-        return {results, facets};
+        return {results, limitOptions};
     }
 
     return {

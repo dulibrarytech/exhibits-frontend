@@ -3,6 +3,7 @@
 import { Configuration } from '../config/config.js';
 import { sanitizeObjectData } from '../libs/data_helpers';
 import axios from 'axios';
+import { URLQueryParams } from "object-in-queryparams";
 
 /**
  * Dev index interface module
@@ -89,12 +90,16 @@ export const Index = (() => {
      * @returns results array from elastic response data
      */
     const searchIndex = async (searchData = {}, exhibitId = null) => {    
-        let results = {}; 
+        let results = []; 
         let aggregations = null;  
-        let terms = searchData.terms.toString();
-        let page = searchData.page;
-        
-        let url = `${SEARCH_ENDPOINT}?q=${terms}&page=${page}`; 
+
+        let terms = searchData.terms?.toString();
+        let page = searchData.page || 1;
+        let facets = searchData.facets || null; 
+
+        facets = {'Type': ['exhibit']} // DEV
+
+        let url = `${SEARCH_ENDPOINT}?q=${terms}&page=${page}`;
         
         if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
 
@@ -107,7 +112,7 @@ export const Index = (() => {
             for(let result of results) sanitizeObjectData(result);
         }
         catch(error) {
-            console.error(`Could not retrieve data from index. Url: ${url} Error: ${error} Request status: ${error.response.status}`);
+            console.error(`Could not retrieve data from index. Url: ${url} ${error} Request status: ${error.response.status}`);
         }
 
         return {results, aggregations}; 

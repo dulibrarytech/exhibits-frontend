@@ -100,9 +100,20 @@ export const Settings = {
     /*
      * Styles permitted to be applied by the exhibit creator 
      */
-    userThemeStyles: ['color', 'background', 'backgroundColor', 'backgroundImage', 'fontFamily', 'fontWeight', 'textAlign']
-
+    userThemeStyles: ['color', 'background', 'backgroundColor', 'backgroundImage', 'fontFamily', 'fontWeight', 'textAlign'],
     // userThemeStyles: {
     //     THEME_OBJECT.EXHIBIT_TEMPLATE: ['color', 'background', 'backgroundColor', 'fontFamily', 'fontWeight', 'textAlign']
     // }
+
+    /*
+     * Limit panel labels (facet labels)
+     */
+    facetLabels: {
+        "type": "Type",
+        "is_member_of_exhibit": "Exhibits"
+    },
+    facetValueLabels: {
+        "item": "Exhibit Item",
+        "exhibit": "Exhibit"
+    }
 }

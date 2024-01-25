@@ -14,6 +14,7 @@
 
     var results = null;
     var facets = null;
+    var selectedFacets = [];
 
     let displayData = {};
     let terms;
@@ -26,7 +27,6 @@
     const init = () => {
         terms = currentRoute.queryParams.q?.split(',') || "";
         fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
-        facets = null;
         boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
         entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT;
         id = currentRoute.queryParams.id || null;
@@ -43,9 +43,9 @@
     }
   
     const executeSearch = async () => {
-        let response = await Search.execute(terms, boolean, fields, id, page);
+        let response = await Search.execute({terms, boolean, fields, id, page, facets: selectedFacets});
         results = response.results || [];
-        facets = response.facets || null;
+        facets = response.limitOptions || null;
     }
 
     const validateUrlParameters = () => {
@@ -71,6 +71,12 @@
         if(value) sanitized = stripHtmlAndObjectCharacters(value.trim()); // TEMP refer to elastic query docs
         return sanitized;
     }
+
+    const onSelectFacet = (event) => {
+        // get facet data from event
+        // add to selected facets
+        // run executeSearch(); (should update all subcomponents)
+    } 
 
     $: init();
 </script>
