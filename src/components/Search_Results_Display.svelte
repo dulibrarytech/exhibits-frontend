@@ -7,6 +7,7 @@
     import { createEventDispatcher } from 'svelte';
     import Search_Result from '../templates/partials/Search_Result.svelte';
     import { Settings } from '../config/settings';
+    import { Cache } from '../libs/cache';
 
     //import { formatFacetLabel } from '../libs/format'
     import { stripHtmlTags } from '../libs/data_helpers';
@@ -74,7 +75,11 @@
 
             for(let index in values) {
                 let {value} = values[index];
-                if(value in Settings.facetValueLabels) {
+                
+                if(field == 'is_member_of_exhibit') {
+                    values[index].label = Cache.getExhibitById(value).title;
+                }
+                else if(value in Settings.facetValueLabels) {
                     values[index].label = Settings.facetValueLabels[value]
                 }
             }

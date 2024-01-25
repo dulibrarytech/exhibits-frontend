@@ -49,11 +49,11 @@ export const Search = (() => {
         for(let field in aggregations) {
             let facet = {
                 field,
-                types: []
+                values: []
             };
 
             for(let {key, doc_count} of aggregations[field]) {
-                facet.types.push({
+                facet.values.push({
                     value: key, 
                     count: doc_count
                 });

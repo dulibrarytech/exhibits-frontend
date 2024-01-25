@@ -3,18 +3,17 @@
 
     import { onMount } from 'svelte';
     import { Index } from '../libs/index.js';
-    import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
-    import { Page_Layouts } from '../templates/config/page-layout.js';
     import { getItemById, getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
     import { Fonts } from '../config/fonts'; 
+    import { ENTITY_TYPE, USER_ROLE } from '../config/global-constants';
+    import { validateApiKey } from '../libs/validation';
 
+    import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
+    import { Page_Layouts } from '../templates/config/page-layout.js';
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
     import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
     import Modal_Item_Display from '../components/Modal_Item_Display.svelte';
     import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
-
-    import { ENTITY_TYPE, USER_ROLE } from '../config/global-constants';
-    import { validateApiKey } from '../libs/validation';
 
     export let currentRoute;
 

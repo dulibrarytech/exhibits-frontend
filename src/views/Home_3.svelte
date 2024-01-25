@@ -7,6 +7,7 @@
     import { Index } from '../libs/index.js';
     import { Settings } from '../config/settings.js';
     import { stripHtmlTags } from '../libs/data_helpers';
+    import { Cache } from '../libs/cache';
 
     import Search_Box from '../components/Search_Box.svelte';
     import Exhibit_Preview_Grid from '../templates/Exhibit_Preview_Grid.svelte';
@@ -21,7 +22,10 @@
         message = "Retrieving exhibits...";
         exhibits = await Index.getExhibits();
 
-        if(exhibits) render();
+        if(exhibits) {
+            Cache.storeExhibits(exhibits);
+            render();
+        }
         else message = "Error retrieving exhibits";
     }
 
