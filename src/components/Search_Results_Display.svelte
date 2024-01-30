@@ -11,50 +11,19 @@
 
     export let results = [];
     export let limitOptions = null; //  all available facet options from search
-    export let facets = {}; // clicked facets, added to search
+    export let facets = {}; // user selected facets to add to faceted search
     export let terms = [];
 
     const dispatch = createEventDispatcher();
 
-    //let displayFields = {};
     let termsLabel = "";
 
     $: render();
 
     const render = () => {
-        //let {terms = ""} = displayData;
-
-        // formats the search terms for the terms label. replaces word separating comma with single space, single and double quotes are removed
+        // search terms to display on the results page
         termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
-
-        // fields shown in the search result
-        // displayFields = Settings.searchResultDisplayFields;
-
-        //formatResults(terms, results);
     }
-
-    // const formatResults = (terms, results) => {
-    //     console.log("TEST fmt results()")
-    //     /* adds result display data to each search result e.g. adding links, updating content, etc */
-    //     results.forEach((result) => {
-
-    //         // Format data for display
-    //         for(let field in displayFields) {
-    //             if(result[field]) {
-    //                 // Removes html from user content, preserves inner text
-    //                     //console.log("TEST stripHtmlTags pre", result[field])
-    //                 result[field] = stripHtmlTags(result[field]);
-    //                     //console.log("TEST stripHtmlTags post", result[field])
-
-    //                 // Adds search term highlight markup to content
-    //                 result[field] = highlightTerms(terms, result[field]);
-    //             }
-    //         }
-
-    //         // TODO determine if exhibit or item (on result.type, use entities). Add the result link if it is not there (exhibit => open Exhibit page, item => open Exhibit page, anchor to item?)
-    //         //if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
-    //     });
-    // }
 
     const formatFacetField = (node) => {
         let field = node.innerText.trim();
@@ -73,10 +42,6 @@
             node.innerText = Settings.facetValueLabels[value];
         }
     }
-
-    // const formatSearchResultField = (node) => {
-    //     console.log("TEST formatSearchResultField node:", node)
-    // }
 
     const onClickFacet = (event) => {
         let field = event.target.getAttribute('data-facet-field');
@@ -125,7 +90,7 @@
                                         <ul class="nav nav-pills nav-stacked search-result-categories mt">
                                             
                                             {#each values as {value, count, label}}
-                                                <li><a on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span use:formatFacetValue={field}>{value}</span><span class="badge">{count}</span></a></li>
+                                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span use:formatFacetValue={field}>{value}</span><span class="badge">{count}</span></a></li>
                                             {/each}
 
                                         </ul>
