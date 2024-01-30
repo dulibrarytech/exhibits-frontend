@@ -27,7 +27,8 @@
 import { Settings } from '../config/settings.js';
 
 import sanitizeHtml from 'sanitize-html';
-import {encode, decode} from 'html-entities';
+import { stripHtml } from "string-strip-html";
+import { encode, decode } from 'html-entities';
 
 /**
  * Find an item by id
@@ -64,7 +65,10 @@ export const stripHtmlTags = (string) => {
     // return sanitizeHtml( decode(string), {
     //     allowedTags
     // })
-    return string ? string.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))??>/gi, "") : null;
+
+    //return string ? string.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))??>/gi, "") : null; // TODO use 'string-strip-html' (this regex is inconsistent)
+
+    return string ? stripHtml(string).result : string;
 }
 
 /**

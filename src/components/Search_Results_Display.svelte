@@ -8,107 +8,89 @@
     import Search_Result from '../templates/partials/Search_Result.svelte';
     import { Settings } from '../config/settings';
     import { Cache } from '../libs/cache';
-    import { stripHtmlTags } from '../libs/data_helpers';
 
     export let results = [];
     export let limitOptions = null; //  all available facet options from search
     export let facets = {}; // clicked facets, added to search
-    export let displayData = {};
+    export let terms = [];
 
     const dispatch = createEventDispatcher();
 
-    let displayFields = {};
-    let displayTerms = "";
-    var selectedFacets = {};
+    //let displayFields = {};
+    let termsLabel = "";
 
-    $: {
-        selectedFacets = facets;
-        render();
-    }
+    $: render();
 
     const render = () => {
-        let {terms = ""} = displayData;
+        //let {terms = ""} = displayData;
 
         // formats the search terms for the terms label. replaces word separating comma with single space, single and double quotes are removed
-        displayTerms = terms.replace(/[,]/g, ' ').replace(/["']/g, '');
+        termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
 
         // fields shown in the search result
-        displayFields = Settings.searchResultDisplayFields;
+        // displayFields = Settings.searchResultDisplayFields;
 
-        formatResults(terms, results);
-        formatFacets(limitOptions);
+        //formatResults(terms, results);
     }
 
-    const formatResults = (terms, results) => {
-        /* adds result display data to each search result e.g. adding links, updating content, etc */
-        results.forEach((result) => {
+    // const formatResults = (terms, results) => {
+    //     console.log("TEST fmt results()")
+    //     /* adds result display data to each search result e.g. adding links, updating content, etc */
+    //     results.forEach((result) => {
 
-            // Format data for display
-            for(let field in displayFields) {
-                if(result[field]) {
-                    // Removes html from user content, preserves inner text
-                    result[field] = stripHtmlTags(result[field]);
+    //         // Format data for display
+    //         for(let field in displayFields) {
+    //             if(result[field]) {
+    //                 // Removes html from user content, preserves inner text
+    //                     //console.log("TEST stripHtmlTags pre", result[field])
+    //                 result[field] = stripHtmlTags(result[field]);
+    //                     //console.log("TEST stripHtmlTags post", result[field])
 
-                    // Adds search term highlight markup to content
-                    result[field] = highlightTerms(terms, result[field]);
-                }
-            }
+    //                 // Adds search term highlight markup to content
+    //                 result[field] = highlightTerms(terms, result[field]);
+    //             }
+    //         }
 
-            // TODO determine if exhibit or item (on result.type, use entities). Add the result link if it is not there (exhibit => open Exhibit page, item => open Exhibit page, anchor to item?)
-            //if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
-        });
-    }
+    //         // TODO determine if exhibit or item (on result.type, use entities). Add the result link if it is not there (exhibit => open Exhibit page, item => open Exhibit page, anchor to item?)
+    //         //if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
+    //     });
+    // }
 
-    const formatFacets = (facets=[]) => {
-        for(let index in facets) {
-            let {field, values} = facets[index];
+    const formatFacetField = (node) => {
+        let field = node.innerText.trim();
 
-            // If a label has been set for a facet field, add the label
-            if(field in Settings.facetLabels) {
-                facets[index].label = Settings.facetLabels[field]
-            }
-
-            for(let index in values) {
-                let {value} = values[index];
-                
-                // Create a facet label using the exhibit title for the 'Exhibit' facets
-                if(field == 'is_member_of_exhibit') {
-                    values[index].label = Cache.getExhibitById(value).title;
-                }
-
-                // If a label has been set for a specific facet value, add the label
-                else if(value in Settings.facetValueLabels) {
-                    values[index].label = Settings.facetValueLabels[value]
-                }
-            }
+        if(field in Settings.facetLabels) {
+            node.innerText = Settings.facetLabels[field];
         }
     }
+    const formatFacetValue = (node, field) => {
+        let value = node.innerText.trim();
+        
+        if(field == 'is_member_of_exhibit') {
+            node.innerText = Cache.getExhibitById(value)?.title || value;
+        }
+        else if(value in Settings.facetValueLabels) {
+            node.innerText = Settings.facetValueLabels[value];
+        }
+    }
+
+    // const formatSearchResultField = (node) => {
+    //     console.log("TEST formatSearchResultField node:", node)
+    // }
 
     const onClickFacet = (event) => {
         let field = event.target.getAttribute('data-facet-field');
         let value = event.target.getAttribute('data-facet-value');
 
-        if(!selectedFacets[field]) selectedFacets[field] = [];
-        selectedFacets[field].push(value);
+        if(!facets[field]) facets[field] = [];
+        facets[field].push(value);
 
-        dispatch('click-facet', selectedFacets)
+        dispatch('click-facet', facets)
 
     }
 
     const onRemoveFacet = (event) => {
         // dispatch facet data (this component will be re rendered)
-    }
-
-    /* adds the html markup for the search term highlighting to each term in the display text */
-    const highlightTerms = (terms, text) => {
-        let pattern;
-
-        terms.split(',').forEach((term) => {
-            pattern = new RegExp(`${term}`, "gi");
-            text = text.replace(pattern, `<span class="text-highlight">${term}</span>`);
-        });
-
-        return text;
     }
 </script>
 
@@ -119,7 +101,8 @@
 
             <div class="row ng-scope">
                 <div class="col-md-12">
-                    <!-- <FacetBreadcrumbs facets={selectedFacets} on:remove={onRemoveFacet} /> -->
+                    <!-- <FacetBreadcrumbs facets={selectedFacets} on:remove={onRemoveFacet} /> -->   <!-- old -->
+                    <!-- <FacetBreadcrumbs facets={facets} on:remove={onRemoveFacet} /> -->  <!-- updated -->
                 </div>
             </div> 
 
@@ -138,11 +121,11 @@
                                 {#each limitOptions as {field, values, label}}
 
                                     {#if values.length > 0}
-                                        <h6>{label || field}</h6>
+                                        <h6 use:formatFacetField >{field}</h6>
                                         <ul class="nav nav-pills nav-stacked search-result-categories mt">
                                             
                                             {#each values as {value, count, label}}
-                                                <li><a on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}>{label || value}<span class="badge">{count}</span></a></li>
+                                                <li><a on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span use:formatFacetValue={field}>{value}</span><span class="badge">{count}</span></a></li>
                                             {/each}
 
                                         </ul>
@@ -156,10 +139,10 @@
                 </div>
 
                 <div class="col-md-9 col-md-pull-3 results-container">
-                    <p class="search-results-count">Found <span style="font-weight: bold">{results.length} results</span> for "<span style="font-weight: bold">{displayTerms}</span>"</p>
+                    <p class="search-results-count">Found <span style="font-weight: bold">{results.length} results</span> for "<span style="font-weight: bold">{termsLabel}</span>"</p>
 
                     {#each results as result, index} 
-                        <Search_Result {result} {index} />
+                        <Search_Result {terms} {result} {index} />
                     {/each}
 
                     {#if results.length > 0}

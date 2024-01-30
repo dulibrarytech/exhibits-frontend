@@ -4,10 +4,11 @@
      */
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
-
     import { ENTITY_TYPE, EXHIBIT_TEMPLATE } from '../../config/global-constants';
+    import { stripHtmlTags } from '../../libs/data_helpers';
 
     export let result = {};
+    export let terms = [];
 
     let link;
     let type;
@@ -21,6 +22,37 @@
         title = result.title || "No Title";
         description = result.description || null;
         date = result.date || null;
+
+        // title = stripHtmlTags(title).highlightTerms(terms, title);
+        // description = stripHtmlTags(description).highlightTerms(terms, description);
+        format();
+    }
+
+    const format = () => {
+        if(title) {
+            title = stripHtmlTags(title);
+            title = highlightTerms(terms, title);
+        }
+
+        if(description) {
+            description = stripHtmlTags(description);
+            description = highlightTerms(terms, description);
+        }
+    }
+
+    /* adds the html markup for the search term highlighting to each term in the display text */
+    const highlightTerms = (terms, text) => {
+        let pattern;
+
+        console.log("TEST hlterms terms/text:", terms, text)
+         
+        //if
+        terms.forEach((term) => {
+            pattern = new RegExp(`${term}`, "gi");
+            text = text.replace(pattern, `<span class="text-highlight">${term}</span>`);
+        });
+
+        return text;
     }
 
 </script>
