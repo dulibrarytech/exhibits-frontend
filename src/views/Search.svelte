@@ -80,7 +80,7 @@
 <div class="search-page page">
     <div class="search-results container">
         {#if results}
-            <Search_Results_Display {results} {limitOptions} {terms} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} />
+            <Search_Results_Display {results} {facets} {limitOptions} {terms} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} />
         {:else}
             <h3>No results found.</h3>
         {/if}

@@ -83,20 +83,20 @@
                         <div class="facet-panel">
                             <h4>Filter Results</h4>
                             <div class="facets">
-                                {#each limitOptions as {field, values, label}}
 
+                                {#each limitOptions as {field, values, label}}
                                     {#if values.length > 0}
                                         <h6 use:formatFacetField >{field}</h6>
                                         <ul class="nav nav-pills nav-stacked search-result-categories mt">
-                                            
+
                                             {#each values as {value, count, label}}
-                                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span use:formatFacetValue={field}>{value}</span><span class="badge">{count}</span></a></li>
+                                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span style="pointer-events:none" use:formatFacetValue={field}>{value}</span><span class="badge" style="pointer-events:none">{count}</span></a></li>
                                             {/each}
 
                                         </ul>
                                     {/if}
-
                                 {/each}
+
                             </div>
                         </div>
                     {/if}

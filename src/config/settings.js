@@ -114,12 +114,15 @@ export const Settings = {
      * Limit panel labels (facet labels)
      */
     facetLabels: {
-        "type": "Type",
-        "is_member_of_exhibit": "Exhibits"
+        "type": "Entity",
+        "is_member_of_exhibit": "Exhibits",
+        "item_type": "Item Type"
     },
     facetValueLabels: {
         "item": "Exhibit Item",
-        "exhibit": "Exhibit"
+        "exhibit": "Exhibit",
+        "text": "Text",
+        "image": "Image"
     }
 
 

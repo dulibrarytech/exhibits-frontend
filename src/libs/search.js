@@ -44,6 +44,8 @@ export const Search = (() => {
             exhibitId = null
         } = data
 
+        console.log("TEST search mod: facets into search:", facets)
+
         let {results = [], aggregations = []} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
 
         for(let field in aggregations) {
