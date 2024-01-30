@@ -60,10 +60,11 @@ export const getItemById = (id, items) => {
  * 
  * @returns the string with html tags removed
  */
-export const stripHtmlTags = (string, allowedTags=[]) => {
-    return sanitizeHtml( decode(string), {
-        allowedTags
-    })
+export const stripHtmlTags = (string) => {
+    // return sanitizeHtml( decode(string), {
+    //     allowedTags
+    // })
+    return string ? string.replace(/<\/?[a-z]+( +[a-z]+=("|').+("|'))??>/gi, "") : null;
 }
 
 /**
@@ -105,8 +106,12 @@ export const encodeHtmlEntitles = (string) => {
  * 
  * @returns the string with html tags removed
  */
-export const stripHtmlContent = (string) => {
-    return string ? string.replace(/<.+>(.*?)<\/.+>/gi, "") : null;
+export const stripDisallowedHtmlContent = (string) => {
+    //return string ? string.replace(/<.+>(.*?)<\/.+>/gi, "") : null;
+
+    return sanitizeHtml( decode(string), {
+        allowedTags: Settings.allowedTags
+    });
 }
 
 /**

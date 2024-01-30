@@ -8,7 +8,7 @@ export const Cache = (() => {
 
     const getExhibitById = (exhibitId) => {
         let exhibits = lscache.get('exhibits');
-        return exhibits.find((exhibit) => {
+        return exhibits?.find((exhibit) => {
             return exhibit.uuid == exhibitId;
         });
     }

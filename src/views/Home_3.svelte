@@ -88,7 +88,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="exhibits-search">
-                        <Search_Box endpoint="/search" fields={Settings.searchFieldsExhibit} placeholder="Search exhibits"/>
+                        <Search_Box endpoint="/search" fields={Settings.searchFields} placeholder="Search exhibits"/>
                     </div>
                 </div>
             </div>

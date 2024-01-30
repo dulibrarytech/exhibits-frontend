@@ -92,15 +92,17 @@ export const Index = (() => {
     const searchIndex = async (searchData = {}, exhibitId = null) => {    
         let results = []; 
         let aggregations = null;  
-
         let terms = searchData.terms?.toString();
         let page = searchData.page || 1;
         let facets = searchData.facets || null; 
 
-        facets = {'Type': ['exhibit']} // DEV
+        let queryParams = new URLQueryParams({
+            q: terms,
+            f: facets || undefined,
+            page
+        });
 
-        let url = `${SEARCH_ENDPOINT}?q=${terms}&page=${page}`;
-        
+        let url = `${SEARCH_ENDPOINT}?${queryParams}`;
         if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
 
         try {

@@ -8,53 +8,45 @@
     import Search_Result from '../templates/partials/Search_Result.svelte';
     import { Settings } from '../config/settings';
     import { Cache } from '../libs/cache';
-
-    //import { formatFacetLabel } from '../libs/format'
     import { stripHtmlTags } from '../libs/data_helpers';
 
-    import {ENTITY_TYPE} from '../config/global-constants';
-
     export let results = [];
-    export let facets = null; //  all available facet options from search
+    export let limitOptions = null; //  all available facet options from search
+    export let facets = {}; // clicked facets, added to search
     export let displayData = {};
 
     const dispatch = createEventDispatcher();
 
     let displayFields = {};
     let displayTerms = "";
-    let linkPath = "";
+    var selectedFacets = {};
 
-    $: render();
+    $: {
+        selectedFacets = facets;
+        render();
+    }
 
     const render = () => {
-        let {entity = "", terms = ""} = displayData;
+        let {terms = ""} = displayData;
 
-        /* get the display data for the results, for exhibit or exhibit item based on search entity type */
-        if(entity == ENTITY_TYPE.EXHIBIT) {
-            displayFields = Settings.searchFieldsExhibit;
-            linkPath = `/exhibit`;
-        }
-        else if(entity == ENTITY_TYPE.ITEM) {
-            displayFields = Settings.searchFieldsExhibitItem;
-            //linkPath = `/exhibit/${exhibitId}/item`;
-            linkPath = `#`; // TBD - how to open items
-        }
+        // formats the search terms for the terms label. replaces word separating comma with single space, single and double quotes are removed
+        displayTerms = terms.replace(/[,]/g, ' ').replace(/["']/g, '');
+
+        // fields shown in the search result
+        displayFields = Settings.searchResultDisplayFields;
 
         formatResults(terms, results);
-        if(facets) formatFacets(facets);
-
-        /* formats the search terms for the terms label. replaces word separating comma with single space, single and double quotes are removed */
-        displayTerms = terms.replace(/[,]/g, ' ').replace(/["']/g, '');
+        formatFacets(limitOptions);
     }
 
     const formatResults = (terms, results) => {
-
         /* adds result display data to each search result e.g. adding links, updating content, etc */
         results.forEach((result) => {
-            for(let field in displayFields) {
 
+            // Format data for display
+            for(let field in displayFields) {
                 if(result[field]) {
-                    // Removes html from user content, search result will display only the text
+                    // Removes html from user content, preserves inner text
                     result[field] = stripHtmlTags(result[field]);
 
                     // Adds search term highlight markup to content
@@ -62,13 +54,16 @@
                 }
             }
 
-            if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
+            // TODO determine if exhibit or item (on result.type, use entities). Add the result link if it is not there (exhibit => open Exhibit page, item => open Exhibit page, anchor to item?)
+            //if(!result.link) result.link = `${linkPath}/${result.uuid || '#'}`;
         });
     }
 
-    const formatFacets = (facets) => {
+    const formatFacets = (facets=[]) => {
         for(let index in facets) {
             let {field, values} = facets[index];
+
+            // If a label has been set for a facet field, add the label
             if(field in Settings.facetLabels) {
                 facets[index].label = Settings.facetLabels[field]
             }
@@ -76,9 +71,12 @@
             for(let index in values) {
                 let {value} = values[index];
                 
+                // Create a facet label using the exhibit title for the 'Exhibit' facets
                 if(field == 'is_member_of_exhibit') {
                     values[index].label = Cache.getExhibitById(value).title;
                 }
+
+                // If a label has been set for a specific facet value, add the label
                 else if(value in Settings.facetValueLabels) {
                     values[index].label = Settings.facetValueLabels[value]
                 }
@@ -87,10 +85,14 @@
     }
 
     const onClickFacet = (event) => {
-        // dispatch facet data (this component will be re rendered)
-        // get field = elt['data-limit-field'] 
-        // get value = elt['data-limit-value']
-        // push {field, value} to selectedFacets[]
+        let field = event.target.getAttribute('data-facet-field');
+        let value = event.target.getAttribute('data-facet-value');
+
+        if(!selectedFacets[field]) selectedFacets[field] = [];
+        selectedFacets[field].push(value);
+
+        dispatch('click-facet', selectedFacets)
+
     }
 
     const onRemoveFacet = (event) => {
@@ -107,10 +109,6 @@
         });
 
         return text;
-    }
-
-    const onBack = () => {
-        history.go(-2);
     }
 </script>
 
@@ -129,26 +127,29 @@
 
                 <div class="col-md-3 col-md-push-9 results-sidebar">
                     <div>
-                        <button on:click|preventDefault={onBack}>Back</button>
+                        <button on:click|preventDefault={() => dispatch('click-back', {})}>Back</button>
+                        <button on:click|preventDefault={() => dispatch('click-clear-facets', {})}>Reset Filters</button>
                     </div>
 
-                    {#if facets}
-                        <h4>Filter</h4>
-                        <div class="facets">
-                            {#each facets as {field, values, label}}
+                    {#if limitOptions}
+                        <div class="facet-panel">
+                            <h4>Filter Results</h4>
+                            <div class="facets">
+                                {#each limitOptions as {field, values, label}}
 
-                                <h6>{label || field}</h6>
-                                <ul class="nav nav-pills nav-stacked search-result-categories mt">
-                                    
-                                    {#each values as {value, count, label}}
+                                    {#if values.length > 0}
+                                        <h6>{label || field}</h6>
+                                        <ul class="nav nav-pills nav-stacked search-result-categories mt">
+                                            
+                                            {#each values as {value, count, label}}
+                                                <li><a on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}>{label || value}<span class="badge">{count}</span></a></li>
+                                            {/each}
 
-                                        <li><a href="#" on:click|preventDefault={onClickFacet} data-limit-field={field} data-limit-value={value}>{label || value}<span class="badge">{count}</span></a></li>
-                                    
-                                    {/each}
+                                        </ul>
+                                    {/if}
 
-                                </ul>
-
-                            {/each}
+                                {/each}
+                            </div>
                         </div>
                     {/if}
 
@@ -214,8 +215,17 @@
         padding: 10px 15px;
     }
 
+    .nav>li>a:hover {
+        text-decoration: none;
+        cursor: pointer;
+    }
+
     .facets > ul li {
         width: 284px;
+    }
+
+    .facets h6 {
+        margin-top: 1.1rem;
     }
 
     .search-result-categories>li>a {

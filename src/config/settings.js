@@ -42,6 +42,11 @@ export const Settings = {
     kalturaThumbnailHeight: "250",
 
     /*
+     * html tags allowed in user content
+     */
+    allowedHtmlTags: ['div', 'p', 'em', 'strong', 'style', 'i', 'br', 'b', 'span', 'img'],
+
+    /*
      * thumbnail images
      */
     thumbnailImageLocation: "tn",
@@ -88,11 +93,11 @@ export const Settings = {
      * Index fields included in search (in 'search all', when search field is not specified by user)
      * {index field name}:{human display name}
      */
-    searchFieldsExhibit: {
+    searchFields: {
         "title": "Title",
         "description": "Description"
     },
-    searchFieldsExhibitItem: {
+    searchResultDisplayFields: {
         "title": "Title",
         "description": "Description"
     },
@@ -116,4 +121,6 @@ export const Settings = {
         "item": "Exhibit Item",
         "exhibit": "Exhibit"
     }
+
+
 }

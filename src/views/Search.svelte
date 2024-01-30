@@ -6,15 +6,14 @@
     'use strict'
 
     import {Search} from '../libs/search.js';
-    import {stripHtmlAndObjectCharacters, stripHtmlTags} from '../libs/data_helpers';
     import Search_Results_Display from '../components/Search_Results_Display.svelte';
     import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN} from '../config/global-constants.js';
 
     export let currentRoute;
 
     var results = null;
-    var facets = null;
-    var selectedFacets = [];
+    var facets = {};
+    var limitOptions = null;
 
     let displayData = {};
     let terms;
@@ -28,9 +27,9 @@
         terms = currentRoute.queryParams.q?.split(',') || "";
         fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
         boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
+        page = currentRoute.queryParams.page || "1";
         entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT;
         id = currentRoute.queryParams.id || null;
-        page = currentRoute.queryParams.page || "1";
 
         if(validateUrlParameters()) {
             displayData = {
@@ -39,13 +38,13 @@
             }
             executeSearch();
         }
-        else console.error("Invalid query params");
+        else console.error("Search page: Invalid query params");
     }
   
     const executeSearch = async () => {
-        let response = await Search.execute({terms, boolean, fields, id, page, facets: selectedFacets});
+        let response = await Search.execute({terms, boolean, fields, id, page, facets});
         results = response.results || [];
-        facets = response.limitOptions || null;
+        limitOptions = response.limitOptions || null;
     }
 
     const validateUrlParameters = () => {
@@ -66,17 +65,19 @@
         return isValid;
     }
 
-    const sanitizeParameterValue = (value) => {
-        let sanitized = null;
-        if(value) sanitized = stripHtmlAndObjectCharacters(value.trim()); // TEMP refer to elastic query docs
-        return sanitized;
+    const onSelectFacet = (event) => {
+        facets = event.detail;
+        executeSearch();
+    } 
+
+    const onResetFacets = (event) => {
+        facets = {};
+        executeSearch();
     }
 
-    const onSelectFacet = (event) => {
-        // get facet data from event
-        // add to selected facets
-        // run executeSearch(); (should update all subcomponents)
-    } 
+    const onClickBack = (event) => {
+        history.go(-2);
+    }
 
     $: init();
 </script>
@@ -84,7 +85,7 @@
 <div class="search-page page">
     <div class="search-results container">
         {#if results}
-            <Search_Results_Display {results} {facets} {displayData} />
+            <Search_Results_Display {results} {limitOptions} {displayData} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} />
         {:else}
             <h3>No results found.</h3>
         {/if}

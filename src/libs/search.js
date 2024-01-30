@@ -35,7 +35,7 @@ export const Search = (() => {
     const execute = async (data) => {
         let limitOptions = [];
 
-        let { // TODO to object assn, and cnvt params to {} ^^^
+        let {
             terms = [],
             boolean = 'AND',
             fields = [],
