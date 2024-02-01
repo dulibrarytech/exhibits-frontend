@@ -6,73 +6,60 @@
 
     import { createEventDispatcher } from 'svelte';
     import Search_Result from '../templates/partials/Search_Result.svelte';
-    import { Settings } from '../config/settings';
-    import { Cache } from '../libs/cache';
+    import FacetLabels from './FacetLabels.svelte';
 
     export let results = [];
     export let limitOptions = null; //  all available facet options from search
-    export let facets = {}; // user selected facets to add to faceted search
+    export let facets = []; // user selected facets to add to faceted search
     export let terms = [];
 
     const dispatch = createEventDispatcher();
 
-    let termsLabel = "";
+    let termsLabel = ""; // search terms e.g. "X results found for [terms]"
 
     $: render();
 
     const render = () => {
-        // search terms to display on the results page
         termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
-    }
-
-    const formatFacetField = (node) => {
-        let field = node.innerText.trim();
-
-        if(field in Settings.facetLabels) {
-            node.innerText = Settings.facetLabels[field];
-        }
-    }
-    const formatFacetValue = (node, field) => {
-        let value = node.innerText.trim();
-        
-        if(field == 'is_member_of_exhibit') {
-            node.innerText = Cache.getExhibitById(value)?.title || value;
-        }
-        else if(value in Settings.facetValueLabels) {
-            node.innerText = Settings.facetValueLabels[value];
-        }
     }
 
     const onClickFacet = (event) => {
         let field = event.target.getAttribute('data-facet-field');
+        let fieldLabel = event.target.parentElement.parentElement.getAttribute('data-facet-field-label');
         let value = event.target.getAttribute('data-facet-value');
+        let valueLabel = event.target.getAttribute('data-facet-value-label');
 
-        if(!facets[field]) facets[field] = [];
-        facets[field].push(value);
+        let existing = facets.find((facet) => {
+            return facet.field == field && facet.value == value;
+        })
 
-        dispatch('click-facet', facets)
-
+        if(!existing) {
+            facets.push({field, value, fieldLabel, valueLabel})
+            dispatch('click-facet', facets);
+        }
     }
 
     const onRemoveFacet = (event) => {
-        // dispatch facet data (this component will be re rendered)
+        let index = event.detail;
+        if (index > -1) { // only splice array when item is found
+            facets.splice(index, 1); // 2nd parameter means remove one item only
+        }
+
+        dispatch('remove-facet', facets);
     }
 </script>
 
 <div class="search-results-display">
     <div class="results">
-        
         <div class="container">
 
-            <div class="row ng-scope">
+            <!-- <div class="row ng-scope">
                 <div class="col-md-12">
-                    <!-- <FacetBreadcrumbs facets={selectedFacets} on:remove={onRemoveFacet} /> -->   <!-- old -->
-                    <!-- <FacetBreadcrumbs facets={facets} on:remove={onRemoveFacet} /> -->  <!-- updated -->
+                    <FacetBreadcrumbs facets={facets} on:remove={onRemoveFacet} />
                 </div>
-            </div> 
+            </div>  -->
 
             <div class="row ng-scope">
-
                 <div class="col-md-3 col-md-push-9 results-sidebar">
                     <div>
                         <button on:click|preventDefault={() => dispatch('click-back', {})}>Back</button>
@@ -84,13 +71,13 @@
                             <h4>Filter Results</h4>
                             <div class="facets">
 
-                                {#each limitOptions as {field, values, label}}
+                                {#each limitOptions as {field, values, label=null}}
                                     {#if values.length > 0}
-                                        <h6 use:formatFacetField >{field}</h6>
-                                        <ul class="nav nav-pills nav-stacked search-result-categories mt">
+                                        <h6>{label || field}</h6>
+                                        <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
 
-                                            {#each values as {value, count, label}}
-                                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span style="pointer-events:none" use:formatFacetValue={field}>{value}</span><span class="badge" style="pointer-events:none">{count}</span></a></li>
+                                            {#each values as {value, count, label=null}, index}
+                                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-value-label={label}><span data-index={index} style="pointer-events:none">{label || value}</span><span class="badge" style="pointer-events:none">{count}</span></a></li>
                                             {/each}
 
                                         </ul>
@@ -104,12 +91,18 @@
                 </div>
 
                 <div class="col-md-9 col-md-pull-3 results-container">
-                    <p class="search-results-count">Found <span style="font-weight: bold">{results.length} results</span> for "<span style="font-weight: bold">{termsLabel}</span>"</p>
+
+                    <div class="search-data-display">
+                        <p class="search-terms-label">Found <span style="font-weight: bold">{results.length} results</span> for "<span style="font-weight: bold">{termsLabel}</span>"</p>
+
+                        <FacetLabels {facets} on:remove-facet={onRemoveFacet} />
+                    </div>
 
                     {#each results as result, index} 
                         <Search_Result {terms} {result} {index} />
                     {/each}
 
+                    <!-- pagination -->
                     {#if results.length > 0}
                         <div class="text-align-center">
                             <ul class="pagination pagination-sm">
@@ -130,6 +123,7 @@
                             </ul>
                         </div>
                     {/if}
+                    <!-- end pagination -->
                 </div>
             </div>
         </div>
@@ -217,8 +211,13 @@
         float: right
     }
 
-    .search-results-count {
-        margin-top: 10px
+    .search-data-display {
+        display: inline-flex;
+        margin-bottom: 30px;
+    }
+
+    .search-terms-label {
+        margin-right: 30px;
     }
 
     :global(.search-result-item + .search-result-item) {

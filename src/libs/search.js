@@ -44,7 +44,18 @@ export const Search = (() => {
             exhibitId = null
         } = data
 
-        console.log("TEST search mod: facets into search:", facets)
+        // convert facets to data structure compatible with url querystring
+        if(Object.keys(facets).length > 0) {
+            let converted = {};
+
+            for(let {field, value} of facets) {
+                if(field in converted == false) converted[field] = [];
+                converted[field].push(value);
+            }
+
+            facets = converted;
+        }
+        else facets = null;
 
         let {results = [], aggregations = []} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
 

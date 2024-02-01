@@ -13,8 +13,23 @@ export const Cache = (() => {
         });
     }
 
+    const storeSearchData = (data) => {
+        lscache.set('search_data', data);
+    }
+
+    const getSearchData = () => {
+        return lscache.get('search_data');
+    }
+
+    const deleteSearchData = () => {
+        lscache.set('search_data', undefined);
+    }
+
     return {
         storeExhibits,
-        getExhibitById
+        getExhibitById,
+        storeSearchData,
+        getSearchData,
+        deleteSearchData
     }
 })()

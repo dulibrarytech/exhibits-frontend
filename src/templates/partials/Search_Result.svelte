@@ -20,7 +20,7 @@
         link = result.link || "#";
         type = result.type || ENTITY_TYPE.ITEM
         title = result.title || "No Title";
-        description = result.description || null;
+        description = result.description || result.text || null;
         date = result.date || null;
 
         format();

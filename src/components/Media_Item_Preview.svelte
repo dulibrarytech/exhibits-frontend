@@ -18,6 +18,8 @@
     let styles = null;
     let preview = null;
 
+    let uuid; // TEST, remove
+
     const PLACEHOLDER_IMAGE = Settings.placeholderImage;
     const LARGE_IMAGE_PREVIEW_WIDTH = 1000;
 
@@ -31,6 +33,8 @@
         thumbnail = item.thumbnail || null;
         title = item.title || null;
         styles = item.styles || null;
+
+        uuid = item.uuid // TEST, remove
 
         if(thumbnail) {
             preview = Resource.getThumbnailFileUrl(thumbnail);
@@ -75,12 +79,16 @@
                 url = Resource.getPdfPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.PDF);
                 break;
 
+            case ITEM_TYPE.TEXT:
+                url = Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
+                break;
+
             case ITEM_TYPE.EXTERNAL_SOURCE:
                 url = media;
                 break;
 
             default:
-                console.error(`Invalid item type: ${itemType} Item: ${item.id}`);
+                console.error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
                 break;
         }
 
@@ -90,7 +98,8 @@
 
 <div class="item-preview" bind:this={itemPreviewElement} >
     {#if preview}
-        <img src={preview} alt={title} />
+        <!-- <img src={preview} alt={title}/> --> <!-- USE -->
+        <img src={preview} alt={title} data-uuid={uuid}/> <!-- TEST -->
     {:else}
         <img src='/error' alt="Error" />
     {/if}

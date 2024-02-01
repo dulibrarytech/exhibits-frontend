@@ -8,11 +8,14 @@
     import { Search } from '../libs/search.js';
     import Search_Results_Display from '../components/Search_Results_Display.svelte';
     import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN} from '../config/global-constants.js';
+    import { Settings } from '../config/settings';
+    import { Cache } from '../libs/cache';
+    import queryString from 'query-string'; // TODO test facets in via client /search qstring (replace cached facet selections)
 
     export let currentRoute;
 
     var results = null;
-    var facets = {};
+    var facets = [];
     var limitOptions = null;
 
     let terms;
@@ -21,6 +24,7 @@
     let entity;
     let id;
     let page;
+    let cache;
 
     const init = () => {
         terms = currentRoute.queryParams.q?.split(',') || "";
@@ -29,17 +33,40 @@
         page = currentRoute.queryParams.page || "1";
         entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT;
         id = currentRoute.queryParams.id || null;
+        cache = currentRoute.queryParams.cache || false;
+
+        if(cache) facets = Cache.getSearchData()?.selectedFacets || [];
 
         if(validateUrlParameters()) {
             executeSearch();
         }
-        else console.error("_Search page: Invalid query params");
+        else console.error("Search page: Invalid query params");
     }
   
     const executeSearch = async () => {
         let response = await Search.execute({terms, boolean, fields, id, page, facets});
         results = response.results || [];
         limitOptions = response.limitOptions || null;
+        addViewLabels(limitOptions); // TODO can replace this with inline formatters (results and f labels) 
+    }
+
+    const addViewLabels = (limitOptions) => {
+        for(let option of limitOptions) {
+            let {field} = option;
+
+            if(field in Settings.facetLabels) {
+                option.label = Settings.facetLabels[field];
+            }
+
+            for(let value of option.values) {
+                if(field == 'is_member_of_exhibit') {
+                    value.label = Cache.getExhibitById(value.value)?.title || value.value;
+                }
+                else if(value.value in Settings.facetValueLabels) {
+                    value.label = Settings.facetValueLabels[value.value];
+                }
+            }
+        }
     }
 
     const validateUrlParameters = () => {
@@ -62,16 +89,44 @@
 
     const onSelectFacet = (event) => {
         facets = event.detail;
-        executeSearch();
+        Cache.storeSearchData({selectedFacets: facets});
+
+        let url = window.location.href;
+        if(!cache) {
+            url += "&cache=true";
+            cache = true;
+        }
+
+        window.location.replace(url);
     } 
 
+    const onRemoveFacet = (event) => {
+        facets = event.detail;
+        Cache.storeSearchData({selectedFacets: facets});
+            
+        let url = window.location.href;
+        if(!cache) {
+            url += "&cache=true";
+            cache = true;
+        }
+
+        window.location.replace(url);
+    }
+
     const onResetFacets = (event) => {
-        facets = {};
-        executeSearch();
+        facets = [];
+        Cache.deleteSearchData();
+
+        let url = window.location.href;
+        if(cache) {
+            url = url.replace("&cache=true", "");
+            cache = false;
+        }
+        window.location.replace(url);
     }
 
     const onClickBack = (event) => {
-        history.go(-2);
+        window.location.replace('/exhibits');
     }
 
     $: init();
@@ -80,7 +135,7 @@
 <div class="search-page page">
     <div class="search-results container">
         {#if results}
-            <Search_Results_Display {results} {facets} {limitOptions} {terms} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} />
+            <Search_Results_Display {results} {facets} {limitOptions} {terms} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} on:remove-facet={onRemoveFacet}/>
         {:else}
             <h3>No results found.</h3>
         {/if}

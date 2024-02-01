@@ -106,6 +106,8 @@ export const Index = (() => {
         if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
 
         try {
+            //url = "http://localhost:5678/api/v1/search?q=denver&f[item_type]=image&f[item_type]=testtype&f[is_member_of_exhibit]=7b843505f749e10f8702eab4c1ec135f&page=1" // TEST, remove
+            //url = "http://localhost:5678/api/v1/search?q=denver&f[item_type]=image&f[is_member_of_exhibit]=7b843505f749e10f8702eab4c1ec135f&page=1" // TEST remove
             let {data} = await axios.get(url);
 
             results = data.results;
