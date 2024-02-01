@@ -47,26 +47,6 @@
         let response = await Search.execute({terms, boolean, fields, id, page, facets});
         results = response.results || [];
         limitOptions = response.limitOptions || null;
-        addViewLabels(limitOptions); // TODO can replace this with inline formatters (results and f labels) 
-    }
-
-    const addViewLabels = (limitOptions) => {
-        for(let option of limitOptions) {
-            let {field} = option;
-
-            if(field in Settings.facetLabels) {
-                option.label = Settings.facetLabels[field];
-            }
-
-            for(let value of option.values) {
-                if(field == 'is_member_of_exhibit') {
-                    value.label = Cache.getExhibitById(value.value)?.title || value.value;
-                }
-                else if(value.value in Settings.facetValueLabels) {
-                    value.label = Settings.facetValueLabels[value.value];
-                }
-            }
-        }
     }
 
     const validateUrlParameters = () => {

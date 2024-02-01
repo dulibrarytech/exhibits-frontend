@@ -5,6 +5,7 @@
     'use strict'
 
     import { createEventDispatcher } from 'svelte';
+    import { formatFacetField, formatFacetValue } from '../libs/format';
     import Search_Result from '../templates/partials/Search_Result.svelte';
     import FacetLabels from './FacetLabels.svelte';
 
@@ -25,16 +26,14 @@
 
     const onClickFacet = (event) => {
         let field = event.target.getAttribute('data-facet-field');
-        let fieldLabel = event.target.parentElement.parentElement.getAttribute('data-facet-field-label');
         let value = event.target.getAttribute('data-facet-value');
-        let valueLabel = event.target.getAttribute('data-facet-value-label');
 
         let existing = facets.find((facet) => {
             return facet.field == field && facet.value == value;
         })
 
         if(!existing) {
-            facets.push({field, value, fieldLabel, valueLabel})
+            facets.push({field, value})
             dispatch('click-facet', facets);
         }
     }
@@ -73,11 +72,12 @@
 
                                 {#each limitOptions as {field, values, label=null}}
                                     {#if values.length > 0}
-                                        <h6>{label || field}</h6>
+                                        <h6 use:formatFacetField >{field}</h6>
+
                                         <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
 
                                             {#each values as {value, count, label=null}, index}
-                                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-value-label={label}><span data-index={index} style="pointer-events:none">{label || value}</span><span class="badge" style="pointer-events:none">{count}</span></a></li>
+                                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span use:formatFacetValue={field} style="pointer-events:none">{value}</span><span class="badge">{count}</span></a></li>
                                             {/each}
 
                                         </ul>

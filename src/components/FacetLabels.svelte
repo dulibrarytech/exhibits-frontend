@@ -2,6 +2,7 @@
 'use strict'
 
 import { createEventDispatcher } from 'svelte';
+import { formatFacetField, formatFacetValue } from '../libs/format';
 
 const dispatch = createEventDispatcher();
 
@@ -18,8 +19,8 @@ const onClickLabel = (event) => {
     <div class="facet-labels">
         <p>Filtering on:</p>
 
-        {#each facets as {fieldLabel, valueLabel}, index}
-            <div class="facet-label"><a class="removelink" href on:click={onClickLabel} data-index={index}>X</a> <b>{fieldLabel}</b>: <span>{valueLabel}</span></div>
+        {#each facets as {field, value}, index}
+            <div class="facet-label"><a class="removelink" href on:click={onClickLabel} data-index={index}>X</a> <b use:formatFacetField>{field}</b>: <span use:formatFacetValue={field}>{value}</span></div>
         {/each}
     </div>
 {/if}
