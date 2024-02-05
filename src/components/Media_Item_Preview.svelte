@@ -18,8 +18,6 @@
     let styles = null;
     let preview = null;
 
-    let uuid; // TEST, remove
-
     const PLACEHOLDER_IMAGE = Settings.placeholderImage;
     const LARGE_IMAGE_PREVIEW_WIDTH = 1000;
 
@@ -28,13 +26,11 @@
     $: init();
 
     const init = async () => {
-        itemType = item.item_type || ITEM_TYPE.IMAGE;
+        itemType = item.item_type || null;
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
         title = item.title || null;
         styles = item.styles || null;
-
-        uuid = item.uuid // TEST, remove
 
         if(thumbnail) {
             preview = Resource.getThumbnailFileUrl(thumbnail);
@@ -43,7 +39,7 @@
             preview = resource;
         }
         else {
-            preview = await getPreviewUrl(itemType, resource, width, height);
+            preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.DEFAULT);
         }
 
         if(!preview) console.log("Preview image source url not found");
@@ -88,7 +84,6 @@
                 break;
 
             default:
-                url = Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
                 console.error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
                 break;
         }
@@ -99,8 +94,7 @@
 
 <div class="item-preview" bind:this={itemPreviewElement} >
     {#if preview}
-        <!-- <img src={preview} alt={title}/> --> <!-- USE -->
-        <img src={preview} alt={title} data-uuid={uuid}/> <!-- TEST -->
+        <img src={preview} alt={title}/>
     {:else}
         <img src='/error' alt="Error" />
     {/if}
