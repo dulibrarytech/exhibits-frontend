@@ -17,7 +17,7 @@
     let date;
 
     $: {
-        link = result.link || "#";
+        link = result.link || null;
         type = result.type || ENTITY_TYPE.ITEM
         title = result.title || "No Title";
         description = result.description || result.text || null;

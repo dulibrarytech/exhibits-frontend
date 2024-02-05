@@ -88,6 +88,7 @@
                 break;
 
             default:
+                url = Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
                 console.error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
                 break;
         }

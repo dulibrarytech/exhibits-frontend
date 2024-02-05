@@ -73,7 +73,6 @@
                                 {#each limitOptions as {field, values, label=null}}
                                     {#if values.length > 0}
                                         <h6 use:formatFacetField >{field}</h6>
-
                                         <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
 
                                             {#each values as {value, count, label=null}, index}
@@ -154,7 +153,7 @@
     .nav>li>a {
         position: relative;
         display: block;
-        padding: 10px 15px;
+        padding: 5px 15px;
     }
 
     .nav>li>a:hover {

@@ -121,6 +121,7 @@ export const Settings = {
     facetValueLabels: {
         "item": "Exhibit Item",
         "exhibit": "Exhibit",
+        "grid": "Exhibit Item Group",
         "text": "Text",
         "image": "Image"
     }

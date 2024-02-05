@@ -21,6 +21,7 @@
 
 'use strict'
 
+import { ENTITY_TYPE } from '../config/global-constants.js';
 import { Index } from './index.js';
 
 export const Search = (() => {
@@ -42,9 +43,10 @@ export const Search = (() => {
             facets = null,
             page = 1,
             exhibitId = null
+
         } = data
 
-        // convert facets to data structure compatible with url querystring
+        /* convert facets to data structure compatible with url querystring */
         if(Object.keys(facets).length > 0) {
             let converted = {};
 
@@ -59,6 +61,7 @@ export const Search = (() => {
 
         let {results = [], aggregations = []} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
 
+        /* Build limit options data */
         for(let field in aggregations) {
             let facet = {
                 field,
@@ -73,6 +76,21 @@ export const Search = (() => {
             }
 
             limitOptions.push(facet);
+        }
+
+        /* link the result to the exhibit/item */
+        for(let result of results) {
+            if(result.type == ENTITY_TYPE.EXHIBIT) {
+                result.link = `/exhibit/${result.uuid}`;
+            }
+            else if(result.type == ENTITY_TYPE.ITEM) {
+                result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`;
+                // result.link = `/exhibit/${result.is_member_of_exhibit}/item/${result.uuid}`;
+            }
+            else if(result.type == ENTITY_TYPE.GRID) {
+                result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`;
+                // result.link = `/exhibit/${result.is_member_of_exhibit}/item/${result.uuid}`;
+            }
         }
 
         return {results, limitOptions};

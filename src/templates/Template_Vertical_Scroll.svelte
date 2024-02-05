@@ -61,9 +61,9 @@
 <div class="exhibit-template">
     {#if displayItems}
         <div class="exhibit-items">
-            {#each displayItems as {type = "", text = "", anchorId = null, is_visible=null}, index}
+            {#each displayItems as {uuid = "", type = "", text = "", anchorId = null, is_visible=null}, index}
 
-                <div class="exhibit-item">
+                <div class="exhibit-item" id={uuid}>
 
                     <!-- exhibit heading -->
                     {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 

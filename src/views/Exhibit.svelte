@@ -33,7 +33,7 @@
 
     var renderPage = false;
 
-    const FONT_LOCATION = "../assets/fonts";
+    const FONT_LOCATION = "../assets/fonts";  // TODO load DU brand fonts
 
     const init = async () => {
         let key = currentRoute.queryParams.key || null;
@@ -172,10 +172,14 @@
         document.body.classList.add('modal-open');
     }
 
-    const openPageModal = (event) => {
+    const onOpenPageModal = (event) => {
+        openPageModal(event.detail.pageId);
+    }
+
+    const openPageModal = (itemId) => {
         modalDialogData = {
             page: data,
-            container: getPageById(event.detail.pageId) // ret About_The_Curators
+            container: getPageById(itemId) // ret About_The_Curators
         };
 
         if(!modalDialog) modalDialog = Modal_Page_Display;
@@ -192,6 +196,7 @@
         console.log("Mount exhibit page");
     }
 
+    // TODO move to external
     const getUserRole = (key) => {
         let role;
 

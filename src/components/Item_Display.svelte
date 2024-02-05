@@ -17,14 +17,30 @@
 
     } = args;
 
-    let {uuid, item_type, is_published = false} = item;
+    ////
+    // update
+    ///////
+    let {uuid, item_type, is_published = false} = item; // CUR
+    //let {uuid, repo_item = false, is_published = false} = item; // UPDATE
+    ////
+    // end update
+    ///////
+
     let isRepoItem;
     var renderItem = false;
 
     const dispatch = createEventDispatcher();
 
     const init = () => {
-        isRepoItem = (item_type == ITEM_TYPE.REPO);
+        ////
+        // update
+        ///////
+        isRepoItem = (item_type == ITEM_TYPE.REPO); // CUR
+        // isRepoItem = (repo_item == true); // UPDATE
+        /////
+        // end update
+        ///////// 
+
         renderItem = item && (is_published || role == USER_ROLE.ADMIN);
 
         try {
