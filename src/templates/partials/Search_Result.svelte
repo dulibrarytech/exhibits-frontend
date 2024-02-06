@@ -4,61 +4,43 @@
      */
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
-    import { ENTITY_TYPE, EXHIBIT_TEMPLATE } from '../../config/global-constants';
-    import { stripHtmlTags } from '../../libs/data_helpers';
+    import { ENTITY_TYPE } from '../../config/global-constants';
+    import { formatSearchResultValue } from '../../libs/format';
 
     export let result = {};
     export let terms = [];
 
-    let link;
-    let type;
     let title;
-    let description; 
     let date;
+    let description;
+    let itemType;
+    let link;
+    let exhibit;
+    let type;
+
+    var truncateDescription = false;
+
+    const MAX_DESCRIPTION_TEXT_LENGTH = 800;
 
     $: {
-        link = result.link || null;
-        type = result.type || ENTITY_TYPE.ITEM
-        title = result.title || "No Title";
-        description = result.description || result.text || null;
+        title = result.title || "Untitled Item";
         date = result.date || null;
+        description = result.description || result.text || null;
+        itemType = result.item_type || null;
+        link = result.link || null;
+        exhibit = result.is_member_of_exhibit || null;
+        type = result.type || ENTITY_TYPE.ITEM
 
-        format();
-    }
-
-    const format = () => {
-        if(title) {
-            title = stripHtmlTags(title);
-            title = highlightTerms(terms, title);
-        }
-
-        if(description) {
-            description = stripHtmlTags(description);
-            description = highlightTerms(terms, description);
+        if(description.length > MAX_DESCRIPTION_TEXT_LENGTH) {
+            truncateDescription = true;
+            description = description.substr(0, MAX_DESCRIPTION_TEXT_LENGTH).concat('...');
         }
     }
 
-    /* adds the html markup for the search term highlighting to each term in the display text */
-    const highlightTerms = (terms, text) => {
-        let pattern, matches;
-         
-        terms.forEach((term) => {
-            pattern = new RegExp(`${term}`, "gi");
-            matches = text.match(pattern);
-
-            if(matches) {
-                let highlightedText = "";
-                
-                matches.forEach((matchText) => {
-                    highlightedText = `<span class="text-highlight">${matchText}</span>`;
-                    text = text.replace(matchText, highlightedText);
-                });
-            }
-        });
-
-        return text;
+    const expandText = () => {
+        truncateDescription = false;
+        description = result.description || result.text || null;
     }
-
 </script>
 
 <section class="search-result-item">
@@ -77,10 +59,26 @@
 
             <!-- fullwidth, no left side section -->
             <div class="col-sm-12">
-                <h4 class="search-result-item-heading title"><a href={link}>{@html title}</a></h4>
+                <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue>{@html title}</a></h4>
                 <hr>
-                {#if date}<p class="info">{date}</p>{/if} <!-- update class when this field is determined -->
-                {#if description}<p class="description">{@html description}</p>{/if}
+
+                <p class="info">{date || "n.d."}</p>
+
+                {#if type}
+                    <p class="info">{itemType}</p>
+                {/if}
+
+                {#if description}
+                    <p class="description">
+                        <span use:formatSearchResultValue>{@html description}</span>
+                        {#if truncateDescription}<br><a class="expand-text-link" href on:click|preventDefault={expandText}>Show more</a>{/if}
+                    </p>
+                {/if}
+
+                {#if exhibit}
+                    <span>Exhibit:</span> <a href="/exhibit/{exhibit}" class="exhibit-link" use:formatSearchResultValue={{result, terms}}></a>
+                    <br><br>
+                {/if}
             </div>
 
             <!-- right side content -->
@@ -131,10 +129,6 @@
         }
     }
 
-    .search-result-item .image {
-        max-width: 100%
-    }
-
     .search-result-item .info {
         margin-top: 2px;
         font-size: 12px;
@@ -163,5 +157,9 @@
         .search-result-item-heading {
             margin: 0
         }
+    }
+
+    a.expand-text-link {
+        text-decoration: underline;
     }
 </style>
