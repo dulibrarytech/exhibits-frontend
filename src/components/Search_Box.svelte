@@ -10,7 +10,6 @@
 
     let query;
     let url;
-    let selectedField;
 
     const DEFAULT_SEARCH_FIELD = "title";
 
@@ -19,11 +18,18 @@
     }
 
     const search = () => {
-        url = `${endpoint}`;
+        // parse out the terms enclosed in quotes, include in the query as a phrase
+        let quotedTerms = query.match(/"([^"]*)"/gi);
+        if(quotedTerms) {
+          quotedTerms.forEach(terms => {
+                let termPhrase = terms.replace(/"/g, '').replace(/\s/g, '+');
+                query = query.replace(terms, termPhrase)
+          });
+        }
 
-        // append the query value from the search box
+        // convert querystring to csv tokens
         let queryString = query.replace(/ /g, ',').toLowerCase().trim();
-        url = url.concat(`?q=${queryString}`);
+        url = endpoint.concat(`?q=${queryString}`);
 
         // append the search fields
         let fieldString = Object.keys(fields).toString(); // test for selected field in dropdown. If present, assign this to fieldString. else, get array keys
@@ -46,10 +52,6 @@
             search();
         }
     }
-
-    const onSelectSearchField = () => {};
-
-    const onSelectSearchTermBoolean = () => {};
 
     onMount(async () => {
         init(); 

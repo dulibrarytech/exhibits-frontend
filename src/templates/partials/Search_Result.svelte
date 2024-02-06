@@ -40,11 +40,20 @@
 
     /* adds the html markup for the search term highlighting to each term in the display text */
     const highlightTerms = (terms, text) => {
-        let pattern;
+        let pattern, matches;
          
         terms.forEach((term) => {
             pattern = new RegExp(`${term}`, "gi");
-            text = text.replace(pattern, `<span class="text-highlight">${term}</span>`);
+            matches = text.match(pattern);
+
+            if(matches) {
+                let highlightedText = "";
+                
+                matches.forEach((matchText) => {
+                    highlightedText = `<span class="text-highlight">${matchText}</span>`;
+                    text = text.replace(matchText, highlightedText);
+                });
+            }
         });
 
         return text;
@@ -68,7 +77,7 @@
 
             <!-- fullwidth, no left side section -->
             <div class="col-sm-12">
-                <h4 class="search-result-item-heading title"><a href={link}>{title}</a></h4>
+                <h4 class="search-result-item-heading title"><a href={link}>{@html title}</a></h4>
                 <hr>
                 {#if date}<p class="info">{date}</p>{/if} <!-- update class when this field is determined -->
                 {#if description}<p class="description">{@html description}</p>{/if}

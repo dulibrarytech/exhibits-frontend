@@ -8,9 +8,7 @@
     import { Search } from '../libs/search.js';
     import Search_Results_Display from '../components/Search_Results_Display.svelte';
     import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN} from '../config/global-constants.js';
-    import { Settings } from '../config/settings';
     import { Cache } from '../libs/cache';
-    import queryString from 'query-string'; // TODO test facets in via client /search qstring (replace cached facet selections)
 
     export let currentRoute;
 

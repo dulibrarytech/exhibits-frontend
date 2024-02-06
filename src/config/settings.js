@@ -87,7 +87,7 @@ export const Settings = {
      * Time period for exhibit to be displayed in the 'Recently Added' exhibits section
      * In days  (e.g. 30 days: an exhibit is no longer shown in the 'recently added' section if it was added > 30 days ago)
      */
-    recentExhibitsPeriod: 30,
+    recentExhibitsPeriod: 60,
 
     /* 
      * Index fields included in search (in 'search all', when search field is not specified by user)
@@ -97,6 +97,10 @@ export const Settings = {
         "title": "Title",
         "description": "Description"
     },
+
+    /* 
+     * Index fields included in search result data
+     */
     searchResultDisplayFields: {
         "title": "Title",
         "description": "Description"

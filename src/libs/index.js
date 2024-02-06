@@ -94,7 +94,7 @@ export const Index = (() => {
         let aggregations = null;  
         let terms = searchData.terms?.toString();
         let page = searchData.page || 1;
-        let facets = searchData.facets || null; 
+        let facets = searchData.facets || null;
 
         let queryParams = new URLQueryParams({
             q: terms,
