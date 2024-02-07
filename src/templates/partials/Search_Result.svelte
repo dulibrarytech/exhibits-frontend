@@ -18,7 +18,7 @@
     let exhibit;
     let type;
 
-    var truncateDescription = false;
+    var truncateDescription;
 
     const MAX_DESCRIPTION_TEXT_LENGTH = 800;
 
@@ -29,17 +29,9 @@
         itemType = result.item_type || null;
         link = result.link || null;
         exhibit = result.is_member_of_exhibit || null;
-        type = result.type || ENTITY_TYPE.ITEM
+        type = result.type || ENTITY_TYPE.ITEM;
 
-        if(description.length > MAX_DESCRIPTION_TEXT_LENGTH) {
-            truncateDescription = true;
-            description = description.substr(0, MAX_DESCRIPTION_TEXT_LENGTH).concat('...');
-        }
-    }
-
-    const expandText = () => {
-        truncateDescription = false;
-        description = result.description || result.text || null;
+        truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
     }
 </script>
 
@@ -59,10 +51,12 @@
 
             <!-- fullwidth, no left side section -->
             <div class="col-sm-12">
-                <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue>{@html title}</a></h4>
+                <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{@html title}</a></h4>
                 <hr>
 
-                <p class="info">{date || "n.d."}</p>
+                {#if date}
+                    <p class="info">{date}</p>
+                {/if}
 
                 {#if type}
                     <p class="info">{itemType}</p>
@@ -70,8 +64,12 @@
 
                 {#if description}
                     <p class="description">
-                        <span use:formatSearchResultValue>{@html description}</span>
-                        {#if truncateDescription}<br><a class="expand-text-link" href on:click|preventDefault={expandText}>Show more</a>{/if}
+                        {#if truncateDescription}
+                            <span use:formatSearchResultValue={{terms}}>{@html description.substr(0, MAX_DESCRIPTION_TEXT_LENGTH).concat('...')}</span>
+                            <br><a class="expand-text-link" href on:click|preventDefault={() => truncateDescription = false}>Show more</a>
+                        {:else}
+                            <span use:formatSearchResultValue={{terms}}>{@html description}</span>
+                        {/if}
                     </p>
                 {/if}
 

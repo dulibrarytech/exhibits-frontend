@@ -24,6 +24,7 @@ export const formatFacetValue = (node, field) => {
 }
 
 export const formatSearchResultValue = (node, data = {}) => {
+    console.log("TEST format value: data in:", data)
     let {result = {}, terms = []} = data;
     let value = node.innerHTML;
 
@@ -50,6 +51,7 @@ export const formatSearchResultValue = (node, data = {}) => {
  * @returns text with highlight tags inserted 
  */
 const highlightTerms = (terms, text) => {
+    //console.log("TEST hl terms/text:", terms, text)
     let pattern, matches;
      
     terms.forEach((term) => {
@@ -57,6 +59,7 @@ const highlightTerms = (terms, text) => {
         matches = text.match(pattern);
 
         if(matches) {
+            console.log("TEST matches:", matches)
             let highlightedText = "";
             
             matches.forEach((matchText) => {
