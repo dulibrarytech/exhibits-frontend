@@ -2,6 +2,7 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import { removeStopwords } from 'stopword';
 
     export let endpoint = null;
     export let params = {}; // params to append to querystring
@@ -14,47 +15,50 @@
     const DEFAULT_SEARCH_FIELD = "title";
 
     const init = () => {
-        if(fields.length == 0) fields.push(DEFAULT_SEARCH_FIELD);
+      if(fields.length == 0) fields.push(DEFAULT_SEARCH_FIELD);
     }
 
     const search = () => {
-        // parse out the terms enclosed in quotes, include in the query as a phrase
-        let quotedTerms = query.match(/"([^"]*)"/gi);
-        if(quotedTerms) {
-          quotedTerms.forEach(terms => {
-                let termPhrase = terms.replace(/"/g, '').replace(/\s/g, '+');
-                query = query.replace(terms, termPhrase)
-          });
-        }
+      // parse out the terms enclosed in quotes, include in the query as a phrase
+      let quotedTerms = query.match(/"([^"]*)"/gi);
+      if(quotedTerms) {
+        quotedTerms.forEach(terms => {
+          // convert the terms enclosed in quotes from "term1 term2" to term1+term2 url format
+            let termPhrase = terms.replace(/"/g, '').replace(/\s/g, '+');
+            query = query.replace(terms, termPhrase)
+        });
+      }
 
-        // convert querystring to csv tokens
-        let queryString = query.replace(/ /g, ',').toLowerCase().trim();
-        url = endpoint.concat(`?q=${queryString}`);
+      // update/format the terms
+      let queryTokens = query.split(/[ ]{1,}/g);
+      queryTokens = removeStopwords(queryTokens);
+      let queryString = queryTokens.toString();
+      url = endpoint.concat(`?q=${queryString}`);
 
-        // append the search fields
-        let fieldString = Object.keys(fields).toString(); // test for selected field in dropdown. If present, assign this to fieldString. else, get array keys
-        if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
+      // append the search fields
+      let fieldString = Object.keys(fields).toString(); // test for selected field in dropdown. If present, assign this to fieldString. else, get array keys
+      if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
 
-        // append all parameters
-        for(let key in params) {
-          url = url.concat(`&${key}=${params[key]}`);
-        }
+      // append all parameters
+      for(let key in params) {
+        url = url.concat(`&${key}=${params[key]}`);
+      }
 
-        window.location.replace(url);
+      window.location.replace(url);
     }
 
     const onKeyPress = (event) => {
-        // execute search if the search input box is active and the enter key is pressed
-        if(document.activeElement.getAttribute('id') == "searchbox" &&
-           event.keyCode == 13) {
+      // execute search if the search input box is active and the enter key is pressed
+      if(document.activeElement.getAttribute('id') == "searchbox" &&
+          event.keyCode == 13) {
 
-            event.preventDefault();
-            search();
-        }
+        event.preventDefault();
+        search();
+      }
     }
 
     onMount(async () => {
-        init(); 
+      init(); 
     });
 </script>
 

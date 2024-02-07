@@ -46,7 +46,7 @@ export const Search = (() => {
 
         } = data
 
-        /* convert facets to data structure compatible with url querystring */
+        /* convert facets to data structure compatible with searchIndex() */
         if(Object.keys(facets).length > 0) {
             let converted = {};
 
@@ -85,11 +85,9 @@ export const Search = (() => {
             }
             else if(result.type == ENTITY_TYPE.ITEM) {
                 result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`;
-                // result.link = `/exhibit/${result.is_member_of_exhibit}/item/${result.uuid}`;
             }
             else if(result.type == ENTITY_TYPE.GRID) {
                 result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`;
-                // result.link = `/exhibit/${result.is_member_of_exhibit}/item/${result.uuid}`;
             }
         }
 
