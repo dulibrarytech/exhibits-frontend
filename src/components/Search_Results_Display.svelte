@@ -13,10 +13,11 @@
     export let limitOptions = null; //  all available facet options from search
     export let facets = []; // user selected facets to add to faceted search
     export let terms = [];
+    export let searchType = null;
 
     const dispatch = createEventDispatcher();
 
-    let termsLabel = ""; // search terms e.g. "X results found for [terms]"
+    let termsLabel = ""; // search terms e.g. "X results found for [terms]";
 
     $: render();
 
@@ -93,12 +94,11 @@
 
                     <div class="search-data-display">
                         <p class="search-terms-label">Found <span style="font-weight: bold">{results.length} results</span> for "<span style="font-weight: bold">{termsLabel}</span>"</p>
-
                         <FacetLabels {facets} on:remove-facet={onRemoveFacet} />
                     </div>
 
                     {#each results as result, index} 
-                        <Search_Result {terms} {result} {index} />
+                        <Search_Result {terms} {result} {index} {searchType} />
                     {/each}
 
                     <!-- pagination -->

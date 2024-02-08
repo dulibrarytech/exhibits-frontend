@@ -7,7 +7,7 @@
 
     import { Search } from '../libs/search.js';
     import Search_Results_Display from '../components/Search_Results_Display.svelte';
-    import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN} from '../config/global-constants.js';
+    import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN, SEARCH_TYPE} from '../config/global-constants.js';
     import { Cache } from '../libs/cache';
 
     export let currentRoute;
@@ -20,29 +20,32 @@
     let boolean;
     let fields;
     let entity;
-    let id;
     let page;
     let cache;
+    let exhibitId;
+    let searchType;
 
-    const init = () => {
+    const init = async () => {
         terms = currentRoute.queryParams.q?.split(',') || "";
         fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
         boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
         page = currentRoute.queryParams.page || "1";
         entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT;
-        id = currentRoute.queryParams.id || null;
         cache = currentRoute.queryParams.cache || false;
+        exhibitId = currentRoute.queryParams.exhibitId || null;
+
+        searchType = exhibitId ? SEARCH_TYPE.SEARCH_EXHIBIT : SEARCH_TYPE.SEARCH_ALL;
 
         if(cache) facets = Cache.getSearchData()?.selectedFacets || [];
 
         if(validateUrlParameters()) {
-            executeSearch();
+            await executeSearch();
         }
         else console.error("Search page: Invalid query params");
     }
   
     const executeSearch = async () => {
-        let response = await Search.execute({terms, boolean, fields, id, page, facets});
+        let response = await Search.execute({terms, boolean, fields, exhibitId, page, facets});
         results = response.results || [];
         limitOptions = response.limitOptions || null;
     }
@@ -57,7 +60,7 @@
         if(entity && Object.values(ENTITY_TYPE).includes(entity) === false) isValid = false;
 
         // id must be hex value
-        if(id && /^[a-fA-F0-9]+$/g.test(id) === false) isValid = false;
+        if(exhibitId && /^[a-fA-F0-9]+$/g.test(exhibitId) === false) isValid = false;
 
         // page must be numeric
         if(page && isNaN(page) === true) isValid = false;
@@ -104,7 +107,13 @@
     }
 
     const onClickBack = (event) => {
-        window.location.replace('/exhibits');
+        // if searchType == all, back goes home
+        // if exhibit search, back goes to exhibit (have exhibitId here)
+        let url = "/";
+        if(searchType == SEARCH_TYPE.SEARCH_ALL) url = "/exhibits";
+        else if(searchType == SEARCH_TYPE.SEARCH_EXHIBIT) url = `/exhibit/${exhibitId}`;
+
+        window.location.replace(url);
     }
 
     $: init();
@@ -113,9 +122,10 @@
 <div class="search-page page">
     <div class="search-results container">
         {#if results}
-            <Search_Results_Display {results} {facets} {limitOptions} {terms} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} on:remove-facet={onRemoveFacet}/>
+            <Search_Results_Display {results} {facets} {limitOptions} {terms} {searchType} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} on:remove-facet={onRemoveFacet}/>
+            <!-- <Search_Results_Display {results} {facets} {limitOptions} {terms} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} on:remove-facet={onRemoveFacet}/> -->
         {:else}
-            <h3>No results found.</h3>
+            <h3>Please wait...</h3>
         {/if}
     </div>
 </div>

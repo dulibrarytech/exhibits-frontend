@@ -36,7 +36,8 @@
       url = endpoint.concat(`?q=${queryString}`);
 
       // append the search fields
-      let fieldString = Object.keys(fields).toString(); // test for selected field in dropdown. If present, assign this to fieldString. else, get array keys
+      //let fieldString = Object.keys(fields).toString();
+      let fieldString = fields.toString();
       if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
 
       // append all parameters

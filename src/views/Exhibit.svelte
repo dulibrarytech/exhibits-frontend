@@ -11,6 +11,7 @@
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
+    import Search_Box from '../components/Search_Box.svelte';
     import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
     import Modal_Item_Display from '../components/Modal_Item_Display.svelte';
     import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
@@ -215,6 +216,10 @@
 
     {#if renderPage}
         <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  />
+
+        <div class="exhibit-search">
+            <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
+        </div>
 
         <!-- exhibit page -->
         <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} on:mount={onMountPage} on:click-item={openViewerModal} /> <!-- args.key -->

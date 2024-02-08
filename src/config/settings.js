@@ -103,7 +103,8 @@ export const Settings = {
      */
     searchResultDisplayFields: {
         "title": "Title",
-        "description": "Description"
+        "description": "Description",
+        "text": "Text"
     },
 
     /*

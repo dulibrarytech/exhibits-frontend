@@ -16,12 +16,16 @@
     let featuredExhibits = null;
     let recentExhibits = null;
     let publicExhibits = null;
+
+    let searchFields = [];
+
     var message = "";
     
     const init = async () => {
         message = "Retrieving exhibits...";
+        searchFields = Object.keys(Settings.searchFields);
+        
         exhibits = await Index.getExhibits();
-
         if(exhibits) {
             Cache.storeExhibits(exhibits);
             render();
@@ -88,7 +92,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="exhibits-search">
-                        <Search_Box endpoint="/search" fields={Settings.searchFields} placeholder="Search exhibits"/>
+                        <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
                     </div>
                 </div>
             </div>

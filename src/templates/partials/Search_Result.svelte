@@ -4,20 +4,21 @@
      */
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
-    import { ENTITY_TYPE } from '../../config/global-constants';
+    import { ENTITY_TYPE, SEARCH_TYPE } from '../../config/global-constants';
     import { formatSearchResultValue } from '../../libs/format';
 
     export let result = {};
     export let terms = [];
     export let index = null;
+    export let searchType = null;
 
     let title;
     let date;
     let description;
     let itemType;
     let link;
-    let exhibit;
     let type;
+    let parentExhibitId;
 
     var truncateDescription;
 
@@ -29,8 +30,9 @@
         description = result.description || result.text || null;
         itemType = result.item_type || null;
         link = result.link || null;
-        exhibit = result.is_member_of_exhibit || null;
         type = result.type || ENTITY_TYPE.ITEM;
+
+        parentExhibitId = (searchType == SEARCH_TYPE.SEARCH_ALL) ? result.is_member_of_exhibit : null;
 
         truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
     }
@@ -75,8 +77,8 @@
                     </p>
                 {/if}
 
-                {#if exhibit}
-                    <span>Exhibit:</span> <a href="/exhibit/{exhibit}" class="exhibit-link" use:formatSearchResultValue={{result, terms}}></a>
+                {#if parentExhibitId}
+                    <span>Exhibit:</span> <a href="/exhibit/{parentExhibitId}" class="exhibit-link" use:formatSearchResultValue={{result, terms}}></a>
                     <br><br>
                 {/if}
             </div>
