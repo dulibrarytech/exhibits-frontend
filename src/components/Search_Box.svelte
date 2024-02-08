@@ -99,4 +99,13 @@
   .search-form >* {
       margin: 0 0 0 0;
   }
+
+  form.form-inline {
+    width: 300px;
+    float: right;
+  }
+
+  .container {
+    max-width: unset;
+  }
 </style>

@@ -239,4 +239,8 @@
 		overflow-y: hidden;
 		padding-right: 15px; /* Avoid width reflow */
 	}
+
+    .exhibit-search {
+        padding-top: 10px;
+    }
 </style>
