@@ -41,7 +41,8 @@
     "stopword": "^3.0.1",
     "string-strip-html": "^8.5.0",
     "svelte-carousel": "^1.0.25",
-    "svelte-router-spa": "^6.0.3"
+    "svelte-router-spa": "^6.0.3",
+    "url": "^0.11.3"
   },
   "scripts": {
     "build": "rollup -c",

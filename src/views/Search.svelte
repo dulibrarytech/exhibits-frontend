@@ -13,8 +13,9 @@
     export let currentRoute;
 
     var results = null;
-    var facets = [];
     var limitOptions = null;
+    var facets = [];
+    var searchParams = {};
 
     let terms;
     let boolean;
@@ -23,9 +24,9 @@
     let page;
     let cache;
     let exhibitId;
-    let searchType;
 
     const init = async () => {
+
         terms = currentRoute.queryParams.q?.split(',') || "";
         fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
         boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
@@ -33,8 +34,6 @@
         entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT;
         cache = currentRoute.queryParams.cache || false;
         exhibitId = currentRoute.queryParams.exhibitId || null;
-
-        searchType = exhibitId ? SEARCH_TYPE.SEARCH_EXHIBIT : SEARCH_TYPE.SEARCH_ALL;
 
         if(cache) facets = Cache.getSearchData()?.selectedFacets || [];
 
@@ -48,6 +47,11 @@
         let response = await Search.execute({terms, boolean, fields, exhibitId, page, facets});
         results = response.results || [];
         limitOptions = response.limitOptions || null;
+
+        searchParams.totalResults = response.resultCount || null;
+        searchParams.searchType = exhibitId ? SEARCH_TYPE.SEARCH_EXHIBIT : SEARCH_TYPE.SEARCH_ALL;
+        searchParams.pageNumber = page;
+        searchParams.resultsPerPage = 10;
     }
 
     const validateUrlParameters = () => {
@@ -107,13 +111,16 @@
     }
 
     const onClickBack = (event) => {
-        // if searchType == all, back goes home
-        // if exhibit search, back goes to exhibit (have exhibitId here)
         let url = "/";
-        if(searchType == SEARCH_TYPE.SEARCH_ALL) url = "/exhibits";
-        else if(searchType == SEARCH_TYPE.SEARCH_EXHIBIT) url = `/exhibit/${exhibitId}`;
+        
+        if(searchParams.searchType == SEARCH_TYPE.SEARCH_ALL) url = "/exhibits";
+        else if(searchParams.searchType == SEARCH_TYPE.SEARCH_EXHIBIT) url = `/exhibit/${exhibitId}`;
 
         window.location.replace(url);
+    }
+
+    const onClickPaginatorLink = (event) => {
+        window.location.replace(event.detail.url);
     }
 
     $: init();
@@ -122,8 +129,21 @@
 <div class="search-page page">
     <div class="search-results container">
         {#if results}
-            <Search_Results_Display {results} {facets} {limitOptions} {terms} {searchType} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} on:remove-facet={onRemoveFacet}/>
-            <!-- <Search_Results_Display {results} {facets} {limitOptions} {terms} on:click-facet={onSelectFacet} on:click-back={onClickBack} on:click-clear-facets={onResetFacets} on:remove-facet={onRemoveFacet}/> -->
+
+            <Search_Results_Display 
+                {results} 
+                {facets} 
+                {limitOptions} 
+                {terms} 
+                {searchParams} 
+
+                on:click-facet={onSelectFacet} 
+                on:click-clear-facets={onResetFacets} 
+                on:click-back={onClickBack} 
+                on:remove-facet={onRemoveFacet}
+                on:click-paginator-link={onClickPaginatorLink} 
+            />
+
         {:else}
             <h3>Please wait...</h3>
         {/if}

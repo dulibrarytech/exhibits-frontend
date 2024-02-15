@@ -8,21 +8,24 @@
     import { formatFacetField, formatFacetValue } from '../libs/format';
     import Search_Result from '../templates/partials/Search_Result.svelte';
     import FacetLabels from './FacetLabels.svelte';
+    import SearchResultsPaginator from './Search_Results_Paginator.svelte';
 
     export let results = [];
     export let limitOptions = null; //  all available facet options from search
     export let facets = []; // user selected facets to add to faceted search
     export let terms = [];
-    export let searchType = null;
+    export let searchParams = {};
 
     const dispatch = createEventDispatcher();
 
-    let termsLabel = ""; // search terms e.g. "X results found for [terms]";
+    var searchType = null;
+    var termsLabel = ""; // search terms e.g. "X results found for [terms]";
 
     $: render();
 
     const render = () => {
         termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
+        searchType = searchParams.searchType || null;
     }
 
     const onClickFacet = (event) => {
@@ -32,7 +35,6 @@
         let existing = facets.find((facet) => {
             return facet.field == field && facet.value == value;
         })
-
         if(!existing) {
             facets.push({field, value})
             dispatch('click-facet', facets);
@@ -41,8 +43,8 @@
 
     const onRemoveFacet = (event) => {
         let index = event.detail;
-        if (index > -1) { // only splice array when item is found
-            facets.splice(index, 1); // 2nd parameter means remove one item only
+        if (index > -1) {
+            facets.splice(index, 1);
         }
 
         dispatch('remove-facet', facets);
@@ -52,12 +54,6 @@
 <div class="search-results-display">
     <div class="results">
         <div class="container">
-
-            <!-- <div class="row ng-scope">
-                <div class="col-md-12">
-                    <FacetBreadcrumbs facets={facets} on:remove={onRemoveFacet} />
-                </div>
-            </div>  -->
 
             <div class="row ng-scope">
                 <div class="col-md-3 col-md-push-9 results-sidebar">
@@ -70,8 +66,8 @@
                         <div class="facet-panel">
                             <h4>Filter Results</h4>
                             <div class="facets">
-
                                 {#each limitOptions as {field, values, label=null}}
+
                                     {#if values.length > 0}
                                         <h6 use:formatFacetField >{field}</h6>
                                         <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
@@ -82,8 +78,8 @@
 
                                         </ul>
                                     {/if}
-                                {/each}
 
+                                {/each}
                             </div>
                         </div>
                     {/if}
@@ -93,36 +89,18 @@
                 <div class="col-md-9 col-md-pull-3 results-container">
 
                     <div class="search-data-display">
-                        <p class="search-terms-label">Found <span style="font-weight: bold">{results.length} results</span> for "<span style="font-weight: bold">{termsLabel}</span>"</p>
+                        <p class="search-terms-label">Search for "<span style="font-weight: bold">{termsLabel}</span>"</p>
+
                         <FacetLabels {facets} on:remove-facet={onRemoveFacet} />
+
+                        <SearchResultsPaginator resultPage={results} params={searchParams} on:click-paginator-link />
                     </div>
 
                     {#each results as result, index} 
                         <Search_Result {terms} {result} {index} {searchType} />
                     {/each}
-
-                    <!-- pagination -->
-                    {#if results.length > 0}
-                        <div class="text-align-center">
-                            <ul class="pagination pagination-sm">
-                                <li class="disabled"><a href="#">Prev</a>
-                                </li>
-                                <li class="active"><a href="#">1</a>
-                                </li>
-                                <li><a href="#">2</a>
-                                </li>
-                                <li><a href="#">3</a>
-                                </li>
-                                <li><a href="#">4</a>
-                                </li>
-                                <li><a href="#">5</a>
-                                </li>
-                                <li><a href="#">Next</a>
-                                </li>
-                            </ul>
-                        </div>
-                    {/if}
-                    <!-- end pagination -->
+                    
+                    <SearchResultsPaginator resultPage={results} params={searchParams} on:click-paginator-link />
                 </div>
             </div>
         </div>
@@ -223,7 +201,11 @@
         margin-top: 70px
     }
 
-    .pagination {
+    :global(.search-results-paginator) {
+        margin-top: 1.75rem;
+    }
+
+    /* .pagination {
         display: inline-block;
         padding-left: 0;
         margin: 20px 0;
@@ -276,7 +258,7 @@
         cursor: default;
         background-color: #337ab7;
         border-color: #337ab7;
-    }
+    } */
 
     .results-sidebar > div:not(:first-child) {
         margin-top: 30px;

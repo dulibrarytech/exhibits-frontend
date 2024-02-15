@@ -32,9 +32,10 @@
         link = result.link || null;
         type = result.type || ENTITY_TYPE.ITEM;
 
-        parentExhibitId = (searchType == SEARCH_TYPE.SEARCH_ALL) ? result.is_member_of_exhibit : null;
+        if(!searchType) searchType = SEARCH_TYPE.SEARCH_ALL;
+        if(description) truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
 
-        truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
+        parentExhibitId = (searchType == SEARCH_TYPE.SEARCH_ALL) ? result.is_member_of_exhibit : null;
     }
 </script>
 
@@ -63,6 +64,10 @@
                 {/if}
 
                 {#if type}
+                    <p class="info">{type}</p>
+                {/if}
+
+                {#if itemType}
                     <p class="info">{itemType}</p>
                 {/if}
 

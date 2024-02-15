@@ -31,7 +31,15 @@
 
       // update/format the terms
       let queryTokens = query.split(/[ ]{1,}/g);
-      queryTokens = removeStopwords(queryTokens);
+
+      /////
+      // DEV
+      ///////
+      //queryTokens = removeStopwords(queryTokens);
+      /////
+      // end DEV
+      ////////
+
       let queryString = queryTokens.toString();
       url = endpoint.concat(`?q=${queryString}`);
 

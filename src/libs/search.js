@@ -59,7 +59,7 @@ export const Search = (() => {
         }
         else facets = null;
 
-        let {results = [], aggregations = []} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
+        let {results = [], aggregations = [], resultCount = null} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
 
         /* Build limit options data */
         for(let field in aggregations) {
@@ -91,7 +91,7 @@ export const Search = (() => {
             }
         }
 
-        return {results, limitOptions};
+        return {results, limitOptions, resultCount};
     }
 
     return {

@@ -90,8 +90,6 @@ export const Index = (() => {
      * @returns results array from elastic response data
      */
     const searchIndex = async (searchData = {}, exhibitId = null) => {    
-        let results = []; 
-        let aggregations = null;  
         let terms = searchData.terms?.toString();
         let page = searchData.page || 1;
         let facets = searchData.facets || null;
@@ -107,22 +105,17 @@ export const Index = (() => {
 
         try {
             let {data} = await axios.get(url);
-
-            results = data.results;
-            aggregations = data.aggregations;
-
-            // if(exhibitId) {
-            //     delete aggregations.is_member_of_exhibit;
-            //     delete aggregations.type;
-            // }
+            let {results = [], aggregations = null, resultCount = null} = data;
 
             for(let result of results) sanitizeObjectData(result);
+
+            return {results, aggregations, resultCount}; 
         }
         catch(error) {
             console.error(`Could not retrieve data from index. Url: ${url} ${error} Request status: ${error.response.status}`);
-        }
 
-        return {results, aggregations}; 
+            return {};
+        }
     }
 
     return {
