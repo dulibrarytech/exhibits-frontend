@@ -26,6 +26,8 @@
     let exhibitId;
 
     const init = async () => {
+        //window.history.replaceState(null, "", "/search") DEV
+        // TODO if(!q) redirect to home OR test for box request OR do nothing.
 
         terms = currentRoute.queryParams.q?.split(',') || "";
         fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
@@ -45,6 +47,7 @@
   
     const executeSearch = async () => {
         let response = await Search.execute({terms, boolean, fields, exhibitId, page, facets});
+        
         results = response.results || [];
         limitOptions = response.limitOptions || null;
 
@@ -112,7 +115,7 @@
 
     const onClickBack = (event) => {
         let url = "/";
-        
+
         if(searchParams.searchType == SEARCH_TYPE.SEARCH_ALL) url = "/exhibits";
         else if(searchParams.searchType == SEARCH_TYPE.SEARCH_EXHIBIT) url = `/exhibit/${exhibitId}`;
 

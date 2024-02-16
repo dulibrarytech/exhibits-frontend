@@ -130,6 +130,4 @@ export const Settings = {
         "text": "Text",
         "image": "Image"
     }
-
-
 }

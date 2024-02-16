@@ -63,9 +63,9 @@
                     <p class="info">{date}</p>
                 {/if}
 
-                {#if type}
+                <!-- {#if type}
                     <p class="info">{type}</p>
-                {/if}
+                {/if} -->
 
                 {#if itemType}
                     <p class="info">{itemType}</p>

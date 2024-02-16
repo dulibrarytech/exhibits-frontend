@@ -59,10 +59,10 @@
                 <div class="col-md-3 col-md-push-9 results-sidebar">
                     <div>
                         <button on:click|preventDefault={() => dispatch('click-back', {})}>Back</button>
-                        <button on:click|preventDefault={() => dispatch('click-clear-facets', {})}>Reset Filters</button>
+                        {#if facets?.length > 0}<button on:click|preventDefault={() => dispatch('click-clear-facets', {})}>Reset Filters</button>{/if}
                     </div>
 
-                    {#if limitOptions}
+                    {#if limitOptions.length > 0}
                         <div class="facet-panel">
                             <h4>Filter Results</h4>
                             <div class="facets">
@@ -204,61 +204,6 @@
     :global(.search-results-paginator) {
         margin-top: 1.75rem;
     }
-
-    /* .pagination {
-        display: inline-block;
-        padding-left: 0;
-        margin: 20px 0;
-        border-radius: 4px;
-    }
-
-    .pagination>li {
-        display: inline;
-    }
-
-    .pagination-sm>li:first-child>a, .pagination-sm>li:first-child>span {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
-    }
-
-    .pagination>li:first-child>a, .pagination>li:first-child>span {
-        margin-left: 0;
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
-    }
-
-    .pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
-        color: #777;
-        cursor: not-allowed;
-        background-color: #fff;
-        border-color: #ddd;
-    }
-
-    .pagination-sm>li>a, .pagination-sm>li>span {
-        padding: 5px 10px;
-        font-size: 12px;
-        line-height: 1.5;
-    }
-
-    .pagination>li>a, .pagination>li>span {
-        position: relative;
-        float: left;
-        padding: 6px 12px;
-        margin-left: -1px;
-        line-height: 1.42857143;
-        color: #337ab7;
-        text-decoration: none;
-        background-color: #fff;
-        border: 1px solid #ddd;
-    }
-
-    .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
-        z-index: 3;
-        color: #fff;
-        cursor: default;
-        background-color: #337ab7;
-        border-color: #337ab7;
-    } */
 
     .results-sidebar > div:not(:first-child) {
         margin-top: 30px;

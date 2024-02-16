@@ -46,36 +46,40 @@ export const Search = (() => {
 
         } = data
 
-        /* convert facets to data structure compatible with searchIndex() */
+        /* get facet query data */
         if(Object.keys(facets).length > 0) {
             let converted = {};
-
+            
             for(let {field, value} of facets) {
                 if(field in converted == false) converted[field] = [];
                 converted[field].push(value);
             }
-
             facets = converted;
         }
-        else facets = null;
+        else {
+            facets = null;
+        }
 
+        /* execute the index search */
         let {results = [], aggregations = [], resultCount = null} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
 
-        /* Build limit options data */
+        /* get result limiter options from results aggs */
         for(let field in aggregations) {
-            let facet = {
+            let limitOption = {
                 field,
                 values: []
             };
 
-            for(let {key, doc_count} of aggregations[field]) {
-                facet.values.push({
-                    value: key, 
-                    count: doc_count
-                });
+            for(let {key = null, doc_count = 0} of aggregations[field]) {
+                if(doc_count > 0) {
+                    limitOption.values.push({
+                        value: key, 
+                        count: doc_count
+                    });
+                }
             }
 
-            limitOptions.push(facet);
+            if(limitOption.values.length > 0) limitOptions.push(limitOption);
         }
 
         /* link the result to the exhibit/item */
