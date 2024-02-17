@@ -96,9 +96,13 @@
                         <SearchResultsPaginator resultPage={results} params={searchParams} on:click-paginator-link />
                     </div>
 
-                    {#each results as result, index} 
-                        <Search_Result {terms} {result} {index} {searchType} />
-                    {/each}
+                    {#if results.length > 0}
+                        {#each results as result, index} 
+                            <Search_Result {terms} {result} {index} {searchType} />
+                        {/each}
+                    {:else}
+                        <p>No results found.</p>
+                    {/if}
                     
                     <SearchResultsPaginator resultPage={results} params={searchParams} on:click-paginator-link />
                 </div>

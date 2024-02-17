@@ -23,6 +23,7 @@
 
 import { ENTITY_TYPE } from '../config/global-constants.js';
 import { Index } from './index.js';
+import { Cache } from '../libs/cache';
 
 export const Search = (() => {
     /**
@@ -95,7 +96,39 @@ export const Search = (() => {
             }
         }
 
+        /* if this is a global search, show exhibit results only. display an exhibit item result if the search terms hit on any of its items */
+        if(!exhibitId) {
+            results = getExhibitResults(results);
+            resultCount = results.length;
+        }
+
         return {results, limitOptions, resultCount};
+    }
+
+    const getExhibitResults = (results) => {
+        let exhibitResults = results.filter((result) => {
+            return result.type == ENTITY_TYPE.EXHIBIT
+        });
+
+        let itemResults = results.filter((result) => {
+            return  result.type == ENTITY_TYPE.ITEM || 
+                    result.type == ENTITY_TYPE.GRID ||
+                    result.type == ENTITY_TYPE.TIMELINE_GRID
+        });
+
+        let parentExhibit;
+        for(let itemResult of itemResults) {
+            parentExhibit = exhibitResults.find((exhibitResult) => {
+                return itemResult.is_member_of_exhibit == exhibitResult.uuid;
+            });
+
+            if(!parentExhibit) {
+                parentExhibit = Cache.getExhibitById(itemResult.is_member_of_exhibit)
+                exhibitResults.push(parentExhibit);
+            }
+        }
+
+        return exhibitResults;
     }
 
     return {

@@ -11,6 +11,11 @@ export const ENTITY_TYPE = {
     TIMELINE_GRID: "timeline-grid"
 }
 
+export const AVAILABLE_GRIDS = [
+    ENTITY_TYPE.GRID,
+    ENTITY_TYPE.TIMELINE_GRID
+]
+
 export const EXHIBIT_TEMPLATE = {
     VERTICAL_SCROLL: "vertical_scroll"
 }

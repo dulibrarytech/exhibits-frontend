@@ -82,10 +82,10 @@
                     </p>
                 {/if}
 
-                {#if parentExhibitId}
+                <!-- {#if parentExhibitId}
                     <span>Exhibit:</span> <a href="/exhibit/{parentExhibitId}" class="exhibit-link" use:formatSearchResultValue={{result, terms}}></a>
                     <br><br>
-                {/if}
+                {/if} -->
             </div>
 
             <!-- right side content -->
