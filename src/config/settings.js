@@ -127,7 +127,11 @@ export const Settings = {
         "item": "Exhibit Item",
         "exhibit": "Exhibit",
         "grid": "Exhibit Item Grid",
-        "text": "Text",
-        "image": "Image"
+        "text": "Exhibit Text",
+        "image": "Image",
+        "audio": "Audio",
+        "video": "Video",
+        "pdf": "Text Document",
+        "external": "Unknown Type"
     }
 }
