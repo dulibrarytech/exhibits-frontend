@@ -47,7 +47,7 @@ export const Search = (() => {
 
         } = data
 
-        /* get facet query data */
+        // get facet query data
         if(Object.keys(facets).length > 0) {
             let converted = {};
             
@@ -61,10 +61,10 @@ export const Search = (() => {
             facets = null;
         }
 
-        /* execute the index search */
+        // execute the index search
         let {results = [], aggregations = [], resultCount = null} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
 
-        /* get result limiter options from results aggs */
+        // get result limiter options from results aggs
         for(let field in aggregations) {
             let limitOption = {
                 field,
@@ -83,7 +83,7 @@ export const Search = (() => {
             if(limitOption.values.length > 0) limitOptions.push(limitOption);
         }
 
-        /* link the result to the exhibit/item */
+        // link the result to the exhibit/item
         for(let result of results) {
             if(result.type == ENTITY_TYPE.EXHIBIT) {
                 result.link = `/exhibit/${result.uuid}`;
@@ -96,7 +96,7 @@ export const Search = (() => {
             }
         }
 
-        /* if this is a global search, show exhibit results only. display an exhibit item result if the search terms hit on any of its items */
+        // if this is a global search, show exhibit results only. display an exhibit item result if the search terms hit on any of its items */
         if(!exhibitId) {
             results = getExhibitResults(results);
             resultCount = results.length;
@@ -105,6 +105,7 @@ export const Search = (() => {
         return {results, limitOptions, resultCount};
     }
 
+    // adds an exhibit result if any items in the exhibit match the search
     const getExhibitResults = (results) => {
         let exhibitResults = results.filter((result) => {
             return result.type == ENTITY_TYPE.EXHIBIT
