@@ -53,7 +53,7 @@
     });
 </script>
 
-<div class="vertical-timeline-grid-item item">
+<div class="vertical-timeline-grid-item item" {id}>
     
     <div class="timeline__card card" bind:this={itemElement}>
         <header class="card__header">

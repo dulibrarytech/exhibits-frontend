@@ -166,9 +166,13 @@
         return pageComponent;
     }
 
-    const openViewerModal = (event) => {
+    const onOpenViewerModal = (event) => {
+        openViewerModal(event.detail.itemId);
+    }
+
+    const openViewerModal = (itemId) => {
         
-        modalDialogData = getItemById((event.detail.itemId || null), items);
+        modalDialogData = getItemById((itemId || null), items);
         if(!modalDialog) modalDialog = Modal_Item_Display;
         document.body.classList.add('modal-open');
     }
@@ -195,6 +199,8 @@
 
     const onMountPage = (event) => {
         console.log("Mount exhibit page");
+        let hash = location.hash?.replace('#', '') || false;
+        if(hash) openViewerModal(hash);
     }
 
     // TODO move to external
@@ -222,7 +228,7 @@
         </div>
 
         <!-- exhibit page -->
-        <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} on:mount={onMountPage} on:click-item={openViewerModal} /> <!-- args.key -->
+        <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} on:mount={onMountPage} on:click-item={onOpenViewerModal} /> <!-- args.key -->
 
         {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
     {:else}

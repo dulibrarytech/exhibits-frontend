@@ -50,7 +50,7 @@
     });
 </script>
 
-<div class="grid-item" bind:this={htmlElement}>
+<div class="grid-item" {id} bind:this={htmlElement}>
     {#if date}
         <div class="date-heading exhibit-heading">
             <div class="item-date">{date}</div>
