@@ -20,7 +20,7 @@ const onClickLabel = (event) => {
         <p>Filtering on:</p>
 
         {#each facets as {field, value}, index}
-            <div class="facet-label"><a class="removelink" href on:click={onClickLabel} data-index={index}>X</a> <b use:formatFacetField>{field}</b>: <span use:formatFacetValue={field}>{value}</span></div>
+            <div class="facet-label"><a class="removelink" href on:click={onClickLabel} data-index={index}><i class="bi bi-x-circle"></i></a> <b use:formatFacetField>{field}</b>: <span use:formatFacetValue={field}>{value}</span></div>
         {/each}
     </div>
 {/if}
@@ -47,5 +47,9 @@ const onClickLabel = (event) => {
 
     .facet-label-list > .facet-label {
         margin-left: 10px;
+    }
+
+    a, a:visited {
+        color: initial;
     }
 </style>
