@@ -18,8 +18,6 @@
     let styles = null;
     let preview = null;
 
-    //let uuid; // TEST, remove
-
     const PLACEHOLDER_IMAGE = Settings.placeholderImage;
     const LARGE_IMAGE_PREVIEW_WIDTH = 1000;
 
@@ -34,10 +32,11 @@
         title = item.title || null;
         styles = item.styles || null;
 
-        //uuid = item.uuid // TEST, remove
-
-        if(thumbnail) {
+        if(thumbnail && URL_PATTERN.test(resource) == false) {
             preview = Resource.getThumbnailFileUrl(thumbnail);
+        }
+        else if(thumbnail && URL_PATTERN.test(resource) == true) {
+            preview = thumbnail;
         }
         else if(URL_PATTERN.test(resource) == true) {
             preview = resource;

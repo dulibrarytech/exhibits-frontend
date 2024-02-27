@@ -17,40 +17,32 @@
 
     } = args;
 
-    ////
-    // update
-    ///////
-    let {uuid, item_type, is_published = false} = item; // CUR
-    //let {uuid, repo_item = false, is_published = false} = item; // UPDATE
-    ////
-    // end update
-    ///////
-
+    let {uuid = "", is_repo_item = false, is_published = false} = item || {};
     let isRepoItem;
+
     var renderItem = false;
 
     const dispatch = createEventDispatcher();
 
     const init = () => {
-        ////
-        // update
-        ///////
-        isRepoItem = (item_type == ITEM_TYPE.REPO); // CUR
-        // isRepoItem = (repo_item == true); // UPDATE
-        /////
-        // end update
-        ///////// 
+        if(item) {
 
-        renderItem = item && (is_published || role == USER_ROLE.ADMIN);
+            isRepoItem = (is_repo_item == true); // UPDATE
+            renderItem = (is_published || role == USER_ROLE.ADMIN);
 
-        try {
-            item.styles = JSON.parse(item.styles || "{}");
+            try {
+                // TODO find out if this should be string or object by default, remove the 'typeof' condition
+                if(item?.styles && typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
+            }
+            catch(error) {
+                console.error(`Error loading item styles: ${error}; uuid: ${uuid}`);
+            }
+
+            if(templateStyles.heading) item.styles['heading'] = templateStyles.heading;
         }
-        catch(error) {
-            console.error(`Error loading item styles: ${error}; uuid: ${uuid}`);
+        else {
+            console.error("Null item")
         }
-
-        if(templateStyles.heading) item.styles['heading'] = templateStyles.heading;
     }
 
     init();
@@ -66,4 +58,7 @@
     {:else}
         <svelte:component this={template} {id} {item} {args} on:click-item on:mount-template-item />
     {/if}
+
+{:else}
+    Rendering Item... 
 {/if}

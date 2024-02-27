@@ -139,8 +139,9 @@
         let url = resource;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
+        let kalturaId = item.kaltura_id || null;
 
-        params = {url, embedCode, caption, mimeType}; 
+        params = {url, embedCode, caption, mimeType, kalturaId}; 
         component = Audio_Player;
     }
 

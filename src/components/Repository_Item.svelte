@@ -21,7 +21,6 @@
     const TITLE_FIELD = "title";
     const MIME_TYPE_FIELD = "mime_type";
     const PARENT_COLLECTION_ID = "is_member_of_collection";
-    const METADATA_OBJECT_FIELD = "display_record";
 
     let{
         showPreview = false
@@ -48,6 +47,9 @@
             // append the repository data to the item
             repositoryItem['data_display'] = getItemDisplayData(data);
             repositoryItem['repository_data'] = data;
+
+            // get the thumbnail path
+            repositoryItem.thumbnail = Repository.getItemThumbnailDatastreamUrl(repositoryItemId) || undefined;
 
             // get the media url to access the repository item preview image, image tilesource or object datastream based on item type
             if(showPreview) {

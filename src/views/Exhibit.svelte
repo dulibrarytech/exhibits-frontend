@@ -171,7 +171,6 @@
     }
 
     const openViewerModal = (itemId) => {
-        
         modalDialogData = getItemById((itemId || null), items);
         if(!modalDialog) modalDialog = Modal_Item_Display;
         document.body.classList.add('modal-open');

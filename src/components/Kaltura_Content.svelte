@@ -2,7 +2,7 @@
     import { Settings } from '../config/settings';
     import { Kaltura } from '../libs/kaltura';
 
-    export let id = null;
+    export let entryId = null;
     export let caption = "Untitled content";
 
     var {   
@@ -15,8 +15,10 @@
     var kalturaUrl = null;
 
     $: {
-        if(id) kalturaUrl = Kaltura.getEmbeddedViewerUrl(id);
+        if(entryId) kalturaUrl = Kaltura.getEmbeddedViewerUrl(entryId);
         else console.error("Missing Kaltura entry id");
+
+        console.log("TEST rendering Kaltura_Content: kal url:", kalturaUrl)
     }
 </script>
 
