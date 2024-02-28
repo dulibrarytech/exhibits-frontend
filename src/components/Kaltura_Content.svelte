@@ -17,15 +17,19 @@
     $: {
         if(entryId) kalturaUrl = Kaltura.getEmbeddedViewerUrl(entryId);
         else console.error("Missing Kaltura entry id");
-
-        console.log("TEST rendering Kaltura_Content: kal url:", kalturaUrl)
     }
 </script>
 
-<div class="kaltura content">
+<div class="kaltura-content">
     {#if kalturaUrl}
         <iframe id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} width={kalturaPlayerWidth} height={kalturaPlayerHeight} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe> 
     {:else}
         <h5>Loading Kaltura content...</h5>
     {/if}
 </div>
+
+<style>
+    .kaltura-content {
+        height: 100%;
+    }
+</style>

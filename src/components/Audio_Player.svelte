@@ -21,29 +21,36 @@
     }
 
     const render = () => {
-            console.log("TEST render Audio_Player: kalturaId:", kalturaId)
         if(!url && !kalturaId && !embedCode) console.error("Error loading audio content: path to source not found")
     }
 </script>
 
 <div class="audio-player">
-    <div class="audio">
-        {#if kalturaId}
-            <Kaltura_Content entryId={kalturaId} {caption} />
-        {:else if embedCode}
-            <Embed_Code_Content code={embedCode} /> <!-- Enforce <audio></audio> in embed code string. EmbedCode removes <script> code-->
-        {:else if url}
-            <div class="content">   
-                {#if mimeType}
-                    <audio src={url} type={mimeType} controls></audio>
-                {:else}
-                    <audio src={url} controls></audio>
-                {/if}
-                
-                {#if caption}<div class="caption">{caption}</div>{/if}
-            </div>
-        {:else}
-            <h6>Loading audio content...</h6>
-        {/if}
-    </div>
+    {#if kalturaId}
+        <Kaltura_Content entryId={kalturaId} {caption} /> 
+    {:else}
+        <div class="audio">
+            {#if embedCode}
+                <Embed_Code_Content code={embedCode} /> <!-- Enforce <audio></audio> in embed code string. EmbedCode removes <script> code-->
+            {:else if url}
+                <div class="content">   
+                    {#if mimeType}
+                        <audio src={url} type={mimeType} controls></audio>
+                    {:else}
+                        <audio src={url} controls></audio>
+                    {/if}
+                    
+                    {#if caption}<div class="caption">{caption}</div>{/if}
+                </div>
+            {:else}
+                <h6>Loading audio content...</h6>
+            {/if}
+        </div>
+    {/if}
 </div>
+
+<style>
+    .audio {
+        padding: 0 30px;
+    }
+</style>

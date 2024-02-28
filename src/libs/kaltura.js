@@ -43,7 +43,7 @@ export const Kaltura = (() => {
      * 
      * @returns 
      */
-    const getEmbeddedViewerUrl = async (entryId) => {
+    const getEmbeddedViewerUrl = (entryId) => {
         return `${kalturaDomain}/p/${kalturaPartnerID}/sp/${kalturaPartnerID}00/embedIframeJs/uiconf_id/${kalturaUI_ID}/partner_id/${kalturaPartnerID}?iframeembed=true&playerId=${kalturaUniqueObjectID}&entry_id=${entryId}&flashvars[leadWithHTML5]=true`;
     }
 
@@ -54,7 +54,7 @@ export const Kaltura = (() => {
      * 
      * @returns 
      */
-    const getThumbnailUrl = async (entryId) => {
+    const getThumbnailUrl = (entryId) => {
         return `${kalturaDomain}/p/${kalturaPartnerID}/thumbnail/entry_id/${entryId}/width/${kalturaThumbnailWidth}/height/${kalturaThumbnailHeight}`;
     }
 
@@ -66,7 +66,7 @@ export const Kaltura = (() => {
      * 
      * @returns 
      */
-    const getStreamingMediaUrl = async (entryId) => {
+    const getStreamingMediaUrl = (entryId) => {
         return `${kalturaDomain}/p/${kalturaPartnerID}/sp/0/playManifest/entryId/${entryId}/format/url/protocol/https/flavorParamId/${kalturaFlavorId}`;
     }
 

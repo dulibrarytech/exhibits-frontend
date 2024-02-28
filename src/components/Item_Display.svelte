@@ -38,7 +38,7 @@
                 console.error(`Error loading item styles: ${error}; uuid: ${uuid}`);
             }
 
-            if(templateStyles.heading) item.styles['heading'] = templateStyles.heading;
+            if(templateStyles?.heading && item.styles) item.styles['heading'] = templateStyles.heading;
         }
         else {
             console.error("Null item")

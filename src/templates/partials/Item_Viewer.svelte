@@ -147,7 +147,6 @@
 		background: #616161;
 		color: white;
 		height: 100%;
-		padding: 0 30px;
 	}
 
 	:global(.item-viewer .audio-player .audio) {
