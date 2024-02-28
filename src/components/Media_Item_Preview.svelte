@@ -32,10 +32,12 @@
         title = item.title || null;
         styles = item.styles || null;
 
-        if(thumbnail && URL_PATTERN.test(resource) == false) {
+        console.log("TEST PREVIEW TN:", itemType, thumbnail, resource)
+
+        if(thumbnail && URL_PATTERN.test(thumbnail) == false) {
             preview = Resource.getThumbnailFileUrl(thumbnail);
         }
-        else if(thumbnail && URL_PATTERN.test(resource) == true) {
+        else if(thumbnail && URL_PATTERN.test(thumbnail) == true) {
             preview = thumbnail;
         }
         else if(URL_PATTERN.test(resource) == true) {
@@ -44,6 +46,8 @@
         else {
             preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.DEFAULT);
         }
+
+        console.log("TEST PREVIEW URL:", preview)
 
         if(!preview) console.log("Preview image source url not found");
     }
@@ -67,11 +71,11 @@
                 break;
 
             case ITEM_TYPE.AUDIO:
-                url = Resource.getAudioPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.AUDIO);
+                url = Resource.getAudioPreviewImageUrl(item, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.AUDIO);
                 break;
 
             case ITEM_TYPE.VIDEO:
-                url = Resource.getVideoPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.VIDEO);
+                url = Resource.getVideoPreviewImageUrl(item, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.VIDEO);
                 break;
 
             case ITEM_TYPE.PDF:
@@ -90,6 +94,8 @@
                 console.error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
                 break;
         }
+
+        console.log("TEST URL:", url)
 
         return url;
     }

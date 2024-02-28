@@ -1,7 +1,12 @@
 'use strict'
 
-import { Configuration } from '../config/config.js';
-import { Settings } from '../config/settings.js';
+/*
+ * Generate resource URIs for the Exhibits App modules
+ */
+
+import { Configuration } from '../config/config';
+import { Settings } from '../config/settings';
+import { Kaltura } from '../libs/kaltura';
 
 export const Resource = (() => {
     let { 
@@ -20,7 +25,6 @@ export const Resource = (() => {
      */
     const getFileUrl = (filename="null") => { // TODO rename to getFilePath()
         return `${resourceLocation}/${filename}`; // local folder for dev
-        // TODO stream from remote image server
     }
 
     /**
@@ -28,7 +32,6 @@ export const Resource = (() => {
      */
     const getThumbnailFileUrl = (filename="null") => { // TODO rename to getFilePath()
         return `${resourceLocation}/${thumbnailImageLocation}/${filename}`; // local folder for dev
-        // TODO stream from remote image server
     }
 
     /**
@@ -41,23 +44,34 @@ export const Resource = (() => {
         }
 
         return `${Configuration.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;
-        // TODO stream. Return null if stream status != 200
     }
 
     /**
      * 
      */
-    const getAudioPreviewImageUrl = (filename="null") => {
-        return null;
-        // TODO stream. Return null if stream status != 200
+    const getAudioPreviewImageUrl = (item = {}, width, height) => {
+        let url = null;
+        let {kaltura_id = null} = item;
+
+        if(kaltura_id) {
+            url = Kaltura.getThumbnailUrl(kaltura_id);
+        }
+
+        return url;
     }
 
     /**
      * 
      */
-    const getVideoPreviewImageUrl = (filename="null") => {
-        return null;
-        // TODO stream. Return null if stream status != 200
+    const getVideoPreviewImageUrl = (item = {}, width, height) => {
+        let url = null;
+        let {kaltura_id = null} = item;
+
+        if(kaltura_id) {
+            url = Kaltura.getThumbnailUrl(kaltura_id);
+        }
+
+        return url;
     }
 
     /**
@@ -65,7 +79,6 @@ export const Resource = (() => {
      */
     const getPdfPreviewImageUrl = (filename="null", width=null, height=null) => {
         return getIIIFImageUrl(filename, width, height);
-        // TODO stream. Return null if stream status != 200
     }
 
     /**
