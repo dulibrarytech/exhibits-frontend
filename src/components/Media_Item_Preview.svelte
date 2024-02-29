@@ -32,8 +32,6 @@
         title = item.title || null;
         styles = item.styles || null;
 
-        console.log("TEST PREVIEW TN:", itemType, thumbnail, resource)
-
         if(thumbnail && URL_PATTERN.test(thumbnail) == false) {
             preview = Resource.getThumbnailFileUrl(thumbnail);
         }
@@ -46,8 +44,6 @@
         else {
             preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.DEFAULT);
         }
-
-        console.log("TEST PREVIEW URL:", preview)
 
         if(!preview) console.log("Preview image source url not found");
     }
@@ -94,8 +90,6 @@
                 console.error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
                 break;
         }
-
-        console.log("TEST URL:", url)
 
         return url;
     }
