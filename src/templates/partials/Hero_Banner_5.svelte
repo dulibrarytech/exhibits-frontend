@@ -41,7 +41,6 @@
         background-repeat: no-repeat;
         background-size: cover;
         position: relative;
-        min-height: 81vh;
     }
 
     .hero-image-text {
