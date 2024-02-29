@@ -19,13 +19,13 @@
     const dispatch = createEventDispatcher();
 
     const setTheme = (styles) => {
-        if(styles.template) {
-            Object.assign(pageElement.style, styles.template);
+        if(pageElement) {
+            Object.assign(pageElement.style, styles);
         }
     }
 
     const onMountItems = () => {
-        if(styles) setTheme(styles);
+        if(styles.template) setTheme(styles.template);
     }
 
     onMount(async () => {
@@ -36,7 +36,7 @@
 <div class="exhibit-page" bind:this={pageElement}  style="position: relative">
     {#if template}
         <div class="page-top">
-            <Hero {data} />
+            <Hero {data} {styles} />
 
             <Navigation_Top {sections} styles={styles?.navigation || null} />
 

@@ -1,6 +1,7 @@
 <script>
     'use strict'
 
+    import { onMount } from 'svelte';
     import { Settings } from '../config/settings';
     import { Banners } from './config/hero-banner';
     import { Resource } from '../libs/resource';
@@ -9,9 +10,10 @@
     import Alert from '../components/Alert.svelte';
 
     export let data = null;
-    export let styles = {};
+    export let styles = null;
 
     let bannerData = {};
+    let heroSection = null;
 
     const DEFAULT_BANNER = Settings.defaultBannerTemplate;
 
@@ -49,9 +51,19 @@
         else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
         return path;
     }
+
+    const setTheme = (styles) => {
+        if(heroSection) {
+            Object.assign(heroSection.style, styles);
+        }
+    }
+
+    onMount(async () => {
+        if(styles.template) setTheme(styles.template);
+    });
 </script>
 
-<header class="hero-section">
+<header class="hero-section" bind:this={heroSection}>
     {#if banner}
         <svelte:component this={banner} args={bannerData} {styles} />
     {/if}
@@ -70,6 +82,7 @@
     :global(.hero-image) {
         min-height: 200px;
         background: grey;
+        height: 69.7vh;
     }
 
     :global(.hero-text) {
