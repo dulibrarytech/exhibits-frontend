@@ -7,6 +7,7 @@
     import {ITEM_TYPE} from '../config/global-constants';
 
     export let item = {};
+    export let args = {};
     export let width = null;
     export let height = null;
 
