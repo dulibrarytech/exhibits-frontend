@@ -31,23 +31,23 @@
     }
 
     const onClickNavigationLink = (event) => {
-		event.preventDefault()
-		const link = event.currentTarget
-		const anchorId = new URL(link.href).hash.replace('#', '')
-        clickNavigationLink(anchorId)
+		let link = event.currentTarget;
+        let anchorId = link.getAttribute('data-anchor') || null;
+        if(anchorId) clickNavigationLink(anchorId);
+        else console.log("Invalid anchor id:", event.currentTarget);
 	}
 
     const clickNavigationLink = (anchorId) => {
-        const anchor = document.getElementById(anchorId)
+        let anchor = document.getElementById(anchorId);
 		window.scrollTo({
 			top: anchor.offsetTop,
 			behavior: 'smooth'
-		})
+		});
     }
 
     const setTheme = (styles) => {
         let menuStyles = styles.menu || {};
-        Object.assign(navigationElement.style, menuStyles)
+        Object.assign(navigationElement.style, menuStyles);
     }
 
     onMount(async () => {
@@ -71,14 +71,16 @@
                 {#if sectionHeadings}
                     {#each sectionHeadings as {id, text, subheadings = null}}
                         <li class="px-1" title={text}>
-                            <a class="main-menu-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a>
+                            <!-- <a class="main-menu-link" href="#{id}" on:click|preventDefault={onClickNavigationLink}>{text}</a> -->
+                            <a class="main-menu-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a>
                         
 
                             {#if subheadings.length > 0}
 
                                 <ul class="dropdown-nav">
                                     {#each subheadings as {id, text}}
-                                        <li><a class="dropdown-link" href="#{id}" on:click={onClickNavigationLink}>{text}</a></li>
+                                        <!-- <li><a class="dropdown-link" href="#{id}" on:click|preventDefault={onClickNavigationLink}>{text}</a></li> -->
+                                        <li><a class="dropdown-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a></li>
                                     {/each}
                                 </ul>
                             
