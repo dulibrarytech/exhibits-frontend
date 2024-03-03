@@ -37,7 +37,6 @@
 				<div class="row dialog-controls">
 					<div class="col-lg-8 col-md-9 col-sm-12">
 						<button class="button-close" on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
-						<!-- <button class="button-close" on:click={() => dialog.close()}><i class="bi bi-chevron-left"></i>Back</button> --> <!-- "< back" button -->
 					</div>
 
 					<div class="col-lg-4 col-md-3 col-sm-12">
@@ -60,6 +59,7 @@
     .modal-dialog-window {
 		height: 100vh;
 		width: 100%;
+		/* height: 100%; */
 	}
 
 	/* dialog control buttons/openseadragon buttons */

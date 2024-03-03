@@ -5,6 +5,8 @@
     export let entryId = null;
     export let caption = "Untitled content";
 
+    const CONTENT_SECTION_DEFAULT_HEIGHT = "628px";
+
     var {   
         kalturaUniqueObjectID,
         kalturaPlayerHeight,
@@ -14,22 +16,62 @@
 
     var kalturaUrl = null;
 
+    let contentSection;
+    let iframeSection;
+
     $: {
         if(entryId) kalturaUrl = Kaltura.getEmbeddedViewerUrl(entryId);
         else console.error("Missing Kaltura entry id");
     }
+
+    const onLoadIframe = () => {
+        contentSection.style.height = CONTENT_SECTION_DEFAULT_HEIGHT;
+        iframeSection.style.visibility = "visible";
+    }
+
+    const onShowTranscriptSection = () => {
+        contentSection.style.height = "100%";
+    }
 </script>
 
-<div class="kaltura-content">
+<div class="kaltura-content" bind:this={contentSection}>
     {#if kalturaUrl}
-        <iframe id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} width={kalturaPlayerWidth} height={kalturaPlayerHeight} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe> 
+    <div class="iframe-wrapper" bind:this={iframeSection}>
+
+        <iframe on:load={onLoadIframe} id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} width={kalturaPlayerWidth} height={kalturaPlayerHeight} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
+        
+        <div class="subframe-content">
+            <div class="caption">Summary/Description. Audio content courtesy of the University of Denver.</div>
+            <div class="links"><button on:click|preventDefault={onShowTranscriptSection}>View Transcript</button></div>
+        </div>
+        
+    </div>
+
     {:else}
-        <h5>Loading Kaltura content...</h5>
+        <h5>Loading Kaltura player...</h5>
     {/if}
 </div>
 
 <style>
     .kaltura-content {
         height: 100%;
+        /* height: calc(100% + 100px); */
+    }
+
+    .subframe-content {
+        padding: 0 15px;
+    }
+
+    .transcript-expanded {
+        height: 100%;
+    }
+
+    .iframe-wrapper {
+        visibility: hidden;
+        height: 100%;
+    }
+
+    .links {
+        margin-top: 15px;
     }
 </style>
