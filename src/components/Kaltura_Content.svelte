@@ -5,8 +5,6 @@
     export let entryId = null;
     export let caption = "Untitled content";
 
-    const CONTENT_SECTION_DEFAULT_HEIGHT = "628px";
-
     var {   
         kalturaUniqueObjectID,
         kalturaPlayerHeight,
@@ -18,6 +16,7 @@
 
     let contentSection;
     let iframeSection;
+    let iframeElement;
 
     $: {
         if(entryId) kalturaUrl = Kaltura.getEmbeddedViewerUrl(entryId);
@@ -25,8 +24,12 @@
     }
 
     const onLoadIframe = () => {
-        contentSection.style.height = CONTENT_SECTION_DEFAULT_HEIGHT;
+        contentSection.style.height = "calc(100% - 250px)";
         iframeSection.style.visibility = "visible";
+
+        window.addEventListener('resize', function(event) {
+            iframeElement.src = iframeElement.src;
+        }, true);
     }
 
     const onShowTranscriptSection = () => {
@@ -38,7 +41,7 @@
     {#if kalturaUrl}
     <div class="iframe-wrapper" bind:this={iframeSection}>
 
-        <iframe on:load={onLoadIframe} id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} width={kalturaPlayerWidth} height={kalturaPlayerHeight} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
+        <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} width={kalturaPlayerWidth} height={kalturaPlayerHeight} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
         
         <div class="subframe-content">
             <div class="caption">Summary/Description. Audio content courtesy of the University of Denver.</div>
@@ -55,7 +58,6 @@
 <style>
     .kaltura-content {
         height: 100%;
-        /* height: calc(100% + 100px); */
     }
 
     .subframe-content {

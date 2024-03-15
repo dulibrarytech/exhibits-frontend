@@ -5,13 +5,25 @@
     export let modalDisplay = null;
     export let modalData = null;
 
-    let dialog; // HTMLDialogElement
+    let dialogElement; // HTMLDialogElement
+	let height;
+	let width;
 
     const dispatch = createEventDispatcher();
 
+	const DEFAULT_DIALOG_HEIGHT = 100;
+	const DEFAULT_DIALOG_WIDTH = 100;
+	const MODAL_WINDOW_PADDING = 30;
+
+	$: {
+		height = DEFAULT_DIALOG_HEIGHT.toString() + "%";
+		width = DEFAULT_DIALOG_WIDTH.toString() + "%";
+	}
+
     const render = () => {
-		if (dialog && modalData) {
-            dialog.showModal();
+		if (dialogElement && modalData) {
+            dialogElement.showModal();
+			setDialogDimensions();
         }
 	}
 
@@ -19,16 +31,18 @@
         dispatch('close', {});
     }
 
+	const setDialogDimensions = () => {
+		height = (window.innerHeight - MODAL_WINDOW_PADDING).toString() + "px";
+		width = (window.innerWidth - MODAL_WINDOW_PADDING).toString() + "px";
+	}
+
 	onMount(async () => {
         render();
     });
 </script>
 
 <div class="modal-dialog-window">
-    
-	<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
-	<dialog bind:this={dialog} on:close={closeDialog}>
-
+	<dialog bind:this={dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}>
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div>
 			<div class="dialog-content">
@@ -36,7 +50,7 @@
 				<!-- dialog controls -->
 				<div class="row dialog-controls">
 					<div class="col-lg-8 col-md-9 col-sm-12">
-						<button class="button-close" on:click={() => dialog.close()}><i class="bi bi-x-lg"></i></button>
+						<button class="button-close" on:click={() => dialogElement.close()}><i class="bi bi-x-lg"></i></button>
 					</div>
 
 					<div class="col-lg-4 col-md-3 col-sm-12">
@@ -46,13 +60,11 @@
 
 				<!-- display content -->
 				<div class="row display-content">
-                    <svelte:component this={modalDisplay} data={modalData} on:close={closeDialog} />
-                </div>
+					<svelte:component this={modalDisplay} data={modalData} on:close={closeDialog} />
+				</div>
 			</div>
 		</div>
-
 	</dialog>
-
 </div>
 
 <style>
