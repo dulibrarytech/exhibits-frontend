@@ -283,12 +283,12 @@
     }
 
     .timeline-left {
-        border-right: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+        border-right: var(--timelineLineWidth, 2px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
         padding-left: 15px;
     }
 
     .timeline-right {
-        border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+        border-left: var(--timelineLineWidth, 2px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
         padding-right: 15px;
     }
 
@@ -329,18 +329,18 @@
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
         margin-left: 0;
-        margin-right: 9.65vw;
+        margin-right: 4.65vw;
     }
 
     :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
         margin-right: 0;
-        margin-left: 9.65vw;
+        margin-left: 4.65vw;
     }
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
         content: "";
         width: 20.65vw;
-        height: 2px;
+        height: 1px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
@@ -351,7 +351,7 @@
     :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
         content: "";
         width: 20.65vw;
-        height: 2px;
+        height: 1px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
