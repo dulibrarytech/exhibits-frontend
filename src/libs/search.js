@@ -21,7 +21,7 @@
 
 'use strict'
 
-import { ENTITY_TYPE } from '../config/global-constants.js';
+import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants.js';
 import { Index } from './index.js';
 import { Cache } from '../libs/cache';
 
@@ -107,14 +107,14 @@ export const Search = (() => {
 
     // adds an exhibit result if any items in the exhibit match the search
     const getExhibitResults = (results) => {
+
         let exhibitResults = results.filter((result) => {
             return result.type == ENTITY_TYPE.EXHIBIT
         });
 
         let itemResults = results.filter((result) => {
-            return  result.type == ENTITY_TYPE.ITEM || 
-                    result.type == ENTITY_TYPE.GRID ||
-                    result.type == ENTITY_TYPE.TIMELINE_GRID
+                return  result.type == ENTITY_TYPE.ITEM || 
+                        result.type == ITEM_GRIDS.find((element) => { element == result.type });
         });
 
         let parentExhibit;

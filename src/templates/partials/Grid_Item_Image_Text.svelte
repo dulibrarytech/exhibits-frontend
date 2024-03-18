@@ -9,6 +9,7 @@
 
     import { onMount } from 'svelte';
     import Item from './Item.svelte';
+    import { createEventDispatcher } from 'svelte';
 
     import { MEDIA_POSITION, ITEM_TYPE } from '../../config/global-constants';
 
@@ -20,7 +21,11 @@
     let date;
     let type;
     let description;
+    let caption;
+    let media;
     let styles;
+
+    const dispatch = createEventDispatcher();
 
     const DEFAULT_MEDIA_WIDTH = "100";
 
@@ -28,7 +33,9 @@
         id = item.uuid || "null";
         date = item.date || null;
         type = item.item_type || null;
-        description = item.description || null
+        description = item.description || null;
+        caption = item.caption || null;
+        media = item.media || null;
 
         try {
             styles = JSON.parse(item.styles) || {};
@@ -43,6 +50,11 @@
 
     const setTheme = ({item = {}}) => {
         Object.assign(htmlElement.style, item)
+    }
+
+    const onClickPreview = (event) => {
+        let itemId = event.target.getAttribute('data-item-id') || null;
+        if(itemId) dispatch('click-item', {itemId});
     }
 
     onMount(() => {
@@ -60,7 +72,7 @@
 
     <Item {item} args={{showTitle: false, showPreview: true}} on:click-item />
 
-    {#if description}<div class="description">{description}</div>{/if}
+    {#if description && description.length > 0}<div class="description">{description}</div>{/if}
 </div>
 
 <style>

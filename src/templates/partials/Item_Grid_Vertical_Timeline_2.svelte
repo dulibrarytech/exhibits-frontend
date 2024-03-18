@@ -114,7 +114,7 @@
     });
 </script>
 
-<div class="vertical-timeline-item-grid" bind:this={timelineSection}>
+<div class="vertical-timeline-item-grid-2" bind:this={timelineSection}>
     <div id={id ?? undefined} class="anchor-offset"></div>
     
     <div class="container">
@@ -283,12 +283,12 @@
     }
 
     .timeline-left {
-        border-right: var(--timelineLineWidth, 2px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+        border-right: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
         padding-left: 15px;
     }
 
     .timeline-right {
-        border-left: var(--timelineLineWidth, 2px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+        border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
         padding-right: 15px;
     }
 
@@ -300,7 +300,7 @@
         border-radius: 5px;
     }
 
-    .vertical-timeline-item-grid {
+    .vertical-timeline-item-grid-2 {
         padding: 80px 0;
     }
 
@@ -309,38 +309,38 @@
         top: -120px;
     }
 
-    :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
+    :global(.vertical-timeline-item-grid-2 .vertical-timeline-grid-item) {
         /* height: 610px; */
         position: relative;
         z-index: 0;
     }
 
-    :global(.vertical-timeline-item-grid .timeline-right .vertical-timeline-grid-item) {
+    :global(.vertical-timeline-item-grid-2 .timeline-right .vertical-timeline-grid-item) {
         margin-top: 6.2em;
     }
 
-    :global(.vertical-timeline-item-grid .timeline__card::before) {
+    :global(.vertical-timeline-item-grid-2 .timeline__card::before) {
         content: none;
     }
 
-    :global(.vertical-timeline-item-grid .card) {
+    :global(.vertical-timeline-item-grid-2 .card) {
         border-radius: 5px;
     }
 
-    :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
+    :global(.vertical-timeline-item-grid-2 .timeline-left .timeline__card) {
         margin-left: 0;
-        margin-right: 4.65vw;
+        margin-right: 9.65vw;
     }
 
-    :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
+    :global(.vertical-timeline-item-grid-2 .timeline-right .timeline__card) {
         margin-right: 0;
-        margin-left: 4.65vw;
+        margin-left: 9.65vw;
     }
 
-    :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
+    :global(.vertical-timeline-item-grid-2 .timeline-left .timeline__card::after) {
         content: "";
         width: 20.65vw;
-        height: 1px;
+        height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
@@ -348,10 +348,10 @@
         right: -166px;
     }
 
-    :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
+    :global(.vertical-timeline-item-grid-2 .timeline-right .timeline__card::before) {
         content: "";
         width: 20.65vw;
-        height: 1px;
+        height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
@@ -359,7 +359,7 @@
         left: -166px;
     }
 
-    :global(.vertical-timeline-item-grid .card__title) {
+    :global(.vertical-timeline-item-grid-2 .card__title) {
         margin-top: 1.5rem;
     }
 </style>

@@ -7,10 +7,11 @@
     import Exhibit_Heading from './partials/Exhibit_Heading.svelte';
     import Item_Display from '../components/Item_Display.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
-    import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline_2.svelte';
+    import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline.svelte';
+    import Item_Grid_Vertical_Timeline_2 from './partials/Item_Grid_Vertical_Timeline_2.svelte';
     import Item from './partials/Item.svelte';
 
-    import {ENTITY_TYPE, ITEM_TEMPLATE, USER_ROLE} from '../config/global-constants';
+    import {ENTITY_TYPE, USER_ROLE} from '../config/global-constants';
 
     export let items = [];
     export let styles = null;
@@ -70,17 +71,20 @@
                         <Exhibit_Heading id={anchorId} {text} styles={styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
 
                     <!-- exhibit item container - grid -->
-                    {:else if type == ITEM_TEMPLATE.GRID}
+                    {:else if type == ENTITY_TYPE.GRID}
                         <Item_Grid id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
-                    <!-- exhibit item container - vertical timeline grid -->
-                    {:else if type == ITEM_TEMPLATE.VERTICAL_TIMELINE}
+                    <!-- exhibit item container - vertical timeline grid 1 column -->
+                    {:else if type == ENTITY_TYPE.VERTICAL_TIMELINE}
                         <Item_Grid_Vertical_Timeline id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
+                    <!-- exhibit item container - vertical timeline grid 2 column -->
+                    {:else if type == ENTITY_TYPE.VERTICAL_TIMELINE_2}
+                        <Item_Grid_Vertical_Timeline_2 id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                    
                     <!--exhibit item - row layout -->
                     {:else if type == ENTITY_TYPE.ITEM}
                         <Item_Display id={anchorId} item={displayItems[index]} template={Item} args={{role, showPreview: true}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
-
                     {/if}
 
                 </div>
