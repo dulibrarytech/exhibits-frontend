@@ -38,7 +38,6 @@
       url = endpoint.concat(`?q=${queryString}`);
 
       // append the search fields
-      //let fieldString = Object.keys(fields).toString();
       let fieldString = fields.toString();
       if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
 
@@ -65,19 +64,15 @@
     });
 </script>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <form class="form-inline" action="/search" accept-charset="UTF-8" method="get">
-        <div class="input-group flex-fill">
-          <input class="form-control" id="searchbox" type="search" bind:value={query} {placeholder} aria-label={placeholder}>
-          <div class="input-group-append">
-            <button type="button" on:click|preventDefault={search} class="btn btn-secondary button" data-disable-with="Search">Search</button>
-          </div> 
-        </div>
-      </form>
+<div class="search-box">
+  <form class="form-inline" action="/search" accept-charset="UTF-8" method="get">
+    <div class="input-group flex-fill">
+      <input class="form-control" id="searchbox" type="search" bind:value={query} {placeholder} aria-label={placeholder}>
+      <div class="input-group-append">
+        <button type="button" on:click|preventDefault={search} class="btn btn-secondary button" data-disable-with="Search">Search</button>
+      </div> 
     </div>
-  </div>
+  </form>
 </div>
 
 <svelte:window on:keydown={onKeyPress} />
@@ -107,7 +102,8 @@
     float: right;
   }
 
-  .container {
-    max-width: unset;
+  .search-box input,
+  .search-box button {
+    margin: 0;
   }
 </style>

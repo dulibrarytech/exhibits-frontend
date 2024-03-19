@@ -27,15 +27,14 @@ const onClickLink = (event) => {
         height: 30px;
         position: relative;
         top: 3px;
-        right: 12px;
+        left: 12px;
     }
 
     .exhibit-menu-links > a {
-        float: right;
         color: black;
     }
 
     .exhibit-menu-links > a:not(:first-child) {
-        margin-right: 25px;
+        margin-left: 15px;
     }
 </style>

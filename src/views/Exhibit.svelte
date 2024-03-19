@@ -143,7 +143,6 @@
                 }
 
                 heading.subheadings.push(subheading);
-
                 item.anchorId = subheading.id;
             }
 
@@ -217,26 +216,25 @@
     });
 </script>
 
-<!-- {#if isPublished || userRole == USER_ROLE.ADMIN} -->
+{#if renderPage}
+    <!-- <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  /> -->
 
-    {#if renderPage}
-        <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  />
-
-        <div class="exhibit-search">
+    <div class="exhibit-menubar row">
+        <div class="col-md-6">
+            <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  />
+        </div>
+        <div class="col-md-6 exhibit-search">
             <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
         </div>
+    </div>
 
-        <!-- exhibit page -->
-        <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} on:mount={onMountPage} on:click-item={onOpenViewerModal} /> <!-- args.key -->
+    <!-- exhibit page -->
+    <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} on:mount={onMountPage} on:click-item={onOpenViewerModal} /> <!-- args.key -->
 
-        {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
-    {:else}
-        <div class="container page"><h3>Loading exhibit...</h3></div>
-    {/if}
-
-<!-- {:else}
-    <h3>Unauthorized</h3>
-{/if} -->
+    {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
+{:else}
+    <div class="container page"><h3>Loading exhibit...</h3></div>
+{/if}
 
 <style>
     :global(body.modal-open) {
@@ -245,7 +243,20 @@
 		padding-right: 15px; /* Avoid width reflow */
 	}
 
+    .exhibit-menubar {
+        display: flex;
+    }
+
     .exhibit-search {
-        padding-top: 10px;
+        padding: 6px;
+    }
+
+    :global(.exhibit-search .search-box form) {
+        margin-right: 15px;
+    }
+
+    :global(.exhibit-menubar .exhibit-menu) {
+        position: relative;
+        top: calc(50% - 15px);
     }
 </style>
