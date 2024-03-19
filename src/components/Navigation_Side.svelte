@@ -32,14 +32,19 @@
 
     function onClickNavigationLink (event) {
 		event.preventDefault()
-		const link = event.currentTarget
-		const anchorId = new URL(link.href).hash.replace('#', '')
-		const anchor = document.getElementById(anchorId)
+        let link = event.currentTarget;
+        let anchorId = link.getAttribute('data-anchor') || null;
+        if(anchorId) clickNavigationLink(anchorId);
+        else console.log("Invalid anchor id:", event.currentTarget);
+	}
+
+    const clickNavigationLink = (anchorId) => {
+        let anchor = document.getElementById(anchorId);
 		window.scrollTo({
 			top: anchor.offsetTop,
 			behavior: 'smooth'
-		})
-	}
+		});
+    }
 
     const setTheme = (styles) => {
         let menuStyles = styles.menu || {};
@@ -48,6 +53,13 @@
 
     onMount(async () => {
         if(styles) setTheme(styles);
+
+        let hash = location.hash?.replace('#', '') || false;
+        if(hash) {
+            setTimeout(() => {
+                clickNavigationLink(hash)
+            }, 1000)
+        }
     });
 </script>
 

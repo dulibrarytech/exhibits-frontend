@@ -1,5 +1,6 @@
 <!-- Requires bootstrap 5x -->
 <script>
+    import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
 
     import Hero from './Hero.svelte';
@@ -14,14 +15,14 @@
 
     export let args = {};
 
-    const dispatch = createEventDispatcher();
-
     let menuButtonDisplay = "none";
     let pageElement;
 
+    const dispatch = createEventDispatcher();
+
     const setTheme = (styles) => {   
-        if(styles.template) {
-            Object.assign(pageElement.style, styles.template);
+        if(pageElement) {
+            Object.assign(pageElement.style, styles);
         }
     }
 
@@ -29,15 +30,18 @@
         menuButtonDisplay = menuButtonDisplay == "none" ? "inline" : "none";
     }
 
-    const onMountTemplate = () => {
-        dispatch('mount', {});
-        if(styles?.template) setTheme(styles);
+    const onMountItems = () => {
+        if(styles.template) setTheme(styles.template);
     }
+
+    onMount(async () => {
+        dispatch('mount', {});
+    });
 </script>
 
 <div class="exhibit-page" bind:this={pageElement}>
     {#if template}
-        <Hero {data} />
+        <Hero {data} {styles} />
 
         {#if data.description}
             <Exhibit_Description content={data.description} /> <!-- ** if not required, put it back in the banner, remove this template ** -->
@@ -57,7 +61,7 @@
                 <div class="col">
                     <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay}" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
                     
-                    <svelte:component this={template} {sections} {items} {args} {styles} on:mount={onMountTemplate}/>
+                    <svelte:component this={template} {sections} {items} {args} {styles} on:click-item on:mount-items={onMountItems} />
                 </div>
             </div>
         </div>

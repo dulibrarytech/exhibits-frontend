@@ -12,7 +12,6 @@
     $: init();
 
     const init = () => {
-        //sectionHeadings = truncateHeadingText(sections);
         sectionHeadings = sections;
     }
 
