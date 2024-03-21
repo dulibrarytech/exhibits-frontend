@@ -27,7 +27,6 @@ const onClickLink = (event) => {
         height: 30px;
         position: relative;
         top: 3px;
-        left: 12px;
     }
 
     .exhibit-menu-links > a {

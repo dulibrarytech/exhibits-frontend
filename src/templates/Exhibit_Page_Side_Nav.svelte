@@ -17,12 +17,16 @@
 
     let menuButtonDisplay = "none";
     let pageElement;
+    let navigationSidebarElement;
 
     const dispatch = createEventDispatcher();
 
-    const setTheme = (styles) => {   
-        if(pageElement) {
-            Object.assign(pageElement.style, styles);
+    const setTheme = ({template=null, navigation=null}) => {   
+        if(template) {
+            Object.assign(pageElement.style, template);
+        }
+        if(navigation?.menu) {
+            Object.assign(navigationSidebarElement.style, navigation.menu);
         }
     }
 
@@ -31,7 +35,7 @@
     }
 
     const onMountItems = () => {
-        if(styles.template) setTheme(styles.template);
+        if(styles) setTheme(styles); // pass in styles, separate templ/menu in f()
     }
 
     onMount(async () => {
@@ -51,15 +55,15 @@
         <div class="container-fluid">
             <div id="sidebar-container" class="row flex-nowrap">
                 <div class="col-auto"> <!-- TODO set to exhibit bg color? -->
-                    <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end">
+                    <div id="sidebar" bind:this={navigationSidebarElement} class="exhibit-navigation collapse collapse-horizontal show border-end">
                         <Navigation_Side {sections} styles={styles?.navigation || null} />
 
-                        <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} ><i class="bi bi-chevron-left"></i></a>
+                        <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
                     </div>
                 </div>
 
                 <div class="col">
-                    <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay}" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
+                    <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay};" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
                     
                     <svelte:component this={template} {sections} {items} {args} {styles} on:click-item on:mount-items={onMountItems} />
                 </div>
@@ -96,7 +100,7 @@
     }
 
     #menu-close {
-        color: #757575;
+        color: inherit;
         font-size: 1.7em;
         padding: 0px;
         margin-left: -8px;
@@ -110,12 +114,12 @@
     
     :global(#sidebar-nav a) {
         margin-bottom: 0.9em;
-        color: #757575;
+        color: inherit;
     }
 
     @media (min-width: 768px) {
         #menu-toggle {
-            color: #757575;
+            color: inherit;
             font-size: 1.7em;
         }
     

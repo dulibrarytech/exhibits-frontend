@@ -245,6 +245,7 @@
 
     .exhibit-menubar {
         display: flex;
+        padding: 0 1rem;
     }
 
     .exhibit-search {
