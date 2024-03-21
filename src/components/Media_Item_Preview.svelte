@@ -99,7 +99,6 @@
 <div class="item-preview" bind:this={itemPreviewElement} >
     {#if preview}
         <img src={preview} alt={title}/>
-        <!-- <img src={preview} alt={title} data-uuid={uuid}/> TEST -->
     {:else}
         <img src='/error' alt="Error" />
     {/if}

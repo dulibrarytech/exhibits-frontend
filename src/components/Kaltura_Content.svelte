@@ -45,7 +45,10 @@
         
         <div class="subframe-content">
             <div class="caption">Summary/Description. Audio content courtesy of the University of Denver.</div>
-            <div class="links"><button on:click|preventDefault={onShowTranscriptSection}>View Transcript</button></div>
+            <div class="links">
+                <button on:click|preventDefault={onShowTranscriptSection}>View Transcript</button>
+                <!-- <button on:click|preventDefault={onToggleTranscriptSection}>Hide Transcript</button> -->
+            </div>
         </div>
         
     </div>

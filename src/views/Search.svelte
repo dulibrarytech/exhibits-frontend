@@ -26,9 +26,6 @@
     let exhibitId;
 
     const init = async () => {
-        //window.history.replaceState(null, "", "/search") DEV
-        // TODO if(!q) redirect to home OR test for box request OR do nothing.
-
         terms = currentRoute.queryParams.q?.split(',') || "";
         fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
         boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
