@@ -27,10 +27,13 @@
     let layout;
     let mediaWidth;
     let wrapText;
+    let isEmbedded;
+
     let styles;
 
     let {
-        showTitle = true
+        showTitle = true,
+        showPreview = true
 
     } = args;
 
@@ -47,7 +50,10 @@
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
         wrapText    = item.wrap_text ?? true;
+        isEmbedded  = item.is_embedded || false;
         styles      = item.styles || null;
+
+        showPreview = !isEmbedded;
 
         if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
     }
@@ -88,9 +94,9 @@
                 <div class="item-content wrap-text text media-right">
                     <div class="media" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <Media_Display {item} args={{showPreview: true}} />
+                            <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
                     </div>
                     <Text_Display {item} />
                 </div>
@@ -99,9 +105,9 @@
                 <div class="item-content media-right">
                     <div class="media" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <Media_Display {item} args={{showPreview: true}} />
+                            <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
                     </div>
                     <div class="text" style="width:{100 - mediaWidth}%">
                         <Text_Display {item} />
@@ -116,9 +122,9 @@
                 <div class="item-content wrap-text text media-left">
                     <div class="media" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <Media_Display {item} args={{showPreview: true}} />
+                            <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
                     </div>
                     <Text_Display {item} />
                 </div>
@@ -126,9 +132,9 @@
                 <div class="item-content media-left">
                     <div class="media" style="width:{mediaWidth}%">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <Media_Display {item} args={{showPreview: true}} />
+                            <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
                     </div>
                     <div class="text" style="width:{100 - mediaWidth}%">
                         <Text_Display {item} />
@@ -141,9 +147,9 @@
             <div class="item-content media-top">
                 <div class="media media-fullwidth" style="width:{mediaWidth}%">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                        <Media_Display {item} args={{showPreview: true}} />
+                        <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a>
-                    {#if caption}<div class="caption">{caption}</div>{/if}
+                    <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
                 </div>
                 <div class="text">
                     <Text_Display {item} />
@@ -157,9 +163,9 @@
                 </div>
                 <div class="media media-fullwidth" style="width:{mediaWidth}%">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                        <Media_Display {item} args={{showPreview: true}} />
+                        <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a>
-                    {#if caption}<div class="caption">{caption}</div>{/if}
+                    <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
                 </div>
             </div>
 
@@ -167,9 +173,9 @@
             <div class="item-content">
                 <div class="media media-fullwidth" style="width:{mediaWidth}%">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                        <Media_Display {item} args={{showPreview: true}} />
+                        <Media_Display {item} args={{showPreview}} />
                     </a>
-                    {#if caption}<div class="caption">{caption}</div>{/if}
+                    <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
                 </div>
             </div>
 

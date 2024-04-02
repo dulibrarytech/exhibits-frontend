@@ -2,8 +2,8 @@
     import Embed_Code_Content from "./Embed_Code_Content.svelte";
     //import JWPlayer_Content from "./JWPlayer_Content.svelte";
 
-    // import Kaltura
     import Kaltura_Content from "./Kaltura_Content.svelte";
+    import { Kaltura } from '../libs/kaltura';
 
     export let args = {};
 
@@ -12,7 +12,8 @@
         embedCode=null, 
         caption=null, 
         mimeType=null,
-        kalturaId=null
+        kalturaId=null,
+        isEmbedded=false
         
     } = args;
 
@@ -21,13 +22,20 @@
     }
 
     const render = () => {
-        if(!url && !kalturaId && !embedCode) console.error("Error loading audio content: path to source not found")
+        if(!url && !kalturaId && !embedCode) console.error("Error loading audio content: path to source not found");
+
+        // Use the html player for an embedded item
+        if(kalturaId && isEmbedded) {
+            url = Kaltura.getStreamingMediaUrl(kalturaId);
+            kalturaId = null;
+        }
     }
 </script>
 
 <div class="audio-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} {caption} /> 
+        <Kaltura_Content entryId={kalturaId} {caption}/> <!-- viewTranscript = !args.isEmbedded -->
+
     {:else}
         <div class="audio">
             {#if embedCode}
@@ -35,7 +43,7 @@
             {:else if url}
                 <div class="content">   
                     {#if mimeType}
-                        <audio src={url} type={mimeType} controls></audio>
+                        <audio src={url} type={mimeType} controls></audio>  <!-- replace with JWplayer? -->
                     {:else}
                         <audio src={url} controls></audio>
                     {/if}

@@ -67,7 +67,6 @@ Update with Cantaloupe path
 NODE_ENV={development|production}
 NODE_PORT={node port of app}
 EXHIBITS_INDEX_DOMAIN={domain of exhibits app elastic server}
-EXHIBITS_INDEX_NAME={name of elastic index}
 REPOSITORY_DOMAIN={repository domain e.g.: "https://digital-repository.domain.edu/"}
 REPOSITORY_DATASTREAM_ENDPOINT={datastream url for repository item e.g.: 'item/{item_id}/datastream/{datastream_id}'}
 REPOSITORY_THUMBNAIL_DATASTREAM_ENDPOINT={thumbnail datastream url for repository item e.g.: 'item/{item_id}/datastream/thumbnail'}

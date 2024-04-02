@@ -11,16 +11,20 @@
         showPreview = false
     } = args;
 
+    //$: uuid = item.uuid || "";
+
     if(showPreview) {
         component = Media_Item_Preview;
     }
     else {
-        component = Media_Item;
+        component = Media_Item; // not currently in use. Will use this if an item has 'is_embedded true' flag. (no preview)
     }
 </script>
 
 {#if component}
-    <svelte:component this={component} {item} {args} />
+    <!-- <a href data-item-id={uuid} on:click> -->
+        <svelte:component this={component} {item} {args} />
+    <!-- </a> -->
 {:else}
     <h5>Loading item...</h5>
 {/if}
