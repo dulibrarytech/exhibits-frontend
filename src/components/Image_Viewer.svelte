@@ -12,6 +12,7 @@
 
     let {
         url = null,
+        title = null,
         caption = null,
         isTileImage = false
 
@@ -20,7 +21,7 @@
     let sourceUrl = null;
     let viewer = null;
     let placeholder = false;
-    let altText = "Image";
+    let altText;
 
     const HTML_VIEWER = "html";
     const TILE_VIEWER = "openseadragon";
@@ -35,7 +36,8 @@
             viewer = HTML_VIEWER;
         }
 
-        if(caption) altText = caption;
+        altText = title || caption || "Image";
+        console.log("TEST image alt text:", altText)
         sourceUrl = url;
     }
 

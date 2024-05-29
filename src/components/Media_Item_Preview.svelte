@@ -15,7 +15,7 @@
     let itemType;
     let resource;
     let thumbnail;
-    let title;
+    let altText;
     let styles = null;
     let preview = null;
 
@@ -30,8 +30,10 @@
         itemType = item.item_type || null;
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
-        title = item.title || null;
+        altText = item.title || item.description || "Untitled Image";
         styles = item.styles || null;
+
+        console.log("TEST media item preview: item:", item)
 
         if(thumbnail && URL_PATTERN.test(thumbnail) == false) {
             preview = Resource.getThumbnailFileUrl(thumbnail);
@@ -98,7 +100,7 @@
 
 <div class="item-preview" bind:this={itemPreviewElement} >
     {#if preview}
-        <img src={preview} alt={title}/>
+        <img src={preview} alt={altText} title={altText} />
     {:else}
         <img src='/error' alt="Error" />
     {/if}

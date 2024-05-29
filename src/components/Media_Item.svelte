@@ -19,12 +19,12 @@
 
     let mediaElement;
 
-    var resource;
-    var filename;
-    var itemType;
-    var mimeType;
-    var viewerType;
-    var caption;
+    let resource;
+    let itemType;
+    let mimeType;
+    let viewerType;
+    let title;
+    let caption;
 
     var filename = null;
     var component = null;
@@ -40,6 +40,7 @@
         resource = args.media || item.media || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
+        title = args.title || item.title || null;
         caption = args.caption || item.caption || null;
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
 
@@ -101,7 +102,7 @@
             isTileImage = true;
         }
 
-        params = {url, caption, isTileImage, imageType};
+        params = {url, title, caption, isTileImage, imageType};
         component = Image_Viewer;
     }
 
@@ -131,7 +132,7 @@
             url = resource;
         }
         
-        params = {url, caption, isTileImage, imageType};
+        params = {url, title, caption, isTileImage, imageType};
         component = Image_Viewer;
     }
 
