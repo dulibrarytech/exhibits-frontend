@@ -20,7 +20,7 @@
 
     {#if previews.length > 0}
         {#each previews as exhibit}
-            <div class="grid-item exhibit-preview-item col-lg-3">
+            <div class="grid-item exhibit-preview-item">
                 <Exhibit_Preview {exhibit} />
 
                 <div class="overlay"></div>
@@ -32,21 +32,18 @@
 </div>
 
 <style>
-    .col-lg-3 {
-        width: 23.5%;
-    } 
-
     .exhibits-preview-grid {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        column-gap: 25px;
-        row-gap: 26px;
+        column-gap: 20px;
+        row-gap: 20px;
         margin: 6px auto;
     }
 
     .grid-item {
         position: relative;
+        width: 100%;
     }
     
     .grid-item:hover .overlay,
@@ -79,5 +76,37 @@
         font-size: 24px;
         text-align: center;
         pointer-events: none;
+    }
+
+    /* begin responsive breakpoints: small mobile devices/phones first ^ */
+    @media screen and (min-width: 480px) {
+    /* start of portrait tablet styles */
+        .grid-item {
+            width: 47.5%; /* 2 col */
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+    /* start of landscape/large tablet styles */
+        .grid-item {
+            width: 30.5%; /* 3 col */
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+    /* start of large tablet styles */
+        .grid-item {
+            width: 22.5%; /* 4 col */
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
+    /* start of medium/large desktop styles */
+
+    }
+
+    @media screen and (min-width: 1920px) {
+    /* start of extra large desktop styles */
+
     }
 </style>

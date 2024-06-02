@@ -85,47 +85,34 @@
 
 <div class="homepage page">
     <div class="container">
+        <div class="exhibits-search">
+            <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
+        </div>
+
         {#if featuredExhibits}
-            <div class="row heading">
-                <div class="col-md-6">
-                    <h3>Featured</h3>
-                </div>
-                <div class="col-md-6">
-                    <div class="exhibits-search">
-                        <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
-                    </div>
-                </div>
+            <div class="heading">
+                <h3>Featured</h3>
             </div>
-            <div class="row preview-section">
-                <div class="col-lg-12">
-                    <Exhibit_Preview_Grid exhibits={featuredExhibits} />
-                </div>
+            <div class="preview-section">
+                <Exhibit_Preview_Grid exhibits={featuredExhibits} />
             </div>
         {/if}
 
         {#if recentExhibits}
-            <div class="row heading">
-                <div class="col-lg-12">
-                    <h3>Recently Added</h3>
-                </div>
+            <div class="heading">
+                <h3>Recently Added</h3>
             </div>
-            <div class="row preview-section">
-                <div class="col-lg-12">
-                    <Exhibit_Preview_Grid exhibits={recentExhibits} />
-                </div>
+            <div class="preview-section">
+                <Exhibit_Preview_Grid exhibits={recentExhibits} />
             </div>
         {/if}
 
         {#if publicExhibits && publicExhibits.length > 0}
-            <div class="row heading">
-                <div class="col-lg-12">
-                    <h3>Exhibits</h3>
-                </div>
+            <div class="heading">
+                <h3>Exhibits</h3>
             </div>
-            <div class="row preview-section">
-                <div class="col-lg-12">
-                    <Exhibit_Preview_Grid {exhibits} />
-                </div>
+            <div class="preview-section">
+                <Exhibit_Preview_Grid {exhibits} />
             </div>
         {:else}
             <h6>{message}</h6>
@@ -134,10 +121,6 @@
 </div>
 
 <style>
-    .homepage .row {
-        margin-bottom: 50px;
-    }
-
     .homepage h3 {
         color: #8b2332;
         padding: 15px 0;
