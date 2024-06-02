@@ -78,32 +78,25 @@
 <svelte:window on:keydown={onKeyPress} />
 
 <style>
-  .radio-group {
-    display: inline-flex;
-  }
-
-  .radio-group .form-check:not(:first-child) {
-    margin-left: 2em;
-  }
-
-  .form-group {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #e5e3e1;
-    border-radius: 3px;
-  }
-
-  .search-form >* {
-      margin: 0 0 0 0;
-  }
-
   form.form-inline {
+    width: 100%;
+  }
+
+  .search-box {
+    margin: 0 auto;
     width: 300px;
-    float: right;
   }
 
   .search-box input,
   .search-box button {
     margin: 0;
+  }
+
+  @media screen and (min-width: 768px) {
+    /* start of landscape/large tablet styles */
+    .search-box {
+      margin: initial;
+      width: 100%;
+    }
   }
 </style>

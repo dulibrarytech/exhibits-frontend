@@ -85,8 +85,10 @@
 
 <div class="homepage page">
     <div class="container">
-        <div class="exhibits-search">
-            <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
+        <div class="exhibits-search-wrapper">
+            <div class="exhibits-search">
+                <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
+            </div>
         </div>
 
         {#if featuredExhibits}
@@ -131,14 +133,50 @@
         width: 95%;
         margin: 0 auto;
     }
+    
+    .exhibits-search-wrapper {
+        height: 85px;
+    }
 
     .exhibits-search {
-        float: right;
+        /* float: right; */
         position: relative;
         top: 14px;
     }
 
     :global(.exhibits-search > .container) {
         padding: 0;
+    }
+
+    /* begin responsive breakpoints: small mobile devices/phones first ^ */
+    @media screen and (min-width: 480px) {
+        /* start of portrait tablet styles */
+
+    }
+
+    @media screen and (min-width: 768px) {
+        /* start of landscape/large tablet styles */
+        .exhibits-search-wrapper {
+            height: 55px;
+        }
+
+        .exhibits-search {
+            float: right;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        /* start of large tablet styles */
+
+    }
+
+    @media screen and (min-width: 1280px) {
+        /* start of medium/large desktop styles */
+
+    }
+
+    @media screen and (min-width: 1920px) {
+        /* start of extra large desktop styles */
+
     }
 </style>
