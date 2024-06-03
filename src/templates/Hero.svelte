@@ -82,7 +82,7 @@
     :global(.hero-image) {
         min-height: 200px;
         background: grey;
-        height: 69.7vh;
+        height: 245px;
     }
 
     :global(.hero-text) {
@@ -91,5 +91,36 @@
 
     :global(.description-text) {
         padding: 50px 8%;
+    }
+
+    /* begin responsive breakpoints: small mobile devices/phones first ^ */
+    @media screen and (min-width: 480px) {
+        :global(.hero-image) {
+            height: 275px;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        :global(.hero-image) {
+            height: 435px;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        :global(.hero-image) {
+            height: 565px;
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
+        :global(.hero-image) {
+            height: 615px;
+        }
+    }
+
+    @media screen and (min-width: 1920px) {
+        :global(.hero-image) {
+            height: 725px;
+        }
     }
 </style>
