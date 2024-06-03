@@ -9,8 +9,36 @@
 <style>
     .exhibit-description {
         height: 100%;
-        padding: 50px 115px;
-        font-size: 1.263em;
+        padding: 50px 15px;
+        font-size: 0.8em;
         line-height: 1.375em;
+    }
+
+    /* begin responsive breakpoints: small mobile devices/phones first ^ */
+    @media screen and (min-width: 480px) {
+        .exhibit-description {
+            padding: 50px 25px;
+            font-size: 1.0em;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .exhibit-description {
+            padding: 50px 50px;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .exhibit-description {
+            font-size: 1.1em;
+            padding: 50px 75px;
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
+        .exhibit-description {
+            font-size: 1.2em;
+            padding: 50px 115px;
+        }
     }
 </style>
