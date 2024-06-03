@@ -220,10 +220,10 @@
     <!-- <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  /> -->
 
     <div class="exhibit-menubar row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-lg-8 col-xl-9">
             <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  />
         </div>
-        <div class="col-md-6 exhibit-search">
+        <div class="col-md-6 col-lg-4 col-xl-3 exhibit-search">
             <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
         </div>
     </div>
@@ -249,7 +249,7 @@
     }
 
     .exhibit-search {
-        padding: 6px;
+        padding: 20px 6px;
     }
 
     :global(.exhibit-search .search-box form) {
@@ -259,5 +259,11 @@
     :global(.exhibit-menubar .exhibit-menu) {
         position: relative;
         top: calc(50% - 15px);
+    }
+
+    @media screen and (min-width: 768px) {
+        .exhibit-search {
+            padding: 8px 6px;
+        }
     }
 </style>
