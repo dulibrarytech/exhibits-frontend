@@ -68,7 +68,7 @@
 
                     <!-- exhibit heading -->
                     {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
-                        <Exhibit_Heading id={anchorId} {text} styles={styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
+                        <Exhibit_Heading id={anchorId} {text} styles={displayItems[index].styles || styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
 
                     <!-- exhibit item container - grid -->
                     {:else if type == ENTITY_TYPE.GRID}
@@ -113,5 +113,6 @@
         font-weight: bold;
         font-size: 1.737em;
         text-transform: uppercase;
+        line-height: 1.45em;
     }
 </style>

@@ -19,7 +19,10 @@
     }
 
     onMount(async () => {
-        if(styles) setTheme(styles);
+        if(styles) {
+            if(typeof styles == 'string') styles = JSON.parse(styles);
+            setTheme(styles);
+        }
         dispatch('mount-template-item', {type: "heading"});
     });
 </script>
