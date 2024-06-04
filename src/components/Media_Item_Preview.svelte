@@ -33,8 +33,6 @@
         altText = item.title || item.description || "Untitled Image";
         styles = item.styles || null;
 
-        console.log("TEST media item preview: item:", item)
-
         if(thumbnail && URL_PATTERN.test(thumbnail) == false) {
             preview = Resource.getThumbnailFileUrl(thumbnail);
         }

@@ -37,7 +37,6 @@
         }
 
         altText = title || caption || "Image";
-        console.log("TEST image alt text:", altText)
         sourceUrl = url;
     }
 

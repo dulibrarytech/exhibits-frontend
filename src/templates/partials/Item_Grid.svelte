@@ -88,7 +88,7 @@
                 {#each itemDisplay as item}
                     {#if item.is_published || role == USER_ROLE.ADMIN}
 
-                        <div class="col-xl-{(12/columns)} col-lg-{(12/columns)+1} col-md-{(12/columns)+2} col-sm-{(12/columns)+3}">
+                        <div class="col-{columns}">
                             <Grid_Item_Image_Text {item} on:click-item /> 
                         </div>
 
@@ -100,6 +100,10 @@
 </div>
 
 <style>
+    .col-2, .col-3, .col-4 {
+        width: 100%;
+    }
+
     .item-grid {
         padding-top: 45px;
         padding-bottom: 45px;
@@ -114,15 +118,10 @@
         display: inline-flex;
         flex-wrap: wrap;
         margin: 0 auto;
-        justify-content: center;
-    }
-
-    .grid-content > div {
-        padding: 30px 15px;
-    }
-
-    :global(.item-grid .grid-item) {
-        padding: 30px;
+        justify-content: left;
+        row-gap: 100px;
+        column-gap: 4.2vw;
+        margin-top: 45px;
     }
 
     :global(.item-grid .item) {
@@ -138,5 +137,23 @@
     :global(.item-grid .item .caption) {
         font-style: italic;
         font-size: 0.7em;
+    }
+
+    /* begin responsive breakpoints: small mobile devices/phones first ^ */
+    @media screen and (min-width: 768px) {
+        .col-2 {
+            /* width: 48.5%; */
+            width: 45.5%;
+        }
+
+        .col-3 {
+            /* width: 31.5%; */
+            width: 28.5%;
+        }
+
+        .col-4 {
+            /* width: 23.5%; */
+            width: 20.5%;
+        }
     }
 </style>
