@@ -92,24 +92,24 @@
         {#if layout == MEDIA_POSITION.RIGHT}
             {#if wrapText}
                 <div class="item-content wrap-text text media-right">
-                    <div class="media" style="width:{mediaWidth}%">
+                    <div class="media width-{mediaWidth}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
                     <Text_Display {item} />
                 </div>
 
             {:else}
                 <div class="item-content media-right">
-                    <div class="media" style="width:{mediaWidth}%">
+                    <div class="media width-{mediaWidth}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
-                    <div class="text" style="width:{100 - mediaWidth}%">
+                    <div class="text width-{100 - mediaWidth}">
                         <Text_Display {item} />
                     </div>
                 </div>
@@ -120,23 +120,23 @@
             {#if wrapText}
 
                 <div class="item-content wrap-text text media-left">
-                    <div class="media" style="width:{mediaWidth}%">
+                    <div class="media width-{mediaWidth}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
                     <Text_Display {item} />
                 </div>
             {:else}
                 <div class="item-content media-left">
-                    <div class="media" style="width:{mediaWidth}%">
+                    <div class="media width-{mediaWidth}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
-                    <div class="text" style="width:{100 - mediaWidth}%">
+                    <div class="text width-{100 - mediaWidth}">
                         <Text_Display {item} />
                     </div>
                 </div>
@@ -145,11 +145,11 @@
             
         {:else if layout == MEDIA_POSITION.TOP}
             <div class="item-content media-top">
-                <div class="media media-fullwidth" style="width:{mediaWidth}%">
+                <div class="media media-fullwidth width-{mediaWidth}">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a>
-                    <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
                 <div class="text">
                     <Text_Display {item} />
@@ -161,21 +161,21 @@
                 <div class="text">
                     <Text_Display {item} />
                 </div>
-                <div class="media media-fullwidth" style="width:{mediaWidth}%">
+                <div class="media media-fullwidth width-{mediaWidth}">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a>
-                    <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
             </div>
 
         {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
             <div class="item-content">
-                <div class="media media-fullwidth" style="width:{mediaWidth}%">
+                <div class="media media-fullwidth width-{mediaWidth}">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview}} />
                     </a>
-                    <!-- {#if caption}<div class="caption">{caption}</div>{/if} -->
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
             </div>
 
@@ -239,6 +239,12 @@
         padding: 50px 0 0 0;
     }
 
+    .width-25 {width: 100%}
+    .width-33 {width: 100%}
+    .width-50 {width: 100%}
+    .width-66 {width: 100%}
+    .width-75 {width: 100%}
+
     .caption {
         margin-top: 1rem;
         text-decoration: none;
@@ -269,7 +275,13 @@
         height: 100%;
     }
 
-    @media (min-width:768px) {
+    @media screen and (min-width: 768px) {
+        .width-25 {width: 50%}
+        .width-33 {width: 50%}
+        .width-50 {width: 50%}
+        .width-66 {width: 50%}
+        .width-75 {width: 50%}
+
         .media-right > .media {
             float: right;
         }
@@ -310,9 +322,11 @@
         }
     }
 
-    @media (max-width:768px) {
-        .media, .text {
-            width: 100% !important;
-        }
+    @media screen and (min-width: 992px) {
+        .width-25 {width: 25%}
+        .width-33 {width: 33%}
+        .width-50 {width: 50%}
+        .width-66 {width: 66%}
+        .width-75 {width: 75%}
     }
 </style>
