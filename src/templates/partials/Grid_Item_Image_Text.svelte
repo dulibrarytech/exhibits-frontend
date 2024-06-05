@@ -76,9 +76,9 @@
 </div>
 
 <style>
-    /* .grid-item {
-        padding: 30px;
-    } */
+    .grid-item {
+        padding: 0.75rem;
+    }
 
     .item-date {
         font-weight: bold;
