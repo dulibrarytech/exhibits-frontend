@@ -241,8 +241,10 @@
 
     .width-25 {width: 100%}
     .width-33 {width: 100%}
+    .width-34 {width: 100%}
     .width-50 {width: 100%}
     .width-66 {width: 100%}
+    .width-67 {width: 100%}
     .width-75 {width: 100%}
 
     .caption {
@@ -278,8 +280,10 @@
     @media screen and (min-width: 768px) {
         .width-25 {width: 50%}
         .width-33 {width: 50%}
+        .width-34 {width: 50%}
         .width-50 {width: 50%}
         .width-66 {width: 50%}
+        .width-67 {width: 50%}
         .width-75 {width: 50%}
 
         .media-right > .media {
@@ -325,8 +329,10 @@
     @media screen and (min-width: 992px) {
         .width-25 {width: 25%}
         .width-33 {width: 33%}
+        .width-34 {width: 34%}
         .width-50 {width: 50%}
         .width-66 {width: 66%}
+        .width-67 {width: 67%}
         .width-75 {width: 75%}
     }
 </style>
