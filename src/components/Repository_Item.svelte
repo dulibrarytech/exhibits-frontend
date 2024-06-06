@@ -32,9 +32,7 @@
         console.log("Fetching data from repository...");
 
         try {
-            console.log("TEST repo data pre fetch:")
             let data = await Repository.getItemData(repositoryItemId);
-            console.log("TEST repo data:", data)
             repositoryItem = structuredClone(item);
 
             // set the exhibit item type to the repository item type
