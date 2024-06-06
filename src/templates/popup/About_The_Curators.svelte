@@ -14,7 +14,7 @@
     <h2>About the Curators</h2>
     <hr>
     <div class="page-content">
-        {#if html}{html}{/if}
+        {#if html}{@html html}{/if}
     </div>
 </div>
 

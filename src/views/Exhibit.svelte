@@ -185,6 +185,8 @@
             container: getPageById(itemId) // ret About_The_Curators
         };
 
+        console.log("TEST opening page: modal dialog data:", modalDialogData)
+
         if(!modalDialog) modalDialog = Modal_Page_Display;
         document.body.classList.add('modal-open');
     }
@@ -221,7 +223,7 @@
 
     <div class="exhibit-menubar row">
         <div class="col-md-6 col-lg-8 col-xl-9">
-            <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  />
+            <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
         </div>
         <div class="col-md-6 col-lg-4 col-xl-3 exhibit-search">
             <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
