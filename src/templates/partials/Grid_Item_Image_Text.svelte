@@ -8,8 +8,10 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import Item from './Item.svelte';
     import { createEventDispatcher } from 'svelte';
+
+    import Item from './Item.svelte';
+    import Item_Display from '../../components/Item_Display.svelte';
 
     import { MEDIA_POSITION, ITEM_TYPE } from '../../config/global-constants';
 
@@ -70,7 +72,7 @@
         </div> 
     {/if}
 
-    <Item {item} args={{showTitle: false, showPreview: true}} on:click-item />
+    <Item_Display {item} template={Item} args={{showTitle: false, showPreview: true}} on:click-item />
 
     {#if description && description.length > 0}<div class="description">{description}</div>{/if}
 </div>
