@@ -98,7 +98,7 @@
 
 <div class="item-preview" bind:this={itemPreviewElement} >
     {#if preview}
-        <img src={preview} alt={altText} title={altText} />
+        <img crossorigin="anonymous" src={preview} alt={altText} title={altText} />
     {:else}
         <img src='/error' alt="Error" />
     {/if}

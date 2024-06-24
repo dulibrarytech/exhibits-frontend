@@ -78,10 +78,25 @@ export const Repository = (() => {
     * Returns the item resource datastream
     *
     * @param {string} id - The item id
+    * @param {string} streamId - {OBJECT|THUMBNAIL|IMAGE}
     */
-    const getItemDatastream = async (id) => {
+    const getItemDatastream = async (id, streamId='') => {
         let stream = null;
-        let url = getItemDatastreamUrl(id);
+        let url;
+
+        switch(streamId) {
+            case 'OBJECT':
+                url = getItemDatastreamUrl(id, streamId);
+                break;
+
+            case 'THUMBNAIL':
+                url = getItemThumbnailDatastreamUrl(id, streamId);
+                break;
+
+            case 'IMAGE':
+                url = getItemImageDatastreamUrl(id, streamId);
+                break;
+        }
 
         try {
             stream = await axios.get(url);

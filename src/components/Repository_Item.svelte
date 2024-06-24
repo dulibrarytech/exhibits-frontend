@@ -33,6 +33,7 @@
 
         try {
             let data = await Repository.getItemData(repositoryItemId);
+            console.log("Successfully retrieved item data");
             repositoryItem = structuredClone(item);
 
             // set the exhibit item type to the repository item type
