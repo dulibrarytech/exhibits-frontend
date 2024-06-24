@@ -29,7 +29,7 @@
     if(!repositoryItemId) repositoryItemId = args.id || item.media || null;
 
     const init = async () => {
-        console.log("Fetching data from repository...");
+        console.log(`Fetching data from repository... Repo item id: ${repositoryItemId}`);
 
         try {
             let data = await Repository.getItemData(repositoryItemId);
@@ -57,7 +57,7 @@
                 repositoryItem.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
             }
             else if(repositoryItem.item_type == ITEM_TYPE.LARGE_IMAGE || repositoryItem.item_type == ITEM_TYPE.IMAGE) {
-                repositoryItem.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null ); 
+                repositoryItem.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null );
             }
             else {
                 repositoryItem.media = Repository.getItemDatastreamUrl( data[ID_FIELD] || null ); 
