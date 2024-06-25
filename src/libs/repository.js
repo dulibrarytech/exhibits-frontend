@@ -120,14 +120,6 @@ export const Repository = (() => {
         return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryImageDatastreamEndpoint}${apiKey}`;
     }
 
-    const getIIIFManifestUrl = (id) => {
-        let url = null;
-        if(id) {
-            url = iiifManifestUrl.replace('{item_id}', id);
-        }
-        return url;
-    }
-
     const getIIIFTilesourceUrl = (id) => {
         let url = null;
         if(id) {
@@ -179,7 +171,6 @@ export const Repository = (() => {
         getItemDatastreamUrl,
         getItemThumbnailDatastreamUrl,
         getItemImageDatastreamUrl,
-        getIIIFManifestUrl,
         getIIIFTilesourceUrl,
         getPreviewImageUrl
     };
