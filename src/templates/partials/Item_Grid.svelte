@@ -136,7 +136,7 @@
 
     :global(.item-grid .item .caption) {
         font-style: italic;
-        font-size: 0.7em;
+        font-size: 0.85em;
     }
 
     /* begin responsive breakpoints: small mobile devices/phones first ^ */

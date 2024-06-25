@@ -209,6 +209,10 @@
         height: 100%;
     }
 
+    .media {
+        margin-bottom: 55px;
+    }
+
     .media-fullwidth {
         margin: 0 auto;
     }
@@ -256,7 +260,7 @@
 
     :global(.item .caption) {
         font-style: italic;
-        font-size: 0.8em;
+        font-size: 0.85em;
     }
 
     :global(.item button.item-button:not(:first-child)) {
@@ -285,6 +289,10 @@
         .width-66 {width: 50%}
         .width-67 {width: 50%}
         .width-75 {width: 50%}
+
+        .media {
+            margin-bottom: 0;
+        }
 
         .media-right > .media {
             float: right;

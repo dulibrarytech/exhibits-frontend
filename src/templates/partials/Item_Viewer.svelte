@@ -119,7 +119,7 @@
 	}
 
 	:global(.item-viewer .media-item .caption) {
-		color: white;
+		color: black;
 	}
 
 	:global(.item-viewer .openseadragon-container) {

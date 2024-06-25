@@ -1,4 +1,7 @@
 <script>
+    import AudioPlayer from './Audio_Player.svelte';
+    import EmbedCodeContent from './Embed_Code_Content.svelte';
+    import EmbedIframeViewer from './Embed_Iframe_Viewer.svelte';
     /**
      * @module Image_Viewer
      * 
@@ -49,6 +52,7 @@
 
             {#if viewer == HTML_VIEWER}
                 <div class="content">
+                    <!-- hide all messages (?) -->
                     <img src={sourceUrl} alt={altText} title={altText}/>
                     {#if caption}<span class="caption">{caption}</span>{/if}
                 </div>
@@ -64,7 +68,7 @@
         {:else if placeholder}
             <img src="/error" alt="error" />
         {:else}
-            <h5>Loading image content...</h5>
+            <h5>Initializing...</h5>
         {/if}
     </div>
 </div>
