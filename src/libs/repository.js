@@ -34,7 +34,7 @@ export const Repository = (() => {
     var {   
             repositoryDomain,
             repositoryApiKey,
-            repositoryIIIFEndpoint,
+            repositoryIIIFServerUrl,
             
         } = Configuration;
 
@@ -48,7 +48,8 @@ export const Repository = (() => {
     } = Settings;
 
     if(repositoryApiKey) {
-        apiKey = `?${repositoryApiKey}`;
+        // apiKey = `?${repositoryApiKey}`;
+        apiKey = `?key=${repositoryApiKey}`;
     }
 
     /**
@@ -113,7 +114,6 @@ export const Repository = (() => {
     }
 
     const getItemThumbnailDatastreamUrl = (id) => {
-        // TODO By Type, use jpgs for images, /tn ds for a/v, jpg derivative if pdf.
         return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryThumbnailDatastreamEndpoint}${apiKey}`;
     }
 
@@ -122,14 +122,13 @@ export const Repository = (() => {
     }
 
     const getIIIFJpgDerivativeUrl = (id) => {
-        return `${repositoryIIIFEndpoint}/${id}/full/full/0/default.jpg`;
+        return `${repositoryIIIFServerUrl}/iiif/2/${id}/full/full/0/default.jpg`;
     }
 
     const getIIIFTilesourceUrl = (id) => {
         let url = null;
         if(id) {
-            //url = repositoryIIIFTilesource.replace('{item_id}', id);
-            url = `${repositoryIIIFEndpoint}/${id}/info.json`;
+            url = `${repositoryIIIFServerUrl}/iiif/2/${id}/info.json`;
         }
         return url;
     }

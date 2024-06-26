@@ -66,14 +66,14 @@ Update with Cantaloupe path
 
 NODE_ENV={development|production}
 NODE_PORT={node port of app}
-EXHIBITS_INDEX_DOMAIN={domain of exhibits app elastic server}
-REPOSITORY_DOMAIN={repository domain e.g.: "https://digital-repository.domain.edu/"}
-REPOSITORY_DATASTREAM_ENDPOINT={datastream url for repository item e.g.: 'item/{item_id}/datastream/{datastream_id}'}
-REPOSITORY_THUMBNAIL_DATASTREAM_ENDPOINT={thumbnail datastream url for repository item e.g.: 'item/{item_id}/datastream/thumbnail'}
-REPOSITORY_ITEM_DATA_ENDPOINT={data url for repository items. Insert item id as '{item_id}' e.g.: '/data/{item_id}'}
-IIIF_MANIFEST_URL={iiif manifest url. e.g.: 'https://iiif.manifest.server/{item_id}/manifest'}
-IIIF_IMAGE_SERVER_URL={url to image tile server (for zoomable large images)}
+EXHIBITS_API_KEY={hash string}
+EXHIBITS_API_DOMAIN="http://localhost:5678/api/v1"
+EXHIBITS_IIIF_IMAGE_SERVER_URL={url to image tile server (for zoomable large images)}
+REPOSITORY_DOMAIN={digitaldu repository domain e.g.: "https://digital-repository.domain.edu/"} 
+REPOSITORY_API_KEY={digitaldu repository api key}
+REPOSITORY_IIIF_SERVER_URL={path to digitaldu repository iiif server}
 RESOURCE_LOCATION={location of local storage for media files. this folder must be located in the /public folder}
+RESOURCE_SERVER_URL={TODO if calling this directly from client, include here}
 
 ### Settings
 

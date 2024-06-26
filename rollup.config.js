@@ -81,11 +81,10 @@ export default {
 		replace({
 			EXHIBITS_API_KEY: JSON.stringify(process.env.EXHIBITS_API_KEY),
 			EXHIBITS_API_DOMAIN: JSON.stringify(process.env.EXHIBITS_API_DOMAIN),
+			EXHIBITS_IIIF_IMAGE_SERVER_URL: JSON.stringify(process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL),
 			REPOSITORY_DOMAIN: JSON.stringify(process.env.REPOSITORY_DOMAIN),
 			REPOSITORY_API_KEY: JSON.stringify(process.env.REPOSITORY_API_KEY),
-			REPOSITORY_IIIF_ENDPOINT: JSON.stringify(process.env.REPOSITORY_IIIF_ENDPOINT),
-			IIIF_MANIFEST_URL: JSON.stringify(process.env.IIIF_MANIFEST_URL),
-			IIIF_IMAGE_SERVER_URL: JSON.stringify(process.env.IIIF_IMAGE_SERVER_URL),
+			REPOSITORY_IIIF_SERVER_URL: JSON.stringify(process.env.REPOSITORY_IIIF_SERVER_URL),
 			RESOURCE_LOCATION: JSON.stringify(process.env.RESOURCE_LOCATION)
         }) 
 	],

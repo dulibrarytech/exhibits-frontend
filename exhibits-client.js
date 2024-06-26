@@ -28,12 +28,12 @@ app.get('*', (req, res) => {
 })
 
 // test image server
-axios.get(process.env.IIIF_IMAGE_SERVER_URL, {rejectUnauthorized: false})
+axios.get(process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL, {rejectUnauthorized: false})
   .then(function (response) {
-    console.log(`Image server is online at '${process.env.IIIF_IMAGE_SERVER_URL}'`);
+    console.log(`Image server is online at '${process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL}'`);
   })
   .catch(function (error) {
-    console.error(`Image server is unavailable at '${process.env.IIIF_IMAGE_SERVER_URL}' ${error}`);
+    console.error(`Image server is unavailable at '${process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL}' ${error}`);
   });
 
 // test exhibits server

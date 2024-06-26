@@ -185,8 +185,6 @@
             container: getPageById(itemId) // ret About_The_Curators
         };
 
-        console.log("TEST opening page: modal dialog data:", modalDialogData)
-
         if(!modalDialog) modalDialog = Modal_Page_Display;
         document.body.classList.add('modal-open');
     }
