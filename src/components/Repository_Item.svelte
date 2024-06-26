@@ -33,7 +33,7 @@
 
         try {
             let data = await Repository.getItemData(repositoryItemId);
-            console.log("Successfully retrieved item data");
+            console.log("Successfully retrieved item data", item);
             repositoryItem = structuredClone(item);
 
             // set the exhibit item type to the repository item type
@@ -48,9 +48,6 @@
             // append the repository data to the item
             repositoryItem['data_display'] = getItemDisplayData(data);
             repositoryItem['repository_data'] = data;
-
-            // get the thumbnail path
-            repositoryItem.thumbnail = Repository.getItemThumbnailDatastreamUrl(repositoryItemId) || undefined;
 
             // get the media url to access the repository item preview image, image tilesource or object datastream based on item type
             if(showPreview) {

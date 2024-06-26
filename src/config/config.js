@@ -8,7 +8,8 @@ export const Configuration = {
   exhibitsApiDomain: EXHIBITS_API_DOMAIN,
   repositoryDomain: REPOSITORY_DOMAIN,
   repositoryApiKey: REPOSITORY_API_KEY,
-  repositoryIIIFTilesource: REPOSITORY_IIIF_TILESOURCE,
+  // repositoryIIIFTilesource: REPOSITORY_IIIF_TILESOURCE,
+  repositoryIIIFEndpoint: REPOSITORY_IIIF_ENDPOINT,
   iiifImageServerUrl: IIIF_IMAGE_SERVER_URL,
   resourceLocation: RESOURCE_LOCATION
 }

@@ -34,7 +34,7 @@ export const Repository = (() => {
     var {   
             repositoryDomain,
             repositoryApiKey,
-            repositoryIIIFTilesource,
+            repositoryIIIFEndpoint,
             
         } = Configuration;
 
@@ -113,6 +113,7 @@ export const Repository = (() => {
     }
 
     const getItemThumbnailDatastreamUrl = (id) => {
+        // TODO By Type, use jpgs for images, /tn ds for a/v, jpg derivative if pdf.
         return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryThumbnailDatastreamEndpoint}${apiKey}`;
     }
 
@@ -120,10 +121,15 @@ export const Repository = (() => {
         return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryImageDatastreamEndpoint}${apiKey}`;
     }
 
+    const getIIIFJpgDerivativeUrl = (id) => {
+        return `${repositoryIIIFEndpoint}/${id}/full/full/0/default.jpg`;
+    }
+
     const getIIIFTilesourceUrl = (id) => {
         let url = null;
         if(id) {
-            url = repositoryIIIFTilesource.replace('{item_id}', id);
+            //url = repositoryIIIFTilesource.replace('{item_id}', id);
+            url = `${repositoryIIIFEndpoint}/${id}/info.json`;
         }
         return url;
     }
@@ -153,8 +159,8 @@ export const Repository = (() => {
                 break;
 
             case ITEM_TYPE.PDF: // pdf ds
-                //url = getItemImageDatastreamUrl(id);
-                url = getItemThumbnailDatastreamUrl(id);
+                url = getIIIFJpgDerivativeUrl(id);
+                //url = getItemThumbnailDatastreamUrl(id);
                 break;
 
             default:
