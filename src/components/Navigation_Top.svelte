@@ -64,26 +64,24 @@
 <nav class="exhibit-navigation navbar navbar-expand-lg navbar-light sticky-top" id="mainNav" bind:this={navigationElement}>
     <div class="container outer-container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <div class="collapse" id="navbarResponsive">
 
             <ul class="nav nav-link navbar-nav ms-auto">
                 {#if sectionHeadings}
                     {#each sectionHeadings as {id, text, subheadings = null}}
                         <li class="px-1" title={text}>
-                            <!-- <a class="main-menu-link" href="#{id}" on:click|preventDefault={onClickNavigationLink}>{text}</a> -->
                             <a class="main-menu-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a>
                         
-
                             {#if subheadings.length > 0}
 
                                 <ul class="dropdown-nav">
                                     {#each subheadings as {id, text}}
-                                        <!-- <li><a class="dropdown-link" href="#{id}" on:click|preventDefault={onClickNavigationLink}>{text}</a></li> -->
                                         <li><a class="dropdown-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a></li>
                                     {/each}
                                 </ul>
                             
                             {/if}
+
                         </li>
                     {/each}
                 {/if}
@@ -98,7 +96,7 @@
         color: inherit;
     }
     
-    .exhibit-navigation > div, .navbar-collapse, ul.nav, ul.nav > li, .dropdown-nav {
+    .exhibit-navigation > div, .collapse, ul.nav, ul.nav > li, .dropdown-nav {
         background-color: inherit;
     }
 
@@ -119,7 +117,7 @@
     }
 
     button.navbar-toggler {
-        margin: 0;
+        margin: 0 10px 0 0;
     }
 
     button.navbar-toggler:focus {
@@ -132,9 +130,8 @@
     }
 
     .navbar-nav a {
-        /* color: #505050; */
         padding: 8px 26px;
-        font-size: 1.2em;
+        font-size: 1em;
         font-weight: bold;
     }
 
@@ -193,5 +190,20 @@
 
     .navbar-nav > li:hover .dropdown-nav {
         display: block;
+    }
+
+    .collapse {
+        flex-basis: 100%;
+        flex-grow: 1;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-expand-lg .navbar-toggler {
+            display: block;
+        }
+
+        .navbar {
+            min-height: unset;
+        }
     }
 </style>

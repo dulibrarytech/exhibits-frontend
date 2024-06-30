@@ -75,14 +75,12 @@ button:focus {
 }
 
 main.container {
-	/* min-height: calc(100vh - (50px + 150px)); */
 	flex: 1 0 auto;
 	margin-top: 3em;
 }
 
 .outer-container {
 	margin: 0 auto;
-    width: 95vw;
 }
 
 .page {
