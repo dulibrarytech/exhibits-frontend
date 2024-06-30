@@ -45,6 +45,7 @@
 <style>
     .exhibit-heading {
         font-size: 47px; 
+        margin-top: 10px;
     }
 
     .section-heading {
