@@ -35,7 +35,6 @@
 
 <div class="exhibit-page" bind:this={pageElement}  style="position: relative">
     {#if template}
-        <div class="page-top">
             <Hero {data} {styles} />
 
             <Navigation_Top {sections} styles={styles?.navigation || null} />
@@ -43,11 +42,8 @@
             {#if data.description}
                 <Exhibit_Description content={data.description} />
             {/if}
-        </div>
 
-        <div class="page-template">
             <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
-        </div>
     {:else}
         <h3>Loading template...</h3>
     {/if}
