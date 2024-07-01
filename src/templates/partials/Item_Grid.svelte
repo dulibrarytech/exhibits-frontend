@@ -109,6 +109,10 @@
         padding-bottom: 45px;
     }
 
+    .title-heading {
+        text-transform: uppercase;
+    }
+
     .anchor-offset {
         position: relative;
         top: -120px;

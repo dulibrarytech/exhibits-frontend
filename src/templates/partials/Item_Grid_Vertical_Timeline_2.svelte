@@ -268,6 +268,10 @@
     =====
     */
 
+    .title-heading {
+        text-transform: uppercase;
+    }
+
     .timeline-wrapper {
         margin: 0 auto;
         width: 80%;

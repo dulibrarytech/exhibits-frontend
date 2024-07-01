@@ -56,6 +56,7 @@
     .section-heading h3 {
         margin-bottom: 0;
         font-size: inherit;
+        text-transform: uppercase;
     }
 
     .anchor-offset {

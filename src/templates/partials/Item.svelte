@@ -209,6 +209,10 @@
         height: 100%;
     }
 
+    .title-heading {
+        text-transform: uppercase;
+    }
+
     .media {
         margin-bottom: 55px;
     }
