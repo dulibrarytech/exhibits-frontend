@@ -20,7 +20,7 @@
 		date = item.date || null;
 
 		if(item.text) item.text = stripHtmlTags(item.text);
-		else item.text = item.caption || "No text available";
+		else item.text = item.description || item.caption || "No text available";
 	}
 </script>
 
