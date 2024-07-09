@@ -31,33 +31,19 @@
     const dispatch = createEventDispatcher();
 
     const init = () => {
-        let {uuid} = grid;
-        let gridStyles;
-
         columns = grid.columns || "2";
         title = grid.title || null;
         items = grid.items || [];
-
-        try {
-            gridStyles = grid.styles.item_grid || {};
-        }
-        catch(error) {
-            console.error(`Error loading grid styles: ${error}; uuid: ${uuid}`);
-        }
-
-        styles = {
-            grid: gridStyles,
-            heading: templateStyles.heading || null
-        }
+        styles = grid.styles || {};
 
         render();
     }
 
-    const setTheme = ({grid = {}, heading = null}) => {
-        Object.assign(gridElement.style, grid);
+    const setTheme = ({item_grid = {}, heading = null}) => {
+        Object.assign(gridElement.style, item_grid);
 
         if(titleElement && heading) {
-            titleElement.style.fontFamily = heading.fontFamily || 'inherit';
+            titleElement.style.fontFamily = templateStyles.heading || heading.fontFamily || 'inherit';
         }
     }
 

@@ -67,6 +67,7 @@
 
         if(titleElement) {
             titleElement.style.fontFamily = heading.fontFamily || 'inherit';
+            //titleElement.style.color = heading.color || 'inherit';
         }
     }
 
