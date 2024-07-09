@@ -39,7 +39,7 @@
         items = grid.items || [];
 
         try {
-            gridStyles = JSON.parse(grid.styles).item_grid || {};
+            gridStyles = grid.styles.item_grid || {};
         }
         catch(error) {
             console.error(`Error loading grid styles: ${error}; uuid: ${uuid}`);

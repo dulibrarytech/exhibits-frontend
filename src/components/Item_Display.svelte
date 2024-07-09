@@ -27,16 +27,8 @@
     const init = () => {
         if(item) {
 
-            isRepoItem = (is_repo_item == true); // UPDATE
+            isRepoItem = (is_repo_item == true);
             renderItem = (is_published || role == USER_ROLE.ADMIN);
-
-            try {
-                // TODO find out if this should be string or object by default, remove the 'typeof' condition
-                if(item?.styles && typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
-            }
-            catch(error) {
-                console.error(`Error loading item styles: ${error}; uuid: ${uuid}`);
-            }
 
             if(templateStyles?.heading && item.styles) item.styles['heading'] = templateStyles.heading;
         }

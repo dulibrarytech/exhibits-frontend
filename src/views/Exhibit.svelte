@@ -77,7 +77,11 @@
         }
         else {
             console.log("Retrieving items...");
-            items = exhibit.items || [];
+            items = exhibit.items.map((item) => {
+                if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
+                return item;
+
+            }) || [];
             if(items.length == 0) console.log("No items found");
 
             console.log("Creating page sections...");
@@ -114,6 +118,7 @@
         let headings = [];
         let heading = null;
         let subheading = null;
+        let sectionStyles = null;
 
         for(let index in items) {
             let item = items[index];
@@ -132,6 +137,8 @@
                 }
 
                 item.anchorId = heading.id;
+
+                if(item.styles) sectionStyles = item.styles; // use heading styles for current section
             }
 
             // If this item is in a heading section, and it has a title, add a subheading
@@ -143,7 +150,10 @@
                 }
 
                 heading.subheadings.push(subheading);
+
                 item.anchorId = subheading.id;
+
+                if(sectionStyles) item.styles['heading'] = sectionStyles;
             }
 
             // End case: push current heading to the headings array if this is the last item in the exhibit
