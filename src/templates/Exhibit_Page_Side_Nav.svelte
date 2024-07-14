@@ -6,6 +6,7 @@
     import Hero from './Hero.svelte';
     import Navigation_Side from '../components/Navigation_Side.svelte';
     import Exhibit_Description from './partials/Exhibit_Description.svelte';
+    import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
 
     export let data = {};
     export let template = null;
@@ -69,6 +70,8 @@
                 </div>
             </div>
         </div>
+
+        <Exhibit_Thank_You />
 
     {:else}
         <h3>Loading template...</h3>
