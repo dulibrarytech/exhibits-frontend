@@ -39,8 +39,8 @@
         render();
     }
 
-    const setTheme = ({item_grid = {}, heading = null}) => {
-        Object.assign(gridElement.style, item_grid);
+    const setTheme = ({item = {}, heading = null}) => {
+        Object.assign(gridElement.style, item);
 
         if(titleElement && heading) {
             titleElement.style.fontFamily = templateStyles.heading || heading.fontFamily || 'inherit';

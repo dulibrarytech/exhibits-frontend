@@ -35,7 +35,7 @@
         sections = sortItemsToYearSections(items);
 
         try {
-            gridStyles = grid.styles.item_grid || {};
+            gridStyles = grid.styles.item || {};
         }
         catch(error) {
             console.error(`Error loading grid styles: ${error}; uuid: ${uuid}`);

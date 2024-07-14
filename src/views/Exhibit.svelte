@@ -141,19 +141,27 @@
                 if(item.styles) sectionStyles = item.styles; // use heading styles for current section
             }
 
-            // If this item is in a heading section, and it has a title, add a subheading
-            else if(heading && title) {
+            if(type == ENTITY_TYPE.ITEM || type == ENTITY_TYPE.GRID || type == ENTITY_TYPE.VERTICAL_TIMELINE_2) {
 
-                subheading = {
-                    id: getHtmlIdString(title),
-                    text: stripHtmlTags(title)
+                // If this item is in a heading section, and it has a title, add a subheading
+                if(heading && title) {
+                    subheading = {
+                        id: getHtmlIdString(title),
+                        text: stripHtmlTags(title)
+                    }
+
+                    heading.subheadings.push(subheading);
+                    item.anchorId = subheading.id;
                 }
 
-                heading.subheadings.push(subheading);
-
-                item.anchorId = subheading.id;
-
-                if(sectionStyles) item.styles['heading'] = sectionStyles;
+                // TEST this should add heading styles, and item sub object to all non-heading items (items,grids) test log "items" in vscroll template
+                let styles = {
+                    item: item.styles
+                }
+                if(sectionStyles) {
+                    styles.heading = sectionStyles;
+                }
+                item.styles = styles;
             }
 
             // End case: push current heading to the headings array if this is the last item in the exhibit
