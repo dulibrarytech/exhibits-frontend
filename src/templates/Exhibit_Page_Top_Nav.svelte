@@ -6,6 +6,7 @@
     import Navigation_Top from '../components/Navigation_Top.svelte';
     import Exhibit_Description from './partials/Exhibit_Description.svelte';
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
+    import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
 
     export let data = {};
     export let template = null;
@@ -47,6 +48,8 @@
             <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
 
             <Exhibit_Thank_You />
+
+            <Repository_Related_Items {items} />
     {:else}
         <h3>Loading template...</h3>
     {/if}

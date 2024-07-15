@@ -7,6 +7,7 @@
     import Navigation_Side from '../components/Navigation_Side.svelte';
     import Exhibit_Description from './partials/Exhibit_Description.svelte';
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
+    import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
 
     export let data = {};
     export let template = null;
@@ -72,6 +73,8 @@
         </div>
 
         <Exhibit_Thank_You />
+
+        <Repository_Related_Items {items} />
 
     {:else}
         <h3>Loading template...</h3>

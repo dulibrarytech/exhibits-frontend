@@ -33,8 +33,9 @@
 
         try {
             let data = await Repository.getItemData(repositoryItemId);
-            console.log("Successfully retrieved item data", item);
+            console.log("Successfully retrieved repository item data", data);
             repositoryItem = structuredClone(item);
+            repositoryItem['pid'] = repositoryItemId;
 
             // set the exhibit item type to the repository item type
             let repoItemType = getItemTypeForMimeType( data[MIME_TYPE_FIELD] || "unknown_repository_type" );

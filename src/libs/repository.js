@@ -20,6 +20,7 @@
  */
 
 'use strict'
+
 import axios from 'axios';
 
 import { Configuration } from '../config/config.js';
@@ -170,6 +171,31 @@ export const Repository = (() => {
         return url;
     }
 
+    const getLinkToItem = (id) => {
+        return `${repositoryDomain}/object/${id}`;
+    }
+
+    const searchRepository = async (queryData = {}) => {
+        let results = [];
+
+        let { 
+            query = "", 
+            facets = null 
+
+        } = queryData;
+
+        let queryString = `q=${query}`;
+
+        for(let key in facets) {
+            queryString = queryString.concat(`&f[${key}][]=${facets[key].replace(/ /g, '+')}`);
+        }
+
+        let url = `${repositoryDomain}/repository/search?${queryString}`;
+        results = await axios.get(url);
+
+        return results;
+    }
+
     return {
         getItemData,
         getItemDatastream,
@@ -177,6 +203,8 @@ export const Repository = (() => {
         getItemThumbnailDatastreamUrl,
         getItemImageDatastreamUrl,
         getIIIFTilesourceUrl,
-        getPreviewImageUrl
+        getPreviewImageUrl,
+        getLinkToItem,
+        searchRepository
     };
 })()
