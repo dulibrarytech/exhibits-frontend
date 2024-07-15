@@ -5,7 +5,7 @@
    export let items = [];
 
    let repositoryItemIds = [];
-   let relatedItems = null;
+   let relatedItemsDisplay = null;
 
    const REPOSITORY_ITEM_COUNT = 4;
    const RELATED_ITEM_COUNT = 4;
@@ -21,7 +21,9 @@
          if(repositoryItemIds.length >= REPOSITORY_ITEM_COUNT) break;
       }
 
-      relatedItems = await getRelatedItems(repositoryItemIds);
+      relatedItemsDisplay = await getRelatedItems(repositoryItemIds);
+
+      console.log("TEST related items display:", relatedItemsDisplay)
    }
 
    const render = () => {
@@ -32,6 +34,7 @@
       let items = [];
       let itemData = {};
       let itemDisplayData = null;
+      let relatedItems = [];
       let subject = "";
       let subjectData = {};
 
@@ -91,19 +94,109 @@
 
 <div class="repository-related-items">
 
-   {#if relatedItems}
+   {#if relatedItemsDisplay}
+      <div class="item-container">
+         
+         {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems}}
 
-      <div class="items">
-         related items
+            <div class="item shadow-wrapper">
+               <div class="item-content">
+                  <h2>Seen in the exhibit</h2>
+
+                  <div class="item-preview">
+                     <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+                  </div>
+
+                  <h3>Explore similar collections</h3>
+                  <h4>Subject: {subject}</h4>
+
+                  <div class="related-items">
+
+                     {#each relatedItems as {thumbnail, title}}
+
+                        <div class="related-item-preview">
+                           <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+                        </div>
+
+                     {/each}
+
+                  </div>
+               </div>
+            </div>
+
+         {/each}
+
       </div> 
 
-   {/if}
+   {:else}
+      <h3>Loading...</h3>
 
+   {/if}
 </div>
 
 <style>
    .repository-related-items {
       padding: 2.5em;
       background-color: white;
+   }
+
+   .item-container {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;
+      row-gap: 12px;
+   }
+
+   .item {
+      width: 100%;
+      text-align: center;
+      border-style: solid;
+      border-color: #e5e3e1;
+      border-radius: 25px;
+   }
+
+   .item-content {
+      padding: 12px;
+   }
+
+   .related-items {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;
+      row-gap: 32px;
+   }
+
+   .item-preview {
+      width: 80%;
+      margin: 0 auto;
+   }
+
+   .related-item-preview {
+      width: 40.5%;
+   }
+
+   img {
+      width: 100%;
+      height: 100%;
+   }
+
+   @media screen and (min-width: 480px) {
+      .item {
+         width: 48.5%;
+      }
+   }
+
+   @media screen and (min-width: 768px) {
+      .item {
+         width: 30.5%;
+      }
+   }
+
+   @media screen and (min-width: 992px) {
+      .item {
+         width: 23.5%;
+      }
    }
 </style>
