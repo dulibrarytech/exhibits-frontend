@@ -1,6 +1,7 @@
 <script>
    import { onMount } from 'svelte';
    import { Repository } from '../libs/repository';
+   import { getRandomNumberArray } from '../libs/data_helpers';
 
    export let items = [];
 
@@ -15,15 +16,24 @@
 
    const init = async () => {
 
-      for(let item of items) {
-         if(item.is_repo_item) repositoryItemIds.push(item.media);
+      let repositoryItems = items.filter((item) => {
+         return item.is_repo_item == 1;
+      });
 
-         if(repositoryItemIds.length >= REPOSITORY_ITEM_COUNT) break;
+      if(REPOSITORY_ITEM_COUNT < repositoryItems.length) {
+         let randomNumbers = getRandomNumberArray(REPOSITORY_ITEM_COUNT, repositoryItems.length-1);
+         
+         for(let index of randomNumbers) {
+            repositoryItemIds.push(repositoryItems[index].media);
+         }
+      }
+      else {
+         for(let item of repositoryItems) {
+            repositoryItemIds.push(item.media);
+         }
       }
 
       relatedItemsDisplay = await getRelatedItems(repositoryItemIds);
-
-      console.log("TEST related items display:", relatedItemsDisplay)
    }
 
    const render = () => {
@@ -50,11 +60,11 @@
          }
 
          if(itemData) {
+            relatedItems = []
+
             itemDisplayData.title = itemData.title || "Untitled Item";
             itemDisplayData.link = Repository.getLinkToItem(id);
             itemDisplayData.thumbnail = Repository.getItemThumbnailDatastreamUrl(id);
-
-            relatedItems = []
 
             subjectData = itemData[METADATA_FIELD][SUBJECT_FIELD];
             subject = (typeof subjectData == 'string') ? subjectData[SUBJECT_SUBFIELD] : subjectData[0][SUBJECT_SUBFIELD];
@@ -66,14 +76,25 @@
                }
             });
 
-            for(let result of results.data) {
-               relatedItems.push({
-                  title: result.title || "Untitled",
-                  link: Repository.getLinkToItem(result.pid),
-                  thumbnail: result.tn || "null"
-               });
-
-               if(relatedItems.length >= RELATED_ITEM_COUNT) break;
+            if(RELATED_ITEM_COUNT < results.length) {
+               let randomNumbers = getRandomNumberArray(RELATED_ITEM_COUNT, results.length-1);
+               
+               for(let index of randomNumbers) {
+                  relatedItems.push({
+                     title: results[index].title || "Untitled",
+                     link: Repository.getLinkToItem(results[index].pid),
+                     thumbnail: results[index].tn || "null"
+                  });
+               }
+            }
+            else {
+               for(let result of results) {
+                  relatedItems.push({
+                     title: result.title || "Untitled",
+                     link: Repository.getLinkToItem(result.pid),
+                     thumbnail: result.tn || "null"
+                  });
+               }
             }
 
             itemDisplayData.relatedItems = relatedItems;
@@ -97,29 +118,34 @@
    {#if relatedItemsDisplay}
       <div class="item-container">
          
-         {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems}}
+         {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems, link}}
 
             <div class="item shadow-wrapper">
                <div class="item-content">
-                  <h2>Seen in the exhibit</h2>
+                  <h3>Seen in the exhibit</h3>
 
                   <div class="item-preview">
-                     <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+                     <a href={link} target="_blank">
+                        <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+                     </a>
                   </div>
 
-                  <h3>Explore similar collections</h3>
-                  <h4>Subject: {subject}</h4>
+                  <h4>Explore similar collections</h4>
+
+                  <!-- TEMP - remove -->
+                  <span style="color: grey"><h6>Subject: {subject}</h6></span>
+                  <!-- end TEMP - remove -->
 
                   <div class="related-items">
-
-                     {#each relatedItems as {thumbnail, title}}
+                     {#each relatedItems as {thumbnail, title, link}}
 
                         <div class="related-item-preview">
-                           <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+                           <a href={link} target="_blank">
+                              <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+                           </a>
                         </div>
 
                      {/each}
-
                   </div>
                </div>
             </div>
@@ -157,7 +183,7 @@
    }
 
    .item-content {
-      padding: 12px;
+      padding: 38px 12px;
    }
 
    .related-items {
@@ -166,11 +192,12 @@
       flex-direction: row;
       justify-content: space-between;
       row-gap: 32px;
+      margin-top: 25px;
    }
 
    .item-preview {
       width: 80%;
-      margin: 0 auto;
+      margin: 25px auto 60px auto;
    }
 
    .related-item-preview {
@@ -179,7 +206,6 @@
 
    img {
       width: 100%;
-      height: 100%;
    }
 
    @media screen and (min-width: 480px) {

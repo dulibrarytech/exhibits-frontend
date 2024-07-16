@@ -35,6 +35,7 @@
     "object-in-queryparams": "^1.0.2",
     "openseadragon": "^3.1.0",
     "path": "^0.12.7",
+    "random-int": "^3.0.0",
     "sanitize-html": "^2.11.0",
     "sirv-cli": "^1.0.0",
     "stopword": "^3.0.1",

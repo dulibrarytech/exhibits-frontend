@@ -29,6 +29,7 @@ import { Settings } from '../config/settings.js';
 import sanitizeHtml from 'sanitize-html';
 import { stripHtml } from "string-strip-html";
 import { encode, decode } from 'html-entities';
+import randomInteger from 'random-int';
 
 /**
  * Find an item by id
@@ -172,4 +173,31 @@ export const sanitizeObjectData = (object) => {
     });
 
     return object;
+}
+
+/**
+ * 
+ * 
+ * @param {Number} count - int - size of random number array
+ * @param {Number} max - int - size of random number array
+ * 
+ * @returns - random number array of size {count}, random numbers are between 0 and {max}
+ */
+export const getRandomNumberArray = (count=0, max=0) => {
+    let randomNumbers = [];
+
+    if(count < max) {
+        let randomInt;
+
+        while(count > 0) {
+            randomInt = randomInteger(max);
+            
+            if(randomNumbers.includes(randomInt) == false) {
+                randomNumbers.push(randomInt)
+                count--;
+            }   
+        }
+    }
+
+    return randomNumbers;
 }

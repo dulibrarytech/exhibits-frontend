@@ -29,6 +29,8 @@ import { getItemTypeForMimeType } from '../libs/media_helpers';
 
 import {ITEM_TYPE} from '../config/global-constants';
 
+const SEARCH_RESULT_PAGE_SIZE = 30;
+
 let apiKey = "";
 
 export const Repository = (() => {
@@ -176,6 +178,9 @@ export const Repository = (() => {
     }
 
     const searchRepository = async (queryData = {}) => {
+
+        console.log("TEST searchrepo queryData:", queryData)
+
         let results = [];
 
         let { 
@@ -187,13 +192,15 @@ export const Repository = (() => {
         let queryString = `q=${query}`;
 
         for(let key in facets) {
-            queryString = queryString.concat(`&f[${key}][]=${facets[key].replace(/ /g, '+')}`);
+            queryString = queryString.concat(`&f[${key}][]=${facets[key].replace(/ /g, '+')}&pageSize=${SEARCH_RESULT_PAGE_SIZE}`);
         }
 
         let url = `${repositoryDomain}/repository/search?${queryString}`;
         results = await axios.get(url);
 
-        return results;
+        console.log("TEST searchrepo results:", results)
+
+        return results.data;
     }
 
     return {
