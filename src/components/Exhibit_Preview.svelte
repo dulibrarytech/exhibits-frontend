@@ -50,7 +50,7 @@
 
 <div class="exhibit-preview">
     {#if exhibitPath}
-        <a href={exhibitPath} bind:this={titleTextElement}>
+        <a href={exhibitPath} bind:this={titleTextElement}> 
             <div class="exhibit-thumbnail">
                 <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE)}';" />
             </div>

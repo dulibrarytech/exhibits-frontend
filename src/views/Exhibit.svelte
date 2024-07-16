@@ -5,8 +5,8 @@
     import { Index } from '../libs/index.js';
     import { getItemById, getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
     import { Fonts } from '../config/fonts'; 
-    import { ENTITY_TYPE, USER_ROLE } from '../config/global-constants';
-    import { validateApiKey } from '../libs/validation';
+    import { ENTITY_TYPE } from '../config/global-constants';
+    import { isAdmin, getUserRole } from '../libs/validation';
 
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
@@ -18,11 +18,11 @@
 
     export let currentRoute;
 
-    // TODO remove defs from this section
+    let apiKey;
+
     let id;
     let userRole;
     let exhibit = {};
-    let isPublished;
     let template = null;
     let styles = null;
     let pageLayout = null; 
@@ -37,8 +37,8 @@
     const FONT_LOCATION = "../assets/fonts";  // TODO load DU brand fonts
 
     const init = async () => {
-        let key = currentRoute.queryParams.key || null;
-        userRole = key ? getUserRole(key) : USER_ROLE.STANDARD;
+        apiKey = currentRoute.queryParams.key || null;
+        userRole = getUserRole(apiKey);
 
         id = currentRoute.namedParams.id ?? "null";
         console.log(`Loading exhibit... ID: ${id}`);
@@ -55,8 +55,7 @@
             console.error(`Error loading exhibit styles: ${error}`);
         }
 
-        isPublished = data.is_published || 0; 
-        if(isPublished || userRole == USER_ROLE.ADMIN) {
+        if(data.is_published || isAdmin(apiKey)) {
             render();
         }
         else window.location.replace('/404');
@@ -217,16 +216,6 @@
         console.log("Mount exhibit page");
         let hash = location.hash?.replace('#', '') || false;
         if(hash) openViewerModal(hash);
-    }
-
-    // TODO move to external
-    const getUserRole = (key) => {
-        let role;
-
-        if(validateApiKey(key)) role = USER_ROLE.ADMIN;
-        else role = USER_ROLE.STANDARD;
-
-        return role;
     }
 
     onMount(async () => {

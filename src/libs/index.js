@@ -11,6 +11,7 @@ import { URLQueryParams } from "object-in-queryparams";
  * Fetches data from test data server
  */
 export const Index = (() => {
+
     const API_DOMAIN = Configuration.exhibitsApiDomain;
     const EXHIBIT_ENDPOINT = API_DOMAIN + '/exhibit';
     const SEARCH_ENDPOINT = API_DOMAIN + '/search';
@@ -22,7 +23,7 @@ export const Index = (() => {
      * 
      * @returns {Object} exhibits - array of all exhibits
      */
-    const getExhibits = async (isAdmin = false) => {
+    const getExhibits = async () => {
         let exhibits = [];
         
         try {
@@ -30,12 +31,6 @@ export const Index = (() => {
             exhibits = data;
 
             sanitizeObjectData(exhibits);
-
-            if(isAdmin != true) {
-                exhibits = exhibits.filter((exhibit) => {
-                    return exhibit.is_published || false;
-                });
-            }
         }
         catch(e) {
             console.error(`Error fetching exhibits. Server: '${EXHIBIT_ENDPOINT}': ${e}`);

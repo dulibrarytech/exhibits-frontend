@@ -1,5 +1,7 @@
 <!-- homepage option with no hero image -->
 
+<!-- *** main landing page - if more options for the home page template are required, create a reduced "Home_n" template (view render only, no logic), and reuse all other code in this module -->
+
 <script>
     'use strict'
 
@@ -15,6 +17,8 @@
 
     export let currentRoute;
 
+    let apiKey;
+
     let exhibits = null;
     let featuredExhibits = null;
     let recentExhibits = null;
@@ -25,14 +29,20 @@
     var message = "";
     
     const init = async () => {
-        if(currentRoute.name == "/") navigateTo('exhibits');
+        apiKey = currentRoute.queryParams.key || null;
+
+        searchFields = Object.keys(Settings.searchFields);
 
         message = "Retrieving exhibits...";
-        searchFields = Object.keys(Settings.searchFields);
-        
         exhibits = await Index.getExhibits();
         if(exhibits) {
+            
+            exhibits = exhibits.filter((exhibit) => {
+                return exhibit.is_published || false;
+            });
+
             Cache.storeExhibits(exhibits);
+
             render();
         }
         else message = "Error retrieving exhibits";
@@ -147,6 +157,10 @@
         /* float: right; */
         position: relative;
         top: 14px;
+    }
+
+    .preview-section {
+        margin-bottom: 65px;
     }
 
     :global(.exhibits-search > .container) {
