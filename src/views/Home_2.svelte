@@ -1,5 +1,7 @@
 <!-- homepage option with fullwidth hero image -->
 
+<!-- *** NEEDS UPDATE *** refer to Home_3.svelte, the current homepage -->
+
 <script>
     import { onMount } from 'svelte';
     import { Index } from '../libs/index.js';

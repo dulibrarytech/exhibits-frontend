@@ -4,6 +4,7 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import { navigateTo } from 'svelte-router-spa'
     import { Index } from '../libs/index.js';
     import { Settings } from '../config/settings.js';
     import { stripHtmlTags } from '../libs/data_helpers';
@@ -11,6 +12,8 @@
 
     import Search_Box from '../components/Search_Box.svelte';
     import Exhibit_Preview_Grid from '../templates/Exhibit_Preview_Grid.svelte';
+
+    export let currentRoute;
 
     let exhibits = null;
     let featuredExhibits = null;
@@ -22,6 +25,8 @@
     var message = "";
     
     const init = async () => {
+        if(currentRoute.name == "/") navigateTo('exhibits');
+
         message = "Retrieving exhibits...";
         searchFields = Object.keys(Settings.searchFields);
         
