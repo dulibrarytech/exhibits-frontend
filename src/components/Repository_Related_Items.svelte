@@ -2,6 +2,7 @@
    import { onMount } from 'svelte';
    import { Repository } from '../libs/repository';
    import { getRandomNumberArray } from '../libs/data_helpers';
+   import {ENTITY_TYPE, ITEM_GRIDS} from '../config/global-constants';
 
    export let items = [];
 
@@ -15,30 +16,48 @@
    const SUBJECT_SUBFIELD = "title"
 
    const init = async () => {
-
-      let repositoryItems = items.filter((item) => {
-         return item.is_repo_item == 1;
-      });
+      
+      let repositoryItems = getRepositoryItems(items);
 
       if(REPOSITORY_ITEM_COUNT < repositoryItems.length) {
+
+         // get a set of randomly selected repository items
          let randomNumbers = getRandomNumberArray(REPOSITORY_ITEM_COUNT, repositoryItems.length-1);
-         
          for(let index of randomNumbers) {
             repositoryItemIds.push(repositoryItems[index].media);
          }
       }
       else {
+
+         // add all of the repository items to the set
          for(let item of repositoryItems) {
             repositoryItemIds.push(item.media);
          }
       }
 
+      // get the display data for the repository items 
       relatedItemsDisplay = await getRelatedItems(repositoryItemIds);
    }
 
-   const render = () => {
-      //console.log("TEST RRI render(): relatedItems:", relatedItems)
+   const getRepositoryItems = (items) => {
+      let repositoryItems = [];
+
+      for(let item of items) {
+
+         // get the repository items from the nested grid items
+         if(ITEM_GRIDS.includes(item.type)) {
+            repositoryItems = repositoryItems.concat( getRepositoryItems(item.items) );
+         }
+
+         else if(item.type == ENTITY_TYPE.ITEM) {
+            if(item.is_repo_item) repositoryItems.push(item);
+         }
+      }
+
+      return repositoryItems;
    }
+
+   const render = () => {}
 
    const getRelatedItems = async (repositoryItemIds = []) => {
       let items = [];
