@@ -35,8 +35,8 @@
 
         message = "Retrieving exhibits...";
         exhibits = await Index.getExhibits();
+
         if(exhibits) {
-            
             exhibits = exhibits.filter((exhibit) => {
                 return exhibit.is_published || false;
             });
@@ -94,6 +94,7 @@
     }
 
     onMount(async () => {
+        if(currentRoute.path == '/') navigateTo('/exhibits');
         init();
     });
 </script>
