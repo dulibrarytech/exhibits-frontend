@@ -178,9 +178,6 @@ export const Repository = (() => {
     }
 
     const searchRepository = async (queryData = {}) => {
-
-        console.log("TEST searchrepo queryData:", queryData)
-
         let results = [];
 
         let { 
@@ -197,8 +194,6 @@ export const Repository = (() => {
 
         let url = `${repositoryDomain}/repository/search?${queryString}`;
         results = await axios.get(url);
-
-        console.log("TEST searchrepo results:", results)
 
         return results.data;
     }
