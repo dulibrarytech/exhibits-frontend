@@ -1,7 +1,6 @@
 <script>
     'use-strict'
 
-    import { onMount } from 'svelte';
     import { Index } from '../libs/index.js';
     import { getItemById, getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
     import { Fonts } from '../config/fonts'; 
@@ -22,21 +21,35 @@
 
     let id;
     let userRole;
-    let exhibit = {};
-    let template = null;
-    let styles = null;
-    let pageLayout = null; 
-    let sections = null;
-    let items = null;
-    let data = null;
-    let modalDialog = null;
-    let modalDialogData = null;
+    let exhibit;
+    let template;
+    let styles;
+    let pageLayout; 
+    let sections;
+    let items;
+    let data;
+    let modalDialog;
+    let modalDialogData;
+    let isExhibitVisible;
+    let isMessageVisible;
 
-    var renderPage = false;
+    let renderPage = false;
 
     const FONT_LOCATION = "../assets/fonts";  // TODO load DU brand fonts
 
     const init = async () => {
+        exhibit = {};
+        template = null;
+        styles = null;
+        pageLayout = null; 
+        sections = null;
+        items = null;
+        data = null;
+        modalDialog = null;
+        modalDialogData = null;
+        isExhibitVisible = false;
+        isMessageVisible = true;
+
         apiKey = currentRoute.queryParams.key || null;
         userRole = getUserRole(apiKey);
 
@@ -213,46 +226,67 @@
     }
 
     const onMountPage = (event) => {
-        console.log("Mount exhibit page");
+        console.log("Mounted exhibit page");
         let hash = location.hash?.replace('#', '') || false;
         if(hash) openViewerModal(hash);
     }
 
-    onMount(async () => {
-        init();
-    });
+    const onMountItems = () => {
+        console.log("Mounted exhibit items");
+        isExhibitVisible = true;
+        isMessageVisible = false;
+    }
+
+    init();
 </script>
 
 {#if renderPage}
-    <!-- <Exhibit_Menu {exhibit} on:click-menu-link={openPageModal}  /> -->
 
-    <div class="exhibit-menubar row">
-        <div class="col-md-6 col-lg-8 col-xl-9">
-            <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
-        </div>
-        <div class="col-md-6 col-lg-4 col-xl-3 exhibit-search">
-            <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
+    <div class="exhibit-wrapper">
+        <div class="load-message" style="display: {isMessageVisible ? 'block' : 'none'}"><h3>Please wait...</h3></div>
+
+        <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
+
+            <div class="exhibit-menubar row">
+                <div class="col-md-6 col-lg-8 col-xl-9">
+                    <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-3 exhibit-search">
+                    <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
+                </div>
+            </div>
+        
+            <!-- exhibit page -->
+            <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} on:mount={onMountPage} on:mount-items={onMountItems} on:click-item={onOpenViewerModal} /> <!-- args.key -->
+        
+            {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
+        
         </div>
     </div>
 
-    <!-- exhibit page -->
-    <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} on:mount={onMountPage} on:click-item={onOpenViewerModal} /> <!-- args.key -->
-
-    {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
-{:else}
-    <div class="container page"><h3>Loading exhibit...</h3></div>
 {/if}
 
 <style>
+    .load-message {
+        position: relative;
+        left: 70px;
+        top: 50px;
+    }
+
+    .exhibit-wrapper {
+        background: darkgray;
+    }
+
     :global(body.modal-open) {
 		height: 100vh;
 		overflow-y: hidden;
-		padding-right: 15px; /* Avoid width reflow */
+		padding-right: 15px;
 	}
 
     .exhibit-menubar {
         display: flex;
         padding: 0 1rem;
+        background: white;
     }
 
     .exhibit-search {

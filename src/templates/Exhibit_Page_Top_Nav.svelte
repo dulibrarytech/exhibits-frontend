@@ -28,6 +28,7 @@
 
     const onMountItems = () => {
         if(styles.template) setTheme(styles.template);
+        dispatch('mount-items', {});
     }
 
     onMount(async () => {
