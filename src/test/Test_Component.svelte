@@ -14,6 +14,7 @@
     import Vertical_Scroll_test from './components/Vertical_Scroll_test.svelte';
     import Vertical_Timeline_test from './components/Vertical_Timeline_test.svelte';
     import Repository_Related_Items_test from './components/Repository_Related_Items_test.svelte';
+    import PDFJS_Viewer_test from './components/PDFJS_Viewer_test.svelte';
 
     export let currentRoute;
 
@@ -29,7 +30,8 @@
         Video_Player_test,
         Vertical_Scroll_test,
         Vertical_Timeline_test,
-        Repository_Related_Items_test
+        Repository_Related_Items_test,
+        PDFJS_Viewer_test
     }
 
     let component;

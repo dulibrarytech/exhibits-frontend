@@ -10,6 +10,7 @@
     import Audio_Player from './Audio_Player.svelte';
     import Video_Player from './Video_Player.svelte';
     import PDF_Viewer from './PDF_Viewer.svelte';
+    import PDFJS_Viewer from './PDFJS_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
     import {ITEM_TYPE, VIEWER_TYPE} from '../config/global-constants';
@@ -160,7 +161,7 @@
         let url = resource;
 
         params = {url, caption}; 
-        component = PDF_Viewer;
+        component = PDFJS_Viewer;
     }
 
     const renderIframeViewer = () => {

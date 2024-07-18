@@ -16,7 +16,7 @@
     <div class="pdf-content">
         {#if url}
             <!-- <iframe src={url} title={caption} />  -->
-            <object data={url} type="application/pdf" width="100%" height="100%"></object>
+            <object data={url} type="application/pdf" title={caption} width="100%" height="100%"></object>
         {:else}
             <h6>Loading pdf content...</h6>
         {/if}
