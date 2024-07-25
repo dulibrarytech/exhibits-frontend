@@ -8,15 +8,17 @@
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
     import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
 
-    export let data = {};
+    export let data = null;
     export let template = null;
     export let sections = [];
-    export let items = [];
+    export let items = null;
     export let styles = null;
 
     export let args = {};
 
     let pageElement;
+    let renderTemplate = false;
+    let templateMessage = null;
 
     const dispatch = createEventDispatcher();
 
@@ -32,12 +34,19 @@
     }
 
     onMount(async () => {
-        dispatch('mount', {});
+        if(items.length > 0) {
+            renderTemplate = true;
+            dispatch('mount', {});
+        }
+        else {
+            templateMessage = "No items found";
+            dispatch('mount-items', {});
+        }
     });
 </script>
 
 <div class="exhibit-page" bind:this={pageElement}  style="position: relative">
-    {#if template}
+    {#if data}
             <Hero {data} {styles} />
 
             <Navigation_Top {sections} styles={styles?.navigation || null} />
@@ -46,7 +55,11 @@
                 <Exhibit_Description content={data.description} />
             {/if}
 
-            <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
+            {#if renderTemplate}
+                <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
+            {:else if templateMessage}
+                <div class="template-message"><h3>{templateMessage}</h3></div>
+            {/if}
 
             <Exhibit_Thank_You />
 
@@ -57,5 +70,10 @@
 </div>
 
 <style>
-
+    .template-message {
+        background-color: white;
+        padding: 50px;
+        text-align: center;
+        color: black;
+    }
 </style>

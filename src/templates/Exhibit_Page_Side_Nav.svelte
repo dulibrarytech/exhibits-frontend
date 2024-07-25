@@ -20,6 +20,8 @@
     let menuButtonDisplay = "none";
     let pageElement;
     let navigationSidebarElement;
+    let renderTemplate = false;
+    let templateMessage = null;
 
     const dispatch = createEventDispatcher();
 
@@ -38,10 +40,18 @@
 
     const onMountItems = () => {
         if(styles) setTheme(styles); // pass in styles, separate templ/menu in f()
+        dispatch('mount-items', {});
     }
 
     onMount(async () => {
-        dispatch('mount', {});
+        if(items.length > 0) {
+            renderTemplate = true;
+            dispatch('mount', {});
+        }
+        else {
+            templateMessage = "No items found";
+            dispatch('mount-items', {});
+        }
     });
 </script>
 
@@ -67,7 +77,12 @@
                 <div class="col">
                     <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay};" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
                     
-                    <svelte:component this={template} {sections} {items} {args} {styles} on:click-item on:mount-items={onMountItems} />
+                    <!-- <svelte:component this={template} {sections} {items} {args} {styles} on:click-item on:mount-items={onMountItems} /> -->
+                    {#if renderTemplate}
+                        <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
+                    {:else if templateMessage}
+                        <div class="template-message"><h3>{templateMessage}</h3></div>
+                    {/if}
                 </div>
             </div>
         </div>
