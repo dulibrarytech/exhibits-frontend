@@ -22,7 +22,8 @@
 </script>
 
 <div class="banner">
-    <section class="hero-image"></section>
+    <!-- <section class="hero-image"></section> -->
+    <img src={image} alt={title} title={title} />
 </div>
 
 <style>
@@ -31,10 +32,10 @@
         height: 50%
     }
 
-    .hero-image {
+    /* .hero-image {
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         position: relative;
-    }
+    } */
 </style>
