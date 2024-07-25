@@ -3,11 +3,11 @@
 
     import { onMount } from 'svelte';
     import { Settings } from '../config/settings';
-    import { Banners } from './config/hero-banner';
+    import { Banners } from '../templates/config/hero-banner';
     import { Resource } from '../libs/resource';
     import { stripHtmlAndObjectCharacters, stripHtmlTags, sanitizeHtmlString } from '../libs/data_helpers';
 
-    import Alert from '../components/Alert.svelte';
+    import Alert from './Alert.svelte';
 
     export let data = null;
     export let styles = null;

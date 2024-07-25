@@ -3,7 +3,7 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
 
-    import Hero from './Hero.svelte';
+    import Hero from '../components/Hero.svelte';
     import Navigation_Side from '../components/Navigation_Side.svelte';
     import Exhibit_Description from './partials/Exhibit_Description.svelte';
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
@@ -125,6 +125,13 @@
         font-size: 1.7em;
         padding: 0px;
         margin-left: -8px;
+    }
+
+    .template-message {
+        background-color: #b8e6bf;
+        padding: 50px;
+        text-align: center;
+        color: black;
     }
     
     /* Navigation_Side subcomponent width */
