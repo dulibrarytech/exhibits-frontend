@@ -10,19 +10,16 @@
 
     export let args = {};
 
-    let {image=null, title="exhibit title", subtitle=null, description=null} = args;
+    let {image=null, title="exhibit title"} = args;
 
     const dispatch = createEventDispatcher();
 
     onMount(async () => {
         dispatch('mount', {});
-        
-        document.querySelector('.hero-image').style.backgroundImage = `url("${image}")`;
     });
 </script>
 
 <div class="banner">
-    <!-- <section class="hero-image"></section> -->
     <img src={image} alt={title} title={title} />
 </div>
 
@@ -31,11 +28,4 @@
         position: relative;
         height: 50%
     }
-
-    /* .hero-image {
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: relative;
-    } */
 </style>
