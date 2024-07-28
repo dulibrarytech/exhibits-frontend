@@ -149,11 +149,8 @@
                      </a>
                   </div>
 
-                  <h4>Explore similar collections</h4>
-
-                  <!-- TEMP - remove -->
+                  <h4>Explore similar subjects</h4>
                   <span style="color: grey"><h6>Subject: {subject}</h6></span>
-                  <!-- end TEMP - remove -->
 
                   <div class="related-items">
                      {#each relatedItems as {thumbnail, title, link}}
