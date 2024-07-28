@@ -5,20 +5,22 @@
 
     const viewerPath = "../libs/pdfjs-4.4.168-dist";
 
-    const page = "2";
-    const locale = "us";
-    const zoom = "auto";
-    const pagemode = "none";
-    const search = null;
-    const phrase = true;
-    const textLayer = "hover";
+    let defaultPage = "1";
+    let locale = "us";
+    let zoom = "auto";
+    let pagemode = "none";
+    let search = null;
+    let phrase = true;
+    let textLayer = "hover";
 
-    var url = null;
-    var caption = null;
+    let url = null;
+    let caption = null;
+    let page = null; 
 
     $: {
         if(!url) url = args.url || null;
         if(!caption) caption = args.caption || "";
+        if(!page) page = args.page || defaultPage;
 
         url = `${url}#toolbar=0&navpanes=0&scrollbar=0`;
     }
