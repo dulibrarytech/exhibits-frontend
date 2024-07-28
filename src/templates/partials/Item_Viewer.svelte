@@ -26,11 +26,11 @@
 
 <div class="item-viewer">
 	<div class="row">
-		<div class="col-lg-8 col-md-9 col-sm-12 media-display-container">
+		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
 			<Media_Display {item} args={{viewerType: 'interactive'}}/>
 		</div>
 
-		<div class="col-lg-4 col-md-3 col-sm-12 text-display-container">
+		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
 			<div class="text">
 
 				{#if title}<hr><div class="title">{title}</div><hr><br>{/if}

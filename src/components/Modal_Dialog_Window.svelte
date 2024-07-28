@@ -74,6 +74,10 @@
 		/* height: 100%; */
 	}
 
+	:global(.modal-dialog-window .caption) {
+		display: none;
+	}
+
 	/* dialog control buttons/openseadragon buttons */
 	:global(.modal-dialog-window .dialog-controls button, .modal-dialog-window .controls > button) {
 		width: 40px;
@@ -87,6 +91,7 @@
 
     .dialog-content {
 		height: 100%;
+		overflow-y: scroll;
 	}
 
 	.dialog-controls {
@@ -94,7 +99,7 @@
 	}
 
 	.display-content {
-		height: calc(100% - 50px);
+		height: calc(50% - 50px);
 	}
 
     dialog {
@@ -144,4 +149,32 @@
 		left: 8px;
 		height: 40px;
 	}
+
+	/* begin responsive breakpoints: small mobile devices/phones first ^ */
+    @media screen and (min-width: 480px) {
+        /* start of portrait tablet styles */
+
+    }
+
+    @media screen and (min-width: 768px) {
+        /* start of landscape/large tablet styles */
+
+    }
+
+    @media screen and (min-width: 992px) {
+        /* start of large tablet styles */
+
+    }
+
+    @media screen and (min-width: 1280px) {
+        /* start of medium/large desktop styles */
+		.display-content {
+			height: calc(100% - 50px);
+		}
+    }
+
+    @media screen and (min-width: 1920px) {
+        /* start of extra large desktop styles */
+
+    }
 </style>
