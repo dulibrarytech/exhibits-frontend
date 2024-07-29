@@ -2,7 +2,8 @@
     'use-strict'
 
     import { Index } from '../libs/index.js';
-    import { getItemById, getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
+    import { getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
+    import { getItemById } from '../libs/exhibits_data_helpers';
     import { Fonts } from '../config/fonts'; 
     import { ENTITY_TYPE } from '../config/global-constants';
     import { isAdmin, getUserRole } from '../libs/validation';

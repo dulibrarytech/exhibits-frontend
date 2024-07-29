@@ -15,44 +15,15 @@
  */
 
 /**
- * Exhibits@du
- *
  * Data helper functions
- * data_helpers.js
  * 
- * Functions to provide data manipulation
+ * data_helpers.js
  */
 'use strict' 
 
-import { Settings } from '../config/settings.js';
-
-import sanitizeHtml from 'sanitize-html';
 import { stripHtml } from "string-strip-html";
 import { encode, decode } from 'html-entities';
 import randomInteger from 'random-int';
-
-/**
- * Find an item by id
- * @param {string} id - item 'uuid' value
- * 
- * @returns {object} item - item with uuid matching the input id
- */
-export const getItemById = (id, items) => {
-    let item = null, gridItem = null;
-
-    /* find if an item uuid matches id */
-    item = items.find((item) => {
-
-        /* look if the item contains an 'items' array. If it does, see if any items in the array have a uuid which matches id */
-        gridItem = item.items?.find((childItem) => {
-            return childItem.uuid == id;
-        })
-
-        return item?.uuid == id || gridItem?.uuid == id;
-    });
-    
-    return gridItem || item;
-} 
 
 /**
  * Strips all html tags - Preserves inner content
@@ -100,20 +71,6 @@ export const encodeHtmlEntitles = (string) => {
 }
 
 /**
- * Removes all html tags and inner content
- * @param {string} string : a string
- * 
- * @returns the string with html tags removed
- */
-export const stripDisallowedHtmlContent = (string) => {
-    //return string ? string.replace(/<.+>(.*?)<\/.+>/gi, "") : null;
-
-    return sanitizeHtml( decode(string), {
-        allowedTags: Settings.allowedTags
-    });
-}
-
-/**
  * Removes curly braces, square brackets, colon, and greater/less than characters
  * Disables any object/array structures in a url
  * 
@@ -123,23 +80,6 @@ export const stripDisallowedHtmlContent = (string) => {
  */
 export const stripHtmlAndObjectCharacters = (string) => {
     return stripHtmlTags(string).replace(/[{}\[\]:<>]/gi, "");
-}
-
-
-/**
- * Iterates a style object and removes any invalid style properties
- * Accepted properties are defined in settings.userThemeStyles
- * 
- * @param {object} styles - user theme style object
- * 
- * @returns {object} styles - the styles object with all unrecognized styles removed
- */
-export const validateUserThemeStyles = (styles) => {
-    for(let style in styles) {
-        if(Settings.userThemeStyles.includes(style) === false) delete styles[style];
-    }
-
-    return styles;
 }
 
 /**
