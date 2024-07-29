@@ -33,7 +33,6 @@
 
         try {
             let data = await Repository.getItemData(repositoryItemId);
-            console.log("Successfully retrieved repository item data", data);
             repositoryItem = structuredClone(item);
             repositoryItem['pid'] = repositoryItemId;
 
@@ -64,7 +63,7 @@
             renderTemplate = true;
         }
         catch(error) {
-            console.error(`Error repository data error: Item id: ${item.uuid} Error: ${error}`);
+            console.error(`Error retrieving data from repository: Item id: ${item.uuid} Error: ${error}`);
             dispatch('mount-template-item', {type: "item"});
         }
     }
