@@ -10,7 +10,7 @@
     .exhibit-description {
         height: 100%;
         padding: 50px 15px;
-        font-size: 1.4em;
+        font-size: 1.2em;
         line-height: 1.45em;
     }
 
@@ -41,7 +41,7 @@
 
     @media screen and (min-width: 1280px) {
         .exhibit-description {
-            font-size: 1.2em;
+            font-size: 1.4em;
             padding: 50px 115px;
         }
     }
