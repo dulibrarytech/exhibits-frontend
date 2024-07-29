@@ -10,8 +10,12 @@
     .exhibit-description {
         height: 100%;
         padding: 50px 15px;
-        font-size: 0.8em;
-        line-height: 1.375em;
+        font-size: 1.4em;
+        line-height: 1.45em;
+    }
+
+    :global(.exhibit-description p) {
+        margin-bottom: 1.9rem;
     }
 
     /* begin responsive breakpoints: small mobile devices/phones first ^ */
