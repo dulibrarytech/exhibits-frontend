@@ -40,7 +40,7 @@
         }
         else {
             templateMessage = "No items found";
-            dispatch('mount-items', {});
+            onMountItems();
         }
     });
 </script>
