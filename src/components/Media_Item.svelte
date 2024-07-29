@@ -159,8 +159,9 @@
 
     const renderPdfViewer = () => {
         let url = resource;
+        let page = item.pdf_open_to_page || null;
 
-        params = {url, caption}; 
+        params = {url, caption, page};
         component = PDFJS_Viewer;
     }
 
