@@ -41,7 +41,7 @@
 
     @media screen and (min-width: 1280px) {
         .exhibit-description {
-            font-size: 1.4em;
+            font-size: 1.2em;
             padding: 50px 115px;
         }
     }
