@@ -45,7 +45,7 @@
     }
 
     const setTheme = (styles) => {
-        let menuStyles = styles.menu || {};
+        let menuStyles = styles || {};
         Object.assign(navigationElement.style, menuStyles);
     }
 
