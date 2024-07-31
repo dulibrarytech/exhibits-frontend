@@ -51,6 +51,12 @@
         Object.assign(navigationElement.style, menuStyles)
     }
 
+    export const navigateTo = (anchorId) => {
+        if(anchorId) {
+            clickNavigationLink(anchorId);
+        }
+    }
+
     onMount(async () => {
         if(styles) setTheme(styles);
 

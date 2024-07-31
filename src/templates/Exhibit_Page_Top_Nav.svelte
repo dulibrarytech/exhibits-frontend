@@ -17,6 +17,7 @@
     export let args = {};
 
     let pageElement;
+    let navigationMenu;
     let renderTemplate = false;
     let templateMessage = null;
 
@@ -30,6 +31,10 @@
 
     const onMountItems = () => {
         if(styles.template) setTheme(styles.template);
+
+        let anchorId = location.hash?.replace('#', '') || false;
+        if(anchorId) navigationMenu.navigateTo(anchorId);
+
         dispatch('mount-items', {});
     }
 
@@ -49,7 +54,7 @@
     {#if data}
             <Hero {data} {styles} />
 
-            <Navigation_Top {sections} styles={styles?.navigation || null} />
+            <Navigation_Top bind:this={navigationMenu} {sections} styles={styles?.navigation || null} />
 
             {#if data.description}
                 <Exhibit_Description content={data.description} />

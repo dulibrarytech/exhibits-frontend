@@ -167,7 +167,7 @@
                     item.anchorId = subheading.id;
                 }
 
-                // TEST this should add heading styles, and item sub object to all non-heading items (items,grids) test log "items" in vscroll template
+                // Apply heading styles
                 let styles = {
                     item: item.styles
                 }
@@ -228,8 +228,8 @@
 
     const onMountPage = (event) => {
         console.log("Mounted exhibit page");
-        let hash = location.hash?.replace('#', '') || false;
-        if(hash) openViewerModal(hash);
+        let anchorId = location.hash?.replace('#', '') || false;
+        if(anchorId) openViewerModal(anchorId);
     }
 
     const onMountItems = () => {

@@ -17,9 +17,10 @@
 
     export let args = {};
 
-    let menuButtonDisplay = "none";
     let pageElement;
+    let navigationMenu;
     let navigationSidebarElement;
+    let menuButtonDisplay = "none";
     let renderTemplate = false;
     let templateMessage = null;
 
@@ -40,6 +41,10 @@
 
     const onMountItems = () => {
         if(styles) setTheme(styles); // pass in styles, separate templ/menu in f()
+
+        let anchorId = location.hash?.replace('#', '') || false;
+        if(anchorId) navigationMenu.navigateTo(anchorId);
+
         dispatch('mount-items', {});
     }
 
@@ -68,7 +73,7 @@
             <div id="sidebar-container" class="row flex-nowrap">
                 <div class="col-auto"> <!-- TODO set to exhibit bg color? -->
                     <div id="sidebar" bind:this={navigationSidebarElement} class="exhibit-navigation collapse collapse-horizontal show border-end">
-                        <Navigation_Side {sections} styles={styles?.navigation || null} />
+                        <Navigation_Side bind:this={navigationMenu} {sections} styles={styles?.navigation || null} />
 
                         <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
                     </div>

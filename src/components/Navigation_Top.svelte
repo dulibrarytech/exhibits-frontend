@@ -49,15 +49,14 @@
         Object.assign(navigationElement.style, menuStyles);
     }
 
+    export const navigateTo = (anchorId) => {
+        if(anchorId) {
+            clickNavigationLink(anchorId);
+        }
+    }
+
     onMount(async () => {
         if(styles) setTheme(styles);
-
-        let hash = location.hash?.replace('#', '') || false;
-        if(hash) {
-            setTimeout(() => {
-                clickNavigationLink(hash)
-            }, 1000)
-        }
     });
 </script>
 
