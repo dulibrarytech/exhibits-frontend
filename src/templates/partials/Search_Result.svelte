@@ -4,6 +4,7 @@
      */
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
+    import Repository_Item from '../../components/Repository_Item.svelte';
     import { ENTITY_TYPE, SEARCH_TYPE } from '../../config/global-constants';
     import { formatSearchResultValue } from '../../libs/format';
 
@@ -19,6 +20,7 @@
     let link;
     let type;
     let parentExhibitId;
+    let isRepoItem;
 
     var truncateDescription;
 
@@ -31,6 +33,7 @@
         itemType = result.item_type || null;
         link = result.link || null;
         type = result.type || ENTITY_TYPE.ITEM;
+        isRepoItem = result.is_repo_item || false;
 
         if(!searchType) searchType = SEARCH_TYPE.SEARCH_ALL;
         if(description) truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
@@ -44,7 +47,15 @@
         {#if type == ENTITY_TYPE.EXHIBIT}
             <Exhibit_Preview exhibit={result} width="200" height="200" />
         {:else}
-            <Item_Preview item={result} width="200" />
+
+            {#if isRepoItem}
+                <!-- TODO if(test TN cache (cache.js) for [repoitemid.ext] file, if present, render <Cache_Thumbnail item={result} ) -->
+
+                <Repository_Item id={null} item={result} args={{showPreview:true}} template={Item_Preview} on:click-item on:mount-template-item />
+            {:else}
+                <Item_Preview item={result} width="200" />
+            {/if}
+
         {/if}
     </a>
 
