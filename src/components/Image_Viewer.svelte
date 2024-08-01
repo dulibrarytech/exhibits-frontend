@@ -52,7 +52,7 @@
                 </div>
 
             {:else if viewer == TILE_VIEWER}
-                <OpenSeadragon_Content url={sourceUrl} {altText}/>
+                <OpenSeadragon_Content url={sourceUrl} {altText} on:loaded on:load-error />
                 {#if caption}<span class="caption">{caption}</span>{/if}
 
             {:else}

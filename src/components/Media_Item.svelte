@@ -5,6 +5,7 @@
      * 
     */
     import { Resource } from '../libs/resource';
+    import {createEventDispatcher} from 'svelte';
     
     import Image_Viewer from './Image_Viewer.svelte';
     import Audio_Player from './Audio_Player.svelte';
@@ -17,6 +18,8 @@
 
     export let item = {};
     export let args = {};
+
+    const dispatch = createEventDispatcher();
 
     let mediaElement;
 
@@ -171,11 +174,19 @@
         params = {url, caption}; 
         component = Embed_Iframe_Viewer;
     }
+
+    const onLoadViewer = () => {
+        dispatch('load-media', {});
+    }
+
+    const onLoadError = (event) => {
+        dispatch('load-media-fail', event.detail);
+    }
 </script>
 
 {#if component}
     <div class="media-item" bind:this={mediaElement}>
-        <svelte:component this={component} args={params} />
+        <svelte:component this={component} args={params} on:loaded={onLoadViewer} on:load-error={onLoadError}/>
     </div>
 {:else}
     <h5>Loading...</h5>

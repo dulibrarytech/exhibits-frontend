@@ -8,13 +8,9 @@
     const dispatch = createEventDispatcher();
 
     let viewer;
-    let messageDisplay;
-    let viewerDisplay;
 
     const init = () => {
         viewer = null;
-        messageDisplay = true;
-        viewerDisplay = false;
     }
 
     init();
@@ -33,14 +29,12 @@
             })
 
             viewer.addHandler('open', function() {
+                console.log(`Openseadragon loaded ${url}`);
                 dispatch('loaded', {});
-
-                messageDisplay = false;
-                viewerDisplay = true;
             });
 
-            viewer.addHandler('open-failed', function() {
-                dispatch('load-failed', {});
+            viewer.addHandler('open-failed', function(error) {
+                dispatch('load-error', {error});
                 throw `Viewer load failed: ${url}`;
             });
         }
@@ -61,9 +55,7 @@
         <button id="openseadragon-zoom-initial"><i class="bi bi-house"></i></button>
     </div>
 
-    <div class="message" style="display: {messageDisplay ? "block" : "none"}" >Loading, please wait...</div>
-    
-    <div class="openseadragon content" id="openseadragon1" style="display: {viewerDisplay ? "block" : "none"}"></div>
+    <div class="openseadragon content" id="openseadragon1"></div>
 </div>
 
 <style>
@@ -83,12 +75,4 @@
     position: absolute;
     z-index: 10;
 }
-
-.message {
-    text-align: center;
-    position: relative;
-    top: 50%;
-    font-size: 1.4em;
-}
-
 </style>
