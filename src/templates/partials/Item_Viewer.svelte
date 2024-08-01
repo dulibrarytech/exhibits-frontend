@@ -6,9 +6,6 @@
 
     export let item = {};
 
-	var message;
-	var messageDisplay;
-
 	let itemType;
 	let itemData;
 	let title;
@@ -17,9 +14,6 @@
 	$: init();
 
 	const init = async () => {
-		message = "Loading, please wait...";
-		messageDisplay = true;
-
 		itemType = item.item_type || undefined;
 		itemData = item.data_display || null;
 		title = item.title || null;
@@ -29,24 +23,15 @@
 		else item.text = item.description || item.caption || "No text available";
 	}
 
-	const onLoadMedia = (event) => {
-		messageDisplay = false;
-	}
+	const onLoadMedia = (event) => {}
 
-	const onLoadMediaFail = (event) => {
-		message = "Error loading file";
-		console.log(`Item viewer error: ${event?.detail?.error || ""}`);
-	}
+	const onLoadMediaFail = (event) => {}
 </script>
 
 <div class="item-viewer">
 	<div class="row">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
 			<Media_Display {item} args={{viewerType: 'interactive'}} on:load-media={onLoadMedia} on:load-media-fail={onLoadMediaFail} />
-
-			<div class="message" style="display: {messageDisplay ? "block" : "none"}" >
-				<div class="message-text">{message}</div>
-			</div>
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
@@ -76,15 +61,6 @@
 </div>
 
 <style>
-	.message {
-        text-align: center;
-        position: absolute;
-        top: 50%;
-		left: 0;
-        font-size: 1.4em;
-		width:100%;
-    }
-
 	.title {
 		font-size: 1.5em;
 		font-weight: bold;

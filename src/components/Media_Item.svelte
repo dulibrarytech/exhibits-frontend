@@ -10,7 +10,6 @@
     import Image_Viewer from './Image_Viewer.svelte';
     import Audio_Player from './Audio_Player.svelte';
     import Video_Player from './Video_Player.svelte';
-    import PDF_Viewer from './PDF_Viewer.svelte';
     import PDFJS_Viewer from './PDFJS_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
@@ -30,8 +29,10 @@
     let title;
     let caption;
 
-    var filename = null;
-    var component = null;
+    var filename;
+    var component;
+    var message;
+	var messageDisplay;
 
     /* args object for child components */
     var params = {};
@@ -41,6 +42,9 @@
     $: init();
 
     const init = () => { // init()
+        filename = null;
+        component = null;
+
         resource = args.media || item.media || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
@@ -96,6 +100,9 @@
         let imageType = itemType;
         let isTileImage = false;
 
+        message = "Loading, please wait...";
+		messageDisplay = true;
+
         if(viewerType == VIEWER_TYPE.STATIC) {
             isTileImage = false;
         }
@@ -114,6 +121,9 @@
         let url = null;
         let imageType = itemType;
         let isTileImage = true;
+
+        message = "Loading, please wait...";
+		messageDisplay = true;
 
         if(URL_PATTERN.test(resource) == false) {
             if(viewerType == VIEWER_TYPE.STATIC) {
@@ -165,7 +175,7 @@
         let page = item.pdf_open_to_page || null;
 
         params = {url, caption, page};
-        component = PDFJS_Viewer;
+        component = PDFJS_Viewer; 
     }
 
     const renderIframeViewer = () => {
@@ -175,18 +185,26 @@
         component = Embed_Iframe_Viewer;
     }
 
-    const onLoadViewer = () => {
+    const onLoadMedia = (event) => {
+		console.log("TEST media item load media")
+		messageDisplay = false;
         dispatch('load-media', {});
-    }
+	}
 
-    const onLoadError = (event) => {
-        dispatch('load-media-fail', event.detail);
-    }
+	const onLoadMediaFail = (event) => {
+		message = "Error loading file";
+		console.log(`Item viewer error: ${event?.detail?.error || ""}`);
+        dispatch('load-media-fail', {});
+	}
 </script>
 
 {#if component}
     <div class="media-item" bind:this={mediaElement}>
-        <svelte:component this={component} args={params} on:loaded={onLoadViewer} on:load-error={onLoadError}/>
+        <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadMediaFail}/>
+    
+        <div class="message" style="display: {messageDisplay ? "block" : "none"}" >
+            <div class="message-text">{message}</div>
+        </div>
     </div>
 {:else}
     <h5>Loading...</h5>
@@ -195,5 +213,14 @@
 <style>
     .media-item {
         margin: 0 auto;
+    }
+
+    .message {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+		left: 0;
+        font-size: 1.4em;
+		width:100%;
     }
 </style>
