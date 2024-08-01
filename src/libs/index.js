@@ -107,7 +107,8 @@ export const Index = (() => {
             return {results, aggregations, resultCount}; 
         }
         catch(error) {
-            console.error(`Could not retrieve data from index. Url: ${url} ${error} Request status: ${error.response.status}`);
+            let status = error?.response?.status || "unknown";
+            console.error(`Could not retrieve data from index. Url: ${url} ${error} Request status: ${status}`);
 
             return {};
         }
