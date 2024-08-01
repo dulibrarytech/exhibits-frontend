@@ -84,7 +84,7 @@
                     
                     <!--exhibit item - row layout -->
                     {:else if type == ENTITY_TYPE.ITEM}
-                        <Item_Display id={anchorId} item={displayItems[index]} template={Item} args={{role, showPreview: true}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                        <Item_Display id={anchorId} item={displayItems[index]} template={Item} args={{role, showPreview: true}} on:click-item on:mount-template-item={onMountTemplateItem} />
                     {/if}
 
                 </div>
