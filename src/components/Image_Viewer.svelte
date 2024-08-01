@@ -1,13 +1,8 @@
 <script>
-    import AudioPlayer from './Audio_Player.svelte';
-    import EmbedCodeContent from './Embed_Code_Content.svelte';
-    import EmbedIframeViewer from './Embed_Iframe_Viewer.svelte';
     /**
      * @module Image_Viewer
      * 
      * Determines image type, renders an Image_Viewer for a standard image and an image tile viewer (OpenSeadragon) for large images
-     * 
-     * Currently no OpenSeadragon viewing of remote tiff images. Only local images can be served as tiled images due to functionality of tile server (Cantaloupe)
      */
     import OpenSeadragon_Content from './OpenSeadragon_Content.svelte';
 
@@ -52,7 +47,6 @@
 
             {#if viewer == HTML_VIEWER}
                 <div class="content">
-                    <!-- hide all messages (?) -->
                     <img src={sourceUrl} alt={altText} title={altText}/>
                     {#if caption}<span class="caption">{caption}</span>{/if}
                 </div>

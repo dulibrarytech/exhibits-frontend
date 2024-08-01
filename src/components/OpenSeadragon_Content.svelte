@@ -1,10 +1,23 @@
 <script>
     import { onMount } from 'svelte';
     import OpenSeadragon from 'openseadragon'
+    import {createEventDispatcher} from 'svelte';
 
     export let url;
 
-    var viewer = null;
+    const dispatch = createEventDispatcher();
+
+    let viewer;
+    let messageDisplay;
+    let viewerDisplay;
+
+    const init = () => {
+        viewer = null;
+        messageDisplay = true;
+        viewerDisplay = false;
+    }
+
+    init();
 
     onMount(async () => {
         try {
@@ -17,6 +30,18 @@
                 zoomInButton: "openseadragon-zoom-in",
                 zoomOutButton: "openseadragon-zoom-out",
                 homeButton: "openseadragon-zoom-initial"
+            })
+
+            viewer.addHandler('open', function() {
+                dispatch('loaded', {});
+
+                messageDisplay = false;
+                viewerDisplay = true;
+            });
+
+            viewer.addHandler('open-failed', function() {
+                dispatch('load-failed', {});
+                throw `Viewer load failed: ${url}`;
             });
         }
         catch(e) {
@@ -24,6 +49,8 @@
         }
 
         document.querySelector("#openseadragon1").addEventListener("mousewheel", ()=>{}, false);
+
+        
     });
 </script>
 
@@ -33,8 +60,10 @@
         <button id="openseadragon-zoom-out"><i class="bi bi-dash"></i></button>
         <button id="openseadragon-zoom-initial"><i class="bi bi-house"></i></button>
     </div>
+
+    <div class="message" style="display: {messageDisplay ? "block" : "none"}" >Loading, please wait...</div>
     
-    <div class="openseadragon content" id="openseadragon1"></div>
+    <div class="openseadragon content" id="openseadragon1" style="display: {viewerDisplay ? "block" : "none"}"></div>
 </div>
 
 <style>
@@ -53,6 +82,13 @@
     padding-left: 8px;
     position: absolute;
     z-index: 10;
+}
+
+.message {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    font-size: 1.4em;
 }
 
 </style>
