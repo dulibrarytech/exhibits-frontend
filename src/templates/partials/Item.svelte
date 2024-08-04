@@ -26,6 +26,7 @@
     let itemType;
     let layout;
     let mediaWidth;
+    let mediaPadding;
     let wrapText;
     let isEmbedded;
 
@@ -49,6 +50,7 @@
         itemType    = item.item_type || undefined;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
+        mediaPadding = item.media_padding || true;
         wrapText    = item.wrap_text ?? true;
         isEmbedded  = item.is_embedded || false;
         styles      = item.styles || null;
@@ -67,7 +69,6 @@
 
         if(titleElement) {
             titleElement.style.fontFamily = heading.fontFamily || 'inherit';
-            //titleElement.style.color = heading.color || 'inherit';
         }
     }
 
@@ -82,12 +83,12 @@
     });
 </script>
 
-<div class="item" data-uuid={uuid} bind:this={itemElement}>
+<div class="item {mediaPadding ? 'item-padding' : ''}" data-uuid={uuid} bind:this={itemElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
 
-    <div class="container">
+    <div class={mediaPadding ? "container" : "container-no-margin"}>
         {#if title && showTitle}
-            <div class="title-heading" bind:this={titleElement}>{title}</div><br>
+            <div class="title-heading {mediaPadding ? '' : 'title-padding'}" bind:this={titleElement}>{title}</div>
         {/if}
 
         {#if layout == MEDIA_POSITION.RIGHT}
@@ -97,9 +98,11 @@
                         <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a></div>
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
-                    <Text_Display {item} />
+                    <div class={mediaPadding ? '' : 'text-padding'}>
+                        <Text_Display {item} />
+                    </div>
                 </div>
 
             {:else}
@@ -108,10 +111,12 @@
                         <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a></div>
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
                     <div class="text width-{100 - mediaWidth}">
-                        <Text_Display {item} />
+                        <div class={mediaPadding ? '' : 'text-padding'}>
+                            <Text_Display {item} />
+                        </div>
                     </div>
                 </div>
 
@@ -125,9 +130,11 @@
                         <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a></div>
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
-                    <Text_Display {item} />
+                    <div class={mediaPadding ? '' : 'text-padding'}>
+                        <Text_Display {item} />
+                    </div>
                 </div>
             {:else}
                 <div class="item-content media-left">
@@ -135,10 +142,12 @@
                         <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a></div>
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
                     <div class="text width-{100 - mediaWidth}">
-                        <Text_Display {item} />
+                        <div class={mediaPadding ? '' : 'text-padding'}>
+                            <Text_Display {item} />
+                        </div>
                     </div>
                 </div>
 
@@ -150,23 +159,27 @@
                     <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a></div>
-                    {#if caption}<div class="caption">{caption}</div>{/if}
+                    {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                 </div>
                 <div class="text">
-                    <Text_Display {item} />
+                    <div class={mediaPadding ? '' : 'text-padding'}>
+                        <Text_Display {item} />
+                    </div>
                 </div>
             </div>
 
         {:else if layout == MEDIA_POSITION.BOTTOM}
             <div class="item-content media-bottom">
                 <div class="text">
-                    <Text_Display {item} />
+                    <div class={mediaPadding ? '' : 'text-padding'}>
+                        <Text_Display {item} />
+                    </div>
                 </div>
                 <div class="media media-fullwidth width-{mediaWidth}">
                     <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a></div>
-                    {#if caption}<div class="caption">{caption}</div>{/if}
+                    {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                 </div>
             </div>
 
@@ -176,13 +189,15 @@
                     <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview}} />
                     </a></div>
-                    {#if caption}<div class="caption">{caption}</div>{/if}
+                    {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                 </div>
             </div>
 
         {:else if layout == MEDIA_POSITION.TEXT_ONLY}
             <div class="item-content text">
-                <Text_Display {item} />
+                <div class={mediaPadding ? '' : 'text-padding'}>
+                    <Text_Display {item} />
+                </div>
             </div>
 
         {/if}
@@ -191,14 +206,35 @@
 
 <style>
     .item {
-        padding-top: 50px;
-        padding-bottom: 50px;
         margin-left: auto;
         margin-right: auto;
         display: flex;
     }
 
     .item a { color: inherit }
+
+    .item-padding {
+        padding-top: 3.5rem;
+        padding-bottom: 3.5rem;
+    }
+
+    .title-heading {
+        text-transform: uppercase;
+        margin: 0 0 3.5rem 0;
+    }
+
+    .title-padding {
+        padding: 3.5rem 0 0 3.5rem;
+        margin: 0;
+    }
+
+    .text-padding {
+        padding: 3.5rem;
+    }
+
+    .caption-padding {
+        padding: 0 0 3.5rem 0;
+    }
 
     .anchor-offset {
         position: relative;
@@ -209,14 +245,9 @@
         width: 100%;
         height: 100%;
     }
-
-    /* test */
+    
     .item-content .shadow-wrapper {
         box-shadow: 3px 3px 11px -5px #000;
-    }
-
-    .title-heading {
-        text-transform: uppercase;
     }
 
     .media {

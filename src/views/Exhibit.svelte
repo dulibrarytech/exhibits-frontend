@@ -37,6 +37,7 @@
     let renderPage = false;
 
     const FONT_LOCATION = "../assets/fonts";  // TODO load DU brand fonts
+    const IMAGE_LOAD_DELAY = 2000; // TEMP track image load complete? all images must be loaded before the navigation scrollto will work (affects height of exhibit template div)
 
     const init = async () => {
         exhibit = {};
@@ -48,8 +49,8 @@
         data = null;
         modalDialog = null;
         modalDialogData = null;
-        isExhibitVisible = false;
-        isMessageVisible = true;
+
+        showLoadMessage(true);
 
         apiKey = currentRoute.queryParams.key || null;
         userRole = getUserRole(apiKey);
@@ -226,6 +227,11 @@
         document.body.classList.remove('modal-open');
     }
 
+    const showLoadMessage = (show) => {
+        isExhibitVisible = !show;
+        isMessageVisible = show;
+    }
+
     const onMountPage = (event) => {
         console.log("Mounted exhibit page");
         let anchorId = location.hash?.replace('#', '') || false;
@@ -234,8 +240,10 @@
 
     const onMountItems = () => {
         console.log("Mounted exhibit items");
-        isExhibitVisible = true;
-        isMessageVisible = false;
+
+        setTimeout(() => {
+            showLoadMessage(false);
+        }, IMAGE_LOAD_DELAY)
     }
 
     init();
