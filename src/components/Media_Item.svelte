@@ -186,7 +186,6 @@
     }
 
     const onLoadMedia = (event) => {
-		console.log("TEST media item load media")
 		messageDisplay = false;
         dispatch('load-media', {});
 	}

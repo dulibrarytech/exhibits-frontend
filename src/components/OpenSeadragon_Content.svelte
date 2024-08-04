@@ -43,8 +43,6 @@
         }
 
         document.querySelector("#openseadragon1").addEventListener("mousewheel", ()=>{}, false);
-
-        
     });
 </script>
 
