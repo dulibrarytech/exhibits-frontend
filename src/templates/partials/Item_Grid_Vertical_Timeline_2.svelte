@@ -1,14 +1,12 @@
 <script>
     'use strict'
+    
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     import Grid_Item_Vertical_Timeline_2 from './Grid_Item_Vertical_Timeline_2.svelte';
     
-    import {USER_ROLE} from '../../config/global-constants';
-
     export let grid = {};
     export let id = null;
-    export let args = {};
     export let templateStyles = {};
 
     let titleElement;
@@ -18,11 +16,6 @@
     let items;
     let sections = null;
     let styles = {};
-
-    let {
-        role = USER_ROLE.STANDARD
-
-    } = args;
 
     const dispatch = createEventDispatcher();
 
@@ -134,11 +127,7 @@
                                 <div class="timeline__group">
                                     <div class="timeline__cards">
                                         {#each section.leftItems as item}
-
-                                            {#if item.is_published || role == USER_ROLE.ADMIN}
-                                                <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
-                                            {/if}
-
+                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
                                         {/each}
                                     </div>
                                 </div>
@@ -150,11 +139,7 @@
                                 <div class="timeline__group">
                                     <div class="timeline__cards">
                                         {#each section.rightItems as item}
-
-                                            {#if item.is_published || role == USER_ROLE.ADMIN}
-                                                <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
-                                            {/if}
-
+                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
                                         {/each}
                                     </div>
                                 </div>

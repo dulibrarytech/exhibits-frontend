@@ -50,7 +50,7 @@
         itemType    = item.item_type || undefined;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
-        mediaPadding = item.media_padding || true;
+        mediaPadding = item.media_padding ?? true;
         wrapText    = item.wrap_text ?? true;
         isEmbedded  = item.is_embedded || false;
         styles      = item.styles || null;

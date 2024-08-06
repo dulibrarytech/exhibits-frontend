@@ -10,7 +10,7 @@
 
     export let grid = {};
     export let id = null;
-    export let args = {};
+   // export let args = {};
     export let templateStyles = {};
 
     let itemDisplay = null;
@@ -22,11 +22,6 @@
     let items;
     let columns;
     let styles;
-
-    let {
-        role = USER_ROLE.STANDARD
-
-    } = args;
 
     const dispatch = createEventDispatcher();
 
@@ -72,13 +67,9 @@
         <div class="grid-content">
             {#if itemDisplay}
                 {#each itemDisplay as item}
-                    {#if item.is_published || role == USER_ROLE.ADMIN}
-
-                        <div class="col-{columns}">
-                            <Grid_Item_Image_Text {item} on:click-item /> 
-                        </div>
-
-                    {/if}
+                    <div class="col-{columns}">
+                        <Grid_Item_Image_Text {item} on:click-item /> 
+                    </div>
                 {/each}
             {/if}
         </div>

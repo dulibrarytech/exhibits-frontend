@@ -62,32 +62,46 @@
 <div class="exhibit-template">
     {#if displayItems}
         <div class="exhibit-items">
-            {#each displayItems as {uuid = "", type = "", text = "", anchorId = null, is_visible=null}, index}
+            {#each displayItems as {uuid = "", type = "", text = "", anchorId = null, is_visible = null, is_published = false}, index}
 
-                <div class="exhibit-item" id={uuid}>
-
-                    <!-- exhibit heading -->
-                    {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
+                <!-- exhibit heading -->
+                {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
+                    <div class="exhibit-heading" id={uuid}>
                         <Exhibit_Heading id={anchorId} {text} styles={displayItems[index].styles || styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
+                    </div>
 
-                    <!-- exhibit item container - grid -->
-                    {:else if type == ENTITY_TYPE.GRID}
-                        <Item_Grid id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                {:else}
 
-                    <!-- exhibit item container - vertical timeline grid 1 column -->
-                    {:else if type == ENTITY_TYPE.VERTICAL_TIMELINE}
-                        <Item_Grid_Vertical_Timeline id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                    {#if is_published || role == USER_ROLE.ADMIN}
 
-                    <!-- exhibit item container - vertical timeline grid 2 column -->
-                    {:else if type == ENTITY_TYPE.VERTICAL_TIMELINE_2}
-                        <Item_Grid_Vertical_Timeline_2 id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
-                    
-                    <!--exhibit item - row layout -->
-                    {:else if type == ENTITY_TYPE.ITEM}
-                        <Item_Display id={anchorId} item={displayItems[index]} template={Item} args={{role, showPreview: true}} on:click-item on:mount-template-item={onMountTemplateItem} />
+                        <div class="exhibit-item" id={uuid}>
+
+                            <!-- exhibit heading -->
+                            <!-- {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
+                                <Exhibit_Heading id={anchorId} {text} styles={displayItems[index].styles || styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} /> -->
+
+                            <!-- exhibit item container - grid -->
+                            {#if type == ENTITY_TYPE.GRID}
+                                <Item_Grid id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+
+                            <!-- exhibit item container - vertical timeline grid 1 column -->
+                            {:else if type == ENTITY_TYPE.VERTICAL_TIMELINE}
+                                <Item_Grid_Vertical_Timeline id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+
+                            <!-- exhibit item container - vertical timeline grid 2 column -->
+                            {:else if type == ENTITY_TYPE.VERTICAL_TIMELINE_2}
+                                <Item_Grid_Vertical_Timeline_2 id={anchorId} grid={displayItems[index]} args={{role}} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                            
+                            <!--exhibit item - row layout -->
+                            {:else if type == ENTITY_TYPE.ITEM}
+                                <Item_Display id={anchorId} item={displayItems[index]} template={Item} args={{role, showPreview: true}} on:click-item on:mount-template-item={onMountTemplateItem} />
+                            {/if}
+
+                        </div>
+
                     {/if}
 
-                </div>
+                {/if}
 
             {/each}
         </div>

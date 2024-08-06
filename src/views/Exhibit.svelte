@@ -5,7 +5,7 @@
     import { getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
     import { getItemById } from '../libs/exhibits_data_helpers';
     import { Fonts } from '../config/fonts'; 
-    import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants';
+    import { ENTITY_TYPE, ITEM_GRIDS, USER_ROLE } from '../config/global-constants';
     import { isAdmin, getUserRole } from '../libs/validation';
 
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
@@ -98,6 +98,7 @@
             }) || [];
             if(items.length == 0) console.log("No items found");
 
+            // create the navigation sections, e.g. heading > items under heading
             console.log("Creating page sections...");
             sections = createPageSections(items);
 
@@ -133,6 +134,7 @@
         let heading = null;
         let subheading = null;
         let sectionStyles = null;
+        let isItemVisible = false;
 
         for(let index in items) {
             let item = items[index];
@@ -156,6 +158,10 @@
             }
 
             if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
+
+                // TODO if headings will have 'is_published' field, move this out to beginning of loop
+                isItemVisible = ( item.is_published || userRole == USER_ROLE.ADMIN )
+                if(isItemVisible == false) continue;
 
                 // If this item is in a heading section, and it has a title, add a subheading
                 if(heading && title) {

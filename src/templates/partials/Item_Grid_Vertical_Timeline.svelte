@@ -5,20 +5,17 @@
 <script>
     /*
      * https://github.com/squarechip/timeline
+     *
+     * EXAMPLE this is not the curretn VTL template for the Exhibits app
      */
     'use strict'
 
     import { onMount } from 'svelte';
-    import { createEventDispatcher } from 'svelte';
-
     import {Timeline} from '../../libs/timeline';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
 
-    // * have all exported vars from vtl2
     export let grid = {};
     export let id = null;
-
-    const dispatch = createEventDispatcher();
 
     let timelineSection;
     let items;

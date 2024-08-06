@@ -44,7 +44,7 @@
 
 <style>
     .exhibit-heading {
-        font-size: 47px; 
+        font-size: 47px; /* default font size */
         margin-top: 10px;
     }
 
@@ -55,8 +55,10 @@
 
     .section-heading h3 {
         margin-bottom: 0;
+        letter-spacing: 4px;
         font-size: inherit;
         text-transform: uppercase;
+        font-weight: 600;
     }
 
     .anchor-offset {
