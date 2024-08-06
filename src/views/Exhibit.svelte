@@ -5,7 +5,7 @@
     import { getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
     import { getItemById } from '../libs/exhibits_data_helpers';
     import { Fonts } from '../config/fonts'; 
-    import { ENTITY_TYPE } from '../config/global-constants';
+    import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants';
     import { isAdmin, getUserRole } from '../libs/validation';
 
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
@@ -155,7 +155,7 @@
                 if(item.styles) sectionStyles = item.styles; // use heading styles for current section
             }
 
-            if(type == ENTITY_TYPE.ITEM || type == ENTITY_TYPE.GRID || type == ENTITY_TYPE.VERTICAL_TIMELINE_2) {
+            if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
 
                 // If this item is in a heading section, and it has a title, add a subheading
                 if(heading && title) {
