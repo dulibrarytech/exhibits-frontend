@@ -45,7 +45,7 @@
         }
         else {
             templateMessage = "No items found";
-            onMountItems();
+            dispatch('mount-items', {});
         }
     });
 </script>

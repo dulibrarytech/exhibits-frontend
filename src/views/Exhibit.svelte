@@ -22,6 +22,7 @@
 
     let id;
     let userRole;
+    let isPublished;
     let exhibit;
     let template;
     let styles;
@@ -41,6 +42,7 @@
 
     const init = async () => {
         exhibit = {};
+        isPublished = false;
         template = null;
         styles = null;
         pageLayout = null; 
@@ -59,7 +61,9 @@
         console.log(`Loading exhibit... ID: ${id}`);
 
         exhibit = await Index.getExhibit(id);
-        data = exhibit?.data;
+        isPublished = ( exhibit.data.is_published == true || userRole == USER_ROLE.ADMIN );
+        if(isPublished == false) exhibit = null;
+        else data = exhibit?.data;
 
         if(!exhibit || !data) window.location.replace('/404');
 
@@ -91,11 +95,23 @@
         }
         else {
             console.log("Retrieving items...");
-            items = exhibit.items.map((item) => {
+
+            // filter out unpublished items if user not role admin
+            if(userRole != USER_ROLE.ADMIN) {
+                items = exhibit.items.filter((item) => {
+                    return item.is_published == true;
+                });
+            }
+            else items = exhibit.items;
+
+            // parse any encoded data
+            items = items.map((item) => {
                 if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
+
                 return item;
 
             }) || [];
+
             if(items.length == 0) console.log("No items found");
 
             // create the navigation sections, e.g. heading > items under heading
@@ -130,20 +146,20 @@
     }
 
     const createPageSections = (items) => {
+        let item = {};
         let headings = [];
         let heading = null;
         let subheading = null;
         let sectionStyles = null;
-        let isItemVisible = false;
 
         for(let index in items) {
-            let item = items[index];
+            item = items[index];
+            
             let {type = "", title = null, text = ""}  = item;
 
-            // If the item is a heading, add a new heading
             if(type == ENTITY_TYPE.EXHIBIT_HEADING) {
                 
-                // Push the previous heading to the heading array
+                // Push the previous heading, if any, to the heading array before building the current heading
                 if(heading) headings.push(heading);
 
                 heading = {
@@ -158,10 +174,6 @@
             }
 
             if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
-
-                // TODO if headings will have 'is_published' field, move this out to beginning of loop
-                isItemVisible = ( item.is_published || userRole == USER_ROLE.ADMIN )
-                if(isItemVisible == false) continue;
 
                 // If this item is in a heading section, and it has a title, add a subheading
                 if(heading && title) {
