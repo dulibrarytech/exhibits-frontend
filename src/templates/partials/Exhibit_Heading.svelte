@@ -58,7 +58,6 @@
         letter-spacing: 4px;
         font-size: inherit;
         text-transform: uppercase;
-        font-weight: 600;
     }
 
     .anchor-offset {
