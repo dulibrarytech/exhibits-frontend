@@ -95,7 +95,7 @@
             {#if wrapText}
                 <div class="item-content wrap-text text media-right">
                     <div class="media width-{mediaWidth}">
-                        <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                        <div class={mediaPadding ? 'shadow-wrapper' : ''}><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a></div>
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
@@ -108,7 +108,7 @@
             {:else}
                 <div class="item-content media-right">
                     <div class="media width-{mediaWidth}">
-                        <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                        <div class={mediaPadding ? 'shadow-wrapper' : ''}><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a></div>
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
@@ -127,7 +127,7 @@
 
                 <div class="item-content wrap-text text media-left">
                     <div class="media width-{mediaWidth}">
-                        <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                        <div class={mediaPadding ? 'shadow-wrapper' : ''}><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a></div>
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
@@ -139,7 +139,7 @@
             {:else}
                 <div class="item-content media-left">
                     <div class="media width-{mediaWidth}">
-                        <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                        <div class={mediaPadding ? 'shadow-wrapper' : ''}><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a></div>
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
@@ -156,7 +156,7 @@
         {:else if layout == MEDIA_POSITION.TOP}
             <div class="item-content media-top">
                 <div class="media media-fullwidth width-{mediaWidth}">
-                    <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                    <div class={mediaPadding ? 'shadow-wrapper' : ''}><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a></div>
                     {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
@@ -176,7 +176,7 @@
                     </div>
                 </div>
                 <div class="media media-fullwidth width-{mediaWidth}">
-                    <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                    <div class={mediaPadding ? 'shadow-wrapper' : ''}><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a></div>
                     {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
@@ -186,7 +186,7 @@
         {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
             <div class="item-content">
                 <div class="media media-fullwidth width-{mediaWidth}">
-                    <div class="shadow-wrapper"><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
+                    <div class={mediaPadding ? 'shadow-wrapper' : ''}><a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview}} />
                     </a></div>
                     {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
