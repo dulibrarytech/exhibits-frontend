@@ -1,4 +1,6 @@
 <script>
+    'use-strict'
+    
     import { Settings } from '../config/settings';
     import { Kaltura } from '../libs/kaltura';
 
@@ -24,7 +26,7 @@
     }
 
     const onLoadIframe = () => {
-        contentSection.style.height = "calc(100% - 250px)";
+        //contentSection.style.height = "calc(100% - 250px)";
         iframeSection.style.visibility = "visible";
 
         window.addEventListener('resize', function(event) {
@@ -33,7 +35,7 @@
     }
 
     const onShowTranscriptSection = () => {
-        contentSection.style.height = "100%";
+        //contentSection.style.height = "100%";
     }
 </script>
 
@@ -45,10 +47,9 @@
         
         <div class="subframe-content">
             <div class="caption">Summary/Description. Audio content courtesy of the University of Denver.</div>
-            <div class="links">
+            <!-- <div class="links">
                 <button on:click|preventDefault={onShowTranscriptSection}>View Transcript</button>
-                <!-- <button on:click|preventDefault={onToggleTranscriptSection}>Hide Transcript</button> -->
-            </div>
+            </div> -->
         </div>
         
     </div>

@@ -99,7 +99,8 @@
 	}
 
 	.display-content {
-		height: calc(50% - 50px);
+		/* height: calc(50% - 50px); */
+		height: 100%;
 	}
 
     dialog {
