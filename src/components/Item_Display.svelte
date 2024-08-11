@@ -1,8 +1,5 @@
 <script>
-    import { onMount } from 'svelte';
     import Repository_Item from './Repository_Item.svelte';
-
-    import {createEventDispatcher} from 'svelte';
 
     export let item = null;
     export let id = null; // dom element id
@@ -12,8 +9,6 @@
     let {is_repo_item = false} = item || {};
 
     var isRepoItem;
-
-    const dispatch = createEventDispatcher();
 
     const init = () => {
         if(item) {
@@ -25,10 +20,6 @@
     }
 
     init();
-
-    onMount(async () => {
-        dispatch('mount-template-item', {type: "item"});
-    });
 </script>
 
 {#if isRepoItem}
