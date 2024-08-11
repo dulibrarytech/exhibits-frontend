@@ -1,7 +1,5 @@
 <script>
     import Embed_Code_Content from "./Embed_Code_Content.svelte";
-    //import JWPlayer_Content from "./JWPlayer_Content.svelte";
-
     import Kaltura_Content from "./Kaltura_Content.svelte";
     import { Kaltura } from '../libs/kaltura';
 
@@ -10,7 +8,6 @@
     let {
         url=null, 
         embedCode=null, 
-        caption=null, 
         mimeType=null,
         kalturaId=null,
         isEmbedded=false
@@ -34,7 +31,7 @@
 
 <div class="audio-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} {caption}/> <!-- viewTranscript = !args.isEmbedded -->
+        <Kaltura_Content entryId={kalturaId}/> <!-- viewTranscript = !args.isEmbedded -->
 
     {:else}
         <div class="audio">
@@ -43,12 +40,10 @@
             {:else if url}
                 <div class="content">   
                     {#if mimeType}
-                        <audio src={url} type={mimeType} controls></audio>  <!-- replace with JWplayer? -->
+                        <audio src={url} type={mimeType} controls></audio> 
                     {:else}
                         <audio src={url} controls></audio>
                     {/if}
-                    
-                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
             {:else}
                 <h6>Loading audio content...</h6>

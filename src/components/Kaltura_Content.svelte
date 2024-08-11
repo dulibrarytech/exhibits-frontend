@@ -46,7 +46,6 @@
         <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} width={kalturaPlayerWidth} height={kalturaPlayerHeight} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
         
         <div class="subframe-content">
-            <div class="caption">Summary/Description. Audio content courtesy of the University of Denver.</div>
             <!-- <div class="links">
                 <button on:click|preventDefault={onShowTranscriptSection}>View Transcript</button>
             </div> -->

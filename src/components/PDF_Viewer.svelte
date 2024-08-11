@@ -2,12 +2,9 @@
     export let args = {};
 
     var url = null;
-    var caption = null;
 
     $: {
         if(!url) url = args.url || null;
-        if(!caption) caption = args.caption || "";
-
         url = `${url}#toolbar=0&navpanes=0&scrollbar=0`;
     }
 </script>
@@ -21,7 +18,6 @@
             <h6>Loading pdf content...</h6>
         {/if}
     </div>
-    {#if caption}<span class="caption">{caption}</span>{/if}
 </div>
 
 <style>

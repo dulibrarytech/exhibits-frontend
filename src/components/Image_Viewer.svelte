@@ -11,7 +11,6 @@
     let {
         url = null,
         title = null,
-        caption = null,
         isTileImage = false
 
     } = args;
@@ -48,12 +47,10 @@
             {#if viewer == HTML_VIEWER}
                 <div class="content">
                     <img src={sourceUrl} alt={altText} title={altText}/>
-                    {#if caption}<span class="caption">{caption}</span>{/if}
                 </div>
 
             {:else if viewer == TILE_VIEWER}
                 <OpenSeadragon_Content url={sourceUrl} {altText} on:loaded on:load-error />
-                {#if caption}<span class="caption">{caption}</span>{/if}
 
             {:else}
                 <h6>Error</h6>

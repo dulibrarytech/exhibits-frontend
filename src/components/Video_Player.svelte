@@ -10,7 +10,7 @@
     let {
         url=null, 
         embedCode=null, 
-        caption=null, 
+        // caption=null, 
         mimeType=null,
         kalturaId=null,
         isEmbedded=false
@@ -34,7 +34,7 @@
 
 <div class="video-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} {caption}/> <!-- viewTranscript = !args.isEmbedded -->
+        <Kaltura_Content entryId={kalturaId}/>
     
     {:else}
         <div class="video">
@@ -47,9 +47,7 @@
                     {:else}
                         <video src={url} controls></video>
                     {/if}
-                    
-                    {#if caption}<div class="caption">{caption}</div>{/if}
-                </div>
+                                    </div>
             {:else}
                 <h6>Loading video content...</h6>
             {/if}
