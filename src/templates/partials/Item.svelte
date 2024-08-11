@@ -73,7 +73,9 @@
     }
 
     const onClickItem = (event) => {
+        console.log("TEST click item: event:", event)
         let itemId = event.target.getAttribute('data-item-id');
+        console.log("TEST click item:", itemId)
         if(itemId) dispatch('click-item', {itemId});
     }
 
@@ -96,9 +98,7 @@
                 <div class="item-content wrap-text text media-right">
                     <div class="media width-{mediaWidth}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <div class="media-display">
-                                <Media_Display {item} args={{showPreview, isEmbedded}} />
-                            </div>
+                            <Media_Display {item} {caption} args={{showPreview, isEmbedded}} />
                         </a>
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
@@ -111,9 +111,7 @@
                 <div class="item-content media-right">
                     <div class="media width-{mediaWidth}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <div class="media-display">
-                                <Media_Display {item} args={{showPreview, isEmbedded}} />
-                            </div>
+                            <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
@@ -132,9 +130,7 @@
                 <div class="item-content wrap-text text media-left">
                     <div class="media width-{mediaWidth}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <div class="media-display">
-                                <Media_Display {item} args={{showPreview, isEmbedded}} />
-                            </div>
+                            <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
@@ -146,9 +142,7 @@
                 <div class="item-content media-left">
                     <div class="media width-{mediaWidth}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                            <div class="media-display">
-                                <Media_Display {item} args={{showPreview, isEmbedded}} />
-                            </div>
+                            <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
@@ -165,9 +159,7 @@
             <div class="item-content media-top">
                 <div class="media media-fullwidth width-{mediaWidth}">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                        <div class="media-display">
-                            <Media_Display {item} args={{showPreview, isEmbedded}} />
-                        </div>
+                        <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a>
                     {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                 </div>
@@ -187,9 +179,7 @@
                 </div>
                 <div class="media media-fullwidth width-{mediaWidth}">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                        <div class="media-display">
-                            <Media_Display {item} args={{showPreview, isEmbedded}} />
-                        </div>
+                        <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a>
                     {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                 </div>
@@ -199,9 +189,7 @@
             <div class="item-content">
                 <div class="media media-fullwidth width-{mediaWidth}">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
-                        <div class="media-display">
-                            <Media_Display {item} args={{showPreview}} />
-                        </div>
+                        <Media_Display {item} args={{showPreview}} />
                     </a>
                     {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                 </div>
