@@ -11,6 +11,7 @@
     let {
         url = null,
         title = null,
+        caption = null,
         isTileImage = false
 
     } = args;
