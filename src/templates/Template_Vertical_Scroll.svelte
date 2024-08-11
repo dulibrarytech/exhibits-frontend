@@ -26,8 +26,10 @@
         console.log("Initializing template...");
 
         displayItems = null;
-        templateItemCount = items.length-1;
+        templateItemCount = items.length;
         templateItemsMounted = 0;
+
+        if(templateItemCount == 0) console.log("No items found");
 
         render();
     }
@@ -42,7 +44,7 @@
     }
 
     const onMountTemplateItem = (event) => {
-        if(templateItemsMounted++ >= templateItemCount) {
+        if(++templateItemsMounted >= templateItemCount) {
             dispatch('mount-items', {});
         }
     }

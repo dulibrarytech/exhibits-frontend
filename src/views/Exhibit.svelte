@@ -112,8 +112,6 @@
 
             }) || [];
 
-            if(items.length == 0) console.log("No items found");
-
             // create the navigation sections, e.g. heading > items under heading
             console.log("Creating page sections...");
             sections = createPageSections(items);
