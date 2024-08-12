@@ -114,6 +114,5 @@
         margin-bottom: 1em;
         margin: 0 auto;
         pointer-events: none;
-        box-shadow: 3px 3px 11px -5px #000;
     }
 </style>

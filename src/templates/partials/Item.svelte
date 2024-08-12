@@ -73,9 +73,7 @@
     }
 
     const onClickItem = (event) => {
-        console.log("TEST click item: event:", event)
         let itemId = event.target.getAttribute('data-item-id');
-        console.log("TEST click item:", itemId)
         if(itemId) dispatch('click-item', {itemId});
     }
 
@@ -318,6 +316,10 @@
 
     :global(.item .image > .content) {
         height: 100%;
+    }
+
+    :global(.item .container .item-preview) {
+        box-shadow: 3px 3px 11px -5px #000;
     }
 
     @media screen and (min-width: 768px) {
