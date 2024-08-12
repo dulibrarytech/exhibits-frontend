@@ -65,7 +65,7 @@
 
 <header class="hero-section" bind:this={heroSection}>
     {#if banner}
-        <svelte:component this={banner} args={bannerData} {styles} />
+        <svelte:component this={banner} args={bannerData}/>
     {/if}
 
     {#if alert }

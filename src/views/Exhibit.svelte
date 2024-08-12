@@ -17,6 +17,7 @@
     import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
 
     export let currentRoute;
+    export let params;
 
     let apiKey;
 

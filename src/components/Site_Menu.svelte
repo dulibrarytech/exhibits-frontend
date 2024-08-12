@@ -6,7 +6,7 @@
 
     import { Menu_Links } from '../config/menu.js';
 
-    let links = null;
+    export let links = null;
 
     $: links = Menu_Links;
 

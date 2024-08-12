@@ -15,6 +15,7 @@
 
     export let items = [];
     export let styles = null;
+    export let args;
 
     const dispatch = createEventDispatcher();
 
@@ -52,6 +53,7 @@
     init();
 
     onMount(async () => {
+        console.log("Mounted exhibit template");
         dispatch('mount-template', {});
     });
 </script>
