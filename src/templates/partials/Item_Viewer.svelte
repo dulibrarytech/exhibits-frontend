@@ -16,7 +16,7 @@
 	const init = async () => {
 		itemType = item.item_type || undefined;
 		itemData = item.data_display || null;
-		title = item.title || null;
+		title = stripHtmlTags(item.title) || null;
 		date = item.date || null;
 
 		if(item.text) item.text = stripHtmlTags(item.text);

@@ -5,6 +5,7 @@
     import { Resource } from '../libs/resource';
 
     import {ITEM_TYPE} from '../config/global-constants';
+    import { stripHtmlTags } from '../libs/data_helpers';
 
     export let item = {};
     export let args = {};
@@ -30,7 +31,7 @@
         itemType = item.item_type || null;
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
-        altText = item.title || item.description || "Untitled Image";
+        altText = stripHtmlTags(item.title) || item.description || "Untitled Image";
         styles = item.styles || null;
 
         if(thumbnail && URL_PATTERN.test(thumbnail) == false) {

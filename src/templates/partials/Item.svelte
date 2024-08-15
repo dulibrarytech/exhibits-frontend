@@ -112,7 +112,7 @@
 
     <div class={mediaPadding ? "container" : "container-no-margin"}>
         {#if title && showTitle}
-            <div class="title-heading {mediaPadding ? '' : 'title-padding'}" bind:this={titleElement}>{title}</div>
+            <div class="title-heading {mediaPadding ? '' : 'title-padding'}" bind:this={titleElement}>{@html title}</div>
         {/if}
 
         {#if layout == MEDIA_POSITION.RIGHT}
