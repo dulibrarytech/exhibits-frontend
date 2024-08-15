@@ -18,6 +18,7 @@
 
     let itemElement;
     let titleElement;
+    let textElement;
 
     let uuid;
     let title;
@@ -60,15 +61,38 @@
         if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
     }
 
-    const setTheme = ({item = {}, heading = {}}) => {
-        Object.assign(itemElement.style, item);
+    const setTheme = ({item, heading}) => {
 
-        if(item.backgroundImage) {
-            itemElement.style.backgroundImage = `url('${ Resource.getFileUrl(item.backgroundImage ) }')`;
+        let itemStyles = item || {};
+        let headingStyles = heading || {};
+
+        // set permitted styles
+        let {
+            fontFamily = null,
+            fontSize = null,
+            color = null,
+            backgroundColor = null
+
+        } = itemStyles;
+
+        // assign permitted styles to the item element
+        if(itemElement) {
+            Object.assign(itemElement.style,  {fontFamily, color, backgroundColor});
         }
 
+        // append background image
+        if(itemStyles.backgroundImage) {
+            itemElement.style.backgroundImage = `url('${ Resource.getFileUrl(itemStyles.backgroundImage ) }')`;
+        }
+
+        // set title font family to heading style font family
         if(titleElement) {
-            titleElement.style.fontFamily = heading.fontFamily || 'inherit';
+            titleElement.style.fontFamily = headingStyles.fontFamily || 'inherit';
+        }
+
+        // set text section to item font size, title font size is inherites from the exhibit font family
+        if(textElement) {
+            if(fontSize) textElement.style.fontSize = fontSize;
         }
     }
 
@@ -100,7 +124,7 @@
                         </a>
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
-                    <div class={mediaPadding ? '' : 'text-padding'}>
+                    <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
                         <Text_Display {item} />
                     </div>
                 </div>
@@ -114,7 +138,7 @@
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
                     <div class="text width-{100 - mediaWidth}">
-                        <div class={mediaPadding ? '' : 'text-padding'}>
+                        <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
                             <Text_Display {item} />
                         </div>
                     </div>
@@ -145,7 +169,7 @@
                         {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                     </div>
                     <div class="text width-{100 - mediaWidth}">
-                        <div class={mediaPadding ? '' : 'text-padding'}>
+                        <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
                             <Text_Display {item} />
                         </div>
                     </div>
@@ -162,7 +186,7 @@
                     {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
                 </div>
                 <div class="text">
-                    <div class={mediaPadding ? '' : 'text-padding'}>
+                    <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
                         <Text_Display {item} />
                     </div>
                 </div>
@@ -171,7 +195,7 @@
         {:else if layout == MEDIA_POSITION.BOTTOM}
             <div class="item-content media-bottom">
                 <div class="text">
-                    <div class={mediaPadding ? '' : 'text-padding'}>
+                    <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
                         <Text_Display {item} />
                     </div>
                 </div>
@@ -195,7 +219,7 @@
 
         {:else if layout == MEDIA_POSITION.TEXT_ONLY}
             <div class="item-content text">
-                <div class={mediaPadding ? '' : 'text-padding'}>
+                <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
                     <Text_Display {item} />
                 </div>
             </div>
