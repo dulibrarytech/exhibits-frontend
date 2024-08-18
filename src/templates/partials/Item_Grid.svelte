@@ -6,11 +6,8 @@
     import {createEventDispatcher} from 'svelte';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
 
-    import {USER_ROLE} from '../../config/global-constants';
-
     export let grid = {};
     export let id = null;
-   // export let args = {};
     export let templateStyles = {};
 
     let itemDisplay = null;
@@ -62,7 +59,7 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     <div class="container">
-        {#if title}<div class="title-heading" bind:this={titleElement}>{title}</div>{/if}
+        {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div>{/if}
 
         <div class="grid-content">
             {#if itemDisplay}
@@ -82,8 +79,8 @@
     }
 
     .item-grid {
-        padding-top: 45px;
-        padding-bottom: 45px;
+        padding-top: 5em;
+        padding-bottom: 5em;
     }
 
     .title-heading {

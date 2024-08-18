@@ -111,7 +111,7 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
     
     <div class="container">
-        {#if title}<div class="title-heading" bind:this={titleElement}>{title}</div><br>{/if}
+        {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div><br>{/if}
 
         <div class="timeline-wrapper">
             {#if sections}
