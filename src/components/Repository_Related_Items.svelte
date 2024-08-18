@@ -186,8 +186,9 @@
       display: flex;
       flex-wrap: wrap;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: flex-start;
       row-gap: 12px;
+      column-gap: 12px;
    }
 
    .item {
