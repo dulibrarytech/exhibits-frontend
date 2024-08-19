@@ -114,4 +114,8 @@
         text-transform: uppercase;
         line-height: 1.45em;
     }
+
+    :global(.exhibit-item:not(:first-child) .exhibit-heading) {
+        margin-top: 10px;
+    }
 </style>
