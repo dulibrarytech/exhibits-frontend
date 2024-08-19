@@ -42,6 +42,8 @@
     const IMAGE_LOAD_DELAY = 2000; // TEMP track image load complete? all images must be loaded before the navigation scrollto will work (affects height of exhibit template div)
 
     const init = async () => {
+        showLoadMessage(true);
+        
         exhibit = {};
         isPublished = false;
         template = null;
@@ -53,38 +55,36 @@
         modalDialog = null;
         modalDialogData = null;
 
-        showLoadMessage(true);
-
         apiKey = currentRoute.queryParams.key || null;
         userRole = getUserRole(apiKey);
-
         id = currentRoute.namedParams.id ?? "null";
-        console.log(`Loading exhibit... ID: ${id}`);
 
+        console.log(`Loading exhibit... ID: ${id}`);
         exhibit = await Index.getExhibit(id);
-        isPublished = ( exhibit.data.is_published == true || userRole == USER_ROLE.ADMIN );
-        if(isPublished == false) exhibit = null;
-        else data = exhibit?.data;
+        data = exhibit?.data;
 
         if(!exhibit || !data) window.location.replace('/404');
+        else isPublished = ( data.is_published == true || userRole == USER_ROLE.ADMIN );
 
-        try {
-            styles = JSON.parse(data.styles).exhibit || {};
-        }
-        catch(error) {
-            console.error(`Error loading exhibit styles: ${error}`);
-        }
+        if(isPublished) {
+            try {
+                styles = JSON.parse(data.styles).exhibit || {};
+            }
+            catch(error) {
+                console.error(`Error loading exhibit styles: ${error}`);
+            }
 
-        if(data.is_published || isAdmin(apiKey)) {
+            console.log("Importing fonts...");
+            await importFonts();
+
+            console.log("Rendering exhibit...");
             render();
         }
         else window.location.replace('/404');
     }
 
     const render = async () => {
-        console.log("Rendering exhibit...");
-        await importFonts();
-
+        console.log("Retrieving template...");
         pageLayout = $Page_Layouts[data.page_layout] || null;
         template = $Templates[data.template] || null;
 
