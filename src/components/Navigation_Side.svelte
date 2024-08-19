@@ -71,16 +71,14 @@
 
 <div id="sidebar-nav" class="nav-link list-group border-0 rounded-0 text-sm-start" bind:this={navigationElement}>
     {#if sections}
-        <!-- {#each sections as {id, text}, index} -->
         {#each sectionHeadings as {id, text, subheadings = null}}
             <div class="menuitem">
-                <a href="#{id}" class="main-menu-link" on:click={onClickNavigationLink}>{text}</a>
+                <a class="main-menu-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a>
 
                 {#if subheadings.length > 0}
 
                     <ul class="dropdown-nav">
                         {#each subheadings as {id, text}}
-                            <!-- <li><a class="dropdown-link" href="#{id}" on:click|preventDefault={onClickNavigationLink}>{text}</a></li> -->
                             <li><a class="dropdown-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a></li>
                         {/each}
                     </ul>
@@ -88,8 +86,6 @@
                 {/if}
 
             </div>
-
-            <!-- <ul class="dropdown-nav svelte-3m8b40"><li class="svelte-3m8b40"><a class="dropdown-link svelte-3m8b40" href="" data-anchor="family-heritage">Family Heritage</a></li><li class="svelte-3m8b40"><a class="dropdown-link svelte-3m8b40" href="" data-anchor="the-loewensteins">The Loewensteins</a></li><li class="svelte-3m8b40"><a class="dropdown-link svelte-3m8b40" href="" data-anchor="dr-max-loewenstein">Dr. Max Loewenstein</a></li><li class="svelte-3m8b40"><a class="dropdown-link svelte-3m8b40" href="" data-anchor="the-betges">The Bäetges</a></li><li class="svelte-3m8b40"><a class="dropdown-link svelte-3m8b40" href="" data-anchor="maria-lilli-margarete-betge">Maria Lilli Margarete Bäetge</a></li><li class="svelte-3m8b40"><a class="dropdown-link svelte-3m8b40" href="" data-anchor="ernst-heinrich-henry-loewenstein">Ernst Heinrich (Henry) Loewenstein</a></li></ul> -->
         {/each}
     {/if}
 </div>
