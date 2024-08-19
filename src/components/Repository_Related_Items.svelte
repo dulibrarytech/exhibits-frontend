@@ -179,7 +179,7 @@
 <style>
    .repository-related-items {
       padding: 2.5em;
-      background-color: white;
+      /* background-color: white; */
    }
 
    .item-container {
@@ -197,6 +197,7 @@
       border-style: solid;
       border-color: #e5e3e1;
       border-radius: 25px;
+      background-color: white;
    }
 
    .item-content {

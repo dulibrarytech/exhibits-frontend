@@ -17,22 +17,32 @@
 
     export let args = {};
 
-    let pageElement;
     let navigationMenu;
-    let navigationSidebarElement;
+    let pageElement;
+    let exhibitThankYouSectionElement;
+    let repositoryRelatedItemsSectionElement;
+    //let navigationSidebarElement;
     let menuButtonDisplay = "none";
     let renderTemplate = false;
     let templateMessage = null;
 
     const dispatch = createEventDispatcher();
 
-    const setTheme = ({template=null, navigation=null}) => {   
-        if(template) {
+    const setTheme = (styles) => {   
+        if(pageElement) {
             Object.assign(pageElement.style, template);
+
+            if(styles.backgroundColor) {
+                // assign related items section bg to template bg color
+                exhibitThankYouSectionElement.style.backgroundColor = styles.backgroundColor;
+
+                // assign 'thanks for visiting' section bg to template bg color
+                repositoryRelatedItemsSectionElement.style.backgroundColor = styles.backgroundColor;
+            }
         }
-        if(navigation?.menu) {
-            Object.assign(navigationSidebarElement.style, navigation.menu);
-        }
+        // if(navigation?.menu) {
+        //     Object.assign(navigationSidebarElement.style, navigation.menu);
+        // }
     }
 
     const toggleMenuButtonDisplay = () => {
@@ -40,7 +50,7 @@
     }
 
     const onMountItems = () => {
-        if(styles) setTheme(styles); // pass in styles, separate templ/menu in f()
+        if(styles.template) setTheme(styles.template);
 
         let anchorId = location.hash?.replace('#', '') || false;
         if(anchorId) navigationMenu.navigateTo(anchorId);
@@ -72,7 +82,7 @@
         <div class="container-fluid">
             <div id="sidebar-container" class="row flex-nowrap">
                 <div class="col-auto"> <!-- TODO set to exhibit bg color? -->
-                    <div id="sidebar" bind:this={navigationSidebarElement} class="exhibit-navigation collapse collapse-horizontal show border-end">
+                    <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end">
                         <Navigation_Side bind:this={navigationMenu} {sections} styles={styles?.navigation || null} />
 
                         <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
@@ -92,9 +102,13 @@
             </div>
         </div>
 
-        <Exhibit_Thank_You />
+        <div bind:this={exhibitThankYouSectionElement}>
+            <Exhibit_Thank_You />
+        </div>
 
-        <Repository_Related_Items {items} />
+        <div bind:this={repositoryRelatedItemsSectionElement}>
+            <Repository_Related_Items {items} />
+        </div>
 
     {:else}
         <h3>Loading template...</h3>

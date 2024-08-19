@@ -8,7 +8,7 @@
 
 <style>
     .user-acknowledgement {
-        background: white;
+        /* background: white; */
         padding: 3em;
         text-align: center;
     }
