@@ -180,6 +180,7 @@
                     {/if}
 
                 </div>
+
             {:else}
                 <div class="item-content media-left">
                     <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
@@ -198,6 +199,7 @@
                             <div class="text-padding" bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
+                            
                         {/if}
                     </div>
                 </div>
@@ -205,7 +207,7 @@
             {/if}
             
         {:else if layout == MEDIA_POSITION.TOP}
-            <div class="item-content media-top">
+            <div class="item-content media-top {mediaPadding ? '' : 'item-padding'}">
                 <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                     <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
                     {#if caption}<div class="caption">{caption}</div>{/if}
@@ -217,16 +219,19 @@
                         </div>
 
                     {:else}
-                        <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
-                        <div class="text-padding" bind:this={textElement}>
-                            <Text_Display {item} />
+                        <div class="container">
+                            <div class="title-heading" bind:this={titleElement}>{@html title}</div>
+                            <div bind:this={textElement}>
+                                <Text_Display {item} />
+                            </div>
                         </div>
+
                     {/if}
                 </div>
             </div>
 
         {:else if layout == MEDIA_POSITION.BOTTOM}
-            <div class="item-content media-bottom">
+            <div class="item-content media-bottom {mediaPadding ? '' : 'item-padding'}">
                 <div class="text">
                     {#if mediaPadding}
                         <div bind:this={textElement}>
@@ -234,10 +239,13 @@
                         </div>
 
                     {:else}
-                        <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
-                        <div class="text-padding" bind:this={textElement}>
-                            <Text_Display {item} />
+                        <div class="container">
+                            <div class="title-heading" bind:this={titleElement}>{@html title}</div>
+                            <div bind:this={textElement}>
+                                <Text_Display {item} />
+                            </div>
                         </div>
+
                     {/if}
                 </div>
                 <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
@@ -247,11 +255,22 @@
             </div>
 
         {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
-            <div class="item-content">
-                <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
-                    <Media_Display {item} args={{showPreview}} on:click-item />
-                    {#if caption}<div class="caption">{caption}</div>{/if}
-                </div>
+            <div class="item-content {mediaPadding ? '' : 'item-padding'}">
+
+                {#if mediaPadding}
+                    <div class="media media-fullwidth width-{mediaWidth} media-padding">
+                        <Media_Display {item} args={{showPreview}} on:click-item />
+                        {#if caption}<div class="caption">{caption}</div>{/if}
+                    </div>
+
+                {:else}
+                    <div class="title-heading container" bind:this={titleElement}>{@html title}</div>
+                    <div class="media media-fullwidth media-only width-{mediaWidth}">
+                        <Media_Display {item} args={{showPreview}} on:click-item />
+                        {#if caption}<div class="caption">{caption}</div>{/if}
+                    </div>
+
+                {/if}
             </div>
 
         {:else if layout == MEDIA_POSITION.TEXT_ONLY}
@@ -266,6 +285,7 @@
                     <div class="text-padding" bind:this={textElement}>
                         <Text_Display {item} />
                     </div>
+
                 {/if}
             </div>
 
@@ -301,10 +321,6 @@
         padding: 3.5rem;
     }
 
-    /* .caption-padding {
-        padding: 0 0 3.5rem 0;
-    } */
-
     .media:not(.media-padding) .caption {
         padding: 0 0 3.5rem 0;
     }
@@ -325,6 +341,10 @@
 
     .media-fullwidth {
         margin: 0 auto;
+    }
+
+    .media-only {
+        margin-top: 3.5em;
     }
 
     .media-right > .media {
