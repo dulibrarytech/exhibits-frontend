@@ -118,11 +118,11 @@
         {#if layout == MEDIA_POSITION.RIGHT}
             {#if wrapText}
                 <div class="item-content wrap-text text media-right">
-                    <div class="media width-{mediaWidth}">
+                    <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} {caption} args={{showPreview, isEmbedded}} />
                         </a>
-                        {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
 
                     {#if mediaPadding}
@@ -142,11 +142,11 @@
 
             {:else}
                 <div class="item-content media-right">
-                    <div class="media width-{mediaWidth}">
+                    <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
                     <div class="text width-{100 - mediaWidth}">
                         {#if mediaPadding}
@@ -170,11 +170,11 @@
             {#if wrapText}
 
                 <div class="item-content wrap-text text media-left">
-                    <div class="media width-{mediaWidth}">
+                    <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
 
                     {#if mediaPadding}
@@ -193,11 +193,11 @@
                 </div>
             {:else}
                 <div class="item-content media-left">
-                    <div class="media width-{mediaWidth}">
+                    <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                             <Media_Display {item} args={{showPreview, isEmbedded}} />
                         </a>
-                        {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
+                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
 
                     <div class="text width-{100 - mediaWidth}">
@@ -220,11 +220,11 @@
             
         {:else if layout == MEDIA_POSITION.TOP}
             <div class="item-content media-top">
-                <div class="media media-fullwidth width-{mediaWidth}">
+                <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a>
-                    {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
                 <div class="text">
                     <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
@@ -240,21 +240,21 @@
                         <Text_Display {item} />
                     </div>
                 </div>
-                <div class="media media-fullwidth width-{mediaWidth}">
+                <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview, isEmbedded}} />
                     </a>
-                    {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
             </div>
 
         {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
             <div class="item-content">
-                <div class="media media-fullwidth width-{mediaWidth}">
+                <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                     <a href data-item-id={uuid} on:click|stopPropagation|preventDefault={onClickItem}>
                         <Media_Display {item} args={{showPreview}} />
                     </a>
-                    {#if caption}<div class="caption {mediaPadding ? '' : 'caption-padding'}">{caption}</div>{/if}
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
             </div>
 
@@ -297,7 +297,7 @@
         padding: 3.5rem;
     }
 
-    .caption-padding {
+    .media:not(.media-padding) .caption {
         padding: 0 0 3.5rem 0;
     }
 
@@ -423,12 +423,19 @@
             height: 100%;
         }
 
-        /* pad around the media element if text wraps */
+        /* pad around the media element if text wraps AND media padding is enabled */
         .media-left.wrap-text > .media {
             padding: 0 50px 50px 0;
         }
         .media-right.wrap-text > .media {
             padding: 0 0 50px 50px;
+        }
+        /* pad to the left or right of the media element, not top or bottom, if text wraps AND media padding is not enabled */
+        .media-left.wrap-text > .media:not(.media-padding) {
+            padding: 0 50px 0 0;
+        }
+        .media-right.wrap-text > .media:not(.media-padding) {
+            padding: 0 0 0 50px;
         }
 
         /* add side padding to text if the text does not wrap */
