@@ -20,7 +20,7 @@
 </script>
 
 {#if component}
-    <svelte:component this={component} {item} {args} on:load-media on:load-media-fail />
+    <svelte:component this={component} {item} {args} on:load-media on:load-media-fail on:click-item/>
 {:else}
     <h5>Loading item...</h5>
 {/if}

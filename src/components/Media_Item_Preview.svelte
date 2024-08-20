@@ -1,11 +1,12 @@
 <script>
     'use strict' 
     
+    import { createEventDispatcher } from 'svelte';
     import { Settings } from '../config/settings';
     import { Resource } from '../libs/resource';
+    import { stripHtmlTags } from '../libs/data_helpers';
 
     import {ITEM_TYPE} from '../config/global-constants';
-    import { stripHtmlTags } from '../libs/data_helpers';
 
     export let item = {};
     export let args = {};
@@ -13,26 +14,31 @@
     export let height = null;
 
     let itemPreviewElement;
+
+    let itemId;
     let itemType;
     let resource;
     let thumbnail;
     let altText;
-    let styles = null;
-    let preview = null;
+    let styles;
+    let preview;
+
+    const dispatch = createEventDispatcher();
 
     const PLACEHOLDER_IMAGE = Settings.placeholderImage;
     const LARGE_IMAGE_PREVIEW_WIDTH = 1000;
-
     const URL_PATTERN = /^https?:\/\//;
 
     $: init();
 
     const init = async () => {
+        itemId = item.uuid || "";
         itemType = item.item_type || null;
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
-        altText = stripHtmlTags(item.title) || item.description || "Untitled Image";
         styles = item.styles || null;
+        altText = stripHtmlTags(item.title) || item.description || "Untitled Image";
+        preview = null;
 
         if(thumbnail && URL_PATTERN.test(thumbnail) == false) {
             preview = Resource.getThumbnailFileUrl(thumbnail);
@@ -95,15 +101,22 @@
 
         return url;
     }
+
+    const onClickItem = (event) => {
+        let itemId = event.target.getAttribute('data-item-id');
+        if(itemId) dispatch('click-item', {itemId});
+    }
 </script>
 
-<div class="item-preview" bind:this={itemPreviewElement} >
-    {#if preview}
-        <img crossorigin="anonymous" src={preview} alt={altText} title={altText} />
-    {:else}
-        <img src='/error' alt="Error" />
-    {/if}
-</div>
+{#if preview}
+    <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
+        <div class="item-preview" bind:this={itemPreviewElement} >
+            <img crossorigin="anonymous" src={preview} alt={altText} title={altText}>
+        </div>
+    </a>
+{:else}
+    Loading preview image...
+{/if}
 
 <style>
     img {
