@@ -198,7 +198,6 @@
                             <div class="text-padding" bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
-
                         {/if}
                     </div>
                 </div>
@@ -212,18 +211,34 @@
                     {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
                 <div class="text">
-                    <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
-                        <Text_Display {item} />
-                    </div>
+                    {#if mediaPadding}
+                        <div bind:this={textElement}>
+                            <Text_Display {item} />
+                        </div>
+
+                    {:else}
+                        <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
+                        <div class="text-padding" bind:this={textElement}>
+                            <Text_Display {item} />
+                        </div>
+                    {/if}
                 </div>
             </div>
 
         {:else if layout == MEDIA_POSITION.BOTTOM}
             <div class="item-content media-bottom">
                 <div class="text">
-                    <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
-                        <Text_Display {item} />
-                    </div>
+                    {#if mediaPadding}
+                        <div bind:this={textElement}>
+                            <Text_Display {item} />
+                        </div>
+
+                    {:else}
+                        <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
+                        <div class="text-padding" bind:this={textElement}>
+                            <Text_Display {item} />
+                        </div>
+                    {/if}
                 </div>
                 <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                     <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
@@ -241,9 +256,17 @@
 
         {:else if layout == MEDIA_POSITION.TEXT_ONLY}
             <div class="item-content text">
-                <div class={mediaPadding ? '' : 'text-padding'} bind:this={textElement}>
-                    <Text_Display {item} />
-                </div>
+                {#if mediaPadding}
+                    <div bind:this={textElement}>
+                        <Text_Display {item} />
+                    </div>
+
+                {:else}
+                    <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
+                    <div class="text-padding" bind:this={textElement}>
+                        <Text_Display {item} />
+                    </div>
+                {/if}
             </div>
 
         {/if}
