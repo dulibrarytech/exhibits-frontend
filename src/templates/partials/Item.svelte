@@ -163,7 +163,7 @@
                 <div class="item-content wrap-text text media-left">
                     <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        {#if caption}<div class="caption" style="margin-left: {mediaPadding ? '0' : '20px'}">{caption}</div>{/if}
                     </div>
 
                     {#if mediaPadding}
@@ -185,7 +185,7 @@
                 <div class="item-content media-left">
                     <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        {#if caption}<div class="caption" style="margin-left: {mediaPadding ? '0' : '20px'}">{caption}</div>{/if}
                     </div>
 
                     <div class="text width-{100 - mediaWidth}">
@@ -210,7 +210,7 @@
             <div class="item-content media-top {mediaPadding ? '' : 'item-padding'}">
                 <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                     <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                    {#if caption}<div class="caption">{caption}</div>{/if}
+                    {#if caption}<div class="caption" style="margin-left: {mediaPadding ? '0' : '20px'}">{caption}</div>{/if}
                 </div>
                 <div class="text">
                     {#if mediaPadding}
@@ -250,7 +250,7 @@
                 </div>
                 <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                     <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                    {#if caption}<div class="caption">{caption}</div>{/if}
+                    {#if caption}<div class="caption" style="margin-left: {mediaPadding ? '0' : '20px'}">{caption}</div>{/if}
                 </div>
             </div>
 
@@ -264,10 +264,10 @@
                     </div>
 
                 {:else}
-                    <div class="title-heading container" bind:this={titleElement}>{@html title}</div>
+                    <div class="title-heading title-padding container" bind:this={titleElement}>{@html title}</div>
                     <div class="media media-fullwidth media-only width-{mediaWidth}">
                         <Media_Display {item} args={{showPreview}} on:click-item />
-                        {#if caption}<div class="caption">{caption}</div>{/if}
+                        {#if caption}<div class="caption" style="margin-left: 20px">{caption}</div>{/if}
                     </div>
 
                 {/if}
