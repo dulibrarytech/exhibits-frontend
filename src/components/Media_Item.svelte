@@ -100,9 +100,6 @@
         let imageType = itemType;
         let isTileImage = false;
 
-        message = "Loading, please wait...";
-		messageDisplay = true;
-
         if(viewerType == VIEWER_TYPE.STATIC) {
             isTileImage = false;
         }
@@ -111,6 +108,8 @@
                 url = Resource.getImageTileSourceUrl(filename);
             }
             isTileImage = true;
+            message = "Loading, please wait...";
+		    messageDisplay = true;
         }
 
         params = {url, title, caption, isTileImage, imageType};
@@ -121,9 +120,6 @@
         let url = null;
         let imageType = itemType;
         let isTileImage = true;
-
-        message = "Loading, please wait...";
-		messageDisplay = true;
 
         if(URL_PATTERN.test(resource) == false) {
             if(viewerType == VIEWER_TYPE.STATIC) {
@@ -136,10 +132,10 @@
                 })
             }
             else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
-                isTileImage = true;
-
-                // get tile source url */
                 url = Resource.getImageTileSourceUrl(filename);
+                isTileImage = true;
+                message = "Loading, please wait...";
+		        messageDisplay = true;
             }
         }
         else {
