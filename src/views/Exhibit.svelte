@@ -2,11 +2,10 @@
     'use-strict'
 
     import { Index } from '../libs/index.js';
-    import { getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
-    import { getItemById } from '../libs/exhibits_data_helpers';
+    import { getItemById, createExhibitPageSections } from '../libs/exhibits_data_helpers';
     import { Fonts } from '../config/fonts'; 
-    import { ENTITY_TYPE, ITEM_GRIDS, USER_ROLE } from '../config/global-constants';
-    import { isAdmin, getUserRole } from '../libs/validation';
+    import { USER_ROLE } from '../config/global-constants';
+    import { getUserRole } from '../libs/validation';
 
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
@@ -69,6 +68,8 @@
         if(isPublished) {
             try {
                 styles = JSON.parse(data.styles).exhibit || {};
+                if(!styles.template) console.error("Exhibit template style data not found");
+                if(!styles.navigation) console.error("Exhibit navigation menu style data not found");
             }
             catch(error) {
                 console.error(`Error loading exhibit styles: ${error}`);
@@ -115,7 +116,7 @@
 
             // create the navigation sections, e.g. heading > items under heading
             console.log("Creating page sections...");
-            sections = createPageSections(items);
+            sections = createExhibitPageSections(items);
 
             renderPage = true;
         }
@@ -142,66 +143,6 @@
                 });
             });
         });
-    }
-
-    const createPageSections = (items) => {
-        let item = {};
-        let headings = [];
-        let heading = null;
-        let subheading = null;
-        let sectionStyles = null;
-
-        for(let index in items) {
-            item = items[index];
-            
-            let {type = "", title = null, text = ""}  = item;
-
-            if(type == ENTITY_TYPE.EXHIBIT_HEADING) {
-                
-                // Push the previous heading, if any, to the heading array before building the current heading
-                if(heading) headings.push(heading);
-
-                heading = {
-                    id: getHtmlIdString(text),
-                    text: stripHtmlTags(text),
-                    subheadings: []
-                }
-
-                item.anchorId = heading.id;
-
-                if(item.styles) sectionStyles = item.styles; // use heading styles for current section
-            }
-
-            if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
-
-                // If this item is in a heading section, and it has a title, add a subheading
-                if(heading && title) {
-                    subheading = {
-                        id: getHtmlIdString(title),
-                        text: stripHtmlTags(title)
-                    }
-
-                    heading.subheadings.push(subheading);
-                    item.anchorId = subheading.id;
-                }
-
-                // Apply heading styles
-                let styles = {
-                    item: item.styles
-                }
-                if(sectionStyles) {
-                    styles.heading = sectionStyles;
-                }
-                item.styles = styles;
-            }
-
-            // End case: push current heading to the headings array if this is the last item in the exhibit
-            if(parseInt(index) == items.length-1) {
-                if(heading) headings.push(heading);
-            }
-        }
-
-        return headings;
     }
 
     const getPageById = (id) => {

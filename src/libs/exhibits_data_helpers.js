@@ -25,12 +25,15 @@
 'use strict' 
 
 import { Settings } from '../config/settings.js';
+import { getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
+import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants';
 
 import sanitizeHtml from 'sanitize-html';
 
 /**
  * Find an item by id
  * @param {string} id - item 'uuid' value
+ * @param {Array} items - array of exhibit item data objects
  * 
  * @returns {object} item - item with uuid matching the input id
  */
@@ -77,4 +80,72 @@ export const validateUserThemeStyles = (styles) => {
     }
 
     return styles;
+}
+
+/**
+ * Creates data structure to represent exhibit headings and subitems as sections
+ * 
+ * @param {Array} items - array of exhibit item data objects
+ * 
+ * @returns {Array} - array of page section data objects
+ */
+export const createExhibitPageSections = (items) => {
+
+    let item = {};
+    let headings = [];
+    let heading = null;
+    let subheading = null;
+    let sectionStyles = null;
+
+    for(let index in items) {
+        item = items[index];
+        
+        let {type = "", title = null, text = ""}  = item;
+
+        if(type == ENTITY_TYPE.EXHIBIT_HEADING) {
+            
+            // Push the previous heading, if any, to the heading array before building the current heading
+            if(heading) headings.push(heading);
+
+            heading = {
+                id: getHtmlIdString(text),
+                text: stripHtmlTags(text),
+                subheadings: []
+            }
+
+            item.anchorId = heading.id;
+
+            if(item.styles) sectionStyles = item.styles; // use heading styles for current section
+        }
+
+        if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
+
+            // If this item is in a heading section, and it has a title, add a subheading
+            if(heading && title) {
+                subheading = {
+                    id: getHtmlIdString(title),
+                    text: stripHtmlTags(title)
+                }
+
+                heading.subheadings.push(subheading);
+                item.anchorId = subheading.id;
+            }
+
+            // Apply heading styles
+            let styles = {
+                item: item.styles
+            }
+            if(sectionStyles) {
+                styles.heading = sectionStyles;
+            }
+            item.styles = styles;
+        }
+
+        // End case: push current heading to the headings array if this is the last item in the exhibit
+        if(parseInt(index) == items.length-1) {
+            if(heading) headings.push(heading);
+        }
+    }
+
+    return headings;
 }
