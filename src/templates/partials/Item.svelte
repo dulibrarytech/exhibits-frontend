@@ -114,7 +114,7 @@
             {#if wrapText}
                 <div class="item-content wrap-text text media-right">
                     <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
-                        <Media_Display {item} {caption} args={{showPreview, isEmbedded}} on:click-item />
+                        <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
                         {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
 
