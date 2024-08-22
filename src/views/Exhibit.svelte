@@ -37,8 +37,8 @@
 
     let renderPage = false;
 
-    const FONT_LOCATION = "../assets/fonts";  // TODO load DU brand fonts
-    const IMAGE_LOAD_DELAY = 2000; // TEMP track image load complete? all images must be loaded before the navigation scrollto will work (affects height of exhibit template div)
+    const FONT_LOCATION = "../assets/fonts";  // TODO: load DU brand fonts
+    const IMAGE_LOAD_DELAY = 2000; // TODO: track image load complete? all images must be loaded before the navigation scrollto will work (affects height of exhibit template div)
 
     const init = async () => {
         showLoadMessage(true);
@@ -86,14 +86,15 @@
 
     const render = async () => {
         console.log("Retrieving template...");
+
         pageLayout = $Page_Layouts[data.page_layout] || null;
-        template = $Templates[data.template] || null;
+        template = $Templates[data.exhibit_template] || null;
 
         if(!pageLayout) {
             console.error(`Could not find a layout for ${data.page_layout}`);
         }
         if(!template) {
-            console.error(`Could not find a template for ${data.template}`);
+            console.error(`Could not find a template for exhibit ${data.uuid}`);
         }
         else {
             console.log("Retrieving items...");
