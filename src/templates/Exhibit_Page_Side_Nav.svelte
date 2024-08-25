@@ -21,7 +21,6 @@
     let pageElement;
     let exhibitThankYouSectionElement;
     let repositoryRelatedItemsSectionElement;
-    //let navigationSidebarElement;
     let menuButtonDisplay = "none";
     let renderTemplate = false;
     let templateMessage = null;
@@ -75,7 +74,7 @@
         <Hero {data} {styles} />
 
         {#if data.description}
-            <Exhibit_Description content={data.description} /> <!-- ** if not required, put it back in the banner, remove this template ** -->
+            <Exhibit_Description content={data.description} />
         {/if}
 
         <!-- sidebar section for navigation -->

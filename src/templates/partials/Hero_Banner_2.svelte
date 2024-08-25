@@ -4,14 +4,14 @@
      * hero template #2
      *
      * fullwidth hero image
-     * fullwidth title and description section below image
+     * fullwidth title section below image
      */
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
 
     export let args = {};
 
-    let {image=null, title="exhibit title", subtitle=null, description=null} = args;
+    let {image=null, title="exhibit title", subtitle=null} = args;
 
     const dispatch = createEventDispatcher();
 
@@ -28,15 +28,10 @@
     <section class="hero-text">
         {#if title}
             <div class="title-text">
+            <!-- <div class="title-text" style="padding: {STYLES.sectionPadding}"> -->
                 <div id="title" class="overlay-text text">{@html title}</div>
+                <hr>
                 {#if subtitle}<div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
-            </div>
-        {/if}
-        
-        {#if description}
-            <hr>
-            <div class="description-text">
-                <p>{@html description}</p>
             </div>
         {/if}
     </section>
@@ -45,7 +40,6 @@
 <style>
     .banner {
         position: relative;
-        height: 50%
     }
 
     .hero-image {
@@ -56,21 +50,8 @@
         min-height: 700px;
     }
 
-    .hero-text {
-        color: white;
-    }
-
-    .hero-text-line {
-        margin: 0 auto;
-        width: 70%;
-    }
-
-    .hero-text-line > hr {
-        height: 6px;
-    }
-
-    .description-text > p {
-        margin: 0;
+    .title-text {
+        padding: 3.5em;
     }
 
     #title {

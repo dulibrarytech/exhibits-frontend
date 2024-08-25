@@ -5,7 +5,7 @@
     import { Settings } from '../config/settings';
     import { Banners } from '../templates/config/hero-banner';
     import { Resource } from '../libs/resource';
-    import { stripHtmlAndObjectCharacters, stripHtmlTags, sanitizeHtmlString } from '../libs/data_helpers';
+    import { sanitizeHtmlString } from '../libs/data_helpers';
 
     import Alert from './Alert.svelte';
 
@@ -85,15 +85,10 @@
         height: 245px;
     }
 
-    :global(.hero-text) {
-        background: grey;
-    }
-
     :global(.description-text) {
         padding: 50px 8%;
     }
 
-    /* begin responsive breakpoints: small mobile devices/phones first ^ */
     @media screen and (min-width: 480px) {
         :global(.hero-image) {
             height: 275px;
