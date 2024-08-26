@@ -79,7 +79,7 @@
 
 <style>
     .grid-item {
-        padding: 0.75rem;
+        padding: 1.5rem;
     }
 
     .item-date {

@@ -58,7 +58,7 @@
 <div class="item-grid" bind:this={gridElement} >
     <div id={id ?? undefined} class="anchor-offset"></div>
 
-    <div class="container">
+    <div class="container-md">
         {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div>{/if}
 
         <div class="grid-content">
@@ -96,9 +96,9 @@
         display: inline-flex;
         flex-wrap: wrap;
         margin: 0 auto;
-        justify-content: left;
+        justify-content: flex-start;
         row-gap: 100px;
-        column-gap: 4.2vw;
+        column-gap: 2.5vw;
         margin-top: 45px;
     }
 
@@ -117,21 +117,27 @@
         font-size: 0.85em;
     }
 
-    /* begin responsive breakpoints: small mobile devices/phones first ^ */
-    @media screen and (min-width: 768px) {
-        .col-2 {
-            /* width: 48.5%; */
+    @media screen and (min-width: 624px) {
+        /* .col-4, .col-3, .col-2 {
             width: 45.5%;
-        }
+        } */
+    }
 
-        .col-3 {
-            /* width: 31.5%; */
-            width: 28.5%;
+    @media screen and (min-width: 768px) {
+        .col-4, .col-3, .col-2 {
+            width: 47.5%;
         }
+    }
 
+    @media screen and (min-width: 992px) {
+        .col-4, .col-3 {
+            width: 30.5%;
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
         .col-4 {
-            /* width: 23.5%; */
-            width: 20.5%;
+            width: 22.5%;
         }
     }
 </style>
