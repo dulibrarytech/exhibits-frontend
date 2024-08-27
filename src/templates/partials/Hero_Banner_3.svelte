@@ -25,7 +25,7 @@
     <section class="hero-image">
         <div class="hero-image-text">
             {#if title}<div class="overlay-text text title">{@html title}</div>{/if}
-            {#if subtitle}<div class="overlay-text text subtitle">{@html subtitle}</div>{/if}
+            {#if subtitle}<hr><div class="overlay-text text subtitle">{@html subtitle}</div>{/if}
         </div>
     </section>
 </div>
@@ -54,10 +54,50 @@
     }
 
     .title {
-        font-size: 5.25em;
+        font-size: 1.45em;
     }
 
     .subtitle {
-        font-size: 2.1em;
+        font-size: 0.7em;
+    }
+
+    @media screen and (min-width: 480px) {
+        .title {
+            font-size: 1.95em;
+        }
+
+        .subtitle {
+            font-size: 0.9em;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .title {
+            font-size: 2.95em;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .title {
+            font-size: 3.95em;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+        }
+    }
+
+    @media screen and (min-width: 1280px) {
+        .title {
+            font-size: 5.25em;
+        }
+
+        .subtitle {
+            font-size: 2.1em;
+        }
     }
 </style>
