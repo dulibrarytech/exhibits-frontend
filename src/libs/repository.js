@@ -42,6 +42,8 @@ export const Repository = (() => {
         } = Configuration;
 
     var {
+        repositoryObjectEndpoint,
+        repositoryCollectionEndpoint,
         repositoryObjectDataEndpoint,
         repositoryDatastreamUrl,
         repositoryThumbnailDatastreamEndpoint,
@@ -112,16 +114,24 @@ export const Repository = (() => {
         return stream;
     }
 
+    const getItemUrl = (id) => {
+        return `${repositoryDomain}${repositoryObjectEndpoint.replace("{item_id}", id)}${apiKey}`;
+    }
+
+    const getCollectionUrl = (id) => {
+        return `${repositoryDomain}${repositoryCollectionEndpoint.replace("{collection_id}", id)}${apiKey}`;
+    }
+
     const getItemDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryObjectDatastreamEndpoint}${apiKey}`;
+        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}${repositoryObjectDatastreamEndpoint}${apiKey}`;
     }
 
     const getItemThumbnailDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryThumbnailDatastreamEndpoint}${apiKey}`;
+        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}${repositoryThumbnailDatastreamEndpoint}${apiKey}`;
     }
 
     const getItemImageDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}/${repositoryImageDatastreamEndpoint}${apiKey}`;
+        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}${repositoryImageDatastreamEndpoint}${apiKey}`;
     }
 
     const getIIIFJpgDerivativeUrl = (id) => {
@@ -199,6 +209,8 @@ export const Repository = (() => {
     }
 
     return {
+        getItemUrl,
+        getCollectionUrl,
         getItemData,
         getItemDatastream,
         getItemDatastreamUrl,

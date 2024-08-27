@@ -78,10 +78,12 @@ export const Settings = {
      * repository 
      */
     repositoryObjectDataEndpoint: "/repository/data/{item_id}",
+    repositoryObjectEndpoint: "/object/{item_id}",
+    repositoryCollectionEndpoint: "/object/{collection_id}",
     repositoryDatastreamUrl: "/datastream/{item_id}",
-    repositoryThumbnailDatastreamEndpoint: "tn",
-    repositoryImageDatastreamEndpoint: "jpg",
-    repositoryObjectDatastreamEndpoint: "object",
+    repositoryThumbnailDatastreamEndpoint: "/tn",
+    repositoryImageDatastreamEndpoint: "/jpg",
+    repositoryObjectDatastreamEndpoint: "/object",
 
     /*
      * Time period for exhibit to be displayed in the 'Recently Added' exhibits section
@@ -133,5 +135,12 @@ export const Settings = {
         "video": "Video",
         "pdf": "Text Document",
         "external": "Unknown Type"
+    },
+
+    /*
+     * Default top-level theme styles
+     */
+    defaultThemeStyles: {
+        sectionPadding: "3.5em"
     }
 }

@@ -16,7 +16,6 @@
 
     const dispatch = createEventDispatcher();
 
-    // TODO: move to settings
     const ID_FIELD = "pid";
     const TITLE_FIELD = "title";
     const MIME_TYPE_FIELD = "mime_type";
@@ -81,18 +80,18 @@
         });
 
         // link to object
-        let objectLink = `https://specialcollections.du.edu/object/${item.pid || 'null'}`;
+        let objectLink = Repository.getItemUrl(item.pid || 'null');
         display.push({
             "label": null,
-            "value": `<a href="${objectLink}">Record in the University Libraries' Digital Repository</a>`
+            "value": `<a href="${objectLink}" target="_blank">Record in the University Libraries' Digital Repository</a>`
         });
 
         // link to collection
         if(item.is_member_of_collection) {
-            let collectionLink = `https://specialcollections.du.edu/object/${item.collection_id || 'null'}`;
+            let collectionLink = Repository.getCollectionUrl(item.collection_id || 'null');
             display.push({
                 "label": null,
-                "value": `<a href="${collectionLink}">${item.collection_name || "Parent Collection"}</a>`
+                "value": `<a href="${collectionLink}" target="_blank">${item.collection_name || "Parent Collection"}</a>`
             });
         }
 
