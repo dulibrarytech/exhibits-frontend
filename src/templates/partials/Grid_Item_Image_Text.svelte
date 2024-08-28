@@ -92,7 +92,7 @@
     }
 
     .description {
-        font-size: 0.9em;
+        font-size: 0.8em;
         margin-top: 20px;
     }
 </style>
