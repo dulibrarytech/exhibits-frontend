@@ -67,6 +67,7 @@
 
                     <!-- exhibit heading -->
                     {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
+                        {#if index > 0}<div class="exhibit-section-divider"></div>{/if}
                         <Exhibit_Heading id={anchorId} {text} styles={displayItems[index].styles || styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
 
                     <!-- exhibit item container - grid -->
@@ -115,7 +116,8 @@
         line-height: 1.45em;
     }
 
-    :global(.exhibit-item:not(:first-child) .exhibit-heading) {
-        margin-top: 10px;
+    .exhibit-section-divider {
+        height: 15px;
+        background-color: #353331;
     }
 </style>
