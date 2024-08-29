@@ -124,7 +124,7 @@
                         </div>
 
                     {:else}
-                        <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
+                        {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
                         <div class="text-padding" bind:this={textElement}>
                             <Text_Display {item} />
                         </div>
@@ -146,7 +146,7 @@
                             </div>
 
                         {:else}
-                            <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
+                            {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
                             <div class="text-padding" bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
@@ -172,7 +172,7 @@
                         </div>
 
                     {:else}
-                        <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
+                        {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
                         <div class="text-padding" bind:this={textElement}>
                             <Text_Display {item} />
                         </div>
@@ -195,7 +195,7 @@
                             </div>
 
                         {:else}
-                            <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
+                            {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
                             <div class="text-padding" bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
@@ -220,7 +220,7 @@
 
                     {:else}
                         <div class="container">
-                            <div class="title-heading" bind:this={titleElement}>{@html title}</div>
+                            {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div>{/if}
                             <div bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
@@ -240,7 +240,7 @@
 
                     {:else}
                         <div class="container">
-                            <div class="title-heading" bind:this={titleElement}>{@html title}</div>
+                            {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div>{/if}
                             <div bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
@@ -264,7 +264,7 @@
                     </div>
 
                 {:else}
-                    <div class="title-heading title-padding container" bind:this={titleElement}>{@html title}</div>
+                    {#if title}<div class="title-heading title-padding container" bind:this={titleElement}>{@html title}</div>{/if}
                     <div class="media media-fullwidth media-only width-{mediaWidth}">
                         <Media_Display {item} args={{showPreview}} on:click-item />
                         {#if caption}<div class="caption" style="margin-left: 20px">{caption}</div>{/if}
@@ -281,7 +281,7 @@
                     </div>
 
                 {:else}
-                    <div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>
+                    {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
                     <div class="text-padding" bind:this={textElement}>
                         <Text_Display {item} />
                     </div>
@@ -303,8 +303,8 @@
     .item a { color: inherit }
 
     .item-padding {
-        padding-top: 5rem;
-        padding-bottom: 5rem;
+        padding-top: 3.5rem;
+        padding-bottom: 3.5rem;
     }
 
     .title-heading {

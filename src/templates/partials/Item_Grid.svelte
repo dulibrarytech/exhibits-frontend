@@ -79,12 +79,13 @@
     }
 
     .item-grid {
-        padding-top: 5em;
-        padding-bottom: 5em;
+        padding-top: 3.5em;
+        padding-bottom: 3.5em;
     }
 
     .title-heading {
         text-transform: uppercase;
+        margin-bottom: 45px;
     }
 
     .anchor-offset {
@@ -99,7 +100,6 @@
         justify-content: flex-start;
         row-gap: 100px;
         column-gap: 2.5vw;
-        margin-top: 45px;
     }
 
     :global(.item-grid .item) {
