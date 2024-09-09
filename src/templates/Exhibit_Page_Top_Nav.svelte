@@ -68,7 +68,7 @@
             <Navigation_Top bind:this={navigationMenu} {sections} styles={styles?.navigation || null} />
 
             {#if data.description}
-                <Exhibit_Description content={data.description} />
+                <Exhibit_Description content={data.description} styles={styles?.template || null} />
             {/if}
 
             {#if renderTemplate}
