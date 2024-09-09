@@ -68,8 +68,8 @@
         if(isPublished) {
             try {
                 styles = JSON.parse(data.styles).exhibit || {};
-                if(!styles.template) console.error("Exhibit template style data not found");
-                if(!styles.navigation) console.error("Exhibit navigation menu style data not found");
+                if(!styles.template) console.log("Exhibit template style data not found");
+                if(!styles.navigation) console.log("Exhibit navigation menu style data not found");
             }
             catch(error) {
                 console.error(`Error loading exhibit styles: ${error}`);
