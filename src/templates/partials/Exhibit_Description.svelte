@@ -18,6 +18,10 @@
         margin-bottom: 1.9rem;
     }
 
+    :global(.exhibit-description p:last-child) {
+        margin-bottom: 0;
+    }
+
     /* begin responsive breakpoints: small mobile devices/phones first ^ */
     @media screen and (min-width: 480px) {
         .exhibit-description {
