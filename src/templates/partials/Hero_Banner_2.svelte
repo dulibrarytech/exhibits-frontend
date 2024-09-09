@@ -9,7 +9,10 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
 
+    export let styles = null;
     export let args = {};
+
+    let bannerElement;
 
     let {image=null, title="exhibit title", subtitle=null} = args;
 
@@ -17,24 +20,26 @@
 
     onMount(async () => {
         dispatch('mount', {});
-        
-        document.querySelector('.hero-image').style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("${image}")`;
+        if(styles) Object.assign(bannerElement.style, styles);
     });
 </script>
 
-<div class="banner">
-    <section class="hero-image"></section>
+<div class="banner" bind:this={bannerElement}>
+    <div class="hero-image">
+        <img src={image} alt={title} title={title} />
+    </div>
+
     
-    <section class="hero-text">
+    <div class="hero-text">
         {#if title}
             <div class="title-text">
+            <!-- TODO apply global padding style -->
             <!-- <div class="title-text" style="padding: {STYLES.sectionPadding}"> -->
                 <div id="title" class="overlay-text text">{@html title}</div>
-                <hr>
-                {#if subtitle}<div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
+                {#if subtitle}<hr><div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
             </div>
         {/if}
-    </section>
+    </div>
 </div>
 
 <style>
@@ -43,14 +48,14 @@
     }
 
     .hero-image {
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
         position: relative;
-        min-height: 700px;
     }
 
-    .title-text {
+    .hero-image > img {
+        width: 100%;
+    }
+
+    .title-text { /* TODO remove when global padding style is implemented */
         padding: 3.5em;
     }
 
@@ -62,13 +67,13 @@
         font-size: 0.8em;
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 576px) {
         #title {
-            font-size: 4.2em;
+            font-size: 2.7em;
         }
 
         #subtitle {
-            font-size: 1.8em;
+            font-size: 1em;
         }
     }
 
@@ -82,13 +87,13 @@
         }
     }
 
-    @media (min-width: 576px) {
+    @media (min-width: 992px) {
         #title {
-            font-size: 2.7em;
+            font-size: 4.2em;
         }
 
         #subtitle {
-            font-size: 1em;
+            font-size: 1.8em;
         }
     }
 </style>

@@ -1,7 +1,7 @@
 <script>
     'use strict'
 
-    import { onMount } from 'svelte';
+    //import { onMount } from 'svelte';
     import { Settings } from '../config/settings';
     import { Banners } from '../templates/config/hero-banner';
     import { Resource } from '../libs/resource';
@@ -52,20 +52,20 @@
         return path;
     }
 
-    const setTheme = (styles) => {
-        if(heroSection) {
-            Object.assign(heroSection.style, styles);
-        }
-    }
+    // const setTheme = (styles) => {
+    //     if(heroSection) {
+    //         //Object.assign(heroSection.style, styles);
+    //     }
+    // }
 
-    onMount(async () => {
-        if(styles.template) setTheme(styles.template);
-    });
+    // onMount(async () => {
+    //     if(styles.template) setTheme(styles.template);
+    // });
 </script>
 
 <header class="hero-section" bind:this={heroSection}>
     {#if banner}
-        <svelte:component this={banner} args={bannerData}/>
+        <svelte:component this={banner} args={bannerData} styles={styles.template} />
     {/if}
 
     {#if alert }
@@ -74,22 +74,22 @@
 </header>
 
 <style>
-    :global(.banner > img) {
+    /* :global(.banner > img) {
         width: 100%;
         height: 100%;
-    }
-
+    } */
+/* 
     :global(.hero-image) {
         min-height: 200px;
         background: grey;
         height: 245px;
-    }
+    } */
 
     :global(.description-text) {
         padding: 50px 8%;
     }
 
-    @media screen and (min-width: 480px) {
+    /* @media screen and (min-width: 480px) {
         :global(.hero-image) {
             height: 275px;
         }
@@ -117,5 +117,5 @@
         :global(.hero-image) {
             height: 725px;
         }
-    }
+    } */
 </style>

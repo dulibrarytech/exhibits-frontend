@@ -8,7 +8,11 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
 
+    export let styles = null;
     export let args = {};
+
+    let bannerElement;
+    let imageElement;
 
     let {image=null, title="exhibit title", subtitle=null} = args;
 
@@ -16,31 +20,40 @@
 
     onMount(async () => {
         dispatch('mount', {});
-        
-        document.querySelector('.hero-image').style.backgroundImage = `url("${image}")`;
+
+        if(styles.color) bannerElement.style.color = styles.color;
+        if(styles.backgroundColor) bannerElement.style.backgroundColor = styles.backgroundColor;
+        // if(image) imageElement.style.backgroundImage = `url("${image}")`;
     });
 </script>
 
-<div class="banner">
-    <section class="hero-image">
+<div class="banner" bind:this={bannerElement}>
+    <div class="hero-image" bind:this={imageElement}>
+        <img src={image} alt={title} title={title} />
+
         <div class="hero-image-text">
             {#if title}<div class="overlay-text text title">{@html title}</div>{/if}
             {#if subtitle}<hr><div class="overlay-text text subtitle">{@html subtitle}</div>{/if}
         </div>
-    </section>
+    </div>
 </div>
 
 <style>
     .banner {
         position: relative;
-        height: 50%
     }
 
     .hero-image {
-        background-position: center;
+        /* background-position: center;
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: cover; */
+
+        /* height: 85vh; */
         position: relative;
+    }
+
+    .hero-image > img {
+        width: 100%;
     }
 
     .hero-image-text {
