@@ -69,7 +69,7 @@
 
     @media (min-width: 576px) {
         #title {
-            font-size: 2.7em;
+            font-size: 2.3em;
         }
 
         #subtitle {
@@ -79,7 +79,7 @@
 
     @media (min-width: 768px) {
         #title {
-            font-size: 3.2em;
+            font-size: 2.7em;
         }
 
         #subtitle {
@@ -89,7 +89,7 @@
 
     @media (min-width: 992px) {
         #title {
-            font-size: 4.2em;
+            font-size: 3.2em;
         }
 
         #subtitle {
