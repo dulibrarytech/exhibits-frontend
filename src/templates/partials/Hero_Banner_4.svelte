@@ -13,6 +13,7 @@
     export let args = {};
 
     let bannerElement;
+    let textElement;
 
     let {image=null, title="exhibit title", subtitle=null} = args;
 
@@ -21,6 +22,11 @@
     onMount(async () => {
         dispatch('mount', {});
         if(styles) Object.assign(bannerElement.style, styles);
+
+        let userStyleSection = document.querySelector("#title > div");
+        if(userStyleSection) {
+            textElement.classList.remove('padding');
+        }
     });
 </script>
 
@@ -31,7 +37,7 @@
             <img src={image} alt={title} title={title} />
         </div>
 
-        <div class="title-text col-lg-5 col-md-6 col-sm-12">
+        <div class="title-text padding col-lg-5 col-md-6 col-sm-12" bind:this={textElement}>
             <div id="title" class="text">{@html title}</div>
             {#if subtitle}<hr><div id="subtitle" class="text">{@html subtitle}</div>{/if}
         </div>
@@ -52,7 +58,7 @@
         width: 100%;
     }
 
-    .title-text {
+    .padding {
         padding: 3.5em;
     }
 
