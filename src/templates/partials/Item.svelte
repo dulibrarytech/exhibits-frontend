@@ -8,7 +8,7 @@
     import Text_Display from '../../components/Text_Display.svelte';
     import Media_Display from '../../components/Media_Display.svelte';
 
-    import { ITEM_TYPE, MEDIA_POSITION } from '../../config/global-constants';
+    import { MEDIA_POSITION } from '../../config/global-constants';
 
     export let item = {};
     export let args = {};
@@ -483,5 +483,12 @@
         .width-66 {width: 66%}
         .width-67 {width: 67%}
         .width-75 {width: 75%}
+
+        :global(.media-top .width-100 .video-player .content),
+        :global(.media-bottom .width-100 .video-player .content),
+        :global(.media-only .width-100 .video-player .content) {
+            margin: 0 auto;
+            width: 80%;
+        } 
     }
 </style>
