@@ -13,7 +13,7 @@
     import PDFJS_Viewer from './PDFJS_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
-    import {ITEM_TYPE, VIEWER_TYPE} from '../config/global-constants';
+    import {ITEM_TYPE, VIEWER_TYPE, MEDIA_POSITION} from '../config/global-constants';
 
     export let item = {};
     export let args = {};
@@ -38,6 +38,9 @@
     var params = {};
 
     const URL_PATTERN = /^https?:\/\//;
+    const LARGE_IMAGE_PREVIEW_HEIGHT = "600";
+    const IFRAME_HEIGHT_SMALL = "350";
+    const IFRAME_HEIGHT_LARGE = "700";
 
     $: init();
 
@@ -128,7 +131,7 @@
                 /* get jpg derivative to display on the page */
                 url = Resource.getImageDerivativeUrl({
                     filename,
-                    height: "600"
+                    height: LARGE_IMAGE_PREVIEW_HEIGHT
                 })
             }
             else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
@@ -176,8 +179,23 @@
 
     const renderIframeViewer = () => {
         let url = resource;
+        let layout = item.layout || null;
+        let height = IFRAME_HEIGHT_SMALL;
+
+        switch(layout) {
+            case MEDIA_POSITION.LEFT:
+            case MEDIA_POSITION.RIGHT:
+                height = IFRAME_HEIGHT_SMALL;
+                break;
+            
+            case MEDIA_POSITION.TOP:
+            case MEDIA_POSITION.BOTTOM:
+            case MEDIA_POSITION.MEDIA_ONLY:
+                height = IFRAME_HEIGHT_LARGE;
+                break;
+        }
         
-        params = {url, caption}; 
+        params = {url, caption, height}; 
         component = Embed_Iframe_Viewer;
     }
 
