@@ -54,8 +54,8 @@ export const Kaltura = (() => {
      * 
      * @returns 
      */
-    const getThumbnailUrl = (entryId) => {
-        return `${kalturaDomain}/p/${kalturaPartnerID}/thumbnail/entry_id/${entryId}/width/${kalturaThumbnailWidth}/height/${kalturaThumbnailHeight}`;
+    const getThumbnailUrl = (entryId, height=null, width=null) => {
+        return `${kalturaDomain}/p/${kalturaPartnerID}/thumbnail/entry_id/${entryId}/width/${width || kalturaThumbnailWidth}/height/${height || kalturaThumbnailHeight}`;
     }
 
     /**

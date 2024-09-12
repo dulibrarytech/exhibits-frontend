@@ -28,16 +28,22 @@
     let contentSection;
     let iframeSection;
     let iframeElement;
+    let previewElement;
+    let videoElement;
+    let videoPlayer;
+    let previewImageUrl;
 
     $: {
         if(isEmbedded) {
-            // embedded html audio or video player on page will source from kaltura stream url
+            // embedded html audio or video player will source from kaltura stream url
             kalturaUrl = Kaltura.getStreamingMediaUrl(entryId);
         }
         else {
             // modal viewer template displays the kaltura embedded player iframe
             kalturaUrl = Kaltura.getEmbeddedViewerUrl(entryId);
         }
+
+        previewImageUrl = Kaltura.getThumbnailUrl(entryId, 1000, 1000);
     }
 
     const onLoadIframe = () => {
@@ -51,12 +57,26 @@
     const onShowTranscriptSection = () => {
         //contentSection.style.height = "100%";
     }
+
+    const onClickKalturaPreview = (event) => {
+        previewElement.style.display = "none";
+        videoElement.style.display = "block";
+        videoPlayer.play()
+
+    }
 </script>
 
 <div class="kaltura-content content" bind:this={contentSection}>
     {#if kalturaUrl}
         {#if isEmbedded}
-            <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID}></video>
+            <div class="preview" bind:this={previewElement}>
+                <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} /> 
+                <img class="preview-icon" src="../assets/images/play-button-icon-png-18919.png" />
+            </div>
+
+            <div class="embedded-video" style="display: none" bind:this={videoElement}>
+                <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={videoPlayer} ></video>
+            </div>
 
         {:else}
             <div class="iframe-wrapper" bind:this={iframeSection}>
@@ -79,6 +99,33 @@
     .kaltura-content iframe,
     .kaltura-content video {
         width: 100%;
+    }
+
+    .preview {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 10;
+    }
+
+    .preview:hover {
+        cursor: pointer;
+    }
+
+    .preview-image {
+        width: 100%;
+        height: 100%;
+    }
+
+    .preview-icon {
+        width: 128px;
+        height: 128px;
+        position: absolute;
+        top: calc(50% - 64px);
+        left: calc(50% - 64px);
+        pointer-events: none;
     }
 
     .subframe-content {
