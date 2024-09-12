@@ -26,8 +26,10 @@
     let itemType;
     let mimeType;
     let viewerType;
+    let viewerHeight;
     let title;
     let caption;
+    let layout;
 
     var filename;
     var component;
@@ -39,8 +41,8 @@
 
     const URL_PATTERN = /^https?:\/\//;
     const LARGE_IMAGE_PREVIEW_HEIGHT = "600";
-    const IFRAME_HEIGHT_SMALL = "350";
-    const IFRAME_HEIGHT_LARGE = "700";
+    const VIEWER_HEIGHT_SMALL = "350";
+    const VIEWER_HEIGHT_LARGE = "700";
 
     $: init();
 
@@ -54,6 +56,23 @@
         title = args.title || item.title || null;
         caption = args.caption || item.caption || null;
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
+        layout = item.layout || null;
+
+        switch(layout) {
+            case MEDIA_POSITION.LEFT:
+            case MEDIA_POSITION.RIGHT:
+                viewerHeight = VIEWER_HEIGHT_SMALL;
+                break;
+            
+            case MEDIA_POSITION.TOP:
+            case MEDIA_POSITION.BOTTOM:
+            case MEDIA_POSITION.MEDIA_ONLY:
+                viewerHeight = VIEWER_HEIGHT_LARGE;
+                break;
+
+            default:
+                viewerHeight = VIEWER_HEIGHT_SMALL;
+        }
 
         /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
         if(URL_PATTERN.test(resource) == false) { // TODO data.helper::isUrlFormat()
@@ -179,21 +198,7 @@
 
     const renderIframeViewer = () => {
         let url = resource;
-        let layout = item.layout || null;
-        let height = IFRAME_HEIGHT_SMALL;
-
-        switch(layout) {
-            case MEDIA_POSITION.LEFT:
-            case MEDIA_POSITION.RIGHT:
-                height = IFRAME_HEIGHT_SMALL;
-                break;
-            
-            case MEDIA_POSITION.TOP:
-            case MEDIA_POSITION.BOTTOM:
-            case MEDIA_POSITION.MEDIA_ONLY:
-                height = IFRAME_HEIGHT_LARGE;
-                break;
-        }
+        let height = viewerHeight;
         
         params = {url, caption, height}; 
         component = Embed_Iframe_Viewer;
@@ -213,7 +218,7 @@
 
 {#if component}
     <div class="media-item" bind:this={mediaElement}>
-        <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadMediaFail}/>
+        <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadMediaFail} height={viewerHeight}/>
     
         <div class="message" style="display: {messageDisplay ? "block" : "none"}" >
             <div class="message-text">{message}</div>

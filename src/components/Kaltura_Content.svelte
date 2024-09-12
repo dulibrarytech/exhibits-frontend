@@ -6,27 +6,41 @@
 
     export let entryId = null;
     export let caption = "Untitled content";
+    export let args = {};
 
-    var {   
+    let {   
         kalturaUniqueObjectID,
         kalturaPlayerHeight,
         kalturaPlayerWidth
 
     } = Settings;
 
-    var kalturaUrl = null;
+    let {
+        isEmbedded = false,
+        mimeType = null,
+        height = kalturaPlayerHeight,
+        width = kalturaPlayerWidth
+
+    } = args;
+
+    let kalturaUrl = null;
 
     let contentSection;
     let iframeSection;
     let iframeElement;
 
     $: {
-        if(entryId) kalturaUrl = Kaltura.getEmbeddedViewerUrl(entryId);
-        else console.error("Missing Kaltura entry id");
+        if(isEmbedded) {
+            // embedded html audio or video player on page will source from kaltura stream url
+            kalturaUrl = Kaltura.getStreamingMediaUrl(entryId);
+        }
+        else {
+            // modal viewer template displays the kaltura embedded player iframe
+            kalturaUrl = Kaltura.getEmbeddedViewerUrl(entryId);
+        }
     }
 
     const onLoadIframe = () => {
-        //contentSection.style.height = "calc(100% - 250px)";
         iframeSection.style.visibility = "visible";
 
         window.addEventListener('resize', function(event) {
@@ -39,19 +53,17 @@
     }
 </script>
 
-<div class="kaltura-content" bind:this={contentSection}>
+<div class="kaltura-content content" bind:this={contentSection}>
     {#if kalturaUrl}
-    <div class="iframe-wrapper" bind:this={iframeSection}>
+        {#if isEmbedded}
+            <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID}></video>
 
-        <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} width={kalturaPlayerWidth} height={kalturaPlayerHeight} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
-        
-        <div class="subframe-content">
-            <!-- <div class="links">
-                <button on:click|preventDefault={onShowTranscriptSection}>View Transcript</button>
-            </div> -->
-        </div>
-        
-    </div>
+        {:else}
+            <div class="iframe-wrapper" bind:this={iframeSection}>
+                <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} {width} {height} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
+                <div class="subframe-content"></div>
+            </div>
+        {/if}
 
     {:else}
         <h5>Loading Kaltura player...</h5>
@@ -61,6 +73,12 @@
 <style>
     .kaltura-content {
         height: 100%;
+        width: 100%;
+    }
+
+    .kaltura-content iframe,
+    .kaltura-content video {
+        width: 100%;
     }
 
     .subframe-content {
