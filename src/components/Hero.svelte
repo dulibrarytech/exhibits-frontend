@@ -1,7 +1,6 @@
 <script>
     'use strict'
 
-    //import { onMount } from 'svelte';
     import { Settings } from '../config/settings';
     import { Banners } from '../templates/config/hero-banner';
     import { Resource } from '../libs/resource';
@@ -51,16 +50,6 @@
         else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
         return path;
     }
-
-    // const setTheme = (styles) => {
-    //     if(heroSection) {
-    //         //Object.assign(heroSection.style, styles);
-    //     }
-    // }
-
-    // onMount(async () => {
-    //     if(styles.template) setTheme(styles.template);
-    // });
 </script>
 
 <header class="hero-section" bind:this={heroSection}>
@@ -74,48 +63,7 @@
 </header>
 
 <style>
-    /* :global(.banner > img) {
-        width: 100%;
-        height: 100%;
-    } */
-/* 
-    :global(.hero-image) {
-        min-height: 200px;
-        background: grey;
-        height: 245px;
-    } */
-
     :global(.description-text) {
         padding: 50px 8%;
     }
-
-    /* @media screen and (min-width: 480px) {
-        :global(.hero-image) {
-            height: 275px;
-        }
-    }
-
-    @media screen and (min-width: 768px) {
-        :global(.hero-image) {
-            height: 435px;
-        }
-    }
-
-    @media screen and (min-width: 992px) {
-        :global(.hero-image) {
-            height: 565px;
-        }
-    }
-
-    @media screen and (min-width: 1280px) {
-        :global(.hero-image) {
-            height: 615px;
-        }
-    }
-
-    @media screen and (min-width: 1920px) {
-        :global(.hero-image) {
-            height: 725px;
-        }
-    } */
 </style>
