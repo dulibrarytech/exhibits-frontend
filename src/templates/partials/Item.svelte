@@ -486,7 +486,10 @@
 
         :global(.media-top .width-100 .video-player .content),
         :global(.media-bottom .width-100 .video-player .content),
-        :global(.media-only .width-100 .video-player .content) {
+        :global(.media-only .width-100 .video-player .content),
+        :global(.media-top .width-100 .audio-player .content),
+        :global(.media-bottom .width-100 .audio-player .content),
+        :global(.media-only .width-100 .audio-player .content) {
             margin: 0 auto;
             width: 80%;
         } 
