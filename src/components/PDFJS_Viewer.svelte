@@ -43,6 +43,8 @@
   </div>
   
   <style>
-
+    pdfjs-viewer-element {
+      height: 100vh;
+    }
   </style>
   
