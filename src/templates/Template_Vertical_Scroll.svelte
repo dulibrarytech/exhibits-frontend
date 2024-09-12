@@ -118,6 +118,5 @@
 
     .exhibit-section-divider {
         height: 15px;
-        background-color: #353331;
     }
 </style>
