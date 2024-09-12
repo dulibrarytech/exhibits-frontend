@@ -7,7 +7,8 @@
      * fullwidth title section below image
      */
     import { onMount } from 'svelte';
-    import {createEventDispatcher} from 'svelte';
+    import { createEventDispatcher } from 'svelte';
+    import { convertPxValuesToEm } from '../../libs/data_helpers';
 
     export let styles = null;
     export let args = {};
@@ -18,10 +19,19 @@
 
     const dispatch = createEventDispatcher();
 
+    const BASE_TITLE_FONT_SIZE = 70;
+    const BASE_SUBTITLE_FONT_SIZE = 40;
+
+    const init = () => {
+        title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
+    }
+
     onMount(async () => {
         dispatch('mount', {});
         if(styles) Object.assign(bannerElement.style, styles);
     });
+
+    init();
 </script>
 
 <div class="banner" bind:this={bannerElement}>
@@ -60,40 +70,40 @@
     }
 
     #title {
-        font-size: 2.2em;
+        font-size: 48px;
     }
 
     #subtitle {
-        font-size: 0.8em;
+        font-size: 22px;
     }
 
     @media (min-width: 576px) {
         #title {
-            font-size: 2.3em;
+            font-size: 51px;
         }
 
         #subtitle {
-            font-size: 1em;
+            font-size: 22px;
         }
     }
 
     @media (min-width: 768px) {
         #title {
-            font-size: 2.7em;
+            font-size: 60px;
         }
 
         #subtitle {
-            font-size: 1.3em;
+            font-size: 29px;
         }
     }
 
     @media (min-width: 992px) {
         #title {
-            font-size: 3.2em;
+            font-size: 70px;
         }
 
         #subtitle {
-            font-size: 1.8em;
+            font-size: 40px;
         }
     }
 </style>

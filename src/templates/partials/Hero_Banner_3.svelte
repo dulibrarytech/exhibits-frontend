@@ -6,7 +6,8 @@
      * fullwidth hero image with title overlay
      */
     import { onMount } from 'svelte';
-    import {createEventDispatcher} from 'svelte';
+    import { createEventDispatcher } from 'svelte';
+    import { convertPxValuesToEm } from '../../libs/data_helpers';
 
     export let styles = null;
     export let args = {};
@@ -18,13 +19,24 @@
 
     const dispatch = createEventDispatcher();
 
+    const BASE_TITLE_FONT_SIZE = 84;
+    const BASE_SUBTITLE_FONT_SIZE = 34;
+
+    const init = () => {
+        title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
+    }
+
     onMount(async () => {
         dispatch('mount', {});
 
         if(styles.color) bannerElement.style.color = styles.color;
         if(styles.backgroundColor) bannerElement.style.backgroundColor = styles.backgroundColor;
+
+        /* TEMP: fixed height hero image update - use background image and sizing, fixed height */
         // if(image) imageElement.style.backgroundImage = `url("${image}")`;
     });
+
+    init();
 </script>
 
 <div class="banner" bind:this={bannerElement}>
@@ -44,11 +56,12 @@
     }
 
     .hero-image {
+        /* TEMP: fixed height hero image update - use background image and sizing, fixed height */
         /* background-position: center;
         background-repeat: no-repeat;
         background-size: cover; */
-
         /* height: 85vh; */
+
         position: relative;
     }
 
@@ -67,50 +80,50 @@
     }
 
     .title {
-        font-size: 1.45em;
+        font-size: 23px;
     }
 
     .subtitle {
-        font-size: 0.7em;
+        font-size: 16px;
     }
 
     @media screen and (min-width: 480px) {
         .title {
-            font-size: 1.95em;
+            font-size: 31px;
         }
 
         .subtitle {
-            font-size: 0.9em;
+            font-size: 16px;
         }
     }
 
     @media screen and (min-width: 768px) {
         .title {
-            font-size: 2.95em;
+            font-size: 47px;
         }
 
         .subtitle {
-            font-size: 1.1em;
+            font-size: 18px;
         }
     }
 
     @media screen and (min-width: 992px) {
         .title {
-            font-size: 3.95em;
+            font-size: 63px;
         }
 
         .subtitle {
-            font-size: 1.5em;
+            font-size: 24px;
         }
     }
 
     @media screen and (min-width: 1280px) {
         .title {
-            font-size: 5.25em;
+            font-size: 84px;
         }
 
         .subtitle {
-            font-size: 2.1em;
+            font-size: 34px;
         }
     }
 </style>

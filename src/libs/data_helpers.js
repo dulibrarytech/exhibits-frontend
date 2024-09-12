@@ -141,3 +141,25 @@ export const getRandomNumberArray = (count=0, max=0) => {
 
     return randomNumbers;
 }
+
+/**
+ * 
+ */
+export const convertPxValuesToEm = (htmlString = "", baseFontSize = 16) => {
+    let pattern = /[0-9]+px/g;
+    let pixelValues = htmlString.match(pattern);
+
+    if(pixelValues) {
+        let numericValue, emValue, emStringValue;
+        pixelValues = [...pixelValues];
+        
+        for(let pixelStringValue of pixelValues) {
+            numericValue = parseInt(pixelStringValue.match(/[0-9]+/)[0]);
+            emValue = numericValue / baseFontSize;
+            emStringValue = emValue.toString() + "em";
+            htmlString = htmlString.replace(pixelStringValue, emStringValue)
+        }
+    }
+
+    return htmlString;
+}
