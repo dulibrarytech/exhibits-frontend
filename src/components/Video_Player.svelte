@@ -1,16 +1,14 @@
 <script>
     import Embed_Code_Content from "./Embed_Code_Content.svelte";
-    //import JWPlayer_Content from "./JWPlayer_Content.svelte";
-
     import Kaltura_Content from "./Kaltura_Content.svelte";
-    import { Kaltura } from '../libs/kaltura';
 
     export let args = {};
+    export let height = null;
+    export let width = null;
 
     let {
         url=null, 
         embedCode=null, 
-        // caption=null, 
         mimeType=null,
         kalturaId=null,
         isEmbedded=false
@@ -23,18 +21,12 @@
 
     const render = () => {
         if(!url && !kalturaId && !embedCode) console.error("Error loading video content: path to source not found")
-    
-        // Use the html player for an embedded item
-        if(kalturaId && isEmbedded) {
-            url = Kaltura.getStreamingMediaUrl(kalturaId);
-            kalturaId = null;
-        }
     }
 </script>
 
 <div class="video-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId}/>
+        <Kaltura_Content entryId={kalturaId} args={{isEmbedded, mimeType}} />
     
     {:else}
         <div class="video">
@@ -47,7 +39,7 @@
                     {:else}
                         <video src={url} controls></video>
                     {/if}
-                                    </div>
+                </div>
             {:else}
                 <h6>Loading video content...</h6>
             {/if}

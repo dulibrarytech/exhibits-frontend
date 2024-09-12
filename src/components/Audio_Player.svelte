@@ -1,7 +1,6 @@
 <script>
     import Embed_Code_Content from "./Embed_Code_Content.svelte";
     import Kaltura_Content from "./Kaltura_Content.svelte";
-    import { Kaltura } from '../libs/kaltura';
 
     export let args = {};
 
@@ -20,18 +19,12 @@
 
     const render = () => {
         if(!url && !kalturaId && !embedCode) console.error("Error loading audio content: path to source not found");
-
-        // Use the html player for an embedded item
-        if(kalturaId && isEmbedded) {
-            url = Kaltura.getStreamingMediaUrl(kalturaId);
-            kalturaId = null;
-        }
     }
 </script>
 
 <div class="audio-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId}/> <!-- viewTranscript = !args.isEmbedded -->
+        <Kaltura_Content entryId={kalturaId} args={{isEmbedded}} /> <!-- viewTranscript = !args.isEmbedded -->
 
     {:else}
         <div class="audio">
