@@ -18,8 +18,6 @@
 
     let navigationMenu;
     let pageElement;
-    let exhibitThankYouSectionElement;
-    let repositoryRelatedItemsSectionElement;
 
     let renderTemplate = false;
     let templateMessage = null;
@@ -29,14 +27,6 @@
     const setTheme = (styles) => {
         if(pageElement) {
             Object.assign(pageElement.style, styles);
-
-            if(styles.backgroundColor) {
-                // assign related items section bg to template bg color
-                exhibitThankYouSectionElement.style.backgroundColor = styles.backgroundColor;
-
-                // assign 'thanks for visiting' section bg to template bg color
-                repositoryRelatedItemsSectionElement.style.backgroundColor = styles.backgroundColor;
-            }
         }
     }
 
@@ -77,13 +67,9 @@
                 <div class="template-message"><h3>{templateMessage}</h3></div>
             {/if}
 
-            <div bind:this={exhibitThankYouSectionElement}>
-                <Exhibit_Thank_You />
-            </div>
+            <Exhibit_Thank_You />
 
-            <div bind:this={repositoryRelatedItemsSectionElement}>
-                <Repository_Related_Items {items} />
-            </div>
+            <Repository_Related_Items {items} />
             
     {:else}
         <h3>Loading template...</h3>

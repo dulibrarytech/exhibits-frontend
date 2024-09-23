@@ -19,8 +19,6 @@
 
     let navigationMenu;
     let pageElement;
-    let exhibitThankYouSectionElement;
-    let repositoryRelatedItemsSectionElement;
     let menuButtonDisplay = "none";
     let renderTemplate = false;
     let templateMessage = null;
@@ -30,18 +28,7 @@
     const setTheme = (styles) => {   
         if(pageElement) {
             Object.assign(pageElement.style, template);
-
-            if(styles.backgroundColor) {
-                // assign related items section bg to template bg color
-                exhibitThankYouSectionElement.style.backgroundColor = styles.backgroundColor;
-
-                // assign 'thanks for visiting' section bg to template bg color
-                repositoryRelatedItemsSectionElement.style.backgroundColor = styles.backgroundColor;
-            }
         }
-        // if(navigation?.menu) {
-        //     Object.assign(navigationSidebarElement.style, navigation.menu);
-        // }
     }
 
     const toggleMenuButtonDisplay = () => {
@@ -101,13 +88,9 @@
             </div>
         </div>
 
-        <div bind:this={exhibitThankYouSectionElement}>
-            <Exhibit_Thank_You />
-        </div>
+        <Exhibit_Thank_You />
 
-        <div bind:this={repositoryRelatedItemsSectionElement}>
-            <Repository_Related_Items {items} />
-        </div>
+        <Repository_Related_Items {items} />
 
     {:else}
         <h3>Loading template...</h3>
