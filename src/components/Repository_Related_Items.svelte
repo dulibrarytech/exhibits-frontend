@@ -9,8 +9,8 @@
    let repositoryItemIds = [];
    let relatedItemsDisplay = null;
 
-   const REPOSITORY_ITEM_COUNT = 4;
-   const RELATED_ITEM_COUNT = 4;
+   const REPOSITORY_ITEM_DISPLAY_COUNT = 4;
+   const RELATED_ITEM_DISPLAY_COUNT = 4;
    const METADATA_FIELD = "display_record";
    const SUBJECT_FIELD = "subjects";
    const SUBJECT_SUBFIELD = "title"
@@ -18,25 +18,25 @@
    const init = async () => {
       
       let repositoryItems = getRepositoryItems(items);
+      if(repositoryItems.length > 0) {
 
-      if(REPOSITORY_ITEM_COUNT < repositoryItems.length) {
-
-         // get a set of randomly selected repository items
-         let randomNumbers = getRandomNumberArray(REPOSITORY_ITEM_COUNT, repositoryItems.length-1);
-         for(let index of randomNumbers) {
-            repositoryItemIds.push(repositoryItems[index].media);
+         if(REPOSITORY_ITEM_DISPLAY_COUNT < repositoryItems.length) {
+            // get a set of randomly selected repository items for the display
+            let randomNumbers = getRandomNumberArray(REPOSITORY_ITEM_DISPLAY_COUNT, repositoryItems.length-1);
+            for(let index of randomNumbers) {
+               repositoryItemIds.push(repositoryItems[index].media);
+            }
          }
-      }
-      else {
-
-         // add all of the repository items to the set
-         for(let item of repositoryItems) {
-            repositoryItemIds.push(item.media);
+         else {
+            // add all of the repository items to the display
+            for(let item of repositoryItems) {
+               repositoryItemIds.push(item.media);
+            }
          }
-      }
 
-      // get the display data for the repository items 
-      relatedItemsDisplay = await getRelatedItems(repositoryItemIds);
+         // get the display data from the repository items 
+         relatedItemsDisplay = await getRelatedItems(repositoryItemIds);
+      }
    }
 
    const getRepositoryItems = (items) => {
@@ -95,8 +95,8 @@
                }
             });
 
-            if(RELATED_ITEM_COUNT < results.length) {
-               let randomNumbers = getRandomNumberArray(RELATED_ITEM_COUNT, results.length-1);
+            if(RELATED_ITEM_DISPLAY_COUNT < results.length) {
+               let randomNumbers = getRandomNumberArray(RELATED_ITEM_DISPLAY_COUNT, results.length-1);
                
                for(let index of randomNumbers) {
                   relatedItems.push({
@@ -132,9 +132,9 @@
    });
 </script>
 
-<div class="repository-related-items">
+{#if relatedItemsDisplay}
+   <div class="repository-related-items">
 
-   {#if relatedItemsDisplay}
       <div class="item-container">
          
          {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems, link}}
@@ -169,12 +169,9 @@
          {/each}
 
       </div> 
+   </div>
 
-   {:else}
-      <h3>Loading...</h3>
-
-   {/if}
-</div>
+{/if}
 
 <style>
    .repository-related-items {
