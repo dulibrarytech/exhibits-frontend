@@ -67,7 +67,6 @@
 
                     <!-- exhibit heading -->
                     {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
-                        {#if index > 0}<div class="exhibit-section-divider"></div>{/if}
                         <Exhibit_Heading id={anchorId} {text} styles={displayItems[index].styles || styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
 
                     <!-- exhibit item container - grid -->
@@ -114,9 +113,5 @@
         font-size: 1.737em;
         text-transform: uppercase;
         line-height: 1.45em;
-    }
-
-    .exhibit-section-divider {
-        height: 15px;
     }
 </style>
