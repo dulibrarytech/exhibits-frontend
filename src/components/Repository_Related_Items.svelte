@@ -179,7 +179,7 @@
 <style>
    .repository-related-items {
       padding: 2.5em;
-      /* background-color: white; */
+      background-color: #e5e3e1;
    }
 
    .item-container {
