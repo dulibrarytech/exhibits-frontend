@@ -42,15 +42,19 @@
             console.error(`Error initializing OpenSeadragon viewer: ${e}`);
         }
 
+        // disable scroll by mousewheel over image
         document.querySelector("#openseadragon1").addEventListener("mousewheel", ()=>{}, false);
+
+        // override the openseadragon "home" button title text
+        document.querySelector("#openseadragon-zoom-initial").setAttribute('title', "Reset to default zoom level");
     });
 </script>
 
 <div class="openseadragon-container">
     <div class="controls">
-        <button id="openseadragon-zoom-in" title="Zoom In"><i class="bi bi-plus-lg"></i></button>
+        <button id="openseadragon-zoom-in"><i class="bi bi-plus-lg"></i></button>
         <button id="openseadragon-zoom-out"><i class="bi bi-dash"></i></button>
-        <button id="openseadragon-zoom-initial"><i class="bi bi-house"></i></button>
+        <button id="openseadragon-zoom-initial"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
 
     <div class="openseadragon content" id="openseadragon1"></div>
