@@ -24,7 +24,6 @@
     const BASE_SUBTITLE_FONT_SIZE = 68;
 
     const init = () => {
-        console.log("TEST converting title string:", title)
         title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
     }
 
