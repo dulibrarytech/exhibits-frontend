@@ -74,10 +74,6 @@
 		/* height: 100%; */
 	}
 
-	:global(.modal-dialog-window .caption) {
-		display: none;
-	}
-
 	/* dialog control buttons/openseadragon buttons */
 	:global(.modal-dialog-window .dialog-controls button, .modal-dialog-window .controls > button) {
 		width: 40px;

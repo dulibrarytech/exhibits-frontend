@@ -386,6 +386,8 @@
         text-decoration: none;
         color: inherit;
         font-style: italic;
+        font-size: 0.842em;
+        line-height: 1.452em;
     }
 
     :global(.item .caption) {

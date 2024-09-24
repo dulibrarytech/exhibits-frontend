@@ -10,6 +10,7 @@
 	let itemData;
 	let title;
 	let date;
+	let caption;
 
 	$: init();
 
@@ -18,6 +19,7 @@
 		itemData = item.data_display || null;
 		title = stripHtmlTags(item.title) || null;
 		date = item.date || null;
+		caption = item.caption || null;
 
 		if(item.text) item.text = stripHtmlTags(item.text);
 		else item.text = item.description || item.caption || "No text available";
@@ -40,8 +42,12 @@
 				{#if title}<hr><div class="title">{title}</div><hr><br>{/if}
 
 				{#if date}<div class="date">{date}</div><br>{/if}
+
+				{#if caption}<div class="caption">{caption}</div><br>{/if}
 				
 				<div class="text-section">
+					<h5>Exhibit text:</h5>
+					<hr>
 					<Text_Display {item} />
 				</div>
 

@@ -100,12 +100,12 @@
     }
 
     :global(.caption) {
-        margin-top: 1rem;
+        /* margin-top: 1rem; */
         text-decoration: none;
         color: inherit;
         font-style: italic;
-        font-size: 0.842em;
-        line-height: 1.452em;
+        /* font-size: 0.842em; */
+        /* line-height: 1.452em; */
     }
 
     :global(.title-heading) {
