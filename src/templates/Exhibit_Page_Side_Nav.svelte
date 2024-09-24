@@ -19,15 +19,22 @@
 
     let navigationMenu;
     let pageElement;
+    let sidebarElement;
+
     let menuButtonDisplay = "none";
+
     let renderTemplate = false;
     let templateMessage = null;
 
     const dispatch = createEventDispatcher();
 
-    const setTheme = (styles) => {   
-        if(pageElement) {
+    const setTheme = ({navigation = null, template = null}) => {   
+        if(pageElement && template) {
             Object.assign(pageElement.style, template);
+        }
+
+        if(sidebarElement && navigation) {
+            Object.assign(sidebarElement.style, navigation);
         }
     }
 
@@ -36,7 +43,7 @@
     }
 
     const onMountItems = () => {
-        if(styles.template) setTheme(styles.template);
+        if(styles) setTheme(styles);
 
         let anchorId = location.hash?.replace('#', '') || false;
         if(anchorId) navigationMenu.navigateTo(anchorId);
@@ -67,8 +74,8 @@
         <!-- sidebar section for navigation -->
         <div class="container-fluid">
             <div id="sidebar-container" class="row flex-nowrap">
-                <div class="col-auto"> <!-- TODO set to exhibit bg color? -->
-                    <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end">
+                <div class="col-auto">
+                    <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end" bind:this={sidebarElement}>
                         <Navigation_Side bind:this={navigationMenu} {sections} styles={styles?.navigation || null} />
 
                         <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
@@ -78,7 +85,6 @@
                 <div class="col">
                     <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay};" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
                     
-                    <!-- <svelte:component this={template} {sections} {items} {args} {styles} on:click-item on:mount-items={onMountItems} /> -->
                     {#if renderTemplate}
                         <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
                     {:else if templateMessage}
