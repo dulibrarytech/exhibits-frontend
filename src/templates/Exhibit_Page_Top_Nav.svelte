@@ -16,8 +16,9 @@
 
     export let args = {};
 
-    let navigationMenu;
+    let navigationMenuElement;
     let pageElement;
+    let scrollToExhibitTopElement;
 
     let renderTemplate = false;
     let templateMessage = null;
@@ -34,9 +35,17 @@
         if(styles.template) setTheme(styles.template);
 
         let anchorId = location.hash?.replace('#', '') || false;
-        if(anchorId) navigationMenu.navigateTo(anchorId);
+        if(anchorId) navigationMenuElement.navigateTo(anchorId);
 
         dispatch('mount-items', {});
+    }
+
+    const scrollToExhibitTop = () => {
+        console.log("TEST click scrollto top")
+        window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
     }
 
     onMount(async () => {
@@ -48,28 +57,46 @@
             templateMessage = "No items found";
             dispatch('mount-items', {});
         }
+
+        scrollToExhibitTopElement.style.display = "none";
     });
+
+    window.onscroll = function() {
+
+        if(window.scrollY > 500) {
+            if(scrollToExhibitTopElement.style.display == "none") scrollToExhibitTopElement.style.display = "block";
+        }
+        else {
+            if(scrollToExhibitTopElement.style.display == "block") scrollToExhibitTopElement.style.display = "none";
+        }
+    };
 </script>
 
 <div class="exhibit-page" bind:this={pageElement}  style="position: relative">
     {#if data}
-            <Hero {data} {styles} />
+        <Hero {data} {styles} />
 
-            <Navigation_Top bind:this={navigationMenu} {sections} styles={styles?.navigation || null} />
+        <Navigation_Top bind:this={navigationMenuElement} {sections} styles={styles?.navigation || null} />
 
-            {#if data.description}
-                <Exhibit_Description content={data.description} styles={styles?.template || null} />
-            {/if}
+        {#if data.description}
+            <Exhibit_Description content={data.description} styles={styles?.template || null} />
+        {/if}
 
-            {#if renderTemplate}
-                <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
-            {:else if templateMessage}
-                <div class="template-message"><h3>{templateMessage}</h3></div>
-            {/if}
+        {#if renderTemplate}
+            <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
+        {:else if templateMessage}
+            <div class="template-message"><h3>{templateMessage}</h3></div>
+        {/if}
 
-            <Exhibit_Thank_You />
+        <Exhibit_Thank_You />
 
-            <Repository_Related_Items {items} />
+        <Repository_Related_Items {items} />
+
+        <div class="scrollto-exhibit-top" bind:this={scrollToExhibitTopElement}>
+            <a href on:click|preventDefault={scrollToExhibitTop} title="Return to top of exhibit">
+                <i class="bi bi-chevron-up"></i>
+            </a>
+        </div>
             
     {:else}
         <h3>Loading template...</h3>
@@ -82,5 +109,21 @@
         padding: 50px;
         text-align: center;
         color: black;
+    }
+
+    .scrollto-exhibit-top {
+        position: fixed;
+        right: 0.21em;
+        bottom: 0.21em;
+        font-size: 2em;
+    }
+
+    .scrollto-exhibit-top > a {
+        background-color: darkgray;
+        color: white;
+        padding-left: 0.15em;
+        padding-right: 0.15em;
+        padding-bottom: 0.1em;
+        border-radius: 30px;
     }
 </style>
