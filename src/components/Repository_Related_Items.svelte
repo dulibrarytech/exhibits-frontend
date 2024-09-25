@@ -213,13 +213,19 @@
    .item-preview {
       width: 80%;
       margin: 25px auto 60px auto;
+      height: 250px;
+      overflow: hidden;
+   }
+
+   .item-preview img {
+      height: 100%;
    }
 
    .related-item-preview {
       width: 40.5%;
    }
 
-   img {
+   .related-item-preview img {
       width: 100%;
    }
 
