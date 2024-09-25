@@ -21,6 +21,8 @@
     let thumbnail;
     let altText;
     let styles;
+    let isLink;
+
     let preview;
 
     const dispatch = createEventDispatcher();
@@ -38,6 +40,8 @@
         thumbnail = item.thumbnail || null;
         styles = item.styles || null;
         altText = stripHtmlTags(item.title) || item.description || "Untitled Image";
+        isLink = args.isLink ?? true;
+
         preview = null;
 
         if(thumbnail && URL_PATTERN.test(thumbnail) == false) {
@@ -109,11 +113,19 @@
 </script>
 
 {#if preview}
-    <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
+    {#if isLink}
+        <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
+            <div class="item-preview" bind:this={itemPreviewElement} >
+                <img crossorigin="anonymous" src={preview} alt={altText} title={altText}>
+            </div>
+        </a>
+
+    {:else}
         <div class="item-preview" bind:this={itemPreviewElement} >
             <img crossorigin="anonymous" src={preview} alt={altText} title={altText}>
         </div>
-    </a>
+
+    {/if}
 {:else}
     Loading preview image...
 {/if}

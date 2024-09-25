@@ -41,7 +41,6 @@
     }
 
     const scrollToExhibitTop = () => {
-        console.log("TEST click scrollto top")
         window.scrollTo({
 			top: 0,
 			behavior: 'smooth'

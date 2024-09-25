@@ -51,9 +51,9 @@
             {#if isRepoItem}
                 <!-- TODO if(test TN cache (cache.js) for [repoitemid.ext] file, if present, render <Cache_Thumbnail item={result} ) -->
 
-                <Repository_Item id={null} item={result} args={{showPreview:true}} template={Item_Preview} on:click-item on:mount-template-item />
+                <Repository_Item id={null} item={result} args={{showPreview:true, isLink:false}} template={Item_Preview} on:click-item on:mount-template-item />
             {:else}
-                <Item_Preview item={result} width="200" />
+                <Item_Preview item={result} width="200" args={{isLink:false}} />
             {/if}
 
         {/if}

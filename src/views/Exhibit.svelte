@@ -193,8 +193,12 @@
 
     const onMountPage = (event) => {
         console.log("Mounted exhibit page");
+
         let anchorId = location.hash?.replace('#', '') || false;
-        if(anchorId) openViewerModal(anchorId);
+        if(anchorId) {
+            let item = getItemById(anchorId, items);
+            if(item && !item.is_embedded) openViewerModal(anchorId);
+        }
     }
 
     const onMountItems = () => {
