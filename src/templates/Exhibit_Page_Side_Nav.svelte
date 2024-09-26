@@ -20,6 +20,7 @@
     let navigationMenu;
     let pageElement;
     let sidebarElement;
+    let scrollToExhibitTopElement;
 
     let menuButtonDisplay = "none";
 
@@ -51,6 +52,13 @@
         dispatch('mount-items', {});
     }
 
+    const scrollToExhibitTop = () => {
+        window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+    }
+
     onMount(async () => {
         if(items.length > 0) {
             renderTemplate = true;
@@ -60,7 +68,19 @@
             templateMessage = "No items found";
             dispatch('mount-items', {});
         }
+
+        scrollToExhibitTopElement.style.display = "none";
     });
+
+    window.onscroll = function() {
+
+        if(window.scrollY > 500) {
+            if(scrollToExhibitTopElement.style.display == "none") scrollToExhibitTopElement.style.display = "block";
+        }
+        else {
+            if(scrollToExhibitTopElement.style.display == "block") scrollToExhibitTopElement.style.display = "none";
+        }
+    };
 </script>
 
 <div class="exhibit-page" bind:this={pageElement}>
@@ -97,6 +117,12 @@
         <Exhibit_Thank_You />
 
         <Repository_Related_Items {items} />
+
+        <div class="scrollto-exhibit-top" bind:this={scrollToExhibitTopElement}>
+            <a href on:click|preventDefault={scrollToExhibitTop} title="Return to top of exhibit">
+                <i class="bi bi-chevron-up"></i>
+            </a>
+        </div>
 
     {:else}
         <h3>Loading template...</h3>
@@ -139,6 +165,22 @@
         padding: 50px;
         text-align: center;
         color: black;
+    }
+
+    .scrollto-exhibit-top {
+        position: fixed;
+        right: 0.21em;
+        bottom: 0.21em;
+        font-size: 2em;
+    }
+
+    .scrollto-exhibit-top > a {
+        background-color: darkgray;
+        color: white;
+        padding-left: 0.15em;
+        padding-right: 0.15em;
+        padding-bottom: 0.1em;
+        border-radius: 30px;
     }
     
     /* Navigation_Side subcomponent width */
