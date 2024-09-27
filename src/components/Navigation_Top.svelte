@@ -2,12 +2,15 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import {createEventDispatcher} from 'svelte';
 
     export let sections = null;
     export let styles = null;
 
     let sectionHeadings = null;
     let navigationElement;
+
+    const dispatch = createEventDispatcher();
 
     $: init();
 
@@ -30,29 +33,16 @@
     }
 
     const onClickNavigationLink = (event) => {
-		let link = event.currentTarget;
+        let link = event.currentTarget;
         let anchorId = link.getAttribute('data-anchor') || null;
-        if(anchorId) clickNavigationLink(anchorId);
+
+        if(anchorId) dispatch('click-nav-link', {anchorId});
         else console.log("Invalid anchor id:", event.currentTarget);
 	}
-
-    const clickNavigationLink = (anchorId) => {
-        let anchor = document.getElementById(anchorId);
-		window.scrollTo({
-			top: anchor.offsetTop,
-			behavior: 'smooth'
-		});
-    }
 
     const setTheme = (styles) => {
         let menuStyles = styles || {};
         Object.assign(navigationElement.style, menuStyles);
-    }
-
-    export const navigateTo = (anchorId) => {
-        if(anchorId) {
-            clickNavigationLink(anchorId);
-        }
     }
 
     onMount(async () => {
@@ -60,22 +50,22 @@
     });
 </script>
 
-<nav class="exhibit-navigation navbar navbar-expand-lg navbar-light sticky-top" id="mainNav" bind:this={navigationElement}>
+<nav class="exhibit-navigation navbar navbar-expand-lg navbar-light" id="mainNav" bind:this={navigationElement}>
     <div class="container outer-container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse show" id="navbarResponsive">
 
             <ul class="nav nav-link navbar-nav ms-auto">
                 {#if sectionHeadings}
-                    {#each sectionHeadings as {id, text, subheadings = null}}
+                    {#each sectionHeadings as {uuid, text, subheadings = null}}
                         <li class="px-1" title={text}>
-                            <a class="main-menu-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a>
+                            <a class="main-menu-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
                         
                             {#if subheadings.length > 0}
 
                                 <ul class="dropdown-nav">
-                                    {#each subheadings as {id, text}}
-                                        <li><a class="dropdown-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a></li>
+                                    {#each subheadings as {uuid, text}}
+                                        <li><a class="dropdown-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a></li>
                                     {/each}
                                 </ul>
                             

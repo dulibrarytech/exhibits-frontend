@@ -16,7 +16,6 @@
 
     export let args = {};
 
-    let navigationMenuElement;
     let pageElement;
     let scrollToExhibitTopElement;
 
@@ -33,10 +32,8 @@
 
     const onMountItems = () => {
         if(styles.template) setTheme(styles.template);
-
         let anchorId = location.hash?.replace('#', '') || false;
-        if(anchorId) navigationMenuElement.navigateTo(anchorId);
-
+        if(anchorId) navigateToItemId(anchorId);
         dispatch('mount-items', {});
     }
 
@@ -45,6 +42,30 @@
 			top: 0,
 			behavior: 'smooth'
 		});
+    }
+
+    const onClickNavigationLink = (event) => {
+		let anchorId = event.detail.anchorId;
+        clickNavigationLink(anchorId);
+    }
+
+    const clickNavigationLink = (anchorId, offset = 0) => {
+        let anchor = document.getElementById(anchorId), offsetTop;
+
+		window.scrollTo({
+			top: anchor.offsetTop + offset,
+			behavior: 'smooth'
+		});
+    }
+
+    const navigateToItemId = (anchorId) => {
+        if(anchorId) {
+            let offset = document.querySelector(".hero-page-section").offsetHeight;
+            // + document.querySelector(".navigation-page-section").offsetHeight
+            // + document.querySelector(".description-page-section").offsetHeight;
+
+            clickNavigationLink(anchorId, offset);
+        }
     }
 
     onMount(async () => {
@@ -61,7 +82,6 @@
     });
 
     window.onscroll = function() {
-
         if(window.scrollY > 500) {
             if(scrollToExhibitTopElement.style.display == "none") scrollToExhibitTopElement.style.display = "block";
         }
@@ -73,16 +93,23 @@
 
 <div class="exhibit-page" bind:this={pageElement}  style="position: relative">
     {#if data}
-        <Hero {data} {styles} />
-
-        <Navigation_Top bind:this={navigationMenuElement} {sections} styles={styles?.navigation || null} />
+        <div class="hero-page-section">
+            <Hero {data} {styles} />
+        </div>
+        
+        <div class="navigation-page-section sticky-top">
+            <Navigation_Top {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink}/>
+        </div>
 
         {#if data.description}
-            <Exhibit_Description content={data.description} styles={styles?.template || null} />
+            <div class="description-page-section">
+                <Exhibit_Description content={data.description} styles={styles?.template || null} /> 
+            </div>
+            
         {/if}
 
         {#if renderTemplate}
-            <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
+            <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} /> <!-- SIDENAV --> 
         {:else if templateMessage}
             <div class="template-message"><h3>{templateMessage}</h3></div>
         {/if}

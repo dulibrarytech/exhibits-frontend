@@ -100,7 +100,7 @@ export const createExhibitPageSections = (items) => {
     for(let index in items) {
         item = items[index];
         
-        let {type = "", title = null, text = ""}  = item;
+        let {type = "", title = null, text = "", uuid = ""}  = item;
 
         if(type == ENTITY_TYPE.EXHIBIT_HEADING) {
             
@@ -109,6 +109,7 @@ export const createExhibitPageSections = (items) => {
 
             heading = {
                 id: getHtmlIdString(text),
+                uuid,
                 text: stripHtmlTags(text),
                 subheadings: []
             }
@@ -124,6 +125,7 @@ export const createExhibitPageSections = (items) => {
             if(heading && title) {
                 subheading = {
                     id: getHtmlIdString(title),
+                    uuid,
                     text: stripHtmlTags(title)
                 }
 

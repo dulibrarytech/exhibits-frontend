@@ -90,7 +90,7 @@ export const stripHtmlAndObjectCharacters = (string) => {
  * @returns - converted string
  */
 export const getHtmlIdString = (string) => {
-    return string.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]*/g, "").toLowerCase();
+    return stripHtmlAndObjectCharacters(string).replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]*/g, "").toLowerCase();
 }
 
 /**

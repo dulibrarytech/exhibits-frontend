@@ -52,7 +52,7 @@
     }
 </script>
 
-<header class="hero-section" bind:this={heroSection}>
+<header class="hero" bind:this={heroSection}>
     {#if banner}
         <svelte:component this={banner} args={bannerData} styles={styles.template} />
     {/if}
