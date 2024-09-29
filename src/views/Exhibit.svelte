@@ -35,6 +35,7 @@
     let isExhibitVisible;
     let isMessageVisible;
 
+    let page;
     let renderPage = false;
 
     const FONT_LOCATION = "../assets/fonts";  // TODO: load DU brand fonts
@@ -152,7 +153,7 @@
         for(let page in $Popup_Pages) {
             if(page == id) pageComponent = $Popup_Pages[page];
         }
-
+        
         return pageComponent;
     }
 
@@ -178,6 +179,7 @@
 
         if(!modalDialog) modalDialog = Modal_Page_Display;
         document.body.classList.add('modal-open');
+
     }
 
     const closeModal = (event) => {
@@ -205,7 +207,11 @@
         console.log("Mounted exhibit items");
 
         setTimeout(() => {
+            let anchorId = location.hash?.replace('#', '') || false;
+            if(anchorId) page.navigateToItemId(anchorId);
+
             showLoadMessage(false);
+
         }, IMAGE_LOAD_DELAY)
     }
 
@@ -229,7 +235,11 @@
             </div>
         
             <!-- exhibit page -->
-            <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} on:mount={onMountPage} on:mount-items={onMountItems} on:click-item={onOpenViewerModal} /> <!-- args.key -->
+            <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} 
+                bind:this={page}
+                on:mount={onMountPage} 
+                on:mount-items={onMountItems} 
+                on:click-item={onOpenViewerModal} /> <!-- args.key -->
         
             {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
         
@@ -240,9 +250,10 @@
 
 <style>
     .load-message {
-        position: relative;
-        left: 70px;
-        top: 50px;
+        /* position: relative; */
+        position: fixed;
+        left: calc(50% - 80px);
+        top: calc(50% - 21px);
     }
 
     .exhibit-wrapper {

@@ -17,7 +17,7 @@
     export let args = {};
 
     let pageElement;
-    let scrollToExhibitTopElement;
+    let scrollToPageTopElement;
 
     let renderTemplate = false;
     let templateMessage = null;
@@ -30,14 +30,7 @@
         }
     }
 
-    const onMountItems = () => {
-        if(styles.template) setTheme(styles.template);
-        let anchorId = location.hash?.replace('#', '') || false;
-        if(anchorId) navigateToItemId(anchorId);
-        dispatch('mount-items', {});
-    }
-
-    const scrollToExhibitTop = () => {
+    const scrollToPageTop = () => {
         window.scrollTo({
 			top: 0,
 			behavior: 'smooth'
@@ -46,26 +39,23 @@
 
     const onClickNavigationLink = (event) => {
 		let anchorId = event.detail.anchorId;
-        clickNavigationLink(anchorId);
+        let topOffset = event.detail.offset;
+        navigateToItemId(anchorId, topOffset);
     }
 
-    const clickNavigationLink = (anchorId, offset = 0) => {
-        let anchor = document.getElementById(anchorId), offsetTop;
+    export const navigateToItemId = (anchorId, topOffset = 0) => {
+        let anchor = document.getElementById(anchorId);
+        let anchorOffset = anchor.offsetTop;
 
 		window.scrollTo({
-			top: anchor.offsetTop + offset,
+			top: topOffset + anchorOffset,
 			behavior: 'smooth'
 		});
     }
 
-    const navigateToItemId = (anchorId) => {
-        if(anchorId) {
-            let offset = document.querySelector(".hero-page-section").offsetHeight;
-            // + document.querySelector(".navigation-page-section").offsetHeight
-            // + document.querySelector(".description-page-section").offsetHeight;
-
-            clickNavigationLink(anchorId, offset);
-        }
+    const onMountItems = () => {
+        if(styles.template) setTheme(styles.template);
+        dispatch('mount-items', {});
     }
 
     onMount(async () => {
@@ -78,15 +68,15 @@
             dispatch('mount-items', {});
         }
 
-        scrollToExhibitTopElement.style.display = "none";
+        scrollToPageTopElement.style.display = "none";
     });
 
     window.onscroll = function() {
         if(window.scrollY > 500) {
-            if(scrollToExhibitTopElement.style.display == "none") scrollToExhibitTopElement.style.display = "block";
+            if(scrollToPageTopElement?.style.display == "none") scrollToPageTopElement.style.display = "block";
         }
         else {
-            if(scrollToExhibitTopElement.style.display == "block") scrollToExhibitTopElement.style.display = "none";
+            if(scrollToPageTopElement?.style.display == "block") scrollToPageTopElement.style.display = "none";
         }
     };
 </script>
@@ -98,7 +88,7 @@
         </div>
         
         <div class="navigation-page-section sticky-top">
-            <Navigation_Top {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink}/>
+            <Navigation_Top {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
         </div>
 
         {#if data.description}
@@ -118,8 +108,8 @@
 
         <Repository_Related_Items {items} />
 
-        <div class="scrollto-exhibit-top" bind:this={scrollToExhibitTopElement}>
-            <a href on:click|preventDefault={scrollToExhibitTop} title="Return to top of exhibit">
+        <div class="scrollto-page-top" bind:this={scrollToPageTopElement}>
+            <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit">
                 <i class="bi bi-chevron-up"></i>
             </a>
         </div>
@@ -137,14 +127,14 @@
         color: black;
     }
 
-    .scrollto-exhibit-top {
+    .scrollto-page-top {
         position: fixed;
         right: 0.21em;
         bottom: 0.21em;
         font-size: 2em;
     }
 
-    .scrollto-exhibit-top > a {
+    .scrollto-page-top > a {
         background-color: darkgray;
         color: white;
         padding-left: 0.15em;

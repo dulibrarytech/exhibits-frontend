@@ -17,17 +17,20 @@
 
     export let args = {};
 
-    let navigationMenu;
     let pageElement;
     let sidebarElement;
-    let scrollToExhibitTopElement;
-
-    let menuButtonDisplay = "none";
+    let scrollToPageTopElement;
 
     let renderTemplate = false;
     let templateMessage = null;
 
+    let menuButtonDisplay = "none";
+
     const dispatch = createEventDispatcher();
+
+    const toggleMenuButtonDisplay = () => {
+        menuButtonDisplay = menuButtonDisplay == "none" ? "inline" : "none";
+    }
 
     const setTheme = ({navigation = null, template = null}) => {   
         if(pageElement && template) {
@@ -39,24 +42,33 @@
         }
     }
 
-    const toggleMenuButtonDisplay = () => {
-        menuButtonDisplay = menuButtonDisplay == "none" ? "inline" : "none";
-    }
-
-    const onMountItems = () => {
-        if(styles) setTheme(styles);
-
-        let anchorId = location.hash?.replace('#', '') || false;
-        if(anchorId) navigationMenu.navigateTo(anchorId);
-
-        dispatch('mount-items', {});
-    }
-
-    const scrollToExhibitTop = () => {
+    const scrollToPageTop = () => {
         window.scrollTo({
 			top: 0,
 			behavior: 'smooth'
 		});
+    }
+
+    const onClickNavigationLink = (event) => {
+		let anchorId = event.detail.anchorId;
+        navigateToItemId(anchorId);
+    }
+
+    export const navigateToItemId = (anchorId, topOffset = 0) => {
+        let anchor = document.getElementById(anchorId);
+        let anchorOffset = anchor.offsetTop;
+
+		window.scrollTo({
+			top: topOffset + anchorOffset,
+			behavior: 'smooth'
+		});
+    }
+
+    const onMountItems = () => {
+        if(styles) setTheme(styles);
+        let anchorId = location.hash?.replace('#', '') || false;
+        if(anchorId) navigateToItemId(anchorId);
+        dispatch('mount-items', {});
     }
 
     onMount(async () => {
@@ -69,26 +81,30 @@
             dispatch('mount-items', {});
         }
 
-        scrollToExhibitTopElement.style.display = "none";
+        scrollToPageTopElement.style.display = "none";
     });
 
     window.onscroll = function() {
 
         if(window.scrollY > 500) {
-            if(scrollToExhibitTopElement.style.display == "none") scrollToExhibitTopElement.style.display = "block";
+            if(scrollToPageTopElement?.style.display == "none") scrollToPageTopElement.style.display = "block";
         }
         else {
-            if(scrollToExhibitTopElement.style.display == "block") scrollToExhibitTopElement.style.display = "none";
+            if(scrollToPageTopElement?.style.display == "block") scrollToPageTopElement.style.display = "none";
         }
     };
 </script>
 
 <div class="exhibit-page" bind:this={pageElement}>
     {#if template}
-        <Hero {data} {styles} />
-
+        <div class="hero-page-section">
+            <Hero {data} {styles} />
+        </div>
+        
         {#if data.description}
-            <Exhibit_Description content={data.description} styles={styles?.template || null} />
+            <div class="description-page-section">
+                <Exhibit_Description content={data.description} styles={styles?.template || null} />
+            </div>
         {/if}
 
         <!-- sidebar section for navigation -->
@@ -96,7 +112,7 @@
             <div id="sidebar-container" class="row flex-nowrap">
                 <div class="col-auto">
                     <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end" bind:this={sidebarElement}>
-                        <Navigation_Side bind:this={navigationMenu} {sections} styles={styles?.navigation || null} />
+                        <Navigation_Side {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
 
                         <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
                     </div>
@@ -118,8 +134,8 @@
 
         <Repository_Related_Items {items} />
 
-        <div class="scrollto-exhibit-top" bind:this={scrollToExhibitTopElement}>
-            <a href on:click|preventDefault={scrollToExhibitTop} title="Return to top of exhibit">
+        <div class="scrollto-page-top" bind:this={scrollToPageTopElement}>
+            <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit">
                 <i class="bi bi-chevron-up"></i>
             </a>
         </div>
@@ -167,14 +183,14 @@
         color: black;
     }
 
-    .scrollto-exhibit-top {
+    .scrollto-page-top {
         position: fixed;
         right: 0.21em;
         bottom: 0.21em;
         font-size: 2em;
     }
 
-    .scrollto-exhibit-top > a {
+    .scrollto-page-top > a {
         background-color: darkgray;
         color: white;
         padding-left: 0.15em;

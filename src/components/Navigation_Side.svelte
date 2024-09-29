@@ -3,12 +3,15 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import {createEventDispatcher} from 'svelte';
 
     export let sections = null;
     export let styles = null;
 
     let sectionHeadings = null;
     let navigationElement;
+
+    const dispatch = createEventDispatcher();
 
     $: init();
 
@@ -30,56 +33,35 @@
         return headings;
     }
 
-    function onClickNavigationLink (event) {
-		event.preventDefault()
+    const onClickNavigationLink = (event) => {
         let link = event.currentTarget;
         let anchorId = link.getAttribute('data-anchor') || null;
-        if(anchorId) clickNavigationLink(anchorId);
+        
+        if(anchorId) dispatch('click-nav-link', {anchorId});
         else console.log("Invalid anchor id:", event.currentTarget);
 	}
-
-    const clickNavigationLink = (anchorId) => {
-        let anchor = document.getElementById(anchorId);
-		window.scrollTo({
-			top: anchor.offsetTop,
-			behavior: 'smooth'
-		});
-    }
 
     const setTheme = (styles) => {
         let menuStyles = styles || {};
         Object.assign(navigationElement.style, menuStyles)
     }
 
-    export const navigateTo = (anchorId) => {
-        if(anchorId) {
-            clickNavigationLink(anchorId);
-        }
-    }
-
     onMount(async () => {
         if(styles) setTheme(styles);
-
-        let hash = location.hash?.replace('#', '') || false;
-        if(hash) {
-            setTimeout(() => {
-                clickNavigationLink(hash)
-            }, 1000)
-        }
     });
 </script>
 
 <div id="sidebar-nav" class="nav-link list-group border-0 rounded-0 text-sm-start" bind:this={navigationElement}>
     {#if sections}
-        {#each sectionHeadings as {id, text, subheadings = null}}
+        {#each sectionHeadings as {uuid, text, subheadings = null}}
             <div class="menuitem">
-                <a class="main-menu-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a>
+                <a class="main-menu-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
 
                 {#if subheadings.length > 0}
 
                     <ul class="dropdown-nav">
-                        {#each subheadings as {id, text}}
-                            <li><a class="dropdown-link" href data-anchor={id} on:click|preventDefault={onClickNavigationLink}>{text}</a></li>
+                        {#each subheadings as {uuid, text}}
+                            <li><a class="dropdown-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a></li>
                         {/each}
                     </ul>
                 

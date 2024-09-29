@@ -35,8 +35,9 @@
     const onClickNavigationLink = (event) => {
         let link = event.currentTarget;
         let anchorId = link.getAttribute('data-anchor') || null;
+        let offset = (0 - (document.querySelector(".navigation-page-section").offsetHeight / 2.75));
 
-        if(anchorId) dispatch('click-nav-link', {anchorId});
+        if(anchorId) dispatch('click-nav-link', {anchorId, offset});
         else console.log("Invalid anchor id:", event.currentTarget);
 	}
 
