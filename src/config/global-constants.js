@@ -8,14 +8,12 @@ export const ENTITY_TYPE = {
     EXHIBIT_HEADING: "heading",
     ITEM: "item",
     GRID: "grid",
-    VERTICAL_TIMELINE: "vertical_timeline",
-    VERTICAL_TIMELINE_2: "vertical_timeline_2"
+    VERTICAL_TIMELINE: "vertical_timeline"
 }
 
 export const ITEM_GRIDS = [
     ENTITY_TYPE.GRID,
-    ENTITY_TYPE.VERTICAL_TIMELINE,
-    ENTITY_TYPE.VERTICAL_TIMELINE_2
+    ENTITY_TYPE.VERTICAL_TIMELINE
 ]
 
 export const EXHIBIT_TEMPLATE = {

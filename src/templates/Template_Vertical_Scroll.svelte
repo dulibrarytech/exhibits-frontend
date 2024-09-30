@@ -8,7 +8,6 @@
     import Item_Display from '../components/Item_Display.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
     import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline.svelte';
-    import Item_Grid_Vertical_Timeline_2 from './partials/Item_Grid_Vertical_Timeline_2.svelte';
     import Item from './partials/Item.svelte';
 
     import {ENTITY_TYPE} from '../config/global-constants';
@@ -76,10 +75,6 @@
                     <!-- exhibit item container - vertical timeline grid 1 column -->
                     {:else if type == ENTITY_TYPE.VERTICAL_TIMELINE}
                         <Item_Grid_Vertical_Timeline id={anchorId} grid={displayItems[index]} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
-
-                    <!-- exhibit item container - vertical timeline grid 2 column -->
-                    {:else if type == ENTITY_TYPE.VERTICAL_TIMELINE_2}
-                        <Item_Grid_Vertical_Timeline_2 id={anchorId} grid={displayItems[index]} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
                     
                     <!--exhibit item - row layout -->
                     {:else if type == ENTITY_TYPE.ITEM}
