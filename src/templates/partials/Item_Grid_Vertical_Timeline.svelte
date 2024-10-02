@@ -1,186 +1,424 @@
-<!-- <svelte:head>
-    <link rel="stylesheet" href="../assets/styles/timeline.min.css">
-</svelte:head> -->
-
 <script>
-    /*
-     * https://github.com/squarechip/timeline
-     *
-     * EXAMPLE this is not the curretn VTL template for the Exhibits app
-     */
     'use strict'
-
+    
     import { onMount } from 'svelte';
-    import {Timeline} from '../../libs/timeline';
-    import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
-
+    import {createEventDispatcher} from 'svelte';
+    import Grid_Item_Vertical_Timeline_2 from './Grid_Item_Vertical_Timeline_2.svelte';
+    
     export let grid = {};
     export let id = null;
+    export let templateStyles = {};
+
+    let titleElement;
 
     let timelineSection;
+    let title;
     let items;
-    let styles;
+    let sections = null;
+    let styles = {};
 
-    let verticalStartPosition = "left";
-    let verticalTrigger = "150px";
+    const dispatch = createEventDispatcher();
 
     const init = () => {
+        let {uuid} = grid;
+        let gridStyles;
+
+        title = grid.title || null;
         items = grid.items || [];
-        styles = grid.styles?.item_grid || null;
+        sections = sortItemsToDecadeSections(items);
+
+        try {
+            gridStyles = grid.styles.item || {};
+        }
+        catch(error) {
+            console.error(`Error loading grid styles: ${error}; uuid: ${uuid}`);
+        }
+
+        styles = {
+            grid: gridStyles,
+            heading: templateStyles.heading || null
+        }
     }
 
-    const setTheme = (styles) => {
-        Object.assign(timelineSection.style, styles)
+    const setTheme = ({grid = {}, heading = null}) => {
+        Object.assign(timelineSection.style, grid)
+
+        if(titleElement && heading) {
+            titleElement.style.fontFamily = heading.fontFamily || 'inherit';
+        }
+    }
+
+    /**
+     * Sorts the items into sections defined by 'year_label' field:
+     * 
+     * Creates a section for each year_label, and sorts the items in each section into 2 arrays: one for items on
+     * the left of the timeline, and the other for right side items. Grid items that have an odd index value are sorted to the left, and those with an even value are sorted to the right.
+     * 
+     * @param items - Array of exhibit items
+     * 
+     * @returns - Array of timeline sections denoted by year_label
+     */
+     const sortItemsToDecadeSections = (items) => {
+        let sorted = []
+        let startYear, endYear;
+        let currentDecade, nextDecade, lastDecade;
+        let currentBucket = {};
+
+        items = items.map((item) => {
+            if(!item.date) {
+                item.date = new Date();
+                console.log(`Error creating timeline grid: item has no date field. Item: ${item.uuid}`)
+            }
+            return item;
+        });
+
+        // sort items by date ascending
+        items = items.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+        });
+
+        startYear = new Date(items[0].date).getFullYear();
+        endYear = new Date(items[items.length-1].date).getFullYear();
+
+        currentDecade = startYear - (startYear % 10);
+        nextDecade = currentDecade + 10;
+        lastDecade = (endYear - (endYear % 10)) + 10;
+
+        currentBucket = {
+            label: currentDecade.toString(),
+            leftItems: [],
+            rightItems: []
+        }
+
+        let bucketIndex = 0, itemDate;
+        for(let index=0; index < items.length; index++) {
+
+            itemDate = new Date(items[index].date);
+
+            if(itemDate.getFullYear() >= currentDecade && itemDate.getFullYear() < nextDecade) {
+                if(items[index].layout == 'left' || bucketIndex % 2 == 0) {
+                    currentBucket.leftItems.push(items[index]);
+                }
+                else if(items[index].layout == 'right' || bucketIndex % 2 != 0) {
+                    currentBucket.rightItems.push(items[index]);
+                }
+
+                if(nextDecade == lastDecade) sorted.push(currentBucket)
+                else bucketIndex++;
+            }
+            else {
+                currentDecade = nextDecade;
+                nextDecade += 10;
+
+                sorted.push(currentBucket);
+                currentBucket = {
+                    label: currentDecade.toString(),
+                    leftItems: [],
+                    rightItems: []
+                }
+
+                index--;
+                bucketIndex = 0;
+            }
+        }
+
+        return sorted;
     }
 
     $: init();
 
-    const getPositionClass = (item) => {
-        let className = '';
-
-        if(item?.layout == 'left') {
-            className = 'layout--left';
-        }
-        else if(item?.layout == 'right') {
-            className = 'layout--right';
-        }
-        
-        return className;
-    }
-
     onMount(async () => {
-        Timeline.timeline(document.querySelectorAll('.timeline'), {
-            verticalStartPosition,
-            verticalTrigger
-        });
-
-        document.querySelectorAll('.timeline__item.animated').forEach((item) => {
-            item.classList.remove('animated');
-        });
-
-        document.querySelectorAll('.timeline__item.top-offset').forEach((item) => {
-            item.style.marginTop = "80px";
-        });
-
-        if(styles) setTheme(styles);
+        setTheme(styles);
+        dispatch('mount-template-item', {});
     });
 </script>
 
 <div class="vertical-timeline-item-grid" bind:this={timelineSection}>
     <div id={id ?? undefined} class="anchor-offset"></div>
+    
+    <div class="container">
+        {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div><br>{/if}
 
-    <div class="timeline">
-        <div class="timeline__wrap">
-            <div class="timeline__items">
-                {#each items as item}
-                    <!-- {#if item.is_published} -->
-                        <!-- {#if item.year_label} -->
-                            <div class="timeline__item top-offset {getPositionClass(item)}"> <!-- 'timeline__item--right', 'timeline__item--left', '' -->
-                                {#if item.year_label}
-                                    <div class="timeline-label">
-                                        <h3>{item.year_label}</h3>
+        <div class="timeline-wrapper">
+            {#if sections}
+
+            <!-- for section in sections -->
+            {#each sections as section, index}
+                {#if section.label}<span class="timeline__year time" aria-hidden="true">{section.label}</span>{/if}
+
+                    <div class="row timeline-section">
+
+                        <div class="col-lg-6">
+                            <div class="timeline timeline-left">
+                                <div class="timeline__group">
+                                    <div class="timeline__cards">
+                                        {#each section.leftItems as item}
+                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
+                                        {/each}
                                     </div>
-                                {/if}
-                                <div class="timeline__content" id="item-{item.uuid}">
-                                    <!-- <Grid_Item_Image_Text {item} on:click-preview={onClickPreview} /> -->
-                                    <Grid_Item_Image_Text {item} on:click-item />
                                 </div>
                             </div>
-                        <!-- {:else}
-                            <div class="timeline__item">
-                                <div class="timeline__content" id="item-{item.uuid}">
-                                    <Grid_Item_Image_Text {item} on:click-preview={onClickPreview} />
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="timeline timeline-right">
+                                <div class="timeline__group">
+                                    <div class="timeline__cards">
+                                        {#each section.rightItems as item}
+                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
+                                        {/each}
+                                    </div>
                                 </div>
                             </div>
-                        {/if} -->
-                    <!-- {/if} -->
+                        </div>
+                    </div>
+
                 {/each}
-            </div>
+            {/if}
         </div>
-    </div>
+    </div> <!-- container -->
 </div>
 
 <style>
-    /* original template styles */
-    .timeline{-webkit-box-sizing:border-box;box-sizing:border-box;position:relative}.timeline *,.timeline :after,.timeline :before{-webkit-box-sizing:inherit;box-sizing:inherit}.timeline:not(.timeline--horizontal):before{background-color:#ddd;bottom:0;content:'';left:50%;margin-left:-2px;position:absolute;top:0;width:4px;z-index:1}.timeline__wrap{overflow:hidden;position:relative;z-index:2}.timeline__item{font-size:16px;font-size:1rem;padding:.625rem 2.5rem .625rem 0;position:relative;width:50%;z-index:2}.timeline__item:after{background-color:#fff;border:4px solid #ddd;border-radius:50%;content:'';height:20px;position:absolute;right:-10px;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);top:50%;width:20px;z-index:1}.timeline__item.animated{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both;opacity:0}.timeline__item.fadeIn{-webkit-animation-name:fadeIn;animation-name:fadeIn}.timeline__item--left{left:0}.timeline__item--right{left:50%;padding:.625rem 0 .625rem 2.5rem}.timeline__item--right:after{left:-10px}.timeline__item--right .timeline__content:before{border-bottom:10px solid transparent;border-right:12px solid #ccc;border-left:none;border-top:10px solid transparent;left:-12px}.timeline__item--right .timeline__content:after{border-bottom:9px solid transparent;border-right:11px solid #fff;border-left:none;border-top:9px solid transparent;left:-10px}.timeline__content{background-color:#fff;border:1px solid #ccc;border-radius:10px;color:#333;display:block;padding:1.25rem;position:relative}.timeline__content:after,.timeline__content:before{content:'';height:0;position:absolute;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);top:50%;width:0}.timeline__content:before{border-bottom:10px solid transparent;border-left:12px solid #ccc;border-top:10px solid transparent;right:-12px;z-index:1}.timeline__content:after{border-bottom:9px solid transparent;border-left:11px solid #fff;border-top:9px solid transparent;right:-10px;z-index:2}.timeline__content h2{font-size:1.25rem;font-weight:700;margin:0 0 .625rem}.timeline__content p{font-size:.9375rem;line-height:1.5;margin-bottom:10px}.timeline--horizontal{font-size:0;padding:0 3.125rem;overflow:hidden;white-space:nowrap}.timeline--horizontal .timeline-divider{background-color:#ddd;display:block;height:4px;left:40px;position:absolute;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);right:40px;z-index:1}.timeline--horizontal .timeline__items{-webkit-transition:all .8s;-o-transition:all .8s;transition:all .8s;will-change:transform}.timeline--horizontal .timeline__item{display:inline-block;left:0;padding:0 0 2.5rem;position:relative;-webkit-transition:none;-o-transition:none;transition:none;vertical-align:top;white-space:normal}.timeline--horizontal .timeline__item:after{left:50%;right:auto;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);top:100%}.timeline--horizontal .timeline__item .timeline__item__inner{display:table;height:100%;width:100%}.timeline--horizontal .timeline__item .timeline__content__wrap{display:table-cell;margin:0;padding:0;vertical-align:bottom}.timeline--horizontal .timeline__item .timeline__content:before{border-left:12px solid transparent;border-right:12px solid transparent;border-top:12px solid #ccc;left:50%;right:auto;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%);top:100%}.timeline--horizontal .timeline__item .timeline__content:after{border-left:10px solid transparent;border-right:10px solid transparent;border-top:10px solid #fff;left:50%;right:auto;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%);top:100%}.timeline--horizontal .timeline__item--bottom{padding:2.5rem 0 0}.timeline--horizontal .timeline__item--bottom:after{top:0}.timeline--horizontal .timeline__item--bottom .timeline__content__wrap{vertical-align:top}.timeline--horizontal .timeline__item--bottom .timeline__content:before{border-bottom:12px solid #ccc;border-left:12px solid transparent;border-right:12px solid transparent;border-top:none;bottom:100%;top:auto}.timeline--horizontal .timeline__item--bottom .timeline__content:after{border-bottom:10px solid #fff;border-left:10px solid transparent;border-right:10px solid transparent;border-top:none;bottom:100%;top:auto}.timeline-nav-button{background-color:#fff;border:2px solid #ddd;border-radius:50px;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-box-shadow:none;box-shadow:none;cursor:pointer;display:block;height:40px;outline:0;position:absolute;text-indent:-9999px;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);top:50%;width:40px;z-index:10}.timeline-nav-button:disabled{opacity:.5;pointer-events:none}.timeline-nav-button:before{background-position:center center;background-repeat:no-repeat;content:'';display:block;height:14px;left:50%;position:absolute;-webkit-transform:translateX(-50%) translateY(-50%);-ms-transform:translateX(-50%) translateY(-50%);transform:translateX(-50%) translateY(-50%);top:50%;width:8px}.timeline-nav-button--prev{left:0}.timeline-nav-button--prev:before{background-image:url(../images/arrow-left.svg)}.timeline-nav-button--next{right:0}.timeline-nav-button--next:before{background-image:url(../images/arrow-right.svg)}.timeline--mobile{padding:0}.timeline--mobile:before{left:10px!important;margin:0!important}.timeline--mobile .timeline__item{left:0;padding-left:40px;padding-right:0;width:100%}.timeline--mobile .timeline__item:after{left:2px;margin:0}.timeline--mobile .timeline__item .timeline__content:before{left:-12px;border-bottom:12px solid transparent;border-right:12px solid #ccc;border-left:none;border-top:12px solid transparent}.timeline--mobile .timeline__item .timeline__content:after{left:-10px;border-bottom:10px solid transparent;border-right:10px solid #fff;border-left:none;border-top:10px solid transparent}@-webkit-keyframes fadeIn{0%{opacity:0;top:70px}100%{opacity:1;top:0}}@keyframes fadeIn{0%{opacity:0;top:70px}100%{opacity:1;top:0}}@-webkit-keyframes liftUp{0%{top:0}100%{top:-15px}}@keyframes liftUp{0%{top:0}100%{top:-15px}}
+    /*
+    skin
+    */
+    
+    .time{
+        /* padding: var(--timePadding, .25rem 1.25rem .25rem);
+        background-color: var(--timeBackgroundColor, #f0f0f0); */
+    
+        font-size: var(--timeFontSize, 1.25rem);
+        font-weight: var(--timeFontWeight, 700);
+        text-transform: var(--timeTextTransform, uppercase);
+        color: var(--timeColor, currentColor);
+    }
 
-    /* override template styles */
-    .vertical-timeline-item-grid {
-        padding-top: 45px;
-        margin: 0 auto 80px auto;
-        width: 90%;
+    /*
+    =====
+    CORE STYLES
+    =====
+    */
+    
+    .timeline{
+        display: var(--timelineDisplay, grid);
+        grid-row-gap: var(--timelineGroupsGap, 2rem);
+        height: 100%;
+    }
+    
+    /*
+    1. If timeline__year isn't displaed the gap between it and timeline__cards isn't displayed too
+    */
+    
+    .timeline__cards{
+        display: var(--timeloneCardsDisplay, grid);
+        grid-row-gap: var(--timeloneCardsGap, 1.5rem);
+    }
+    
+    
+    /*
+    =====
+    SKIN
+    =====
+    */
+    
+    .timeline{
+        --uiTimelineMainColor: var(--timelineMainColor, #222);
+        --uiTimelineSecondaryColor: var(--timelineSecondaryColor, #fff);
+    
+        border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+        padding-top: 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .timeline:first-child {
+        padding-top: 4rem;
+    }
+
+    .timeline:last-child {
+        padding-bottom: 4rem;
+    }
+    
+    .timeline__year{
+        --timePadding: var(--timelineYearPadding, .5rem 1.5rem);
+        --timeColor: var(--uiTimelineSecondaryColor);
+        --timeBackgroundColor: var(--uiTimelineMainColor);
+        --timeFontWeight: var(--timelineYearFontWeight, 400);
+    }
+
+    .timeline__year {
+        position: relative;
+        left: calc(50% - 1.6em);
+        font-size: 1.3em;
+        width: 3.2em;
+    }
+    
+    /*
+    1. Stoping cut box shadow
+    */
+    
+    .timeline__cards{
+        overflow: hidden;
+        padding-top: .25rem; /* 1 */
+        padding-bottom: .25rem; /* 1 */
+    }
+    
+    /*
+    =====
+    SETTINGS
+    =====
+    */
+    /**/
+    .timeline{
+        --timelineMainColor: #e5e3e1;
+    }
+
+    /*
+    =====
+    DU 2-column update
+    =====
+    */
+
+    .title-heading {
+        text-transform: uppercase;
+    }
+
+    .timeline-wrapper {
+        margin: 0 auto;
+        width: 80%;
     }
 
     .timeline {
-        padding-top: 80px;
-        padding-bottom: 80px;
-        margin: 0 auto;
+        border: none;
     }
 
-    .timeline__content {
-        padding: 0;
+    .timeline-section > div {
+        padding-right: 0px;
+        padding-left: 0px;
     }
 
-    .timeline-label h3 {
-        margin-bottom: 0;
-        padding: 0.1em;
+    /* .timeline-left {
+        border-right: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+        padding-left: 15px;
     }
 
-    .timeline-label {
-        position: absolute;
-        background: lightgray;
-        color: black;
+    .timeline-right {
+        border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+        padding-right: 15px;
+    } */
+
+    /* update */
+    /* .timeline-left {
+        border-right: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+        padding-left: 15px;
+    } */
+
+    .timeline-right,
+    .timeline-left {
+        border: 0;
+    }
+    /* end update */
+
+    .timeline__year {
+        display: block;
+        text-align: center;
+        background-color: #303030;
+        color: #e5e3e1;
         border-radius: 5px;
-        top: -50px;
     }
 
-    :global(.vertical-timeline-item-grid .timeline-item.top-offset) {
-        top: 80px;
+    .vertical-timeline-item-grid {
+        padding: 80px 0;
     }
 
-    :global(.vertical-timeline-item-grid .timeline__item--left .timeline__content:after) {
-        border-left: 11px solid lightgray;
+    .anchor-offset {
+        position: relative;
+        top: -120px;
     }
 
-    :global(.vertical-timeline-item-grid .timeline__item--right .timeline__content:after) {
-        border-right: 11px solid lightgray !important;
+    :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
+        /* height: 610px; */
+        position: relative;
+        z-index: 0;
     }
 
-    :global(.vertical-timeline-item-grid .timeline .grid-item) {
-        border-radius: 10px;
-        padding: 45px !important;
+    :global(.vertical-timeline-item-grid .timeline-right .vertical-timeline-grid-item) {
+        margin-top: 6.2em;
     }
 
-    :global(.vertical-timeline-item-grid .vertical-timeline-item-grid .timeline .grid-section) {
-        padding: 0;
-        margin-bottom: 0px !important;
+    :global(.vertical-timeline-item-grid .timeline__card::before) {
+        content: none;
     }
 
-    :global(.vertical-timeline-item-grid .timeline .item-preview) {
-        /* width:65%; */
+    :global(.vertical-timeline-item-grid .card) {
+        border-radius: 5px;
     }
 
-    :global(.vertical-timeline-item-grid .timeline__item--left .timeline-label) {
-        right: -35px;
+    /* update */
+    /* :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
+        margin-left: 0;
+        margin-right: 9.65vw;
     }
 
-    :global(.vertical-timeline-item-grid .timeline__item--right .timeline-label) {
-        left: -35px;
+    :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
+        margin-right: 0;
+        margin-left: 9.65vw;
+    } */
+
+    :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
+        margin: 0;
     }
 
-    @media (min-width: 1400px) {
-        .timeline {
-            max-width: 85%;
+    :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
+        margin: 0;
+    }
+    /* end update */
+
+    :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
+        content: "";
+        width: 20.65vw;
+        height: 2px;
+        background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
+        position: absolute;
+        z-index: -1;
+        top: 150px;
+        right: -166px;
+    }
+
+    :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
+        content: "";
+        width: 20.65vw;
+        height: 2px;
+        background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
+        position: absolute;
+        z-index: -1;
+        top: 150px;
+        left: -166px;
+    }
+
+    :global(.vertical-timeline-item-grid .card__title) {
+        margin-top: 1.5rem;
+    }
+
+    @media screen and (min-width: 992px) {
+        .timeline-left {
+            border-right: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+            padding-left: 15px;
         }
-    }
-    @media (min-width: 1200px) {
-        .timeline {
-            max-width: 80%;
+
+        .timeline-right {
+            border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+            padding-right: 15px;
         }
-    }
-    @media (min-width: 992px) {
-        .timeline {
-            max-width: 75%;
+
+        :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
+            margin-left: 0;
+            margin-right: 9.65vw;
+        }
+
+        :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
+            margin-right: 0;
+            margin-left: 9.65vw;
         }
     }
 </style>
