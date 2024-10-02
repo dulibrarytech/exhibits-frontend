@@ -62,6 +62,12 @@ export const Settings = {
     exhibitDefaultImage: "exhibit-default.png",
 
     /*
+     * Delay time before showing the exhibit to allow all exhibit preview images to load
+     * in milliseconds
+     */
+    imageLoadDelay: 2000,
+
+    /*
      * Template properties 
      */
     gridItemDefaultLayout: "item_top",
@@ -116,6 +122,11 @@ export const Settings = {
     // userThemeStyles: {
     //     THEME_OBJECT.EXHIBIT_TEMPLATE: ['color', 'background', 'backgroundColor', 'fontFamily', 'fontWeight', 'textAlign']
     // }
+
+    /*
+     * Location of font files (.otf)
+     */
+    fontFileLocation: "../assets/fonts",
 
     /*
      * Limit panel labels (facet labels)

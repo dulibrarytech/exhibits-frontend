@@ -2,11 +2,11 @@
     'use-strict'
 
     import { Index } from '../libs/index.js';
-    import { getItemById, createExhibitPageSections } from '../libs/exhibits_data_helpers';
+    import { Settings } from '../config/settings';
     import { Fonts } from '../config/fonts'; 
     import { USER_ROLE } from '../config/global-constants';
     import { getUserRole } from '../libs/validation';
-
+    import { getItemById, createExhibitPageSections } from '../libs/exhibits_data_helpers';
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
@@ -38,8 +38,11 @@
     let page;
     let renderPage = false;
 
-    const FONT_LOCATION = "../assets/fonts";  // TODO: load DU brand fonts
-    const IMAGE_LOAD_DELAY = 2000; // TODO: track image load complete? all images must be loaded before the navigation scrollto will work (affects height of exhibit template div)
+    let {
+        fontFileLocation = "../assets/fonts",
+        imageLoadDelay = 2000
+
+    } = Settings;
 
     const init = async () => {
         showLoadMessage(true);
@@ -63,8 +66,12 @@
         exhibit = await Index.getExhibit(id);
         data = exhibit?.data;
 
-        if(!exhibit || !data) window.location.replace('/404');
-        else isPublished = ( data.is_published == true || userRole == USER_ROLE.ADMIN );
+        if(!exhibit || !data) {
+            window.location.replace('/404');
+        }
+        else {
+            isPublished = ( data.is_published == true || userRole == USER_ROLE.ADMIN );
+        }
 
         if(isPublished) {
             try {
@@ -131,7 +138,7 @@
             Fonts.forEach((font) => {
                 let {name="", file=null, url="./"} = font;
 
-                fontLocation = file ? `${FONT_LOCATION}/${file}` : url;
+                fontLocation = file ? `${fontFileLocation}/${file}` : url;
                 fontFace = new FontFace(name, `url(${fontLocation})`);
 
                 fontFace.load().then(function(loaded) {
@@ -212,7 +219,7 @@
 
             showLoadMessage(false);
 
-        }, IMAGE_LOAD_DELAY)
+        }, imageLoadDelay)
     }
 
     init();
@@ -250,7 +257,6 @@
 
 <style>
     .load-message {
-        /* position: relative; */
         position: fixed;
         left: calc(50% - 80px);
         top: calc(50% - 21px);
