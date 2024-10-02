@@ -66,7 +66,7 @@
         exhibit = await Index.getExhibit(id);
         data = exhibit?.data;
 
-        if(!exhibit || !data) {
+        if(!exhibit || !data || Object.keys(data).length === 0) {
             window.location.replace('/404');
         }
         else {
