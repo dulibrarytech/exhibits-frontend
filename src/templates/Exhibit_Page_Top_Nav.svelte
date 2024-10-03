@@ -1,12 +1,14 @@
 <script>
     import { onMount } from 'svelte';
-    import {createEventDispatcher} from 'svelte';
+    import { createEventDispatcher } from 'svelte';
+    import { sanitizeHtmlString } from '../libs/data_helpers';
         
     import Hero from '../components/Hero.svelte';
     import Navigation_Top from '../components/Navigation_Top.svelte';
     import Exhibit_Description from './partials/Exhibit_Description.svelte';
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
     import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
+    import Alert from '../components/Alert.svelte';
 
     export let data = null;
     export let template = null;
@@ -21,6 +23,10 @@
 
     let renderTemplate = false;
     let templateMessage = null;
+    let alert = null;
+
+    let {alert_text = null} = data;
+    if(alert_text) alert = sanitizeHtmlString(alert_text);
 
     const dispatch = createEventDispatcher();
 
@@ -95,7 +101,10 @@
             <div class="description-page-section">
                 <Exhibit_Description content={data.description} styles={styles?.template || null} /> 
             </div>
-            
+        {/if}
+
+        {#if alert }
+            <Alert text={alert} />
         {/if}
 
         {#if renderTemplate}
