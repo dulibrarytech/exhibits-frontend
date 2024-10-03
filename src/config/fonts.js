@@ -8,5 +8,10 @@ export const Fonts = [
         "name": "Neue Haas Unica W1G",
         "file": "NeueHaasUnicaW1G-Black.otf",
         "url": "" 
+    },
+    {
+        "name": "Neue Haas Grotesk Text Pro",
+        "file": "NeueHaasGroteskTextPro.ttf",
+        "url": "" 
     }
 ]
