@@ -4,6 +4,7 @@
  */
 
 export const Configuration = {
+  runtimeEnvironment: NODE_RUNTIME_ENV,
   exhibitsClientApiKey: EXHIBITS_API_KEY,
   exhibitsApiDomain: EXHIBITS_API_DOMAIN,
   iiifImageServerUrl: EXHIBITS_IIIF_IMAGE_SERVER_URL,

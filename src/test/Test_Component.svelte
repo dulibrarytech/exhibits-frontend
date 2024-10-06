@@ -1,5 +1,7 @@
 <script>
     import { onMount } from 'svelte';
+    import { Configuration } from '../config/config';
+    import {RUNTIME_ENV} from '../config/global-constants';
 
     /* Import test modules */
     import Text_Display_test from './components/Text_Display_test.svelte';
@@ -38,6 +40,14 @@
 
     let component;
     let componentName="";
+
+    let {
+        runtimeEnvironment
+    } = Configuration;
+
+    if(runtimeEnvironment != RUNTIME_ENV.DEV) {
+        window.location.replace('/404');
+    }
 
     const init = async () => {
         componentName = currentRoute.namedParams.name ?? "";

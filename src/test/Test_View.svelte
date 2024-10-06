@@ -1,5 +1,7 @@
 <script>
     import { onMount } from 'svelte';
+    import { Configuration } from '../config/config';
+    import {RUNTIME_ENV} from '../config/global-constants';
 
     /* Import test views */
     import Exhibit_test from './views/Exhibit_test.svelte';
@@ -12,6 +14,14 @@
 
     let view;
     let viewName="";
+
+    let {
+        runtimeEnvironment
+    } = Configuration;
+
+    if(runtimeEnvironment != RUNTIME_ENV.DEV) {
+        window.location.replace('/404');
+    }
 
     const init = async () => {
         viewName = currentRoute.namedParams.name ?? "";

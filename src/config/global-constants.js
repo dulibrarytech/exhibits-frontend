@@ -1,3 +1,8 @@
+export const RUNTIME_ENV = {
+    DEV: "development",
+    PROD: "production"
+}
+
 export const USER_ROLE = {
     STANDARD: "standard",
     ADMIN: "admin"

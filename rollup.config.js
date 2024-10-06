@@ -79,6 +79,7 @@ export default {
 
 		// Assign .env fields as global variables here:
 		replace({
+			NODE_RUNTIME_ENV: JSON.stringify(process.env.NODE_ENV),
 			EXHIBITS_API_KEY: JSON.stringify(process.env.EXHIBITS_API_KEY),
 			EXHIBITS_API_DOMAIN: JSON.stringify(process.env.EXHIBITS_API_DOMAIN),
 			EXHIBITS_IIIF_IMAGE_SERVER_URL: JSON.stringify(process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL),
