@@ -49,7 +49,7 @@
     "build": "rollup -c",
     "autobuild": "rollup -c -w",
     "dev": "run-p start:dev autobuild",
-    "start": "sirv public --single --no-clear",
-    "start:dev": "sirv public --single --no-clear --dev"
+    "start": "node exhibits-client.js",
+    "start:dev": "nodemon exhibits-client.js"
   }
 }
