@@ -285,7 +285,8 @@
 
     .timeline-wrapper {
         margin: 0 auto;
-        width: 80%;
+        /* width: 80%; */
+        width: 100%;
     }
 
     .timeline {

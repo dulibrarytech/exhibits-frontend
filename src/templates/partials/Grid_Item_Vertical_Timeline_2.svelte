@@ -31,7 +31,9 @@
         type = item.item_type || null;
         media = item.media || null;
 
-       try {
+        if(title) title = title.toUpperCase();
+
+        try {
             styles = JSON.parse(item.styles) || {};
         }
         catch(error) {
@@ -61,15 +63,17 @@
                 <span class="time__day">2</span>
                 <span class="time__month">Feb</span>
             </time> -->
-            {#if date}
+
+            <!-- {#if date}
                 <div class="time">{date}</div>
             {:else}
                 <div class="time">N.D.</div>
-            {/if}
+            {/if} -->
+
+            {#if title}<div class="card__title"><strong>{title}</strong></div><hr>{/if}
 
         </header>
-        {#if title}<div class="card__title">{title}</div>{/if}
-        <hr>
+
         <div class="card__content">
             {#if media} 
                 <a href data-item-id={id} on:click={onClickPreview}>
