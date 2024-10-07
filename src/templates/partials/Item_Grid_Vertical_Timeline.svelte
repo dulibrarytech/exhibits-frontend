@@ -3,7 +3,7 @@
     
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
-    import Grid_Item_Vertical_Timeline_2 from './Grid_Item_Vertical_Timeline_2.svelte';
+    import Grid_Item_Vertical_Timeline from './Grid_Item_Vertical_Timeline.svelte';
     
     export let grid = {};
     export let id = null;
@@ -20,7 +20,7 @@
     const dispatch = createEventDispatcher();
 
     const init = () => {
-        let {uuid} = grid;
+        let {uuid='NULL'} = grid;
         let gridStyles;
 
         title = grid.title || null;
@@ -153,7 +153,7 @@
                                 <div class="timeline__group">
                                     <div class="timeline__cards">
                                         {#each section.leftItems as item}
-                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
+                                            <Grid_Item_Vertical_Timeline {item} on:click-item />
                                         {/each}
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@
                                 <div class="timeline__group">
                                     <div class="timeline__cards">
                                         {#each section.rightItems as item}
-                                            <Grid_Item_Vertical_Timeline_2 {item} on:click-item />
+                                            <Grid_Item_Vertical_Timeline {item} on:click-item />
                                         {/each}
                                     </div>
                                 </div>
@@ -270,7 +270,7 @@
     */
     /**/
     .timeline{
-        --timelineMainColor: #e5e3e1;
+        --timelineMainColor: #181818;
     }
 
     /*
@@ -284,8 +284,7 @@
     }
 
     .timeline-wrapper {
-        margin: 0 auto;
-        /* width: 80%; */
+        margin: 50px auto 0 auto;
         width: 100%;
     }
 
@@ -298,27 +297,10 @@
         padding-left: 0px;
     }
 
-    /* .timeline-left {
-        border-right: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
-        padding-left: 15px;
-    }
-
-    .timeline-right {
-        border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
-        padding-right: 15px;
-    } */
-
-    /* update */
-    /* .timeline-left {
-        border-right: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
-        padding-left: 15px;
-    } */
-
     .timeline-right,
     .timeline-left {
         border: 0;
     }
-    /* end update */
 
     .timeline__year {
         display: block;
@@ -338,7 +320,6 @@
     }
 
     :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
-        /* height: 610px; */
         position: relative;
         z-index: 0;
     }
@@ -352,19 +333,9 @@
     }
 
     :global(.vertical-timeline-item-grid .card) {
-        border-radius: 5px;
+        border-radius: 15px;
+        box-shadow: 3px 3px 11px -5px #000;
     }
-
-    /* update */
-    /* :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
-        margin-left: 0;
-        margin-right: 9.65vw;
-    }
-
-    :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
-        margin-right: 0;
-        margin-left: 9.65vw;
-    } */
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
         margin: 0;
@@ -373,7 +344,6 @@
     :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
         margin: 0;
     }
-    /* end update */
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
         content: "";
