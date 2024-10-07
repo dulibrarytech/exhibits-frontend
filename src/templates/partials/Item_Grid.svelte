@@ -28,6 +28,12 @@
         items = grid.items || [];
         styles = grid.styles || {};
 
+        // parse styles json string for all grid items
+        items = items.map((item) => {
+            if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
+            return item;
+        }) || [];
+
         render();
     }
 

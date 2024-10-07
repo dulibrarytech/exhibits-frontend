@@ -115,7 +115,7 @@
             }
             else items = exhibit.items;
 
-            // parse styles json string
+            // parse styles json string for all exhibit items
             items = items.map((item) => {
                 if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
                 return item;

@@ -26,16 +26,9 @@
         description = item.description || null;
         type = item.item_type || null;
         media = item.media || null;
+        styles = item.styles || null;
 
         if(title) title = title.toUpperCase();
-
-        // TODO move to map function in parent grid (grid items map)
-        try {
-            styles = JSON.parse(item.styles) || {};
-        }
-        catch(error) {
-            console.error(`Error loading item styles: ${error}; uuid: ${id}`);
-        }
     }
 
     const setTheme = ({item = {}}) => {

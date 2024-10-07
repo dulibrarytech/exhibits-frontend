@@ -8,8 +8,6 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import { createEventDispatcher } from 'svelte';
-
     import Item from './Item.svelte';
     import Item_Display from '../../components/Item_Display.svelte';
 
@@ -17,7 +15,7 @@
 
     export let item;
 
-    let htmlElement;
+    let itemElement;
 
     let id;
     let date;
@@ -26,8 +24,6 @@
     let caption;
     let media;
     let styles;
-
-    const dispatch = createEventDispatcher();
 
     const DEFAULT_MEDIA_WIDTH = "100";
 
@@ -38,13 +34,7 @@
         description = item.description || null;
         caption = item.caption || null;
         media = item.media || null;
-
-        try {
-            styles = JSON.parse(item.styles) || {};
-        }
-        catch(error) {
-            console.error(`Error loading item styles: ${error}; uuid: ${uuid}`);
-        }
+        styles = item.styles || null;
 
         if(date) date = new Date(date).toLocaleDateString();
 
@@ -53,12 +43,7 @@
     }
 
     const setTheme = ({item = {}}) => {
-        Object.assign(htmlElement.style, item)
-    }
-
-    const onClickPreview = (event) => {
-        let itemId = event.target.getAttribute('data-item-id') || null;
-        if(itemId) dispatch('click-item', {itemId});
+        Object.assign(itemElement.style, item)
     }
 
     onMount(() => {
@@ -66,7 +51,7 @@
     });
 </script>
 
-<div class="grid-item" {id} bind:this={htmlElement}>
+<div class="grid-item" {id} bind:this={itemElement}>
     {#if date}
         <div class="date-heading exhibit-heading">
             <div class="item-date">{date}</div>
