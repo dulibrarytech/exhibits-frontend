@@ -28,7 +28,7 @@
         sections = sortItemsToDecadeSections(items);
 
         try {
-            gridStyles = grid.styles.item || {};
+            gridStyles = grid.styles || {};
         }
         catch(error) {
             console.error(`Error loading grid styles: ${error}; uuid: ${uuid}`);
@@ -138,6 +138,8 @@
     
     <div class="container">
         {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div><br>{/if}
+
+        <!-- TODO add text section -->
 
         <div class="timeline-wrapper">
             {#if sections}

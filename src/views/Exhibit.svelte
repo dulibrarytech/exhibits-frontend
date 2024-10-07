@@ -115,12 +115,10 @@
             }
             else items = exhibit.items;
 
-            // parse any encoded data
+            // parse styles json string
             items = items.map((item) => {
                 if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
-
                 return item;
-
             }) || [];
 
             // create the navigation sections, e.g. heading > items under heading

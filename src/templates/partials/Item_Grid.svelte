@@ -61,6 +61,8 @@
     <div class="container-md">
         {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div>{/if}
 
+        <!-- TODO add text section -->
+
         <div class="grid-content">
             {#if itemDisplay}
                 {#each itemDisplay as item}
