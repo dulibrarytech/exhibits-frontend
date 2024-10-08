@@ -86,20 +86,23 @@
             return new Date(a.date) - new Date(b.date);
         });
 
+        // get the start and end year of the entire grid item set
         startYear = new Date(items[0].date).getFullYear();
         endYear = new Date(items[items.length-1].date).getFullYear();
 
+        // get the initial decade values
         currentDecade = startYear - (startYear % 10);
         nextDecade = currentDecade + 10;
         lastDecade = (endYear - (endYear % 10)) + 10;
 
+        // define the first decade bucket
         currentBucket = {
             label: currentDecade.toString(),
             leftItems: [],
             rightItems: []
         }
 
-        let bucketIndex = 0, itemDate;
+        let decadeIndex = 0, itemDate;
         for(let index=0; index < items.length; index++) {
 
             itemDate = new Date(items[index].date);
@@ -108,11 +111,17 @@
             if(itemDate.getFullYear() >= currentDecade && itemDate.getFullYear() < nextDecade) {
 
                 // sort into specified side of timeline or left if odd, right if even
-                if(items[index].layout == 'left' || bucketIndex % 2 == 0) {
+                if(items[index].layout == 'left' || index % 2 == 0) {
                     currentBucket.leftItems.push(items[index]);
+
+                    // add a top offset to the opposite side than the first item
+                    if(decadeIndex == 0) currentBucket.rightItems.push({columnTopOffset:true});
                 }
-                else if(items[index].layout == 'right' || bucketIndex % 2 != 0) {
+                else if(items[index].layout == 'right' || index % 2 != 0) {
                     currentBucket.rightItems.push(items[index]);
+
+                    // add a top offset to the opposite side than the first item
+                    if(decadeIndex == 0) currentBucket.leftItems.push({columnTopOffset:true});
                 }
 
                 // end case
@@ -120,23 +129,28 @@
                     sorted.push(currentBucket)
                 }
 
-                bucketIndex++;
+                // increment the index within the current decade
+                decadeIndex++;
             }
 
-            // add the next decade 
             else {
+                // push the current decade to the sorted grid items
+                sorted.push(currentBucket);
+
+                // increment the decade, reset the index count
+                decadeIndex = 0;
                 currentDecade = nextDecade;
                 nextDecade += 10;
 
-                sorted.push(currentBucket);
+                // define the next decade bucket
                 currentBucket = {
                     label: currentDecade.toString(),
                     leftItems: [],
                     rightItems: []
                 }
 
+                // re-run the current item and test it in the next decade
                 index--;
-                bucketIndex = 0;
             }
         }
 
@@ -162,9 +176,8 @@
         <div class="timeline-wrapper">
             {#if sections}
 
-            <!-- for section in sections -->
-            {#each sections as section, index}
-                {#if section.label}<span class="timeline__year time" aria-hidden="true">{section.label}</span>{/if}
+                {#each sections as section}
+                    {#if section.label}<span class="timeline__year time" aria-hidden="true">{section.label}</span>{/if}
 
                     <div class="row timeline-section">
 
@@ -173,7 +186,11 @@
                                 <div class="timeline__group">
                                     <div class="timeline__cards">
                                         {#each section.leftItems as item}
-                                            <Grid_Item_Vertical_Timeline {item} on:click-item />
+                                            {#if item.columnTopOffset} 
+                                                <div class="column-top-offset"></div>
+                                            {:else}
+                                                <Grid_Item_Vertical_Timeline {item} on:click-item />
+                                            {/if}
                                         {/each}
                                     </div>
                                 </div>
@@ -185,21 +202,29 @@
                                 <div class="timeline__group">
                                     <div class="timeline__cards">
                                         {#each section.rightItems as item}
-                                            <Grid_Item_Vertical_Timeline {item} on:click-item />
+                                            {#if item.columnTopOffset} 
+                                                <div class="column-top-offset"></div>
+                                            {:else}
+                                                <Grid_Item_Vertical_Timeline {item} on:click-item />
+                                            {/if}
                                         {/each}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 {/each}
+
             {/if}
-        </div>
+        </div> <!-- timeline-wrapper -->
     </div> <!-- container -->
-</div>
+</div> <!-- vertical-timeline-item-grid -->
 
 <style>
+    /*
+    * --topSpacing = 6.2em (replace 6.2em)
+    */
+
     /*
     skin
     */
@@ -339,14 +364,19 @@
         top: -120px;
     }
 
+    .column-top-offset {
+        height: 125px;
+    }
+
     :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
         position: relative;
         z-index: 0;
     }
 
-    :global(.vertical-timeline-item-grid .timeline-right .vertical-timeline-grid-item) {
+    /* spacer update */
+    /* :global(.vertical-timeline-item-grid .timeline-right .vertical-timeline-grid-item) {
         margin-top: 6.2em;
-    }
+    } */
 
     :global(.vertical-timeline-item-grid .timeline__card::before) {
         content: none;
@@ -390,6 +420,11 @@
     :global(.vertical-timeline-item-grid .card__title) {
         margin-top: 1.5rem;
     }
+
+    /* spacer update */
+    /* :global(.timeline-right .first-item .vertical-timeline-grid-item) {
+        margin-top: 0px;
+    } */
 
     @media screen and (min-width: 992px) {
         .timeline-left {
