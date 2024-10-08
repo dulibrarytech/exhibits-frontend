@@ -13,6 +13,7 @@
 
     let timelineSection;
     let title;
+    let text;
     let items;
     let sections = null;
     let styles = {};
@@ -24,6 +25,7 @@
         let gridStyles;
 
         title = grid.title || null;
+        text = grid.text || null;
         items = grid.items || [];
         sections = sortItemsToDecadeSections(items);
 
@@ -154,6 +156,8 @@
     
     <div class="container">
         {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div><br>{/if}
+
+        {#if text}<div class="text">{text}</div>{/if}
 
         <div class="timeline-wrapper">
             {#if sections}

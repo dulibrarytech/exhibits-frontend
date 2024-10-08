@@ -16,6 +16,7 @@
     let titleElement;
 
     let title;
+    let text;
     let items;
     let columns;
     let styles;
@@ -25,6 +26,7 @@
     const init = () => {
         columns = grid.columns || "2";
         title = grid.title || null;
+        text = grid.text || null;
         items = grid.items || [];
         styles = grid.styles || {};
 
@@ -67,7 +69,7 @@
     <div class="container-md">
         {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div>{/if}
 
-        <!-- TODO add text section -->
+        {#if text}<div class="text">{text}</div>{/if}
 
         <div class="grid-content">
             {#if itemDisplay}
