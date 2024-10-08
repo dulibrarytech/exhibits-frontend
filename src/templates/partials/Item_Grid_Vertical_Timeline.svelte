@@ -70,6 +70,7 @@
         let currentDecade, nextDecade, lastDecade;
         let currentBucket = {};
 
+        // handle null or absent date field in the item
         items = items.map((item) => {
             if(!item.date) {
                 item.date = new Date();
@@ -101,7 +102,10 @@
 
             itemDate = new Date(items[index].date);
 
+            // insert the item into the current decade
             if(itemDate.getFullYear() >= currentDecade && itemDate.getFullYear() < nextDecade) {
+
+                // sort into specified side of timeline or left if odd, right if even
                 if(items[index].layout == 'left' || bucketIndex % 2 == 0) {
                     currentBucket.leftItems.push(items[index]);
                 }
@@ -109,9 +113,15 @@
                     currentBucket.rightItems.push(items[index]);
                 }
 
-                if(nextDecade == lastDecade) sorted.push(currentBucket)
-                else bucketIndex++;
+                // end case
+                if(index == items.length-1) {
+                    sorted.push(currentBucket)
+                }
+
+                bucketIndex++;
             }
+
+            // add the next decade 
             else {
                 currentDecade = nextDecade;
                 nextDecade += 10;
@@ -144,8 +154,6 @@
     
     <div class="container">
         {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div><br>{/if}
-
-        <!-- TODO add text section -->
 
         <div class="timeline-wrapper">
             {#if sections}
