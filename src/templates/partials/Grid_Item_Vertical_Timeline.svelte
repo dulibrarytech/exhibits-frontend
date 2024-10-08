@@ -27,8 +27,6 @@
         type = item.item_type || null;
         media = item.media || null;
         styles = item.styles || null;
-
-        if(title) title = title.toUpperCase();
     }
 
     const setTheme = ({item = {}}) => {
@@ -55,7 +53,7 @@
                 <div class="time">N.D.</div>
             {/if} -->
 
-            {#if title}<div class="card__title"><strong>{@html title}</strong></div><hr>{/if}
+            {#if title}<div class="card__title">{@html title}</div><hr>{/if}
 
         </header>
 
