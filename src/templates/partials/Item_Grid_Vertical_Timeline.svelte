@@ -27,7 +27,10 @@
         title = grid.title || null;
         text = grid.text || null;
         items = grid.items || [];
+        console.log("TEST items:", items)
         sections = sortItemsToDecadeSections(items);
+
+        console.log("TEST sorted:", sections)
 
         // parse styles json string for all grid items
         items = items.map((item) => {
@@ -97,7 +100,7 @@
 
         // define the first decade bucket
         currentBucket = {
-            label: currentDecade.toString(),
+            label: currentDecade.toString() + 's',
             leftItems: [],
             rightItems: []
         }
@@ -144,7 +147,7 @@
 
                 // define the next decade bucket
                 currentBucket = {
-                    label: currentDecade.toString(),
+                    label: currentDecade.toString() + 's',
                     leftItems: [],
                     rightItems: []
                 }
@@ -235,7 +238,7 @@
     
         font-size: var(--timeFontSize, 1.25rem);
         font-weight: var(--timeFontWeight, 700);
-        text-transform: var(--timeTextTransform, uppercase);
+        /* text-transform: var(--timeTextTransform, uppercase); */
         color: var(--timeColor, currentColor);
     }
 
@@ -371,12 +374,8 @@
     :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
         position: relative;
         z-index: 0;
+        min-height: 700px;
     }
-
-    /* spacer update */
-    /* :global(.vertical-timeline-item-grid .timeline-right .vertical-timeline-grid-item) {
-        margin-top: 6.2em;
-    } */
 
     :global(.vertical-timeline-item-grid .timeline__card::before) {
         content: none;
@@ -393,6 +392,11 @@
 
     :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
         margin: 0;
+    }
+
+    :global(.vertical-timeline-item-grid .timeline-right .timeline__cards) {
+        padding-right: 0;
+        padding-left: 0;
     }
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
@@ -421,10 +425,11 @@
         margin-top: 1.5rem;
     }
 
-    /* spacer update */
-    /* :global(.timeline-right .first-item .vertical-timeline-grid-item) {
-        margin-top: 0px;
-    } */
+    :global(.vertical-timeline-grid-item .item-preview) {
+        max-height: 600px;
+        overflow: hidden;
+        height: auto;
+    }
 
     @media screen and (min-width: 992px) {
         .timeline-left {
@@ -437,6 +442,11 @@
             padding-right: 15px;
         }
 
+        :global(.vertical-timeline-item-grid .timeline-right .timeline__cards) {
+            padding-right: 7px;
+            padding-left: 0;
+        }
+        
         :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
             margin-left: 0;
             margin-right: 9.65vw;
@@ -445,6 +455,10 @@
         :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
             margin-right: 0;
             margin-left: 9.65vw;
+        }
+
+        :global(.vertical-timeline-grid-item .item-preview) {
+            max-height: 300px;
         }
     }
 </style>
