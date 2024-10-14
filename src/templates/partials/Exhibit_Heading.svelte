@@ -6,13 +6,17 @@
 
     export let id = null;
     export let text = "";
-    export let subtext = "";
     export let display = true;
     export let styles = null;
 
     let headingElement;
+    let isHtml;
 
     const dispatch = createEventDispatcher();
+
+    $: {
+        isHtml = (text.indexOf('div') > 0) ? true : false;
+    }
 
     export const setTheme = (styles) => {
         Object.assign(headingElement.style, styles);
@@ -33,10 +37,11 @@
     {#if display}
         <div class="section-heading container">
             <div class="section-title">
-                <h3>{@html text}</h3>
-            </div>
-            <div class="section-subtitle">
-                <h5>{@html subtext}</h5>
+                {#if isHtml}
+                    {@html text}
+                {:else}
+                    <h3>{text}</h3>
+                {/if}
             </div>
         </div>
     {/if}
@@ -50,13 +55,13 @@
     .section-heading {
         padding-top: 0.532em; /* 25px @ 47px heading font */
         padding-bottom: 0.319em; /* 15px @ 47px heading font */
+        text-transform: uppercase;
     }
 
     .section-heading h3 {
         margin-bottom: 0;
-        letter-spacing: 4px;
+        letter-spacing: 2px;
         font-size: inherit;
-        text-transform: uppercase;
     }
 
     .anchor-offset {
