@@ -29,13 +29,13 @@ export const Index = (() => {
         try {
             let {data} = await axios.get(EXHIBIT_ENDPOINT);
             exhibits = data;
-
-            sanitizeObjectData(exhibits);
         }
         catch(e) {
             console.error(`Error fetching exhibits. Server: '${EXHIBIT_ENDPOINT}': ${e}`);
             exhibits = null;
         }
+
+        sanitizeObjectData(exhibits);
         
         return exhibits;
     }
