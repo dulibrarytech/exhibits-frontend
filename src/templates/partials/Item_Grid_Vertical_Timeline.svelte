@@ -27,10 +27,7 @@
         title = grid.title || null;
         text = grid.text || null;
         items = grid.items || [];
-        console.log("TEST items:", items)
         sections = sortItemsToDecadeSections(items);
-
-        console.log("TEST sorted:", sections)
 
         // parse styles json string for all grid items
         items = items.map((item) => {

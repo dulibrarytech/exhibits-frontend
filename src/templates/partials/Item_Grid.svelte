@@ -10,6 +10,8 @@
     export let id = null;
     export let templateStyles = {};
 
+    console.log("TEST grid items in:", grid.items)
+
     let itemDisplay = null;
 
     let gridElement;
@@ -110,6 +112,7 @@
         justify-content: flex-start;
         row-gap: 100px;
         column-gap: 2.5vw;
+        width: 100%;
     }
 
     :global(.item-grid .item) {
