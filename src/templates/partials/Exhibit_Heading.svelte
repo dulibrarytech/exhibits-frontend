@@ -53,8 +53,8 @@
     }
 
     .section-heading {
-        padding-top: 0.532em; /* 25px @ 47px heading font */
-        padding-bottom: 0.319em; /* 15px @ 47px heading font */
+        padding-top: 0.632em; 
+        padding-bottom: 0.632em; 
         text-transform: uppercase;
     }
 
