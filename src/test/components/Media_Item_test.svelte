@@ -1,7 +1,7 @@
 <script>
     import Media_Item from '../../components/Media_Item.svelte';
 
-    const TEST = "A";
+    const TEST = "C";
 
     let tests = {
         "A": { 
@@ -17,9 +17,9 @@
                 "caption": "Single small image object from repo",
                 "template": "custom",
                 "item_type": "image",
-                //url": "https://blog.rtwilson.com/wp-content/uploads/2011/10/len_std.jpg", // remote
-                "url": "dd057997d5b5f36d806b77c38c2fb472.jpeg", // local storage
-                //"url": "http://localhost:9006/datastream/39c9e861-79b3-405f-9e70-31d99a393ef9/object", // repo api *no current functionality for extensionless uri*
+                //media": "https://blog.rtwilson.com/wp-content/uploads/2011/10/len_std.jpg", // remote
+                "media": "dd057997d5b5f36d806b77c38c2fb472.jpeg", // local storage
+                //"media": "http://localhost:9006/datastream/39c9e861-79b3-405f-9e70-31d99a393ef9/object", // repo api *no current functionality for extensionless uri*
                 "text": "<div><p>In 2017 UNSW Sydney became the caretaker for the <i><b>Dennis Wolanski Library collection</b></i>. The collection was originally part of the Sydney Opera House performing arts library. The collection is international in scope and focuses on the performing arts in Australia, 1789-1997. It consists of 1,600 archive boxes, containing press clippings, theatre programs, press releases, correspondence, and ephemera, and a card index of 80,000 entries.</p><p>"+
                 "Collection access is managed by the Performance Memories Project, a partnership of <a href='#'>UNSW Library</a>, UNSW Theatre and Performance Studies, AusStage and the Wolanski Foundation. As part of project, we have now made available as downloads more than 160,000 records from the project site, including a subject list of research files and two converted card indexes, one covering the performing arts in general, one devoted to Australian drama. </p><div>",
                 "type": "item",
@@ -42,8 +42,8 @@
                 "template": "custom",
                 "item_type": "image",
                 //"item_type": "large_image",
-                "url": "test-large-image.tif", // remote (*tif is uploaded file only, no remote source)
-                //"url": "http://localhost:9006/datastream/83c5471a-7413-43e2-ba47-b114daa427a7/object", // repo api *no current functionality for extensionless uri*
+                "media": "test-large-image.tif", // remote (*tif is uploaded file only, no remote source)
+                //"media": "http://localhost:9006/datastream/83c5471a-7413-43e2-ba47-b114daa427a7/object", // repo api *no current functionality for extensionless uri*
                 "text": "<div><p>In 2017 UNSW Sydney became the caretaker for the <i><b>Dennis Wolanski Library collection</b></i>. The collection was originally part of the Sydney Opera House performing arts library. The collection is international in scope and focuses on the performing arts in Australia, 1789-1997. It consists of 1,600 archive boxes, containing press clippings, theatre programs, press releases, correspondence, and ephemera, and a card index of 80,000 entries.</p><p>"+
                 "Collection access is managed by the Performance Memories Project, a partnership of <a href='#'>UNSW Library</a>, UNSW Theatre and Performance Studies, AusStage and the Wolanski Foundation. As part of project, we have now made available as downloads more than 160,000 records from the project site, including a subject list of research files and two converted card indexes, one covering the performing arts in general, one devoted to Australian drama. </p><div>",
                 "type": "item",
@@ -65,15 +65,16 @@
                 "caption": "Single small image object from repo",
                 "template": "custom",
                 "item_type": "audio",
-                "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // remote
-                //"url": "http://localhost:9006/datastream/416aac52-de61-4c86-b329-32663c355789/object", // repo api (works for audio)
-                //"kaltura_id": "0_6mf7d2pb",
+                //"url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // remote
+                //"media": "http://localhost:9006/datastream/416aac52-de61-4c86-b329-32663c355789/object", // repo api (works for audio)
+                "media": "0_6mf7d2pb",
                 //"code": "<audio class='testelt' controls><source src='https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' type='audio/mpeg'/></audio>",
                 "text": "<div><p>In 2017 UNSW Sydney became the caretaker for the <i><b>Dennis Wolanski Library collection</b></i>. The collection was originally part of the Sydney Opera House performing arts library. The collection is international in scope and focuses on the performing arts in Australia, 1789-1997. It consists of 1,600 archive boxes, containing press clippings, theatre programs, press releases, correspondence, and ephemera, and a card index of 80,000 entries.</p><p>"+
                 "Collection access is managed by the Performance Memories Project, a partnership of <a href='#'>UNSW Library</a>, UNSW Theatre and Performance Studies, AusStage and the Wolanski Foundation. As part of project, we have now made available as downloads more than 160,000 records from the project site, including a subject list of research files and two converted card indexes, one covering the performing arts in general, one devoted to Australian drama. </p><div>",
                 "type": "item",
                 "order": 1,
                 "layout": "item_right",
+                "is_kaltura_item": 1,
                 "is_published": 1,
                 "created": "2022-10-13T20:24:20.000Z"
             }
@@ -90,15 +91,16 @@
                 "caption": "Single small image object from repo",
                 "template": "custom",
                 "item_type": "video",
-                //"url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", // remote
-                //"url": "http://localhost:9006/datastream/0943447b-2c21-4993-8465-7ba19b54fa1e/object", // repo api
-                //"kaltura_id": "0_8d7f6n7c",
+                //"media": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", // remote
+                //"media": "http://localhost:9006/datastream/0943447b-2c21-4993-8465-7ba19b54fa1e/object", // repo api
+                "media": "0_8d7f6n7c",
                 "code": "<video><source src='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' type='video/mp4'/></video>",
                 "text": "<div><p>In 2017 UNSW Sydney became the caretaker for the <i><b>Dennis Wolanski Library collection</b></i>. The collection was originally part of the Sydney Opera House performing arts library. The collection is international in scope and focuses on the performing arts in Australia, 1789-1997. It consists of 1,600 archive boxes, containing press clippings, theatre programs, press releases, correspondence, and ephemera, and a card index of 80,000 entries.</p><p>"+
                 "Collection access is managed by the Performance Memories Project, a partnership of <a href='#'>UNSW Library</a>, UNSW Theatre and Performance Studies, AusStage and the Wolanski Foundation. As part of project, we have now made available as downloads more than 160,000 records from the project site, including a subject list of research files and two converted card indexes, one covering the performing arts in general, one devoted to Australian drama. </p><div>",
                 "type": "item",
                 "order": 1,
                 "layout": "item_right",
+                "is_kaltura_item": 1,
                 "is_published": 1,
                 "created": "2022-10-13T20:24:20.000Z"
             }
@@ -138,7 +140,7 @@
                 "caption": "Single small image object from repo",
                 "template": "custom",
                 "item_type": "external",
-                "url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg", // remote
+                "media": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg", // remote
                 "text": "<div><p>In 2017 UNSW Sydney became the caretaker for the <i><b>Dennis Wolanski Library collection</b></i>. The collection was originally part of the Sydney Opera House performing arts library. The collection is international in scope and focuses on the performing arts in Australia, 1789-1997. It consists of 1,600 archive boxes, containing press clippings, theatre programs, press releases, correspondence, and ephemera, and a card index of 80,000 entries.</p><p>"+
                 "Collection access is managed by the Performance Memories Project, a partnership of <a href='#'>UNSW Library</a>, UNSW Theatre and Performance Studies, AusStage and the Wolanski Foundation. As part of project, we have now made available as downloads more than 160,000 records from the project site, including a subject list of research files and two converted card indexes, one covering the performing arts in general, one devoted to Australian drama. </p><div>",
                 "type": "item",
@@ -159,7 +161,7 @@
                 "is_member_of_exhibit": "00509704-bdaa-4a6b-a6b0-4f6007b1b2fe",
                 "caption": "Single small image object from repo",
                 "template": "custom",
-                "url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg", // remote
+                "media": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg", // remote
                 "text": "<div><p>In 2017 UNSW Sydney became the caretaker for the <i><b>Dennis Wolanski Library collection</b></i>. The collection was originally part of the Sydney Opera House performing arts library. The collection is international in scope and focuses on the performing arts in Australia, 1789-1997. It consists of 1,600 archive boxes, containing press clippings, theatre programs, press releases, correspondence, and ephemera, and a card index of 80,000 entries.</p><p>"+
                 "Collection access is managed by the Performance Memories Project, a partnership of <a href='#'>UNSW Library</a>, UNSW Theatre and Performance Studies, AusStage and the Wolanski Foundation. As part of project, we have now made available as downloads more than 160,000 records from the project site, including a subject list of research files and two converted card indexes, one covering the performing arts in general, one devoted to Australian drama. </p><div>",
                 "type": "item",

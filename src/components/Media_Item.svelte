@@ -176,8 +176,7 @@
         let url = resource;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
-        let kalturaId = item.kaltura_id || null;
-        //let kalturaId = item.is_kaltura_item ? item.media : null;
+        let kalturaId = item.is_kaltura_item ? item.media : null;
 
         params = {url, embedCode, caption, mimeType, kalturaId, ...args}; 
         component = Audio_Player;
@@ -187,8 +186,7 @@
         let url = resource;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
-        let kalturaId = item.kaltura_id || null;
-        //let kalturaId = item.is_kaltura_item ? item.media : null;
+        let kalturaId = item.is_kaltura_item ? item.media : null;
         
         params = {url, embedCode, caption, mimeType, kalturaId, ...args}; 
         component = Video_Player;
