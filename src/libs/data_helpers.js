@@ -103,12 +103,13 @@ export const getHtmlIdString = (string) => {
  */
 export const sanitizeObjectData = (object) => {
     Object.keys(object).forEach(function(key, index) {
-
-        if(typeof object[key] == 'string') {
-            object[key] = sanitizeHtmlString( decodeHtmlEntities(object[key]) );
-        }
-        else if(typeof object[key] == 'object') {
-            sanitizeObjectData(object[key]); // object/array of objects
+        if(object[key]) {
+            if(typeof object[key] == 'string') {
+                object[key] = sanitizeHtmlString( decodeHtmlEntities(object[key]) );
+            }
+            else if(typeof object[key] == 'object') {
+                sanitizeObjectData(object[key]);
+            }
         }
     });
 
