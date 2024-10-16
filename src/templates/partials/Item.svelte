@@ -390,6 +390,10 @@
         line-height: 1.452em;
     }
 
+    :global(.item p) {
+        margin-bottom: 2.5rem;
+    }
+
     :global(.item .caption) {
         font-style: italic;
         font-size: 0.85em;
