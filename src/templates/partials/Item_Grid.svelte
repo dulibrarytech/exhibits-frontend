@@ -10,8 +10,6 @@
     export let id = null;
     export let templateStyles = {};
 
-    console.log("TEST grid items in:", grid.items)
-
     let itemDisplay = null;
 
     let gridElement;
