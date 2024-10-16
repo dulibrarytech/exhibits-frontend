@@ -137,7 +137,7 @@
 
       <div class="item-container">
          
-         {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems, link}}
+         {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}}
 
             <div class="item shadow-wrapper">
                <div class="item-content">
