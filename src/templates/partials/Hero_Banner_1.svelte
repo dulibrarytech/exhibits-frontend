@@ -10,7 +10,7 @@
 
     export let args = {};
 
-    let {image = null, title="exhibit title", description = null} = args;
+    let {image = null, title="exhibit title", description = null, titleText = ""} = args;
 
     const dispatch = createEventDispatcher();
 
@@ -20,7 +20,7 @@
 </script>
 
 <div class="banner">
-    <img src={image} alt={title} title={title} />
+    <img src={image} alt={titleText} title={titleText} />
 </div>
 
 <style>

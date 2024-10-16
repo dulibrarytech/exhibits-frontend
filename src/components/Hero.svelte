@@ -4,6 +4,7 @@
     import { Settings } from '../config/settings';
     import { Banners } from '../templates/config/hero-banner';
     import { Resource } from '../libs/resource';
+    import { stripHtmlTags } from '../libs/data_helpers';
 
     export let data = null;
     export let styles = null;
@@ -31,6 +32,7 @@
         bannerData = {
             image,
             title: data.title || "",
+            titleText: stripHtmlTags(data.title) || null,
             subtitle: data.subtitle || null,
             description: data.description || null
         }

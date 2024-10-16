@@ -16,7 +16,7 @@
     let bannerElement;
     let textElement;
 
-    let {image=null, title="exhibit title", subtitle=null} = args;
+    let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
     const dispatch = createEventDispatcher();
 
@@ -44,7 +44,7 @@
 
     <div class="row">
         <div class="hero-image col-lg-7 col-md-6 col-sm-12">
-            <img src={image} alt={title} title={title} />
+            <img src={image} alt={titleText} title={titleText} />
         </div>
 
         <div class="title-text padding col-lg-5 col-md-6 col-sm-12" bind:this={textElement}>

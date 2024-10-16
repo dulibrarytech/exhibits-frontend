@@ -15,7 +15,7 @@
 
     let bannerElement;
 
-    let {image=null, title="exhibit title", subtitle=null} = args;
+    let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
     const dispatch = createEventDispatcher();
 
@@ -36,7 +36,7 @@
 
 <div class="banner" bind:this={bannerElement}>
     <div class="hero-image">
-        <img src={image} alt={title} title={title} />
+        <img src={image} alt={titleText} title={titleText} />
     </div>
 
     
