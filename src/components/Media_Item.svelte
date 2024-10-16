@@ -13,6 +13,8 @@
     import PDFJS_Viewer from './PDFJS_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
+    import { stripHtmlTags } from '../libs/data_helpers';
+
     import {ITEM_TYPE, VIEWER_TYPE, MEDIA_POSITION} from '../config/global-constants';
 
     export let item = {};
@@ -57,6 +59,8 @@
         caption = args.caption || item.caption || null;
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
         layout = item.layout || null;
+
+        if(title) title = stripHtmlTags(title);
 
         switch(layout) {
             case MEDIA_POSITION.LEFT:
@@ -173,6 +177,7 @@
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.kaltura_id || null;
+        //let kalturaId = item.is_kaltura_item ? item.media : null;
 
         params = {url, embedCode, caption, mimeType, kalturaId, ...args}; 
         component = Audio_Player;
@@ -183,6 +188,7 @@
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.kaltura_id || null;
+        //let kalturaId = item.is_kaltura_item ? item.media : null;
         
         params = {url, embedCode, caption, mimeType, kalturaId, ...args}; 
         component = Video_Player;
@@ -225,7 +231,7 @@
         </div>
     </div>
 {:else}
-    <h5>Loading...</h5>
+    <h5>Loading media item...</h5>
 {/if}
 
 <style>
