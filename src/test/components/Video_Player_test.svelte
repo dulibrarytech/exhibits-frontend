@@ -1,13 +1,7 @@
 <script>
     import Video_Player from '../../components/Video_Player.svelte';
 
-    let tests = {
-        "A": {
-            
-        }
-    }
-
-    let data = tests["A"];
+    import {test_data} from '../data/video-player.js';
 </script>
 
 <div class="test">

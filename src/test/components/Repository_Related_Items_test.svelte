@@ -1,8 +1,8 @@
 <script>
     import Repository_Related_Items from '../../components/Repository_Related_Items.svelte';
-    import {items} from '../data/related.js';
+    import {test_data} from '../data/related-repo-items.js';
 </script>
 
 <div class="test">
-    <Repository_Related_Items {items} />
+    <Repository_Related_Items {test_data} />
 </div>

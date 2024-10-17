@@ -1,10 +1,13 @@
 <script>
     import Repository_Item from '../../components/Repository_Item.svelte';
-    import {tests} from '../data/repository-item.js';
+    import {test_data} from '../data/repository-item.js';
 
     const TEST = "A";
 
-    let data = tests[TEST];
+    // test_data = {
+    //      "A": {} // exhibit item
+    // }
+    let data = test_data[TEST];
 </script>
 
 <div class="test">
