@@ -25,7 +25,7 @@
 'use strict' 
 
 import { Settings } from '../config/settings.js';
-import { getHtmlIdString, stripHtmlTags } from '../libs/data_helpers';
+import { getHtmlIdString, stripHtmlTags, sanitizeHtmlString, decodeHtmlEntities } from '../libs/data_helpers';
 import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants';
 
 import sanitizeHtml from 'sanitize-html';
@@ -61,10 +61,54 @@ export const getItemById = (id, items) => {
  * @returns the string with html tags removed
  */
 export const stripDisallowedHtmlContent = (string) => {
-    return sanitizeHtml( decode(string), {
-        allowedTags: Settings.allowedTags
+    return sanitizeHtml(string, {
+        allowedTags: Settings.permittedHtmlTags,
+        allowedAttributes: {
+            'a': [ 'href' ],
+            '*': ['style', 'class']
+        },
     });
 }
+
+/**
+ * 
+ * @param {*} object - exhibit data object
+ * 
+ * Iterates html-allowed user fields: decodes html entities and sanitizes html string
+ * 
+ * @returns exhibit with decoded and sanitized fields
+ */
+export const sanitizeExhibitHtmlFields = (exhibit) => {
+    for(let field of Settings.htmlFieldsExhibit) {
+        if(exhibit[field]) {
+            exhibit[field] = decodeHtmlEntities(exhibit[field]);
+            exhibit[field] = stripDisallowedHtmlContent(exhibit[field]);
+            exhibit[field] = sanitizeHtmlString(exhibit[field]);
+        }
+    }   
+
+    return exhibit;
+};
+
+/**
+ * 
+ * @param {*} object - exhibit item data object
+ * 
+ * Iterates html-allowed user fields: decodes html entities, and sanitizes html string
+ * 
+ * @returns item with decoded and sanitized fields
+ */
+export const sanitizeExhibitItemHtmlFields = (item) => {
+    for(let field of Settings.htmlFieldsExhibitItem) {
+        if(item[field]) {
+            item[field] = decodeHtmlEntities(item[field]);
+            item[field] = stripDisallowedHtmlContent(item[field]);
+            item[field] = sanitizeHtmlString(item[field]);
+        }
+    } 
+
+    return item;
+};
 
 /**
  * Iterates a style object and removes any invalid style properties

@@ -1,9 +1,13 @@
 'use strict'
 
 import { Configuration } from '../config/config.js';
-import { sanitizeObjectData } from '../libs/data_helpers';
+
 import axios from 'axios';
 import { URLQueryParams } from "object-in-queryparams";
+
+import { stripHtmlTags, sanitizeObjectData } from '../libs/data_helpers';
+import { sanitizeExhibitHtmlFields, sanitizeExhibitItemHtmlFields } from '../libs/exhibits_data_helpers';
+import {ENTITY_TYPE} from '../config/global-constants';
 
 /**
  * Dev index interface module
@@ -35,7 +39,11 @@ export const Index = (() => {
             exhibits = null;
         }
 
-        sanitizeObjectData(exhibits);
+        if(exhibits) {
+            for(let index in exhibits) {
+                sanitizeExhibitHtmlFields(exhibits[index]);
+            }
+        }
         
         return exhibits;
     }
@@ -54,14 +62,18 @@ export const Index = (() => {
      * @returns exhibit
      */
     const getExhibit = async (id) => {
-        let exhibit = null;
+        let exhibit = null, response;
 
         try {
-            let response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}`);
-            let data = sanitizeObjectData(response.data);
+            response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}`);
+            let data = response?.data || {};
+            sanitizeExhibitHtmlFields(data);
 
             response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}/items`);
-            let items = sanitizeObjectData(response.data);
+            let items = response?.data || [];
+            for(let item of items) {
+                sanitizeExhibitItemHtmlFields(item);
+            }
 
             exhibit = {data, items};
         }
@@ -102,7 +114,16 @@ export const Index = (() => {
             let {data} = await axios.get(url);
             let {results = [], aggregations = null, resultCount = null} = data;
 
-            for(let result of results) sanitizeObjectData(result);
+            for(let result of results) {
+                sanitizeObjectData(result); // todo IF result is exhibit, san exhibit data. if result is item, san item data
+
+                // if(result.type == ENTITY_TYPE.EXHIBIT) {
+                //     result = sanitizeExhibitHtmlFields(result);
+                // }
+                // else if(result.type == ENTITY_TYPE.ITEM) {
+                //     result = sanitizeExhibitItemHtmlFields(result);
+                // }
+            }
 
             return {results, aggregations, resultCount}; 
         }

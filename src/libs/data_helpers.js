@@ -28,7 +28,6 @@ import randomInteger from 'random-int';
  * Strips all html tags - Preserves inner content
  * 
  * @param {string} string : a string
- * @param {allowedTags} object : array of tag names to retain in the string
  * 
  * @returns the string with html tags removed
  */

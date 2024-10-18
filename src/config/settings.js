@@ -42,9 +42,15 @@ export const Settings = {
     kalturaThumbnailHeight: "250",
 
     /*
+     * User html fields
+     */
+    htmlFieldsExhibit: ['title', 'description', 'alert_text'],
+    htmlFieldsExhibitItem: ['title', 'text', 'description'],
+
+    /*
      * html tags allowed in user content
      */
-    allowedHtmlTags: ['div', 'p', 'em', 'strong', 'style', 'i', 'br', 'b', 'span', 'img'],
+    permittedHtmlTags: ['div', 'p', 'em', 'strong', 'style', 'i', 'br', 'b', 'span', 'img', 'button'],
 
     /*
      * thumbnail images
