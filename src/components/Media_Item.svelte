@@ -14,7 +14,6 @@
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
     import { stripHtmlTags } from '../libs/data_helpers';
-
     import {ITEM_TYPE, VIEWER_TYPE, MEDIA_POSITION} from '../config/global-constants';
 
     export let item = {};
@@ -177,8 +176,9 @@
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
+        let thumbnailImage = item.thumbnail ? Resource.getThumbnailFileUrl(item.thumbnail) : null;
 
-        params = {url, embedCode, caption, mimeType, kalturaId, ...args}; 
+        params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Audio_Player;
     }
 
@@ -187,8 +187,9 @@
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
+        let thumbnailImage = item.thumbnail ? Resource.getThumbnailFileUrl(item.thumbnail) : null;
         
-        params = {url, embedCode, caption, mimeType, kalturaId, ...args}; 
+        params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Video_Player;
     }
 

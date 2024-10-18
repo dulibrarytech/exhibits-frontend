@@ -11,7 +11,8 @@
         embedCode=null, 
         mimeType=null,
         kalturaId=null,
-        isEmbedded=false
+        isEmbedded=false,
+        thumbnailImage=null
         
     } = args;
 
@@ -26,7 +27,7 @@
 
 <div class="video-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} args={{isEmbedded, mimeType}} />
+        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded, mimeType}} />
     
     {:else}
         <div class="video">

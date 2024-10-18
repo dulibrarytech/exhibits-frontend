@@ -6,6 +6,7 @@
 
     export let entryId = null;
     export let caption = "Untitled content";
+    export let preview = null;
     export let args = {};
 
     let {   
@@ -43,7 +44,7 @@
             kalturaUrl = Kaltura.getEmbeddedViewerUrl(entryId);
         }
 
-        previewImageUrl = Kaltura.getThumbnailUrl(entryId, 1000, 1000);
+        previewImageUrl = preview || Kaltura.getThumbnailUrl(entryId, 1000, 1000);
     }
 
     const onLoadIframe = () => {

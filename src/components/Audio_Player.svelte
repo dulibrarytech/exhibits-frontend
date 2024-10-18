@@ -9,7 +9,8 @@
         embedCode=null, 
         mimeType=null,
         kalturaId=null,
-        isEmbedded=false
+        isEmbedded=false,
+        thumbnailImage=null
         
     } = args;
 
@@ -24,7 +25,7 @@
 
 <div class="audio-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} args={{isEmbedded}} /> <!-- viewTranscript = !args.isEmbedded -->
+        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded}} /> <!-- viewTranscript = !args.isEmbedded -->
 
     {:else}
         <div class="audio">
