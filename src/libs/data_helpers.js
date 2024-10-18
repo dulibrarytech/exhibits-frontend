@@ -21,7 +21,6 @@
  */
 'use strict' 
 
-import { stripHtml } from "string-strip-html";
 import { encode, decode } from 'html-entities';
 import randomInteger from 'random-int';
 
@@ -34,20 +33,21 @@ import randomInteger from 'random-int';
  * @returns the string with html tags removed
  */
 export const stripHtmlTags = (string) => {
-    return string ? stripHtml(string).result : string;
+    return string ? string.replace(/\<[^>]*\>/g, '') : string;
 }
 
 /**
- * Permits non reactive html tags - Removes 'script' and other reactive tags
- * see https://github.com/apostrophecms/sanitize-html: sanitizeHtml() for list of allowed tags
+ * [dompurify link]
  * 
  * @param {string} string : a string
  * 
  * @returns the string with html tags removed
  */
 export const sanitizeHtmlString = (string) => {
-    //return sanitizeHtml(string) // TODO why is this stripping style attributes?
+    // TODO: replace with dompurify::sanitize
     return string.replace(/<script>(.*?)<\/script>/g, "");
+
+    // TODO: impl dompurify::sanitize()
 }
 
 /**
