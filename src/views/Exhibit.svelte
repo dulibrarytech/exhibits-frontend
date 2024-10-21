@@ -66,7 +66,11 @@
         exhibit = await Index.getExhibit(id);
         data = exhibit?.data;
 
-        if(!exhibit || !data || Object.keys(data).length === 0) {
+        if(!exhibit || !data) {
+            console.log("Error loading exhibit");
+        }
+        else if(Object.keys(data).length === 0) {
+            console.log("Exhibit not found");
             window.location.replace('/404');
         }
         else {
@@ -89,7 +93,9 @@
             console.log("Rendering exhibit...");
             render();
         }
-        else window.location.replace('/404');
+        else {
+            window.location.replace('/404');
+        }
     }
 
     const render = async () => {

@@ -45,7 +45,9 @@ export const Search = (() => {
             page = 1,
             exhibitId = null
 
-        } = data
+        } = data;
+
+        let type = exhibitId ? ENTITY_TYPE.ITEM : ENTITY_TYPE.EXHIBIT;
 
         // get facet query data
         if(Object.keys(facets).length > 0) {
@@ -62,7 +64,7 @@ export const Search = (() => {
         }
 
         // execute the index search
-        let {results = [], aggregations = [], resultCount = null} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
+        let {results = [], aggregations = [], resultCount = null} = await Index.searchIndex({terms, boolean, fields, facets, page, type}, exhibitId);
 
         // get result limiter options from results aggs
         for(let field in aggregations) {
@@ -96,40 +98,7 @@ export const Search = (() => {
             }
         }
 
-        // if this is a global search, show exhibit results only. display an exhibit item result if the search terms hit on any of its items */
-        if(!exhibitId) {
-            results = getExhibitResults(results);
-            resultCount = results.length;
-        }
-
         return {results, limitOptions, resultCount};
-    }
-
-    // adds an exhibit result if any items in the exhibit match the search
-    const getExhibitResults = (results) => {
-
-        let exhibitResults = results.filter((result) => {
-            return result.type == ENTITY_TYPE.EXHIBIT
-        });
-
-        let itemResults = results.filter((result) => {
-                return  result.type == ENTITY_TYPE.ITEM || 
-                        result.type == ITEM_GRIDS.find((element) => { element == result.type });
-        });
-
-        let parentExhibit;
-        for(let itemResult of itemResults) {
-            parentExhibit = exhibitResults.find((exhibitResult) => {
-                return itemResult.is_member_of_exhibit == exhibitResult.uuid;
-            });
-
-            if(!parentExhibit) {
-                parentExhibit = Cache.getExhibitById(itemResult.is_member_of_exhibit)
-                exhibitResults.push(parentExhibit);
-            }
-        }
-
-        return exhibitResults;
     }
 
     return {

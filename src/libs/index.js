@@ -87,10 +87,13 @@ export const Index = (() => {
     /**
      * searchIndex()
      * 
-     * @typedef {object} data
+     * @typedef {object} searchData
      * @property {object} [terms = []]
      * @property {string} [boolean = "or"]
      * @property {object} [fields = []]
+     * @property {string} [page = "1"]
+     * @property {object} [facets = []]
+     * @property {string} [type = "item"]
      * 
      * @param {string} [exhibitId = null] - exhibit uuid. If null, all exhibits are searched. If present, search is scoped to that exhibit
      * 
@@ -100,11 +103,13 @@ export const Index = (() => {
         let terms = searchData.terms?.toString();
         let page = searchData.page || 1;
         let facets = searchData.facets || null;
+        let type = searchData.type || ENTITY_TYPE.ITEM;
 
         let queryParams = new URLQueryParams({
             q: terms,
             f: facets || undefined,
-            page
+            page,
+            type: type || undefined
         });
 
         let url = `${SEARCH_ENDPOINT}?${queryParams}`;
@@ -129,7 +134,6 @@ export const Index = (() => {
         catch(error) {
             let status = error?.response?.status || "unknown";
             console.error(`Could not retrieve data from index. Url: ${url} ${error} Request status: ${status}`);
-
             return {};
         }
     }

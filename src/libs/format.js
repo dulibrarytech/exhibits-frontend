@@ -29,6 +29,9 @@ export const formatSearchResultValue = (node, data = {}) => {
 
     /* Format all values */
     if(value.length > 0) {
+        value = value.replace(/<\/div>/g, " </div>");
+        value = value.replace(/<\/span>/g, " </span>");
+
         value = stripHtmlTags(value)
         value = highlightTerms(terms, value);
     }

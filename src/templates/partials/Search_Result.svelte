@@ -67,7 +67,7 @@
             <!-- fullwidth, no left side section -->
             <div class="col-sm-12">
                 <p>{index+1}.</p>
-                <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{@html title}</a></h4>
+                <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{title}</a></h4>
                 <hr>
 
                 {#if date}
@@ -85,10 +85,10 @@
                 {#if description}
                     <p class="description">
                         {#if truncateDescription}
-                            <span use:formatSearchResultValue={{terms}}>{@html description.substr(0, MAX_DESCRIPTION_TEXT_LENGTH).concat('...')}</span>
+                            <span use:formatSearchResultValue={{terms}}>{description.substr(0, MAX_DESCRIPTION_TEXT_LENGTH).concat('...')}</span>
                             <br><a class="expand-text-link" href on:click|preventDefault={() => truncateDescription = false}>Show more</a>
                         {:else}
-                            <span use:formatSearchResultValue={{terms}}>{@html description}</span>
+                            <span use:formatSearchResultValue={{terms}}>{description}</span>
                         {/if}
                     </p>
                 {/if}
