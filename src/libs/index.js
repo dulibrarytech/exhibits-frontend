@@ -115,14 +115,13 @@ export const Index = (() => {
             let {results = [], aggregations = null, resultCount = null} = data;
 
             for(let result of results) {
-                sanitizeObjectData(result); // todo IF result is exhibit, san exhibit data. if result is item, san item data
-
-                // if(result.type == ENTITY_TYPE.EXHIBIT) {
-                //     result = sanitizeExhibitHtmlFields(result);
-                // }
-                // else if(result.type == ENTITY_TYPE.ITEM) {
-                //     result = sanitizeExhibitItemHtmlFields(result);
-                // }
+                
+                if(result.type == ENTITY_TYPE.EXHIBIT) {
+                    result = sanitizeExhibitHtmlFields(result);
+                }
+                else if(result.type == ENTITY_TYPE.ITEM) {
+                    result = sanitizeExhibitItemHtmlFields(result);
+                }
             }
 
             return {results, aggregations, resultCount}; 
