@@ -2,7 +2,7 @@
 
 import { Settings } from '../config/settings';
 import { Cache } from '../libs/cache';
-import { stripHtmlTags } from '../libs/data_helpers';
+import { stripHtmlTags, decodeHtmlEntities } from '../libs/data_helpers';
 
 export const formatFacetField = (node) => {
     let field = node.innerText.trim();
@@ -25,7 +25,7 @@ export const formatFacetValue = (node, field) => {
 
 export const formatSearchResultValue = (node, data = {}) => {
     let {result = {}, terms = []} = data;
-    let value = node.innerHTML;
+    let value = decodeHtmlEntities(node.innerHTML);
 
     /* Format all values */
     if(value.length > 0) {
