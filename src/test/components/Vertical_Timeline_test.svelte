@@ -11,7 +11,7 @@
 </script>
 
 <div class="test">
-    <Item_Grid_Vertical_Timeline {test_data} />
+    <Item_Grid_Vertical_Timeline grid={test_data} />
 </div>
 
 <style>
