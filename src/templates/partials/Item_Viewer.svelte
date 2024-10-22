@@ -21,6 +21,8 @@
 		date = item.date || null;
 		caption = item.caption || null;
 
+		if(date) date = new Date(date).toLocaleDateString(); // TODO Remove this if not used in the item viewer
+
 		if(item.text) item.text = stripHtmlTags(item.text);
 		else item.text = item.description || item.caption || "No text available";
 	}
@@ -41,7 +43,8 @@
 
 				{#if title}<hr><div class="title">{title}</div><hr><br>{/if}
 
-				{#if date}<div class="date">{date}</div><br>{/if}
+				<!-- TODO There is no current requirement to show the date in the item viewer. This conflicts with any date used in the title string. -->
+				<!-- {#if date}<div class="date">{date}</div><br>{/if} -->
 
 				{#if caption}<div class="caption">{caption}</div><br>{/if}
 				
