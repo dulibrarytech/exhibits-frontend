@@ -20,6 +20,8 @@
 
     const dispatch = createEventDispatcher();
 
+    const SHOW_EMPTY_DECADES = false;
+
     const init = () => {
         let {uuid='NULL'} = grid;
         let gridStyles;
@@ -134,8 +136,13 @@
             }
 
             else {
-                // push the current decade to the sorted grid items
-                sorted.push(currentBucket);
+                // push the current decade to the sorted grid items, if the decade contains at least one item. 'SHOW_EMPTY_DECADES' will add a decade even if there are no items in that decade
+                if(currentBucket.leftItems.length > 0 || 
+                   currentBucket.rightItems.length > 0 ||
+                   SHOW_EMPTY_DECADES == true) {
+
+                        sorted.push(currentBucket);
+                }
 
                 // increment the decade, reset the index count
                 decadeIndex = 0;
@@ -371,7 +378,11 @@
     :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
         position: relative;
         z-index: 0;
-        min-height: 700px;
+        /* min-height: 700px; */
+    }
+
+    :global(.vertical-timeline-item-grid .vertical-timeline-grid-item .description) {
+        min-height: 300px;
     }
 
     :global(.vertical-timeline-item-grid .timeline__card::before) {
