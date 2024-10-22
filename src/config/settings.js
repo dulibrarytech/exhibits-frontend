@@ -50,7 +50,7 @@ export const Settings = {
     /*
      * html tags allowed in user content
      */
-    permittedHtmlTags: ['div', 'p', 'em', 'strong', 'style', 'i', 'br', 'b', 'span', 'img', 'button'],
+    permittedHtmlTags: ['div', 'p', 'em', 'strong', 'style', 'i', 'br', 'hr', 'b', 'span', 'img', 'button'],
 
     /*
      * thumbnail images
