@@ -1,3 +1,1 @@
-export const test_data = [
-    // exhibit items
-]
+export const test_data = [] // set of items

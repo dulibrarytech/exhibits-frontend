@@ -1,6 +1,6 @@
 const test_metadata = {
     "title": "Test Title",
-    "uri": "/repositories/2/archival_objects/123456",
+    "uri": "{handle}",
     "identifiers": [
         {
             "type": "local",
