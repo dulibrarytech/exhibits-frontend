@@ -107,6 +107,13 @@ export const sanitizeExhibitItemHtmlFields = (item) => {
         }
     } 
 
+    if(item.items) {
+        let items = item.items;
+        for(let item of items) {
+            sanitizeExhibitItemHtmlFields(item);
+        }
+    }
+
     return item;
 };
 
