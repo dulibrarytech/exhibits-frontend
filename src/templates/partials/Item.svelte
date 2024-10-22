@@ -8,7 +8,7 @@
     import Text_Display from '../../components/Text_Display.svelte';
     import Media_Display from '../../components/Media_Display.svelte';
 
-    import { MEDIA_POSITION } from '../../config/global-constants';
+    import { MEDIA_POSITION, ITEM_TYPE } from '../../config/global-constants';
 
     export let item = {};
     export let args = {};
@@ -57,6 +57,8 @@
         styles      = item.styles || null;
 
         showPreview = !isEmbedded;
+
+        if(item.item_type == ITEM_TYPE.TEXT) layout = MEDIA_POSITION.TEXT_ONLY;
 
         if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
     }
