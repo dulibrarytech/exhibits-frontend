@@ -45,7 +45,7 @@ export const Settings = {
      * User html fields
      */
     htmlFieldsExhibit: ['title', 'description', 'alert_text'],
-    htmlFieldsExhibitItem: ['title', 'text', 'description'],
+    htmlFieldsExhibitItem: ['title', 'text', 'description', 'caption'],
 
     /*
      * html tags allowed in user content
