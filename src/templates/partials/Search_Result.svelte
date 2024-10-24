@@ -15,6 +15,7 @@
 
     let title;
     let date;
+    let caption;
     let description;
     let itemType;
     let link;
@@ -29,6 +30,7 @@
     $: {
         title = result.title || "Untitled Item";
         date = result.date || null;
+        caption = result.caption || null;
         description = result.description || result.text || null;
         itemType = result.item_type || null;
         link = result.link || null;
@@ -80,6 +82,10 @@
 
                 {:else if type}
                     <p class="info">{type}</p>
+                {/if}
+
+                {#if caption}
+                    <p class="info"><span use:formatSearchResultValue={{terms}}>{caption}</span></p>
                 {/if}
 
                 {#if description}
