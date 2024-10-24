@@ -23,6 +23,7 @@
 
 import { encode, decode } from 'html-entities';
 import randomInteger from 'random-int';
+import DOMPurify from 'dompurify';
 
 /**
  * Strips all html tags - Preserves inner content
@@ -42,11 +43,15 @@ export const stripHtmlTags = (string) => {
  * 
  * @returns the string with html tags removed
  */
-export const sanitizeHtmlString = (string) => {
-    // TODO: replace with dompurify::sanitize
-    return string.replace(/<script>(.*?)<\/script>/g, "");
+export const sanitizeHtmlString = (string, {allowedTags = null}) => {
+    let sanitized = DOMPurify.sanitize(string, { 
 
-    // TODO: impl dompurify::sanitize()
+        USE_PROFILES: { html: true },
+        ALLOWED_TAGS: allowedTags || undefined,
+        FORCE_BODY: true
+    });
+
+    return sanitized;
 }
 
 /**

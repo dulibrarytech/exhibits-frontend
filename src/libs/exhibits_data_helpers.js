@@ -28,8 +28,6 @@ import { Settings } from '../config/settings.js';
 import { getHtmlIdString, stripHtmlTags, sanitizeHtmlString, decodeHtmlEntities } from '../libs/data_helpers';
 import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants';
 
-import sanitizeHtml from 'sanitize-html';
-
 /**
  * Find an item by id
  * @param {string} id - item 'uuid' value
@@ -54,19 +52,9 @@ export const getItemById = (id, items) => {
     return gridItem || item;
 }
 
-/**
- * Removes all html tags and inner content
- * @param {string} string : a string
- * 
- * @returns the string with html tags removed
- */
-export const stripDisallowedHtmlContent = (string) => {
-    return sanitizeHtml(string, {
-        allowedTags: Settings.permittedHtmlTags,
-        allowedAttributes: {
-            'a': [ 'href' ],
-            '*': ['style', 'class']
-        },
+export const sanitizeHtml = (string) => {
+    return sanitizeHtmlString(string, {
+        allowedTags: Settings.permittedHtmlTags
     });
 }
 
@@ -82,8 +70,7 @@ export const sanitizeExhibitHtmlFields = (exhibit) => {
     for(let field of Settings.htmlFieldsExhibit) {
         if(exhibit[field]) {
             exhibit[field] = decodeHtmlEntities(exhibit[field]);
-            exhibit[field] = stripDisallowedHtmlContent(exhibit[field]);
-            exhibit[field] = sanitizeHtmlString(exhibit[field]);
+            exhibit[field] = sanitizeHtml(exhibit[field]);
         }
     }   
 
@@ -102,8 +89,7 @@ export const sanitizeExhibitItemHtmlFields = (item) => {
     for(let field of Settings.htmlFieldsExhibitItem) {
         if(item[field]) {
             item[field] = decodeHtmlEntities(item[field]);
-            item[field] = stripDisallowedHtmlContent(item[field]);
-            item[field] = sanitizeHtmlString(item[field]);
+            item[field] = sanitizeHtml(item[field]);
         }
     } 
 
