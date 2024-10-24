@@ -1,7 +1,6 @@
 <script>
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import { sanitizeHtmlString } from '../libs/data_helpers';
         
     import Hero from '../components/Hero.svelte';
     import Navigation_Top from '../components/Navigation_Top.svelte';
@@ -25,8 +24,7 @@
     let templateMessage = null;
     let alert = null;
 
-    let {alert_text = null} = data;
-    if(alert_text) alert = sanitizeHtmlString(alert_text);
+    $: alert = data.alert_text || null;
 
     const dispatch = createEventDispatcher();
 
