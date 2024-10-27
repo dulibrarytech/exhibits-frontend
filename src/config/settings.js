@@ -44,7 +44,7 @@ export const Settings = {
     /*
      * User html fields
      */
-    htmlFieldsExhibit: ['title', 'description', 'alert_text'],
+    htmlFieldsExhibit: ['title', 'description', 'alert_text', 'about_the_curators'],
     htmlFieldsExhibitItem: ['title', 'text', 'description', 'caption'],
 
     /*

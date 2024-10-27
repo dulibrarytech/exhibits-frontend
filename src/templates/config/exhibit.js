@@ -9,6 +9,7 @@ import Vertical_Scroll from '../Template_Vertical_Scroll.svelte';
  * import popup pages
  **********************************************/
 import About_The_Curators from '../popup/About_The_Curators.svelte';
+import Download_Exhibit from '../popup/Download_Exhibit.svelte';
 
 /**********************************************
  * {component id} : {component}
@@ -20,5 +21,6 @@ export const Templates = writable({
 });
 
 export const Popup_Pages = writable({
-    "about-the-curators": About_The_Curators
+    "about-the-curators": About_The_Curators,
+    "download-exhibit": Download_Exhibit
 });
