@@ -4,6 +4,7 @@
 
 <script>
     import { onMount } from 'svelte';
+    import * as Logger from '../libs/logger.js';
     import { Index } from '../libs/index.js';
 
     import Hero_Slider from '../components/Hero_Slider.svelte';
@@ -18,7 +19,7 @@
         exhibits = await Index.getExhibits();
 
         if(exhibits.length == 0) {
-            console.log("No exhibits found");
+            Logger.module().info("No exhibits found");
         }
         else {
             featuredExhibits = getFeaturedExhibits(exhibits);
