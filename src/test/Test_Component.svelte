@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { Configuration } from '../config/config';
     import {RUNTIME_ENV} from '../config/global-constants';
+    import * as Logger from '../libs/logger.js';
 
     /* Import test modules */
     import Text_Display_test from './components/Text_Display_test.svelte';
@@ -52,7 +53,7 @@
     const init = async () => {
         componentName = currentRoute.namedParams.name ?? "";
         component = modules[`${componentName}_test`];
-        if(!component) console.error(`Could not find component ${componentName}`);
+        if(!component) Logger.module().error(`Could not find component ${componentName}`);
     }
 
     onMount(async () => {

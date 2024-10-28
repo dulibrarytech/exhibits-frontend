@@ -4,6 +4,7 @@
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
     import { Resource } from '../../libs/resource';
+    import * as Logger from '../../libs/logger.js';
     
     import Text_Display from '../../components/Text_Display.svelte';
     import Media_Display from '../../components/Media_Display.svelte';
@@ -44,23 +45,29 @@
     $: init();
 
     const init = async () => {
-        uuid        = item.uuid;
-        title       = item.title || null;
-        caption     = item.caption || null;
-        text        = item.text || "";
-        itemType    = item.item_type || undefined;
-        layout      = item.layout || MEDIA_POSITION.RIGHT;
-        mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
-        mediaPadding = item.media_padding ?? true;
-        wrapText    = item.wrap_text ?? true;
-        isEmbedded  = item.is_embedded || false;
-        styles      = item.styles || null;
+        if(!item) {
+            item = {};
+            Logger.module().error("Null item in Item template");
+        }
+        else {
+            uuid        = item.uuid || null;
+            title       = item.title || null;
+            caption     = item.caption || null;
+            text        = item.text || "";
+            itemType    = item.item_type || undefined;
+            layout      = item.layout || MEDIA_POSITION.RIGHT;
+            mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
+            mediaPadding = item.media_padding ?? true;
+            wrapText    = item.wrap_text ?? true;
+            isEmbedded  = item.is_embedded || false;
+            styles      = item.styles || null;
 
-        showPreview = !isEmbedded;
+            showPreview = !isEmbedded;
 
-        if(item.item_type == ITEM_TYPE.TEXT) layout = MEDIA_POSITION.TEXT_ONLY;
+            if(item.item_type == ITEM_TYPE.TEXT) layout = MEDIA_POSITION.TEXT_ONLY;
 
-        if(Object.values(MEDIA_POSITION).includes(layout) == false) console.error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
+            if(Object.values(MEDIA_POSITION).includes(layout) == false) Logger.module().error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
+        }
     }
 
     const setTheme = ({item, heading}) => {

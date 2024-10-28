@@ -3,6 +3,8 @@
     
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
+    import * as Logger from '../../libs/logger.js';
+
     import Grid_Item_Vertical_Timeline from './Grid_Item_Vertical_Timeline.svelte';
     
     export let grid = {};
@@ -23,9 +25,6 @@
     const SHOW_EMPTY_DECADES = false;
 
     const init = () => {
-        let {uuid='NULL'} = grid;
-        let gridStyles;
-
         title = grid.title || null;
         text = grid.text || null;
         items = grid.items || [];
@@ -37,15 +36,8 @@
             return item;
         }) || [];
 
-        try {
-            gridStyles = grid.styles || {};
-        }
-        catch(error) {
-            console.error(`Error loading grid styles: ${error}; uuid: ${uuid}`);
-        }
-
         styles = {
-            grid: gridStyles,
+            grid: grid.styles || {},
             heading: templateStyles.heading || null
         }
     }
@@ -78,7 +70,7 @@
         items = items.map((item) => {
             if(!item.date) {
                 item.date = new Date();
-                console.log(`Error creating timeline grid: item has no date field. Item: ${item.uuid}`)
+                Logger.module().error(`Error creating timeline grid: item has no date field. Item: ${item.uuid}`)
             }
             return item;
         });

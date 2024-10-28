@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { Configuration } from '../config/config';
     import {RUNTIME_ENV} from '../config/global-constants';
+    import * as Logger from '../libs/logger.js';
 
     /* Import test views */
     import Exhibit_test from './views/Exhibit_test.svelte';
@@ -26,7 +27,7 @@
     const init = async () => {
         viewName = currentRoute.namedParams.name ?? "";
         view = modules[`${viewName}_test`];
-        if(!view) console.error(`Could not find view ${viewName}`);
+        if(!view) Logger.module().error(`Could not find view ${viewName}`);
     }
 
     onMount(async () => {
