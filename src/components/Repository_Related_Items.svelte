@@ -3,6 +3,7 @@
    import { Repository } from '../libs/repository';
    import { getRandomNumberArray } from '../libs/data_helpers';
    import {ENTITY_TYPE, ITEM_GRIDS} from '../config/global-constants';
+   import * as Logger from '../libs/logger.js';
 
    export let items = [];
 
@@ -74,7 +75,7 @@
             itemData = await Repository.getItemData(id);
          }
          catch(error) {
-            console.log(`Error fetching repository data for repository item id: ${id}`);
+            Logger.module().error(`Error fetching repository data for repository item id: ${id}`);
             itemData = null;
          }
 

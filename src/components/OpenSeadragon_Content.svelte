@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import OpenSeadragon from 'openseadragon'
     import {createEventDispatcher} from 'svelte';
+    import * as Logger from '../libs/logger.js';
 
     export let url;
 
@@ -17,6 +18,8 @@
 
     onMount(async () => {
         try {
+            Logger.module().info(`Openseadragon loading... url: ${url}`);
+
             viewer = OpenSeadragon({
                 id: "openseadragon1",
                 prefixUrl: "/assets/images/openseadragon/",
@@ -29,17 +32,18 @@
             })
 
             viewer.addHandler('open', function() {
-                console.log(`Openseadragon loaded ${url}`);
+                Logger.module().info(`Openseadragon loaded successfully`);
                 dispatch('loaded', {});
             });
 
             viewer.addHandler('open-failed', function(error) {
+                Logger.module().error(`Error loading OpenSeadragon viewer: ${e}`);
                 dispatch('load-error', {error});
                 throw `Viewer load failed: ${url}`;
             });
         }
         catch(e) {
-            console.error(`Error initializing OpenSeadragon viewer: ${e}`);
+            Logger.module().error(`Error initializing OpenSeadragon viewer: ${e}`);
         }
 
         // disable scroll by mousewheel over image

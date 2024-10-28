@@ -1,6 +1,7 @@
 <script>
     import Embed_Code_Content from "./Embed_Code_Content.svelte";
     import Kaltura_Content from "./Kaltura_Content.svelte";
+    import * as Logger from '../libs/logger.js';
 
     export let args = {};
     export let height = null;
@@ -21,7 +22,7 @@
     }
 
     const render = () => {
-        if(!url && !kalturaId && !embedCode) console.error("Error loading video content: path to source not found")
+        if(!url && !kalturaId && !embedCode) Logger.module().error("Error loading video content: path to source not found")
     }
 </script>
 
