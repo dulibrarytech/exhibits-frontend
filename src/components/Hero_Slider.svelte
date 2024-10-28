@@ -7,6 +7,7 @@
     import { Resource } from '../libs/resource';
     import { Banners } from '../templates/config/hero-banner';
     import Carousel from 'svelte-carousel';
+    import * as Logger from '../libs/logger.js';
 
     export let items = [];
 
@@ -50,7 +51,7 @@
         if(/^.+\.(jpg|jpeg|png)$/g.test(filename) == true) {
             path = Resource.getFileUrl(filename);
         }
-        else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${filename}`);
+        else Logger.module().error(`Invalid hero image type. Allowed types: jpg, png. File: ${filename}`);
         return path;
     }
 

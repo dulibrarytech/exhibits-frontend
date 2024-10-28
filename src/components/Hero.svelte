@@ -5,6 +5,7 @@
     import { Banners } from '../templates/config/hero-banner';
     import { Resource } from '../libs/resource';
     import { stripHtmlTags } from '../libs/data_helpers';
+    import * as Logger from '../libs/logger.js';
 
     export let data = null;
     export let styles = null;
@@ -43,7 +44,7 @@
         if(/^.+\.(jpg|jpeg|png)$/g.test(filename) == true) {
             path = Resource.getFileUrl(filename);
         }
-        else console.error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
+        else Logger.module().error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
         return path;
     }
 </script>
