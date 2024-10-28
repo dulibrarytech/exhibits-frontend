@@ -1,13 +1,12 @@
 'use strict'
 
 import { Configuration } from '../config/config.js';
-
 import axios from 'axios';
 import { URLQueryParams } from "object-in-queryparams";
+import * as Logger from './logger.js';
 
-import { stripHtmlTags, sanitizeObjectData } from '../libs/data_helpers';
 import { sanitizeExhibitHtmlFields, sanitizeExhibitItemHtmlFields } from '../libs/exhibits_data_helpers';
-import {ENTITY_TYPE} from '../config/global-constants';
+import { ENTITY_TYPE } from '../config/global-constants';
 
 /**
  * Dev index interface module
@@ -35,7 +34,7 @@ export const Index = (() => {
             exhibits = data;
         }
         catch(e) {
-            console.error(`Error fetching exhibits. Server: '${EXHIBIT_ENDPOINT}': ${e}`);
+            Logger.module().error(`Error fetching exhibits. Server: '${EXHIBIT_ENDPOINT}': ${e}`);
             exhibits = null;
         }
 
@@ -78,7 +77,7 @@ export const Index = (() => {
             exhibit = {data, items};
         }
         catch(e) {
-            console.error(e);
+            Logger.module().error(`Error fetching exhibit data. Server: '${EXHIBIT_ENDPOINT}': ${e}`);
         }
 
         return exhibit;
@@ -133,7 +132,7 @@ export const Index = (() => {
         }
         catch(error) {
             let status = error?.response?.status || "unknown";
-            console.error(`Could not retrieve data from index. Url: ${url} ${error} Request status: ${status}`);
+            Logger.module().error(`Could not retrieve data from index. Url: ${url} ${error} Request status: ${status}`);
             return {};
         }
     }

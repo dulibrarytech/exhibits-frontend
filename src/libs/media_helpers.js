@@ -25,6 +25,7 @@
 'use strict' 
 
 import { Settings } from '../config/settings.js';
+import * as Logger from './logger.js';
 
 /**
  * Get the image type for a mime type
@@ -39,7 +40,7 @@ export const getItemTypeForMimeType = (mimeType) => {
             type = key;
         }
     }
-    if(!type) console.error(`Item type could not be determined. Mime type: ${mimeType}`);
+    if(!type) Logger.module().error(`Item type could not be determined. Mime type: ${mimeType}`);
 
     return type;
 }
@@ -58,7 +59,7 @@ export const getItemTypeForFileExtension = (filename) => {
             type = key;
         }
     }
-    if(!type) console.error(`Item type could not be determined by file extension. Resource uri: ${filename}`);
+    if(!type) Logger.module().error(`Item type could not be determined by file extension. Resource uri: ${filename}`);
 
     return type;
 }

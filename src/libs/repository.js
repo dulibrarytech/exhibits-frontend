@@ -26,6 +26,7 @@ import axios from 'axios';
 import { Configuration } from '../config/config.js';
 import { Settings } from '../config/settings.js';
 import { getItemTypeForMimeType } from '../libs/media_helpers';
+import * as Logger from './logger.js';
 
 import {ITEM_TYPE} from '../config/global-constants';
 
@@ -53,7 +54,6 @@ export const Repository = (() => {
     } = Settings;
 
     if(repositoryApiKey) {
-        // apiKey = `?${repositoryApiKey}`;
         apiKey = `?key=${repositoryApiKey}`;
     }
 
@@ -108,7 +108,7 @@ export const Repository = (() => {
             stream = await axios.get(url);
         }
         catch(e) {
-            console.error(e);
+            Logger.module().error(`Error fetching repository datastream: ${e}`);
         }
         
         return stream;
@@ -140,9 +140,7 @@ export const Repository = (() => {
 
     const getIIIFTilesourceUrl = (id) => {
         let url = null;
-        if(id) {
-            url = `${repositoryIIIFServerUrl}/iiif/2/${id}/info.json`;
-        }
+        if(id) url = `${repositoryIIIFServerUrl}/iiif/2/${id}/info.json`;
         return url;
     }
 
@@ -154,29 +152,28 @@ export const Repository = (() => {
         let itemType = getItemTypeForMimeType(mimeType) || "null";
 
         switch(itemType) {
-            case ITEM_TYPE.IMAGE: // image ds
+            case ITEM_TYPE.IMAGE:
                 url = getItemImageDatastreamUrl(id);
                 break;
 
-            case ITEM_TYPE.LARGE_IMAGE: // image ds
+            case ITEM_TYPE.LARGE_IMAGE:
                 url = getItemImageDatastreamUrl(id);
                 break;
 
-            case ITEM_TYPE.AUDIO: // null (previews use placeholder image)
+            case ITEM_TYPE.AUDIO:
                 url = getItemThumbnailDatastreamUrl(id);
                 break;
 
-            case ITEM_TYPE.VIDEO: // null
+            case ITEM_TYPE.VIDEO:
                 url = getItemThumbnailDatastreamUrl(id);
                 break;
 
-            case ITEM_TYPE.PDF: // pdf ds
+            case ITEM_TYPE.PDF:
                 url = getIIIFJpgDerivativeUrl(id);
-                //url = getItemThumbnailDatastreamUrl(id);
                 break;
 
             default:
-                console.error(`Invalid item type: ${itemType}, repository item mime type: ${mimeType}`);
+                Logger.module().error(`Invalid item type: ${itemType}, repository item mime type: ${mimeType}`);
                 break;
         }
 
