@@ -5,8 +5,9 @@
      * 
     */
     import { Resource } from '../libs/resource';
-    import {createEventDispatcher} from 'svelte';
-    
+    import { createEventDispatcher } from 'svelte';
+    import * as Logger from '../libs/logger.js';
+
     import Image_Viewer from './Image_Viewer.svelte';
     import Audio_Player from './Audio_Player.svelte';
     import Video_Player from './Video_Player.svelte';
@@ -47,7 +48,7 @@
 
     $: init();
 
-    const init = () => { // init()
+    const init = () => {
         filename = null;
         component = null;
 
@@ -84,7 +85,9 @@
         }
         /* else: just pass on the resource url to the viewer */
 
-        if(!resource) console.error(`Missing path or url to resource. Item: ${item.uuid}`)
+        if(!resource) {
+            Logger.module().error(`Missing path or url to resource. Item: ${item.uuid}`);
+        }
         else render();
     }
 
@@ -115,7 +118,7 @@
                 break;
 
             default:
-                console.error(`Invalid item type: ${itemType}`)
+                Logger.module().error(`Invalid item type: ${itemType}`);
                 break;
         }
     }
@@ -216,7 +219,7 @@
 
 	const onLoadMediaFail = (event) => {
 		message = "Error loading file";
-		console.log(`Item viewer error: ${event?.detail?.error || ""}`);
+        Logger.module().error(`Item viewer error: ${event?.detail?.error || ""}`);
         dispatch('load-media-fail', {});
 	}
 </script>
@@ -230,7 +233,9 @@
         </div>
     </div>
 {:else}
-    <h5>Loading media item...</h5>
+    <div class="message">
+        <h5>Loading media item...</h5>
+    </div>
 {/if}
 
 <style>
