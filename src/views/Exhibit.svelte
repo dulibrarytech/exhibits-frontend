@@ -1,6 +1,7 @@
 <script>
     'use-strict'
 
+    import * as Logger from '../libs/logger.js';
     import { Index } from '../libs/index.js';
     import { Settings } from '../config/settings';
     import { Fonts } from '../config/fonts'; 
@@ -16,10 +17,8 @@
     import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
 
     export let currentRoute;
-    export let params;
 
     let apiKey;
-
     let id;
     let userRole;
     let isPublished;
@@ -62,15 +61,15 @@
         userRole = getUserRole(apiKey);
         id = currentRoute.namedParams.id ?? "null";
 
-        console.log(`Loading exhibit... ID: ${id}`);
+        Logger.module().info(`Loading exhibit... ID: ${id}`);
         exhibit = await Index.getExhibit(id);
         data = exhibit?.data;
 
         if(!exhibit || !data) {
-            console.log("Error loading exhibit");
+            Logger.module().error("Error loading exhibit");
         }
         else if(Object.keys(data).length === 0) {
-            console.log("Exhibit not found");
+            Logger.module().info("Exhibit not found");
             window.location.replace('/404');
         }
         else {
@@ -80,17 +79,17 @@
         if(isPublished) {
             try {
                 styles = JSON.parse(data.styles).exhibit || {};
-                if(!styles.template) console.log("Exhibit template style data not found");
-                if(!styles.navigation) console.log("Exhibit navigation menu style data not found");
+                if(!styles.template) Logger.module().info("Exhibit template style data not found");
+                if(!styles.navigation) Logger.module().info("Exhibit navigation menu style data not found");
             }
             catch(error) {
-                console.error(`Error loading exhibit styles: ${error}`);
+                Logger.module().error(`Error loading exhibit styles: ${error}`);
             }
 
-            console.log("Importing fonts...");
+            Logger.module().info("Importing fonts...");
             await importFonts();
 
-            console.log("Rendering exhibit...");
+            Logger.module().info("Rendering exhibit...");
             render();
         }
         else {
@@ -99,19 +98,19 @@
     }
 
     const render = async () => {
-        console.log("Retrieving template...");
+        Logger.module().info("Retrieving template...");
 
         pageLayout = $Page_Layouts[data.page_layout] || null;
         template = $Templates[data.exhibit_template] || null;
 
         if(!pageLayout) {
-            console.error(`Could not find a layout for ${data.page_layout}`);
+            Logger.module().error(`Could not find a layout for current setting: '${data.page_layout}'`);
         }
         if(!template) {
-            console.error(`Could not find a template for exhibit ${data.uuid}`);
+            Logger.module().error(`Could not find a template for exhibit id: ${data.uuid}`);
         }
         else {
-            console.log("Retrieving items...");
+            Logger.module().info("Retrieving items...");
 
             // filter out unpublished items if user not role admin
             if(userRole != USER_ROLE.ADMIN) {
@@ -128,7 +127,7 @@
             }) || [];
 
             // create the navigation sections, e.g. heading > items under heading
-            console.log("Creating page sections...");
+            Logger.module().info("Creating page sections...");
             sections = createExhibitPageSections(items);
 
             renderPage = true;
@@ -147,11 +146,11 @@
 
                 fontFace.load().then(function(loaded) {
                     document.fonts.add(loaded);
-                    console.log(`Loaded user font: ${name}`);
+                    Logger.module().info(`Loaded user font: ${name}`);
                     resolve(true);
 
                 }).catch(function(error) {
-                    console.error(`Error loading font: ${font}. Error: ${error}`);
+                    Logger.module().error(`Error loading font: ${font}. Error: ${error}`);
                     resolve(false);
                 });
             });
@@ -205,7 +204,7 @@
     }
 
     const onMountPage = (event) => {
-        console.log("Mounted exhibit page");
+        Logger.module().info("Mounted exhibit page");
 
         let anchorId = location.hash?.replace('#', '') || false;
         if(anchorId) {
@@ -215,7 +214,7 @@
     }
 
     const onMountItems = () => {
-        console.log("Mounted exhibit items");
+        Logger.module().info("Mounted exhibit items");
 
         setTimeout(() => {
             let anchorId = location.hash?.replace('#', '') || false;

@@ -1,6 +1,7 @@
 <script>
     'use strict'
     
+    import * as Logger from '../libs/logger.js';
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     
@@ -23,19 +24,19 @@
     var templateItemsMounted;
 
     const init = () => {
-        console.log("Initializing template...");
+        Logger.module().info("Initializing template...");
 
         displayItems = null;
         templateItemCount = items.length;
         templateItemsMounted = 0;
 
-        if(templateItemCount == 0) console.log("No items found");
+        if(templateItemCount == 0) Logger.module().info("No items found");
 
         render();
     }
 
     const render = () => {
-        console.log("Rendering template...");
+        Logger.module().info("Rendering template...");
         if(!displayItems) displayItems = formatTemplateItems(items);
     }
 
@@ -52,7 +53,7 @@
     init();
 
     onMount(async () => {
-        console.log("Mounted exhibit template");
+        Logger.module().info("Mounted exhibit template");
         dispatch('mount-template', {});
     });
 </script>
