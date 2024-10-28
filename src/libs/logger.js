@@ -1,15 +1,15 @@
 'use strict'
 
-import * as logger from 'loglevel';
+import * as LOGGER from 'loglevel';
 import { Configuration } from '../config/config.js';
 
 if(Configuration.runtimeEnvironment == 'development') {
-    logger.setLevel('trace');
+    LOGGER.setLevel('trace');
 }
 else {
-    logger.setLevel('error');
+    LOGGER.setLevel('error');
 }
 
 export const module = () => {
-    return logger;
+    return LOGGER;
 }
