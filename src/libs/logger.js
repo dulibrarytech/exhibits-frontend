@@ -7,7 +7,7 @@ if(Configuration.runtimeEnvironment == 'development') {
     logger.setLevel('trace');
 }
 else {
-    logger.setLevel('info');
+    logger.setLevel('error');
 }
 
 export const module = () => {
