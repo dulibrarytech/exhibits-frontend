@@ -1,5 +1,6 @@
 <script>
     import Repository_Item from './Repository_Item.svelte';
+    import * as Logger from '../libs/logger.js';
 
     export let item = null;
     export let id = null; // dom element id
@@ -15,7 +16,7 @@
             isRepoItem = (is_repo_item == true);
         }
         else {
-            console.error("Null item")
+            Logger.module().error("Null item")
         }
     }
 

@@ -5,6 +5,7 @@
      * Determines image type, renders an Image_Viewer for a standard image and an image tile viewer (OpenSeadragon) for large images
      */
     import OpenSeadragon_Content from './OpenSeadragon_Content.svelte';
+    import * as Logger from '../libs/logger.js';
 
     export let args;
 
@@ -25,7 +26,7 @@
     const TILE_VIEWER = "openseadragon";
 
     const render = () => {
-        if(!url) console.error("Missing resource url");
+        if(!url) Logger.module().error("Missing resource url");
 
         if(isTileImage) {
             viewer = TILE_VIEWER;

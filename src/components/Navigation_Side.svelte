@@ -4,6 +4,7 @@
 
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
+    import * as Logger from '../libs/logger.js';
 
     export let sections = null;
     export let styles = null;
@@ -38,7 +39,7 @@
         let anchorId = link.getAttribute('data-anchor') || null;
         
         if(anchorId) dispatch('click-nav-link', {anchorId});
-        else console.log("Invalid anchor id:", event.currentTarget);
+        else Logger.module().info("Invalid or missing 'data-anchor' property:", event.currentTarget);
 	}
 
     const setTheme = (styles) => {

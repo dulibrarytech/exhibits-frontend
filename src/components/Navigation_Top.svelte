@@ -3,6 +3,7 @@
 
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
+    import * as Logger from '../libs/logger.js';
 
     export let sections = null;
     export let styles = null;
@@ -38,7 +39,7 @@
         let offset = (0 - (document.querySelector(".navigation-page-section").offsetHeight / 2.75));
 
         if(anchorId) dispatch('click-nav-link', {anchorId, offset});
-        else console.log("Invalid anchor id:", event.currentTarget);
+        else Logger.module().info("Invalid or missing 'data-anchor' property:", event.currentTarget);
 	}
 
     const setTheme = (styles) => {
