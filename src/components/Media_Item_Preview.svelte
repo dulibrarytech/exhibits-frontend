@@ -5,6 +5,7 @@
     import { Settings } from '../config/settings';
     import { Resource } from '../libs/resource';
     import { stripHtmlTags } from '../libs/data_helpers';
+    import * as Logger from '../libs/logger.js';
 
     import {ITEM_TYPE} from '../config/global-constants';
 
@@ -57,7 +58,9 @@
             preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.DEFAULT);
         }
 
-        if(!preview) console.log("Preview image source url not found");
+        if(!preview) {
+            Logger.module().error(`Could not determine preview source url for item: ${itemId}`);
+        }
     }
 
     const getPreviewUrl = async (itemType, media, width=null, height=null) => {
@@ -99,7 +102,7 @@
                 break;
 
             default:
-                console.error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
+                Logger.module().error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
                 break;
         }
 
@@ -127,7 +130,10 @@
 
     {/if}
 {:else}
-    Loading preview image...
+    <div class="message">
+        Loading preview image...
+    </div>
+    
 {/if}
 
 <style>

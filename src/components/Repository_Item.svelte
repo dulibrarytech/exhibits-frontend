@@ -2,6 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import { getItemTypeForMimeType } from '../libs/media_helpers';
     import { Repository } from '../libs/repository';
+    import * as Logger from '../libs/logger.js';
 
     import { ITEM_TYPE } from '../config/global-constants.js';
     
@@ -28,7 +29,7 @@
     if(!repositoryItemId) repositoryItemId = args.id || item.media || null;
 
     const init = async () => {
-        console.log(`Fetching data from repository... Repo item id: ${repositoryItemId}`);
+        Logger.module().info(`Fetching data from repository... Repo item id: ${repositoryItemId}`);
 
         try {
             let data = await Repository.getItemData(repositoryItemId);
@@ -57,12 +58,13 @@
             }
             else {
                 repositoryItem.media = Repository.getItemDatastreamUrl( data[ID_FIELD] || null ); 
-            }   
+            }
 
+            Logger.module().info(`Repository fetch successful`);
             renderTemplate = true;
         }
         catch(error) {
-            console.error(`Error retrieving data from repository: Item id: ${item.uuid} Error: ${error}`);
+            Logger.module().error(`Error retrieving data from repository: Item id: ${item.uuid} Error: ${error}`);
             dispatch('mount-template-item', {type: "item"});
         }
     }

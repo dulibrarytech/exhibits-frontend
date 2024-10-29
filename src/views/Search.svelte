@@ -9,6 +9,7 @@
     import Search_Results_Display from '../components/Search_Results_Display.svelte';
     import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN, SEARCH_TYPE} from '../config/global-constants.js';
     import { Cache } from '../libs/cache';
+    import * as Logger from '../libs/logger.js';
 
     export let currentRoute;
 
@@ -39,7 +40,9 @@
         if(validateUrlParameters()) {
             await executeSearch();
         }
-        else console.error("Search page: Invalid query params");
+        else {
+            Logger.module().error("Search error: Invalid query params");
+        }
     }
   
     const executeSearch = async () => {
