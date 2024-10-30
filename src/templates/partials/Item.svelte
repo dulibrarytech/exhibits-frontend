@@ -18,6 +18,7 @@
     const DEFAULT_MEDIA_WIDTH = "50";
 
     let itemElement;
+    let itemElementId;
     let titleElement;
     let textElement;
 
@@ -45,29 +46,34 @@
     $: init();
 
     const init = async () => {
+        // handle a null item value
         if(!item) {
             item = {};
-            Logger.module().error("Null item in Item template");
+            Logger.module().error("Null item data");
         }
-        else {
-            uuid        = item.uuid || null;
-            title       = item.title || null;
-            caption     = item.caption || null;
-            text        = item.text || "";
-            itemType    = item.item_type || undefined;
-            layout      = item.layout || MEDIA_POSITION.RIGHT;
-            mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
-            mediaPadding = item.media_padding ?? true;
-            wrapText    = item.wrap_text ?? true;
-            isEmbedded  = item.is_embedded || false;
-            styles      = item.styles || null;
 
-            showPreview = !isEmbedded;
+        // assign item data
+        uuid        = item.uuid || null;
+        title       = item.title || null;
+        caption     = item.caption || null;
+        text        = item.text || "";
+        itemType    = item.item_type || undefined;
+        layout      = item.layout || MEDIA_POSITION.RIGHT;
+        mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
+        mediaPadding = item.media_padding ?? true;
+        wrapText    = item.wrap_text ?? true;
+        isEmbedded  = item.is_embedded || false;
+        styles      = item.styles || null;
 
-            if(item.item_type == ITEM_TYPE.TEXT) layout = MEDIA_POSITION.TEXT_ONLY;
+        // set member variables
+        showPreview = !isEmbedded;
+        itemElementId = id;
 
-            if(Object.values(MEDIA_POSITION).includes(layout) == false) Logger.module().error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
-        }
+        // ensure the text items use the TEXT_ONLY layout
+        if(item.item_type == ITEM_TYPE.TEXT) layout = MEDIA_POSITION.TEXT_ONLY;
+
+        // detect invalid or missing layout
+        if(Object.values(MEDIA_POSITION).includes(layout) == false) Logger.module().error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
     }
 
     const setTheme = ({item, heading}) => {
@@ -112,7 +118,7 @@
 </script>
 
 <div class="item {mediaPadding ? 'item-padding' : ''}" data-uuid={uuid} bind:this={itemElement}>
-    <div id={id ?? undefined} class="anchor-offset"></div>
+    <div id={itemElementId ?? undefined} class="anchor-offset"></div>
 
     <div class={mediaPadding ? "container" : "container-no-margin"}>
         {#if title && showTitle && mediaPadding}
