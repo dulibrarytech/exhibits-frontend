@@ -62,6 +62,11 @@
 
         if(title) title = stripHtmlTags(title);
 
+        if(item.is_kaltura_item) {
+            console.log("TEST setting item type to video for kal item:", item)
+            itemType = ITEM_TYPE.VIDEO;
+        }
+
         switch(layout) {
             case MEDIA_POSITION.LEFT:
             case MEDIA_POSITION.RIGHT:
