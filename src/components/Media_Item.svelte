@@ -63,7 +63,6 @@
         if(title) title = stripHtmlTags(title);
 
         if(item.is_kaltura_item) {
-            console.log("TEST setting item type to video for kal item:", item)
             itemType = ITEM_TYPE.VIDEO;
         }
 
@@ -253,7 +252,6 @@
         position: absolute;
         top: 50%;
 		left: 0;
-        font-size: 1.4em;
 		width:100%;
     }
 </style>
