@@ -28,4 +28,8 @@
         background: white;
         height: 100%;
     }
+
+    :global(.modal-page-display .modal-page .page-content) {
+        margin-top: 30px;
+    }
 </style>

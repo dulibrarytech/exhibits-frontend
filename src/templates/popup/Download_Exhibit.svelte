@@ -11,7 +11,5 @@
 </div>
 
 <style>
-    .page-content {
-        margin-top: 55px;
-    }
+
 </style>
