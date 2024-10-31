@@ -62,7 +62,7 @@
 
         if(title) title = stripHtmlTags(title);
 
-        if(item.is_kaltura_item) {
+        if(!itemType && item.is_kaltura_item) {
             itemType = ITEM_TYPE.VIDEO;
         }
 
