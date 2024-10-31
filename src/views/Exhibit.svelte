@@ -184,7 +184,7 @@
     const openPageModal = (itemId) => {
         modalDialogData = {
             page: data,
-            container: getPageById(itemId) // ret About_The_Curators
+            container: getPageById(itemId)
         };
 
         if(!modalDialog) modalDialog = Modal_Page_Display;
