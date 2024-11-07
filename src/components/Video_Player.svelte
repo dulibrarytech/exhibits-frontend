@@ -43,7 +43,10 @@
                     {/if}
                 </div>
             {:else}
-                <h6>Loading video content...</h6>
+                <div class="load-message">
+                    <h6>Loading video content...</h6>
+                </div>
+                
             {/if}
         </div>
     {/if}

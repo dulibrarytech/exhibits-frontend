@@ -14,8 +14,12 @@
     <div class="image">
         {#if manifest}
             <UniversalViewer_Content {manifest} {type} />
+
         {:else}
-            <h5>Loading content...</h5>
+            <div class="load-message">
+                <h5>Loading content...</h5>
+            </div>
+            
         {/if}
     </div>
 </div>

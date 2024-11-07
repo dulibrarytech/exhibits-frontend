@@ -9,7 +9,7 @@
     import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
     import Alert from '../components/Alert.svelte';
 
-    export let data = null;
+    export let data = {};
     export let template = null;
     export let sections = [];
     export let items = null;
@@ -24,7 +24,9 @@
     let templateMessage = null;
     let alert = null;
 
-    $: alert = data.alert_text || null;
+    $: {
+        alert = data.alert_text || null;
+    }
 
     const dispatch = createEventDispatcher();
 
@@ -72,7 +74,7 @@
             dispatch('mount-items', {});
         }
 
-        scrollToPageTopElement.style.display = "none";
+        if(scrollToPageTopElement) scrollToPageTopElement.style.display = "none";
     });
 
     window.onscroll = function() {
@@ -86,44 +88,39 @@
 </script>
 
 <div class="exhibit-page" bind:this={pageElement}  style="position: relative">
-    {#if data}
-        <div class="hero-page-section">
-            <Hero {data} {styles} />
+    <div class="hero-page-section">
+        <Hero {data} {styles} />
+    </div>
+    
+    <div class="navigation-page-section sticky-top">
+        <Navigation_Top {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
+    </div>
+
+    {#if data.description}
+        <div class="description-page-section">
+            <Exhibit_Description content={data.description} styles={styles?.template || null} /> 
         </div>
-        
-        <div class="navigation-page-section sticky-top">
-            <Navigation_Top {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
-        </div>
-
-        {#if data.description}
-            <div class="description-page-section">
-                <Exhibit_Description content={data.description} styles={styles?.template || null} /> 
-            </div>
-        {/if}
-
-        {#if alert }
-            <Alert text={alert} />
-        {/if}
-
-        {#if renderTemplate}
-            <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} /> <!-- SIDENAV --> 
-        {:else if templateMessage}
-            <div class="template-message"><h3>{templateMessage}</h3></div>
-        {/if}
-
-        <Exhibit_Thank_You />
-
-        <Repository_Related_Items {items} />
-
-        <div class="scrollto-page-top" bind:this={scrollToPageTopElement}>
-            <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit">
-                <i class="bi bi-chevron-up"></i>
-            </a>
-        </div>
-            
-    {:else}
-        <h3>Loading template...</h3>
     {/if}
+
+    {#if alert }
+        <Alert text={alert} />
+    {/if}
+
+    {#if renderTemplate}
+        <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} /> <!-- SIDENAV --> 
+    {:else if templateMessage}
+        <div class="template-message"><h3>{templateMessage}</h3></div>
+    {/if}
+
+    <Exhibit_Thank_You />
+
+    <Repository_Related_Items {items} />
+
+    <div class="scrollto-page-top" bind:this={scrollToPageTopElement}>
+        <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit">
+            <i class="bi bi-chevron-up"></i>
+        </a>
+    </div>
 </div>
 
 <style>

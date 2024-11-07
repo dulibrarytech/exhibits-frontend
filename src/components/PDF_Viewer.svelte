@@ -15,7 +15,10 @@
             <!-- <iframe src={url} title={caption} />  -->
             <object data={url} type="application/pdf" title={caption} width="100%" height="100%"></object>
         {:else}
-            <h6>Loading pdf content...</h6>
+            <div class="load-message">
+                <h6>Loading pdf content...</h6>
+            </div>
+            
         {/if}
     </div>
 </div>

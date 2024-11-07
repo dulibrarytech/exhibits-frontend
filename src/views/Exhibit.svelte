@@ -231,7 +231,7 @@
 {#if renderPage}
 
     <div class="exhibit-wrapper">
-        <div class="load-message" style="display: {isMessageVisible ? 'block' : 'none'}"><h3>Please wait...</h3></div>
+        <div class="exhibit-load-message" style="display: {isMessageVisible ? 'block' : 'none'}"><h3>Please wait...</h3></div>
 
         <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
 
@@ -259,7 +259,7 @@
 {/if}
 
 <style>
-    .load-message {
+    .exhibit-load-message {
         position: fixed;
         left: calc(50% - 80px);
         top: calc(50% - 21px);
@@ -292,6 +292,14 @@
     :global(.exhibit-menubar .exhibit-menu) {
         position: relative;
         top: calc(50% - 15px);
+    }
+
+    :global(.load-message) {
+        font-size: 0.8em;
+        background-color: lightgreen;
+        padding-left: 10px;
+        color: #000000;
+        font-family: Arial, Helvetica, sans-serif;
     }
 
     @media screen and (min-width: 768px) {

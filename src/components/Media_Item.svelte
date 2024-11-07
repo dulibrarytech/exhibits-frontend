@@ -237,7 +237,7 @@
         </div>
     </div>
 {:else}
-    <div class="message">
+    <div class="load-message">
         <h5>Loading media item...</h5>
     </div>
 {/if}

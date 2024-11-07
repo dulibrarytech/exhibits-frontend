@@ -84,10 +84,14 @@
                 <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} {width} {height} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
                 <div class="subframe-content"></div>
             </div>
+
         {/if}
 
     {:else}
-        <h5>Loading Kaltura player...</h5>
+        <div class="load-message">
+            <h5>Loading Kaltura player...</h5>
+        </div>
+
     {/if}
 </div>
 

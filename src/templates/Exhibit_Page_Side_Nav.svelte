@@ -26,7 +26,9 @@
     let templateMessage = null;
     let alert = null;
 
-    $: alert = data.alert_text || null;
+    $: {
+        alert = data.alert_text || null;
+    }
 
     let menuButtonDisplay = "none";
 
@@ -100,57 +102,52 @@
 </script>
 
 <div class="exhibit-page" bind:this={pageElement}>
-    {#if template}
-        <div class="hero-page-section">
-            <Hero {data} {styles} />
+    <div class="hero-page-section">
+        <Hero {data} {styles} />
+    </div>
+    
+    {#if data.description}
+        <div class="description-page-section">
+            <Exhibit_Description content={data.description} styles={styles?.template || null} />
         </div>
-        
-        {#if data.description}
-            <div class="description-page-section">
-                <Exhibit_Description content={data.description} styles={styles?.template || null} />
-            </div>
-        {/if}
-
-        {#if alert }
-            <Alert text={alert} />
-        {/if}
-
-        <!-- sidebar section for navigation -->
-        <div class="container-fluid">
-            <div id="sidebar-container" class="row flex-nowrap">
-                <div class="col-auto">
-                    <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end" bind:this={sidebarElement}>
-                        <Navigation_Side {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
-
-                        <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay};" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
-                    
-                    {#if renderTemplate}
-                        <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
-                    {:else if templateMessage}
-                        <div class="template-message"><h3>{templateMessage}</h3></div>
-                    {/if}
-                </div>
-            </div>
-        </div>
-
-        <Exhibit_Thank_You />
-
-        <Repository_Related_Items {items} />
-
-        <div class="scrollto-page-top" bind:this={scrollToPageTopElement}>
-            <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit">
-                <i class="bi bi-chevron-up"></i>
-            </a>
-        </div>
-
-    {:else}
-        <h3>Loading template...</h3>
     {/if}
+
+    {#if alert }
+        <Alert text={alert} />
+    {/if}
+
+    <!-- sidebar section for navigation -->
+    <div class="container-fluid">
+        <div id="sidebar-container" class="row flex-nowrap">
+            <div class="col-auto">
+                <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end" bind:this={sidebarElement}>
+                    <Navigation_Side {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
+
+                    <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
+                </div>
+            </div>
+
+            <div class="col">
+                <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay};" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
+                
+                {#if renderTemplate}
+                    <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
+                {:else if templateMessage}
+                    <div class="template-message"><h3>{templateMessage}</h3></div>
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    <Exhibit_Thank_You />
+
+    <Repository_Related_Items {items} />
+
+    <div class="scrollto-page-top" bind:this={scrollToPageTopElement}>
+        <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit">
+            <i class="bi bi-chevron-up"></i>
+        </a>
+    </div>
 </div>
 
 <style>

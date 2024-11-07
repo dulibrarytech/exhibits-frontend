@@ -21,6 +21,10 @@
 
 {#if component}
     <svelte:component this={component} {item} {args} on:load-media on:load-media-fail on:click-item/>
+    
 {:else}
-    <h5>Loading item display...</h5>
+    <div class="load-message">
+        <h5>Loading media display...</h5>
+    </div>
+    
 {/if}

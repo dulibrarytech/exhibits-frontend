@@ -28,12 +28,13 @@
 
 <div class="audio-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded}} /> <!-- viewTranscript = !args.isEmbedded -->
+        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded}} />
 
     {:else}
         <div class="audio">
             {#if embedCode}
                 <Embed_Code_Content code={embedCode} />
+                
             {:else if url}
                 <div class="content">   
                     {#if mimeType}
@@ -42,8 +43,12 @@
                         <audio src={url} controls></audio>
                     {/if}
                 </div>
+
             {:else}
-                <h6>Loading audio content...</h6>
+                <div class="load-message">
+                    <h6>Loading audio content...</h6>
+                </div>
+
             {/if}
         </div>
     {/if}

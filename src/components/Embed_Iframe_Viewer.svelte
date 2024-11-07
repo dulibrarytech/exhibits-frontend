@@ -22,8 +22,12 @@
     <div class="external-content content">
         {#if url}
             <iframe src={url} title={caption} {height} {width} /> 
+
         {:else}
-            <h6>Loading iframe content...</h6>
+            <div class="load-message">
+                <h6>Loading iframe content...</h6>
+            </div>
+
         {/if}
     </div>
 </div>

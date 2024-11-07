@@ -105,7 +105,7 @@
                 Logger.module().error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
                 break;
         }
-
+        
         return url;
     }
 
@@ -130,7 +130,7 @@
 
     {/if}
 {:else}
-    <div class="message">
+    <div class="load-message">
         Loading preview image...
     </div>
     
