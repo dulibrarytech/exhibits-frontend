@@ -98,6 +98,7 @@
 
                     {#if results.length > 0}
                         {#each results as result, index} 
+                            <hr>
                             <Search_Result {terms} {result} {index} {searchType} />
                         {/each}
                     {:else}
@@ -143,21 +144,26 @@
         cursor: pointer;
     }
 
+    .facets {
+        background-color: #e5e3e1;
+        padding: 15px;
+    }
+
     .facets > ul li {
         width: 284px;
     }
 
     .facets h6 {
-        margin-top: 1.1rem;
+        margin-top: 0.5rem;
     }
 
     .search-result-categories>li>a {
-        color: #b6b6b6;
+        color: #858381;
         font-weight: 400
     }
 
     .search-result-categories>li>a:hover {
-        background-color: #ddd;
+        background-color: #c5c3c1;
         color: #555
     }
 
@@ -167,6 +173,7 @@
 
     .nav-pills>li>a>.badge {
         margin-left: 3px;
+        margin-top: 3px;
     }
 
     .badge {
@@ -185,11 +192,11 @@
     }
 
     .search-result-categories>li>a>.glyphicon {
-        margin-right: 5px
+        margin-right: 5px;
     }
 
     .search-result-categories>li>a>.badge {
-        float: right
+        float: right;
     }
 
     .search-data-display {

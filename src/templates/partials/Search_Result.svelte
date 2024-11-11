@@ -70,7 +70,7 @@
             <div class="col-sm-12">
                 <p>{index+1}.</p>
                 <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{title}</a></h4>
-                <hr>
+                <!-- <hr> -->
 
                 {#if date}
                     <p class="info">{date}</p>
