@@ -1,6 +1,7 @@
 require('dotenv').config();
 const compress = require('compression');
 const axios = require('axios');
+const Logger = require('./log4.js');
 
 var express = require('express');
 var app = express();
@@ -17,8 +18,9 @@ app.use(function(req, res, next) {
         next();
     }
     catch(e) {
-        console.log("Error: " + e, req.url);
-        console.log("Req host: " + req.headers.host);
+        Logger.module().error(`Error: ${e} Client url: ${req.url}`);
+        Logger.module().info(`Request host: ${req.headers.host}`);
+        
         res.sendStatus(404);
     }
 });
@@ -30,21 +32,21 @@ app.get('*', (req, res) => {
 // test image server
 axios.get(process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL, {rejectUnauthorized: false})
   .then(function (response) {
-    console.log(`Image server is online at '${process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL}'`);
+    Logger.module().info(`Image server is online at '${process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL}'`);
   })
   .catch(function (error) {
-    console.error(`Image server is unavailable at '${process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL}' ${error}`);
+    Logger.module().error(`Image server is unavailable at '${process.env.EXHIBITS_IIIF_IMAGE_SERVER_URL}' ${error}`);
   });
 
 // test exhibits server
 axios.get(process.env.EXHIBITS_API_DOMAIN, {rejectUnauthorized: false})
   .then(function (response) {
-    console.log(`Exhibits server is online at '${process.env.EXHIBITS_API_DOMAIN}'`);
+    Logger.module().info(`Exhibits server is online at '${process.env.EXHIBITS_API_DOMAIN}'`);
   })
   .catch(function (error) {
-    console.error(`Exhibits server is unavailable at '${process.env.EXHIBITS_API_DOMAIN}' ${error}`);
+    Logger.module().error(`Exhibits server is unavailable at '${process.env.EXHIBITS_API_DOMAIN}' ${error}`);
   });
 
 app.listen(process.env.NODE_PORT || 5000, () => {
-  console.log(`Exhibits frontend is running on port ${process.env.NODE_PORT} in ${process.env.NODE_ENV} mode`);
+  Logger.module().info(`Exhibits frontend is running on port ${process.env.NODE_PORT} in ${process.env.NODE_ENV} mode`);
 })
