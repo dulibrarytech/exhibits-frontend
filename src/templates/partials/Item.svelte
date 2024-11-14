@@ -405,8 +405,12 @@
         line-height: 1.452em;
     }
 
-    :global(.item p) {
+    :global(.item p:not(:last-child)) {
         margin-bottom: 2.5rem;
+    }
+
+    :global(.item p:last-child) {
+        margin-bottom: 0;
     }
 
     :global(.item .caption) {

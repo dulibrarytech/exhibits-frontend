@@ -89,8 +89,8 @@
     }
 
     .item-grid {
-        padding-top: 3.5em;
-        padding-bottom: 3.5em;
+        padding-top: 3.5rem;
+        padding-bottom: 3.5rem;
     }
 
     .title-heading {
