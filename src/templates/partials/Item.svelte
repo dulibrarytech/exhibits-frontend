@@ -324,7 +324,7 @@
 
     .title-heading {
         text-transform: uppercase;
-        margin: 0 0 3.5rem 0;
+        margin: 0 0 4.5rem 0;
     }
 
     .title-padding {
@@ -401,8 +401,8 @@
         text-decoration: none;
         color: inherit;
         font-style: italic;
-        font-size: 0.842em;
-        line-height: 1.452em;
+        font-size: 0.8em;
+        line-height: 1.5em;
     }
 
     :global(.item p:not(:last-child)) {
