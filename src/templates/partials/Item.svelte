@@ -318,8 +318,8 @@
     .item a { color: inherit }
 
     .item-padding {
-        padding-top: 3.5rem;
-        padding-bottom: 3.5rem;
+        padding-top: 4.5rem;
+        padding-bottom: 4.5rem;
     }
 
     .title-heading {
@@ -478,10 +478,10 @@
 
         /* pad around the media element if text wraps AND media padding is enabled */
         .media-left.wrap-text > .media {
-            padding: 0 50px 50px 0;
+            padding: 0 50px 10px 0;
         }
         .media-right.wrap-text > .media {
-            padding: 0 0 50px 50px;
+            padding: 0 0 10px 50px;
         }
         /* pad to the left or right of the media element, not top or bottom, if text wraps AND media padding is not enabled */
         .media-left.wrap-text > .media:not(.media-padding) {
