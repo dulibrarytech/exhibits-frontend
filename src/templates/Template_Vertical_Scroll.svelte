@@ -92,7 +92,6 @@
 <style>
     .exhibit-template {
         font-size: inherit;
-        line-height: 1.579em;
     }
 
     :global(.caption) {
