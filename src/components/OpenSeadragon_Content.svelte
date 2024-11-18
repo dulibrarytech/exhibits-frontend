@@ -37,13 +37,13 @@
             });
 
             viewer.addHandler('open-failed', function(error) {
-                Logger.module().error(`Error loading OpenSeadragon viewer: ${e}`);
+                Logger.module().error(`Error loading OpenSeadragon viewer: ${error}`);
                 dispatch('load-error', {error});
                 throw `Viewer load failed: ${url}`;
             });
         }
-        catch(e) {
-            Logger.module().error(`Error initializing OpenSeadragon viewer: ${e}`);
+        catch(error) {
+            Logger.module().error(`Error initializing OpenSeadragon viewer: ${error}`);
         }
 
         // disable scroll by mousewheel over image
