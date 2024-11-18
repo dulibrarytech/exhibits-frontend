@@ -222,6 +222,7 @@
 	}
 
 	const onLoadMediaFail = (event) => {
+        mediaElement.style.visibility = "hidden";
 		message = "Error loading file";
         Logger.module().error(`Item viewer error: ${event?.detail?.error || ""}`);
         dispatch('load-media-fail', {});
@@ -231,10 +232,10 @@
 {#if component}
     <div class="media-item" bind:this={mediaElement}>
         <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadMediaFail} height={viewerHeight}/>
-    
-        <div class="message" style="display: {messageDisplay ? "block" : "none"}" >
-            <div class="message-text">{message}</div>
-        </div>
+    </div>
+
+    <div class="message" style="display: {messageDisplay ? "block" : "none"}" >
+        <div class="message-text">{message}</div>
     </div>
 {:else}
     <div class="load-message">

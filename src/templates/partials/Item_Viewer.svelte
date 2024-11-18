@@ -81,6 +81,7 @@
 
 	.item-viewer {
 		height: 100%;
+		background: darkgray;
 	}
 
 	.item-viewer > .row {
