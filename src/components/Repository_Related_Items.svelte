@@ -230,19 +230,19 @@
       width: 100%;
    }
 
-   @media screen and (min-width: 480px) {
+   @media screen and (min-width: 575px) {
       .item {
          width: 48.5%;
       }
    }
 
-   @media screen and (min-width: 768px) {
+   @media screen and (min-width: 992px) {
       .item {
          width: 30.5%;
       }
    }
 
-   @media screen and (min-width: 992px) {
+   @media screen and (min-width: 1280px) {
       .item {
          width: 23.5%;
       }
