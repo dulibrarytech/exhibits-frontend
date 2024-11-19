@@ -122,6 +122,14 @@
 		margin-bottom: 4px;
 	}
 
+	.media-display-container {
+		height: 50%;
+	}
+
+	.text-display-container {
+		height: 50%;
+	}
+
 	:global(.data-section li a) {
 		text-decoration: underline;
 	}
@@ -198,4 +206,14 @@
 	:global(.item-viewer .iframe-viewer *) {
 		height: 100%;
 	}
+
+	@media screen and (min-width: 992px) {
+		.media-display-container {
+			height: 100%;
+		}
+
+		.text-display-container {
+			height: 100%;
+		}
+    }
 </style>
