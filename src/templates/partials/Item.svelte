@@ -350,6 +350,14 @@
         height: 100%;
     }
 
+    /* .item-content.media-left > .media {
+        margin-right: 20px;
+    }
+
+    .item-content.media-right > .media {
+        margin-left: 20px;
+    } */
+
     .media {
         margin-bottom: 55px;
     }
@@ -489,14 +497,6 @@
         }
         .media-right.wrap-text > .media:not(.media-padding) {
             padding: 0 0 0 50px;
-        }
-
-        /* add side padding to text if the text does not wrap */
-        .media-left .text {
-            padding-left: 50px;
-        }
-        .media-right .text {
-            padding-right: 50px;
         }
     }
 
