@@ -41,6 +41,7 @@
             await executeSearch();
         }
         else {
+            // TODO display error message in view "an error occurred when executing the search"
             Logger.module().error("Search error: Invalid query params");
         }
     }
@@ -67,7 +68,7 @@
         if(entity && Object.values(ENTITY_TYPE).includes(entity) === false) isValid = false;
 
         // id must be hex value
-        if(exhibitId && /^[a-fA-F0-9]+$/g.test(exhibitId) === false) isValid = false;
+        if(exhibitId && /^[a-fA-F0-9\-]+$/g.test(exhibitId) === false) isValid = false;
 
         // page must be numeric
         if(page && isNaN(page) === true) isValid = false;
@@ -149,6 +150,7 @@
 
         {:else}
             <h3>Please wait...</h3>
+            <!-- <h5>{message}<h5> -->
         {/if}
     </div>
 </div>
