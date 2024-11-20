@@ -81,6 +81,9 @@
         let itemStyles = item || {};
         let headingStyles = heading || {};
 
+        console.log("TEST heading styles object into exhibit:", headingStyles)
+        console.log("TEST item styles object into exhibit:", itemStyles)
+
         // set permitted styles
         let {
             fontFamily = null,
@@ -340,6 +343,14 @@
         padding: 0 0 3.5rem 0;
     }
 
+    .media-left:not(.wrap-text) .media-padding {
+        padding-right: 0;
+    }
+
+    .media-right:not(.wrap-text) .media-padding {
+        padding-left: 0;
+    }
+
     .anchor-offset {
         position: relative;
         top: -120px;
@@ -349,14 +360,6 @@
         width: 100%;
         height: 100%;
     }
-
-    /* .item-content.media-left > .media {
-        margin-right: 20px;
-    }
-
-    .item-content.media-right > .media {
-        margin-left: 20px;
-    } */
 
     .media {
         margin-bottom: 55px;
@@ -455,7 +458,7 @@
         .width-50 {width: 50%}
         .width-66 {width: 50%}
         .width-67 {width: 50%}
-        .width-75 {width: 50%}
+        .width-75 {width: 100%}
 
         .media {
             margin-bottom: 0;
@@ -497,6 +500,16 @@
         }
         .media-right.wrap-text > .media:not(.media-padding) {
             padding: 0 0 0 50px;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .media-left:not(.wrap-text) .media-padding {
+            padding-right: 2.5em;
+        }
+
+        .media-right:not(.wrap-text) .media-padding {
+            padding-left: 2.5em;
         }
     }
 
