@@ -23,6 +23,7 @@
     const dispatch = createEventDispatcher();
 
     const SHOW_EMPTY_DECADES = false;
+    const CARD_MIN_HEIGHT = 500;
 
     const init = () => {
         title = grid.title || null;
@@ -156,9 +157,23 @@
         return sorted;
     }
 
+    const applyCardSpacing = () => {
+        let cards = document.querySelectorAll(".timeline__card.card");
+        
+        for(var card of cards) {
+            let cardHeight = card.clientHeight;
+
+            if(cardHeight < CARD_MIN_HEIGHT) {
+                let bottomOffset = CARD_MIN_HEIGHT - cardHeight;
+                card.style.marginBottom = `${bottomOffset.toString()}px`;
+            }
+        }
+    }
+
     $: init();
 
     onMount(async () => {
+        applyCardSpacing();
         setTheme(styles);
         dispatch('mount-template-item', {});
     });
@@ -370,12 +385,11 @@
     :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
         position: relative;
         z-index: 0;
-        /* min-height: 700px; */
     }
 
-    :global(.vertical-timeline-item-grid .vertical-timeline-grid-item .description) {
+    /* :global(.vertical-timeline-item-grid .vertical-timeline-grid-item .description) {
         min-height: 300px;
-    }
+    } */
 
     :global(.vertical-timeline-item-grid .timeline__card::before) {
         content: none;
