@@ -24,6 +24,7 @@
 
     const SHOW_EMPTY_DECADES = false;
     const CARD_MIN_HEIGHT = 500;
+    const RIGHT_SIDE_ITEMS_TOP_OFFSET = 150;
 
     const init = () => {
         title = grid.title || null;
@@ -106,17 +107,11 @@
             if(itemDate.getFullYear() >= currentDecade && itemDate.getFullYear() < nextDecade) {
 
                 // sort into specified side of timeline or left if odd, right if even
-                if(items[index].layout == 'left' || index % 2 == 0) {
+                if(items[index].layout == 'left' || decadeIndex % 2 == 0) {
                     currentBucket.leftItems.push(items[index]);
-
-                    // add a top offset to the opposite side than the first item
-                    if(decadeIndex == 0) currentBucket.rightItems.push({columnTopOffset:true});
                 }
-                else if(items[index].layout == 'right' || index % 2 != 0) {
+                else if(items[index].layout == 'right' || decadeIndex % 2 != 0) {
                     currentBucket.rightItems.push(items[index]);
-
-                    // add a top offset to the opposite side than the first item
-                    if(decadeIndex == 0) currentBucket.leftItems.push({columnTopOffset:true});
                 }
 
                 // end case
@@ -173,7 +168,6 @@
     $: init();
 
     onMount(async () => {
-        applyCardSpacing();
         setTheme(styles);
         dispatch('mount-template-item', {});
     });
@@ -193,39 +187,36 @@
                 {#each sections as section}
                     {#if section.label}<span class="timeline__year time" aria-hidden="true">{section.label}</span>{/if}
 
-                    <div class="row timeline-section">
+                    <div class="timeline-section">
+                        {#each section.leftItems as leftItem, index}
 
-                        <div class="col-lg-6">
-                            <div class="timeline timeline-left">
-                                <div class="timeline__group">
-                                    <div class="timeline__cards">
-                                        {#each section.leftItems as item}
-                                            {#if item.columnTopOffset} 
-                                                <div class="column-top-offset"></div>
-                                            {:else}
-                                                <Grid_Item_Vertical_Timeline {item} on:click-item />
-                                            {/if}
-                                        {/each}
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="timeline timeline-left">
+                                        <div class="timeline__group">
+                                            <div class="timeline__cards">
+                                                <Grid_Item_Vertical_Timeline item={leftItem} on:click-item />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="col-lg-6">
-                            <div class="timeline timeline-right">
-                                <div class="timeline__group">
-                                    <div class="timeline__cards">
-                                        {#each section.rightItems as item}
-                                            {#if item.columnTopOffset} 
-                                                <div class="column-top-offset"></div>
-                                            {:else}
-                                                <Grid_Item_Vertical_Timeline {item} on:click-item />
-                                            {/if}
-                                        {/each}
+                                <div class="col-lg-6">
+                                    <div class="timeline timeline-right">
+                                        <div class="timeline__group">
+                                            <div class="timeline__cards" style="margin-top: 150px">
+                                                {#if section.rightItems[index]}
+                                                    <Grid_Item_Vertical_Timeline item={section.rightItems[index]} on:click-item />
+                                                {/if}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
-                        </div>
+
+                        {/each}
+
                     </div>
                 {/each}
 
@@ -249,7 +240,6 @@
     
         font-size: var(--timeFontSize, 1.25rem);
         font-weight: var(--timeFontWeight, 700);
-        /* text-transform: var(--timeTextTransform, uppercase); */
         color: var(--timeColor, currentColor);
     }
 
@@ -288,14 +278,6 @@
         border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
         padding-top: 1rem;
         padding-bottom: 1.5rem;
-    }
-
-    .timeline:first-child {
-        padding-top: 4rem;
-    }
-
-    .timeline:last-child {
-        padding-bottom: 4rem;
     }
     
     .timeline__year{
@@ -351,7 +333,7 @@
         border: none;
     }
 
-    .timeline-section > div {
+    .timeline-section .row .col-lg-6 {
         padding-right: 0px;
         padding-left: 0px;
     }
@@ -387,10 +369,6 @@
         z-index: 0;
     }
 
-    /* :global(.vertical-timeline-item-grid .vertical-timeline-grid-item .description) {
-        min-height: 300px;
-    } */
-
     :global(.vertical-timeline-item-grid .timeline__card::before) {
         content: none;
     }
@@ -422,6 +400,7 @@
         z-index: -1;
         top: 150px;
         right: -166px;
+        /* right: calc(9.65vw * 2) */
     }
 
     :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
@@ -433,6 +412,7 @@
         z-index: -1;
         top: 150px;
         left: -166px;
+        /* left: calc(9.65vw * 2) */
     }
 
     :global(.vertical-timeline-item-grid .card__title) {
