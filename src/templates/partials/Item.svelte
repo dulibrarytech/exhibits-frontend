@@ -81,9 +81,6 @@
         let itemStyles = item || {};
         let headingStyles = heading || {};
 
-        console.log("TEST heading styles object into exhibit:", headingStyles)
-        console.log("TEST item styles object into exhibit:", itemStyles)
-
         // set permitted styles
         let {
             fontFamily = null,
