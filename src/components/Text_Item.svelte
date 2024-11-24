@@ -12,7 +12,8 @@
     }
 </script>
 
-<div class="text-item" bind:this={textElement} >
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+<div class="text-item" tabindex="0" bind:this={textElement}>
     {#if title}
         <div class="title">{title}</div>
         <hr>
