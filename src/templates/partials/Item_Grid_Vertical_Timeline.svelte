@@ -177,6 +177,12 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
     
     <div class="container">
+
+        <div class="row timeline-line">
+            <div class="col-6" style="border-right: solid"></div>
+            <div class="col-6" style="border-left: solid"></div>
+        </div> 
+
         {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div><br>{/if}
 
         {#if text}<div class="text">{text}</div>{/if}
@@ -349,19 +355,27 @@
         background-color: #303030;
         color: #e5e3e1;
         border-radius: 5px;
+        margin-top: 50px;
+        margin-bottom: 50px;
     }
 
     .vertical-timeline-item-grid {
         padding: 80px 0;
     }
 
+    .vertical-timeline-item-grid > .container {
+        position: relative;
+    }
+
+    .timeline-line {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+
     .anchor-offset {
         position: relative;
         top: -120px;
-    }
-
-    .column-top-offset {
-        height: 125px;
     }
 
     :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
@@ -434,6 +448,11 @@
         .timeline-right {
             border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
             padding-right: 15px;
+        }
+
+        .timeline__year {
+            margin-top: 0px;
+            margin-bottom: 0px;
         }
 
         :global(.vertical-timeline-item-grid .timeline-right .timeline__cards) {
