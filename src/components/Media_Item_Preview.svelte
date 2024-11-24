@@ -40,7 +40,7 @@
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
         styles = item.styles || null;
-        altText = stripHtmlTags(item.title) || item.description || "Untitled Image";
+        altText = stripHtmlTags(item.title) || item.caption || item.description || "Untitled Image";
         isLink = args.isLink ?? true;
 
         preview = null;
