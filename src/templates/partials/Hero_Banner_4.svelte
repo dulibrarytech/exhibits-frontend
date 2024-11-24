@@ -72,6 +72,10 @@
         padding: 3.5em;
     }
 
+    .text {
+        margin: 0.5em;
+    }
+
     #title {
         font-size: 52px;
     }
