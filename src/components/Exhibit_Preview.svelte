@@ -1,8 +1,7 @@
 <script>
     'use strict'
     
-    import { Settings } from '../config/settings';
-    import { Resource } from '../libs/resource';
+    import ResourceUrl from '../libs/ResourceUrl.js'; 
 
     export let exhibit = {};
     export let width = null;
@@ -10,16 +9,17 @@
 
     let titleTextElement;
 
-    let exhibitPath = null;
+    let exhibitPath;
     let thumbnail;
     let heroImage;
     let title;
     let subtitle;
     let styles;
 
+    const RESOURCE = new ResourceUrl(exhibit.uuid);
+
     const EXHIBIT_THUMBNAIL_WIDTH = "400";
     const EXHIBIT_THUMBNAIL_HEIGHT = "400";
-    const PLACEHOLDER_IMAGE = Settings.exhibitDefaultImage;
 
     $: init();
 
@@ -35,12 +35,12 @@
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
 
         if(thumbnail) {
-            thumbnail = Resource.getThumbnailFileUrl(thumbnail);
+            thumbnail = RESOURCE.getFileUrl(thumbnail);
         }
         else if(heroImage) {
-            thumbnail = Resource.getImageDerivativeUrl({
+            let file = heroImage || "no-image-available";
+            thumbnail = RESOURCE.getImageDerivativeUrl(file, {
                 type: 'crop',
-                filename: heroImage || "no-image-available",
                 width,
                 height
             });
@@ -52,7 +52,7 @@
     {#if exhibitPath}
         <a href={exhibitPath} bind:this={titleTextElement}> 
             <div class="exhibit-thumbnail">
-                <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE)}';" />
+                <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
             </div>
         </a>
     {/if}
