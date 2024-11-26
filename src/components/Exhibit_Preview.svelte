@@ -10,9 +10,10 @@
 
     let titleTextElement;
 
-    let exhibitPath = null;
+    let exhibitId;
+    let exhibitPath;
     let thumbnail;
-    let heroImage;
+    //let heroImage;
     let title;
     let subtitle;
     let styles;
@@ -24,9 +25,10 @@
     $: init();
 
     const init = () => {
+        exhibitId = exhibit.uuid;
         exhibitPath = `/exhibit/${exhibit.uuid}`;
         thumbnail = exhibit.thumbnail_image || null;
-        heroImage = exhibit.hero_image || null;
+        //heroImage = exhibit.hero_image || null;
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
         styles = exhibit.styles?.hero || {};
@@ -35,27 +37,28 @@
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
 
         if(thumbnail) {
-            thumbnail = Resource.getThumbnailFileUrl(thumbnail);
+            thumbnail = Resource.getResourceUri(thumbnail, exhibitId);
         }
-        else if(heroImage) {
-            thumbnail = Resource.getImageDerivativeUrl({
-                type: 'crop',
-                filename: heroImage || "no-image-available",
-                width,
-                height
-            });
+        else {
+            // thumbnail = Resource.getImageDerivativeUrl({
+            //     type: 'crop',
+            //     //filename: heroImage || "no-image-available",
+            //     width,
+            //     height
+            // });
+            thumbnail = Resource.getResourceUri(PLACEHOLDER_IMAGE);
         }
     }
 </script>
 
 <div class="exhibit-preview">
-    {#if exhibitPath}
+    <!-- {#if exhibitPath} -->
         <a href={exhibitPath} bind:this={titleTextElement}> 
             <div class="exhibit-thumbnail">
-                <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE)}';" />
+                <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{Resource.getResourceUri(PLACEHOLDER_IMAGE)}';" /> <!-- no exhibit id -->
             </div>
         </a>
-    {/if}
+    <!-- {/if} -->
 </div>
 
 <style>

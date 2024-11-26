@@ -55,7 +55,7 @@ export const Settings = {
     /*
      * thumbnail images
      */
-    thumbnailImageLocation: "tn",
+    thumbnailImageLocation: "",
     placeholderImageHeight: "",
     placeholderImageWidth: "400",
     placeholderImage: {

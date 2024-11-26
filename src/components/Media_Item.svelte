@@ -33,7 +33,7 @@
     let caption;
     let layout;
 
-    var filename;
+    //var filename;
     var component;
     var message;
 	var messageDisplay;
@@ -49,7 +49,7 @@
     $: init();
 
     const init = () => {
-        filename = null;
+        //filename = null;
         component = null;
 
         resource = args.media || item.media || null;
@@ -83,9 +83,10 @@
         }
 
         /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
-        if(URL_PATTERN.test(resource) == false) { // TODO data.helper::isUrlFormat()
-            filename = resource;
-            resource = Resource.getFileUrl(resource);
+        if(URL_PATTERN.test(resource) == false) { 
+            //filename = resource;
+            //resource = Resource.getFileUrl(resource);
+            resource = Resource.getItemResourceUri(item);
         }
         /* else: just pass on the resource url to the viewer */
 
@@ -137,7 +138,7 @@
         }
         else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
             if(URL_PATTERN.test(resource) == false) {
-                url = Resource.getImageTileSourceUrl(filename);
+                url = Resource.getImageTileSourceUrl(item);
             }
             isTileImage = true;
             message = "Loading, please wait...";
@@ -158,13 +159,13 @@
                 isTileImage = false;
 
                 /* get jpg derivative to display on the page */
-                url = Resource.getImageDerivativeUrl({
-                    filename,
+                url = Resource.getImageDerivativeUrl(item, {
+                    //filename,
                     height: LARGE_IMAGE_PREVIEW_HEIGHT
                 })
             }
             else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
-                url = Resource.getImageTileSourceUrl(filename);
+                url = Resource.getImageTileSourceUrl(item);
                 isTileImage = true;
                 message = "Loading, please wait...";
 		        messageDisplay = true;
@@ -183,7 +184,7 @@
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
-        let thumbnailImage = item.thumbnail ? Resource.getThumbnailFileUrl(item.thumbnail) : null;
+        let thumbnailImage = item.thumbnail ? Resource.getItemThumbnailImageUri(item) : null;
 
         params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Audio_Player;
@@ -194,7 +195,7 @@
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
-        let thumbnailImage = item.thumbnail ? Resource.getThumbnailFileUrl(item.thumbnail) : null;
+        let thumbnailImage = item.thumbnail ? Resource.getItemThumbnailImageUri(item) : null;
         
         params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Video_Player;

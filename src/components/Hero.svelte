@@ -27,7 +27,7 @@
             
         } = data;
         
-        if(hero_image) image = getImagePath(hero_image);
+        if(hero_image) image = getHeroImageUri(data);
 
         banner = $Banners[banner_template || DEFAULT_BANNER];
         bannerData = {
@@ -39,12 +39,13 @@
         }
     }
 
-    const getImagePath = (filename) => {
+    const getHeroImageUri = (item) => {
         let path = "";
-        if(/^.+\.(jpg|jpeg|png)$/g.test(filename) == true) {
-            path = Resource.getFileUrl(filename);
+        let {hero_image="", uuid} = item;
+        if(/^.+\.(jpg|jpeg|png)$/g.test(hero_image) == true) {
+            path = Resource.getResourceUri(hero_image, uuid);
         }
-        else Logger.module().error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
+        else Logger.module().error(`Invalid hero image type. Allowed types: jpg, png. File: ${path}`);
         return path;
     }
 </script>

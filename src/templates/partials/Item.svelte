@@ -23,6 +23,7 @@
     let textElement;
 
     let uuid;
+    let exhibitId;
     let title;
     let caption;
     let text;
@@ -54,6 +55,7 @@
 
         // assign item data
         uuid        = item.uuid || null;
+        exhibitId   = item.is_member_of_exhibit || null;
         title       = item.title || null;
         caption     = item.caption || null;
         text        = item.text || "";
@@ -97,7 +99,8 @@
 
         // append background image
         if(itemStyles.backgroundImage) {
-            itemElement.style.backgroundImage = `url('${ Resource.getFileUrl(itemStyles.backgroundImage ) }')`;
+            // itemElement.style.backgroundImage = `url('${ Resource.getFileUrl(itemStyles.backgroundImage ) }')`;
+            itemElement.style.backgroundImage = `url('${ Resource.getResourceUri(itemStyles.backgroundImage, exhibitId) }')`;
         }
 
         // set title font family to heading style font family
