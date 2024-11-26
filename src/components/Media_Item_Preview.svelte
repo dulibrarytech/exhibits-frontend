@@ -2,7 +2,6 @@
     'use strict' 
     
     import { createEventDispatcher } from 'svelte';
-    // import { Settings } from '../config/settings';
     import ResourceUrl from '../libs/ResourceUrl.js';
     import { stripHtmlTags } from '../libs/data_helpers';
     import * as Logger from '../libs/logger.js';
@@ -29,7 +28,6 @@
 
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
-    //const PLACEHOLDER_IMAGE = Settings.placeholderImage;
     const LARGE_IMAGE_PREVIEW_WIDTH = 1000;
     const URL_PATTERN = /^https?:\/\//;
 
