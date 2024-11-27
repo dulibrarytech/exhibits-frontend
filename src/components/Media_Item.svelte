@@ -4,8 +4,8 @@
      * Responsible for extracting data from the exhibit item and converting it to data for the presentation components
      * 
     */
-    import { Resource } from '../libs/resource';
     import { createEventDispatcher } from 'svelte';
+    import ResourceUrl from '../libs/ResourceUrl.js';
     import * as Logger from '../libs/logger.js';
 
     import Image_Viewer from './Image_Viewer.svelte';
@@ -20,11 +20,14 @@
     export let item = {};
     export let args = {};
 
+    const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
+    // const RESOURCE = new ResourceUrl(Cache.getExhibitId());
+
     const dispatch = createEventDispatcher();
 
     let mediaElement;
 
-    let resource;
+    let media;
     let itemType;
     let mimeType;
     let viewerType;
@@ -52,7 +55,7 @@
         filename = null;
         component = null;
 
-        resource = args.media || item.media || null;
+        media = args.media || item.media || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
         title = args.title || item.title || null;
@@ -82,17 +85,19 @@
                 viewerHeight = VIEWER_HEIGHT_SMALL;
         }
 
-        /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
-        if(URL_PATTERN.test(resource) == false) { // TODO data.helper::isUrlFormat()
-            filename = resource;
-            resource = Resource.getFileUrl(resource);
-        }
-        /* else: just pass on the resource url to the viewer */
-
-        if(!resource) {
+        if(!media) {
             Logger.module().error(`Missing path or url to resource. Item: ${item.uuid}`);
         }
-        else render();
+
+        /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
+        else if(URL_PATTERN.test(media) == false) { // TODO data.helper::isUrlFormat()
+            filename = media;
+            media = RESOURCE.getFileUrl(media);
+            render();
+        }
+        else {
+            render();
+        }
     }
 
     const render = () => {
@@ -128,7 +133,7 @@
     }
 
     const renderStandardImageViewer = () => {
-        let url = resource;
+        let url = media;
         let imageType = itemType;
         let isTileImage = false;
 
@@ -136,8 +141,8 @@
             isTileImage = false;
         }
         else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
-            if(URL_PATTERN.test(resource) == false) {
-                url = Resource.getImageTileSourceUrl(filename);
+            if(URL_PATTERN.test(url) == false) {
+                url = RESOURCE.getImageTileSourceUrl(filename);
             }
             isTileImage = true;
             message = "Loading, please wait...";
@@ -149,29 +154,25 @@
     }
 
     const renderLargeImageViewer = () => {
-        let url = null;
+        let url = media;
         let imageType = itemType;
         let isTileImage = true;
 
-        if(URL_PATTERN.test(resource) == false) {
+        if(URL_PATTERN.test(url) == false) {
             if(viewerType == VIEWER_TYPE.STATIC) {
                 isTileImage = false;
 
                 /* get jpg derivative to display on the page */
-                url = Resource.getImageDerivativeUrl({
-                    filename,
+                url = RESOURCE.getImageDerivativeUrl(filename, {
                     height: LARGE_IMAGE_PREVIEW_HEIGHT
                 })
             }
             else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
-                url = Resource.getImageTileSourceUrl(filename);
+                url = RESOURCE.getImageTileSourceUrl(filename);
                 isTileImage = true;
                 message = "Loading, please wait...";
 		        messageDisplay = true;
             }
-        }
-        else {
-            url = resource;
         }
         
         params = {url, title, caption, isTileImage, imageType};
@@ -179,29 +180,29 @@
     }
 
     const renderAudioPlayer = () => {
-        let url = resource;
+        let url = media;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
-        let thumbnailImage = item.thumbnail ? Resource.getThumbnailFileUrl(item.thumbnail) : null;
+        let thumbnailImage = item.thumbnail ? RESOURCE.getFileUrl(item.thumbnail) : null;
 
         params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Audio_Player;
     }
 
     const renderVideoPlayer = () => {
-        let url = resource;
+        let url = media;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
-        let thumbnailImage = item.thumbnail ? Resource.getThumbnailFileUrl(item.thumbnail) : null;
+        let thumbnailImage = item.thumbnail ? RESOURCE.getFileUrl(item.thumbnail) : null;
         
         params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Video_Player;
     }
 
     const renderPdfViewer = () => {
-        let url = resource;
+        let url = media;
         let page = item.pdf_open_to_page || null;
 
         params = {url, caption, page};
@@ -209,7 +210,7 @@
     }
 
     const renderIframeViewer = () => {
-        let url = resource;
+        let url = media;
         let height = viewerHeight;
         
         params = {url, caption, height}; 

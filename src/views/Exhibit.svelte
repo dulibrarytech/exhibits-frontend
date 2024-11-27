@@ -62,7 +62,7 @@
         id = currentRoute.namedParams.id ?? "null";
 
         Logger.module().info(`Loading exhibit... ID: ${id}`);
-        exhibit = await Index.getExhibit(id);
+        exhibit = await Index.getExhibit(id); // {exhibit: {data: {}, items: []}}
         data = exhibit?.data;
 
         if(!exhibit || !data) {

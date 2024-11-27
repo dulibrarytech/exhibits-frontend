@@ -3,22 +3,24 @@
 
     import { Settings } from '../config/settings';
     import { Banners } from '../templates/config/hero-banner';
-    import { Resource } from '../libs/resource';
     import { stripHtmlTags } from '../libs/data_helpers';
+
+    import ResourceUrl from '../libs/ResourceUrl.js';
     import * as Logger from '../libs/logger.js';
 
     export let data = null;
     export let styles = null;
 
     let bannerData = {};
-    let heroSection = null;
+
+    const RESOURCE = new ResourceUrl(data.uuid);
 
     const DEFAULT_BANNER = Settings.defaultBannerTemplate;
 
     let banner = null;
     let image = null;
 
-    $: if(data) init();
+    $: init();
 
     const init = () => {
         let { 
@@ -42,14 +44,14 @@
     const getImagePath = (filename) => {
         let path = "";
         if(/^.+\.(jpg|jpeg|png)$/g.test(filename) == true) {
-            path = Resource.getFileUrl(filename);
+            path = RESOURCE.getFileUrl(filename);
         }
         else Logger.module().error(`Invalid hero image type. Allowed types: jpg, png. File: ${hero_image}`);
         return path;
     }
 </script>
 
-<header class="hero" bind:this={heroSection}>
+<header class="hero">
     {#if banner}
         <svelte:component this={banner} args={bannerData} styles={styles.template} />
     {/if}

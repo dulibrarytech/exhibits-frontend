@@ -2,8 +2,7 @@
     'use strict' 
     
     import { createEventDispatcher } from 'svelte';
-    import { Settings } from '../config/settings';
-    import { Resource } from '../libs/resource';
+    import ResourceUrl from '../libs/ResourceUrl.js';
     import { stripHtmlTags } from '../libs/data_helpers';
     import * as Logger from '../libs/logger.js';
 
@@ -23,12 +22,12 @@
     let altText;
     let styles;
     let isLink;
-
     let preview;
 
     const dispatch = createEventDispatcher();
 
-    const PLACEHOLDER_IMAGE = Settings.placeholderImage;
+    const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
+
     const LARGE_IMAGE_PREVIEW_WIDTH = 1000;
     const URL_PATTERN = /^https?:\/\//;
 
@@ -46,7 +45,7 @@
         preview = null;
 
         if(thumbnail && URL_PATTERN.test(thumbnail) == false) {
-            preview = Resource.getThumbnailFileUrl(thumbnail);
+            preview = RESOURCE.getFileUrl(thumbnail);
         }
         else if(thumbnail && URL_PATTERN.test(thumbnail) == true) {
             preview = thumbnail;
@@ -55,7 +54,7 @@
             preview = resource;
         }
         else {
-            preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.DEFAULT);
+            preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.DEFAULT);
         }
 
         if(!preview) {
@@ -68,33 +67,32 @@
 
         switch(itemType) {
             case ITEM_TYPE.IMAGE:
-                url = Resource.getIIIFImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
+                url = RESOURCE.getIIIFImageUrl(media, width, height) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.IMAGE);
                 break;
 
             case ITEM_TYPE.LARGE_IMAGE:
                 let data = {
-                    filename: media,
                     width: width || LARGE_IMAGE_PREVIEW_WIDTH,
                     height: height || undefined
                 }
 
-                url = Resource.getImageDerivativeUrl(data) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
+                url = RESOURCE.getImageDerivativeUrl(media, data) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.IMAGE);
                 break;
 
             case ITEM_TYPE.AUDIO:
-                url = Resource.getAudioPreviewImageUrl(item, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.AUDIO);
+                url = RESOURCE.getAudioPreviewImageUrl(item, width, height) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.AUDIO);
                 break;
 
             case ITEM_TYPE.VIDEO:
-                url = Resource.getVideoPreviewImageUrl(item, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.VIDEO);
+                url = RESOURCE.getVideoPreviewImageUrl(item, width, height) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.VIDEO);
                 break;
 
             case ITEM_TYPE.PDF:
-                url = Resource.getPdfPreviewImageUrl(media, width, height) || Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.PDF);
+                url = RESOURCE.getPdfPreviewImageUrl(media, width, height) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.PDF);
                 break;
 
             case ITEM_TYPE.TEXT:
-                url = Resource.getThumbnailFileUrl(PLACEHOLDER_IMAGE.IMAGE);
+                url = RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.IMAGE);
                 break;
 
             case ITEM_TYPE.EXTERNAL_SOURCE:

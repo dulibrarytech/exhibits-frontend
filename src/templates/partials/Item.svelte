@@ -3,7 +3,6 @@
 
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import { Resource } from '../../libs/resource';
     import * as Logger from '../../libs/logger.js';
     
     import Text_Display from '../../components/Text_Display.svelte';
@@ -97,7 +96,7 @@
 
         // append background image
         if(itemStyles.backgroundImage) {
-            itemElement.style.backgroundImage = `url('${ Resource.getFileUrl(itemStyles.backgroundImage ) }')`;
+            itemElement.style.backgroundImage = `url('${ itemStyles.backgroundImage }')`;
         }
 
         // set title font family to heading style font family
