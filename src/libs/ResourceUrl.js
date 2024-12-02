@@ -12,6 +12,7 @@ export default class ResourceUrl {
 
     constructor(exhibitId = null) {
       this.exhibitId = exhibitId;
+      this.exhibitFolderDelimiter = "__";
 
       this.resourceLocation = Configuration.resourceLocation;
       this.iiifImageServerUrl = Configuration.iiifImageServerUrl;
@@ -38,7 +39,7 @@ export default class ResourceUrl {
           dimensions = `${width || ""},${height || ""}`;
       }
 
-      filename = this.exhibitId ? `${this.exhibitId}_${filename}` : filename;
+      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
 
       return `${this.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;
     }
