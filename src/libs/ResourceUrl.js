@@ -40,7 +40,6 @@ export default class ResourceUrl {
       }
 
       filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
-
       return `${this.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;
     }
 
@@ -82,7 +81,7 @@ export default class ResourceUrl {
 
       } = args;
 
-      filename = this.exhibitId ? `${this.exhibitId}_${filename}` : filename;
+      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
 
       switch(type) {
           case 'resize':
@@ -92,12 +91,11 @@ export default class ResourceUrl {
           case 'crop':
               url = `${this.iiifImageServerUrl}/iiif/2/${filename}/${offsetX},${offsetY},${width},${height}/max/0/default.jpg`
       }
-
       return url;
     }
 
     getImageTileSourceUrl (filename="null") {
-      filename = this.exhibitId ? `${this.exhibitId}_${filename}` : filename;
+      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
       return `${this.iiifImageServerUrl}/iiif/2/${filename}/info.json`;
     }
   }
