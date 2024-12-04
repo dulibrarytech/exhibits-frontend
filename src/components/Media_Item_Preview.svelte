@@ -5,6 +5,7 @@
     import ResourceUrl from '../libs/ResourceUrl.js';
     import { stripHtmlTags } from '../libs/data_helpers';
     import * as Logger from '../libs/logger.js';
+    import { Settings } from '../config/settings';
 
     import {ITEM_TYPE} from '../config/global-constants';
 
@@ -22,6 +23,7 @@
     let altText;
     let styles;
     let isLink;
+    let isPlaceholderImage;
     let preview;
 
     const dispatch = createEventDispatcher();
@@ -40,7 +42,9 @@
         thumbnail = item.thumbnail || null;
         styles = item.styles || null;
         altText = stripHtmlTags(item.title) || item.caption || item.description || "Untitled Image";
+
         isLink = args.isLink ?? true;
+        isPlaceholderImage = false;
 
         preview = null;
 
@@ -54,7 +58,7 @@
             preview = resource;
         }
         else {
-            preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.DEFAULT);
+            preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : RESOURCE.getItemPlaceholderImageUrl(null);
         }
 
         if(!preview) {
@@ -67,7 +71,13 @@
 
         switch(itemType) {
             case ITEM_TYPE.IMAGE:
-                url = RESOURCE.getIIIFImageUrl(media, width, height) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.IMAGE);
+                url = RESOURCE.getIIIFImageUrl(media, width, height);
+
+                if(!url) {
+                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE);
+                    isPlaceholderImage = true; 
+                }
+
                 break;
 
             case ITEM_TYPE.LARGE_IMAGE:
@@ -76,23 +86,47 @@
                     height: height || undefined
                 }
 
-                url = RESOURCE.getImageDerivativeUrl(media, data) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.IMAGE);
+                url = RESOURCE.getImageDerivativeUrl(media, data);
+
+                if(!url) {
+                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE);
+                    isPlaceholderImage = true; 
+                }
+
                 break;
 
             case ITEM_TYPE.AUDIO:
-                url = RESOURCE.getAudioPreviewImageUrl(item, width, height) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.AUDIO);
+                url = RESOURCE.getAudioPreviewImageUrl(item, width, height);
+
+                if(!url) {
+                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.AUDIO);
+                    isPlaceholderImage = true; 
+                }
+
                 break;
 
             case ITEM_TYPE.VIDEO:
-                url = RESOURCE.getVideoPreviewImageUrl(item, width, height) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.VIDEO);
+                url = RESOURCE.getVideoPreviewImageUrl(item, width, height);
+
+                if(!url) {
+                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.VIDEO);
+                    isPlaceholderImage = true; 
+                }
+
                 break;
 
             case ITEM_TYPE.PDF:
-                url = RESOURCE.getPdfPreviewImageUrl(media, width, height) || RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.PDF);
+                url = RESOURCE.getPdfPreviewImageUrl(media, width, height);
+
+                if(!url) {
+                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.PDF);
+                    isPlaceholderImage = true; 
+                }
+
                 break;
 
             case ITEM_TYPE.TEXT:
-                url = RESOURCE.getItemPlaceholderImageUrl(PLACEHOLDER_IMAGE.IMAGE);
+                url = RESOURCE.getItemPlaceholderImageUrl(null);
                 break;
 
             case ITEM_TYPE.EXTERNAL_SOURCE:
@@ -114,19 +148,22 @@
 </script>
 
 {#if preview}
-    {#if isLink}
-        <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
+    <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}">
+        {#if isLink}
+            <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
+                <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}" bind:this={itemPreviewElement} >
+                    <img crossorigin="anonymous" src={preview} alt={altText} title={altText}>
+                </div>
+            </a>
+
+        {:else}
             <div class="item-preview" bind:this={itemPreviewElement} >
                 <img crossorigin="anonymous" src={preview} alt={altText} title={altText}>
             </div>
-        </a>
 
-    {:else}
-        <div class="item-preview" bind:this={itemPreviewElement} >
-            <img crossorigin="anonymous" src={preview} alt={altText} title={altText}>
-        </div>
+        {/if}
+    </div>
 
-    {/if}
 {:else}
     <div class="load-message">
         Loading preview image...

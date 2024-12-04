@@ -58,11 +58,11 @@ export const Settings = {
     placeholderImageHeight: "",
     placeholderImageWidth: "400",
     placeholderImage: {
-        DEFAULT: "image-tn.png",
-        IMAGE: "image-tn.png",
-        AUDIO: "audio-tn.png",
-        VIDEO: "video-tn.png",
-        PDF: "pdf-tn.png"
+        'DEFAULT': "image-tn.png",
+        [ITEM_TYPE.IMAGE]: "image-tn.png",
+        [ITEM_TYPE.AUDIO]: "audio-tn.png",
+        [ITEM_TYPE.VIDEO]: "video-tn.png",
+        [ITEM_TYPE.PDF]: "pdf-tn.png"
     },
     exhibitDefaultImage: "exhibit-default.png",
 
