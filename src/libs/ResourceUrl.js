@@ -25,8 +25,11 @@ export default class ResourceUrl {
       return `${this.resourceLocation}/${folder}${filename}`;
     }
 
-    getItemPlaceholderImageUrl(itemType = "") {
-      return `${this.resourceLocation}/${this.itemPlaceholderImages[itemType]}`;
+    getItemPlaceholderImageUrl(itemType = null) {
+      let url;
+      if(!itemType) url = `${this.resourceLocation}/${this.itemPlaceholderImages['DEFAULT']}`;
+      else url = `${this.resourceLocation}/${this.itemPlaceholderImages[itemType]}`;
+      return url;
     }
 
     getExhibitPlaceholderImageUrl() {
@@ -45,10 +48,10 @@ export default class ResourceUrl {
 
     getAudioPreviewImageUrl(item = {}, width, height) {
       let url = null;
-      let {kaltura_id = null} = item;
+      let {is_kaltura_item = null} = item;
 
-      if(kaltura_id) {
-          url = Kaltura.getThumbnailUrl(kaltura_id);
+      if(is_kaltura_item) {
+          url = Kaltura.getThumbnailUrl(item.media);
       }
 
       return url;
@@ -56,10 +59,10 @@ export default class ResourceUrl {
 
     getVideoPreviewImageUrl(item = {}, width, height) {
       let url = null;
-      let {kaltura_id = null} = item;
+      let {is_kaltura_item = null} = item;
 
-      if(kaltura_id) {
-          url = Kaltura.getThumbnailUrl(kaltura_id);
+      if(is_kaltura_item) {
+          url = Kaltura.getThumbnailUrl(item.media);
       }
 
       return url;
