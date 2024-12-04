@@ -447,6 +447,11 @@
         box-shadow: 3px 3px 11px -5px #000;
     }
 
+    :global(.media-top .placeholder-image),
+    :global(.media-bottom .placeholder-image) {
+        max-width: 100%;
+    }
+
     @media screen and (min-width: 768px) {
         .width-25 {width: 50%}
         .width-33 {width: 50%}
@@ -497,6 +502,11 @@
         .media-right.wrap-text > .media:not(.media-padding) {
             padding: 0 0 0 50px;
         }
+
+        :global(.media-top .placeholder-image),
+        :global(.media-bottom .placeholder-image) {
+            max-width: 40%;
+        }
     }
 
     @media screen and (min-width: 768px) {
@@ -523,7 +533,10 @@
         :global(.media-only .width-100 .video-player .content),
         :global(.media-top .width-100 .audio-player .content),
         :global(.media-bottom .width-100 .audio-player .content),
-        :global(.media-only .width-100 .audio-player .content) {
+        :global(.media-only .width-100 .audio-player .content),
+        :global(.media-top .width-100 .audio-video-preview),
+        :global(.media-bottom .width-100 .audio-video-preview),
+        :global(.media-only .width-100 .audio-video-preview) {
             margin: 0 auto;
             width: 80%;
         } 
