@@ -14,7 +14,6 @@
     let type;
     let date;
     let title;
-    let caption;
     let description;
     let media;
 
@@ -22,7 +21,6 @@
         id = item.uuid || "null";
         date = item.date || null;
         title = item.title || null;
-        caption = item.caption || null;
         description = item.description || null;
         type = item.item_type || null;
         media = item.media || null;
@@ -63,7 +61,6 @@
             {#if media} 
                 <div class="preview">
                     <Item_Preview {item} on:click-item />
-                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
             {/if}
         </div>
@@ -171,13 +168,5 @@
 
     p.description {
         margin-top: 1rem;
-    }
-
-    .caption {
-        margin-top: 1rem;
-        text-decoration: none;
-        color: inherit;
-        font-style: italic;
-        font-size: 0.8em;
     }
 </style>

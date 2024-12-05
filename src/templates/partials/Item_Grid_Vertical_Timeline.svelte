@@ -178,12 +178,12 @@
     
     <div class="container">
 
+        {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div><br>{/if}
+
         <div class="row timeline-line">
             <div class="col-6" style="border-right: solid"></div>
             <div class="col-6" style="border-left: solid"></div>
         </div> 
-
-        {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div><br>{/if}
 
         {#if text}<div class="text">{text}</div>{/if}
 
@@ -328,6 +328,7 @@
 
     .title-heading {
         text-transform: uppercase;
+        margin-bottom: 3.5em;
     }
 
     .timeline-wrapper {
@@ -369,8 +370,9 @@
 
     .timeline-line {
         position: absolute;
-        height: 100%;
+        height: 97%;
         width: 100%;
+        display: flex;
     }
 
     .anchor-offset {
@@ -448,6 +450,10 @@
         .timeline-right {
             border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
             padding-right: 15px;
+        }
+
+        .timeline-line {
+            display: none;
         }
 
         .timeline__year {
