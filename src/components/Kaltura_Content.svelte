@@ -26,13 +26,14 @@
 
     let kalturaUrl = null;
 
+    let videoPlayer;
+    let previewImageUrl;
     let contentSection;
     let iframeSection;
     let iframeElement;
     let previewElement;
+    let previewImageElement;
     let videoElement;
-    let videoPlayer;
-    let previewImageUrl;
 
     $: {
         if(isEmbedded) {
@@ -65,13 +66,17 @@
         videoPlayer.play()
 
     }
+
+    const onImageLoadError = () => {
+        previewImageElement.src = Kaltura.getThumbnailUrl(entryId, 1000, 1000);
+    }
 </script>
 
 <div class="kaltura-content content" bind:this={contentSection}>
     {#if kalturaUrl}
         {#if isEmbedded}
             <div class="preview" bind:this={previewElement}>
-                <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} /> 
+                <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} on:keypress={onClickKalturaPreview} on:error={onImageLoadError} bind:this={previewImageElement}/> 
                 <img class="preview-icon" src="../assets/images/play-button-icon-png-18919.png" />
             </div>
 

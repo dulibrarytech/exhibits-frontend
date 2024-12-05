@@ -6,6 +6,7 @@
     import { stripHtmlTags } from '../libs/data_helpers';
     import * as Logger from '../libs/logger.js';
     import { Settings } from '../config/settings';
+    import { Configuration } from '../config/config';
 
     import {ITEM_TYPE} from '../config/global-constants';
 
@@ -14,7 +15,11 @@
     export let width = null;
     export let height = null;
 
+    let {resourceLocation} = Configuration;
+    let {placeholderImage} = Settings; 
+
     let itemPreviewElement;
+    let previewImageElement;
 
     let itemId;
     let itemType;
@@ -145,6 +150,12 @@
         let itemId = event.target.getAttribute('data-item-id');
         if(itemId) dispatch('click-item', {itemId});
     }
+
+    const onImageLoadError = () => {
+        previewImageElement.src = `${resourceLocation}/${placeholderImage[itemType || 'DEFAULT']}`;
+        isPlaceholderImage = true;
+        //caption = caption.concat(" Preview not available");
+    }
 </script>
 
 {#if preview}
@@ -152,7 +163,7 @@
         {#if isLink}
             <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
                 <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}" bind:this={itemPreviewElement} >
-                    <img crossorigin="anonymous" src={preview} alt={altText} title={altText}>
+                    <img crossorigin="anonymous" src={preview} alt={altText} title={altText} on:error={onImageLoadError} bind:this={previewImageElement}>
                 </div>
             </a>
 
@@ -181,5 +192,11 @@
         margin-bottom: 1em;
         margin: 0 auto;
         pointer-events: none;
+    }
+
+    .item-preview.placeholder-image {
+        margin-top: unset;
+        margin-left: unset;
+        margin-right: unset;
     }
 </style>
