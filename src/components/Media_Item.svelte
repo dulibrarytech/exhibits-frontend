@@ -21,7 +21,6 @@
     export let args = {};
 
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
-    // const RESOURCE = new ResourceUrl(Cache.getExhibitId());
 
     const dispatch = createEventDispatcher();
 
@@ -233,6 +232,8 @@
 {#if component}
     <div class="media-item" bind:this={mediaElement}>
         <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadMediaFail} height={viewerHeight}/>
+
+        {#if caption}<div class="caption">{caption}</div>{/if}
     </div>
 
     <div class="message" style="display: {messageDisplay ? "block" : "none"}" >
@@ -255,5 +256,14 @@
         top: 50%;
 		left: 0;
 		width:100%;
+    }
+
+    .caption {
+        margin-top: 1rem;
+        text-decoration: none;
+        color: inherit;
+        font-style: italic;
+        font-size: 0.8em;
+        line-height: 1.5em;
     }
 </style>

@@ -25,6 +25,7 @@
     let itemType;
     let resource;
     let thumbnail;
+    let caption;
     let altText;
     let styles;
     let isLink;
@@ -45,8 +46,9 @@
         itemType = item.item_type || null;
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
+        caption = item.caption || null;
         styles = item.styles || null;
-        altText = stripHtmlTags(item.title) || item.caption || item.description || "Untitled Image";
+        altText = stripHtmlTags(item.title) || caption || item.description || "Untitled Image";
 
         isLink = args.isLink ?? true;
         isPlaceholderImage = false;
@@ -154,7 +156,6 @@
     const onImageLoadError = () => {
         previewImageElement.src = `${resourceLocation}/${placeholderImage[itemType || 'DEFAULT']}`;
         isPlaceholderImage = true;
-        //caption = caption.concat(" Preview not available");
     }
 </script>
 
@@ -173,6 +174,8 @@
             </div>
 
         {/if}
+
+        {#if caption}<div class="caption">{caption}</div>{/if}
     </div>
 
 {:else}
@@ -198,5 +201,14 @@
         margin-top: unset;
         margin-left: unset;
         margin-right: unset;
+    }
+
+    .caption {
+        margin-top: 1rem;
+        text-decoration: none;
+        color: inherit;
+        font-style: italic;
+        font-size: 0.8em;
+        line-height: 1.5em;
     }
 </style>

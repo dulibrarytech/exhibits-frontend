@@ -23,7 +23,6 @@
 
     let uuid;
     let title;
-    let caption;
     let text;
     let itemType;
     let layout;
@@ -54,7 +53,6 @@
         // assign item data
         uuid        = item.uuid || null;
         title       = item.title || null;
-        caption     = item.caption || null;
         text        = item.text || "";
         itemType    = item.item_type || undefined;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
@@ -129,7 +127,6 @@
                 <div class="item-content wrap-text text media-right">
                     <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
 
                     {#if mediaPadding}
@@ -151,7 +148,6 @@
                 <div class="item-content media-right">
                     <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
                     <div class="text width-{100 - mediaWidth}">
                         {#if mediaPadding}
@@ -177,7 +173,6 @@
                 <div class="item-content wrap-text text media-left">
                     <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                        {#if caption}<div class="caption" style="margin-left: {mediaPadding ? '0' : '20px'}">{caption}</div>{/if}
                     </div>
 
                     {#if mediaPadding}
@@ -199,7 +194,6 @@
                 <div class="item-content media-left">
                     <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                         <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                        {#if caption}<div class="caption" style="margin-left: {mediaPadding ? '0' : '20px'}">{caption}</div>{/if}
                     </div>
 
                     <div class="text width-{100 - mediaWidth}">
@@ -224,7 +218,6 @@
             <div class="item-content media-top {mediaPadding ? '' : 'item-padding'}">
                 <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                     <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                    {#if caption}<div class="caption" style="margin-left: {mediaPadding ? '0' : '20px'}">{caption}</div>{/if}
                 </div>
                 <div class="text">
                     {#if mediaPadding}
@@ -264,7 +257,6 @@
                 </div>
                 <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
                     <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                    {#if caption}<div class="caption" style="margin-left: {mediaPadding ? '0' : '20px'}">{caption}</div>{/if}
                 </div>
             </div>
 
@@ -274,14 +266,12 @@
                 {#if mediaPadding}
                     <div class="media media-fullwidth width-{mediaWidth} media-padding">
                         <Media_Display {item} args={{showPreview}} on:click-item />
-                        {#if caption}<div class="caption">{caption}</div>{/if}
                     </div>
 
                 {:else}
                     {#if title}<div class="title-heading title-padding container" bind:this={titleElement}>{@html title}</div>{/if}
                     <div class="media media-fullwidth media-only width-{mediaWidth}">
                         <Media_Display {item} args={{showPreview}} on:click-item />
-                        {#if caption}<div class="caption" style="margin-left: 20px">{caption}</div>{/if}
                     </div>
 
                 {/if}
@@ -333,10 +323,6 @@
 
     .text-padding {
         padding: 3.5rem;
-    }
-
-    .media:not(.media-padding) .caption {
-        padding: 0 0 3.5rem 0;
     }
 
     .media-left:not(.wrap-text) .media-padding {
@@ -403,26 +389,12 @@
     .width-67 {width: 100%}
     .width-75 {width: 100%}
 
-    .caption {
-        margin-top: 1rem;
-        text-decoration: none;
-        color: inherit;
-        font-style: italic;
-        font-size: 0.8em;
-        line-height: 1.5em;
-    }
-
     :global(.item p:not(:last-child)) {
         margin-bottom: 2.5rem;
     }
 
     :global(.item p:last-child) {
         margin-bottom: 0;
-    }
-
-    :global(.item .caption) {
-        font-style: italic;
-        font-size: 0.85em;
     }
 
     :global(.item button.item-button:not(:first-child)) {
@@ -450,6 +422,10 @@
     :global(.media-top .placeholder-image),
     :global(.media-bottom .placeholder-image) {
         max-width: 100%;
+    }
+
+    :global(.item .item-content:not(.media-right) .media:not(.media-padding) .caption) {
+        margin-left: 3.5rem;
     }
 
     @media screen and (min-width: 768px) {
@@ -527,18 +503,5 @@
         .width-66 {width: 66%}
         .width-67 {width: 67%}
         .width-75 {width: 75%}
-
-        :global(.media-top .width-100 .video-player .content),
-        :global(.media-bottom .width-100 .video-player .content),
-        :global(.media-only .width-100 .video-player .content),
-        :global(.media-top .width-100 .audio-player .content),
-        :global(.media-bottom .width-100 .audio-player .content),
-        :global(.media-only .width-100 .audio-player .content),
-        :global(.media-top .width-100 .audio-video-preview),
-        :global(.media-bottom .width-100 .audio-video-preview),
-        :global(.media-only .width-100 .audio-video-preview) {
-            margin: 0 auto;
-            width: 80%;
-        } 
     }
 </style>
