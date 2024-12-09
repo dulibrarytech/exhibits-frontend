@@ -112,13 +112,12 @@
         else {
             Logger.module().info("Retrieving items...");
 
-            // filter out unpublished items if user not role admin
-            if(userRole != USER_ROLE.ADMIN) {
-                items = exhibit.items.filter((item) => {
-                    return item.is_published == true;
-                });
+            if(userRole == USER_ROLE.ADMIN) {
+                items = exhibit.items
             }
-            else items = exhibit.items;
+            else {
+                items = getPublicItems(exhibit.items);
+            }
 
             // parse styles json string for all exhibit items
             items = items.map((item) => {
@@ -132,6 +131,28 @@
 
             renderPage = true;
         }
+    }
+
+    const getPublicItems = (items) => {
+        let publicItems = [];
+
+        // remove unpublished top-level items (standard items and container items)
+        publicItems = items.filter((item) => {
+            return item.is_published == true;
+        });
+
+        // remove unpublished from container item 'items' array
+        publicItems.forEach(({items = null}, index) => {
+            if(items) {
+                items = items.filter((item) => {
+                    return item.is_published == true;
+                });
+
+                publicItems[index].items = items;
+            }
+        });
+
+        return publicItems;
     }
 
     const importFonts = () => {
