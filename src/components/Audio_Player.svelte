@@ -28,7 +28,7 @@
 
 <div class="audio-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded}} />
+        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded, type: "audio"}} />
 
     {:else}
         <div class="audio">

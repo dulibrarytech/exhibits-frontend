@@ -28,12 +28,12 @@
 
 <div class="video-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded, mimeType}} />
+        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded, mimeType, type: "video"}} />
     
     {:else}
         <div class="video">
             {#if embedCode}
-                <Embed_Code_Content code={embedCode} /> <!-- Enforce <video></video> in embed code string. EmbedCode removes <script> code-->
+                <Embed_Code_Content code={embedCode} />
             {:else if url}
                 <div class="content">   
                     {#if mimeType}

@@ -20,20 +20,24 @@
         isEmbedded = false,
         mimeType = null,
         height = kalturaPlayerHeight,
-        width = kalturaPlayerWidth
+        width = kalturaPlayerWidth,
+        type = "video"
 
     } = args;
 
+    console.log("init kaltura player: type:", type)
+
     let kalturaUrl = null;
 
-    let videoPlayer;
     let previewImageUrl;
     let contentSection;
     let iframeSection;
     let iframeElement;
+    let iframeLoadMessage;
     let previewElement;
     let previewImageElement;
-    let videoElement;
+    let htmlPlayerElement;
+    let htmlPlayer;
 
     $: {
         if(isEmbedded) {
@@ -49,7 +53,9 @@
     }
 
     const onLoadIframe = () => {
+        console.log("TEST iframe is loaded")
         iframeSection.style.visibility = "visible";
+        iframeLoadMessage.style.display = "none";
 
         window.addEventListener('resize', function(event) {
             iframeElement.src = iframeElement.src;
@@ -62,9 +68,8 @@
 
     const onClickKalturaPreview = (event) => {
         previewElement.style.display = "none";
-        videoElement.style.display = "block";
-        videoPlayer.play()
-
+        htmlPlayerElement.style.display = "block";
+        htmlPlayer.play();
     }
 
     const onImageLoadError = () => {
@@ -80,11 +85,22 @@
                 <img class="preview-icon" src="../assets/images/play-button-icon-png-18919.png" />
             </div>
 
-            <div class="embedded-video" style="display: none" bind:this={videoElement}>
-                <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={videoPlayer} ></video>
-            </div>
+            {#if type == "audio"}
+                <div class="embedded-audio" style="display: none" bind:this={htmlPlayerElement}>
+                    <audio src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} ></audio>
+                </div>
+            {:else if type == "video"}
+                <div class="embedded-video" style="display: none" bind:this={htmlPlayerElement}>
+                    <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} ></video>
+                </div>
+            {:else}
+                <h6>Invalid media type</h6>
+            {/if}
 
         {:else}
+            <div class="player-load-message" bind:this={iframeLoadMessage}>
+                <h5>Loading Kaltura player...</h5>
+            </div>
             <div class="iframe-wrapper" bind:this={iframeSection}>
                 <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} {width} {height} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
                 <div class="subframe-content"></div>
@@ -93,10 +109,10 @@
         {/if}
 
     {:else}
-        <div class="load-message">
-            <h5>Loading Kaltura player...</h5>
+        <div class="player-load-message" bind:this={iframeLoadMessage}>
+            <h6>Null Kaltura entry id</h6>
         </div>
-
+        
     {/if}
 </div>
 
@@ -151,7 +167,9 @@
         height: 100%;
     }
 
-    .links {
-        margin-top: 15px;
+    .player-load-message {
+        position: relative;
+        top: 50%;
+        left: calc(50% - 100px);
     }
 </style>
