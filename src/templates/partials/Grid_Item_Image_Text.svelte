@@ -38,7 +38,7 @@
 
         if(date) date = new Date(date).toLocaleDateString();
 
-        if(!item.layout) item.layout = (type == ITEM_TYPE.TEXT) ? MEDIA_POSITION.TEXT_ONLY : MEDIA_POSITION.MEDIA_ONLY;
+        if(!item.layout) item.layout = (type == ITEM_TYPE.TEXT) ? MEDIA_POSITION.TEXT_ONLY : MEDIA_POSITION.TOP;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
     }
 
@@ -60,8 +60,6 @@
     {/if}
 
     <Item_Display {item} template={Item} args={{showTitle: true, showPreview: true}} on:click-item />
-
-    {#if description && description.length > 0}<div class="description">{description}</div>{/if}
 </div>
 
 <style>
@@ -76,11 +74,6 @@
 
     .date-heading {
         font-size: 1em;
-    }
-
-    .description {
-        font-size: 0.8em;
-        margin-top: 20px;
     }
 
     :global(.grid-item .title-heading) {
