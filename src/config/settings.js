@@ -56,7 +56,7 @@ export const Settings = {
      * thumbnail images
      */
     placeholderImageHeight: "",
-    placeholderImageWidth: "400",
+    placeholderImageWidth: "250",
     placeholderImage: {
         'DEFAULT': "image-tn.png",
         [ITEM_TYPE.IMAGE]: "image-tn.png",

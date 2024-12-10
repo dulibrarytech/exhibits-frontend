@@ -16,7 +16,7 @@
     export let height = null;
 
     let {resourceLocation} = Configuration;
-    let {placeholderImage} = Settings; 
+    let {placeholderImage, placeholderImageWidth} = Settings; 
 
     let itemPreviewElement;
     let previewImageElement;
@@ -201,6 +201,9 @@
         margin-top: unset;
         margin-left: unset;
         margin-right: unset;
+        width: 250px;
+        min-width: 250px;
+        max-width: 250px;
     }
 
     .caption {
