@@ -25,8 +25,6 @@
 
     } = args;
 
-    console.log("init kaltura player: type:", type)
-
     let kalturaUrl = null;
 
     let previewImageUrl;
@@ -53,7 +51,6 @@
     }
 
     const onLoadIframe = () => {
-        console.log("TEST iframe is loaded")
         iframeSection.style.visibility = "visible";
         iframeLoadMessage.style.display = "none";
 
