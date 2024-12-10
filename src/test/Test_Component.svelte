@@ -19,6 +19,7 @@
     import Repository_Related_Items_test from './components/Repository_Related_Items_test.svelte';
     import PDFJS_Viewer_test from './components/PDFJS_Viewer_test.svelte';
     import Kaltura_Content_test from './components/Kaltura_Content_test.svelte';
+    import Item_Grid_test from './components/Item_Grid_test.svelte';
 
     export let currentRoute;
 
@@ -36,7 +37,8 @@
         Vertical_Timeline_test,
         Repository_Related_Items_test,
         PDFJS_Viewer_test,
-        Kaltura_Content_test
+        Kaltura_Content_test,
+        Item_Grid_test
     }
 
     let component;
