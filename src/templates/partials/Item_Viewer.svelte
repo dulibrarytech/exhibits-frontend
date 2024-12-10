@@ -1,6 +1,6 @@
 <script>	
     import Media_Display from '../../components/Media_Display.svelte';
-	import Text_Display from '../../components/Text_Display.svelte';
+	import Text_Item from '../../components/Text_Item.svelte';
 
 	import {stripHtmlTags} from '../../libs/data_helpers';
 
@@ -21,7 +21,7 @@
 		date = item.date || null;
 		caption = item.caption || null;
 
-		if(date) date = new Date(date).toLocaleDateString(); // TODO Remove this if not used in the item viewer
+		if(date) date = new Date(date).toLocaleDateString();
 
 		if(item.text) item.text = stripHtmlTags(item.text);
 		else item.text = item.description || item.caption || "No text available";
@@ -43,15 +43,13 @@
 
 				{#if title}<hr><div class="title">{title}</div><hr><br>{/if}
 
-				<!-- TODO There is no current requirement to show the date in the item viewer. This conflicts with any date used in the title string. -->
-				<!-- {#if date}<div class="date">{date}</div><br>{/if} -->
-
 				{#if caption}<div class="caption">{caption}</div><br>{/if}
 				
 				<div class="text-section">
 					<h5>Exhibit text:</h5>
 					<hr>
-					<Text_Display {item} />
+
+					<Text_Item {item} {title} />
 				</div>
 
 				{#if itemData}

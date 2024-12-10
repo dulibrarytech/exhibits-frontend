@@ -3,6 +3,16 @@
 
     export let item;
     export let title=null;
+
+    let text = null;
+    if(item.description) text = item.description;
 </script>
 
-<Text_Item {item} {title} />
+<div class="text-display">
+    {#if title}
+        <div class="title">{title}</div>
+        <hr>
+        <br>
+    {/if}
+    <Text_Item {item} {text} />
+</div>
