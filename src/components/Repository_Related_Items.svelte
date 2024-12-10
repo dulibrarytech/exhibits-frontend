@@ -87,6 +87,11 @@
             itemDisplayData.thumbnail = Repository.getItemThumbnailDatastreamUrl(id);
 
             subjectData = itemData[METADATA_FIELD][SUBJECT_FIELD];
+            if(!subjectData || subjectData.length == 0) {
+               Logger.module().info(`Repository Related Items: subject data not found for repository item: ${id}. Can't retrieve related items`)
+               continue;
+            }
+
             subject = (typeof subjectData == 'string') ? subjectData[SUBJECT_SUBFIELD] : subjectData[0][SUBJECT_SUBFIELD];
             itemDisplayData.subject = subject;
 
