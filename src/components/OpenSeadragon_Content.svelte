@@ -37,8 +37,8 @@
             });
 
             viewer.addHandler('open-failed', function(error) {
-                Logger.module().error(`Error loading OpenSeadragon viewer: ${error}`);
-                dispatch('load-error', {error});
+                Logger.module().error(`Error loading OpenSeadragon viewer: ${error.message}`);
+                dispatch('load-error', {error: error.message});
                 throw `Viewer load failed: ${url}`;
             });
         }
