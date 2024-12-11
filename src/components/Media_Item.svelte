@@ -34,6 +34,7 @@
     let title;
     let caption;
     let layout;
+    let isEmbedded;
 
     var filename;
     var component;
@@ -61,6 +62,7 @@
         caption = args.caption || item.caption || null;
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
         layout = item.layout || null;
+        isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false;
 
         if(title) title = stripHtmlTags(title);
 
@@ -134,7 +136,7 @@
     const renderStandardImageViewer = () => {
         let url = media;
         let imageType = itemType;
-        let isTileImage = false;
+        let isTileImage = !isEmbedded;
 
         if(viewerType == VIEWER_TYPE.STATIC) {
             isTileImage = false;
@@ -155,7 +157,7 @@
     const renderLargeImageViewer = () => {
         let url = media;
         let imageType = itemType;
-        let isTileImage = true;
+        let isTileImage = !isEmbedded;
 
         if(URL_PATTERN.test(url) == false) {
             if(viewerType == VIEWER_TYPE.STATIC) {
