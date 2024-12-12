@@ -201,9 +201,6 @@
         margin-top: unset;
         margin-left: unset;
         margin-right: unset;
-        width: 250px;
-        min-width: 250px;
-        max-width: 250px;
     }
 
     .caption {
