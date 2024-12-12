@@ -61,7 +61,7 @@
 <div class="exhibit-template">
     {#if displayItems}
         <div class="exhibit-items">
-            {#each displayItems as {uuid = "", type = "", text = "", anchorId = null, is_visible = null}, index}
+            {#each displayItems as {uuid = "", type = "", text = "", anchorId = null, is_visible = null, is_embedded = false}, index}
 
                 <div class="exhibit-item" id={uuid}>
 
@@ -79,7 +79,8 @@
                     
                     <!--exhibit item - row layout -->
                     {:else if type == ENTITY_TYPE.ITEM}
-                        <Item_Display id={anchorId} item={displayItems[index]} template={Item} args={{showPreview: true}} on:click-item on:mount-template-item={onMountTemplateItem} />
+                        <!-- <Item_Display id={anchorId} item={displayItems[index]} template={Item} args={{showPreview: true}} on:click-item on:mount-template-item={onMountTemplateItem} /> -->
+                        <Item_Display id={anchorId} item={displayItems[index]} template={Item} args={{showPreview: !is_embedded, isTemplateItem: true}} on:click-item on:mount-template-item={onMountTemplateItem} />
                     {/if}
 
                 </div>

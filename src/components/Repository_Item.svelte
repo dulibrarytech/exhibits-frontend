@@ -23,7 +23,8 @@
     const PARENT_COLLECTION_ID = "is_member_of_collection";
 
     let{
-        showPreview = false
+        showPreview = false,
+        isTemplateItem = false
     } = args;
 
     if(!repositoryItemId) repositoryItemId = args.id || item.media || null;
@@ -40,6 +41,8 @@
             let repoItemType = getItemTypeForMimeType( data[MIME_TYPE_FIELD] || "unknown_repository_type" );
             repositoryItem.item_type = repoItemType;
 
+            let isImage = (repositoryItem.item_type == ITEM_TYPE.LARGE_IMAGE || repositoryItem.item_type == ITEM_TYPE.IMAGE);
+
             // get parent collection data
             let collectionData = await Repository.getItemData(data[PARENT_COLLECTION_ID]);
             data['collection_id'] = collectionData[ID_FIELD] || null;
@@ -53,8 +56,13 @@
             if(showPreview) {
                 repositoryItem.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
             }
-            else if(repositoryItem.item_type == ITEM_TYPE.LARGE_IMAGE || repositoryItem.item_type == ITEM_TYPE.IMAGE) {
-                repositoryItem.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null );
+            else if(isImage) { 
+                if(isTemplateItem) {
+                    repositoryItem.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
+                }
+                else {
+                    repositoryItem.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null );
+                }
             }
             else {
                 repositoryItem.media = Repository.getItemDatastreamUrl( data[ID_FIELD] || null ); 

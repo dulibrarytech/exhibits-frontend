@@ -59,11 +59,10 @@
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
         mediaPadding = item.media_padding ?? true;
         wrapText    = item.wrap_text ?? true;
-        isEmbedded  = item.is_embedded || false;
+        isEmbedded  = item.is_embedded || false; 
         styles      = item.styles || null;
 
         // set member variables
-        showPreview = !isEmbedded;
         itemElementId = id;
 
         // ensure the text items use the TEXT_ONLY layout
