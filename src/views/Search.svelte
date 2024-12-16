@@ -17,6 +17,7 @@
     var limitOptions = null;
     var facets = [];
     var searchParams = {};
+    var message = null;
 
     let terms;
     let boolean;
@@ -27,6 +28,8 @@
     let exhibitId;
 
     const init = async () => {
+        message = "Searching...";
+
         terms = currentRoute.queryParams.q?.split(',') || "";
         fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
         boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
@@ -37,25 +40,35 @@
 
         if(cache) facets = Cache.getSearchData()?.selectedFacets || [];
 
+        let response = false;
         if(validateUrlParameters()) {
-            await executeSearch();
+            response = await executeSearch();
         }
         else {
-            // TODO display error message in view "an error occurred when executing the search"
             Logger.module().error("Search error: Invalid query params");
         }
-    }
-  
-    const executeSearch = async () => {
-        let response = await Search.execute({terms, boolean, fields, exhibitId, page, facets});
         
-        results = response.results || [];
-        limitOptions = response.limitOptions || null;
+        message = response == true ? null : message = "An error occurred when executing the search.";
+    }
 
-        searchParams.totalResults = response.resultCount || null;
-        searchParams.searchType = exhibitId ? SEARCH_TYPE.SEARCH_EXHIBIT : SEARCH_TYPE.SEARCH_ALL;
-        searchParams.pageNumber = page;
-        searchParams.resultsPerPage = 10;
+    const executeSearch = async () => {
+        try {
+            let response = await Search.execute({terms, boolean, fields, exhibitId, page, facets});
+            
+            results = response.results || [];
+            limitOptions = response.limitOptions || null;
+
+            searchParams.totalResults = response.resultCount || null;
+            searchParams.searchType = exhibitId ? SEARCH_TYPE.SEARCH_EXHIBIT : SEARCH_TYPE.SEARCH_ALL;
+            searchParams.pageNumber = page;
+            searchParams.resultsPerPage = 10;
+
+            return true;
+        }
+        catch(error) {
+            Logger.module().error(`Search error: ${error}`);
+            return false;
+        }
     }
 
     const validateUrlParameters = () => {
@@ -138,8 +151,8 @@
                 {results} 
                 {facets} 
                 {limitOptions} 
-                {terms} 
-                {searchParams} 
+                {terms}
+                {searchParams}
 
                 on:click-facet={onSelectFacet} 
                 on:click-clear-facets={onResetFacets} 
@@ -149,8 +162,11 @@
             />
 
         {:else}
-            <h3>Please wait...</h3>
-            <!-- <h5>{message}<h5> -->
+            {#if message}
+                <div class="message">
+                    <h5>{message}</h5>
+                </div>        
+            {/if}
         {/if}
     </div>
 </div>

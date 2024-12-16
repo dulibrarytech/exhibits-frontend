@@ -85,6 +85,10 @@ main.container {
 	padding: 50px 0;
 }
 
+.message {
+	color: #181818;
+}
+
 footer {
 	flex-shrink: 0;
 	min-height: 150px;
