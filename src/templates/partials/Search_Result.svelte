@@ -45,21 +45,18 @@
 </script>
 
 <section class="search-result-item">
-    <a class="image-link" href={link}>
+    <div class="image-link">
         {#if type == ENTITY_TYPE.EXHIBIT}
-            <Exhibit_Preview exhibit={result} width="200" height="200" />
+            <Exhibit_Preview exhibit={result} link={result.link} width="200" height="200" />  
+
         {:else}
-
             {#if isRepoItem}
-                <!-- TODO if(test TN cache (cache.js) for [repoitemid.ext] file, if present, render <Cache_Thumbnail item={result} ) -->
-
-                <Repository_Item id={null} item={result} args={{showPreview:true, isLink:false}} template={Item_Preview} on:click-item on:mount-template-item />
+                <Repository_Item id={null} item={result} args={{showPreview:true, link: (result.link || false)}} template={Item_Preview} on:click-item on:mount-template-item />
             {:else}
-                <Item_Preview item={result} width="200" args={{isLink:false}} />
+                <Item_Preview item={result} width="200" args={{link: (result.link || false)}} />
             {/if}
-
         {/if}
-    </a>
+    </div>
 
     <div class="search-result-item-body">
         <div class="row">
@@ -138,6 +135,10 @@
         border-bottom-left-radius: 4px
     }
 
+    .search-result-item-heading {
+        margin-bottom: 1rem;
+    }
+
     @media (min-width:768px) {
         .search-result-item .image-link {
             display: inline-block;
@@ -175,12 +176,6 @@
 
     .search-result-item-heading>a {
         color: #555
-    }
-
-    @media (min-width:768px) {
-        .search-result-item-heading {
-            margin: 0
-        }
     }
 
     a.expand-text-link {

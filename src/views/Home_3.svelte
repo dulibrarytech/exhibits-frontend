@@ -13,7 +13,7 @@
     import { Cache } from '../libs/cache';
 
     import Search_Box from '../components/Search_Box.svelte';
-    import Exhibit_Preview_Grid from '../templates/Exhibit_Preview_Grid.svelte';
+    import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
 
     export let currentRoute;
 

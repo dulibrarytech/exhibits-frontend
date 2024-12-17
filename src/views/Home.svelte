@@ -9,7 +9,7 @@
 
     import Hero_Slider from '../components/Hero_Slider.svelte';
     import Search_Box from '../components/Search_Box.svelte';
-    import Exhibit_Preview_Grid from '../templates/Exhibit_Preview_Grid.svelte';
+    import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
 
     var exhibits = null;
     var featuredExhibits = null;

@@ -1,20 +1,24 @@
 <script>
     'use strict'
     
+    import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js'; 
 
     export let exhibit = {};
+    export let link = null;
     export let width = null;
     export let height = null;
 
     let titleTextElement;
 
-    let exhibitPath;
+    let exhibitId;
     let thumbnail;
     let heroImage;
     let title;
     let subtitle;
     let styles;
+
+    const dispatch = createEventDispatcher();
 
     const RESOURCE = new ResourceUrl(exhibit.uuid);
 
@@ -24,7 +28,7 @@
     $: init();
 
     const init = () => {
-        exhibitPath = `/exhibit/${exhibit.uuid}`;
+        exhibitId = exhibit.uuid;
         thumbnail = exhibit.thumbnail_image || null;
         heroImage = exhibit.hero_image || null;
         title = exhibit.title || "";
@@ -46,16 +50,20 @@
             });
         }
     }
+
+    const onClickPreview = (event) => {
+        let exhibitId = event.target.getAttribute('data-exhibit-id');
+        if(exhibitId) dispatch('click-preview', {exhibitId});
+        if(link) window.location.replace(link);
+    }
 </script>
 
 <div class="exhibit-preview">
-    {#if exhibitPath}
-        <a href={exhibitPath} bind:this={titleTextElement}> 
-            <div class="exhibit-thumbnail">
-                <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
-            </div>
-        </a>
-    {/if}
+    <a href={link || undefined} data-exhibit-id={exhibitId} bind:this={titleTextElement} on:click|stopPropagation|preventDefault={onClickPreview}>
+        <div class="exhibit-thumbnail">
+            <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
+        </div>
+    </a>
 </div>
 
 <style>
