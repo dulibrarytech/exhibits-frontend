@@ -5,6 +5,7 @@
     import * as Logger from '../libs/logger.js';
 
     import { ITEM_TYPE } from '../config/global-constants.js';
+    import { Settings } from '../config/settings.js';
     
     export let id = null; // dom element id
     export let item = {};
@@ -22,7 +23,7 @@
     const MIME_TYPE_FIELD = "mime_type";
     const PARENT_COLLECTION_ID = "is_member_of_collection";
 
-    let{
+    let {
         showPreview = false,
         isTemplateItem = false
     } = args;
@@ -41,7 +42,8 @@
             let repoItemType = getItemTypeForMimeType( data[MIME_TYPE_FIELD] || "unknown_repository_type" );
             repositoryItem.item_type = repoItemType;
 
-            let isImage = (repositoryItem.item_type == ITEM_TYPE.LARGE_IMAGE || repositoryItem.item_type == ITEM_TYPE.IMAGE);
+            let isImage = (repositoryItem.item_type == ITEM_TYPE.LARGE_IMAGE || repositoryItem.item_type == ITEM_TYPE.IMAGE); // TODO: replace exhitits app types with repoItemTypes
+            let isAudioVideo = (repositoryItem.item_type == ITEM_TYPE.AUDIO || repositoryItem.item_type == ITEM_TYPE.VIDEO); // TODO: replace exhitits app types with repoItemTypes
 
             // get parent collection data
             let collectionData = await Repository.getItemData(data[PARENT_COLLECTION_ID]);
@@ -52,20 +54,30 @@
             repositoryItem['data_display'] = getItemDisplayData(data);
             repositoryItem['repository_data'] = data;
 
-            // get the media url to access the repository item preview image, image tilesource or object datastream based on item type
+            // update the media field for the repository item
             if(showPreview) {
                 repositoryItem.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
             }
             else if(isImage) { 
                 if(isTemplateItem) {
+                    // image is displayed on the exhibit template
                     repositoryItem.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
                 }
                 else {
+                    // image is displayed in the item viewer
                     repositoryItem.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null );
                 }
             }
             else {
-                repositoryItem.media = Repository.getItemDatastreamUrl( data[ID_FIELD] || null ); 
+                // kaltura a/v item
+                if(isAudioVideo && data['entry_id']) {
+                    repositoryItem.is_kaltura_item = 1;
+                    repositoryItem.media = data['entry_id'];
+                }
+                // non-kaltura a/v item
+                else {
+                    repositoryItem.media = Repository.getItemDatastreamUrl( data[ID_FIELD] || null ); 
+                }
             }
 
             Logger.module().info(`Repository fetch successful`);
@@ -80,7 +92,7 @@
     const getItemDisplayData = (item) => {
         let display = [];
 
-        // display local id
+        // add local identifier
         let localIdentifier = item.display_record.identifiers.find((identifier) => {
             return identifier.type == 'local';
         }).identifier;
@@ -89,14 +101,14 @@
             "value": localIdentifier
         });
 
-        // link to object
+        // add link to object
         let objectLink = Repository.getItemUrl(item.pid || 'null');
         display.push({
             "label": null,
             "value": `<a href="${objectLink}" target="_blank">Record in the University Libraries' Digital Repository</a>`
         });
 
-        // link to collection
+        // add link to collection
         if(item.is_member_of_collection) {
             let collectionLink = Repository.getCollectionUrl(item.collection_id || 'null');
             display.push({
