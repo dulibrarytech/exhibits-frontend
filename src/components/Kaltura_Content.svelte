@@ -77,16 +77,17 @@
 <div class="kaltura-content content" bind:this={contentSection}>
     {#if kalturaUrl}
         {#if isEmbedded}
-            <div class="preview" bind:this={previewElement}>
-                <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} on:keypress={onClickKalturaPreview} on:error={onImageLoadError} bind:this={previewImageElement}/> 
-                <img class="preview-icon" src="../assets/images/play-button-icon-png-18919.png" />
-            </div>
-
             {#if type == "audio"}
-                <div class="embedded-audio" style="display: none" bind:this={htmlPlayerElement}>
+                <!-- TODO add TN img here (persisted) -->
+                <div class="embedded-audio" style="" bind:this={htmlPlayerElement}>
                     <audio src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} ></audio>
                 </div>
             {:else if type == "video"}
+                <div class="preview" bind:this={previewElement}>
+                    <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} on:keypress={onClickKalturaPreview} on:error={onImageLoadError} bind:this={previewImageElement}/> 
+                    <img class="preview-icon" src="../assets/images/play-button-icon-png-18919.png" />
+                </div>
+
                 <div class="embedded-video" style="display: none" bind:this={htmlPlayerElement}>
                     <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} ></video>
                 </div>
