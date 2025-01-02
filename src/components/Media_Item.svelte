@@ -27,6 +27,7 @@
     let mediaElement;
 
     let media;
+    let thumbnail;
     let itemType;
     let mimeType;
     let viewerType;
@@ -56,6 +57,7 @@
         component = null;
 
         media = args.media || item.media || null;
+        thumbnail = item.thumbnail || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
         title = args.title || item.title || null;
@@ -84,6 +86,12 @@
 
             default:
                 viewerHeight = VIEWER_HEIGHT_SMALL;
+        }
+
+        if(thumbnail) {
+            if(URL_PATTERN.test(thumbnail) == false) {
+                thumbnail = RESOURCE.getFileUrl(thumbnail);
+            }
         }
 
         if(!media) {
@@ -185,7 +193,7 @@
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
-        let thumbnailImage = item.thumbnail ? RESOURCE.getFileUrl(item.thumbnail) : null;
+        let thumbnailImage = thumbnail;
 
         params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Audio_Player;
@@ -196,7 +204,7 @@
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
-        let thumbnailImage = item.thumbnail ? RESOURCE.getFileUrl(item.thumbnail) : null;
+        let thumbnailImage = thumbnail;
         
         params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Video_Player;
