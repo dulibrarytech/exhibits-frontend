@@ -24,6 +24,11 @@
     const PARENT_COLLECTION_ID = "is_member_of_collection";
 
     let {
+        repositoryItemTypes = {}
+
+    } = Settings;
+
+    let {
         showPreview = false,
         isTemplateItem = false
     } = args;
@@ -53,6 +58,9 @@
             // append the repository data to the item
             repositoryItem['data_display'] = getItemDisplayData(data);
             repositoryItem['repository_data'] = data;
+
+            // if the user thumbnail has not been set, assign the repository thumbnail path
+            if(!repositoryItem.thumbnail) repositoryItem.thumbnail = Repository.getItemThumbnailDatastreamUrl(repositoryItemId);
 
             // update the media field for the repository item
             if(showPreview) {
