@@ -56,7 +56,7 @@
         </header>
 
         <div class="card__content">
-            {#if description && description.length > 0}<p class="description">{description}</p>{/if}
+            {#if description && description.length > 0}<p class="description">{@html description}</p>{/if}
 
             {#if media} 
                 <div class="preview">
