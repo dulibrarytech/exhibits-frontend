@@ -37,9 +37,9 @@
             {:else if url}
                 <div class="content">   
                     {#if mimeType}
-                        <video src={url} type={mimeType} controls></video>
+                        <video src={url} type={mimeType} controls poster={thumbnailImage || undefined}></video>
                     {:else}
-                        <video src={url} controls></video>
+                        <video src={url} controls poster={thumbnailImage || undefined}></video>
                     {/if}
                 </div>
             {:else}
