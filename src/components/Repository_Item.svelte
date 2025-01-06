@@ -47,8 +47,9 @@
             let repoItemType = getItemTypeForMimeType( data[MIME_TYPE_FIELD] || "unknown_repository_type" );
             repositoryItem.item_type = repoItemType;
 
-            let isImage = (repositoryItem.item_type == ITEM_TYPE.LARGE_IMAGE || repositoryItem.item_type == ITEM_TYPE.IMAGE); // TODO: replace exhitits app types with repoItemTypes
-            let isAudioVideo = (repositoryItem.item_type == ITEM_TYPE.AUDIO || repositoryItem.item_type == ITEM_TYPE.VIDEO); // TODO: replace exhitits app types with repoItemTypes
+            // set the item type flags
+            let isImage = (repositoryItem.item_type == repositoryItemTypes[ITEM_TYPE.LARGE_IMAGE] || repositoryItem.item_type == repositoryItemTypes[ITEM_TYPE.IMAGE]);
+            let isAudioVideo = (repositoryItem.item_type == repositoryItemTypes[ITEM_TYPE.AUDIO] || repositoryItem.item_type == repositoryItemTypes[ITEM_TYPE.VIDEO]);
 
             // get parent collection data
             let collectionData = await Repository.getItemData(data[PARENT_COLLECTION_ID]);
