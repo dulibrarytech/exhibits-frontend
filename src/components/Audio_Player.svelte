@@ -11,7 +11,8 @@
         mimeType=null,
         kalturaId=null,
         isEmbedded=false,
-        thumbnailImage=null
+        thumbnailImage=null,
+        errorThumbnailImage=null
         
     } = args;
 
@@ -27,6 +28,10 @@
 </script>
 
 <div class="audio-player">
+    {#if isEmbedded && thumbnailImage}
+        <img class="thumbnail" src={thumbnailImage} />
+    {/if}
+
     {#if kalturaId}
         <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded, type: "audio"}} />
 
@@ -36,12 +41,15 @@
                 <Embed_Code_Content code={embedCode} />
                 
             {:else if url}
-                <div class="content">   
-                    {#if mimeType}
+                <div class="content">
+                    <!-- UPDATE type param assn -->
+                    <!-- {#if mimeType}
                         <audio src={url} type={mimeType} controls></audio> 
                     {:else}
                         <audio src={url} controls></audio>
-                    {/if}
+                    {/if} -->
+
+                    <audio src={url} type={mimeType || undefined} controls></audio>
                 </div>
 
             {:else}
@@ -55,7 +63,13 @@
 </div>
 
 <style>
-    .audio {
-        padding: 0 30px;
+    .audio-player {
+        padding: 0;
+    }
+
+    .thumbnail {
+        width: 100%;
+        height: 100%;
+        margin-bottom: 15px;
     }
 </style>
