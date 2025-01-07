@@ -256,12 +256,16 @@
 
         <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
 
-            <div class="exhibit-menubar row">
-                <div class="col-md-6 col-lg-8 col-xl-9">
-                    <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
-                </div>
-                <div class="col-md-6 col-lg-4 col-xl-3 exhibit-search">
-                    <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
+            <div class="container exhibit-menubar">
+                <div class="row">
+
+                    <div class="col-md-6 col-lg-8 col-xl-9 exhibit-links">
+                        <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3 exhibit-search">
+                        <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
+                    </div>
+
                 </div>
             </div>
         
@@ -300,10 +304,20 @@
         display: flex;
         padding: 0 1rem;
         background: white;
+        max-width: unset;
+    }
+
+    .exhibit-menubar > .row {
+        width: 100%;
+        margin-left: unset;
+    }
+
+    .exhibit-links {
+        padding-left: unset;
     }
 
     .exhibit-search {
-        padding: 20px 6px;
+        padding: 8px 0 8px calc(var(--bs-gutter-x) * .5);
     }
 
     :global(.exhibit-search .search-box form) {
@@ -321,11 +335,5 @@
         padding-left: 10px;
         color: #000000;
         font-family: Arial, Helvetica, sans-serif;
-    }
-
-    @media screen and (min-width: 768px) {
-        .exhibit-search {
-            padding: 8px 6px;
-        }
     }
 </style>
