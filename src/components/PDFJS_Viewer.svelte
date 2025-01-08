@@ -44,7 +44,43 @@
   
   <style>
     pdfjs-viewer-element {
-      height: 100vh;
+      height: 122vw;
+    }
+
+    /* begin responsive breakpoints: small mobile devices/phones first ^ */
+    @media screen and (min-width: 575px) {
+      /* start of portrait tablet styles */
+      pdfjs-viewer-element {
+        height: 657px;
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      /* start of landscape/large tablet styles */
+      pdfjs-viewer-element {
+        height: 440px;
+      }
+    }
+
+    @media screen and (min-width: 992px) {
+      /* start of large tablet styles */
+      pdfjs-viewer-element {
+        height: 530px;
+      }
+    }
+
+    @media screen and (min-width: 1200px) {
+      /* start of medium/large desktop styles */
+      pdfjs-viewer-element {
+        height: 647px;
+      }
+    }
+
+    @media screen and (min-width: 1400px) {
+      /* start of extra large desktop styles */
+      pdfjs-viewer-element {
+        height: 745px;
+      }
     }
   </style>
   
