@@ -306,13 +306,16 @@
     .item a { color: inherit }
 
     .item-padding {
-        padding-top: 4.5rem;
-        padding-bottom: 4.5rem;
+        /* padding-top: 4.5rem;
+        padding-bottom: 4.5rem; */
+        padding-top: 2.65em;
+        padding-bottom: 2.65em;
     }
 
     .title-heading {
         text-transform: uppercase;
-        margin: 0 0 4.5rem 0;
+        /* margin: 0 0 4.5rem 0; */
+        margin: 0 0 1.55em 0;
     }
 
     .title-padding {

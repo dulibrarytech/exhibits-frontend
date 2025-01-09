@@ -53,8 +53,8 @@
     }
 
     .section-heading {
-        padding-top: 0.632em; 
-        padding-bottom: 0.632em; 
+        padding-top: 0.532em; 
+        padding-bottom: 0.532em; 
         text-transform: uppercase;
     }
 
