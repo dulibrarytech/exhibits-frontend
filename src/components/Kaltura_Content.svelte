@@ -69,7 +69,7 @@
         htmlPlayer.play();
     }
 
-    const onImageLoadError = () => {
+    const onPreviewImageLoadError = () => {
         previewImageElement.src = Kaltura.getThumbnailUrl(entryId, 1000, 1000);
     }
 </script>
@@ -78,14 +78,19 @@
     {#if kalturaUrl}
         {#if isEmbedded}
             {#if type == "audio"}
-                <!-- TODO add TN img here (persisted) -->
+                {#if previewImageUrl}
+                    <div class="preview" bind:this={previewElement}>
+                        <img class="preview-image audio-preview-image" src={previewImageUrl}  on:error={onPreviewImageLoadError}/>
+                    </div>
+                {/if}
+
                 <div class="embedded-audio" style="" bind:this={htmlPlayerElement}>
                     <audio src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} ></audio>
                 </div>
             {:else if type == "video"}
                 <div class="preview" bind:this={previewElement}>
-                    <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} on:keypress={onClickKalturaPreview} on:error={onImageLoadError} bind:this={previewImageElement}/> 
-                    <img class="preview-icon" src="../assets/images/play-button-icon-png-18919.png" />
+                    <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/> 
+                    <img class="video-preview-overlay" src="../assets/images/play-button-icon-png-18919.png" />
                 </div>
 
                 <div class="embedded-video" style="display: none" bind:this={htmlPlayerElement}>
@@ -143,7 +148,11 @@
         height: 100%;
     }
 
-    .preview-icon {
+    .audio-preview-image {
+        margin-bottom: 15px;
+    }
+
+    .video-preview-overlay {
         width: 128px;
         height: 128px;
         position: absolute;

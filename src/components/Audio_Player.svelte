@@ -28,21 +28,25 @@
 </script>
 
 <div class="audio-player">
-    {#if isEmbedded && thumbnailImage}
+    <!-- {#if isEmbedded && thumbnailImage}
         <img class="thumbnail" src={thumbnailImage} />
-    {/if}
+    {/if} -->
 
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded, type: "audio"}} />
+        <Kaltura_Content entryId={kalturaId} preview={null} args={{isEmbedded, type: "audio"}} />
 
     {:else}
+        {#if isEmbedded && thumbnailImage}
+            <img class="thumbnail" src={thumbnailImage} />
+        {/if}
+
         <div class="audio">
             {#if embedCode}
                 <Embed_Code_Content code={embedCode} />
                 
             {:else if url}
                 <div class="content">
-                    <!-- UPDATE type param assn -->
+                    <!-- UPDATE type param assignment -->
                     <!-- {#if mimeType}
                         <audio src={url} type={mimeType} controls></audio> 
                     {:else}
