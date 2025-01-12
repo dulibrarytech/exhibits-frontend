@@ -104,11 +104,18 @@
 
     .text {
 		height: 100%;
+		position: relative;
 	}
 
+	.text-section {
+		height: unset;
+	} 
+
 	.data-section {
-		margin-top: 20px;
 		display: inline-grid;
+		margin-top: 50px;
+		position: relative;
+		bottom: unset;
 	}
 
 	.data-section ul {
@@ -121,11 +128,11 @@
 	}
 
 	.media-display-container {
-		height: 50%;
+		height: 75%;
 	}
 
 	.text-display-container {
-		height: 50%;
+		padding-left: 0;
 	}
 
 	:global(.data-section li a) {
@@ -140,7 +147,7 @@
 	}
 
 	:global(.item-viewer .media-item .caption) {
-		color: black;
+		display: none;
 	}
 
 	:global(.item-viewer .openseadragon-container) {
@@ -156,7 +163,7 @@
 	}
 
 	:global(.item-viewer .text-item) {
-		max-height: 100%;
+		max-height: 75%;
     	overflow-y: scroll;
 	}
 
@@ -213,5 +220,21 @@
 		.text-display-container {
 			height: 100%;
 		}
+
+		.text-section {
+			height: 75%;
+		}
+
+		.data-section {
+			margin-top: 0;
+			position: absolute;
+			bottom: 0;
+		}
     }
+
+	@media screen and (max-width: 992px) {
+		.text-display-container {
+			padding-right: 0;
+		}
+	}
 </style>

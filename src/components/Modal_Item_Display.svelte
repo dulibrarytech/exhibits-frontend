@@ -14,7 +14,9 @@
         height: 100%;
     }
 
-    :global(.modal-item-display .item-viewer .text-section) {
-        height: 69%;
-    } 
+    @media screen and (max-width: 992px) {
+        .modal-item-display {
+            padding-right: 0;
+        }
+    }
 </style>
