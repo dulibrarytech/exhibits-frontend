@@ -6,20 +6,15 @@
 
     let descriptionElement;
 
+
     onMount(async () => {
         if(styles) {
             Object.assign(descriptionElement.style, styles);
         }
-
-        let userStyleSection = document.querySelector(".exhibit-description > div");
-        if(userStyleSection) {
-            descriptionElement.classList.remove('padding');
-        }
-
-});
+    });
 </script>
 
-<div class="exhibit-description-section padding" bind:this={descriptionElement}>
+<div class="exhibit-description-section" bind:this={descriptionElement}>
     <div class="exhibit-description">
         {@html content}
     </div>
@@ -37,7 +32,6 @@
         line-height: 1.45em;
     }
 
-    .padding,
     :global(.exhibit-description > div) {
         padding: 1.5em 1.5em;
     }
@@ -52,44 +46,40 @@
 
     /* begin responsive breakpoints: small mobile devices/phones first ^ */
     @media screen and (min-width: 480px) {
-        .exhibit-description {
+        /* .exhibit-description {
             font-size: 1.0em;
-        }
+        } */
 
-        .padding,
         :global(.exhibit-description > div) {
             padding: 2.5em 3.5em;
         }
     }
 
     @media screen and (min-width: 768px) {
-        .exhibit-description {
+        /* .exhibit-description {
             font-size: 1.1em;
-        }
+        } */
 
-        .padding,
         :global(.exhibit-description > div) {
             padding: 3.5em 4.5em;
         }
     }
 
     @media screen and (min-width: 992px) {
-        .exhibit-description {
+        /* .exhibit-description {
             font-size: 1.15em;
-        }
+        } */
 
-        .padding,
         :global(.exhibit-description > div) {
             padding: 3.5em 5.5em;
         }
     }
 
     @media screen and (min-width: 1280px) {
-        .exhibit-description {
+        /* .exhibit-description {
             font-size: 1.2em;
-        }
+        } */
 
-        .padding,
         :global(.exhibit-description > div) {
             padding: 3.5em 6.5em;
         }
