@@ -306,16 +306,15 @@
     .item a { color: inherit }
 
     .item-padding {
-        /* padding-top: 4.5rem;
-        padding-bottom: 4.5rem; */
         padding-top: 2.65em;
         padding-bottom: 2.65em;
     }
 
     .title-heading {
+        margin: 0 0 0.75em 0;
         text-transform: uppercase;
-        /* margin: 0 0 4.5rem 0; */
-        margin: 0 0 1.55em 0;
+        font-size: 1.736842em;
+        letter-spacing: 0.05em;
     }
 
     .title-padding {
@@ -390,6 +389,11 @@
     .width-66 {width: 100%}
     .width-67 {width: 100%}
     .width-75 {width: 100%}
+
+    :global(.caption) {
+        font-size: 0.842105em;
+        font-style: italic;
+    }
 
     :global(.item p:not(:last-child)) {
         margin-bottom: 2.5rem;

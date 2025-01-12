@@ -19,16 +19,22 @@
 });
 </script>
 
-<div class="exhibit-description padding" bind:this={descriptionElement}>
-    {@html content}
+<div class="exhibit-description-section padding" bind:this={descriptionElement}>
+    <div class="exhibit-description">
+        {@html content}
+    </div>
 </div>
 
 <style>
-    .exhibit-description {
+    .exhibit-description-section {
         height: 100%;
-        font-size: 1.0em;
-        line-height: 1.45em;
         background-color: gray;
+    }
+
+    .exhibit-description {
+        font-size: 1.263158em;
+        letter-spacing: 0.032599em;
+        line-height: 1.45em;
     }
 
     .padding,

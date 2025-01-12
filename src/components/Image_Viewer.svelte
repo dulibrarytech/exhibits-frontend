@@ -71,9 +71,4 @@
         width: 100%;
         height: 100%;
     }
-
-    .caption {
-        font-style: italic;
-        font-size: 0.8em;
-    }
 </style>

@@ -99,12 +99,15 @@
         text-decoration: none;
         color: inherit;
         font-style: italic;
+        font-size: 0.842105em;
     }
 
+    /* affects title heading in item and all grids */
     :global(.title-heading) {
         font-weight: bold;
-        font-size: 1.737em;
         text-transform: uppercase;
+        font-size: 1.736842em;
+        letter-spacing: 0.05em;
         line-height: 1.45em;
     }
 </style>

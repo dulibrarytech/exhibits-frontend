@@ -60,7 +60,7 @@
 
     .section-heading h3 {
         margin-bottom: 0;
-        letter-spacing: 2px;
+        letter-spacing: 0.06383em; /* 7pt or 3px when 47px base font size */
         font-size: inherit;
     }
 

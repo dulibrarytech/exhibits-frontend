@@ -272,8 +272,6 @@
         margin-top: 1rem;
         text-decoration: none;
         color: inherit;
-        font-style: italic;
-        font-size: 0.8em;
         line-height: 1.5em;
     }
 </style>
