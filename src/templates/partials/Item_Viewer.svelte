@@ -41,7 +41,7 @@
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
 			<div class="text">
 
-				{#if title}<hr><div class="title">{title}</div><hr><br>{/if}
+				{#if title}<hr style="margin-top: 0px"><div class="title">{title}</div><hr><br>{/if}
 
 				{#if caption}<div class="caption">{caption}</div><br>{/if}
 				
