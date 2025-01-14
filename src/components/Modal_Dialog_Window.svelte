@@ -87,7 +87,6 @@
 
     .dialog-content {
 		height: 100%;
-		overflow-y: scroll;
 	}
 
 	.dialog-controls {
@@ -95,8 +94,8 @@
 	}
 
 	.display-content {
-		/* height: calc(50% - 50px); */
 		height: 100%;
+		overflow-y: scroll;
 	}
 
     dialog {
@@ -160,7 +159,9 @@
 
     @media screen and (min-width: 992px) {
         /* start of large tablet styles */
-
+		.display-content {
+			overflow-y: clip;
+		}
     }
 
     @media screen and (min-width: 1280px) {
