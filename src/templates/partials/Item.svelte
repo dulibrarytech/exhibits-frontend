@@ -395,6 +395,10 @@
         font-style: italic;
     }
 
+    :global(.item .media:not(.media-padding) .caption) {
+        margin-bottom: 3.15em;
+    }
+
     :global(.item p:not(:last-child)) {
         margin-bottom: 2.5rem;
     }
