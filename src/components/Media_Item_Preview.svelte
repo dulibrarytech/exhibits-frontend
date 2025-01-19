@@ -55,15 +55,23 @@
         isPlaceholderImage = false;
         preview = null;
 
+        // has thumbnail, is local resource (not a url)
         if(thumbnail && URL_PATTERN.test(thumbnail) == false) {
             preview = RESOURCE.getFileUrl(thumbnail);
         }
+
+        // has thumbnail, is url
         else if(thumbnail && URL_PATTERN.test(thumbnail) == true) {
             preview = thumbnail;
         }
+
+        // no thumbnail, resource value is a url
         else if(URL_PATTERN.test(resource) == true) {
             preview = resource;
         }
+
+        // no thumbnail, resource value is not a url (is either kaltura id, repository item id, or local resource filename)
+        // determine and assign the preview source uri
         else {
             preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : RESOURCE.getItemPlaceholderImageUrl(null);
         }

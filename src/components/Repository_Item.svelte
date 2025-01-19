@@ -39,12 +39,12 @@
         Logger.module().info(`Fetching data from repository... Repo item id: ${repositoryItemId}`);
 
         try {
-            let data = await Repository.getItemData(repositoryItemId);
+            let repositoryData = await Repository.getItemData(repositoryItemId);
             repositoryItem = structuredClone(item);
             repositoryItem['pid'] = repositoryItemId;
 
             // set the exhibit item type to the repository item type
-            let repoItemType = getItemTypeForMimeType( data[MIME_TYPE_FIELD] || "unknown_repository_type" );
+            let repoItemType = getItemTypeForMimeType( repositoryData[MIME_TYPE_FIELD] || "unknown_repository_type" );
             repositoryItem.item_type = repoItemType;
 
             // set the item type flags
@@ -52,41 +52,51 @@
             let isAudioVideo = (repositoryItem.item_type == repositoryItemTypes[ITEM_TYPE.AUDIO] || repositoryItem.item_type == repositoryItemTypes[ITEM_TYPE.VIDEO]);
 
             // get parent collection data
-            let collectionData = await Repository.getItemData(data[PARENT_COLLECTION_ID]);
-            data['collection_id'] = collectionData[ID_FIELD] || null;
-            data['collection_name'] = collectionData[TITLE_FIELD] || null;
+            let collectionData = await Repository.getItemData(repositoryData[PARENT_COLLECTION_ID]);
+            repositoryData['collection_id'] = collectionData[ID_FIELD] || null;
+            repositoryData['collection_name'] = collectionData[TITLE_FIELD] || null;
 
             // append the repository data to the item
-            repositoryItem['data_display'] = getItemDisplayData(data);
-            repositoryItem['repository_data'] = data;
+            repositoryItem['data_display'] = getItemDisplayData(repositoryData);
+            repositoryItem['repository_data'] = repositoryData;
 
-            // if the user thumbnail has not been set, assign the repository thumbnail path
-            if(!repositoryItem.thumbnail) repositoryItem.thumbnail = Repository.getItemThumbnailDatastreamUrl(repositoryItemId);
-
-            // update the media field for the repository item
-            if(showPreview) {
-                repositoryItem.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
-            }
-            else if(isImage) { 
+            // update the media and thumbnail fields with repository sources
+            if(isImage) { 
+                // image is displayed on the exhibit template
                 if(isTemplateItem) {
-                    // image is displayed on the exhibit template
-                    repositoryItem.media = await Repository.getPreviewImageUrl( data[ID_FIELD] || null );
+                    repositoryItem.media = Repository.getItemImageDatastreamUrl( repositoryData[ID_FIELD] || null );
+                    repositoryItem.thumbnail = Repository.getItemImageDatastreamUrl(repositoryItemId);
                 }
+                // image is displayed in the item viewer
                 else {
-                    // image is displayed in the item viewer
-                    repositoryItem.media = Repository.getIIIFTilesourceUrl( data[ID_FIELD] || null );
+                    repositoryItem.media = Repository.getIIIFTilesourceUrl( repositoryData[ID_FIELD] || null );
+
+                    if(showPreview) {
+                        // use repository jpg derivative for preview images on the exhibit template
+                        repositoryItem.thumbnail = Repository.getItemImageDatastreamUrl(repositoryItemId);
+                    }
+                    else {
+                        // use repository thumbnail for other cases
+                        repositoryItem.thumbnail = Repository.getItemThumbnailDatastreamUrl(repositoryItemId);
+                    }
+                }
+            }
+            else if(isAudioVideo) {
+                // kaltura items
+                if(repositoryData['entry_id']) {
+                    repositoryItem.is_kaltura_item = 1;
+                    repositoryItem.media = datrepositoryDataa['entry_id'];
+                    repositoryItem.thumbnail = Repository.getItemThumbnailDatastreamUrl(repositoryItemId);
+                }
+                // non kaltura items
+                else {
+                    repositoryItem.media = Repository.getItemDatastreamUrl( repositoryData[ID_FIELD] || null );
+                    repositoryItem.thumbnail = Repository.getItemThumbnailDatastreamUrl(repositoryItemId);
                 }
             }
             else {
-                // kaltura a/v item
-                if(isAudioVideo && data['entry_id']) {
-                    repositoryItem.is_kaltura_item = 1;
-                    repositoryItem.media = data['entry_id'];
-                }
-                // non-kaltura a/v item
-                else {
-                    repositoryItem.media = Repository.getItemDatastreamUrl( data[ID_FIELD] || null ); 
-                }
+                repositoryItem.media = Repository.getItemDatastreamUrl( repositoryData[ID_FIELD] || null );
+                repositoryItem.thumbnail = Repository.getItemThumbnailDatastreamUrl(repositoryItemId);
             }
 
             Logger.module().info(`Repository fetch successful`);
