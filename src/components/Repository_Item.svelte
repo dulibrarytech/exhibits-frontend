@@ -62,7 +62,7 @@
 
             // update the media and thumbnail fields with repository sources
             if(isImage) { 
-                // image is displayed on the exhibit template
+                // image is displayed on the exhibit template (embedded items)
                 if(isTemplateItem) {
                     repositoryItem.media = Repository.getItemImageDatastreamUrl( repositoryData[ID_FIELD] || null );
                     repositoryItem.thumbnail = Repository.getItemImageDatastreamUrl(repositoryItemId);
