@@ -311,7 +311,7 @@
     }
 
     .title-heading {
-        margin: 0 0 0.75em 0;
+        margin: 0 0 1.15em 0;
         text-transform: uppercase;
         font-size: 1.736842em;
         letter-spacing: 0.05em;
