@@ -162,9 +162,13 @@
         if(link) window.location.replace(link);
     }
 
-    const onImageLoadError = () => {
-        previewImageElement.src = `${resourceLocation}/${placeholderImage[itemType || 'DEFAULT']}`;
-        isPlaceholderImage = true;
+    const onImageLoadError = (event) => {
+        let placeholderImageUrl = `${resourceLocation}/${placeholderImage[itemType || 'DEFAULT']}`;
+
+        if(event.target.src.includes(placeholderImageUrl) == false) {
+            previewImageElement.src = placeholderImageUrl;
+            isPlaceholderImage = true;
+        }
     }
 </script>
 
@@ -201,6 +205,7 @@
         margin-top: unset;
         margin-left: unset;
         margin-right: unset;
+        max-width: 200px;
     }
 
     .caption {
