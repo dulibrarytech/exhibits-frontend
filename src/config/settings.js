@@ -60,6 +60,7 @@ export const Settings = {
     placeholderImage: {
         'DEFAULT': "image-tn.png",
         [ITEM_TYPE.IMAGE]: "image-tn.png",
+        [ITEM_TYPE.LARGE_IMAGE]: "image-tn.png",
         [ITEM_TYPE.AUDIO]: "audio-tn.png",
         [ITEM_TYPE.VIDEO]: "video-tn.png",
         [ITEM_TYPE.PDF]: "pdf-tn.png"
