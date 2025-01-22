@@ -88,6 +88,10 @@
         font-size: 41px;
     }
 
+    .title-text {
+        align-content: center;
+    }
+
     @media screen and (min-width: 576px) {
         #title {
             font-size: 52px;
