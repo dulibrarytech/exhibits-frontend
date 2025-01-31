@@ -83,7 +83,6 @@
 
     const getPreviewUrl = async (itemType, media, width=null, height=null) => {
         let url = "";
-
         switch(itemType) {
             case ITEM_TYPE.IMAGE:
                 url = RESOURCE.getIIIFImageUrl(media, width, height);

@@ -83,8 +83,8 @@
             relatedItems = []
 
             itemDisplayData.title = itemData.title || "Untitled Item";
-            itemDisplayData.link = Repository.getLinkToItem(id);
-            itemDisplayData.thumbnail = Repository.getItemThumbnailDatastreamUrl(id);
+            itemDisplayData.link = itemData.link_to_item || null;
+            itemDisplayData.thumbnail = itemData.thumbnail_datastream || null;
 
             subjectData = itemData[METADATA_FIELD][SUBJECT_FIELD];
             if(!subjectData || subjectData.length == 0) {
@@ -107,8 +107,8 @@
                for(let index of randomNumbers) {
                   relatedItems.push({
                      title: results[index].title || "Untitled",
-                     link: Repository.getLinkToItem(results[index].pid),
-                     thumbnail: results[index].tn || "null"
+                     link: results[index].link_to_item || "null",
+                     thumbnail: results[index].thumbnail_datastream || "null"
                   });
                }
             }
@@ -116,8 +116,8 @@
                for(let result of results) {
                   relatedItems.push({
                      title: result.title || "Untitled",
-                     link: Repository.getLinkToItem(result.pid),
-                     thumbnail: result.tn || "null"
+                     link: result.link_to_item,
+                     thumbnail: result.thumbnail_datastream || "null"
                   });
                }
             }

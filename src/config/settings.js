@@ -87,25 +87,6 @@ export const Settings = {
     heroSliderAutoplayDuration: 5000,
 
     /*
-     * repository 
-     */
-    repositoryObjectDataEndpoint: "/repository/data/{item_id}",
-    repositoryObjectEndpoint: "/object/{item_id}",
-    repositoryCollectionEndpoint: "/object/{collection_id}",
-    repositoryDatastreamUrl: "/datastream/{item_id}",
-    repositoryThumbnailDatastreamEndpoint: "/tn",
-    repositoryImageDatastreamEndpoint: "/jpg",
-    repositoryObjectDatastreamEndpoint: "/object",
-
-    repositoryItemTypes: {
-        [ITEM_TYPE.IMAGE]:        "image",
-        [ITEM_TYPE.LARGE_IMAGE]:  "large_image",
-        [ITEM_TYPE.AUDIO]:        "audio",
-        [ITEM_TYPE.VIDEO]:        "video",
-        [ITEM_TYPE.PDF]:          "pdf"
-    },
-
-    /*
      * Time period for exhibit to be displayed in the 'Recently Added' exhibits section
      * In days  (e.g. 30 days: an exhibit is no longer shown in the 'recently added' section if it was added > 30 days ago)
      */

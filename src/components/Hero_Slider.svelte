@@ -4,12 +4,15 @@
     import { onMount } from 'svelte';
 
     import { Settings } from '../config/settings';
-    import { Resource } from '../libs/resource';
+    import ResourceUrl from '../libs/ResourceUrl';
     import { Banners } from '../templates/config/hero-banner';
     import Carousel from 'svelte-carousel';
     import * as Logger from '../libs/logger.js';
 
+    export let exhibit = {};
     export let items = [];
+
+    const Resource = new ResourceUrl(exhibit.uuid);
 
     const DEFAULT_HERO_IMAGE = Settings.defaultHeroImage || null;
     const DEFAULT_BANNER = Settings.defaultBannerTemplate;

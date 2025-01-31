@@ -22,40 +22,12 @@
 'use strict'
 
 import axios from 'axios';
-
 import { Configuration } from '../config/config.js';
-import { Settings } from '../config/settings.js';
-import { getItemTypeForMimeType } from '../libs/media_helpers';
-import * as Logger from './logger.js';
-
-import {ITEM_TYPE} from '../config/global-constants';
 
 const SEARCH_RESULT_PAGE_SIZE = 30;
 
-let apiKey = "";
-
 export const Repository = (() => {
-    var {   
-            repositoryDomain,
-            repositoryApiKey,
-            repositoryIIIFServerUrl,
-            
-        } = Configuration;
-
-    var {
-        repositoryObjectEndpoint,
-        repositoryCollectionEndpoint,
-        repositoryObjectDataEndpoint,
-        repositoryDatastreamUrl,
-        repositoryThumbnailDatastreamEndpoint,
-        repositoryImageDatastreamEndpoint,
-        repositoryObjectDatastreamEndpoint
-
-    } = Settings;
-
-    if(repositoryApiKey) {
-        apiKey = `?key=${repositoryApiKey}`;
-    }
+    let {exhibitsApiDomain} = Configuration;
 
     /**
     * Fetches the item data from the repository
@@ -63,125 +35,41 @@ export const Repository = (() => {
     * @param {string} id - The item id
     */
     const getItemData = async (id) => {
-
+        let url = `${exhibitsApiDomain}/repository/data/${id}`;
         return new Promise(function(resolve, reject) {
-            let url = `${repositoryDomain}${(repositoryObjectDataEndpoint.replace("{item_id}", id))}${apiKey}`;
-
             axios.get(url)
                 .then(function (response) {
                     resolve(response.data);
                 })
-                .catch(function (e) {
-                    reject(e);
-                })
-                .finally(function () {
-                    // always executed
+                .catch(function (error) {
+                    reject(error);
                 });
         });
     }
 
     /**
-    * Returns the item resource datastream
-    *
-    * @param {string} id - The item id
-    * @param {string} streamId - {OBJECT|THUMBNAIL|IMAGE}
-    */
-    const getItemDatastream = async (id, streamId='') => {
-        let stream = null;
-        let url;
+     * storeItemSourceFile
+     *
+     * pings server to fetch and store the repository item source file in the exhibits resource storage
+     * 
+     */
+    const storeItemSourceFile = async (params) => {
+        let {
+            fileName = "",
+            filePath = "",
+            itemId = ""
+        } = params;
 
-        switch(streamId) {
-            case 'OBJECT':
-                url = getItemDatastreamUrl(id, streamId);
-                break;
-
-            case 'THUMBNAIL':
-                url = getItemThumbnailDatastreamUrl(id, streamId);
-                break;
-
-            case 'IMAGE':
-                url = getItemImageDatastreamUrl(id, streamId);
-                break;
-        }
-
-        try {
-            stream = await axios.get(url);
-        }
-        catch(e) {
-            Logger.module().error(`Error fetching repository datastream: ${e}`);
-        }
-        
-        return stream;
-    }
-
-    const getItemUrl = (id) => {
-        return `${repositoryDomain}${repositoryObjectEndpoint.replace("{item_id}", id)}${apiKey}`;
-    }
-
-    const getCollectionUrl = (id) => {
-        return `${repositoryDomain}${repositoryCollectionEndpoint.replace("{collection_id}", id)}${apiKey}`;
-    }
-
-    const getItemDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}${repositoryObjectDatastreamEndpoint}${apiKey}`;
-    }
-
-    const getItemThumbnailDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}${repositoryThumbnailDatastreamEndpoint}${apiKey}`;
-    }
-
-    const getItemImageDatastreamUrl = (id) => {
-        return `${repositoryDomain}${(repositoryDatastreamUrl.replace("{item_id}", id))}${repositoryImageDatastreamEndpoint}${apiKey}`;
-    }
-
-    const getIIIFJpgDerivativeUrl = (id) => {
-        return `${repositoryIIIFServerUrl}/iiif/2/${id}/full/full/0/default.jpg`;
-    }
-
-    const getIIIFTilesourceUrl = (id) => {
-        let url = null;
-        if(id) url = `${repositoryIIIFServerUrl}/iiif/2/${id}/info.json`;
-        return url;
-    }
-
-    const getPreviewImageUrl = async (id) => {
-        let url = null;
-        let object = await getItemData(id);
-
-        let mimeType = object.mime_type;
-        let itemType = getItemTypeForMimeType(mimeType) || "null";
-
-        switch(itemType) {
-            case ITEM_TYPE.IMAGE:
-                url = getItemImageDatastreamUrl(id);
-                break;
-
-            case ITEM_TYPE.LARGE_IMAGE:
-                url = getItemImageDatastreamUrl(id);
-                break;
-
-            case ITEM_TYPE.AUDIO:
-                url = getItemThumbnailDatastreamUrl(id);
-                break;
-
-            case ITEM_TYPE.VIDEO:
-                url = getItemThumbnailDatastreamUrl(id);
-                break;
-
-            case ITEM_TYPE.PDF:
-                url = getIIIFJpgDerivativeUrl(id);
-                break;
-
-            default:
-                Logger.module().error(`Invalid item type: ${itemType}, repository item mime type: ${mimeType}`);
-                break;
-        }
-
-        return url;
-    }
-
-    const getLinkToItem = (id) => {
-        return `${repositoryDomain}/object/${id}`;
+        let url = `${exhibitsApiDomain}/repository/source/fetch/${itemId}`;
+        return new Promise(function(resolve, reject) {
+            axios.post(url, {fileName, filePath})
+                .then(function (response) {
+                    resolve(true); // TODO: update for backend data object with 'status' bool
+                })
+                .catch(function (error) {
+                    reject(error);
+                });
+        });
     }
 
     const searchRepository = async (queryData = {}) => {
@@ -196,26 +84,25 @@ export const Repository = (() => {
         let queryString = `q=${query}`;
 
         for(let key in facets) {
-            queryString = queryString.concat(`&f[${key}][]=${facets[key].replace(/ /g, '+')}&pageSize=${SEARCH_RESULT_PAGE_SIZE}`);
+            // TODO: update to post facets only, construct url on backend
+            queryString = queryString.concat(`&f[${key}][]=${facets[key].replace(/ /g, '+')}&pageSize=${SEARCH_RESULT_PAGE_SIZE}`); 
         }
 
-        let url = `${repositoryDomain}/repository/search?${queryString}`;
-        results = await axios.get(url);
-
-        return results.data;
+        let url = `${exhibitsApiDomain}/repository/search`;
+        return new Promise(function(resolve, reject) {
+            axios.post(url, {queryString})
+                .then(function (response) {
+                    resolve(response.data); // return true or some other data here?
+                })
+                .catch(function (error) {
+                    reject(error);
+                });
+        });
     }
 
     return {
-        getItemUrl,
-        getCollectionUrl,
         getItemData,
-        getItemDatastream,
-        getItemDatastreamUrl,
-        getItemThumbnailDatastreamUrl,
-        getItemImageDatastreamUrl,
-        getIIIFTilesourceUrl,
-        getPreviewImageUrl,
-        getLinkToItem,
+        storeItemSourceFile,
         searchRepository
     };
 })()

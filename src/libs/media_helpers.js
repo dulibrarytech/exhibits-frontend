@@ -63,3 +63,11 @@ export const getItemTypeForFileExtension = (filename) => {
 
     return type;
 }
+
+/**
+ * Get the file extension
+ * @param {string} filename : Filename including extension
+ */
+export const getFileExtension = (filename) => {
+    return filename.substring( filename.lastIndexOf('.')+1 );
+}
