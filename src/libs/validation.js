@@ -4,14 +4,14 @@ import { Configuration } from '../config/config.js';
 import { USER_ROLE } from '../config/global-constants';
 
 let {
-    exhibitsClientApiKey = ""
+    exhibitsClientKey = ""
 
 } = Configuration;
 
 export const validateApiKey = (keyString) => {
     let isValid = false;
 
-    if(typeof keyString == 'string' && exhibitsClientApiKey.localeCompare(keyString.trim()) === 0) {
+    if(typeof keyString == 'string' && exhibitsClientKey.localeCompare(keyString.trim()) === 0) {
         isValid = true;
     }
 
