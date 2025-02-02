@@ -409,25 +409,25 @@
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
         content: "";
-        width: 20.65vw;
+        width: 100vw;
         height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
         top: 150px;
-        right: -166px;
+        /* right: -166px; */
         /* right: calc(9.65vw * 2) */
     }
 
     :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
         content: "";
-        width: 20.65vw;
+        width: 100vw;
         height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
         top: 150px;
-        left: -166px;
+        /* left: -166px; */
         /* left: calc(9.65vw * 2) */
     }
 
