@@ -27,7 +27,11 @@ import { Configuration } from '../config/config.js';
 const SEARCH_RESULT_PAGE_SIZE = 30;
 
 export const Repository = (() => {
-    let {exhibitsApiDomain} = Configuration;
+    let {
+        exhibitsApiDomain,
+        exhibitsApiKey
+
+    } = Configuration;
 
     /**
     * Fetches the item data from the repository
@@ -60,7 +64,7 @@ export const Repository = (() => {
             itemId = ""
         } = params;
 
-        let url = `${exhibitsApiDomain}/repository/source/fetch/${itemId}`;
+        let url = `${exhibitsApiDomain}/repository/source/fetch/${itemId}?key=${exhibitsApiKey}`;
         return new Promise(function(resolve, reject) {
             axios.post(url, {fileName, filePath})
                 .then(function (response) {
