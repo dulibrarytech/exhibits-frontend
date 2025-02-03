@@ -9,7 +9,6 @@
     export let args = {};
     export let template = null;
 
-    let _exhibitId;
     let _exhibitItem;
     let _exhibitItemId;
     let _repositoryItemId;
@@ -18,15 +17,11 @@
 
     const dispatch = createEventDispatcher();
 
-    const ID_FIELD = "pid";
-    const TITLE_FIELD = "title";
     const MIME_TYPE_FIELD = "mime_type";
-    const PARENT_COLLECTION_ID = "is_member_of_collection";
     const ITEM_SOURCE_URL_FIELD = "object";
 
     const init = async () => {
         _renderTemplate = false;
-        _exhibitId = item.is_member_of_exhibit || "";
         _exhibitItem = {};
         _exhibitItemId = item?.uuid || "null";
         _repositoryItemId = args.id || item.media || null;
@@ -48,7 +43,8 @@
         }
 
         try {
-            await fetchSourceFiles(); // replace with backend ping? (when repo item is created)
+            let fileExtension = getFileExtension(_exhibitItem.repository_data[ITEM_SOURCE_URL_FIELD]);
+            _exhibitItem.media = await Repository.getSourceFile(_repositoryItemId, fileExtension, _exhibitItemId);
             _renderTemplate = true;
         }
         catch(error) {
@@ -57,20 +53,6 @@
         }
 
         if(_renderTemplate == false) Logger.module().error(`Can't render repository item: Item id: ${item.uuid} Repository item id: ${_repositoryItemId}`);
-    }
-
-    // ping the api to fetch the repository item source (object) file and store it in the media storage folder
-    const fetchSourceFiles = async () => {
-        let fileExtension = getFileExtension(_exhibitItem.repository_data[ITEM_SOURCE_URL_FIELD]);
-
-        // TODO try/catch, assn media "" or default file on error
-        await Repository.storeItemSourceFile({
-            fileName: `${_exhibitItemId}.${fileExtension}`,
-            filePath: _exhibitId,
-            itemId: _repositoryItemId
-        });
-
-        _exhibitItem.media = `${_exhibitItemId}.${fileExtension}`;
     }
 
     // get the data for the exhibit item viewer

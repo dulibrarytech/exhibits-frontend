@@ -34,7 +34,7 @@ export const Repository = (() => {
     } = Configuration;
 
     /**
-    * Fetches the item data from the repository
+    * fetches the item data from the repository
     *
     * @param {string} id - The item id
     */
@@ -52,23 +52,19 @@ export const Repository = (() => {
     }
 
     /**
-     * storeItemSourceFile
      *
      * pings server to fetch and store the repository item source file in the exhibits resource storage
      * 
+     * * @param {string} repositoryItemId - The repository item id 
+     * 
      */
-    const storeItemSourceFile = async (params) => {
-        let {
-            fileName = "",
-            filePath = "",
-            itemId = ""
-        } = params;
-
-        let url = `${exhibitsApiDomain}/repository/source/fetch/${itemId}?key=${exhibitsApiKey}`;
+    const getSourceFile = (repositoryItemId, fileExtension, exhibitItemId) => {
+        let url = `${exhibitsApiDomain}/repository/source/fetch/${repositoryItemId}?key=${exhibitsApiKey}`;
         return new Promise(function(resolve, reject) {
-            axios.post(url, {fileName, filePath})
+            axios.post(url, {exhibitItemId, fileExtension})
                 .then(function (response) {
-                    resolve(true); // TODO: update for backend data object with 'status' bool
+                    let {fileName} = response.data;
+                    resolve(fileName);
                 })
                 .catch(function (error) {
                     reject(error);
@@ -77,8 +73,6 @@ export const Repository = (() => {
     }
 
     const searchRepository = async (queryData = {}) => {
-        let results = [];
-
         let { 
             query = "", 
             facets = null 
@@ -106,7 +100,7 @@ export const Repository = (() => {
 
     return {
         getItemData,
-        storeItemSourceFile,
+        getSourceFile,
         searchRepository
     };
 })()
