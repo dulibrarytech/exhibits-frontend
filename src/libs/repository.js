@@ -82,7 +82,6 @@ export const Repository = (() => {
         let queryString = `q=${query}`;
 
         for(let key in facets) {
-            // TODO: update to post facets only, construct url on backend
             queryString = queryString.concat(`&f[${key}][]=${facets[key].replace(/ /g, '+')}&pageSize=${SEARCH_RESULT_PAGE_SIZE}`); 
         }
 
@@ -90,7 +89,7 @@ export const Repository = (() => {
         return new Promise(function(resolve, reject) {
             axios.post(url, {queryString})
                 .then(function (response) {
-                    resolve(response.data); // return true or some other data here?
+                    resolve(response.data);
                 })
                 .catch(function (error) {
                     reject(error);

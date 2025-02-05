@@ -493,9 +493,7 @@
         :global(.media-bottom .placeholder-image) {
             max-width: 40%;
         }
-    }
 
-    @media screen and (min-width: 768px) {
         .media-left:not(.wrap-text) .media-padding {
             padding-right: 2.5em;
         }
