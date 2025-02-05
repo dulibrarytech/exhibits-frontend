@@ -4,7 +4,7 @@
         
     import Hero from '../components/Hero.svelte';
     import Navigation_Top from '../components/Navigation_Top.svelte';
-    import Exhibit_Description from './partials/Exhibit_Description.svelte';
+    import Exhibit_Introduction from './partials/Exhibit_Introduction.svelte';
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
     import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
     import Alert from '../components/Alert.svelte';
@@ -97,9 +97,7 @@
     </div>
 
     {#if data.description}
-        <div class="description-page-section">
-            <Exhibit_Description content={data.description} styles={styles?.template || null} /> 
-        </div>
+        <Exhibit_Introduction content={data.description} styles={styles?.template || null} /> 
     {/if}
 
     {#if alert }
