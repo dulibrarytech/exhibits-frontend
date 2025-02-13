@@ -44,7 +44,10 @@
 
         try {
             let fileExtension = getFileExtension(_exhibitItem.repository_data[ITEM_SOURCE_URL_FIELD]);
+            Logger.module().info(`Fetching media source file for exhibit item: ${_exhibitItemId}. Please wait...`);
             _exhibitItem.media = await Repository.getSourceFile(_repositoryItemId, fileExtension, _exhibitItemId);
+
+            Logger.module().info(`File fetch complete.`);
             _renderTemplate = true;
         }
         catch(error) {
