@@ -330,10 +330,10 @@
     }
 
     :global(.load-message) {
-        font-size: 0.8em;
         background-color: lightgreen;
         padding-left: 10px;
         color: #000000;
         font-family: Arial, Helvetica, sans-serif;
+        padding: 10px;
     }
 </style>

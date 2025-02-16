@@ -98,6 +98,12 @@
     <div class="repository-item">
         <svelte:component this={template} {id} item={_exhibitItem} {args} on:click-item on:mount-template-item />
     </div>
+
+{:else}
+    <div class="message">
+        <p>Loading item...</p>
+    </div>
+
 {/if}
 
 <style>
