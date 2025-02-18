@@ -12,9 +12,9 @@
 
    const REPOSITORY_ITEM_DISPLAY_COUNT = 4;
    const RELATED_ITEM_DISPLAY_COUNT = 4;
-   const METADATA_FIELD = "display_record";
-   const SUBJECT_FIELD = "subjects";
-   const SUBJECT_SUBFIELD = "title"
+   // const METADATA_FIELD = "display_record";
+   // const SUBJECT_FIELD = "subjects";
+   // const SUBJECT_SUBFIELD = "title"
 
    const init = async () => {
       
@@ -64,9 +64,6 @@
       let items = [];
       let itemData = {};
       let itemDisplayData = null;
-      let relatedItems = [];
-      let subject = "";
-      let subjectData = {};
 
       for(let id of repositoryItemIds) {
          itemDisplayData = {};
@@ -80,24 +77,18 @@
          }
 
          if(itemData) {
-            relatedItems = []
 
+            // set the data fields for the related items display
             itemDisplayData.title = itemData.title || "Untitled Item";
             itemDisplayData.link = itemData.link_to_item || null;
             itemDisplayData.thumbnail = itemData.thumbnail_datastream || null;
+            itemDisplayData.subject = itemData.subject;
 
-            subjectData = itemData[METADATA_FIELD][SUBJECT_FIELD];
-            if(!subjectData || subjectData.length == 0) {
-               Logger.module().info(`Repository Related Items: subject data not found for repository item: ${id}. Can't retrieve related items`)
-               continue;
-            }
-
-            subject = (typeof subjectData == 'string') ? subjectData[SUBJECT_SUBFIELD] : subjectData[0][SUBJECT_SUBFIELD];
-            itemDisplayData.subject = subject;
-
+            // search the repository for subject related items, append any results to the related items display
+            let relatedItems = [];
             let results = await Repository.searchRepository({
                facets: {
-                  "Subject": subject
+                  "Subject": itemData.subject
                }
             });
 
@@ -121,7 +112,6 @@
                   });
                }
             }
-
             itemDisplayData.relatedItems = relatedItems;
          }
          

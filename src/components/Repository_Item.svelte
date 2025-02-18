@@ -1,7 +1,8 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { getItemTypeForMimeType, getFileExtension } from '../libs/media_helpers';
+    import { getItemTypeForMimeType } from '../libs/media_helpers';
     import { Repository } from '../libs/repository';
+    import mime from 'mime';
     import * as Logger from '../libs/logger.js';
     
     export let id = null; // dom element id
@@ -17,9 +18,6 @@
 
     const dispatch = createEventDispatcher();
 
-    const MIME_TYPE_FIELD = "mime_type";
-    const ITEM_SOURCE_URL_FIELD = "object";
-
     const init = async () => {
         _renderTemplate = false;
         _exhibitItem = {};
@@ -28,12 +26,12 @@
 
         Logger.module().info(`Fetching data from repository... Repo item id: ${_repositoryItemId}`);
 
+        let repositoryData;
         try {
-            let repositoryData = await Repository.getItemData(_repositoryItemId);
+            repositoryData = await Repository.getItemData(_repositoryItemId);
             _exhibitItem = structuredClone(item);
-            _exhibitItem.item_type = getItemTypeForMimeType( repositoryData[MIME_TYPE_FIELD] || "unknown_repository_type" );
-            _exhibitItem.repository_data = repositoryData;
-            _exhibitItem.data_display = getItemDisplayData(repositoryData);
+            _exhibitItem.item_type = getItemTypeForMimeType( repositoryData.mime_type );
+            _exhibitItem.data_display = getDataDisplay(repositoryData);
 
             Logger.module().info(`Repository data fetch successful`);
         }
@@ -43,9 +41,9 @@
         }
 
         try {
-            let fileExtension = getFileExtension(_exhibitItem.repository_data[ITEM_SOURCE_URL_FIELD]);
+            let fileExtension = mime.getExtension(repositoryData.mime_type);
             Logger.module().info(`Fetching media source file for exhibit item: ${_exhibitItemId}. Please wait...`);
-            _exhibitItem.media = await Repository.getSourceFile(_repositoryItemId, fileExtension, _exhibitItemId);
+            _exhibitItem.media = await Repository.getResourceFile(_repositoryItemId, fileExtension, _exhibitItemId);
 
             Logger.module().info(`File fetch complete.`);
             _renderTemplate = true;
@@ -59,32 +57,35 @@
     }
 
     // get the data for the exhibit item viewer
-    const getItemDisplayData = (item) => {
+    const getDataDisplay = (repositoryData) => {
         let display = [];
-        let {link_to_item = "null", link_to_collection = "null"} = _exhibitItem.repository_data;
+
+        let {
+            link_to_item = "null", 
+            link_to_collection = "null", 
+            collection_name = "null",
+            collection_id = "null",
+            local_identifier = "null"
+
+        } = repositoryData;
 
         // add local identifier
-        let localIdentifier = item.display_record.identifiers.find((identifier) => {
-            return identifier.type == 'local';
-        }).identifier;
         display.push({
             "label": null,
-            "value": localIdentifier
+            "value": local_identifier
         });
 
         // add link to object
-        let objectLink = link_to_item;
         display.push({
             "label": null,
-            "value": `<a href="${objectLink}" target="_blank">Record in the University Libraries' Digital Repository</a>`
+            "value": `<a href="${link_to_item}" target="_blank">Record in the University Libraries' Digital Repository</a>`
         });
 
         // add link to collection
-        if(item.is_member_of_collection) {
-            let collectionLink = link_to_collection;
+        if(collection_id) {
             display.push({
                 "label": null,
-                "value": `<a href="${collectionLink}" target="_blank">${item.collection_name || "Parent Collection"}</a>`
+                "value": `<a href="${link_to_collection}" target="_blank">${collection_name || "Parent Collection"}</a>`
             });
         }
 
