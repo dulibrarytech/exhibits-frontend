@@ -22,7 +22,12 @@
 <style>
     .exhibit-introduction-section {
         height: 100%;
-        background-color: gray;
+
+        /* inherit user-customizable styles from the exhibit */
+        background-color: inherit;
+        font-size: inherit;
+        font-family: inherit;
+        color: inherit;
     }
 
     .exhibit-introduction {

@@ -107,7 +107,7 @@
     </div>
     
     {#if data.description}
-        <Exhibit_Introduction content={data.description} styles={styles?.template || null} />
+        <Exhibit_Introduction content={data.description} styles={styles?.inroduction || null} />
     {/if}
 
     {#if alert }
