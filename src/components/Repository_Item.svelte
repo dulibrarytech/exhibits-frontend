@@ -2,7 +2,6 @@
     import { createEventDispatcher } from 'svelte';
     import { getItemTypeForMimeType } from '../libs/media_helpers';
     import { Repository } from '../libs/repository';
-    import mime from 'mime';
     import * as Logger from '../libs/logger.js';
     
     export let id = null; // dom element id
@@ -41,9 +40,8 @@
         }
 
         try {
-            let fileExtension = mime.getExtension(repositoryData.mime_type);
             Logger.module().info(`Fetching media source file for exhibit item: ${_exhibitItemId}. Please wait...`);
-            _exhibitItem.media = await Repository.getResourceFile(_repositoryItemId, fileExtension, _exhibitItemId);
+            _exhibitItem.media = await Repository.getResourceFile(_repositoryItemId, _exhibitItemId);
 
             Logger.module().info(`File fetch complete.`);
             _renderTemplate = true;

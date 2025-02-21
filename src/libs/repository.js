@@ -58,13 +58,13 @@ export const Repository = (() => {
      * * @param {string} repositoryItemId - The repository item id 
      * 
      */
-    const getResourceFile = (repositoryItemId, fileExtension, exhibitItemId) => {
+    const getResourceFile = (repositoryItemId, exhibitItemId) => {
         let url = `${exhibitsApiDomain}/repository/resource/fetch/${repositoryItemId}?key=${exhibitsApiKey}`;
         return new Promise(function(resolve, reject) {
-            axios.post(url, {exhibitItemId, fileExtension})
+            axios.post(url, {exhibitItemId})
                 .then(function (response) {
-                    let {fileName} = response.data;
-                    resolve(fileName);
+                    let {mediaFile} = response.data;
+                    resolve(mediaFile);
                 })
                 .catch(function (error) {
                     reject(error);
