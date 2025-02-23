@@ -9,8 +9,8 @@
     import { navigateTo } from 'svelte-router-spa'
     import { Index } from '../libs/index.js';
     import { Settings } from '../config/settings.js';
-    import { stripHtmlTags } from '../libs/data_helpers';
-    import { Cache } from '../libs/cache';
+    import { stripHtmlTags } from '../libs/data_helpers.js';
+    import { Cache } from '../libs/cache.js';
 
     import Search_Box from '../components/Search_Box.svelte';
     import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';

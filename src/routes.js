@@ -1,4 +1,4 @@
-import Home from './views/Home.svelte';
+import Home_Page from './views/Home_Page.svelte';
 import Exhibit from './views/Exhibit.svelte';
 import Search from './views/Search.svelte';
 import Whats_On from './views/Whats_On.svelte';
@@ -10,19 +10,12 @@ import Test_View from './test/Test_View.svelte';
 
 import NotFound from './views/NotFound.svelte';
 
-import Home_2 from './views/Home_2.svelte';
-import Home_3 from './views/Home_3.svelte';
-
 const routes = [
     /**********************
      * root
      **********************/
-    {name: '/', component: Home_3},
-    {name: '/exhibits', component: Home_3},
-
-    // Test Home pages //
-    {name: '/home2', component: Home_2},
-    {name: '/home3', component: Home},
+    {name: '/', component: Home_Page},
+    {name: '/exhibits', component: Home_Page},
 
     /**********************
      * app pages
