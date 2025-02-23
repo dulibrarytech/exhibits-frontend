@@ -9,6 +9,7 @@
     const dispatch = createEventDispatcher();
 
     let viewer;
+    let loadMessage;
 
     const init = () => {
         viewer = null;
@@ -17,6 +18,7 @@
     init();
 
     onMount(async () => {
+        loadMessage.style.display = "block";
         try {
             Logger.module().info(`Openseadragon loading... url: ${url}`);
 
@@ -30,6 +32,10 @@
                 zoomOutButton: "openseadragon-zoom-out",
                 homeButton: "openseadragon-zoom-initial"
             })
+
+            viewer.addHandler('tile-drawn', function() {
+                loadMessage.style.display = "none";
+            });
 
             viewer.addHandler('open', function() {
                 Logger.module().info(`Openseadragon loaded successfully`);
@@ -61,12 +67,25 @@
         <button id="openseadragon-zoom-initial"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
 
-    <div class="openseadragon content" id="openseadragon1"></div>
+    <div class="openseadragon content" id="openseadragon1">
+
+        <div class="openseadragon-load-message" bind:this={loadMessage}>
+            Loading Openseadragon Viewer...
+        </div>
+
+    </div>
 </div>
 
 <style>
 .openseadragon {
     height: 81vh;
+
+    position: relative;
+}
+
+.openseadragon-load-message {
+    position: relative;
+    top: calc(50% - 50px);
 }
 
 .openseadragon-container {
