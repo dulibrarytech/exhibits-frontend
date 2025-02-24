@@ -99,9 +99,9 @@
     </div>
 
 {:else}
-    <div class="message">
+    <!-- <div class="message">
         <p>Loading item...</p>
-    </div>
+    </div> -->
 
 {/if}
 
