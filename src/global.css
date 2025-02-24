@@ -85,6 +85,10 @@ main.container {
 	padding: 50px 0;
 }
 
+.page > .container > h3 {
+	margin-bottom: 3.5rem;
+}
+
 .message {
 	color: #181818;
 }
