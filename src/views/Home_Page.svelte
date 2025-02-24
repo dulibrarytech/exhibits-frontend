@@ -9,7 +9,7 @@
     import { navigateTo } from 'svelte-router-spa'
     import { Index } from '../libs/index.js';
     import { Settings } from '../config/settings.js';
-    import { stripHtmlTags } from '../libs/data_helpers.js';
+    import { formatExhibitFields } from '../libs/exhibits_data_helpers.js';
     import { Cache } from '../libs/cache.js';
 
     import Search_Box from '../components/Search_Box.svelte';
@@ -17,28 +17,36 @@
 
     export let currentRoute;
 
-    let apiKey;
-
     let exhibits = null;
     let featuredExhibits = null;
     let recentExhibits = null;
     let publicExhibits = null;
-
     let searchFields = [];
-
     var message = "";
+
+    const EXHIBIT_FIELDS = {
+        TITLE: "title",
+        IS_FEATURED: "is_featured",
+        IS_PUBLISHED: "is_published",
+        IS_STUDENT: "is_student_curated",
+        CREATED: "created"
+    }
     
     const init = async () => {
-        apiKey = currentRoute.queryParams.key || null;
-
         searchFields = Object.keys(Settings.searchFields);
 
         message = "Retrieving exhibits...";
         exhibits = await Index.getExhibits();
 
         if(exhibits) {
+            // remove unpublished exhibits
             exhibits = exhibits.filter((exhibit) => {
-                return exhibit.is_published || false;
+                return exhibit[EXHIBIT_FIELDS.IS_PUBLISHED] || false;
+            });
+
+            // remove student curated exhibits
+            exhibits = exhibits.filter((exhibit) => {
+                return !exhibit[EXHIBIT_FIELDS.IS_STUDENT] || exhibit[EXHIBIT_FIELDS.IS_STUDENT] == false;
             });
 
             Cache.storeExhibits(exhibits);
@@ -65,7 +73,7 @@
 
     const getFeaturedExhibits = () => {
         let featured = exhibits.filter((exhibit) => {
-            return exhibit.is_featured || false;
+            return exhibit[EXHIBIT_FIELDS.IS_FEATURED] || false;
         });
 
         return featured.length > 0 ? featured : null;
@@ -77,20 +85,14 @@
         let minDate = new Date().setDate(new Date().getDate() - Settings.recentExhibitsPeriod)
 
         recentExhibits = exhibits.filter((exhibit) => {
-            if(exhibit.created && new Date(exhibit.created) >= minDate) return true;
+            if(exhibit[EXHIBIT_FIELDS.CREATED] && new Date(exhibit[EXHIBIT_FIELDS.CREATED]) >= minDate) return true;
             else return false;
 
         }).sort(function(a, b) {
-            return new Date(b.created) - new Date(a.created);
+            return new Date(b[EXHIBIT_FIELDS.CREATED]) - new Date(a[EXHIBIT_FIELDS.CREATED]);
         });
 
         return recentExhibits.length > 0 ? recentExhibits : null;
-    }
-
-    const formatExhibitFields = (exhibits) => {
-        exhibits.forEach((exhibit) => {
-            exhibit.title = stripHtmlTags(exhibit.title);
-        });
     }
 
     onMount(async () => {
@@ -140,7 +142,8 @@
 
 <style>
     .homepage h3 {
-        color: #8b2332;
+        /* color: #8b2332; */
+        color: #030303;
         padding: 15px 0;
         margin-bottom: 0;
     }
@@ -168,10 +171,8 @@
         padding: 0;
     }
 
-    /* begin responsive breakpoints: small mobile devices/phones first ^ */
     @media screen and (min-width: 480px) {
         /* start of portrait tablet styles */
-
     }
 
     @media screen and (min-width: 768px) {

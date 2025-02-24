@@ -17,6 +17,7 @@ export const Index = (() => {
 
     const API_DOMAIN = Configuration.exhibitsApiDomain;
     const EXHIBIT_ENDPOINT = API_DOMAIN + '/exhibit';
+    const STUDENT_EXHIBIT_ENDPOINT = API_DOMAIN + '/exhibit/student';
     const SEARCH_ENDPOINT = API_DOMAIN + '/search';
 
     /**
@@ -139,6 +140,7 @@ export const Index = (() => {
 
     return {
         getExhibits,
+        //getStudentCuratedExhibits,
         getExhibit,
         searchIndex
     }

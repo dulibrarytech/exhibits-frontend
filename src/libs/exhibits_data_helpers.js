@@ -60,6 +60,17 @@ export const sanitizeHtml = (string) => {
 
 /**
  * 
+ * @param {*} exhibits 
+ * @returns {object} exhibits
+ */
+export const formatExhibitFields = (exhibits) => {
+    exhibits.forEach((exhibit) => {
+        exhibit.title = stripHtmlTags(exhibit.title);
+    });
+}
+
+/**
+ * 
  * @param {*} object - exhibit data object
  * 
  * Iterates html-allowed user fields: decodes html entities and sanitizes html string
