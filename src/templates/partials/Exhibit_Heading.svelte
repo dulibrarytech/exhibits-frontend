@@ -10,13 +10,8 @@
     export let styles = null;
 
     let headingElement;
-    let isHtml;
 
     const dispatch = createEventDispatcher();
-
-    $: {
-        isHtml = (text.indexOf('div') > 0) ? true : false;
-    }
 
     export const setTheme = (styles) => {
         Object.assign(headingElement.style, styles);
@@ -37,11 +32,7 @@
     {#if display}
         <div class="section-heading container">
             <div class="section-title">
-                {#if isHtml}
-                    {@html text}
-                {:else}
-                    <h3>{text}</h3>
-                {/if}
+                {@html text}
             </div>
         </div>
     {/if}
