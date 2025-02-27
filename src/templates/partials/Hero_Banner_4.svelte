@@ -14,7 +14,6 @@
     export let args = {};
 
     let bannerElement;
-    let textElement;
 
     let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
@@ -24,17 +23,14 @@
     const BASE_SUBTITLE_FONT_SIZE = 68;
 
     const init = () => {
+        // allows title text to be responsive when user sets the font size of the title
         title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
+        subtitle = convertPxValuesToEm(subtitle, BASE_SUBTITLE_FONT_SIZE);
     }
 
     onMount(async () => {
         dispatch('mount', {});
         if(styles) Object.assign(bannerElement.style, styles);
-
-        let userStyleSection = document.querySelector("#title > div");
-        if(userStyleSection) {
-            textElement.classList.remove('padding');
-        }
     });
 
     init();
@@ -47,9 +43,15 @@
             <img src={image} alt={titleText} title={titleText} />
         </div>
 
-        <div class="title-text padding col-lg-5 col-md-6 col-sm-12" bind:this={textElement}>
-            <div id="title" class="text">{@html title}</div>
-            {#if subtitle}<hr><div id="subtitle" class="text">{@html subtitle}</div>{/if}
+        <div class="title-text col-lg-5 col-md-6 col-sm-12">
+            <div id="title" class="text">
+                {@html title}
+            </div>
+            {#if subtitle}
+                <div id="subtitle" class="text">
+                    {@html subtitle}
+                </div>
+            {/if}
         </div>
     </div>
 </div>
@@ -74,6 +76,10 @@
 
     .text {
         margin: 0.5em;
+    }
+
+    .title-text {
+        text-align: center;
     }
 
     #title {
