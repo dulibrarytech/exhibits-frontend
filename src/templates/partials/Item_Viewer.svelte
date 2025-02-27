@@ -79,7 +79,7 @@
 
 	.item-viewer {
 		height: 100%;
-		background: darkgray;
+		background: white;
 	}
 
 	.item-viewer > .row {
@@ -103,23 +103,26 @@
 	}
 
     .text {
-		height: 100%;
+		/* height: 100%; */
 		position: relative;
 	}
 
 	.text-section {
 		height: unset;
+		max-height: 60%;
 	} 
 
 	.data-section {
 		display: inline-grid;
 		margin-top: 50px;
+		/* margin-bottom: 50px; */
 		position: relative;
 		bottom: unset;
 	}
 
 	.data-section ul {
 		padding-left: 0;
+		margin-bottom: 0;
 	}
 
 	.data-section li {
@@ -163,8 +166,7 @@
 	}
 
 	:global(.item-viewer .text-item) {
-		max-height: 75%;
-    	overflow-y: scroll;
+		max-height: 70%;
 	}
 
 	:global(.item-viewer .text .text-item .text-content) {
@@ -213,6 +215,10 @@
 	}
 
 	@media screen and (min-width: 992px) {
+		.item-viewer {
+			background: darkgray;
+		}
+
 		.media-display-container {
 			height: 100%;
 		}
@@ -221,14 +227,24 @@
 			height: 100%;
 		}
 
+		.text {
+			height: 100%;
+			overflow-y: scroll;
+		}
+
 		.text-section {
-			height: 75%;
+			height: unset;
+
+			/* UPDATE */
+			/* max-height: 60%; */
+			overflow-y: scroll; 
 		}
 
 		.data-section {
 			margin-top: 0;
-			position: absolute;
-			bottom: 0;
+
+			/* UPDATE */
+			margin-top: 50px;
 		}
     }
 
