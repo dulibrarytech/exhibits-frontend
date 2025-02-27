@@ -75,7 +75,8 @@
     }
 
     .text {
-        margin: 0.5em;
+        margin: 0.1em;
+        padding-right: 30px;
     }
 
     .title-text {
