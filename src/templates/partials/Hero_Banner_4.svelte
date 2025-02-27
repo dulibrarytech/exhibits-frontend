@@ -80,6 +80,7 @@
 
     .title-text {
         text-align: center;
+        font-weight: bold;
     }
 
     #title {
