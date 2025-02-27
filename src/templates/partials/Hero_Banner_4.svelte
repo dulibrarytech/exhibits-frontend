@@ -39,11 +39,11 @@
 <div class="banner" bind:this={bannerElement}>
 
     <div class="row">
-        <div class="hero-image col-lg-7 col-md-6 col-sm-12">
+        <div class="hero-image col-xl-6 col-lg-6 col-md-5 col-sm-12">
             <img src={image} alt={titleText} title={titleText} />
         </div>
 
-        <div class="title-text col-lg-5 col-md-6 col-sm-12">
+        <div class="title-text col-xl-6 col-lg-6 col-md-7 col-sm-12">
             <div id="title" class="text">
                 {@html title}
             </div>
@@ -63,7 +63,7 @@
 
     .hero-image {
         position: relative;
-        padding: 2.5em;
+        padding: 44px;
     }
 
     .hero-image > img {
@@ -82,22 +82,16 @@
     .title-text {
         text-align: center;
         font-weight: bold;
+        align-content: center;
+        margin-bottom: 50px;
     }
 
     #title {
         font-size: 52px;
     }
 
-    :global(#title > div) {
-        padding-bottom: 3.5em;
-    }
-
     #subtitle {
         font-size: 41px;
-    }
-
-    .title-text {
-        align-content: center;
     }
 
     @media screen and (min-width: 576px) {
@@ -111,12 +105,16 @@
     }
 
     @media screen and (min-width: 768px) {
+        .hero-image {
+            padding: 11px;
+        }
+
         #title {
             font-size: 41px;
         }
 
-        :global(#title > div) {
-            padding-bottom: 0;
+        .title-text {
+            margin-bottom: 20px;
         }
 
         #subtitle {
@@ -125,6 +123,10 @@
     }
 
     @media screen and (min-width: 992px) {
+        .hero-image {
+            padding: 33px;
+        }
+
         #title {
             font-size: 52px;
         }
@@ -135,6 +137,10 @@
     }
 
     @media screen and (min-width: 1280px) {
+        .hero-image {
+            padding: 44px;
+        }
+
         #title {
             font-size: 68px;
         }
