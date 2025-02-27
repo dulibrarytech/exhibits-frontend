@@ -1,10 +1,10 @@
 <header class="du-header w-100 header-logo-wrapper">
     <span class="header-logo">
-        <a href="https://library.du.edu" title="University Libraries" target="_blank"><img src="../assets/images/logo3.gif" alt="University of Denver Logo" /></a>
+        <a href="https://library.du.edu" title="University Libraries" target="_blank" aria-label="university of denver libraries home page"><img src="../assets/images/logo3.gif" alt="University of Denver Logo" /></a>
     </span>
 
     <span class="site-link">
-        <a href="/">Exhibits @ DU</a>
+        <a href="/" aria-label="return to exhibits home page">Exhibits @ DU</a>
     </span>
 </header>
 
