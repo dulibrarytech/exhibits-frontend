@@ -67,9 +67,9 @@
 <div class="search-box">
   <form class="form-inline" action="/search" accept-charset="UTF-8" method="get">
     <div class="input-group flex-fill">
-      <input class="form-control" id="searchbox" type="search" bind:value={query} {placeholder} aria-label={placeholder}>
+      <input class="form-control" id="searchbox" title="Search" type="search" bind:value={query} {placeholder} aria-label={placeholder}>
       <div class="input-group-append">
-        <button type="button" on:click|preventDefault={search} class="btn btn-secondary button" data-disable-with="Search">Search</button>
+        <button type="button" title="Submit Search" on:click|preventDefault={search} class="btn btn-secondary button" data-disable-with="Search">Search</button>
       </div> 
     </div>
   </form>
