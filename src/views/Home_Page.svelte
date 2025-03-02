@@ -111,7 +111,7 @@
 
         {#if featuredExhibits}
             <div class="heading">
-                <h3>Featured</h3>
+                <h3>Featured Exhibits</h3>
             </div>
             <div class="preview-section">
                 <Exhibit_Preview_Grid exhibits={featuredExhibits} />

@@ -23,7 +23,7 @@
 </script>
 
 <div class="site-menu-toggle">
-    <a data-bs-toggle="collapse" href="#menu" role="button" aria-expanded="false" aria-controls="menu" aria-label="expand site menu">
+    <a data-bs-toggle="collapse" href="#menu" role="button" aria-expanded="false" aria-controls="menu" aria-label="expand site menu" title="Site Menu">
         <i class="bi bi-list"></i>
     </a>
 </div>

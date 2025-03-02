@@ -4,7 +4,7 @@
     </span>
 
     <span class="site-link">
-        <a href="/" aria-label="return to exhibits home page">Exhibits @ DU</a>
+        <a href="/" title="Exhibits Home Page" aria-label="return to exhibits home page">Exhibits @ DU</a>
     </span>
 </header>
 
