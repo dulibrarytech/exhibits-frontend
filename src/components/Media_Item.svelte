@@ -195,7 +195,7 @@
         let kalturaId = item.is_kaltura_item ? item.media : null;
         let thumbnailImage = thumbnail;
 
-        params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
+        params = {url, embedCode, title, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Audio_Player;
     }
 
@@ -206,7 +206,7 @@
         let kalturaId = item.is_kaltura_item ? item.media : null;
         let thumbnailImage = thumbnail;
         
-        params = {url, embedCode, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
+        params = {url, embedCode, title, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Video_Player;
     }
 

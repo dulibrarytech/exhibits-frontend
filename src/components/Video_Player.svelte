@@ -9,6 +9,7 @@
 
     let {
         url=null, 
+        title=null,
         embedCode=null, 
         mimeType=null,
         kalturaId=null,
@@ -18,6 +19,7 @@
     } = args;
 
     $: {
+        if(!title) title = "untitled video";
         render();
     }
 
@@ -28,7 +30,7 @@
 
 <div class="video-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded, mimeType, type: "video"}} />
+        <Kaltura_Content entryId={kalturaId} preview={thumbnailImage} args={{isEmbedded, mimeType, type: "video"}} {title}/>
     
     {:else}
         <div class="video">
@@ -37,9 +39,9 @@
             {:else if url}
                 <div class="content">   
                     {#if mimeType}
-                        <video src={url} type={mimeType} controls poster={thumbnailImage || undefined}></video>
+                        <video src={url} type={mimeType} controls poster={thumbnailImage || undefined} aria-label={title} {title}></video>
                     {:else}
-                        <video src={url} controls poster={thumbnailImage || undefined}></video>
+                        <video src={url} controls poster={thumbnailImage || undefined} aria-label={title} {title}></video>
                     {/if}
                 </div>
             {:else}
