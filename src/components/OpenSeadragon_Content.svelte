@@ -34,7 +34,7 @@
             })
 
             viewer.addHandler('tile-drawn', function() {
-                loadMessage.style.display = "none";
+                if(loadMessage) loadMessage.style.display = "none";
             });
 
             viewer.addHandler('open', function() {
