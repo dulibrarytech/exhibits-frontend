@@ -142,7 +142,7 @@
     <Repository_Related_Items {items} />
 
     <div class="scrollto-page-top" bind:this={scrollToPageTopElement}>
-        <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit">
+        <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit" aria-label="Return to top of exhibit">
             <i class="bi bi-chevron-up"></i>
         </a>
     </div>
