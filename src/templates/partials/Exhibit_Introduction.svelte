@@ -39,7 +39,6 @@
 
     :global(.exhibit-introduction a:hover) {
         cursor: pointer;
-        text-decoration: none;
     }
 
     :global(.exhibit-introduction p) {

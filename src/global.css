@@ -93,6 +93,10 @@ main.container {
 	color: #181818;
 }
 
+a:hover {
+	cursor: pointer;
+}
+
 footer {
 	flex-shrink: 0;
 	min-height: 150px;
