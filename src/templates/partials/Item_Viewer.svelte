@@ -45,10 +45,9 @@
 
 				{#if caption}<div class="caption">{caption}</div><br>{/if}
 				
+				<h5>Exhibit text:</h5>
+				<hr>
 				<div class="text-section">
-					<h5>Exhibit text:</h5>
-					<hr>
-
 					<Text_Item {item} {title} />
 				</div>
 
