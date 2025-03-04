@@ -37,6 +37,11 @@
         padding: 5.5vw 7.5vw;
     }
 
+    :global(.exhibit-introduction a:hover) {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
     :global(.exhibit-introduction p) {
         margin-bottom: 1.9rem;
     }
