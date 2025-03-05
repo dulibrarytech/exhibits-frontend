@@ -59,7 +59,7 @@
 </script>
 
 <div class="exhibit-preview">
-    <a href={link || undefined} data-exhibit-id={exhibitId} bind:this={titleTextElement} on:click|stopPropagation|preventDefault={onClickPreview}>
+    <a href={link || undefined} data-exhibit-id={exhibitId} bind:this={titleTextElement} on:click|stopPropagation|preventDefault={onClickPreview} aria-label="enter exhibit {title}">
         <div class="exhibit-thumbnail">
             <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
         </div>

@@ -5,6 +5,7 @@
 import { ITEM_TYPE } from './global-constants.js';
 
 export const Settings = {
+    appTitle: "Exhibits @ DU",
     /*
      * Mime types for item type
      */

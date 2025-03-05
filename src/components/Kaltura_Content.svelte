@@ -5,7 +5,8 @@
     import { Kaltura } from '../libs/kaltura';
 
     export let entryId = null;
-    export let caption = "Untitled content";
+    export let title = "kaltura media player";
+    export let caption = "kaltura media player";
     export let preview = null;
     export let args = {};
 
@@ -74,13 +75,13 @@
     }
 </script>
 
-<div class="kaltura-content content" bind:this={contentSection}>
+<div class="kaltura-content content" bind:this={contentSection} >
     {#if kalturaUrl}
         {#if isEmbedded}
             {#if type == "audio"}
                 {#if previewImageUrl}
                     <div class="preview" bind:this={previewElement}>
-                        <img class="preview-image audio-preview-image" src={previewImageUrl}  on:error={onPreviewImageLoadError}/>
+                        <img class="preview-image audio-preview-image" src={previewImageUrl} alt={title} {title} on:error={onPreviewImageLoadError}/>
                     </div>
                 {/if}
 
@@ -89,12 +90,12 @@
                 </div>
             {:else if type == "video"}
                 <div class="preview" bind:this={previewElement}>
-                    <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/> 
+                    <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} alt={title} {title} on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/> 
                     <img class="video-preview-overlay" src="../assets/images/play-button-icon-png-18919.png" />
                 </div>
 
                 <div class="embedded-video" style="display: none" bind:this={htmlPlayerElement}>
-                    <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} ></video>
+                    <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} aria-label={title}></video>
                 </div>
             {:else}
                 <h6>Invalid media type</h6>

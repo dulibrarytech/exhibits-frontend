@@ -158,7 +158,7 @@ export const createExhibitPageSections = (items) => {
             heading = {
                 id: getHtmlIdString(text),
                 uuid,
-                text: stripHtmlTags(text),
+                text: stripHtmlTags(text),  // TODO remove in heading comp, not here
                 subheadings: []
             }
 
@@ -167,14 +167,14 @@ export const createExhibitPageSections = (items) => {
             if(item.styles) sectionStyles = item.styles; // use heading styles for current section
         }
 
-        if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
+        else if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
 
             // If this item is in a heading section, and it has a title, add a subheading
             if(heading && title) {
                 subheading = {
                     id: getHtmlIdString(title),
                     uuid,
-                    text: stripHtmlTags(title)
+                    text: stripHtmlTags(title) // TODO title_string
                 }
 
                 heading.subheadings.push(subheading);

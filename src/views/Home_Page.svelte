@@ -1,6 +1,6 @@
-<!-- homepage option with no hero image -->
-
-<!-- *** main landing page - if more options for the home page template are required, create a reduced "Home_n" template (view render only, no logic), and reuse all other code in this module -->
+<svelte:head>
+	<title>{Settings.appTitle}</title>
+</svelte:head>
 
 <script>
     'use strict'
@@ -111,7 +111,7 @@
 
         {#if featuredExhibits}
             <div class="heading">
-                <h3>Featured</h3>
+                <h3>Featured Exhibits</h3>
             </div>
             <div class="preview-section">
                 <Exhibit_Preview_Grid exhibits={featuredExhibits} />

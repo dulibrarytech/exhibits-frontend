@@ -3,7 +3,7 @@
     
     import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js';
-    import { stripHtmlTags } from '../libs/data_helpers';
+    //import { stripHtmlTags } from '../libs/data_helpers';
     import * as Logger from '../libs/logger.js';
     import { Settings } from '../config/settings';
     import { Configuration } from '../config/config';
@@ -49,7 +49,7 @@
         thumbnail = item.thumbnail || null;
         caption = item.caption || null;
         styles = item.styles || null;
-        altText = stripHtmlTags(item.title) || caption || item.description || "Untitled Image";
+        altText = item.title_string || caption || item.description || "Untitled Image";
 
         link = args.link || null;
         isPlaceholderImage = false;
@@ -172,13 +172,13 @@
 </script>
 
 {#if preview}
-    <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}">
+    <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}" alt={altText} title={altText}>
         <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
             <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}" bind:this={itemPreviewElement} >
-                <img crossorigin="anonymous" src={preview} alt={altText} title={altText} on:error={onImageLoadError} bind:this={previewImageElement}>
+                <img crossorigin="anonymous" src={preview} on:error={onImageLoadError} bind:this={previewImageElement}>
             </div>
         </a>
-        {#if caption}<div class="caption">{caption}</div>{/if}
+        {#if caption}<div class="caption">{@html caption}</div>{/if}
     </div>
 
 {:else}

@@ -7,6 +7,7 @@
 
     let {
         url=null, 
+        title=null,
         embedCode=null, 
         mimeType=null,
         kalturaId=null,
@@ -17,6 +18,7 @@
     } = args;
 
     $: {
+        if(!title) title = "untitled audio";
         render();
     }
 
@@ -33,11 +35,11 @@
     {/if} -->
 
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} preview={null} args={{isEmbedded, type: "audio"}} />
+        <Kaltura_Content entryId={kalturaId} preview={null} args={{isEmbedded, type: "audio"}} {title}/>
 
     {:else}
         {#if isEmbedded && thumbnailImage}
-            <img class="thumbnail" src={thumbnailImage} />
+            <img class="thumbnail" src={thumbnailImage} alt={title} title={`${title} thumbnail image`}/>
         {/if}
 
         <div class="audio">
@@ -53,7 +55,7 @@
                         <audio src={url} controls></audio>
                     {/if} -->
 
-                    <audio src={url} type={mimeType || undefined} controls></audio>
+                    <audio src={url} type={mimeType || undefined} controls aria-label={title} {title}></audio>
                 </div>
 
             {:else}

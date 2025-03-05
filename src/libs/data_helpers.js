@@ -33,7 +33,10 @@ import DOMPurify from 'dompurify';
  * @returns the string with html tags removed
  */
 export const stripHtmlTags = (string) => {
-    return string ? string.replace(/\<[^>]*\>/g, '') : string;
+    if(string) {
+        string = string.replace(/\<[^>]*\>/g, '');
+    }
+    return string;
 }
 
 /**

@@ -42,6 +42,19 @@
         else Logger.module().info("Invalid or missing 'data-anchor' property:", event.currentTarget);
 	}
 
+    const onClickToggleButton = (event) => {
+        let button = event.target.parentElement;
+
+        if(button.getAttribute('aria-expanded') == "false") {
+            button.setAttribute('title', 'Expand navigation menu');
+            button.setAttribute('aria-label', 'Expand navigation menu');
+        }
+        else {
+            button.setAttribute('title', 'Collapse navigation menu');
+            button.setAttribute('aria-label', 'Collapse navigation menu');
+        }
+    }
+
     const setTheme = (styles) => {
         let menuStyles = styles || {};
         Object.assign(navigationElement.style, menuStyles);
@@ -54,7 +67,18 @@
 
 <nav class="exhibit-navigation navbar navbar-expand-lg navbar-light" id="mainNav" bind:this={navigationElement}>
     <div class="container outer-container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <button 
+            class="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarResponsive" 
+            aria-controls="navbarResponsive" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation"
+            on:click|preventDefault={onClickToggleButton}>
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse show" id="navbarResponsive">
 
             <ul class="nav nav-link navbar-nav ms-auto">
@@ -191,7 +215,6 @@
     .navbar-light .navbar-toggler.collapsed .navbar-toggler-icon {
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
-
 
     .navbar-light .navbar-toggler .navbar-toggler-icon  {
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='0.5' fill='rgb(96,96,96)' d='M4.795 3.912l-.883.883.147.146L7.117 8 4.06 11.059l-.147.146.883.883.146-.147L8 8.883l3.059 3.058.146.147.883-.883-.147-.146L8.883 8l3.058-3.059.147-.146-.883-.883-.146.147L8 7.117 4.941 4.06z'/%3e%3c/svg%3e");

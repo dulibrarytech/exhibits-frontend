@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>{pageTitle || "Exhibits @ DU"}</title>
+</svelte:head>
+
 <script>
     'use-strict'
 
@@ -10,6 +14,7 @@
     import { getItemById, createExhibitPageSections } from '../libs/exhibits_data_helpers';
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
+
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
     import Search_Box from '../components/Search_Box.svelte';
     import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
@@ -35,13 +40,8 @@
     let isMessageVisible;
 
     let page;
-    let renderPage = false;
-
-    let {
-        fontFileLocation = "../assets/fonts",
-        imageLoadDelay = 2000
-
-    } = Settings;
+    var pageTitle;
+    var renderPage;
 
     const init = async () => {
         showLoadMessage(true);
@@ -56,11 +56,14 @@
         data = null;
         modalDialog = null;
         modalDialogData = null;
+        renderPage = false;
+
+        pageTitle = Settings.appTitle;
 
         apiKey = currentRoute.queryParams.key || null;
         userRole = getUserRole(apiKey);
-        id = currentRoute.namedParams.id ?? "null";
 
+        id = currentRoute.namedParams.id ?? "null";
         Logger.module().info(`Loading exhibit... ID: ${id}`);
         exhibit = await Index.getExhibit(id); // {exhibit: {data: {}, items: []}}
         data = exhibit?.data;
@@ -77,6 +80,8 @@
         }
 
         if(isPublished) {
+            if(data.title) pageTitle = `${data.title_string} | ${pageTitle}`;
+            
             try {
                 styles = JSON.parse(data.styles).exhibit || {};
                 if(!styles.template) Logger.module().info("Exhibit template style data not found");
@@ -162,7 +167,7 @@
             Fonts.forEach((font) => {
                 let {name="", file=null, url="./"} = font;
 
-                fontLocation = file ? `${fontFileLocation}/${file}` : url;
+                fontLocation = file ? `${Settings.fontFileLocation}/${file}` : url;
                 fontFace = new FontFace(name, `url(${fontLocation})`);
 
                 fontFace.load().then(function(loaded) {
@@ -243,7 +248,7 @@
 
             showLoadMessage(false);
 
-        }, imageLoadDelay)
+        }, Settings.imageLoadDelay)
     }
 
     init();
