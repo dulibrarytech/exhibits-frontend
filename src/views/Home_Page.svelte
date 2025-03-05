@@ -1,6 +1,6 @@
-<!-- homepage option with no hero image -->
-
-<!-- *** main landing page - if more options for the home page template are required, create a reduced "Home_n" template (view render only, no logic), and reuse all other code in this module -->
+<svelte:head>
+	<title>{Settings.appTitle}</title>
+</svelte:head>
 
 <script>
     'use strict'

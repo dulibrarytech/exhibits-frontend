@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>{`Search Results | ${Settings.appTitle}`}</title>
+</svelte:head>
+
 <script>
     /*
      * exhibits-frontend 
@@ -6,10 +10,12 @@
     'use strict'
 
     import { Search } from '../libs/search.js';
-    import Search_Results_Display from '../components/Search_Results_Display.svelte';
-    import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN, SEARCH_TYPE} from '../config/global-constants.js';
+    import { Settings } from '../config/settings.js';
     import { Cache } from '../libs/cache';
+    import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN, SEARCH_TYPE} from '../config/global-constants.js';
     import * as Logger from '../libs/logger.js';
+
+    import Search_Results_Display from '../components/Search_Results_Display.svelte';
 
     export let currentRoute;
 
