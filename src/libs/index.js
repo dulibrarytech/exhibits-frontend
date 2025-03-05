@@ -4,7 +4,7 @@ import { Configuration } from '../config/config.js';
 import axios from 'axios';
 import { URLQueryParams } from "object-in-queryparams";
 import * as Logger from './logger.js';
-
+import { stripHtmlTags } from '../libs/data_helpers';
 import { sanitizeExhibitHtmlFields, sanitizeExhibitItemHtmlFields } from '../libs/exhibits_data_helpers';
 import { ENTITY_TYPE } from '../config/global-constants';
 
@@ -68,11 +68,13 @@ export const Index = (() => {
             response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}`);
             let data = response?.data || {};
             sanitizeExhibitHtmlFields(data);
+            data.title_string = stripHtmlTags(data.title || "");
 
             response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}/items`);
             let items = response?.data || [];
             for(let item of items) {
                 sanitizeExhibitItemHtmlFields(item);
+                item.title_string = stripHtmlTags(item.title || "");
             }
 
             exhibit = {data, items};
