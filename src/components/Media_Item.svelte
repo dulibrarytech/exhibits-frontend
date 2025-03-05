@@ -14,7 +14,6 @@
     import PDFJS_Viewer from './PDFJS_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
-    import { stripHtmlTags } from '../libs/data_helpers';
     import {ITEM_TYPE, VIEWER_TYPE, MEDIA_POSITION} from '../config/global-constants';
 
     export let item = {};
@@ -60,13 +59,11 @@
         thumbnail = item.thumbnail || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
-        title = args.title || item.title || null;
+        title = args.title || item.title_string || null;
         caption = args.caption || item.caption || null;
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
         layout = item.layout || null;
         isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false;
-
-        if(title) title = stripHtmlTags(title);
 
         if(!itemType && item.is_kaltura_item) {
             itemType = ITEM_TYPE.VIDEO;
@@ -243,7 +240,7 @@
     <div class="media-item" bind:this={mediaElement}>
         <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadMediaFail} height={viewerHeight}/>
 
-        {#if caption}<div class="caption">{caption}</div>{/if}
+        {#if caption}<div class="caption">{@html caption}</div>{/if}
     </div>
 
     <div class="message" style="display: {messageDisplay ? "block" : "none"}" >

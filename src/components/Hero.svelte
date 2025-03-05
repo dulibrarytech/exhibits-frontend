@@ -3,7 +3,6 @@
 
     import { Settings } from '../config/settings';
     import { Banners } from '../templates/config/hero-banner';
-    import { stripHtmlTags } from '../libs/data_helpers';
 
     import ResourceUrl from '../libs/ResourceUrl.js';
     import * as Logger from '../libs/logger.js';
@@ -35,7 +34,7 @@
         bannerData = {
             image,
             title: data.title || "",
-            titleText: stripHtmlTags(data.title) || null,
+            titleText: data.title_string || null,
             subtitle: data.subtitle || null,
             description: data.description || null
         }

@@ -68,13 +68,13 @@ export const Index = (() => {
             response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}`);
             let data = response?.data || {};
             sanitizeExhibitHtmlFields(data);
-            data.title_string = stripHtmlTags(data.title || "");
+            if(data.title) data.title_string = stripHtmlTags(data.title);
 
             response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}/items`);
             let items = response?.data || [];
             for(let item of items) {
                 sanitizeExhibitItemHtmlFields(item);
-                item.title_string = stripHtmlTags(item.title || "");
+                if(item.title) item.title_string = stripHtmlTags(item.title);
             }
 
             exhibit = {data, items};

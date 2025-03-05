@@ -1,8 +1,8 @@
 <script>	
     import Media_Display from '../../components/Media_Display.svelte';
 	import Text_Item from '../../components/Text_Item.svelte';
-
-	import {stripHtmlTags} from '../../libs/data_helpers';
+	import {formatStripHtmlTags} from '../../libs/format';
+	import {stripHtmlTags} from '../../libs/data_helpers'; 
 
     export let item = {};
 
@@ -17,14 +17,14 @@
 	const init = async () => {
 		itemType = item.item_type || undefined;
 		itemData = item.data_display || null;
-		title = stripHtmlTags(item.title) || null;
+		title = item.title_string || null;
 		date = item.date || null;
 		caption = item.caption || null;
 
 		if(date) date = new Date(date).toLocaleDateString();
 
-		if(item.text) item.text = stripHtmlTags(item.text);
-		else item.text = item.description || item.caption || "No text available";
+		if(!item.text) item.text = item.description || item.caption || "No text available";
+		item.text = stripHtmlTags(item.text);
 	}
 
 	const onLoadMedia = (event) => {}
@@ -43,7 +43,7 @@
 
 				{#if title}<hr style="margin-top: 0px"><div class="title">{title}</div><hr><br>{/if}
 
-				{#if caption}<div class="caption">{caption}</div><br>{/if}
+				{#if caption}<div class="caption" use:formatStripHtmlTags>{caption}</div><br>{/if}
 				
 				<div class="text-section">
 					<h5>Exhibit text:</h5>

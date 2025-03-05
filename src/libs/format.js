@@ -4,6 +4,10 @@ import { Settings } from '../config/settings';
 import { Cache } from '../libs/cache';
 import { stripHtmlTags, decodeHtmlEntities } from '../libs/data_helpers';
 
+export const formatStripHtmlTags = (node) => {
+    node.innerText = stripHtmlTags(node.innerText);
+}
+
 export const formatFacetField = (node) => {
     let field = node.innerText.trim();
 
