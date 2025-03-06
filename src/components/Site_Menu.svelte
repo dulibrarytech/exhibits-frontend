@@ -22,12 +22,7 @@
     }
 </script>
 
-<div class="site-menu-toggle">
-    <a data-bs-toggle="collapse" href="#menu" role="button" aria-expanded="false" aria-controls="menu" aria-label="expand site menu" title="Site Menu">
-        <i class="bi bi-list"></i>
-    </a>
-</div>
-
+<!-- collapsing menu option -->
 <div class="collapse site-menu" id="menu">
     <div class="site-menu-links card card-body">
         {#each links as link}
@@ -39,12 +34,39 @@
         {/each}
     </div>
 </div>
+<div class="site-menu-toggle">
+    <a data-bs-toggle="collapse" href="#menu" role="button" aria-expanded="false" aria-controls="menu" aria-label="expand site menu" title="Site Menu">
+        <i class="bi bi-list"></i>
+    </a>
+</div>
+<!-- end collapsing menu option -->
+
+<!-- fixed open menu option --> 
+<!-- <div class="site-menu" id="menu"> 
+    <div class="site-menu-links card card-body">
+        {#each links as link}
+            {#if link.open_new_tab}
+                <a href data-href={link.url} data-target="blank" on:click={onClickLink}>{link.label}</a>
+            {:else}
+                <a href data-href={link.url} on:click={onClickLink}>{link.label}</a>
+            {/if}
+        {/each}
+    </div>
+</div> -->
+<!-- end fixed open menu option --> 
 
 <style>
+    .site-menu {
+        /* background: rgb(229, 227, 225); */
+        background: #f5f3f1;
+        position: relative;
+        top: 78px;
+    }
+
     .site-menu-toggle {
         position: absolute;
         right: 11px;
-        top: -2px;
+        top: 78px;
         z-index: 10;
     }
 
@@ -54,14 +76,14 @@
         color: #18171e;
     }
 
-    .site-menu {
-        background: rgb(229, 227, 225);
-    }
-
     .site-menu .card {
         border: none;
         border-radius: unset;
         flex-direction: row;
+    }
+
+    .site-menu .card-body {
+        padding: 1rem 1.65rem;
     }
 
     .site-menu a {

@@ -103,11 +103,11 @@
 
 <div class="homepage page">
     <div class="container">
-        <div class="exhibits-search-wrapper">
+        <!-- <div class="exhibits-search-wrapper">
             <div class="exhibits-search">
                 <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
             </div>
-        </div>
+        </div> -->
 
         {#if featuredExhibits}
             <div class="heading">

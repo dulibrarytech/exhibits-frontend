@@ -5,28 +5,43 @@
     let searchFields = Object.keys(Settings.searchFields);
 </script>
 
-<header class="du-header w-100 header-logo-wrapper shadow-bottom">
-<!-- <header class="du-header w-100 header-logo-wrapper border-bottom"> -->
-    <span class="header-logo">
-        <a href="https://library.du.edu" title="University Libraries" target="_blank" aria-label="university of denver libraries home page">
-            <img src="../assets/images/du-libraries-logo.png" alt="University of Denver Logo" />
-        </a>
-    </span>
+<header class="du-header">
+    <nav class="navbar navbar-expand-md fixed-top border-bottom" style="background-color: white">
+        <div class="container-fluid">
 
-    <span class="site-link">
-        <a href="/exhibits" title="Exhibits Home Page" aria-label="return to exhibits home page">Exhibits @ DU</a>
-    </span>
+            <div class="header-menu">
+                <a class="navbar-brand header-logo" href="https://library.du.edu" title="University Libraries" target="_blank" aria-label="university of denver libraries home page">
+                    <img src="../assets/images/du-libraries-logo.png" alt="University of Denver Logo" />
+                </a>
 
-    <!-- <div class="exhibits-search">
-        <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
-    </div> -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active site-link">
+                      <a class="nav-link" href="/exhibits" title="Exhibits Home Page" aria-label="return to exhibits home page">{Settings.appTitle}</a>
+                    </li>
+                </ul>
+            </div>
+    
+            <div class="exhibits-search">
+                <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
+            </div> 
+            
+        </div>
+    </nav>
 </header>
 
 <style>
     .du-header {
-        height: 52px;
         background: #FFFFFF;
         font-family: "BreveSans", sans-serif;
+    }
+
+    .du-header a {
+        color: #18171e;
+        font-weight: bold;
+    }
+
+    .du-header a:hover {
+        text-decoration: none;
     }
 
     .shadow-bottom:after {
@@ -48,24 +63,15 @@
         height: 50px;
     }
 
-    .du-header .header-logo {
+    .site-link a {
+        position: relative;
+        top: 11px;
+    }
+
+    .header-menu {
+        display: inline-flex;
         position: relative;
         left: 0;
         top: 0;
-    }
-
-    .du-header .site-link {
-        position: relative;
-        left: 40px;
-        top: 2px;
-    }
-
-    .du-header .site-link a {
-        color: #18171e;
-        font-weight: bold;
-    }
-
-    .du-header .site-link a:hover {
-        text-decoration: none;
     }
 </style>

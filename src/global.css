@@ -82,7 +82,8 @@ main.container {
 }
 
 .page {
-	padding: 50px 0;
+	/* padding: 50px 0; */
+	padding: 170px 0;
 }
 
 .page > .container > h3 {
