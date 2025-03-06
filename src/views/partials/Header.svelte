@@ -26,7 +26,7 @@
     .du-header {
         height: 52px;
         background: #FFFFFF;
-        font-family: BreveSans, sans-serif;
+        font-family: "BreveSans", sans-serif;
     }
 
     .shadow-bottom:after {
@@ -57,7 +57,7 @@
     .du-header .site-link {
         position: relative;
         left: 40px;
-        top: calc(50% - 23px);
+        top: 2px;
     }
 
     .du-header .site-link a {
