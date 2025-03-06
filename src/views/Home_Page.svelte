@@ -129,7 +129,7 @@
 
         {#if publicExhibits && publicExhibits.length > 0}
             <div class="heading">
-                <h3>Exhibits</h3>
+                <h3>Explore Exhibits</h3>
             </div>
             <div class="preview-section">
                 <Exhibit_Preview_Grid {exhibits} />
