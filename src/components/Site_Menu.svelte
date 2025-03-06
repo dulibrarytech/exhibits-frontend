@@ -50,7 +50,8 @@
 
     .site-menu-toggle i {
         font-size: 36px;
-        color: white;
+        /* color: white; */
+        color: #18171e;
     }
 
     .site-menu {
