@@ -41,7 +41,7 @@
 </div>
 <!-- end collapsing menu option -->
 
-<!-- fixed open menu option --> 
+<!-- fixed expanded menu option --> 
 <!-- <div class="site-menu" id="menu"> 
     <div class="site-menu-links card card-body">
         {#each links as link}
@@ -57,22 +57,18 @@
 
 <style>
     .site-menu {
-        /* background: rgb(229, 227, 225); */
         background: #f5f3f1;
-        position: relative;
-        top: 78px;
     }
 
     .site-menu-toggle {
         position: absolute;
-        right: 11px;
-        top: 78px;
-        z-index: 10;
+        right: 20px;
+        top: 11px;
+        z-index: 1040;
     }
 
     .site-menu-toggle i {
         font-size: 36px;
-        /* color: white; */
         color: #18171e;
     }
 

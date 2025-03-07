@@ -306,8 +306,8 @@
     .item a { color: inherit }
 
     .item-padding {
-        padding-top: 2.65em;
-        padding-bottom: 2.65em;
+        padding-top: 3.65em;
+        padding-bottom: 3.65em;
     }
 
     .title-heading {

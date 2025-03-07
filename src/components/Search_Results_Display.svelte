@@ -202,10 +202,15 @@
     .search-data-display {
         display: inline-flex;
         margin-bottom: 30px;
+        margin-top: 30px;
     }
 
     .search-terms-label {
         margin-right: 30px;
+    }
+
+    .results-sidebar > div:not(:first-child) {
+        margin-top: 30px;
     }
 
     :global(.search-result-item + .search-result-item) {
@@ -216,11 +221,13 @@
         margin-top: 1.75rem;
     }
 
-    .results-sidebar > div:not(:first-child) {
-        margin-top: 30px;
-    }
-
     :global(.text-highlight) {
         background: yellow;
+    }
+
+    @media screen and (min-width: 768px) {
+        .search-data-display {
+            margin-top: 0px;
+        }
     }
 </style>

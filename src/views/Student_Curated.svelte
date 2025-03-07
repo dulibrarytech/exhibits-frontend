@@ -54,15 +54,17 @@
 <div class="student-curated page">
     <div class="container">
 
-        <h3>Student Curated Exhibits</h3>
+        <div class="page-content">
+            <h3>Student Curated Exhibits</h3>
 
-        {#if exhibits && exhibits.length > 0}
-            <div class="preview-section">
-                <Exhibit_Preview_Grid {exhibits} />
-            </div>
-        {:else}
-            <h6>{message}</h6>
-        {/if}
+            {#if exhibits && exhibits.length > 0}
+                <div class="preview-section">
+                    <Exhibit_Preview_Grid {exhibits} />
+                </div>
+            {:else}
+                <h6>{message}</h6>
+            {/if}
+        </div>
 
     </div>
 </div>

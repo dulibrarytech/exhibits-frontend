@@ -14,7 +14,9 @@
 
 <div class="whats-on page">
     <div class="container">
-        <h3>What's On</h3>
+        <div class="page-content">
+            <h3>What's On</h3>
+        </div>
     </div>
 </div>
 

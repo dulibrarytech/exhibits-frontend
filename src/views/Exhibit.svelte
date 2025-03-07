@@ -268,7 +268,9 @@
                         <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
                     </div>
                     <div class="col-md-6 col-lg-4 col-xl-3 exhibit-search">
-                        <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
+                        <div class="search-box-wrapper">
+                            <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
+                        </div>
                     </div>
 
                 </div>
@@ -289,6 +291,11 @@
 {/if}
 
 <style>
+    .search-box-wrapper {
+        position: relative;
+        top: 12px;
+    }
+
     .exhibit-load-message {
         position: fixed;
         left: calc(50% - 80px);
@@ -310,6 +317,7 @@
         padding: 0 1rem;
         background: white;
         max-width: unset;
+        height: 180px;
     }
 
     .exhibit-menubar > .row {
@@ -340,5 +348,17 @@
         color: #000000;
         font-family: Arial, Helvetica, sans-serif;
         padding: 10px;
+    }
+
+    @media screen and (min-width: 576px) {
+        :global(.search-box-wrapper .search-box) {
+            float: right;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .exhibit-menubar {
+            height: 78px;
+        }
     }
 </style>

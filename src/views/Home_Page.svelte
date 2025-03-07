@@ -22,6 +22,9 @@
     let recentExhibits = null;
     let publicExhibits = null;
     let searchFields = [];
+
+    let searchBoxElement;
+
     var message = "";
 
     const EXHIBIT_FIELDS = {
@@ -34,6 +37,7 @@
     
     const init = async () => {
         searchFields = Object.keys(Settings.searchFields);
+        searchBoxElement.style.display = "none";
 
         message = "Retrieving exhibits...";
         exhibits = await Index.getExhibits();
@@ -65,6 +69,8 @@
             featuredExhibits = getFeaturedExhibits();
             recentExhibits = getRecentExhibits();
             publicExhibits = exhibits;
+
+            if(publicExhibits) searchBoxElement.style.display = "block";
         }
         else {
             message = "No exhibits found";
@@ -102,12 +108,20 @@
 </script>
 
 <div class="homepage page">
+
+    <!-- <div class="exhibits-search-wrapper" bind:this="{searchBoxElement}">
+        <div class="exhibits-search">
+            <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
+        </div>
+    </div> -->
+
     <div class="container">
-        <!-- <div class="exhibits-search-wrapper">
+
+        <div class="exhibits-search-wrapper" bind:this="{searchBoxElement}">
             <div class="exhibits-search">
                 <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
             </div>
-        </div> -->
+        </div>
 
         {#if featuredExhibits}
             <div class="heading">
@@ -135,16 +149,21 @@
                 <Exhibit_Preview_Grid {exhibits} />
             </div>
         {:else}
-            <h6>{message}</h6>
+            <div class="message">
+                <h6>{message}</h6>
+            </div>
         {/if}
     </div>
 </div>
 
 <style>
+    .homepage.page {
+        margin-top: 60px;
+    }
+
     .homepage h3 {
-        /* color: #8b2332; */
         color: #030303;
-        padding: 15px 0;
+        padding: 30px 0;
         margin-bottom: 0;
     }
     
@@ -152,15 +171,19 @@
         width: 95%;
         margin: 0 auto;
     }
+
+    .message {
+        margin-top: 78px;
+    }
     
     .exhibits-search-wrapper {
-        height: 85px;
+        margin: 30px 0;
+        height: 38px;
+        position: relative;
     }
 
     .exhibits-search {
-        /* float: right; */
-        position: relative;
-        top: 14px;
+        float: none;
     }
 
     .preview-section {
@@ -172,32 +195,28 @@
     }
 
     @media screen and (min-width: 480px) {
-        /* start of portrait tablet styles */
+
     }
 
-    @media screen and (min-width: 768px) {
-        /* start of landscape/large tablet styles */
-        .exhibits-search-wrapper {
-            height: 55px;
-        }
-
+    @media screen and (min-width: 576px) {
         .exhibits-search {
             float: right;
         }
+
+        .homepage.page {
+            margin-top: 0px;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+
     }
 
     @media screen and (min-width: 992px) {
-        /* start of large tablet styles */
 
     }
 
     @media screen and (min-width: 1280px) {
-        /* start of medium/large desktop styles */
-
-    }
-
-    @media screen and (min-width: 1920px) {
-        /* start of extra large desktop styles */
 
     }
 </style>

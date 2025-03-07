@@ -14,7 +14,9 @@
 
 <div class="events page">
     <div class="container">
-        <h3>Events</h3>
+        <div class="page-content">
+            <h3>Events</h3>
+        </div>
     </div>
 </div>
 

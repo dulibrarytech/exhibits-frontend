@@ -18,5 +18,6 @@
 <style>
   main {
     min-height: calc(100vh - 200px); /* top header height => 50px, footer height => 150px */
+    padding: 78px 0px;
   }
 </style>

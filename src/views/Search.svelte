@@ -176,3 +176,9 @@
         {/if}
     </div>
 </div>
+
+<style>
+    .search-results {
+        padding-top: 44px;
+    }
+</style>
