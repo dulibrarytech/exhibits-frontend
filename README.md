@@ -16,7 +16,7 @@ exhibits backend elastic index
 
 3. run 'npm i'
 
-4. Set environment variables
+4. Set cantaloupe server url in exhibits app .env file
 
 See .env_sample or App Configuration > Environment Variables section below for required fields
 
@@ -38,21 +38,24 @@ cantaloupe v5.0.4
 
 #### cantaloupe.properties
 
-http.port = {8182 or cantaloupe port}
-(or if ssl) https.port = 
+##### activate the delegate script
 
 delegate_script.enabled = true
-delegate_script.pathname = delegates.rb
 
+##### fallback for image source (if needed)
 source.static = FilesystemSource
 
-FilesystemSource.BasicLookupStrategy.path_prefix = {path/to/exhibits/app}/client/public/storage/
+FilesystemSource.BasicLookupStrategy.path_prefix = "{path/to/exhibits/app}/client/public/storage/"
 
-FilesystemCache.pathname = /var/cache/{cache location}
-
-#### delegates script
+#### delegates.rb script
 
 copy 'delegates.rb' file into cantaloupe root folder (replace if existing file)
+
+OR implement the delegates.rb hook functions per the included delegates.rb script
+
+1. source()
+
+2. filesystemsource_pathname()
 
 #### start_server.sh
 

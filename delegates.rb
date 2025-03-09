@@ -220,6 +220,18 @@ class CustomDelegate
   #                      given identifier, or nil if not found.
   #
   def filesystemsource_pathname(options = {})
+    # filepath e.g. "{path to exhibits client app}/exhibits-client-application/client/public/storage/"
+    filepath = "" # add trailing slash 
+    
+    if context['identifier'].include? '__'
+      parts = context['identifier'].split('__')
+      filepath = filepath.concat(parts[0]).concat("/").concat(parts[1])
+    else
+      filepath = filepath.concat(context['identifier'])
+    end
+
+    puts "filesystemsource_pathname returning pathname: ".concat(filepath)
+    return filepath;
   end
 
   ##
