@@ -59,12 +59,12 @@
         renderPage = false;
 
         pageTitle = Settings.appTitle;
-
         apiKey = currentRoute.queryParams.key || null;
         userRole = getUserRole(apiKey);
 
-        id = currentRoute.namedParams.id ?? "null";
         Logger.module().info(`Loading exhibit... ID: ${id}`);
+
+        id = currentRoute.namedParams.id ?? "null";
         exhibit = await Index.getExhibit(id); // {exhibit: {data: {}, items: []}}
         data = exhibit?.data;
 
@@ -135,6 +135,8 @@
             sections = createExhibitPageSections(items);
 
             renderPage = true;
+
+            document.querySelector('#header-search-box').style.visibility = "hidden";
         }
     }
 
@@ -261,20 +263,15 @@
 
         <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
 
-            <div class="container exhibit-menubar">
-                <div class="row">
+            <nav class="navbar navbar-expand-md border-bottom" style="background-color: white">
+                <div class="container-fluid">
+                    <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
 
-                    <div class="col-md-6 col-lg-8 col-xl-9 exhibit-links">
-                        <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
+                    <div class="exhibit-search">
+                        <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
                     </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3 exhibit-search">
-                        <div class="search-box-wrapper">
-                            <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
+            </nav>
         
             <!-- exhibit page -->
             <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} 
@@ -291,11 +288,12 @@
 {/if}
 
 <style>
-    .search-box-wrapper {
-        position: fixed;
-        top: 19px;
-        right: 19px;
-        z-index: 1040;
+    :global(.navbar.fixed-top) {
+        position: relative;
+    }
+
+    .exhibit-search {
+        width: 400px;
     }
 
     .exhibit-load-message {
@@ -313,19 +311,6 @@
 		overflow-y: hidden;
 		padding-right: 15px;
 	}
-
-    .exhibit-menubar {
-        display: flex;
-        padding: 0 1rem;
-        background: white;
-        max-width: unset;
-        height: 180px;
-    }
-
-    .exhibit-menubar > .row {
-        width: 100%;
-        margin-left: unset;
-    }
 
     .exhibit-links {
         padding-left: unset;
@@ -359,8 +344,6 @@
     }
 
     @media screen and (min-width: 768px) {
-        .exhibit-menubar {
-            height: 78px;
-        }
+
     }
 </style>

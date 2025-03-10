@@ -105,11 +105,11 @@
 
     <div class="container">
 
-        <div class="exhibits-search-wrapper">
+        <!-- <div class="exhibits-search-wrapper">
             <div class="exhibits-search">
                 <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
             </div>
-        </div>
+        </div> -->
 
         {#if featuredExhibits}
             <div class="heading">
@@ -145,10 +145,6 @@
 </div>
 
 <style>
-    .homepage.page {
-        margin-top: 60px;
-    }
-
     .homepage h3 {
         color: #030303;
         padding: 30px 0;
@@ -164,18 +160,6 @@
     .message {
         margin-top: 78px;
     }
-    
-    .exhibits-search-wrapper {
-        height: 38px;
-        position: fixed;
-        top: 19px;
-        right: 19px;
-        z-index: 1040;
-    }
-
-    .exhibits-search {
-        float: none;
-    }
 
     .preview-section {
         margin-bottom: 65px;
@@ -190,12 +174,8 @@
     }
 
     @media screen and (min-width: 576px) {
-        .exhibits-search {
-            float: right;
-        }
-
-        .homepage.page {
-            margin-top: 0px;
+        .homepage .container {
+            padding: 50px 0;
         }
     }
 

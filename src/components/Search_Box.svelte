@@ -83,21 +83,8 @@
     width: 100%;
   }
 
-  .search-box {
-    margin: 0 auto;
-    width: 300px;
-  }
-
   .search-box input,
   .search-box button {
     margin: 0;
-  }
-
-  @media screen and (min-width: 768px) {
-    /* start of landscape/large tablet styles */
-    .search-box {
-      margin: initial;
-      width: 100%;
-    }
   }
 </style>
