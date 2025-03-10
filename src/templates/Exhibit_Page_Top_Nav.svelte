@@ -9,23 +9,25 @@
     import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
     import Alert from '../components/Alert.svelte';
 
-    export let data = {};
+    export let args = {};
     export let template = null;
     export let sections = [];
     export let items = null;
     export let styles = null;
 
-    export let args = {};
+    export let data = {};
 
     let pageElement;
     let scrollToPageTopElement;
 
     let renderTemplate = false;
     let templateMessage = null;
+    let exhibitData = {};
     let alert = null;
 
     $: {
-        alert = data.alert_text || null;
+        exhibitData = data;
+        alert = exhibitData.alert_text || null;
     }
 
     const dispatch = createEventDispatcher();
@@ -89,15 +91,15 @@
 
 <div class="exhibit-page" bind:this={pageElement}  style="position: relative">
     <div class="hero-page-section">
-        <Hero {data} {styles} />
+        <Hero data={exhibitData} {styles} />
     </div>
     
     <div class="navigation-page-section sticky-top">
         <Navigation_Top {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
     </div>
 
-    {#if data.description}
-        <Exhibit_Introduction content={data.description} styles={styles?.introduction || null} /> 
+    {#if exhibitData.description}
+        <Exhibit_Introduction content={exhibitData.description} styles={styles?.introduction || null} /> 
     {/if}
 
     {#if alert }

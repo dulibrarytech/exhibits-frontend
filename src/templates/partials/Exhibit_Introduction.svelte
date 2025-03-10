@@ -31,7 +31,6 @@
     }
 
     .exhibit-introduction {
-        font-size: 1em;
         letter-spacing: 0.032599em;
         line-height: 1.45em;
         padding: 5.5vw 7.5vw;
@@ -47,11 +46,5 @@
 
     :global(.exhibit-introduction p:last-child) {
         margin-bottom: 0;
-    }
-
-    @media screen and (min-width: 768px) {
-        .exhibit-introduction {
-            font-size: 1.263158em;
-        }
     }
 </style>
