@@ -79,30 +79,40 @@
     }
 
     .title {
-        font-size: 23px;
+        font-size: 30px;
     }
 
     .subtitle {
-        font-size: 16px;
+        font-size: 28px;
     }
 
     @media screen and (min-width: 480px) {
-        .title {
+        /* .title {
             font-size: 31px;
         }
 
         .subtitle {
             font-size: 16px;
+        } */
+    }
+
+    @media screen and (min-width: 576px) {
+        .title {
+            font-size: 42px;
+        }
+
+        .subtitle {
+            font-size: 33px;
         }
     }
 
     @media screen and (min-width: 768px) {
         .title {
-            font-size: 47px;
+            font-size: 56px;
         }
 
         .subtitle {
-            font-size: 18px;
+            font-size: 41px;
         }
     }
 
@@ -112,7 +122,7 @@
         }
 
         .subtitle {
-            font-size: 24px;
+            font-size: 46px;
         }
     }
 
@@ -122,7 +132,7 @@
         }
 
         .subtitle {
-            font-size: 34px;
+            font-size: 52px;
         }
     }
 </style>

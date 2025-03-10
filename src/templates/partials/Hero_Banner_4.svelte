@@ -91,7 +91,7 @@
     }
 
     #subtitle {
-        font-size: 41px;
+        font-size: 35px;
     }
 
     @media screen and (min-width: 576px) {
