@@ -133,10 +133,7 @@
             // create the navigation sections, e.g. heading > items under heading
             Logger.module().info("Creating page sections...");
             sections = createExhibitPageSections(items);
-
             renderPage = true;
-
-            document.querySelector('#header-search-box').style.visibility = "hidden";
         }
     }
 
