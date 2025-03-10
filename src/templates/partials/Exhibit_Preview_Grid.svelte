@@ -36,8 +36,8 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        column-gap: 20px;
-        row-gap: 20px;
+        column-gap: 2.5vw;
+        row-gap: 2.5vw;
         margin: 6px auto;
     }
 
