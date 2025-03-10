@@ -17,6 +17,8 @@
 
     let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
+    console.log("TEST banner 2 subtitle in:", subtitle)
+
     const dispatch = createEventDispatcher();
 
     const BASE_TITLE_FONT_SIZE = 70;
@@ -65,8 +67,12 @@
         width: 100%;
     }
 
-    .title-text { /* TODO remove when global padding style is implemented */
-        padding: 3.5em;
+    .title-text { 
+        padding: 40px;
+    }
+
+    .title-text hr {
+        height: 3px;
     }
 
     #title {
@@ -74,7 +80,8 @@
     }
 
     #subtitle {
-        font-size: 22px;
+        margin-left: 10px;
+        font-size: 30px;
     }
 
     @media (min-width: 576px) {
@@ -83,7 +90,11 @@
         }
 
         #subtitle {
-            font-size: 22px;
+            font-size: 34px;
+        }
+
+        .title-text { 
+            padding: 55px;
         }
     }
 
@@ -93,7 +104,7 @@
         }
 
         #subtitle {
-            font-size: 29px;
+            font-size: 34px;
         }
     }
 
@@ -104,6 +115,10 @@
 
         #subtitle {
             font-size: 40px;
+        }
+
+        .title-text { 
+            padding: 77px;
         }
     }
 </style>
