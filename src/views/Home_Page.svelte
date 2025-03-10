@@ -23,8 +23,6 @@
     let publicExhibits = null;
     let searchFields = [];
 
-    let searchBoxElement;
-
     var message = "";
 
     const EXHIBIT_FIELDS = {
@@ -37,8 +35,6 @@
     
     const init = async () => {
         searchFields = Object.keys(Settings.searchFields);
-        searchBoxElement.style.display = "none";
-
         message = "Retrieving exhibits...";
         exhibits = await Index.getExhibits();
 
@@ -69,8 +65,6 @@
             featuredExhibits = getFeaturedExhibits();
             recentExhibits = getRecentExhibits();
             publicExhibits = exhibits;
-
-            if(publicExhibits) searchBoxElement.style.display = "block";
         }
         else {
             message = "No exhibits found";
@@ -109,15 +103,9 @@
 
 <div class="homepage page">
 
-    <!-- <div class="exhibits-search-wrapper" bind:this="{searchBoxElement}">
-        <div class="exhibits-search">
-            <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
-        </div>
-    </div> -->
-
     <div class="container">
 
-        <div class="exhibits-search-wrapper" bind:this="{searchBoxElement}">
+        <div class="exhibits-search-wrapper">
             <div class="exhibits-search">
                 <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
             </div>
@@ -167,9 +155,10 @@
         margin-bottom: 0;
     }
     
-    .container {
+    .homepage .container {
         width: 95%;
         margin: 0 auto;
+        padding: 80px 0;
     }
 
     .message {
@@ -177,9 +166,11 @@
     }
     
     .exhibits-search-wrapper {
-        margin: 30px 0;
         height: 38px;
-        position: relative;
+        position: fixed;
+        top: 19px;
+        right: 19px;
+        z-index: 1040;
     }
 
     .exhibits-search {

@@ -24,8 +24,8 @@
 
     const init = () => {
         // allows title text to be responsive when user sets the font size of the title
-        title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
-        subtitle = convertPxValuesToEm(subtitle, BASE_SUBTITLE_FONT_SIZE);
+        if(title) title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
+        if(subtitle) subtitle = convertPxValuesToEm(subtitle, BASE_SUBTITLE_FONT_SIZE);
     }
 
     onMount(async () => {

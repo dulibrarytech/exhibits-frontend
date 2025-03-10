@@ -1,16 +1,13 @@
 <script>
   import { Router } from 'svelte-router-spa';
   import { routes } from './routes';
-  import { links } from './menu';
 
   import Header from "./views/partials/Header.svelte";
   import Footer from "./views/partials/Footer.svelte";
-  import Site_Menu from "./components/Site_Menu.svelte";
 </script>
 
 <Header />
 <main class="container-1700">
-  <Site_Menu {links} />
   <Router {routes} />
 </main>
 <Footer />

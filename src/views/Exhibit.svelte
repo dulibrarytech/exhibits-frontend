@@ -292,8 +292,10 @@
 
 <style>
     .search-box-wrapper {
-        position: relative;
-        top: 12px;
+        position: fixed;
+        top: 19px;
+        right: 19px;
+        z-index: 1040;
     }
 
     .exhibit-load-message {
