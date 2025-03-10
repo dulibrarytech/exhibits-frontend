@@ -1,8 +1,8 @@
 <script>
-    import Search_Box from '../../components/Search_Box.svelte';
+    //import Search_Box from '../../components/Search_Box.svelte';
     import { Settings } from '../../config/settings.js';
 
-    let searchFields = Object.keys(Settings.searchFields);
+    //let searchFields = Object.keys(Settings.searchFields);
 </script>
 
 <header class="du-header">
@@ -20,11 +20,11 @@
                 </div> -->
             </div>
 
-            <div id="header-search-box" class="exhibits-search-wrapper">
+            <!-- <div id="header-search-box" class="exhibits-search-wrapper">
                 <div class="exhibits-search">
                     <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
                 </div>
-            </div>
+            </div> -->
             
         </div>
     </nav>
@@ -45,9 +45,9 @@
         text-decoration: none;
     }
 
-    .exhibits-search-wrapper {
+    /* .exhibits-search-wrapper {
         width: 400px;
-    }
+    } */
 
     .border-bottom {
         border-bottom: 2px solid #dee2e6 !important;

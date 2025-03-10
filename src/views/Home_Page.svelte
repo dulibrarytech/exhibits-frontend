@@ -103,13 +103,13 @@
 
 <div class="homepage page">
 
-    <div class="container">
+    <div class="container exhibits-search-wrapper">
+        <div class="exhibits-search">
+            <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
+        </div>
+    </div>
 
-        <!-- <div class="exhibits-search-wrapper">
-            <div class="exhibits-search">
-                <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
-            </div>
-        </div> -->
+    <div class="container">
 
         {#if featuredExhibits}
             <div class="heading">
@@ -147,14 +147,21 @@
 <style>
     .homepage h3 {
         color: #030303;
-        padding: 30px 0;
-        margin-bottom: 0;
     }
     
     .homepage .container {
         width: 95%;
         margin: 0 auto;
-        padding: 80px 0;
+        margin-top: 50px;
+    }
+
+    .exhibits-search-wrapper {
+        height: 38px;
+    }
+
+    .exhibits-search {
+        width: 300px;
+        float: none;
     }
 
     .message {
@@ -174,13 +181,15 @@
     }
 
     @media screen and (min-width: 576px) {
-        .homepage .container {
-            padding: 50px 0;
+        .exhibits-search {
+            width: 400px;
         }
     }
 
     @media screen and (min-width: 768px) {
-
+        .exhibits-search {
+            float: right;
+        }
     }
 
     @media screen and (min-width: 992px) {
