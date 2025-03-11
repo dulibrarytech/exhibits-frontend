@@ -13,6 +13,7 @@ const onClickLink = (event) => {
 
 <div class="exhibit-menu">
     <div class="exhibit-menu-links">
+        <a href="/exhibits" >Home</a>
         <a href data-page-id="about-the-curators" on:click|preventDefault={onClickLink} >About the Curators</a>
         <a href data-page-id="download-exhibit" on:click|preventDefault={onClickLink} >Download Exhibit</a>
     </div>
