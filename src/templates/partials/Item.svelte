@@ -439,12 +439,6 @@
     }
 
     @media screen and (min-width: 768px) {
-        .width-25 {width: 50%}
-        .width-33 {width: 50%}
-        .width-34 {width: 50%}
-        .width-50 {width: 50%}
-        .width-66 {width: 50%}
-        .width-67 {width: 50%}
         .width-75 {width: 100%}
 
         .media {
@@ -465,13 +459,6 @@
 
         .media-left > .text {
             float: right;
-        }
-
-        .media-left:not(.wrap-text) > .media,
-        .media-left:not(.wrap-text) > .text,
-        .media-right:not(.wrap-text) > .media,
-        .media-right:not(.wrap-text) > .text {
-            height: 100%;
         }
 
         /* pad around the media element if text wraps AND media padding is enabled */
@@ -511,5 +498,12 @@
         .width-66 {width: 66%}
         .width-67 {width: 67%}
         .width-75 {width: 75%}
+
+        .media-left:not(.wrap-text) > .media,
+        .media-left:not(.wrap-text) > .text,
+        .media-right:not(.wrap-text) > .media,
+        .media-right:not(.wrap-text) > .text {
+            height: 100%;
+        }
     }
 </style>
