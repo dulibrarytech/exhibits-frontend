@@ -285,6 +285,11 @@
 {/if}
 
 <style>
+    .navbar .container-fluid {
+        padding-left: 26px;
+        padding-right: 26px;
+    }
+
     :global(.navbar.fixed-top) {
         position: relative;
     }

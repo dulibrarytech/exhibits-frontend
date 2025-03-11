@@ -33,7 +33,7 @@ const onClickLink = (event) => {
 
     .exhibit-menu-links > a {
         color: black;
-        text-decoration: underline;
+        text-decoration: none;
     }
 
     .exhibit-menu-links > a:not(:first-child) {
