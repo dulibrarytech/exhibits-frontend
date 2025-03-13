@@ -103,8 +103,9 @@
 
 <div class="homepage page">
 
-    <div class="container exhibits-search-wrapper">
-        <div class="exhibits-search">
+    <!-- TODO move to separate component "Homepage_Navbar" -->
+    <div class="exhibit-menu d-flex flex-column flex-md-row align-items-center p-3">
+        <div class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
             <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
         </div>
     </div>
@@ -156,12 +157,7 @@
     }
 
     .exhibits-search-wrapper {
-        height: 38px;
-    }
-
-    .exhibits-search {
-        width: 300px;
-        float: none;
+        
     }
 
     .message {
@@ -172,24 +168,16 @@
         margin-bottom: 65px;
     }
 
-    :global(.exhibits-search > .container) {
-        padding: 0;
-    }
-
     @media screen and (min-width: 480px) {
 
     }
 
     @media screen and (min-width: 576px) {
-        .exhibits-search {
-            width: 400px;
-        }
+
     }
 
     @media screen and (min-width: 768px) {
-        .exhibits-search {
-            float: right;
-        }
+
     }
 
     @media screen and (min-width: 992px) {

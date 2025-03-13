@@ -22,75 +22,35 @@
     }
 </script>
 
-<!-- collapsing menu option -->
-<div class="collapse site-menu" id="menu">
-    <div class="site-menu-links card card-body">
+<!-- collapsing site menu option -->
+<!-- <div class="collapse site-menu" id="menu">
+    <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
         {#each links as link}
             {#if link.open_new_tab}
-                <a href data-href={link.url} data-target="blank" on:click={onClickLink}>{link.label}</a>
+                <a href class="me-3 py-2 text-dark text-decoration-none" data-href={link.url} data-target="blank" on:click={onClickLink}>{link.label}</a>
             {:else}
-                <a href data-href={link.url} on:click={onClickLink}>{link.label}</a>
+                <a href class="me-3 py-2 text-dark text-decoration-none" data-href={link.url} on:click={onClickLink}>{link.label}</a>
             {/if}
         {/each}
-    </div>
+    </nav>
 </div>
 <div class="site-menu-toggle">
     <a data-bs-toggle="collapse" href="#menu" role="button" aria-expanded="false" aria-controls="menu" aria-label="expand site menu" title="Site Menu">
         <i class="bi bi-list"></i>
     </a>
-</div>
-<!-- end collapsing menu option -->
-
-<!-- fixed expanded menu option --> 
-<!-- <div class="site-menu" id="menu"> 
-    <div class="site-menu-links card card-body">
-        {#each links as link}
-            {#if link.open_new_tab}
-                <a href data-href={link.url} data-target="blank" on:click={onClickLink}>{link.label}</a>
-            {:else}
-                <a href data-href={link.url} on:click={onClickLink}>{link.label}</a>
-            {/if}
-        {/each}
-    </div>
 </div> -->
-<!-- end fixed open menu option --> 
+<!-- end collapsing site menu option -->
+
+<nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+    {#each links as link}
+        {#if link.open_new_tab}
+            <a href class="me-3 py-2 text-dark text-decoration-none" data-href={link.url} data-target="blank" on:click={onClickLink}>{link.label}</a>
+        {:else}
+            <a href class="me-3 py-2 text-dark text-decoration-none" data-href={link.url} on:click={onClickLink}>{link.label}</a>
+        {/if}
+    {/each}
+</nav>
 
 <style>
-    .site-menu {
-        background: #f5f3f1;
-    }
 
-    .site-menu-toggle {
-        position: absolute;
-        right: 20px;
-        top: 11px;
-        z-index: 1040;
-    }
-
-    .site-menu-toggle i {
-        font-size: 36px;
-        color: #18171e;
-    }
-
-    .site-menu .card {
-        border: none;
-        border-radius: unset;
-        flex-direction: row;
-    }
-
-    .site-menu .card-body {
-        padding: 1rem 1.65rem;
-    }
-
-    .site-menu a {
-        color: #313131;
-    }
-
-    .site-menu a:not(:first-child) {
-        margin-left: 20px;
-    }
-
-    .site-menu-links {
-        background: inherit;
-    }
 </style>

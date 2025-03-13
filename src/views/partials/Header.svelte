@@ -1,23 +1,26 @@
-<header class="du-header">
-    <nav class="navbar navbar-expand-md fixed-top border-bottom" style="background-color: white">
-        <div class="container-fluid">
+<script>
+    import Site_Menu from '../../components/Site_Menu.svelte';
+</script>
 
-            <div class="header-items">
-                <a class="navbar-brand header-logo" href="https://library.du.edu" title="University Libraries" target="_blank" aria-label="university of denver libraries home page">
-                    <img src="../assets/images/du-libraries-logo.png" alt="University of Denver Logo" />
-                </a>
-    
-                <!-- Exhibits app link -->
-                <!-- <div class="header-links">
-                    <a class="nav-link" href="/exhibits" title="Exhibits Home Page" aria-label="return to exhibits home page">{Settings.appTitle}</a>
-                </div> -->
-            </div>
-            
-        </div>
-    </nav>
+<header class="du-header">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 border-bottom box-shadow-bottom">
+        <a class="d-flex align-items-center text-dark text-decoration-none" href="https://library.du.edu" title="University Libraries" target="_blank" aria-label="university of denver libraries home page">
+            <img class="header-branding" src="../assets/images/du-libraries-logo.png" alt="University of Denver Logo" />
+        </a>
+
+        <Site_Menu />
+    </div>
 </header>
 
 <style>
+    .border-bottom {
+        border-bottom: 2px solid #dee2e6 !important;
+    }
+
+    .box-shadow-bottom {
+        box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    }
+
     .du-header {
         background: #FFFFFF;
         font-family: "BreveSans", sans-serif;
@@ -32,29 +35,7 @@
         text-decoration: none;
     }
 
-    .border-bottom {
-        border-bottom: 2px solid #dee2e6 !important;
-    }
-
-    .header-logo img {
+    .header-branding {
         height: 50px;
-    }
-
-    .site-link a {
-        position: relative;
-        top: 6px;
-        left: 11px;
-    }
-
-    .header-items {
-        display: inline-flex;
-        position: relative;
-        left: 0;
-        top: 0;
-    }
-
-    .header-links {
-        position: relative;
-        top: 11px;
     }
 </style>

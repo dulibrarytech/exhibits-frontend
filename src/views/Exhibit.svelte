@@ -16,7 +16,6 @@
     import { Page_Layouts } from '../templates/config/page-layout.js';
 
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
-    import Search_Box from '../components/Search_Box.svelte';
     import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
     import Modal_Item_Display from '../components/Modal_Item_Display.svelte';
     import Modal_Page_Display from '../components/Modal_Page_Display.svelte';
@@ -24,7 +23,7 @@
     export let currentRoute;
 
     let apiKey;
-    let id;
+    let exhibitId;
     let userRole;
     let isPublished;
     let exhibit;
@@ -62,10 +61,10 @@
         apiKey = currentRoute.queryParams.key || null;
         userRole = getUserRole(apiKey);
 
-        Logger.module().info(`Loading exhibit... ID: ${id}`);
+        Logger.module().info(`Loading exhibit... ID: ${exhibitId}`);
 
-        id = currentRoute.namedParams.id ?? "null";
-        exhibit = await Index.getExhibit(id); // {exhibit: {data: {}, items: []}}
+        exhibitId = currentRoute.namedParams.id ?? "null";
+        exhibit = await Index.getExhibit(exhibitId); // {exhibit: {data: {}, items: []}}
         data = exhibit?.data;
 
         if(!exhibit || !data) {
@@ -264,23 +263,14 @@
         <div class="exhibit-load-message" style="display: {isMessageVisible ? 'block' : 'none'}"><h3>Please wait...</h3></div>
 
         <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
-
-            <nav class="navbar navbar-expand-md border-bottom" style="background-color: white">
-                <div class="container-fluid">
-                    <Exhibit_Menu {exhibit} on:click-menu-link={onOpenPageModal}  />
-
-                    <div class="exhibit-search">
-                        <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId: id}}/>
-                    </div>
-                </div>
-            </nav>
+            <Exhibit_Menu {exhibitId} />
         
             <!-- exhibit page -->
             <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} 
                 bind:this={page}
                 on:mount={onMountPage} 
                 on:mount-items={onMountItems} 
-                on:click-item={onOpenViewerModal} /> <!-- args.key -->
+                on:click-item={onOpenViewerModal} />
         
             {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
         
@@ -290,17 +280,8 @@
 {/if}
 
 <style>
-    .navbar .container-fluid {
-        padding-left: 26px;
-        padding-right: 26px;
-    }
-
     :global(.navbar.fixed-top) {
         position: relative;
-    }
-
-    .exhibit-search {
-        width: 400px;
     }
 
     .exhibit-load-message {
@@ -318,14 +299,6 @@
 		overflow-y: hidden;
 		padding-right: 15px;
 	}
-
-    .exhibit-links {
-        padding-left: unset;
-    }
-
-    .exhibit-search {
-        padding: 8px 0 8px calc(var(--bs-gutter-x) * .5);
-    }
 
     :global(.exhibit-search .search-box form) {
         margin-right: 15px;

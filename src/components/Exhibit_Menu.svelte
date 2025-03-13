@@ -1,42 +1,33 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-
-export let exhibit = null;
-
-const dispatch = createEventDispatcher();
-
-const onClickLink = (event) => {
-    dispatch('click-menu-link', {pageId: event.target.getAttribute('data-page-id') || null})
-}
-
-</script>
-
-<div class="exhibit-menu">
-    <div class="exhibit-menu-links">
-        <a href="/exhibits" >Home</a>
-        <a href data-page-id="about-the-curators" on:click|preventDefault={onClickLink} >About the Curators</a>
-        <a href data-page-id="download-exhibit" on:click|preventDefault={onClickLink} >Download Exhibit</a>
+    import { createEventDispatcher } from 'svelte';
+    import Search_Box from './Search_Box.svelte';
+    
+    export let exhibitId = null;
+    
+    const dispatch = createEventDispatcher();
+    
+    const onClickLink = (event) => {
+        dispatch('click-menu-link', {pageId: event.target.getAttribute('data-page-id') || null})
+    }
+    
+    </script>
+    
+    <div class="exhibit-menu d-flex flex-column flex-md-row align-items-center py-2 px-3 box-shadow-bottom">
+    
+        <nav class="d-flex align-items-center text-dark text-decoration-none">
+            <!-- <a href="/exhibits" class="me-3 py-2 text-dark text-decoration-none">Home</a> -->
+            <a href class="me-3 py-2 text-dark text-decoration-none" data-page-id="about-the-curators" on:click|preventDefault={onClickLink} >About the Curators</a>
+            <a href class="me-3 py-2 text-dark text-decoration-none" data-page-id="download-exhibit" on:click|preventDefault={onClickLink} >Download Exhibit</a>
+        </nav>
+    
+        <div class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+            <Search_Box endpoint="/search" fields={['title', 'description']} placeholder="Search in this exhibit" params={{exhibitId}}/>
+        </div>
+    
     </div>
-</div>
-
-<style>
-    .exhibit-menu {
-        background: white;
-        font-size: 16px;
-        padding-left: unset;
-    }
-    .exhibit-menu-links {
-        height: 30px;
-        position: relative;
-        top: 3px;
-    }
-
-    .exhibit-menu-links > a {
-        color: black;
-        text-decoration: none;
-    }
-
-    .exhibit-menu-links > a:not(:first-child) {
-        margin-left: 15px;
-    }
-</style>
+    
+    <style>
+        .exhibit-menu {
+            background: #e5e3e1;
+        }
+    </style>
