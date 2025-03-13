@@ -1,10 +1,3 @@
-<script>
-    //import Search_Box from '../../components/Search_Box.svelte';
-    import { Settings } from '../../config/settings.js';
-
-    //let searchFields = Object.keys(Settings.searchFields);
-</script>
-
 <header class="du-header">
     <nav class="navbar navbar-expand-md fixed-top border-bottom" style="background-color: white">
         <div class="container-fluid">
@@ -19,12 +12,6 @@
                     <a class="nav-link" href="/exhibits" title="Exhibits Home Page" aria-label="return to exhibits home page">{Settings.appTitle}</a>
                 </div> -->
             </div>
-
-            <!-- <div id="header-search-box" class="exhibits-search-wrapper">
-                <div class="exhibits-search">
-                    <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
-                </div>
-            </div> -->
             
         </div>
     </nav>
@@ -44,10 +31,6 @@
     .du-header a:hover {
         text-decoration: none;
     }
-
-    /* .exhibits-search-wrapper {
-        width: 400px;
-    } */
 
     .border-bottom {
         border-bottom: 2px solid #dee2e6 !important;
