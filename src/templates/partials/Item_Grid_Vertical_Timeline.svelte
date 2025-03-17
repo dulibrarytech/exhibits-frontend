@@ -30,18 +30,23 @@
         title = grid.title || null;
         text = grid.text || null;
         items = grid.items || [];
-        sections = sortItemsToDecadeSections(items);
 
-        // parse styles json string for all grid items
-        items = items.map((item) => {
-            if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
-            return item;
-        }) || [];
+        if(items.length > 0) {
+            sections = sortItemsToDecadeSections(items);
 
-        styles = {
-            grid: grid.styles || {},
-            heading: templateStyles.heading || null
+            // parse styles json string for all grid items
+            items = items.map((item) => {
+                if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
+                return item;
+            }) || [];
+
+            styles = {
+                grid: grid.styles || {},
+                heading: templateStyles.heading || null
+            }
         }
+        else console.log(`No items found in timeline grid: ${grid.uuid}`);
+        
     }
 
     const setTheme = ({grid = {}, heading = null}) => {
@@ -401,7 +406,8 @@
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
-        top: 150px;
+        /* top: 150px; */
+        top: 50%;
         right: 0
     }
 
@@ -412,7 +418,8 @@
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
-        top: 150px;
+        /* top: 150px; */
+        top: 50%;
     }
 
     :global(.vertical-timeline-item-grid .card__title) {
