@@ -152,19 +152,6 @@
         return sorted;
     }
 
-    const applyCardSpacing = () => {
-        let cards = document.querySelectorAll(".timeline__card.card");
-        
-        for(var card of cards) {
-            let cardHeight = card.clientHeight;
-
-            if(cardHeight < CARD_MIN_HEIGHT) {
-                let bottomOffset = CARD_MIN_HEIGHT - cardHeight;
-                card.style.marginBottom = `${bottomOffset.toString()}px`;
-            }
-        }
-    }
-
     $: init();
 
     onMount(async () => {
@@ -394,11 +381,11 @@
         box-shadow: 3px 3px 11px -5px #000;
     }
 
-    :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
+    :global(.vertical-timeline-item-grid .timeline-left .card) {
         margin: 0;
     }
 
-    :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
+    :global(.vertical-timeline-item-grid .timeline-right .card) {
         margin: 0;
     }
 
@@ -409,26 +396,23 @@
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
         content: "";
-        width: 100vw;
+        width: 25vw;
         height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
         top: 150px;
-        /* right: -166px; */
-        /* right: calc(9.65vw * 2) */
+        right: 0
     }
 
     :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
         content: "";
-        width: 100vw;
+        width: 25vw;
         height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
         top: 150px;
-        /* left: -166px; */
-        /* left: calc(9.65vw * 2) */
     }
 
     :global(.vertical-timeline-item-grid .card__title) {
@@ -466,12 +450,11 @@
             padding-left: 0;
         }
         
-        :global(.vertical-timeline-item-grid .timeline-left .timeline__card) {
+        :global(.vertical-timeline-item-grid .timeline-left .card) {
             margin-left: 0;
             margin-right: 9.65vw;
         }
-
-        :global(.vertical-timeline-item-grid .timeline-right .timeline__card) {
+        :global(.vertical-timeline-item-grid .timeline-right .card) {
             margin-right: 0;
             margin-left: 9.65vw;
         }

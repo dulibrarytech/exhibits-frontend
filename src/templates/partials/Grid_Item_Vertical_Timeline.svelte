@@ -38,32 +38,37 @@
 
 <div class="vertical-timeline-grid-item item" {id}>
     
-    <div class="timeline__card card" bind:this={itemElement}>
-        <header class="card__header">
-            <!-- <time class="time" datetime="2008-02-02">
-                <span class="time__day">2</span>
-                <span class="time__month">Feb</span>
-            </time> -->
+    <div class="timeline__card" bind:this={itemElement}>
 
-            <!-- {#if date}
-                <div class="time">{date}</div>
-            {:else}
-                <div class="time">N.D.</div>
-            {/if} -->
+        <div class="card">
+            <header class="card__header">
+                <!-- <time class="time" datetime="2008-02-02">
+                    <span class="time__day">2</span>
+                    <span class="time__month">Feb</span>
+                </time> -->
 
-            {#if title}<div class="card__title">{@html title}</div><hr>{/if}
+                <!-- {#if date}
+                    <div class="time">{date}</div>
+                {:else}
+                    <div class="time">N.D.</div>
+                {/if} -->
 
-        </header>
+                {#if title}<div class="card__title">{@html title}</div><hr>{/if}
 
-        <div class="card__content">
-            {#if description && description.length > 0}<p class="description">{@html description}</p>{/if}
+            </header>
 
-            {#if media} 
-                <div class="preview">
-                    <Item_Preview {item} on:click-item />
-                </div>
-            {/if}
+            <div class="card__content">
+                {#if description && description.length > 0}<p class="description">{@html description}</p>{/if}
+
+                {#if media} 
+                    <div class="preview">
+                        <Item_Preview {item} on:click-item />
+                    </div>
+                {/if}
+            </div>
         </div>
+
+        
     </div>
 </div>
 
@@ -111,8 +116,6 @@
     */
     
     .time{
-        /* padding: var(--timePadding, .25rem 1.25rem .25rem);
-        background-color: var(--timeBackgroundColor, #f0f0f0); */
         font-size: var(--timeFontSize, 1.24rem);
         font-weight: var(--timeFontWeight, 700);
         text-transform: var(--timeTextTransform, uppercase);
@@ -124,9 +127,8 @@
     }
     
     .card__content{
-        /* margin-top: var(--cardContentMarginTop, .5rem); */
         margin: 0 auto 2rem auto;
-        width: 90%;
+        width: 100%;
     }
 
     .card__content > a {
