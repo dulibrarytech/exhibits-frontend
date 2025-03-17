@@ -47,7 +47,7 @@
 				
 				<h5>Exhibit text:</h5>
 				<hr>
-				<div class="text-section">
+				<div class="text-section" tabindex="0">
 					<Text_Item {item} {title} />
 				</div>
 

@@ -13,7 +13,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-<div class="text-item" tabindex="0" bind:this={textElement}>
+<div class="text-item" bind:this={textElement}>
     <Text_Content content={textContent} />
 </div>
 
