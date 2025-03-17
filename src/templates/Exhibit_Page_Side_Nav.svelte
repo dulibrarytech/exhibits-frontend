@@ -68,6 +68,9 @@
 			top: topOffset + anchorOffset,
 			behavior: 'smooth'
 		});
+
+        anchor.setAttribute('tabindex', 0)
+        anchor.focus();
     }
 
     const onMountItems = () => {
