@@ -83,14 +83,14 @@
 
             <ul class="nav nav-link navbar-nav ms-auto">
                 {#if sectionHeadings}
-                    {#each sectionHeadings as {uuid, text, subheadings = null}}
+                    {#each sectionHeadings as {uuid, text, subheadings = null}, index}
                         <li class="px-1" title={text}>
                             <a class="main-menu-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
-                        
+
                             {#if subheadings.length > 0}
 
                                 <ul class="dropdown-nav">
-                                    {#each subheadings as {uuid, text}}
+                                    {#each subheadings as {uuid, text}, index}
                                         <li><a class="dropdown-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a></li>
                                     {/each}
                                 </ul>
@@ -137,6 +137,7 @@
 
     button.navbar-toggler:focus {
         box-shadow: none;
+        outline: auto;
     }
 
     .navbar-nav {
@@ -204,6 +205,10 @@
     }
 
     .navbar-nav > li:hover .dropdown-nav {
+        display: block;
+    }
+
+    .navbar-nav li:focus-within .dropdown-nav {
         display: block;
     }
 

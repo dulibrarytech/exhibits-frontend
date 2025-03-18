@@ -140,6 +140,10 @@
         display: block;
     }
 
+    #sidebar-nav >div:focus-within .dropdown-nav {
+        display: block;
+    }
+
     #sidebar-nav .menuitem {
         background-color: inherit;
     }
