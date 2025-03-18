@@ -17,8 +17,6 @@
 
     let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
-    console.log("TEST banner 2 subtitle in:", subtitle)
-
     const dispatch = createEventDispatcher();
 
     const BASE_TITLE_FONT_SIZE = 70;
