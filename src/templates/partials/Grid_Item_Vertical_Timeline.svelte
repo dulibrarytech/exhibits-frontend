@@ -9,7 +9,7 @@
     let id = null;
     let styles = null;
 
-    let itemElement;
+    let gridItemElement;
 
     let type;
     let date;
@@ -27,8 +27,8 @@
         styles = item.styles || null;
     }
 
-    const setTheme = ({item = {}}) => {
-        Object.assign(itemElement.style, item)
+    const setTheme = (styles) => {
+        Object.assign(gridItemElement.style, styles)
     }
 
     onMount(() => {
@@ -38,9 +38,9 @@
 
 <div class="vertical-timeline-grid-item item" {id}>
     
-    <div class="timeline__card" bind:this={itemElement}>
+    <div class="timeline__card">
 
-        <div class="card">
+        <div class="card" bind:this={gridItemElement}>
             <header class="card__header">
                 <!-- <time class="time" datetime="2008-02-02">
                     <span class="time__day">2</span>
@@ -61,8 +61,10 @@
                 {#if description && description.length > 0}<p class="description">{@html description}</p>{/if}
 
                 {#if media} 
-                    <div class="preview">
-                        <Item_Preview {item} on:click-item />
+                    <div class="vertical-timeline-item">
+                        <div class="preview">
+                            <Item_Preview {item} on:click-item />
+                        </div>
                     </div>
                 {/if}
             </div>
