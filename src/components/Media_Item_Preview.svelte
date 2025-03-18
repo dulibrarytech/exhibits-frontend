@@ -27,7 +27,6 @@
     let thumbnail;
     let caption;
     let altText;
-    let styles;
 
     let link;
     let isPlaceholderImage;
@@ -48,7 +47,6 @@
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
         caption = item.caption || null;
-        styles = item.styles || null;
         altText = item.title_string || caption || item.description || "Untitled Image";
 
         link = args.link || null;
