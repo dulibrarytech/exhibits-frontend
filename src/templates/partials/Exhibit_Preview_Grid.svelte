@@ -5,6 +5,8 @@
 
     export let exhibits = [];
 
+    const DEFAULT_EXHIBIT_OVERLAY_TEXT = "VISIT";
+
     let previews = [];
 
     const init = () => {
@@ -24,7 +26,9 @@
                 <Exhibit_Preview {exhibit} link="/exhibit/{exhibit.uuid}"/>
 
                 <div class="overlay"></div>
-                <div class="overlay-text">VISIT</div>
+                <div class="overlay-text">
+                    {DEFAULT_EXHIBIT_OVERLAY_TEXT}
+                </div>
             </div>
         {/each}
     {/if}
