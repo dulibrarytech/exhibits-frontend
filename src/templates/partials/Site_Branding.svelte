@@ -24,6 +24,7 @@
     .branding-text {
         display: table-cell;
         vertical-align: middle;
+        padding: 0 30px;
     }
 
     a.site-title {
@@ -32,8 +33,6 @@
         display: block;
         color: #333333;
         text-decoration: none;
-        position: relative;
-        left: 30px;
     }
 
     .site-title h1 {
