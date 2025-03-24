@@ -178,7 +178,7 @@
 </div>
 
 <style>
-    .search-results {
+    /* .search-results {
         padding-top: 44px;
-    }
+    } */
 </style>
