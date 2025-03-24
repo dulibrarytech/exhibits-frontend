@@ -101,6 +101,12 @@ export const Settings = {
         "title": "Title",
         "description": "Description"
     },
+    searchFieldsExhibit: {
+        "title": "Title",
+        "description": "Description",
+        "text": "Text",
+        "caption": "Caption"
+    },
 
     /* 
      * Index fields included in search result data
