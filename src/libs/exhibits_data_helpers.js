@@ -65,7 +65,8 @@ export const sanitizeHtml = (string) => {
  */
 export const formatExhibitFields = (exhibits) => {
     exhibits.forEach((exhibit) => {
-        exhibit.title = stripHtmlTags(exhibit.title);
+        if(exhibit.title) exhibit.title = stripHtmlTags(exhibit.title);
+        if(exhibit.subtitle) exhibit.subtitle = stripHtmlTags(exhibit.subtitle);
     });
 }
 
@@ -80,8 +81,8 @@ export const formatExhibitFields = (exhibits) => {
 export const sanitizeExhibitHtmlFields = (exhibit) => {
     for(let field of Settings.htmlFieldsExhibit) {
         if(exhibit[field]) {
-            exhibit[field] = decodeHtmlEntities(exhibit[field]);
             exhibit[field] = sanitizeHtml(exhibit[field]);
+            exhibit[field] = decodeHtmlEntities(exhibit[field]);
         }
     }   
 
