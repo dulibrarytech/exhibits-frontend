@@ -5,7 +5,7 @@
 
     export let exhibits = [];
 
-    const DEFAULT_EXHIBIT_OVERLAY_TEXT = "VISIT";
+    //const DEFAULT_EXHIBIT_OVERLAY_TEXT = "VISIT";
 
     let previews = [];
 
@@ -30,10 +30,10 @@
                     {#if exhibit.subtitle}<hr>{exhibit.subtitle}{/if}
                 </div>
 
-                <div class="overlay"></div>
+                <!-- <div class="overlay"></div>
                 <div class="overlay-text">
                     {DEFAULT_EXHIBIT_OVERLAY_TEXT}
-                </div>
+                </div> -->
             </div>
         {/each}
     {/if}
@@ -55,10 +55,10 @@
         width: 100%;
     }
     
-    .grid-item:hover .overlay,
+    /* .grid-item:hover .overlay,
     .grid-item:hover .overlay-text {
         display: block;
-    }
+    } */
 
     .exhibit-preview-text {
         margin-top: 15px;
@@ -69,7 +69,7 @@
         color: #959391;
     }
 
-    .overlay {
+    /* .overlay {
         display: none;
         width: 100%;
         height: 100%;
@@ -94,7 +94,7 @@
         font-size: 24px;
         text-align: center;
         pointer-events: none;
-    }
+    } */
 
     /* begin responsive breakpoints: small mobile devices/phones first ^ */
     @media screen and (min-width: 480px) {

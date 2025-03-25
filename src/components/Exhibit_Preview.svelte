@@ -24,6 +24,7 @@
 
     const EXHIBIT_THUMBNAIL_WIDTH = "400";
     const EXHIBIT_THUMBNAIL_HEIGHT = "400";
+    const DEFAULT_EXHIBIT_OVERLAY_TEXT = "VISIT";
 
     $: init();
 
@@ -62,6 +63,12 @@
     <a href={link || undefined} data-exhibit-id={exhibitId} bind:this={titleTextElement} on:click|stopPropagation|preventDefault={onClickPreview} aria-label="enter exhibit {title}">
         <div class="exhibit-thumbnail">
             <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
+
+            <div class="overlay"></div>
+            <div class="overlay-text">
+                {DEFAULT_EXHIBIT_OVERLAY_TEXT}
+            </div>
+
         </div>
     </a>
 </div>
@@ -86,5 +93,37 @@
         height: 100%;
         position: relative;
         border-radius: 5px;
+    }
+
+    .exhibit-thumbnail:hover .overlay,
+    .exhibit-thumbnail:hover .overlay-text {
+        display: block;
+    }
+
+    .overlay {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        background-color: #181818;
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    .overlay-text {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: calc(50% - 13px);
+        left: 0;
+        z-index: 11;
+        color: white;
+        font-size: 24px;
+        text-align: center;
+        pointer-events: none;
     }
 </style>
