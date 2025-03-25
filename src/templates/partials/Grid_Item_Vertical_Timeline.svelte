@@ -2,6 +2,7 @@
     'use-strict'
 
     import { onMount } from 'svelte';
+    import * as Logger from '../../libs/logger.js';
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
 
     export let item = {};
@@ -28,7 +29,8 @@
     }
 
     const setTheme = (styles) => {
-        Object.assign(gridItemElement.style, styles)
+        if(typeof styles == 'object') Object.assign(gridItemElement.style, styles);
+        else Logger.module().error(`Invalid grid item style object. Grid item id: ${id}`);    
     }
 
     onMount(() => {

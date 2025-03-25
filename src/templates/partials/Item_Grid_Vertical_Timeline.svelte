@@ -34,23 +34,20 @@
         if(items.length > 0) {
             sections = sortItemsToDecadeSections(items);
 
-            // parse styles json string for all grid items
             items = items.map((item) => {
-                if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
+                item.styles = JSON.parse(item.styles);
                 return item;
             }) || [];
 
-            styles = {
-                grid: grid.styles || {},
-                heading: templateStyles.heading || null
-            }
+            styles = grid.styles || {};
         }
         else console.log(`No items found in timeline grid: ${grid.uuid}`);
         
     }
 
-    const setTheme = ({grid = {}, heading = null}) => {
-        Object.assign(timelineSection.style, grid)
+    const setTheme = ({item = {}, heading = null}) => {
+        if(typeof item == 'object') Object.assign(timelineSection.style, item);
+        else Logger.module().error(`Invalid grid style object. Grid id: ${id}`);  
 
         if(titleElement && heading) {
             titleElement.style.fontFamily = heading.fontFamily || 'inherit';
