@@ -3,28 +3,37 @@
 </svelte:head>
 
 <script>
-    'use strict'
+    
 </script>
 
-<div class="site-branding">
-    <div class="branding-text">
-        <a class="site-title" href="/">University Libraries
-            <h1>Exhibits <span class="highlight-text">@ DU</span></h1>
-        </a>
+<div class="site-branding-section">
+    <div class="site-branding container">
+        <div class="branding-text">
+            <a class="site-title" href="/">University Libraries
+                <h1>Exhibits <span class="highlight-text">@ DU</span></h1>
+            </a>
+        </div>
     </div>
 </div>
 
 <style>
+    .site-branding-section {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: #e5e3e1;
+    }
+
     .site-branding {
         height: 100px;
         width: 100%;
         display: table;
+        padding: 0;
     }
 
     .branding-text {
         display: table-cell;
         vertical-align: middle;
-        padding: 0 30px;
+        /* padding: 0 30px; */
     }
 
     a.site-title {
