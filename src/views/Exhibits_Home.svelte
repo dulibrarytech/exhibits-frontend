@@ -78,47 +78,57 @@
     })
 </script>
 
-<div class="exhibits-home page">
-    <Homepage_Hero exhibit={highlightExhibit} />
+<div class="exhibits-home">
 
-    <div class="container">
-        <div class="row homepage-section search">
-
-            <div class="col-sm-12 col-md-2">
-                <a href="/exhibits-explore">Explore All Exhibits</a>
-            </div>
-
-            <div class="col-sm-12 col-md-10">
-                <Search_Box endpoint="/search" fields={Settings.searchFields} placeholder="Search exhibits" />
-            </div>
-            
-        </div>
-        
-        {#if featuredExhibits && featuredExhibits.length > 0}
-            <div class="exhibit-previews">
-
-                <hr>
-                <div class="homepage-section">
-                    <div class="heading">
-                        <h3>Featured Exhibits</h3>
-                    </div>
-
-                    {#if FEATURED_EXHIBITS_DISPLAY == "slider"}
-                        <Exhibit_Preview_Slider exhibits={featuredExhibits} images="3" scroll="1" />
-                    {:else if FEATURED_EXHIBITS_DISPLAY == "grid"}
-                        <Exhibit_Preview_Title_Grid exhibits={featuredExhibits} />
-                    {/if}
-                </div>
-
-            </div>
-            
-        {:else}
-            <div class="message">
-                <h6>{message}</h6>
-            </div>
-        {/if}
+    <div class="container page-description">
+        <p>
+            Discover curated stories, collections, and creative projects from the University’s Libraries.<br>
+            These exhibits bring together unique materials and fresh perspectives to inspire discovery, reflection, and connection.
+        </p>
     </div>
 
+    <div class="page">
+
+        <div class="container">
+            <div class="row homepage-section search">
+
+                <!-- explore all link might be removed TBD -->
+                <div class="col-sm-12 col-md-2">
+                    <a href="/exhibits-explore">Explore All Exhibits</a>
+                </div>
+
+                <div class="col-sm-12 col-md-10">
+                    <Search_Box endpoint="/search" fields={Settings.searchFields} placeholder="Search exhibits" />
+                </div>
+                
+            </div>
+            
+            {#if featuredExhibits && featuredExhibits.length > 0}
+                <div class="exhibit-previews">
+
+                    <hr>
+                    <div class="homepage-section">
+                        <div class="heading">
+                            <h3>Featured Exhibits</h3>
+                        </div>
+
+                        {#if FEATURED_EXHIBITS_DISPLAY == "slider"}
+                            <Exhibit_Preview_Slider exhibits={featuredExhibits} images="3" scroll="1" />
+                        {:else if FEATURED_EXHIBITS_DISPLAY == "grid"}
+                            <Exhibit_Preview_Title_Grid exhibits={featuredExhibits} />
+                        {/if}
+                    </div>
+
+                </div>
+                
+            {:else}
+                <div class="message">
+                    <h6>{message}</h6>
+                </div>
+            {/if}
+        </div>
+
+    </div>
 </div>
 
 <style>
@@ -128,6 +138,15 @@
 
     .exhibits-home {
         color: var(--theme-FONT_COLOR);
+    }
+
+    .page-description {
+        margin-top: 30px;
+    }
+
+    .exhibits-home .container {
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .exhibit-previews {
@@ -157,5 +176,12 @@
         /* .search {
             width: 80%;
         } */
+    }
+
+    @media screen and (min-width: 575px) {
+        .exhibits-home .container {
+            /* padding-left: 0;
+            padding-right: 0; */
+        }
     }
 </style>
