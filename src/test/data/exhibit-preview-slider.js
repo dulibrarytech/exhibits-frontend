@@ -1,0 +1,51 @@
+export const test_data = [
+    {
+        "uuid": "7b843505f749e10f8702eab4c1ec135f",
+        "type": "exhibit",
+        "title": "The Loewenstien Family: A Story of Survival",
+        "banner_template": "banner_1",
+        "hero_image": "loewenstein_hero.jpg",
+        "thumbnail_image": "loewenstein_hero_thumbnail.jpeg",
+        "about_the_curators": "",
+        "description": "DESCRIPTION Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "page_layout": "top_nav",
+        "exhibit_template": "vertical_scroll",
+        "styles": "{\"exhibit\":{\"navigation\":{\"backgroundColor\":\"#DCC9AB\",\"color\":\"#ffffff\"},\"template\":{\"backgroundColor\":\"#7D8791\",\"color\":\"#303030\",\"fontSize\":\"19px\"}}}",
+        "is_published": 1,
+        "is_featured": 0,
+        "order": 1
+      },
+      {
+        "uuid": "cd1c36f45f1fa9e80b060ea9e893bab6",
+        "type": "exhibit",
+        "title": "#No More Pios",
+        "banner_template": "banner_3",
+        "about_the_curators": "",
+        "alert_text": "&lt;div style=&quot;font-size: 1.2em; padding: 15px&quot;&gt;Warning: This exhibit contains materials that are racist and may be painful or traumatizing to viewers. Please proceed with caution.&lt;/div&gt;",
+        "hero_image": "no-more-pios_overlay_hero_2.jpg",
+        "thumbnail_image": "no-more-pios_hero_2_thumbnail.jpg",
+        "description": "DESCRIPTION ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit",
+        "page_layout": "top_nav",
+        "exhibit_template": "vertical_scroll",
+        "styles": "{\"exhibit\":{\"navigation\":{\"color\":\"#1D1B1C\",\"backgroundColor\":\"#A89D78\",\"fontSize\":\"22px\",\"fontFamily\":\"Neue Haas Grotesk Text Pro\"},\"template\":{\"color\":\"#1D1B1C\",\"background\":\"#CAC0A1\",\"fontSize\":\"20px\",\"fontFamily\":\"Neue Haas Grotesk Text Pro\"}}}",
+        "is_published": 1,
+        "is_featured": 1,
+        "order": 3
+      },
+      {
+        "uuid": "642bbd319b780725f753b15e1df520e6",
+        "type": "exhibit",
+        "title": "Hanya Holm: When Modern Dance Came to Colorado",
+        "banner_template": "banner_1",
+        "about_the_curators": "",
+        "hero_image": "hanya_holm_hero.jpg",
+        "thumbnail_image": "hanya_holm_hero_thumbnail.jpg",
+        "description": "DESCRIPTION Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+        "page_layout": "top_nav",
+        "exhibit_template": "vertical_scroll",
+        "styles": "{\"exhibit\":{\"navigation\":{\"color\":\"#000000\",\"backgroundColor\":\"#F6F18E\"},\"template\":{\"color\":\"#000000\",\"backgroundColor\":\"#E6E6E6\",\"fontSize\":\"22px\"}}}",
+        "is_published": 1,
+        "is_featured": 1,
+        "order": 4
+      }
+];
