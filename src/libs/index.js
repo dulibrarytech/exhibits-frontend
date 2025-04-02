@@ -1,12 +1,12 @@
 'use strict'
 
-import { Configuration } from '../config/config.js';
 import axios from 'axios';
 import { URLQueryParams } from "object-in-queryparams";
 import * as Logger from './logger.js';
 import { stripHtmlTags } from '../libs/data_helpers';
 import { sanitizeExhibitHtmlFields, sanitizeExhibitItemHtmlFields } from '../libs/exhibits_data_helpers';
 import { ENTITY_TYPE } from '../config/global-constants';
+import { Configuration } from '../config/config.js';
 
 /**
  * Dev index interface module
@@ -15,10 +15,14 @@ import { ENTITY_TYPE } from '../config/global-constants';
  */
 export const Index = (() => {
 
-    const API_DOMAIN = Configuration.exhibitsApiDomain;
-    const EXHIBIT_ENDPOINT = API_DOMAIN + '/exhibit';
-    const STUDENT_EXHIBIT_ENDPOINT = API_DOMAIN + '/exhibit/student';
-    const SEARCH_ENDPOINT = API_DOMAIN + '/search';
+    let {
+        exhibitsApiDomain,
+        exhibitsApiKey
+
+    } = Configuration;
+
+    const EXHIBIT_ENDPOINT = exhibitsApiDomain + '/exhibit';
+    const SEARCH_ENDPOINT = exhibitsApiDomain + '/search';
 
     /**
      * getExhibits()
@@ -27,8 +31,11 @@ export const Index = (() => {
      * 
      * @returns {Object} exhibits - array of all exhibits
      */
-    const getExhibits = async () => {
+    const getExhibits = async (isAdmin = false) => {
         let exhibits = [];
+
+        // TODO api key update
+        // no updates required. at this point client only needs published exhibits for home pages
         
         try {
             let {data} = await axios.get(EXHIBIT_ENDPOINT);
@@ -61,16 +68,20 @@ export const Index = (() => {
      * 
      * @returns exhibit
      */
-    const getExhibit = async (id) => {
+    const getExhibit = async (id, isAdmin = false) => {
         let exhibit = null, response;
 
+        let apiKey = isAdmin ? `?key=${exhibitsApiKey}` : "";
+        let dataUrl = `${EXHIBIT_ENDPOINT}/${id}${apiKey}`;
+        let itemsUrl = `${EXHIBIT_ENDPOINT}/${id}/items${apiKey}`;
+
         try {
-            response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}`);
+            response = await axios.get(dataUrl); 
             let data = response?.data || {};
             sanitizeExhibitHtmlFields(data);
             if(data.title) data.title_string = stripHtmlTags(data.title);
 
-            response = await axios.get(`${EXHIBIT_ENDPOINT}/${id}/items`);
+            response = await axios.get(itemsUrl);
             let items = response?.data || [];
             for(let item of items) {
                 sanitizeExhibitItemHtmlFields(item);
@@ -142,7 +153,6 @@ export const Index = (() => {
 
     return {
         getExhibits,
-        //getStudentCuratedExhibits,
         getExhibit,
         searchIndex
     }

@@ -9,7 +9,7 @@
     import { Index } from '../libs/index.js';
     import { Settings } from '../config/settings';
     import { Fonts } from '../config/fonts'; 
-    import { USER_ROLE } from '../config/global-constants';
+    import { EXHIBIT_TEMPLATE, USER_ROLE } from '../config/global-constants';
     import { getUserRole } from '../libs/validation';
     import { getItemById, createExhibitPageSections } from '../libs/exhibits_data_helpers';
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
@@ -22,10 +22,11 @@
 
     export let currentRoute;
 
-    let apiKey;
+    const EXHIBIT_LOAD_MESSAGE = "Please wait...";
+
+    let authKey;
     let exhibitId;
-    let userRole;
-    let isPublished;
+    let isAdmin;
     let exhibit;
     let template;
     let styles;
@@ -43,10 +44,7 @@
     var renderPage;
 
     const init = async () => {
-        showLoadMessage(true);
-        
         exhibit = {};
-        isPublished = false;
         template = null;
         styles = null;
         pageLayout = null; 
@@ -57,14 +55,15 @@
         modalDialogData = null;
         renderPage = false;
 
-        pageTitle = Settings.appTitle;
-        apiKey = currentRoute.queryParams.key || null;
-        userRole = getUserRole(apiKey);
+        authKey = currentRoute.queryParams.key || null;
+        if(getUserRole(authKey) == USER_ROLE.ADMIN) isAdmin = true;
+        else isAdmin = false;
 
+        showLoadMessage(true);
         Logger.module().info(`Loading exhibit... ID: ${exhibitId}`);
 
         exhibitId = currentRoute.namedParams.id ?? "null";
-        exhibit = await Index.getExhibit(exhibitId); // {exhibit: {data: {}, items: []}}
+        exhibit = await Index.getExhibit(exhibitId, isAdmin);
         data = exhibit?.data;
 
         if(!exhibit || !data) {
@@ -75,12 +74,6 @@
             window.location.replace('/404');
         }
         else {
-            isPublished = ( data.is_published == true || userRole == USER_ROLE.ADMIN );
-        }
-
-        if(isPublished) {
-            if(data.title) pageTitle = `${data.title_string} | ${pageTitle}`;
-            
             try {
                 styles = JSON.parse(data.styles).exhibit || {};
                 if(!styles.template) Logger.module().info("Exhibit template style data not found");
@@ -90,14 +83,14 @@
                 Logger.module().error(`Error loading exhibit styles: ${error}`);
             }
 
+            pageTitle = Settings.appTitle;
+            if(data.title) pageTitle = `${data.title_string} | ${pageTitle}`;
+
             Logger.module().info("Importing fonts...");
             await importFonts();
 
             Logger.module().info("Rendering exhibit...");
             render();
-        }
-        else {
-            window.location.replace('/404');
         }
     }
 
@@ -116,15 +109,8 @@
         else {
             Logger.module().info("Retrieving items...");
 
-            if(userRole == USER_ROLE.ADMIN) {
-                items = exhibit.items
-            }
-            else {
-                items = getPublicItems(exhibit.items);
-            }
-
             // parse styles json string for all exhibit items
-            items = items.map((item) => {
+            items = exhibit.items.map((item) => {
                 if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
                 return item;
             }) || [];
@@ -134,28 +120,6 @@
             sections = createExhibitPageSections(items);
             renderPage = true;
         }
-    }
-
-    const getPublicItems = (items) => {
-        let publicItems = [];
-
-        // remove unpublished top-level items (standard items and container items)
-        publicItems = items.filter((item) => {
-            return item.is_published == true;
-        });
-
-        // remove unpublished from container item 'items' array
-        publicItems.forEach(({items = null}, index) => {
-            if(items) {
-                items = items.filter((item) => {
-                    return item.is_published == true;
-                });
-
-                publicItems[index].items = items;
-            }
-        });
-
-        return publicItems;
     }
 
     const importFonts = () => {
@@ -248,7 +212,6 @@
         setTimeout(() => {
             let anchorId = location.hash?.replace('#', '') || false;
             if(anchorId) page.navigateToItemId(anchorId);
-
             showLoadMessage(false);
 
         }, Settings.imageLoadDelay)
@@ -260,13 +223,13 @@
 {#if renderPage}
 
     <div class="exhibit-wrapper">
-        <div class="exhibit-load-message" style="display: {isMessageVisible ? 'block' : 'none'}"><h3>Please wait...</h3></div>
+        <div class="exhibit-load-message" style="display: {isMessageVisible ? 'block' : 'none'}"><h3>{EXHIBIT_LOAD_MESSAGE}</h3></div>
 
         <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
             <Exhibit_Menu {exhibitId} />
         
             <!-- exhibit page -->
-            <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} args={{userRole}} 
+            <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} 
                 bind:this={page}
                 on:mount={onMountPage} 
                 on:mount-items={onMountItems} 
@@ -280,18 +243,18 @@
 {/if}
 
 <style>
-    :global(.navbar.fixed-top) {
-        position: relative;
-    }
-
     .exhibit-load-message {
-        position: fixed;
+        position: relative;
         left: calc(50% - 80px);
-        top: calc(50% - 21px);
+        top: 300px;
     }
 
     .exhibit-wrapper {
         background: darkgray;
+    }
+
+    :global(.navbar.fixed-top) {
+        position: relative;
     }
 
     :global(body.modal-open) {
@@ -321,9 +284,5 @@
         :global(.search-box-wrapper .search-box) {
             float: right;
         }
-    }
-
-    @media screen and (min-width: 768px) {
-
     }
 </style>
