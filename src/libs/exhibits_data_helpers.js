@@ -100,8 +100,8 @@ export const sanitizeExhibitHtmlFields = (exhibit) => {
 export const sanitizeExhibitItemHtmlFields = (item) => {
     for(let field of Settings.htmlFieldsExhibitItem) {
         if(item[field]) {
-            item[field] = decodeHtmlEntities(item[field]);
             item[field] = sanitizeHtml(item[field]);
+            item[field] = decodeHtmlEntities(item[field]);
         }
     } 
 
