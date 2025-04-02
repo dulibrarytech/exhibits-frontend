@@ -82,11 +82,15 @@ main.container {
 }
 
 .page {
-	/* padding: 50px 0; */
+	padding: 50px 0;
 }
 
-.page > .container {
-	padding: 50px 0;
+.page .container {
+	padding: 0;
+}
+
+.page .container:not(:first-child) {
+	margin-top: 50px;
 }
 
 .page > .container h3 {

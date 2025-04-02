@@ -104,7 +104,7 @@
 <div class="homepage page">
 
     <!-- TODO move to separate component "Homepage_Navbar" -->
-    <div class="d-flex flex-column flex-md-row align-items-center p-3">
+    <div class="container d-flex flex-column flex-md-row align-items-center p-3">
         <div class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
             <Search_Box endpoint="/search" fields={searchFields} placeholder="Search exhibits"/>
         </div>
@@ -149,16 +149,15 @@
     .homepage h3 {
         color: #030303;
     }
+
+    /* .homepage {
+
+    }
     
     .homepage .container {
         width: 95%;
         margin: 0 auto;
-        margin-top: 50px;
-    }
-
-    .exhibits-search-wrapper {
-        
-    }
+    } */
 
     .message {
         margin-top: 78px;

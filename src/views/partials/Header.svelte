@@ -3,16 +3,22 @@
 </script>
 
 <header class="du-header">
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 border-bottom box-shadow-bottom">
-        <a class="d-flex align-items-center text-dark text-decoration-none" href="https://library.du.edu" title="University Libraries" target="_blank" aria-label="university of denver libraries home page">
-            <img class="header-branding" src="../assets/images/du-libraries-logo.png" alt="University of Denver Logo" />
-        </a>
+    <div class="border-bottom box-shadow-bottom">
+        <div class="container d-flex flex-column flex-md-row align-items-center py-3">
+            <a class="d-flex align-items-center text-dark text-decoration-none" href="https://library.du.edu" title="University Libraries" target="_blank" aria-label="university of denver libraries home page">
+                <img class="header-branding" src="../assets/images/du-libraries-logo.png" alt="University of Denver Logo" />
+            </a>
 
-        <Site_Menu />
+            <Site_Menu />
+        </div>
     </div>
 </header>
 
 <style>
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
     .border-bottom {
         border-bottom: 2px solid #dee2e6 !important;
     }
@@ -36,6 +42,6 @@
     }
 
     .header-branding {
-        height: 50px;
+        height: 30px;
     }
 </style>
