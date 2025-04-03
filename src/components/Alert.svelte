@@ -5,7 +5,7 @@
 </script>
 
 <div class="alert-section">
-    <div class="outer-container">
+    <div class="container">
         {@html text}
     </div>
 </div>

@@ -7,8 +7,8 @@
 </script>
 
 <div class="site-branding-section">
-    <!-- <div class="site-branding container"> -->
-        <div class="site-branding px-4">
+    <div class="site-branding container">
+    <!-- <div class="site-branding px-4"> -->
         <div class="branding-text">
             <a class="site-title" href="/">University Libraries
                 <h1>Exhibits <span class="highlight-text">@ DU</span></h1>

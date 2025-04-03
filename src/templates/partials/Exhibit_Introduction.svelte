@@ -31,9 +31,9 @@
     }
 
     .exhibit-introduction {
-        letter-spacing: 0.032599em;
         line-height: 1.45em;
-        padding: 5.5vw 0;
+        padding-top: 5.5vw;
+        padding-bottom: 5.5vw;
     }
 
     :global(.exhibit-introduction a:hover) {
