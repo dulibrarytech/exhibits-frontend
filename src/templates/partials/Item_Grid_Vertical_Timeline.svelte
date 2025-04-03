@@ -321,7 +321,7 @@
     }
 
     .timeline-wrapper {
-        margin: 50px auto 0 auto;
+        margin: 0 auto;
         width: 100%;
     }
 
