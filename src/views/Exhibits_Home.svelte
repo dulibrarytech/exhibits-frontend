@@ -103,11 +103,11 @@
 
         <div class="container">
             {#if exhibits && exhibits.length > 0}
-                <div class="row homepage-section search">
+                <div class="row search">
 
                     <!-- explore all link might be removed TBD -->
                     <div class="col-sm-12 col-md-2">
-                        <a href="/exhibits-explore">Explore All Exhibits</a>
+                        <a class="exhibits-explore-link" href="/exhibits-explore">Explore All Exhibits</a>
                     </div>
 
                     <div class="col-sm-12 col-md-10">
@@ -148,7 +148,7 @@
                 </div>
             {:else}
                 <div class="message">
-                    <h6>{message}</h6>
+                    {message}
                 </div>
             {/if}
         </div>
@@ -167,7 +167,7 @@
     }
 
     .page-description {
-        margin-top: 30px;
+        padding-top: 50px;
     }
 
     .exhibit-previews {
@@ -180,7 +180,7 @@
         margin-bottom: 50px;
     }
 
-    .homepage-section a {
+    a.exhibits-explore-link {
         text-decoration: underline;
         position: relative;
         top: 5px;
