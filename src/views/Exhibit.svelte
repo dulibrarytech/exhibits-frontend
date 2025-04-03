@@ -23,7 +23,9 @@
     export let currentRoute;
 
     const EXHIBIT_LOAD_MESSAGE = "Please wait...";
+    const EXHIBIT_LOAD_ERROR = "Error loading exhibit";
 
+    let page;
     let authKey;
     let exhibitId;
     let isAdmin;
@@ -39,7 +41,7 @@
     let isExhibitVisible;
     let isMessageVisible;
 
-    let page;
+    var message;
     var pageTitle;
     var renderPage;
 
@@ -59,15 +61,17 @@
         if(getUserRole(authKey) == USER_ROLE.ADMIN) isAdmin = true;
         else isAdmin = false;
 
-        showLoadMessage(true);
+        message = EXHIBIT_LOAD_MESSAGE;
         Logger.module().info(`Loading exhibit... ID: ${exhibitId}`);
+        showLoadMessage(true);
 
         exhibitId = currentRoute.namedParams.id ?? "null";
         exhibit = await Index.getExhibit(exhibitId, isAdmin);
         data = exhibit?.data;
 
         if(!exhibit || !data) {
-            Logger.module().error("Error loading exhibit");
+            message = EXHIBIT_LOAD_ERROR;
+            Logger.module().error(EXHIBIT_LOAD_ERROR);
         }
         else if(Object.keys(data).length === 0) {
             Logger.module().info("Exhibit not found");
@@ -220,27 +224,31 @@
     init();
 </script>
 
-{#if renderPage}
+<!-- {#if renderPage} -->
 
     <div class="exhibit-wrapper">
-        <div class="exhibit-load-message" style="display: {isMessageVisible ? 'block' : 'none'}"><h3>{EXHIBIT_LOAD_MESSAGE}</h3></div>
+        <div class="exhibit-load-message" style="display: {isMessageVisible ? 'block' : 'none'}"><h3>{message}</h3></div>
 
-        <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
-            <Exhibit_Menu {exhibitId} />
-        
-            <!-- exhibit page -->
-            <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} 
-                bind:this={page}
-                on:mount={onMountPage} 
-                on:mount-items={onMountItems} 
-                on:click-item={onOpenViewerModal} />
-        
-            {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
-        
-        </div>
+        {#if renderPage}
+
+            <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
+                <Exhibit_Menu {exhibitId} />
+            
+                <!-- exhibit page -->
+                <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} 
+                    bind:this={page}
+                    on:mount={onMountPage} 
+                    on:mount-items={onMountItems} 
+                    on:click-item={onOpenViewerModal} />
+            
+                {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
+            
+            </div>
+
+        {/if}
     </div>
 
-{/if}
+<!-- {/if} -->
 
 <style>
     .exhibit-load-message {
@@ -250,6 +258,7 @@
     }
 
     .exhibit-wrapper {
+        height: 100%;
         background: darkgray;
     }
 
