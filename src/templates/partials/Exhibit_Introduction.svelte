@@ -13,8 +13,8 @@
     });
 </script>
 
-<div class="exhibit-introduction-section container" bind:this={introductionElement}>
-    <div class="exhibit-introduction">
+<div class="exhibit-introduction-section" bind:this={introductionElement}>
+    <div class="exhibit-introduction container">
         {@html content}
     </div>
 </div>
