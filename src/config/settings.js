@@ -2,7 +2,7 @@
  * User settings
  * Update this file or via admin UI
  */
-import { ITEM_TYPE } from './global-constants.js';
+import { EXHIBIT_TEMPLATE, ITEM_TYPE } from './global-constants.js';
 
 export const Settings = {
     appTitle: "Exhibits @ DU",
@@ -155,5 +155,40 @@ export const Settings = {
      */
     defaultThemeStyles: {
         sectionPadding: "3.5em"
+    },
+
+    /*
+     * Data object fields
+     * exhibit
+     */
+    exhibitDataFields: {
+        UUID: "uuid",
+        TYPE: "type",
+        TITLE: "title",
+        SUBTITLE: "subtitle",
+        BANNER_TEMPLATE: "banner_template",
+        ABOUT_THE_CURATORS: "about_the_curators",
+        ALERT_TEXT: "alert_text",
+        HERO_IMAGE: "hero_image",
+        THUMBNAIL_IMAGE: "thumbnail_image",
+        DESCRIPTION: "description",
+        PAGE_LAYOUT: "page_layout",
+        EXHIBIT_TEMPLATE: "exhibit_template",
+        STYLES: "styles",
+        IS_FEATURED: "is_featured",
+        IS_PUBLISHED: "is_published",
+        IS_STUDENT: "is_student_curated",
+        CREATED: "created"
+    },
+
+    /*
+     * Data object fields
+     * item
+     */
+    exhibitItemDataFields: {
+        TITLE: "title",
+        IS_MEMBER_OF_EXHIBIT: "is_member_of_exhibit",
+        IS_PUBLISHED: "is_published",
+        CREATED: "created"
     }
 }
