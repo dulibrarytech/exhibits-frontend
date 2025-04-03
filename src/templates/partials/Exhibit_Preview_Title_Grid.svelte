@@ -5,8 +5,6 @@
 
     export let exhibits = [];
 
-    //const DEFAULT_EXHIBIT_OVERLAY_TEXT = "VISIT";
-
     let previews = [];
 
     const init = () => {
@@ -25,15 +23,12 @@
             <div class="grid-item exhibit-preview-item">
                 <Exhibit_Preview {exhibit} link="/exhibit/{exhibit.uuid}"/>
 
-                <div class="exhibit-preview-text">
+                <div class="exhibit-preview-title">
                     {exhibit.title || "Untitled Exhibit"}
-                    {#if exhibit.subtitle}<hr>{exhibit.subtitle}{/if}
                 </div>
-
-                <!-- <div class="overlay"></div>
-                <div class="overlay-text">
-                    {DEFAULT_EXHIBIT_OVERLAY_TEXT}
-                </div> -->
+                {#if exhibit.subtitle}
+                    <div class="exhibit-preview-subtext">{exhibit.subtitle}</div>
+                {/if}
             </div>
         {/each}
     {/if}
@@ -54,47 +49,21 @@
         position: relative;
         width: 100%;
     }
-    
-    /* .grid-item:hover .overlay,
-    .grid-item:hover .overlay-text {
-        display: block;
-    } */
 
-    .exhibit-preview-text {
-        margin-top: 15px;
+    .exhibit-preview-title {
+        margin-top: 20px;
         font-size: 18px;
+    }
+
+    .exhibit-preview-subtext {
+        margin-top: 10px;
+        color: #828281;
+        font-size: 16px;
     }
 
     .exhibit-preview-text hr {
         color: #959391;
     }
-
-    /* .overlay {
-        display: none;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        background-color: #181818;
-        opacity: 0.4;
-        pointer-events: none;
-    }
-
-    .overlay-text {
-        display: none;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: calc(50% - 13px);
-        left: 0;
-        z-index: 11;
-        color: white;
-        font-size: 24px;
-        text-align: center;
-        pointer-events: none;
-    } */
 
     /* begin responsive breakpoints: small mobile devices/phones first ^ */
     @media screen and (min-width: 480px) {
