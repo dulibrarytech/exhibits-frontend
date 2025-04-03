@@ -13,7 +13,7 @@
     });
 </script>
 
-<div class="exhibit-introduction-section" bind:this={introductionElement}>
+<div class="exhibit-introduction-section container" bind:this={introductionElement}>
     <div class="exhibit-introduction">
         {@html content}
     </div>
@@ -33,7 +33,7 @@
     .exhibit-introduction {
         letter-spacing: 0.032599em;
         line-height: 1.45em;
-        padding: 5.5vw 7.5vw;
+        padding: 5.5vw 0;
     }
 
     :global(.exhibit-introduction a:hover) {

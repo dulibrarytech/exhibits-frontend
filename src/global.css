@@ -85,10 +85,6 @@ main.container {
 	padding: 50px 0;
 }
 
-.page .container {
-	padding: 0;
-}
-
 .page .container:not(:first-child) {
 	margin-top: 50px;
 }

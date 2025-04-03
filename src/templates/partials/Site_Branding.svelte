@@ -7,7 +7,8 @@
 </script>
 
 <div class="site-branding-section">
-    <div class="site-branding container">
+    <!-- <div class="site-branding container"> -->
+        <div class="site-branding px-4">
         <div class="branding-text">
             <a class="site-title" href="/">University Libraries
                 <h1>Exhibits <span class="highlight-text">@ DU</span></h1>
@@ -27,13 +28,11 @@
         height: 100px;
         width: 100%;
         display: table;
-        padding: 0;
     }
 
     .branding-text {
         display: table-cell;
         vertical-align: middle;
-        /* padding: 0 30px; */
     }
 
     a.site-title {

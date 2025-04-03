@@ -128,7 +128,8 @@
     }
 
     .navbar-expand-lg .navbar-nav {
-        gap: 15px;
+        row-gap: 5px;
+        column-gap: 3px;
     }
 
     button.navbar-toggler {
@@ -147,7 +148,8 @@
 
     .navbar-nav a {
         padding: 8px 26px;
-        font-size: 1em;
+        /* font-size: 1em; */
+        font-size: 18px;
         font-weight: bold;
     }
 

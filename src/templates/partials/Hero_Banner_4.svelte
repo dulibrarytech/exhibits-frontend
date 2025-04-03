@@ -36,7 +36,8 @@
     init();
 </script>
 
-<div class="banner" bind:this={bannerElement}>
+<!-- <div class="banner container" bind:this={bannerElement}> -->
+    <div class="banner container" bind:this={bannerElement}>
 
     <div class="row">
         <div class="hero-image col-xl-6 col-lg-6 col-md-5 col-sm-12">
@@ -63,7 +64,10 @@
 
     .hero-image {
         position: relative;
-        padding: 44px;
+        /* padding: 44px; */
+
+        padding-top: 44px; /* show strip of background color above image */
+        padding-bottom: 44px; /* show strip of background color below image */
     }
 
     .hero-image > img {
@@ -87,34 +91,16 @@
     }
 
     #title {
-        font-size: 52px;
+        font-size: 74px;
     }
 
     #subtitle {
-        font-size: 35px;
+        font-size: 28px;
     }
 
     @media screen and (min-width: 576px) {
         #title {
-            font-size: 52px;
-        }
-
-        #subtitle {
-            font-size: 41px;
-        }
-    }
-
-    @media screen and (min-width: 768px) {
-        .hero-image {
-            padding: 11px;
-        }
-
-        #title {
-            font-size: 41px;
-        }
-
-        .title-text {
-            margin-bottom: 20px;
+            font-size: 82px;
         }
 
         #subtitle {
@@ -122,41 +108,59 @@
         }
     }
 
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 768px) {
         .hero-image {
-            padding: 33px;
+            /* padding: 11px; */
         }
 
         #title {
-            font-size: 52px;
+            font-size: 60px;
+        }
+
+        .title-text {
+            margin-bottom: 20px;
         }
 
         #subtitle {
-            font-size: 41px;
+            font-size: 20px;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .hero-image {
+            /* padding: 33px; */
+        }
+
+        #title {
+            font-size: 87px;
+        }
+
+        #subtitle {
+            font-size: 28px;
         }
     }
 
     @media screen and (min-width: 1280px) {
         .hero-image {
-            padding: 44px;
+            /* padding: 44px; */
         }
 
         #title {
-            font-size: 68px;
+            font-size: 102px;
         }
 
         #subtitle {
-            font-size: 52px;
+            font-size: 38px;
         }
     }
 
     @media screen and (min-width: 1400px) {
         #title {
-            font-size: 74px;
+            font-size: 112px;
         }
 
         #subtitle {
-            font-size: 68px;
+            font-size: 48px;
         }
     }
 </style>
