@@ -144,11 +144,6 @@
         margin-top: 30px;
     }
 
-    .exhibits-home .container {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
     .exhibit-previews {
         padding: 50px 0;
     }
