@@ -42,7 +42,7 @@
     let isMessageVisible;
 
     var message;
-    var pageTitle;
+    var pageTitle; 
     var renderPage;
 
     const init = async () => {
@@ -151,11 +151,9 @@
 
     const getPageById = (id) => {
         let pageComponent = null;
-
         for(let page in $Popup_Pages) {
             if(page == id) pageComponent = $Popup_Pages[page];
         }
-        
         return pageComponent;
     }
 
@@ -224,42 +222,45 @@
     init();
 </script>
 
-<!-- {#if renderPage} -->
-
-    <div class="exhibit-wrapper">
-        <div class="exhibit-load-message" style="display: {isMessageVisible ? 'block' : 'none'}"><h3>{message}</h3></div>
-
-        {#if renderPage}
-
-            <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
-                <Exhibit_Menu {exhibitId} />
-            
-                <!-- exhibit page -->
-                <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} 
-                    bind:this={page}
-                    on:mount={onMountPage} 
-                    on:mount-items={onMountItems} 
-                    on:click-item={onOpenViewerModal} />
-            
-                {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
-            
-            </div>
-
-        {/if}
+<div class="exhibit-wrapper">
+    <div class="exhibit-load-message" style="display: {isMessageVisible ? 'absolute' : 'none'}">
+        <div><h3>{message}</h3></div>
     </div>
 
-<!-- {/if} -->
+    {#if renderPage}
+
+        <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
+            <Exhibit_Menu {exhibitId} />
+        
+            <!-- exhibit page -->
+            <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} 
+                bind:this={page}
+                on:mount={onMountPage} 
+                on:mount-items={onMountItems} 
+                on:click-item={onOpenViewerModal} />
+        
+            {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
+        </div>
+
+    {/if}
+</div>
 
 <style>
-    .exhibit-load-message {
-        position: relative;
-        left: calc(50% - 80px);
-        top: 300px;
+    .exhibit-wrapper {
+        background: darkgray;
+        height: 100vh;
     }
 
-    .exhibit-wrapper {
-        height: 100%;
-        background: darkgray;
+    .exhibit-load-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+
+    .exhibit-load-message > div {
+        align-items: center;
     }
 
     :global(.navbar.fixed-top) {
