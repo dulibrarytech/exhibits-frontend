@@ -5,10 +5,6 @@
 
     export let exhibits = [];
 
-    /* move to preview component */
-    // const DEFAULT_EXHIBIT_OVERLAY_TEXT = "VISIT";
-    /* END move to preview component */
-
     let previews = [];
 
     const init = () => {
@@ -26,14 +22,6 @@
         {#each previews as exhibit}
             <div class="grid-item exhibit-preview-item">
                 <Exhibit_Preview {exhibit} link="/exhibit/{exhibit.uuid}"/>
-
-                <!-- move to preview component -->
-                <!-- <div class="overlay"></div>
-                <div class="overlay-text">
-                    {DEFAULT_EXHIBIT_OVERLAY_TEXT}
-                </div> -->
-                <!-- END move to preview component -->
-
             </div>
         {/each}
     {/if}
@@ -54,40 +42,6 @@
         position: relative;
         width: 100%;
     }
-    
-    /* .grid-item:hover .overlay,
-    .grid-item:hover .overlay-text {
-        display: block;
-    } */
-
-    /* move to preview component */
-    /* .overlay {
-        display: none;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        background-color: #181818;
-        opacity: 0.4;
-        pointer-events: none;
-    }
-
-    .overlay-text {
-        display: none;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: calc(50% - 13px);
-        left: 0;
-        z-index: 11;
-        color: white;
-        font-size: 24px;
-        text-align: center;
-        pointer-events: none;
-    } */
-    /* END move to preview component */
 
     /* begin responsive breakpoints: small mobile devices/phones first ^ */
     @media screen and (min-width: 480px) {
