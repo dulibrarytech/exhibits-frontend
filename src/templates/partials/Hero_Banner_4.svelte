@@ -37,7 +37,7 @@
 </script>
 
 <!-- <div class="banner container" bind:this={bannerElement}> -->
-    <div class="banner container" bind:this={bannerElement}>
+    <div class="banner" bind:this={bannerElement}>
 
     <div class="row">
         <div class="hero-image col-xl-6 col-lg-6 col-md-5 col-sm-12">
@@ -64,10 +64,10 @@
 
     .hero-image {
         position: relative;
-        /* padding: 44px; */
+        padding: 44px;
 
-        padding-top: 44px; /* show strip of background color above image */
-        padding-bottom: 44px; /* show strip of background color below image */
+        /* padding-top: 44px;
+        padding-bottom: 44px;  */
     }
 
     .hero-image > img {
