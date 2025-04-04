@@ -1,5 +1,10 @@
 export const Fonts = [
     {
+        "name": "Breve Text",
+        "file": "BreveTextLight.otf",
+        "url": ""
+    },
+    {
         "name": "Nocturne Serif",
         "file": "NocturneSerifTest-Medium-uploaded-63b633de32d04.otf",
         "url": ""
