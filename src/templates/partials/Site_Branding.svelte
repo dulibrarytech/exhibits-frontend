@@ -6,11 +6,10 @@
     
 </script>
 
-<div class="site-branding-section">
+<div class="site-branding-banner">
     <div class="site-branding container">
-    <!-- <div class="site-branding px-4"> -->
         <div class="branding-text">
-            <a class="site-title" href="/">University Libraries
+            <a class="site-title" href="/">
                 <h1>Exhibits <span class="highlight-text">@ DU</span></h1>
             </a>
         </div>
@@ -18,12 +17,6 @@
 </div>
 
 <style>
-    .site-branding-section {
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-color: #e5e3e1;
-    }
-
     .site-branding {
         height: 100px;
         width: 100%;
@@ -44,8 +37,10 @@
     }
 
     .site-title h1 {
-        font-size: 27px;
+        font-size: 33px;
         text-transform: uppercase;
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     .highlight-text {

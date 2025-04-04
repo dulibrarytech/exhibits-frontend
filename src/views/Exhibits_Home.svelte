@@ -11,10 +11,10 @@
     import { Index } from '../libs/index.js';
     import { formatExhibitFields } from '../libs/exhibits_data_helpers.js';
 
+    import Site_Branding_Search from '../templates/partials/Site_Branding_Search.svelte';
     import Homepage_Hero from '../components/Homepage_Hero.svelte';
     import Exhibit_Preview_Title_Grid from '../templates/partials/Exhibit_Preview_Title_Grid.svelte';
     import Exhibit_Preview_Slider from '../components/Exhibit_Preview_Slider.svelte';
-    import Search_Box from '../components/Search_Box.svelte';
 
     export let currentRoute;
 
@@ -22,7 +22,7 @@
     let highlightExhibit;
     let featuredExhibits;
     let studentCuratedExhibits;
-    let searchFields = [];
+    let searchData;
 
     var message = "";
 
@@ -34,7 +34,15 @@
     const EXHIBIT_FIELDS = Settings.exhibitDataFields;
 
     const init = async () => {
-        searchFields = Object.keys(Settings.searchFields);
+        searchData = {
+            endpoint: "/exhibits-explore",
+            queryParam: "terms",
+            placeholder: "Search Exhibits",
+            fields: Object.keys(Settings.searchFields),
+            params: {
+                "filter": "keyword"
+            },
+        }
 
         highlightExhibit = null;
         featuredExhibits = null;
@@ -72,13 +80,16 @@
         }
     }
 
+    init();
+
     onMount(async () => {
         if(currentRoute.path == '/') navigateTo('/exhibits-home');
-        init();
     })
 </script>
 
 <div class="exhibits-home">
+
+    <Site_Branding_Search data={searchData} />
 
     {#if HERO_DISPLAY}
         <div class="hero-banner">
@@ -90,23 +101,12 @@
 
         <div class="container">
             <div class="page-description">
-                <p>
-                    Discover curated stories, collections, and creative projects from the University Libraries.<br>
-                    These exhibits bring together unique materials and fresh perspectives to inspire discovery, reflection, and connection.
-                </p>
+                <p>Discover curated stories, collections, and creative projects from the University Libraries.</p>
+                <p>These exhibits bring together unique materials and fresh perspectives to inspire discovery, reflection, and connection.</p>
             </div>
             
             {#if exhibits && exhibits.length > 0}
-                <!-- <div class="row search">
-                    <div class="col-sm-12 col-md-2">
-                        <a class="exhibits-explore-link" href="/exhibits-explore">Explore All Exhibits</a>
-                    </div>
 
-                    <div class="col-sm-12 col-md-10">
-                        <Search_Box endpoint="/search" fields={Settings.searchFields} placeholder="Search exhibits" />
-                    </div>
-                </div> -->
-                
                 <div class="exhibit-previews">
                     {#if featuredExhibits && featuredExhibits.length > 0}
                         <hr>
@@ -137,6 +137,7 @@
                         </div>
                     {/if}
                 </div>
+
             {:else}
                 <div class="message">
                     {message}
@@ -160,13 +161,18 @@
         letter-spacing: 0.02em;
     }
 
+    .site-branding-banner {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: #e5e3e1;
+    }
+
     .message {
         margin-top: 100px;
         font-size: 18px;
     }
 
     .page-description p:last-child {
-        /* padding-top: 50px; */
         margin-bottom: 0;
     }
 
@@ -177,17 +183,6 @@
     .homepage-section {
         margin-top: 50px;
         margin-bottom: 50px;
-    }
-
-    a.exhibits-explore-link {
-        text-decoration: underline;
-        position: relative;
-        top: 5px;
-        font-size: 18px;
-    }
-
-    .search {
-        margin-top: 0;
     }
 
     @media screen and (min-width: 575px) {

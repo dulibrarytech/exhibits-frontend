@@ -15,6 +15,7 @@
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
 
+    import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Exhibit_Menu from '../components/Exhibit_Menu.svelte';
     import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
     import Modal_Item_Display from '../components/Modal_Item_Display.svelte';
@@ -222,7 +223,10 @@
     init();
 </script>
 
+<Site_Branding />
+
 <div class="exhibit-wrapper">
+
     <div class="exhibit-load-message" style="display: {isMessageVisible ? 'absolute' : 'none'}">
         <div><h3>{message}</h3></div>
     </div>
@@ -249,6 +253,12 @@
     .exhibit-wrapper {
         background: darkgray;
         height: 100vh;
+    }
+
+    .site-branding-banner {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: #e5e3e1;
     }
 
     .exhibit-load-message {

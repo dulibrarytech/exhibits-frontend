@@ -4,10 +4,11 @@
     import { onMount } from 'svelte';
     import { removeStopwords } from 'stopword';
 
-    export let endpoint = null;
-    export let params = {}; // params to append to querystring
-    export let fields = [];
-    export let placeholder = "";
+    export let endpoint = null;    // request endpoint
+    export let queryParam = "q";  // main terms parameter (default is q)
+    export let params = {};      // params to append to querystring
+    export let fields = [];      // for 'fields' query parameter
+    export let placeholder = ""; // search box placeholder
 
     let query;
     let url;
@@ -35,9 +36,9 @@
 
       // create the querystring
       let queryString = queryTokens.toString();
-      url = endpoint.concat(`?q=${queryString}`);
+      url = endpoint.concat(`?${queryParam}=${queryString}`);
 
-      // append the search fields
+      // append the search fields TODO remove, use params
       let fieldString = fields.toString();
       if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
 
@@ -79,12 +80,20 @@
 <svelte:window on:keydown={onKeyPress} />
 
 <style>
+  .search-box {
+      height: 100%;
+      width: 100%;
+      display: table;
+  }
+
   form.form-inline {
-    width: 100%;
+      width: 100%;
+      display: table-cell;
+      vertical-align: middle;
   }
 
   .search-box input,
   .search-box button {
-    margin: 0;
+      margin: 0;
   }
 </style>
