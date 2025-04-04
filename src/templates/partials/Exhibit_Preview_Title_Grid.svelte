@@ -4,12 +4,14 @@
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
 
     export let exhibits = [];
+    export let limit = 0;
 
     let previews = [];
 
     const init = () => {
         for(let exhibit of exhibits) {
             previews.push(exhibit);
+            if(limit > 0 && previews.length >= limit) break; 
         }
     }
 
