@@ -125,7 +125,7 @@
                             {/if}
                         </div>
                     {/if}
-                    {#if featuredExhibits && featuredExhibits.length > 0}
+                    {#if studentCuratedExhibits && studentCuratedExhibits.length > 0}
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
