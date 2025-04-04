@@ -23,14 +23,12 @@ const routes = [
     /**********************
      * root
      **********************/
-    // {name: '/', component: Exhibits_Home},
-    // {name: '/exhibits', component: Exhibits_Home},
+    {name: '/', component: Exhibits_Home},
+    {name: '/exhibits-home', component: Exhibits_Home},
 
     //////////////////
     // DEV test pages
     //////////////////
-    {name: '/', component: Exhibits_Home},
-    {name: '/exhibits-home', component: Exhibits_Home},
     // {name: '/exhibits-explore', component: Exhibits_Explore},
     //////////////////
     // end DEV test pages
