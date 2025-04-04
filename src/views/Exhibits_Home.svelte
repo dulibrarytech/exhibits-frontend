@@ -86,20 +86,18 @@
         </div>
     {/if}
 
-    <div class="container page-description">
-        <p>
-            Discover curated stories, collections, and creative projects from the University Libraries.<br>
-            These exhibits bring together unique materials and fresh perspectives to inspire discovery, reflection, and connection.
-        </p>
-    </div>
-
     <div class="page">
 
         <div class="container">
+            <div class="page-description">
+                <p>
+                    Discover curated stories, collections, and creative projects from the University Libraries.<br>
+                    These exhibits bring together unique materials and fresh perspectives to inspire discovery, reflection, and connection.
+                </p>
+            </div>
+            
             {#if exhibits && exhibits.length > 0}
-                <div class="row search">
-
-                    <!-- explore all link might be removed TBD -->
+                <!-- <div class="row search">
                     <div class="col-sm-12 col-md-2">
                         <a class="exhibits-explore-link" href="/exhibits-explore">Explore All Exhibits</a>
                     </div>
@@ -107,8 +105,7 @@
                     <div class="col-sm-12 col-md-10">
                         <Search_Box endpoint="/search" fields={Settings.searchFields} placeholder="Search exhibits" />
                     </div>
-                    
-                </div>
+                </div> -->
                 
                 <div class="exhibit-previews">
                     {#if featuredExhibits && featuredExhibits.length > 0}
@@ -168,8 +165,9 @@
         font-size: 18px;
     }
 
-    .page-description {
-        padding-top: 50px;
+    .page-description p:last-child {
+        /* padding-top: 50px; */
+        margin-bottom: 0;
     }
 
     .exhibit-previews {
