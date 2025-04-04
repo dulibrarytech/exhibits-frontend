@@ -26,17 +26,11 @@
 
     var message = "";
 
-    const FONT_COLOR = "#818181";
+    const FONT_FAMILY = "Breve Sans";
+    const FONT_COLOR = '#525252';
     const HERO_DISPLAY = false;
     const EXHIBITS_DISPLAY = "grid";
 
-    // const EXHIBIT_FIELDS = {
-        // TITLE: "title",
-        // IS_FEATURED: "is_featured",
-        // IS_PUBLISHED: "is_published",
-        // IS_STUDENT: "is_student_curated",
-        // CREATED: "created"
-    // }
     const EXHIBIT_FIELDS = Settings.exhibitDataFields;
 
     const init = async () => {
@@ -94,7 +88,7 @@
 
     <div class="container page-description">
         <p>
-            Discover curated stories, collections, and creative projects from the University’s Libraries.<br>
+            Discover curated stories, collections, and creative projects from the University Libraries.<br>
             These exhibits bring together unique materials and fresh perspectives to inspire discovery, reflection, and connection.
         </p>
     </div>
@@ -121,7 +115,7 @@
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
-                                <h3>Featured Exhibits</h3>
+                                <h2>Featured Exhibits</h2>
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}
@@ -135,7 +129,7 @@
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
-                                <h3>Student Curated Exhibits</h3>
+                                <h2>Student Curated Exhibits</h2>
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}
@@ -156,14 +150,22 @@
 </div>
 
 <style>
-    .message {
-        margin-top: 100px;
-        font-size: 18px;
+    @font-face {
+        font-family: "Neue Haas Grotesk Text Pro";
+        src: url('../assets/fonts/NeueHaasGroteskTextPro.ttf') format("truetype");
     }
 
     .exhibits-home {
+        font-family: "Neue Haas Grotesk Text Pro";
+        /* font-family: var(--theme-FONT_FAMILY); */
+        /* color: var(--theme-FONT_COLOR); */
         font-size: 18px;
-        color: var(--theme-FONT_COLOR);
+        letter-spacing: 0.02em;
+    }
+
+    .message {
+        margin-top: 100px;
+        font-size: 18px;
     }
 
     .page-description {
@@ -174,7 +176,6 @@
         padding: 50px 0;
     }
 
-    /* .homepage-section:not(:first-child) { */
     .homepage-section {
         margin-top: 50px;
         margin-bottom: 50px;
@@ -188,22 +189,14 @@
     }
 
     .search {
-        /* width: 100%;
-        margin-left: auto;
-        margin-right: auto; */
         margin-top: 0;
     }
 
     @media screen and (min-width: 575px) {
-        /* .search {
-            width: 80%;
-        } */
+
     }
 
     @media screen and (min-width: 575px) {
-        .exhibits-home .container {
-            /* padding-left: 0;
-            padding-right: 0; */
-        }
+
     }
 </style>
