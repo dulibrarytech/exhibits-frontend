@@ -4,23 +4,13 @@
 
 export const Menu_Links = [
     {
-        "label": "Exhibits",
-        "url": "/exhibits",
+        "label": "Home",
+        "url": "/exhibits-home",
         "open_new_tab": false
     },
     {
-        "label": "What's On",
-        "url": "/whats-on",
-        "open_new_tab": false
-    },
-    {
-        "label": "Events",
-        "url": "/events",
-        "open_new_tab": false
-    },
-    {
-        "label": "Student Curated",
-        "url": "/student-curated",
+        "label": "Explore Exhibits",
+        "url": "/exhibits-explore",
         "open_new_tab": false
     },
     {
