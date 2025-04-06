@@ -21,7 +21,7 @@
     let _searchData;
     let _searchFields;
     var _filters = [];
-    
+
     var message;
 
     const FILTERS = {
@@ -121,7 +121,7 @@
 <!-- search box on page -->
 <Site_Branding />
 
-<div class="exhibits-home">
+<div class="exhibits-explore">
     <div class="page">
         <div class="container">
 

@@ -252,7 +252,7 @@
 <style>
     .exhibit-wrapper {
         background: darkgray;
-        height: 100vh;
+        min-height: 100vh;
     }
 
     .site-branding-banner {

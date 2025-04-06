@@ -7,17 +7,17 @@
   // import Site_Branding from './templates/partials/Site_Branding.svelte';
 </script>
 
-<Header />
 <main class="container-1700">
+  <Header />
   <!-- <Site_Branding /> -->
 
   <!-- render page -->
   <Router {routes} />
+  <Footer />
 </main>
-<Footer />
 
 <style>
   main {
-    min-height: calc(100vh - 249px); /* top header height => 50px, footer height => 150px */
+    min-height: calc(100vh - 249px); 
   }
 </style>
