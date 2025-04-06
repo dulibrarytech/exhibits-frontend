@@ -47,6 +47,10 @@
         padding-left: 0;
     }
 
+    :global(.site-branding-search-banner .site-branding-banner) {
+        border-bottom-style: none !important;
+    }
+
     @media screen and (min-width: 768px) {
         .site-branding-search-banner {
             padding-bottom: 0px;

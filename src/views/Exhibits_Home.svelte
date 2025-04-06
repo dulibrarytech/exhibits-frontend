@@ -18,7 +18,7 @@
 
     export let currentRoute;
 
-    let exhibits;
+    let _exhibits;
     let highlightExhibit;
     let featuredExhibits;
     let studentCuratedExhibits;
@@ -34,14 +34,12 @@
     const EXHIBIT_FIELDS = Settings.exhibitDataFields;
 
     const init = async () => {
+        _exhibits = null;
+
         searchData = {
             endpoint: "/exhibits-explore",
-            queryParam: "terms",
-            placeholder: "Search Exhibits",
-            fields: Object.keys(Settings.searchFields),
-            params: {
-                "filter": "keyword"
-            },
+            queryParam: "keyword",
+            placeholder: "Search Exhibits"
         }
 
         highlightExhibit = null;
@@ -49,9 +47,9 @@
         studentCuratedExhibits = null;
 
         message = "Retrieving exhibits...";
-        exhibits = await Index.getExhibits(); 
+        _exhibits = await Index.getExhibits(); 
 
-        if(exhibits) {
+        if(_exhibits) {
             render();
         }
         else {
@@ -60,18 +58,18 @@
     }
 
     const render = async () => {
-        if(exhibits.length > 0) {
-            formatExhibitFields(exhibits);
+        if(_exhibits.length > 0) {
+            formatExhibitFields(_exhibits);
 
-            highlightExhibit = exhibits.sort(function(a, b) {
+            highlightExhibit = _exhibits.sort(function(a, b) {
                 return b.created - a.created;
             })[0];
 
-            featuredExhibits = exhibits.filter((exhibit) => {
+            featuredExhibits = _exhibits.filter((exhibit) => {
                 return exhibit[EXHIBIT_FIELDS.IS_FEATURED] || false;
             });
 
-            studentCuratedExhibits = exhibits.filter((exhibit) => {
+            studentCuratedExhibits = _exhibits.filter((exhibit) => {
                 return exhibit[EXHIBIT_FIELDS.IS_STUDENT] || false;
             });
         }
@@ -105,7 +103,7 @@
                 <p>These exhibits bring together unique materials and fresh perspectives to inspire discovery, reflection, and connection.</p>
             </div>
             
-            {#if exhibits && exhibits.length > 0}
+            {#if _exhibits && _exhibits.length > 0}
 
                 <div class="exhibit-previews">
                     {#if featuredExhibits && featuredExhibits.length > 0}
@@ -161,12 +159,6 @@
         letter-spacing: 0.02em;
     }
 
-    .site-branding-banner {
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-color: #e5e3e1;
-    }
-
     .message {
         margin-top: 100px;
         font-size: 18px;
@@ -183,13 +175,5 @@
     .homepage-section {
         margin-top: 50px;
         margin-bottom: 50px;
-    }
-
-    @media screen and (min-width: 575px) {
-
-    }
-
-    @media screen and (min-width: 575px) {
-
     }
 </style>

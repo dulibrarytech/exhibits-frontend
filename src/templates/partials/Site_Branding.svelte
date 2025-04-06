@@ -17,6 +17,12 @@
 </div>
 
 <style>
+    .site-branding-banner {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: #e5e3e1;
+    }
+    
     .site-branding {
         height: 100px;
         width: 100%;

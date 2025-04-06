@@ -1,4 +1,4 @@
-import Home_Page from './views/Home_Page.svelte';
+//import Home_Page from './views/Home_Page.svelte';
 import Exhibit from './views/Exhibit.svelte';
 import Search from './views/Search.svelte';
 import Whats_On from './views/Whats_On.svelte';
@@ -14,7 +14,7 @@ import NotFound from './views/NotFound.svelte';
 // DEV new pages
 //////////////////
 import Exhibits_Home from './views/Exhibits_Home.svelte';
-// import Exhibits_Explore from './views/Exhibits_Explore.svelte';
+import Exhibits_Explore from './views/Exhibits_Explore.svelte';
 //////////////////
 // end DEV new pages
 //////////////////
@@ -29,7 +29,7 @@ const routes = [
     //////////////////
     // DEV test pages
     //////////////////
-    // {name: '/exhibits-explore', component: Exhibits_Explore},
+    {name: '/exhibits-explore', component: Exhibits_Explore},
     //////////////////
     // end DEV test pages
     //////////////////

@@ -13,10 +13,10 @@
     let query;
     let url;
 
-    const DEFAULT_SEARCH_FIELD = "title";
+    //const DEFAULT_SEARCH_FIELD = "title";
 
     const init = () => {
-      if(fields.length == 0) fields.push(DEFAULT_SEARCH_FIELD);
+      //if(fields.length == 0) fields.push(DEFAULT_SEARCH_FIELD);
     }
 
     const search = () => {
@@ -86,6 +86,10 @@
       display: table;
   }
 
+  .search-box button {
+      background: #71190E;
+  }
+
   form.form-inline {
       width: 100%;
       display: table-cell;
@@ -96,4 +100,6 @@
   .search-box button {
       margin: 0;
   }
+
+
 </style>
