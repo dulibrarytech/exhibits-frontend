@@ -99,6 +99,7 @@ export const Settings = {
      */
     searchFields: {
         "title": "Title",
+        "subtitle": "Subtitle",
         "description": "Description"
     },
     searchFieldsExhibit: {
