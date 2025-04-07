@@ -100,7 +100,7 @@
             matches = 0;
 
             for(let field of fields) {
-                if(exhibit[field].toLowerCase().indexOf(terms) >= 0) {
+                if(exhibit[field] && exhibit[field].toLowerCase().indexOf(terms) >= 0) {
                     matches++;
                 }
             }
