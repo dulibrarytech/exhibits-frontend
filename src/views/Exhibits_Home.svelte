@@ -39,7 +39,7 @@
         searchData = {
             endpoint: "/exhibits-explore",
             queryParam: "keyword",
-            placeholder: "Search Exhibits"
+            placeholder: "Filter by keyword"
         }
 
         highlightExhibit = null;
