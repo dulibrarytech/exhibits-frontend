@@ -166,6 +166,10 @@
         padding: 50px 0;
     }
 
+    .exhibit-previews hr:first-child {
+        margin-top: 0;
+    }
+
     .homepage-section {
         margin-top: 50px;
         margin-bottom: 50px;
