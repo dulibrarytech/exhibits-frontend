@@ -9,6 +9,7 @@
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
     import { formatExhibitFields } from '../libs/exhibits_data_helpers.js';
+    import queryString from 'query-string';
 
     import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Exhibits_Explore_Search from '../templates/partials/Exhibits_Explore_Search.svelte';
@@ -24,14 +25,23 @@
 
     var message;
 
-    const FILTERS = {
+    const FILTER_TYPES = {
+        KEYWORD: "keyword",
+        FIELD: "field",
+        FACET: "facet"
+    }
+
+    // import from settings
+    const FILTER_OPTIONS = {
         "keyword": {
+            "type": FILTER_TYPES.KEYWORD,
             "name": "keyword",
             "label": "Keywords",
             "field": ""
         },
 
         "student_curated": {
+            "type": FILTER_TYPES.FIELD,
             "name": "student_curated",
             "label": "Student Curated",
             "field": "is_student_curated"
@@ -41,9 +51,18 @@
     const init = async () => {
         _searchFields = Object.keys(Settings.searchFields);
         _searchData = {
-            endpoint: "/exhibits-explore",
+            endpoint: null,
             queryParam: "keyword",
             placeholder: "Filter by keyword"
+        }
+
+        let {queryParams} = currentRoute;
+        for(let key in queryParams) {
+            if(FILTER_OPTIONS[key]) {
+                _filters.push({
+                    [key]: queryParams[key]
+                })
+            }
         }
 
         message = "Retrieving exhibits...";
@@ -59,14 +78,8 @@
 
     const render = async () => {
         if(_exhibits.length > 0) {
-            formatExhibitFields(_exhibits);
 
-            let {queryParams} = currentRoute;
-            if(queryParams.keyword) {
-                _filters.push({
-                    keyword: queryParams.keyword || ""
-                });
-            }
+            formatExhibitFields(_exhibits);
 
             applyFilters();
         }
@@ -75,50 +88,97 @@
         }
     }
 
+    const addFilter = (data) => {
+        let urlQueryData = queryString.parse(location.search);
+
+        let filterField = Object.keys(data)[0];
+        urlQueryData[filterField] = data[filterField];
+
+        let urlQueryString = queryString.stringify(urlQueryData);
+        location.search = urlQueryString;
+    }
+
+    const removeFilter = (data) => {
+        let urlQueryData = queryString.parse(location.search);
+
+        let filterField = Object.keys(data)[0];
+        delete urlQueryData[filterField]
+
+        let urlQueryString = queryString.stringify(urlQueryData);
+        location.search = urlQueryString;
+    }
+
     const applyFilters = () => {
         _filters.forEach(filter => {
 
-            if(Object.keys(filter)[0] == FILTERS.keyword.name) {
+            let key = Object.keys(filter)[0];
+            let value = filter[key];
+            let filterOption = FILTER_OPTIONS[key];
+
+            if(filterOption.type == FILTER_TYPES.KEYWORD) {
                 _exhibits = filterKeyword(filter['keyword'], _searchFields);
             }
 
-            // field filter
-            // TODO else filter key in exhibit data on value in filter obj
+            else if(filterOption.type == FILTER_TYPES.FIELD) {
+                _exhibits = filterField(filterOption.field, value);
+            }
 
             // TODO render the breadcrumb display with filter.name (get label from filters obj) filter.value 
-            // TODO filter {name,value} is 1. pushed in render() if keyword 2. pushed by addFilter() after clicking filter on list
+            // _filterBreadcrumbs.push(filterOption.label, value)
         });
     }
 
     const filterKeyword = (terms, fields) => {
-        let exhibits;
-
-        terms = terms.toLowerCase();
+        let exhibits = [];
+        terms = terms.toLowerCase().replace(/,/g, " ");
 
         let matches;
         exhibits = _exhibits.filter((exhibit) => {
-            matches = 0;
 
+            matches = 0;
             for(let field of fields) {
                 if(exhibit[field] && exhibit[field].toLowerCase().indexOf(terms) >= 0) {
                     matches++;
                 }
             }
-
             return matches > 0;
+        });
+        return exhibits;
+    }
+
+    const filterField = (field, value) => {
+        let exhibits = [];
+
+        exhibits = _exhibits.filter((exhibit) => {
+            return exhibit[field] == value;
         });
 
         return exhibits;
     }
 
-    const filterField = () => {}
+    const onSubmitKeywordFilter = (event) => {
+        let {terms} = event.detail;
+        addFilter({
+            keyword: terms.toString()
+        });
+    }
+
+    const onClickFilterOption = (event) => {
+        let {value, checked} = event.detail;
+
+        let filter = {
+            [value]: checked ? "1" : "0"
+        }
+
+        if(checked) addFilter(filter);
+        else removeFilter(filter);
+    }
 
     init();
 
     onMount(async () => {});
 </script>
 
-<!-- search box on page -->
 <Site_Branding />
 
 <div class="exhibits-explore">
@@ -127,8 +187,7 @@
 
             {#if _exhibits && _exhibits.length > 0}
                 <div class="search">
-                    <!-- search box in exhibits@du header -->
-                    <Exhibits_Explore_Search data={_searchData} />
+                    <Exhibits_Explore_Search filterOptions={FILTER_OPTIONS} searchData={_searchData} filterData={_filters} on:click-filter-option={onClickFilterOption} on:submit-search={onSubmitKeywordFilter}/>
                 </div>
                 
                 <div class="exhibit-previews">
@@ -148,7 +207,16 @@
 </div>
 
 <style>
+    @font-face {
+        font-family: "Breve Sans Text";
+        src: url('../assets/fonts/BreveSansTextLight.otf') format("truetype");
+    }
+
+    .exhibits-explore {
+        font-family: "Breve Sans Text";
+    }
+
     .exhibit-previews {
-        margin-top: 50px;
+        margin-top: 100px;
     }
 </style>
