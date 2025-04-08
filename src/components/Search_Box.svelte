@@ -3,6 +3,7 @@
 
     import { onMount } from 'svelte';
     import { removeStopwords } from 'stopword';
+    import { createEventDispatcher } from 'svelte';
 
     export let endpoint = null;    // request endpoint
     export let queryParam = "q";  // main terms parameter (default is q)
@@ -10,8 +11,12 @@
     export let fields = [];      // for 'fields' query parameter
     export let placeholder = ""; // search box placeholder
 
-    let query;
-    let url;
+    console.log("TEST searchbox in:", endpoint, queryParam, params, fields)
+
+    let query = "";
+    let url = "";
+
+    const dispatch = createEventDispatcher();
 
     //const DEFAULT_SEARCH_FIELD = "title";
 
@@ -24,7 +29,7 @@
       let quotedTerms = query.match(/"([^"]*)"/gi);
       if(quotedTerms) {
         quotedTerms.forEach(terms => {
-          // convert the terms enclosed in quotes from "term1 term2" to term1+term2 url format
+            // convert the terms enclosed in quotes from "term1 term2" to term1+term2 url format
             let termPhrase = terms.replace(/"/g, '').replace(/\s/g, '+');
             query = query.replace(terms, termPhrase)
         });
@@ -34,20 +39,25 @@
       let queryTokens = query.split(/[ ]{1,}/g)
       queryTokens = removeStopwords(queryTokens);
 
-      // create the querystring
-      let queryString = queryTokens.toString();
-      url = endpoint.concat(`?${queryParam}=${queryString}`);
+      if(endpoint) {
+        // create the querystring
+        let queryString = queryTokens.toString();
+        url = endpoint.concat(`?${queryParam}=${queryString}`);
 
-      // append the search fields TODO remove, use params
-      let fieldString = fields.toString();
-      if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
+        // append the search fields TODO remove, use params
+        let fieldString = fields.toString();
+        if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
 
-      // append all parameters
-      for(let key in params) {
-        url = url.concat(`&${key}=${params[key]}`);
+        // append all parameters
+        for(let key in params) {
+          url = url.concat(`&${key}=${params[key]}`);
+        }
+
+        window.location.replace(url);
       }
-
-      window.location.replace(url);
+      else {
+        dispatch('submit-search', {terms: queryTokens});
+      }
     }
 
     const onKeyPress = (event) => {
