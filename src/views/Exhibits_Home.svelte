@@ -146,9 +146,15 @@
 </div>
 
 <style>
+    @font-face {
+        font-family: "Breve Sans Text";
+        src: url('../assets/fonts/BreveSansTextLight.otf') format("truetype");
+    }
+
     .exhibits-home {
         /* font-family: var(--theme-FONT_FAMILY); */
         /* color: var(--theme-FONT_COLOR); */
+        font-family: "Breve Sans Text";
         font-size: 18px;
         letter-spacing: 0.02em;
     }
