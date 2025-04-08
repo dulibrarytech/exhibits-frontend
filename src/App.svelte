@@ -17,7 +17,13 @@
 </main>
 
 <style>
+  @font-face {
+        font-family: "Breve Sans Text";
+        src: url('../assets/fonts/BreveSansTextLight.otf') format("truetype");
+  }
+
   main {
+    font-family: "Breve Sans Text";
     min-height: calc(100vh - 249px); 
   }
 </style>

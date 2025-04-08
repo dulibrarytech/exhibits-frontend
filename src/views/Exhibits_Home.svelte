@@ -146,13 +146,7 @@
 </div>
 
 <style>
-    @font-face {
-        font-family: "Neue Haas Grotesk Text Pro";
-        src: url('../assets/fonts/NeueHaasGroteskTextPro.ttf') format("truetype");
-    }
-
     .exhibits-home {
-        font-family: "Neue Haas Grotesk Text Pro";
         /* font-family: var(--theme-FONT_FAMILY); */
         /* color: var(--theme-FONT_COLOR); */
         font-size: 18px;
