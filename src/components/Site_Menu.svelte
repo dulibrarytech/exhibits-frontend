@@ -41,16 +41,18 @@
 </div> -->
 <!-- end collapsing site menu option -->
 
-<nav class="d-inline-flex mt-4 mt-md-0 ms-md-auto">
+<nav class="site-menu d-inline-flex ms-md-auto">
     {#each links as link}
         {#if link.open_new_tab}
-            <a href class="ms-3 py-1 text-dark text-decoration-none" data-href={link.url} data-target="blank" on:click={onClickLink}>{link.label}</a>
+            <a href class="ms-3 pt-1 text-dark text-decoration-none" data-href={link.url} data-target="blank" on:click={onClickLink}>{link.label}</a>
         {:else}
-            <a href class="ms-3 py-1 text-dark text-decoration-none" data-href={link.url} on:click={onClickLink}>{link.label}</a>
+            <a href class="ms-3 pt-1 text-dark text-decoration-none" data-href={link.url} on:click={onClickLink}>{link.label}</a>
         {/if}
     {/each}
 </nav>
 
 <style>
-
+.site-menu {
+    margin-top: 2px;
+}
 </style>
