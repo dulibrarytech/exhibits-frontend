@@ -137,7 +137,8 @@ export const Settings = {
     facetLabels: {
         "type": "Entity",
         "is_member_of_exhibit": "Exhibits",
-        "item_type": "Item Type"
+        "item_type": "Item Type",
+        "keyword": "Keywords"
     },
     facetValueLabels: {
         "item": "Exhibit Item",

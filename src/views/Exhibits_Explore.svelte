@@ -41,12 +41,12 @@
             "field": ""
         },
 
-        "student_curated": {
-            "type": FILTER_TYPES.FIELD,
-            "name": "student_curated",
-            "label": "Student Curated",
-            "field": "is_student_curated"
-        }
+        // "student_curated": {
+        //     "type": FILTER_TYPES.FIELD,
+        //     "name": "student_curated",
+        //     "label": "Student Curated",
+        //     "field": "is_student_curated"
+        // }
     }
 
     // TODO IF update page state vs. url reload
@@ -82,9 +82,7 @@
 
     const render = async () => {
         if(_exhibits.length > 0) {
-
             formatExhibitFields(_exhibits);
-
             applyFilters();
         }
         else {
@@ -129,7 +127,6 @@
                 _exhibits = filterField(filterOption.field, value);
             }
 
-            // TODO render the breadcrumb display with filter.name (get label from filters obj) filter.value 
             _filterLabels.push({[filterOption.label]: value});
         });
     }
@@ -162,15 +159,16 @@
         return exhibits;
     }
 
-    const onSubmitKeywordFilter = (event) => {
-        let {terms} = event.detail;
+    const onSubmitKeywordFilter = ({detail}) => {
+        let {terms} = detail;
+
         addFilter({
             keyword: terms.toString()
         });
     }
 
-    const onClickFilterOption = (event) => {
-        let {value, checked} = event.detail;
+    const onClickFilterOption = ({detail}) => {
+        let {value, checked} = detail;
 
         let filter = {
             [value]: checked ? "1" : "0"
@@ -178,6 +176,14 @@
 
         if(checked) addFilter(filter);
         else removeFilter(filter);
+    }
+
+    const onRemoveFilter = ({detail}) => {
+        let {field, value} = detail.data;
+
+        removeFilter({
+            [field]: value
+        })
     }
 
     init();
@@ -193,7 +199,13 @@
 
             {#if _exhibits && _exhibits.length > 0}
                 <div class="search">
-                    <Exhibits_Explore_Search filterOptions={FILTER_OPTIONS} searchData={_searchData} filters={_filters} on:click-filter-option={onClickFilterOption} on:submit-search={onSubmitKeywordFilter}/>
+                    <Exhibits_Explore_Search 
+                        filterOptions={FILTER_OPTIONS} 
+                        searchData={_searchData} 
+                        filters={_filters} 
+                        on:click-filter-option={onClickFilterOption} 
+                        on:remove-facet={onRemoveFilter}
+                        on:submit-search={onSubmitKeywordFilter}/>
                 </div>
                 
                 <div class="exhibit-previews">

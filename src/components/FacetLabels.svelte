@@ -6,12 +6,14 @@ import { formatFacetField, formatFacetValue } from '../libs/format';
 
 const dispatch = createEventDispatcher();
 
-// TODO: update incoming data struct for: [{field, value, fieldLabel, valueLabel}]
 export let facets = [];
 
 const onClickLabel = (event) => {
-    let index = event.target.getAttribute('data-index');
-    dispatch('remove-facet', index);
+    let index = event.target.parentElement.getAttribute('data-index');
+    dispatch('remove-facet', {
+        data: facets[index],
+        index
+    });
 }
 
 </script>
@@ -21,7 +23,11 @@ const onClickLabel = (event) => {
         <p>Filtering on:</p>
 
         {#each facets as {field, value}, index}
-            <div class="facet-label"><a class="removelink" href on:click={onClickLabel} data-index={index}><i class="bi bi-x-circle"></i></a> <b use:formatFacetField>{field}</b>: <span use:formatFacetValue={field}>{value}</span></div>
+            <div class="facet-label"><a class="removelink" href={"javascript:void(0)"} on:click|stopPropagation={onClickLabel} on:keypress|stopPropagation={onClickLabel} data-index={index}><i class="bi bi-x-circle"></i></a>
+                &nbsp;<b use:formatFacetField>{field}</b>
+                
+                {#if value}<span use:formatFacetValue={field}>: {value}</span>{/if}
+            </div>
         {/each}
     </div>
 {/if}

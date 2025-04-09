@@ -8,10 +8,10 @@
 
     const dispatch = createEventDispatcher();
 
-    const onClickCheckbox = (event) => {
+    const onClickCheckbox = ({target}) => {
         dispatch('click-filter-option', {
-            checked: event.target.checked,
-            value: event.target.value
+            checked: target.checked,
+            value: target.value
         });
     }
 </script>
