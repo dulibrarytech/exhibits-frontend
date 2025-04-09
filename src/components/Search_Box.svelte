@@ -11,8 +11,6 @@
     export let fields = [];      // for 'fields' query parameter
     export let placeholder = ""; // search box placeholder
 
-    console.log("TEST searchbox in:", endpoint, queryParam, params, fields)
-
     let query = "";
     let url = "";
 

@@ -1,9 +1,10 @@
 <script>
+    import FacetLabels from '../../components/FacetLabels.svelte';
     import Search_Box from '../../components/Search_Box.svelte';
     import Filter_Select_Menu from '../../components/Filter_Select_Menu.svelte';
 
     export let searchData = {};
-    export let filterData = {};
+    export let filters = [];
     export let filterOptions = {};
 
     const FIELD_LABEL = "Category"
@@ -21,15 +22,21 @@
 
     } = searchData;
 
-    const init = () => {
-        getSelectOptions(filterOptions);
-    }
+    let _filterLabels = [];
 
-    const getSelectOptions = (filters) => {
+    const init = () => {
+
         for(let key in filters) {
             if(filters[key].type == "field") {
                 _selectOptions[FIELD_LABEL].push(filters[key])
             }
+        }
+
+        for(let filter of filters) {
+            _filterLabels.push({
+                field: Object.keys(filter)[0],
+                value: Object.values(filter)[0]
+            })
         }
     }
 
@@ -39,13 +46,19 @@
 <div class="exhibits-search">
 
     <div class="filter-select-wrapper">
-        <Filter_Select_Menu options={_selectOptions} state={filterData} on:click-filter-option />
+        <Filter_Select_Menu options={_selectOptions} state={filters} on:click-filter-option />
     </div>
 
     <div class="searchbox-wrapper">
         <Search_Box {endpoint} {queryParam} {params} {fields} {placeholder} on:submit-search/>
     </div>
 
+    {#if filters.length > 0}
+        <div class="filter-labels">
+            <FacetLabels facets={_filterLabels} />
+        </div>
+    {/if}
+    
 </div>
 
 <style>
@@ -65,6 +78,10 @@
     .searchbox-wrapper {
         float: right;
         width: 100%;
+    }
+
+    .filter-labels {
+
     }
 
     @media screen and (min-width: 768px) {

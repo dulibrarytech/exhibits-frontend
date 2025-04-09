@@ -22,6 +22,7 @@
     let _searchData;
     let _searchFields;
     var _filters = [];
+    var _filterLabels = [];
 
     var message;
 
@@ -47,6 +48,9 @@
             "field": "is_student_curated"
         }
     }
+
+    // TODO IF update page state vs. url reload
+    // $ {applyFilters()}
 
     const init = async () => {
         _searchFields = Object.keys(Settings.searchFields);
@@ -89,6 +93,7 @@
     }
 
     const addFilter = (data) => {
+        // TODO IF update page state vs. url reload: add the filter obj to _filters[]
         let urlQueryData = queryString.parse(location.search);
 
         let filterField = Object.keys(data)[0];
@@ -99,6 +104,7 @@
     }
 
     const removeFilter = (data) => {
+        // TODO IF update page state vs. url reload: remove the filter obj from _filters[]
         let urlQueryData = queryString.parse(location.search);
 
         let filterField = Object.keys(data)[0];
@@ -124,7 +130,7 @@
             }
 
             // TODO render the breadcrumb display with filter.name (get label from filters obj) filter.value 
-            // _filterBreadcrumbs.push(filterOption.label, value)
+            _filterLabels.push({[filterOption.label]: value});
         });
     }
 
@@ -187,7 +193,7 @@
 
             {#if _exhibits && _exhibits.length > 0}
                 <div class="search">
-                    <Exhibits_Explore_Search filterOptions={FILTER_OPTIONS} searchData={_searchData} filterData={_filters} on:click-filter-option={onClickFilterOption} on:submit-search={onSubmitKeywordFilter}/>
+                    <Exhibits_Explore_Search filterOptions={FILTER_OPTIONS} searchData={_searchData} filters={_filters} on:click-filter-option={onClickFilterOption} on:submit-search={onSubmitKeywordFilter}/>
                 </div>
                 
                 <div class="exhibit-previews">

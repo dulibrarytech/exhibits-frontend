@@ -6,7 +6,8 @@ import { formatFacetField, formatFacetValue } from '../libs/format';
 
 const dispatch = createEventDispatcher();
 
-export let facets = [];  // TODO: update incoming data struct for: [{field, value, fieldLabel, valueLabel}]
+// TODO: update incoming data struct for: [{field, value, fieldLabel, valueLabel}]
+export let facets = [];
 
 const onClickLabel = (event) => {
     let index = event.target.getAttribute('data-index');
