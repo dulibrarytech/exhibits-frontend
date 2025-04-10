@@ -13,7 +13,6 @@
 
     import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Exhibits_Explore_Search from '../templates/partials/Exhibits_Explore_Search.svelte';
-    // import Site_Branding_Search from '../templates/partials/Site_Branding_Search.svelte';
     import Exhibit_Preview_Title_Grid from '../templates/partials/Exhibit_Preview_Title_Grid.svelte';
 
     export let currentRoute;
@@ -119,10 +118,12 @@
             let value = filter[key];
             let filterOption = FILTER_OPTIONS[key];
 
+            // filter on search box terms
             if(filterOption.type == FILTER_TYPES.KEYWORD) {
                 _exhibits = filterKeyword(filter['keyword'], _searchFields);
             }
 
+            // filter on data field value or array of values
             else if(filterOption.type == FILTER_TYPES.FIELD) {
                 _exhibits = filterField(filterOption.field, value);
             }
@@ -153,7 +154,7 @@
         let exhibits = [];
 
         exhibits = _exhibits.filter((exhibit) => {
-            return exhibit[field] == value;
+            return exhibit[field] == value || exhibit[field].includes(value);
         });
 
         return exhibits;
