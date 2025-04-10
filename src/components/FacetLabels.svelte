@@ -20,8 +20,6 @@ const onClickLabel = (event) => {
 
 {#if facets.length > 0}
     <div class="facet-labels">
-        <p>Filtering on:</p>
-
         {#each facets as {field, value}, index}
             <div class="facet-label"><a class="removelink" href={"javascript:void(0)"} on:click|stopPropagation={onClickLabel} on:keypress|stopPropagation={onClickLabel} data-index={index}><i class="bi bi-x-circle"></i></a>
                 &nbsp;<b use:formatFacetField>{field}</b>
@@ -39,6 +37,9 @@ const onClickLabel = (event) => {
 
     .facet-label {
         margin-left: 15px;
+        background: #e5e3e1;
+        padding: 5px 10px;
+        border-radius: 5px;
     }
 
     .facet-labels a.removelink {
