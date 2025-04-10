@@ -119,8 +119,8 @@ a:hover {
 
 footer {
 	flex-shrink: 0;
-	min-height: 150px;
-	background: #8b2332;
+	min-height: 165px;
+	background: #7C0A02;
 }
 
 @media screen and (min-width: 768px) {
