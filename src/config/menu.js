@@ -9,7 +9,7 @@ export const Menu_Links = [
         "open_new_tab": false
     },
     {
-        "label": "Explore Exhibits",
+        "label": "All Exhibits",
         "url": "/exhibits-explore",
         "open_new_tab": false
     },
