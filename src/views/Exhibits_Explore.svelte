@@ -51,6 +51,15 @@
     // TODO IF update page state vs. url reload
     // $ {applyFilters()}
 
+    $: {
+            if(_exhibits) {
+                render();
+            }
+            else {
+                message = "Error retrieving exhibits";
+            }
+        }
+
     const init = async () => {
         _searchFields = Object.keys(Settings.searchFields);
         _searchData = {
@@ -70,13 +79,14 @@
 
         message = "Retrieving exhibits...";
         _exhibits = await Index.getExhibits(); 
+        console.log("TEST exhibits:", _exhibits)
 
-        if(_exhibits) {
-            render();
-        }
-        else {
-            message = "Error retrieving exhibits";
-        }
+        // if(_exhibits) {
+        //     render();
+        // }
+        // else {
+        //     message = "Error retrieving exhibits";
+        // }
     }
 
     const render = async () => {
@@ -198,16 +208,17 @@
     <div class="page">
         <div class="container">
 
+            <div class="search">
+                <Exhibits_Explore_Search 
+                    filterOptions={FILTER_OPTIONS} 
+                    searchData={_searchData} 
+                    filters={_filters} 
+                    on:click-filter-option={onClickFilterOption} 
+                    on:remove-facet={onRemoveFilter}
+                    on:submit-search={onSubmitKeywordFilter}/>
+            </div>
+                
             {#if _exhibits && _exhibits.length > 0}
-                <div class="search">
-                    <Exhibits_Explore_Search 
-                        filterOptions={FILTER_OPTIONS} 
-                        searchData={_searchData} 
-                        filters={_filters} 
-                        on:click-filter-option={onClickFilterOption} 
-                        on:remove-facet={onRemoveFilter}
-                        on:submit-search={onSubmitKeywordFilter}/>
-                </div>
                 
                 <div class="exhibit-previews">
                     <div class="homepage-section">
@@ -216,8 +227,13 @@
                 </div>
 
             {:else}
-                <div class="message">
-                    {message}
+                <!-- TODO add separate section and styles for message display -->
+                <div class="exhibit-previews">
+                    <div class="homepage-section">
+                        <div class="message">
+                            {message}
+                        </div>
+                    </div>
                 </div>
             {/if}
 
