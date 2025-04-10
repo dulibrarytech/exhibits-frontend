@@ -14,6 +14,7 @@
     import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Exhibits_Explore_Search from '../templates/partials/Exhibits_Explore_Search.svelte';
     import Exhibit_Preview_Title_Grid from '../templates/partials/Exhibit_Preview_Title_Grid.svelte';
+    import Exhibit_Preview_Grid_Tabs from '../templates/partials/Exhibit_Preview_Grid_Tabs.svelte';
 
     export let currentRoute;
 
@@ -25,11 +26,19 @@
 
     var message;
 
+    const EXHIBITS_DISPLAY_OPTIONS = {
+        SHOW_ALL: "show_all",
+        NO_STUDENT_CURATED: "no_student_curated",
+        SHOW_TABS: "show_tabs"
+    }
+
     const FILTER_TYPES = {
         KEYWORD: "keyword",
         FIELD: "field",
         FACET: "facet"
     }
+
+    const EXHIBITS_DISPLAY = EXHIBITS_DISPLAY_OPTIONS.NO_STUDENT_CURATED;
 
     // import from settings
     const FILTER_OPTIONS = {
@@ -201,7 +210,25 @@
                 
                 <div class="exhibit-previews">
                     <div class="homepage-section">
-                        <Exhibit_Preview_Title_Grid exhibits={_exhibits} />
+
+                        {#if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_ALL}
+
+                            <Exhibit_Preview_Title_Grid exhibits={_exhibits} />
+
+                        {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.NO_STUDENT_CURATED}
+                            
+                            <Exhibit_Preview_Title_Grid exhibits={
+                                _exhibits.filter((exhibit) => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})
+                            } />
+
+                        {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS}
+
+                            <Exhibit_Preview_Grid_Tabs sections={{
+                                "University Libraries Exhibits": _exhibits.filter(exhibit => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0}),
+                                "Student Curated Exhibits": _exhibits.filter(exhibit => {return exhibit.is_student_curated == 1})
+                            }} />
+                        {/if}
+
                     </div>
                 </div>
 
