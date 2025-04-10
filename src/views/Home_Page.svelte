@@ -150,17 +150,9 @@
         color: #030303;
     }
 
-    /* .homepage {
-
-    }
-    
-    .homepage .container {
-        width: 95%;
-        margin: 0 auto;
-    } */
-
     .message {
         margin-top: 78px;
+        font-size: 18px;
     }
 
     .preview-section {

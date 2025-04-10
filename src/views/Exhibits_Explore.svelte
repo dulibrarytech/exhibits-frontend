@@ -48,17 +48,10 @@
         // }
     }
 
-    // TODO IF update page state vs. url reload
-    // $ {applyFilters()}
-
     $: {
-            if(_exhibits) {
-                render();
-            }
-            else {
-                message = "Error retrieving exhibits";
-            }
-        }
+        if(_exhibits) render();
+        else message = "Error retrieving exhibits";
+    }
 
     const init = async () => {
         _searchFields = Object.keys(Settings.searchFields);
@@ -79,14 +72,6 @@
 
         message = "Retrieving exhibits...";
         _exhibits = await Index.getExhibits(); 
-        console.log("TEST exhibits:", _exhibits)
-
-        // if(_exhibits) {
-        //     render();
-        // }
-        // else {
-        //     message = "Error retrieving exhibits";
-        // }
     }
 
     const render = async () => {
@@ -100,25 +85,19 @@
     }
 
     const addFilter = (data) => {
-        // TODO IF update page state vs. url reload: add the filter obj to _filters[]
         let urlQueryData = queryString.parse(location.search);
-
         let filterField = Object.keys(data)[0];
+        
         urlQueryData[filterField] = data[filterField];
-
-        let urlQueryString = queryString.stringify(urlQueryData);
-        location.search = urlQueryString;
+        location.search = queryString.stringify(urlQueryData);
     }
 
     const removeFilter = (data) => {
-        // TODO IF update page state vs. url reload: remove the filter obj from _filters[]
         let urlQueryData = queryString.parse(location.search);
-
         let filterField = Object.keys(data)[0];
-        delete urlQueryData[filterField]
 
-        let urlQueryString = queryString.stringify(urlQueryData);
-        location.search = urlQueryString;
+        delete urlQueryData[filterField]
+        location.search = queryString.stringify(urlQueryData);
     }
 
     const applyFilters = () => {
@@ -253,5 +232,9 @@
 
     .exhibit-previews {
         margin-top: 100px;
+    }
+
+    .message {
+        font-size: 18px;
     }
 </style>
