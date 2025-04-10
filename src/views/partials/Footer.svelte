@@ -22,7 +22,6 @@
                 <div class="links">
                     <a href="https://library.du.edu/collections-library-materials/exhibits" title="Link to About Us">About Us</a>
                     <a href="mailto:Madison.Sussmann@du.edu" title="Link to Contact Us">Contact</a>
-                    <a href="#" title="Link to Report a Problem">Report a Problem</a>
                 </div>
             </div>
 
