@@ -41,8 +41,9 @@
         }
     }
 
-    const onRemoveFacet = (event) => {
-        let index = event.detail;
+    const onRemoveFacet = ({detail}) => {
+        let index = detail.index;
+
         if (index > -1) {
             facets.splice(index, 1);
         }
