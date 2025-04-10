@@ -32,7 +32,10 @@ const onClickLabel = (event) => {
 
 <style>
     .facet-labels {
-        display: inline-flex;
+        display: flex;
+        row-gap: 8px;
+        align-content: flex-start;
+        flex-wrap: wrap;
     }
 
     .facet-label {
@@ -41,6 +44,10 @@ const onClickLabel = (event) => {
         padding: 5px 10px;
         border-radius: 5px;
     }
+
+    /* .facet-label:not(:first-child) {
+        margin-left: 15px;
+    } */
 
     .facet-labels a.removelink {
         content: attr(data-icon);
