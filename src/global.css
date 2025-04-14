@@ -117,6 +117,10 @@ a:hover {
 	cursor: pointer;
 }
 
+.title-heading {
+	font-size: 1.736842em;
+}
+
 footer {
 	flex-shrink: 0;
 	min-height: 165px;

@@ -18,6 +18,7 @@
     let itemElement;
 
     let id;
+    let title;
     let date;
     let type;
     let description;
@@ -29,7 +30,8 @@
 
     $: {
         id = item.uuid || "null";
-        date = item.date || null;
+        title = item.title || null;
+        // date = item.date || null;
         type = item.item_type || null;
         description = item.description || null;
         caption = item.caption || null;
@@ -37,6 +39,7 @@
         styles = item.styles || null;
 
         if(date) date = new Date(date).toLocaleDateString();
+        if(title) item.title = null;
 
         if(!item.layout) item.layout = (type == ITEM_TYPE.TEXT) ? MEDIA_POSITION.TEXT_ONLY : MEDIA_POSITION.TOP;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
@@ -54,17 +57,22 @@
 <div class="grid-item" {id} bind:this={itemElement}>
     {#if date}
         <div class="date-heading exhibit-heading">
-            <div class="item-date">{date}</div>
+            <div class="item-date"><h4>{date}</h4></div>
             <hr>
         </div> 
     {/if}
 
+    {#if title}<h4>{@html title}</h4>{/if}
     <Item_Display {item} template={Item} args={{showTitle: true, showPreview: true}} on:click-item />
 </div>
 
 <style>
     .grid-item {
         padding: 1.5rem;
+    }
+
+    .grid-item h4 {
+        margin-bottom: 3.5em;
     }
 
     .item-date {

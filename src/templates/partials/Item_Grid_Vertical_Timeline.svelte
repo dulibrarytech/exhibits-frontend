@@ -167,7 +167,10 @@
     
     <div class="container">
 
-        {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div><br>{/if}
+        {#if title}
+            <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
+            <br>
+        {/if}
 
         <div class="row timeline-line">
             <div class="col-6" style="border-right: solid"></div>
@@ -318,6 +321,10 @@
     .title-heading {
         text-transform: uppercase;
         margin-bottom: 3.5em;
+    }
+
+    .title-heading > h3 {
+        font-size: inherit;
     }
 
     .timeline-wrapper {

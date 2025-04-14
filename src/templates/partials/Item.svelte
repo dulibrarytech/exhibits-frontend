@@ -61,7 +61,7 @@
         wrapText    = item.wrap_text ?? true;
         isEmbedded  = item.is_embedded || false; 
         styles      = item.styles || null;
-
+        
         // set member variables
         itemElementId = id;
 
@@ -118,7 +118,8 @@
 
     <div class={mediaPadding ? "container" : "container-no-margin"}>
         {#if title && showTitle && mediaPadding}
-            <div class="title-heading" bind:this={titleElement}>{@html title}</div>
+            <!-- <div class="title-heading" bind:this={titleElement}>{@html title}</div> -->
+            <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
         {/if}
 
         {#if layout == MEDIA_POSITION.RIGHT}
@@ -134,7 +135,9 @@
                         </div>
 
                     {:else}
-                        {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
+                        {#if title}
+                            <div class="title-heading title-padding" bind:this={titleElement}><h3>{@html title}</h3></div>
+                        {/if}
                         <div class="text-padding" bind:this={textElement}>
                             <Text_Display {item} />
                         </div>
@@ -155,7 +158,9 @@
                             </div>
 
                         {:else}
-                            {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
+                            {#if title}
+                                <div class="title-heading title-padding" bind:this={titleElement}><h3>{@html title}</h3></div>
+                            {/if}
                             <div class="text-padding" bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
@@ -180,7 +185,9 @@
                         </div>
 
                     {:else}
-                        {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
+                        {#if title}
+                            <div class="title-heading title-padding" bind:this={titleElement}><h3>{@html title}</h3></div>
+                        {/if}
                         <div class="text-padding" bind:this={textElement}>
                             <Text_Display {item} />
                         </div>
@@ -202,7 +209,9 @@
                             </div>
 
                         {:else}
-                            {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
+                            {#if title}
+                                <div class="title-heading title-padding" bind:this={titleElement}><h3>{@html title}</h3></div>
+                            {/if}
                             <div class="text-padding" bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
@@ -226,7 +235,9 @@
 
                     {:else}
                         <div class="container">
-                            {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div>{/if}
+                            {#if title}
+                                <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
+                            {/if}
                             <div bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
@@ -246,7 +257,9 @@
 
                     {:else}
                         <div class="container">
-                            {#if title}<div class="title-heading" bind:this={titleElement}>{@html title}</div>{/if}
+                            {#if title}
+                                <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
+                            {/if}
                             <div bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
@@ -268,7 +281,9 @@
                     </div>
 
                 {:else}
-                    {#if title}<div class="title-heading title-padding container" bind:this={titleElement}>{@html title}</div>{/if}
+                    {#if title}
+                        <div class="title-heading title-padding container" bind:this={titleElement}><h3>{@html title}</h3></div>
+                    {/if}
                     <div class="media media-fullwidth media-only width-{mediaWidth}">
                         <Media_Display {item} args={{showPreview}} on:click-item />
                     </div>
@@ -284,7 +299,9 @@
                     </div>
 
                 {:else}
-                    {#if title}<div class="title-heading title-padding" bind:this={titleElement}>{@html title}</div>{/if}
+                    {#if title}
+                        <div class="title-heading title-padding" bind:this={titleElement}><h3>{@html title}</h3></div>
+                    {/if}
                     <div class="text-padding" bind:this={textElement}>
                         <Text_Display {item} />
                     </div>
@@ -313,8 +330,11 @@
     .title-heading {
         margin: 0 0 1.15em 0;
         text-transform: uppercase;
-        font-size: 1.736842em;
         letter-spacing: 0.05em;
+    }
+
+    .title-heading > h3 {
+        font-size: inherit;
     }
 
     .title-padding {

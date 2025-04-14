@@ -26,6 +26,8 @@
         type = item.item_type || null;
         media = item.media || null;
         styles = item.styles || null;
+
+        if(title) item.title = null;
     }
 
     const setTheme = (styles) => {
@@ -44,18 +46,11 @@
 
         <div class="card" bind:this={gridItemElement}>
             <header class="card__header">
-                <!-- <time class="time" datetime="2008-02-02">
-                    <span class="time__day">2</span>
-                    <span class="time__month">Feb</span>
-                </time> -->
 
-                <!-- {#if date}
-                    <div class="time">{date}</div>
-                {:else}
-                    <div class="time">N.D.</div>
-                {/if} -->
-
-                {#if title}<div class="card__title">{@html title}</div><hr>{/if}
+                {#if title}
+                    <div class="card__title"><h4>{@html title}</h4></div>
+                    <hr>
+                {/if}
 
             </header>
 
