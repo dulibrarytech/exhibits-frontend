@@ -195,5 +195,6 @@ export const Settings = {
     },
 
     exhibitHeroImageAltText: "Exhibit hero image",
-    exhibitItemImageAltText: "Exhibit preview image"
+    exhibitPreviewImageAltText: "click to enter exhibit",
+    exhibitItemImageAltText: "click to open item"
 }

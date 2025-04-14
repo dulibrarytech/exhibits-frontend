@@ -3,11 +3,14 @@
     
     import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js'; 
+    import { Settings } from '../config/settings.js';
 
     export let exhibit = {};
     export let link = null;
     export let width = null;
     export let height = null;
+
+    const DEFAULT_PREVIEW_IMAGE_ALT_TEXT = Settings.exhibitPreviewImageAltText;
 
     let titleTextElement;
 
@@ -16,6 +19,7 @@
     let heroImage;
     let title;
     let subtitle;
+    let altText;
     let styles;
 
     const dispatch = createEventDispatcher();
@@ -35,6 +39,8 @@
         title = exhibit.title || "";
         subtitle = exhibit.subtitle || "";
         styles = exhibit.styles?.hero || {};
+
+        altText = `${title} ${subtitle || undefined} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
 
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
@@ -62,7 +68,7 @@
 <div class="exhibit-preview">
     <a href={link || undefined} data-exhibit-id={exhibitId} bind:this={titleTextElement} on:click|stopPropagation|preventDefault={onClickPreview} aria-label="enter exhibit {title}">
         <div class="exhibit-thumbnail">
-            <img src={thumbnail || ""} alt={title} title={title} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
+            <img src={thumbnail || ""} alt={altText} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
 
             <div class="overlay"></div>
             <div class="overlay-text">
@@ -91,6 +97,8 @@
     .exhibit-thumbnail > img {
         width: 100%;
         height: 100%;
+        /* width: 300px;
+        height: 300px; */
         position: relative;
         border-radius: 5px;
     }
