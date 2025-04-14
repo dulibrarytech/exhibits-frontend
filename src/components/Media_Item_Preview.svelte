@@ -3,7 +3,7 @@
     
     import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js';
-    //import { stripHtmlTags } from '../libs/data_helpers';
+    import { isHttpUrl } from '../libs/media_helpers';
     import * as Logger from '../libs/logger.js';
     import { Settings } from '../config/settings';
     import { Configuration } from '../config/config';
@@ -14,6 +14,14 @@
     export let args = {};
     export let width = null;
     export let height = null;
+
+    const dispatch = createEventDispatcher();
+
+    const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
+    const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitItemImageAltText;
+
+    const DEFAULT_IMAGE_TITLE = "Untitled Item";
+    const IMAGE_PREVIEW_WIDTH = 500;
 
     let {resourceLocation} = Configuration;
     let {placeholderImage, placeholderImageWidth} = Settings; 
@@ -26,18 +34,11 @@
     let resource;
     let thumbnail;
     let caption;
-    let altText;
+    let titleText;
 
     let link;
     let isPlaceholderImage;
     let preview;
-
-    const dispatch = createEventDispatcher();
-
-    const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
-
-    const LARGE_IMAGE_PREVIEW_WIDTH = 1000;
-    const URL_PATTERN = /^https?:\/\//;
 
     $: init();
 
@@ -47,24 +48,24 @@
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
         caption = item.caption || null;
-        altText = item.title_string || caption || item.description || "Untitled Image";
+        titleText = item.title_string || DEFAULT_IMAGE_TITLE;
 
         link = args.link || null;
         isPlaceholderImage = false;
         preview = null;
 
         // has thumbnail, is local resource (not a url)
-        if(thumbnail && URL_PATTERN.test(thumbnail) == false) {
+        if(thumbnail && isHttpUrl(thumbnail) == false) {
             preview = RESOURCE.getFileUrl(thumbnail);
         }
 
         // has thumbnail, is url
-        else if(thumbnail && URL_PATTERN.test(thumbnail) == true) {
+        else if(thumbnail && isHttpUrl(thumbnail) == true) {
             preview = thumbnail;
         }
 
         // no thumbnail, resource value is a url
-        else if(URL_PATTERN.test(resource) == true) {
+        else if(isHttpUrl(resource) == true) {
             preview = resource;
         }
 
@@ -81,9 +82,11 @@
 
     const getPreviewUrl = async (itemType, media, width=null, height=null) => {
         let url = "";
+        
         switch(itemType) {
+
             case ITEM_TYPE.IMAGE:
-                url = RESOURCE.getIIIFImageUrl(media, width, height);
+                url = RESOURCE.getIIIFImageUrl(media, width || IMAGE_PREVIEW_WIDTH, height);
 
                 if(!url) {
                     url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE);
@@ -94,7 +97,7 @@
 
             case ITEM_TYPE.LARGE_IMAGE:
                 let data = {
-                    width: width || LARGE_IMAGE_PREVIEW_WIDTH,
+                    width: width || IMAGE_PREVIEW_WIDTH,
                     height: height || undefined
                 }
 
@@ -170,10 +173,10 @@
 </script>
 
 {#if preview}
-    <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}" alt={altText} title={altText}>
+    <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}">
         <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
             <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}" bind:this={itemPreviewElement} >
-                <img crossorigin="anonymous" src={preview} on:error={onImageLoadError} bind:this={previewImageElement}>
+                <img crossorigin="anonymous" src={preview} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} on:error={onImageLoadError} bind:this={previewImageElement}>
             </div>
         </a>
         {#if caption}<div class="caption">{@html caption}</div>{/if}

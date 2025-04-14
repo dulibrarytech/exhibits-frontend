@@ -194,5 +194,6 @@ export const Settings = {
         CREATED: "created"
     },
 
-    exhibitHeroImageAltText: "Exhibit hero image"
+    exhibitHeroImageAltText: "Exhibit hero image",
+    exhibitItemImageAltText: "Exhibit preview image"
 }

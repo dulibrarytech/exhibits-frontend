@@ -71,3 +71,12 @@ export const getItemTypeForFileExtension = (filename) => {
 export const getFileExtension = (filename) => {
     return filename.substring( filename.lastIndexOf('.')+1 );
 }
+
+/**
+ * Returns true if string begins with 'http' or 'https', false if not
+ * @param {string} string : the string to test
+ */
+export const isHttpUrl = (string) => {
+    let pattern = /^https?:\/\//;
+    return pattern.test(string);
+}
