@@ -7,12 +7,15 @@
      */
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
+    import { Settings } from '../../config/settings';
 
     export let args = {};
 
-    let {image = null, title="exhibit title", description = null, titleText = ""} = args;
-
     const dispatch = createEventDispatcher();
+
+    const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitHeroImageAltText;
+
+    let {image = null, title="exhibit title", description = null, titleText = ""} = args;
 
     onMount(async () => {
         dispatch('mount', {});
@@ -20,7 +23,8 @@
 </script>
 
 <div class="banner">
-    <img src={image} alt={titleText} title={titleText} />
+    <h1 style="display: none;">{titleText}</h1>
+    <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
 </div>
 
 <style>

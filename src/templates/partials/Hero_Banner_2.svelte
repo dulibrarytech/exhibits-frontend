@@ -9,18 +9,20 @@
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
     import { convertPxValuesToEm } from '../../libs/data_helpers';
+    import { Settings } from '../../config/settings';
 
     export let styles = null;
     export let args = {};
-
-    let bannerElement;
-
-    let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
     const dispatch = createEventDispatcher();
 
     const BASE_TITLE_FONT_SIZE = 70;
     const BASE_SUBTITLE_FONT_SIZE = 40;
+    const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitHeroImageAltText;
+
+    let bannerElement;
+
+    let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
     const init = () => {
         title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
@@ -35,16 +37,15 @@
 </script>
 
 <div class="banner" bind:this={bannerElement}>
+    <h1 style="display: none;">{titleText}</h1>
     <div class="hero-image">
-        <img src={image} alt={titleText} title={titleText} />
+        <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
     </div>
 
     
     <div class="hero-text">
         {#if title}
             <div class="title-text">
-            <!-- TODO apply global padding style -->
-            <!-- <div class="title-text" style="padding: {STYLES.sectionPadding}"> -->
                 <div id="title" class="overlay-text text">{@html title}</div>
                 {#if subtitle}<hr><div id="subtitle" class="overlay-text text">{@html subtitle}</div>{/if}
             </div>

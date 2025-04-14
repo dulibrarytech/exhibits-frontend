@@ -32,7 +32,7 @@
     {#if display}
         <div class="section-heading container">
             <div class="section-title">
-                {@html text}
+                <h2>{@html text}</h2>
             </div>
         </div>
     {/if}
@@ -40,7 +40,12 @@
 
 <style>
     .exhibit-heading {
-        font-size: 47px; /* default font size */
+        font-size: 47px;
+    }
+
+    .section-heading.container {
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .section-heading {
@@ -49,9 +54,9 @@
         text-transform: uppercase;
     }
 
-    .section-heading h3 {
+    .section-heading h2 {
         margin-bottom: 0;
-        letter-spacing: 0.06383em; /* 7pt or 3px when 47px base font size */
+        letter-spacing: 0.06383em;
         font-size: inherit;
     }
 

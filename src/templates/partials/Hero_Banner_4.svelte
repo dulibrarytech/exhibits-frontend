@@ -9,18 +9,20 @@
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
     import { convertPxValuesToEm } from '../../libs/data_helpers';
+    import { Settings } from '../../config/settings';
 
     export let styles = null;
     export let args = {};
-
-    let bannerElement;
-
-    let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
     const dispatch = createEventDispatcher();
 
     const BASE_TITLE_FONT_SIZE = 74;
     const BASE_SUBTITLE_FONT_SIZE = 68;
+    const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitHeroImageAltText;
+
+    let bannerElement;
+
+    let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
     const init = () => {
         // allows title text to be responsive when user sets the font size of the title
@@ -37,11 +39,12 @@
 </script>
 
 <!-- <div class="banner container" bind:this={bannerElement}> -->
-    <div class="banner" bind:this={bannerElement}>
+<div class="banner" bind:this={bannerElement}>
+    <h1 style="display: none;">{titleText}</h1>
 
     <div class="row">
         <div class="hero-image col-xl-6 col-lg-6 col-md-5 col-sm-12">
-            <img src={image} alt={titleText} title={titleText} />
+            <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
         </div>
 
         <div class="title-text col-xl-6 col-lg-6 col-md-7 col-sm-12">

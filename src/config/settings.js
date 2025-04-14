@@ -192,5 +192,7 @@ export const Settings = {
         IS_MEMBER_OF_EXHIBIT: "is_member_of_exhibit",
         IS_PUBLISHED: "is_published",
         CREATED: "created"
-    }
+    },
+
+    exhibitHeroImageAltText: "Exhibit hero image"
 }
