@@ -34,7 +34,8 @@
     let resource;
     let thumbnail;
     let caption;
-    let titleText;
+    let title;
+    let altText;
 
     let link;
     let isPlaceholderImage;
@@ -48,7 +49,10 @@
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
         caption = item.caption || null;
-        titleText = item.title_string || DEFAULT_IMAGE_TITLE;
+        title = item.title || DEFAULT_IMAGE_TITLE;
+        altText = item.altText || null;
+
+        if(!altText) altText = DEFAULT_IMAGE_ALT_TEXT;
 
         link = args.link || null;
         isPlaceholderImage = false;
@@ -176,7 +180,7 @@
     <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}">
         <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
             <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}" bind:this={itemPreviewElement} >
-                <img crossorigin="anonymous" src={preview} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} on:error={onImageLoadError} bind:this={previewImageElement}>
+                <img crossorigin="anonymous" src={preview} alt={altText} on:error={onImageLoadError} bind:this={previewImageElement}>
             </div>
         </a>
         {#if caption}<div class="caption">{@html caption}</div>{/if}
