@@ -25,11 +25,11 @@
             <div class="grid-item exhibit-preview-item">
                 <Exhibit_Preview {exhibit} link="/exhibit/{exhibit.uuid}"/>
 
-                <div class="exhibit-preview-title">
+                <div class="exhibit-preview-title" aria-hidden="true">
                     {exhibit.title || "Untitled Exhibit"}
                 </div>
                 {#if exhibit.subtitle}
-                    <div class="exhibit-preview-subtext">{exhibit.subtitle}</div>
+                    <div class="exhibit-preview-subtext" aria-hidden="true">{exhibit.subtitle}</div>
                 {/if}
             </div>
         {/each}
