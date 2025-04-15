@@ -10,7 +10,7 @@
     <div class="site-branding container">
         <div class="branding-text">
             <a class="site-title" href="/">
-                <h1>Exhibits <span class="highlight-text">@ DU</span></h1>
+                <p>Exhibits <span class="highlight-text">@ DU</span></p>
             </a>
         </div>
     </div>
@@ -42,7 +42,7 @@
         text-decoration: none;
     }
 
-    .site-title h1 {
+    .site-title p {
         font-size: 33px;
         text-transform: uppercase;
         margin-top: 0;
