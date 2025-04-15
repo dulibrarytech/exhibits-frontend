@@ -24,7 +24,7 @@
 
 <div class="banner">
     <h1 style="display: none;">{titleText}</h1>
-    <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
+    <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
 </div>
 
 <style>

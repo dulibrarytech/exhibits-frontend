@@ -44,7 +44,7 @@
 <div class="banner" bind:this={bannerElement}>
     <h1 style="display: none;">{titleText}</h1>
     <div class="hero-image" bind:this={imageElement}>
-        <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
+        <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
 
         <div class="hero-image-text">
             {#if title}<div class="overlay-text text title">{@html title}</div>{/if}

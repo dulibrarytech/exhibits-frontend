@@ -44,7 +44,7 @@
 
     <div class="row">
         <div class="hero-image col-xl-6 col-lg-6 col-md-5 col-sm-12">
-            <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
+            <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
         </div>
 
         <div class="title-text col-xl-6 col-lg-6 col-md-7 col-sm-12">
