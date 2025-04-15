@@ -110,7 +110,7 @@
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
-                                <h2>Featured Exhibits</h2>
+                                <h1>Featured Exhibits</h1>
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}
@@ -124,7 +124,7 @@
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
-                                <h2>Student Curated Exhibits</h2>
+                                <h1>Student Curated Exhibits</h1>
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}
