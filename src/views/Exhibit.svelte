@@ -23,7 +23,7 @@
 
     export let currentRoute;
 
-    const EXHIBIT_LOAD_MESSAGE = "Please wait...";
+    const EXHIBIT_LOAD_MESSAGE = "Loading exhibit...";
     const EXHIBIT_LOAD_ERROR = "Error loading exhibit";
 
     let page;
@@ -227,7 +227,7 @@
 
 <div class="exhibit-wrapper">
 
-    <div class="exhibit-load-message" style="display: {isMessageVisible ? 'absolute' : 'none'}">
+    <div class="exhibit-load-message container" style="display: {isMessageVisible ? 'absolute' : 'none'}">
         <div><h3>{message}</h3></div>
     </div>
 
@@ -255,18 +255,9 @@
         min-height: 100vh;
     }
 
-    .site-branding-banner {
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-color: #e5e3e1;
-    }
-
     .exhibit-load-message {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%);
-        transform: translateX(-50%);
+        position: relative;
+        top: 100px;
     }
 
     .exhibit-load-message > div {
