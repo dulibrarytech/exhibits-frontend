@@ -31,11 +31,17 @@ const onClickLabel = (event) => {
 {/if}
 
 <style>
+    @font-face {
+	    font-family: "IBM Plex Mono";
+        src: url('../assets/fonts/IBMPlexMono-Regular.ttf') format("truetype");
+    }
+
     .facet-labels {
         display: flex;
         row-gap: 8px;
         align-content: flex-start;
         flex-wrap: wrap;
+        font-family: "IBM Plex Mono";
     }
 
     .facet-label {
@@ -44,10 +50,6 @@ const onClickLabel = (event) => {
         padding: 5px 10px;
         border-radius: 5px;
     }
-
-    /* .facet-label:not(:first-child) {
-        margin-left: 15px;
-    } */
 
     .facet-labels a.removelink {
         content: attr(data-icon);
