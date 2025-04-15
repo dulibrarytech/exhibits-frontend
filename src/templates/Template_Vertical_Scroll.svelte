@@ -92,8 +92,6 @@
 <style>
     .exhibit-template {
         font-size: inherit;
-        color: var(--theme-color);
-        font-family: var(--theme-font-family);
     }
 
     :global(.caption) {

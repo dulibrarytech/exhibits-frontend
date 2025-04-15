@@ -104,38 +104,41 @@
     };
 </script>
 
-<div class="exhibit-page" bind:this={pageElement}>
-    <div class="hero-page-section">
-        <Hero {data} {styles} />
-    </div>
+<div class="exhibit-page">
+
+    <div class="exhibit-content" bind:this={pageElement}>
+        <div class="hero-page-section">
+            <Hero {data} {styles} />
+        </div>
+        
+        {#if data.description}
+            <Exhibit_Introduction content={data.description} styles={styles?.inroduction || null} />
+        {/if}
     
-    {#if data.description}
-        <Exhibit_Introduction content={data.description} styles={styles?.inroduction || null} />
-    {/if}
-
-    {#if alert }
-        <Alert text={alert} />
-    {/if}
-
-    <!-- sidebar section for navigation -->
-    <div class="container-fluid">
-        <div id="sidebar-container" class="row flex-nowrap">
-            <div class="col-auto">
-                <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end" bind:this={sidebarElement}>
-                    <Navigation_Side {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
-
-                    <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
+        {#if alert }
+            <Alert text={alert} />
+        {/if}
+    
+        <!-- sidebar section for navigation -->
+        <div class="container-fluid">
+            <div id="sidebar-container" class="row flex-nowrap">
+                <div class="col-auto">
+                    <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end" bind:this={sidebarElement}>
+                        <Navigation_Side {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
+    
+                        <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col">
-                <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay};" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
-                
-                {#if renderTemplate}
-                    <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
-                {:else if templateMessage}
-                    <div class="template-message"><h3>{templateMessage}</h3></div>
-                {/if}
+    
+                <div class="col">
+                    <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay};" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
+                    
+                    {#if renderTemplate}
+                        <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
+                    {:else if templateMessage}
+                        <div class="template-message"><h3>{templateMessage}</h3></div>
+                    {/if}
+                </div>
             </div>
         </div>
     </div>
@@ -152,6 +155,12 @@
 </div>
 
 <style>
+
+    .exhibit-content {
+        color: var(--theme-color);
+        font-family: var(--theme-font-family);
+    }
+
     #sidebar-container {
         display: block;
     }

@@ -92,29 +92,34 @@
     };
 </script>
 
-<div class="exhibit-page" bind:this={pageElement}  style="position: relative">
-    <div class="hero-page-section">
-        <Hero data={exhibitData} {styles} />
+<div class="exhibit-page" style="position: relative">
+
+    <div class="exhibit-content" bind:this={pageElement}>
+        <div class="hero-page-section">
+            <Hero data={exhibitData} {styles} />
+        </div>
+        
+        <div class="navigation-page-section sticky-top">
+            <Navigation_Top {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
+        </div>
+
+        {#if exhibitData.description}
+            <Exhibit_Introduction content={exhibitData.description} styles={styles?.introduction || null} /> 
+        {/if}
+
+        {#if alert}
+            <div class="alert-section">
+                <Alert text={alert} />
+            </div>
+        {/if}
+
+        {#if renderTemplate}
+            <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
+        {:else if templateMessage}
+            <div class="template-message"><h3>{templateMessage}</h3></div>
+        {/if}
     </div>
-    
-    <div class="navigation-page-section sticky-top">
-        <Navigation_Top {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
-    </div>
-
-    {#if exhibitData.description}
-        <Exhibit_Introduction content={exhibitData.description} styles={styles?.introduction || null} /> 
-    {/if}
-
-    {#if alert }
-        <Alert text={alert} />
-    {/if}
-
-    {#if renderTemplate}
-        <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} /> <!-- SIDENAV --> 
-    {:else if templateMessage}
-        <div class="template-message"><h3>{templateMessage}</h3></div>
-    {/if}
-
+        
     <Exhibit_Thank_You />
 
     <Repository_Related_Items {items} />
@@ -127,6 +132,11 @@
 </div>
 
 <style>
+    .exhibit-content {
+        color: var(--theme-color);
+        font-family: var(--theme-font-family);
+    }
+
     .template-message {
         background-color: #b8e6bf;
         padding: 50px;

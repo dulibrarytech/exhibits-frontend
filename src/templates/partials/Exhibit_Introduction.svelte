@@ -26,10 +26,8 @@
         /* inherit user-customizable styles from the exhibit */
         background-color: inherit;
         font-size: inherit;
-        /* font-family: inherit;
-        color: inherit; */
-        color: var(--theme-color);
-        font-family: var(--theme-font-family);
+        font-family: inherit;
+        color: inherit;
     }
 
     .exhibit-introduction {
