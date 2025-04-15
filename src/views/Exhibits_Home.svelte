@@ -26,8 +26,6 @@
 
     var message = "";
 
-    const FONT_FAMILY = "Breve Sans";
-    const FONT_COLOR = '#525252';
     const HERO_DISPLAY = false;
     const EXHIBITS_DISPLAY = "grid";
 
@@ -152,9 +150,6 @@
     }
 
     .exhibits-home {
-        /* font-family: var(--theme-FONT_FAMILY); */
-        /* color: var(--theme-FONT_COLOR); */
-        font-family: "Breve Sans Text";
         font-size: 18px;
         letter-spacing: 0.02em;
     }

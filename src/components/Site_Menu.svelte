@@ -53,6 +53,7 @@
 
 <style>
 .site-menu {
+    font-weight: bold;
     margin-top: 2px;
 }
 </style>

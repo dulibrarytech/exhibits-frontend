@@ -18,7 +18,6 @@
 <style>
 
   main {
-    font-family: "Arial";
     min-height: calc(100vh - 249px); 
   }
 </style>

@@ -23,6 +23,8 @@
 
     export let currentRoute;
 
+    const EXHIBIT_DEFAULT_FONT_FAMILY = "Arial";
+    const EXHIBIT_DEFAULT_FONT_COLOR = "#181818";
     const EXHIBIT_LOAD_MESSAGE = "Loading exhibit...";
     const EXHIBIT_LOAD_ERROR = "Error loading exhibit";
 
@@ -233,7 +235,7 @@
 
     {#if renderPage}
 
-        <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}">
+        <div class="exhibit" style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}; --theme-color: {EXHIBIT_DEFAULT_FONT_COLOR}; --theme-font-family: {EXHIBIT_DEFAULT_FONT_FAMILY}">
             <Exhibit_Menu {exhibitId} />
         
             <!-- exhibit page -->
@@ -263,6 +265,11 @@
     .exhibit-load-message > div {
         align-items: center;
     }
+
+    /* :global(.exhibit-introduction),
+    :global(.exhibit-template) {
+        font-family: "Arial"
+    } */
 
     :global(.navbar.fixed-top) {
         position: relative;

@@ -26,7 +26,6 @@
 
     .du-header {
         background: #FFFFFF;
-        font-family: "BreveSans", sans-serif;
     }
 
     .du-header a {

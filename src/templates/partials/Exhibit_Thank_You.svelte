@@ -11,6 +11,9 @@
         background: white;
         padding: 3em;
         text-align: center;
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-top-color: #e5e3e1;
     }
 
     .user-acknowledgement > div {
