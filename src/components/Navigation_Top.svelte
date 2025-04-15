@@ -84,7 +84,7 @@
             <ul class="nav nav-link navbar-nav ms-auto">
                 {#if sectionHeadings}
                     {#each sectionHeadings as {uuid, text, subheadings = null}, index}
-                        <li class="px-1" title={text}>
+                        <li class="px-1">
                             <a class="main-menu-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
 
                             {#if subheadings.length > 0}
