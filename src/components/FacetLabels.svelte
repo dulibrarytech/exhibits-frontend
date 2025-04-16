@@ -42,6 +42,7 @@ const onClickLabel = (event) => {
         align-content: flex-start;
         flex-wrap: wrap;
         font-family: "IBM Plex Mono";
+        font-size: initial;
     }
 
     .facet-label {
