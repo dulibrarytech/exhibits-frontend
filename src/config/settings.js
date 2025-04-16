@@ -6,6 +6,19 @@ import { EXHIBIT_TEMPLATE, ITEM_TYPE } from './global-constants.js';
 
 export const Settings = {
     appTitle: "Exhibits @ DU",
+
+    siteDefaultTheme: {
+        DEFAULT_FONT_FAMILY: "IBM Plex Sans",
+        DEFAULT_FONT_COLOR: "#181818",
+        DEFAULT_FONT_SIZE: "18px"
+    },
+
+    exhibitDefaultTheme: {
+        DEFAULT_FONT_FAMILY: "Arial",
+        DEFAULT_FONT_COLOR: "#181818",
+        DEFAULT_FONT_SIZE: "20px"
+    },
+
     /*
      * Mime types for item type
      */

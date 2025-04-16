@@ -116,7 +116,10 @@
         {/if}
     
         {#if alert }
-            <Alert text={alert} />
+            <div class="alert-section">
+                <Alert text={alert} />
+            </div>
+            
         {/if}
     
         <!-- sidebar section for navigation -->
@@ -157,8 +160,13 @@
 <style>
 
     .exhibit-content {
-        color: var(--theme-color);
-        font-family: var(--theme-font-family);
+        color: var(--theme-exhibit-font-color);
+        font-family: var(--theme-exhibit-font-family);
+        font-size: var(--theme-exhibit-font-size);
+    }
+
+    .alert-section {
+        font-family: var(--theme-site-font-family);
     }
 
     #sidebar-container {

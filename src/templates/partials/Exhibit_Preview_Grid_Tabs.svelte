@@ -41,6 +41,7 @@
 
         <!-- buttons -->
         {#each sections as {label}, index}
+            <!-- <button class="tab-button" type="button" on:click={() => showPage(index)} bind:this={tabs[index]}><h1>{label}</h1></button> -->
             <button class="tab-button" type="button" on:click={() => showPage(index)} bind:this={tabs[index]}>{label}</button>
         {/each}
         
@@ -75,9 +76,15 @@
         border-bottom-style: none;
 
         width: 33%;
-        padding: 20px 5px;
-        font-size: 0.9em;
+        padding: 20px 30px;
+        font-size: 1.4rem;
+        text-align: left;
     }
+
+    /* button.tab-button h1 {
+        margin-bottom: 0;
+        font-size: 1.4rem;
+    } */
 
     :global(button.tab-button.active) {
         border: none;
@@ -90,9 +97,8 @@
 
     @media screen and (min-width: 992px) {
         button.tab-button {
-            width: auto;
-            padding: 20px;
-            font-size: 1em;
+            /* width: auto; */
+            padding: 20px 30px;
         }
     }
 </style>

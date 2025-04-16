@@ -133,8 +133,13 @@
 
 <style>
     .exhibit-content {
-        color: var(--theme-color);
-        font-family: var(--theme-font-family);
+        color: var(--theme-exhibit-font-color);
+        font-family: var(--theme-exhibit-font-family);
+        font-size: var(--theme-exhibit-font-size);
+    }
+
+    .alert-section {
+        font-family: var(--theme-site-font-family);
     }
 
     .template-message {
