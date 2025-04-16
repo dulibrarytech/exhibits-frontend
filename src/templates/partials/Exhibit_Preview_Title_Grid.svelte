@@ -18,7 +18,7 @@
     $: init();
 </script>
 
-<div class="exhibits-preview-grid">
+<div class="exhibit-preview-grid">
 
     {#if previews.length > 0}
         {#each previews as exhibit}
@@ -38,12 +38,12 @@
 </div>
 
 <style>
-    .exhibits-preview-grid {
+    .exhibit-preview-grid {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
         column-gap: 2.5vw;
-        row-gap: 2.5vw;
+        row-gap: 5vw;
         margin: 6px auto;
     }
 
