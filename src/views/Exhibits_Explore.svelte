@@ -5,11 +5,12 @@
 <script>
     'use strict'
 
-    import { onMount } from 'svelte'
+    import { onMount } from 'svelte';
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
     import { formatExhibitFields } from '../libs/exhibits_data_helpers.js';
     import queryString from 'query-string';
+    //import MiniSearch from 'minisearch';
 
     import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Exhibits_Explore_Search from '../templates/partials/Exhibits_Explore_Search.svelte';
@@ -38,7 +39,7 @@
         FACET: "facet"
     }
 
-    const EXHIBITS_DISPLAY = EXHIBITS_DISPLAY_OPTIONS.NO_STUDENT_CURATED;
+    const EXHIBITS_DISPLAY = EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS;
 
     // import from settings
     const FILTER_OPTIONS = {
@@ -55,11 +56,6 @@
         //     "label": "Student Curated",
         //     "field": "is_student_curated"
         // }
-    }
-
-    $: {
-        if(_exhibits) render();
-        else message = "Error retrieving exhibits";
     }
 
     const init = async () => {
@@ -187,7 +183,10 @@
 
     init();
 
-    onMount(async () => {});
+    onMount(async () => {
+        if(_exhibits) render();
+        else message = "Error retrieving exhibits";
+    });
 </script>
 
 <Site_Branding />
@@ -223,17 +222,16 @@
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS}
 
-                            <Exhibit_Preview_Grid_Tabs sections={{
-                                "University Libraries Exhibits": _exhibits.filter(exhibit => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0}),
-                                "Student Curated Exhibits": _exhibits.filter(exhibit => {return exhibit.is_student_curated == 1})
-                            }} />
+                            <Exhibit_Preview_Grid_Tabs sections={[
+                                {"label": "University Libraries Exhibits", "exhibits": _exhibits.filter(exhibit => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})},
+                                {"label": "Student Curated Exhibits", "exhibits": _exhibits.filter(exhibit => {return exhibit.is_student_curated == 1})}
+                            ]} />
                         {/if}
 
                     </div>
                 </div>
 
             {:else}
-                <!-- TODO add separate section and styles for message display -->
                 <div class="exhibit-previews">
                     <div class="homepage-section">
                         <div class="message">
@@ -251,10 +249,6 @@
     @font-face {
         font-family: "Breve Sans Text";
         src: url('../assets/fonts/BreveSansTextLight.otf') format("truetype");
-    }
-
-    .exhibits-explore {
-        font-family: "Breve Sans Text";
     }
 
     .exhibit-previews {

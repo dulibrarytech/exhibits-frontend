@@ -1,34 +1,32 @@
 <script>
     'use strict'
-    // https://www.w3schools.com/howto/howto_js_full_page_tabs.asp
 
     import { onMount } from 'svelte';
 
-    export let sections = {};
+    export let sections = [];
+
+    const MAX_SECTIONS = 3;
 
     let pages = [];
+    let tabs = [];
 
-    console.log("TEST EPGT sections in:", sections)
-
-    // const onClickTab = (event) => {
-    //     console.log("TEST onClickTab:", event.target)
-    // }
+    $: {
+        if(sections.length+1 > MAX_SECTIONS) {
+            sections = sections.slice(0, MAX_SECTIONS);
+        }
+    }
 
     const showPage = (index) => {
-        console.log("TEST showPage: index:", index)
-        console.log("TEST showPage: page:", pages[index])
-        
+
         for(let page of pages) {
-            console.log("TEST showPage: pages: page:", page.getAttribute('data-index'))
+            page.style.display = (page.getAttribute('data-index')) == index ? "block" : "none";
+        }
 
-            if(page.getAttribute('data-index') == index) {
-                page.style.display = "block";
+        for(let tabIndex in tabs) {
+            if(tabIndex == index) {
+                tabs[tabIndex].classList.add('active');
             }
-            else {
-                page.style.display = "none";
-            }
-
-            // page.style.display = (page.getAttribute('data-index')) == index ? "block" : "none";v
+            else tabs[tabIndex].classList.remove('active');
         }
     }
 
@@ -38,30 +36,50 @@
     
 </script>
 
-<div class="exhibit-preview-grid-tabs">
+    <div class="exhibit-preview-grid-tabs">
 
-    <!-- buttons -->
-    {#each sections as {label}, index}
-        <button class="tab-button" type="button" on:click={() => showPage(index)}>{label}</button>
-    {/each}
-    
-    <!-- pages -->
-    {#each sections as {label, exhibits}, index}
-        <div class="tab-page" data-index={index} bind:this={pages[index]}>
-            <h2>{label}</h2>
-        </div>
-    {/each}
+        <!-- buttons -->
+        {#each sections as {label}, index}
+            <button class="tab-button" type="button" on:click={() => showPage(index)} bind:this={tabs[index]}>{label}</button>
+        {/each}
+        
+        <!-- pages -->
+        {#each sections as {label, exhibits}, index}
+            <div class="tab-page" data-index={index} bind:this={pages[index]}>
+                <h2>{label}</h2>
+            </div>
+        {/each}
 
-</div>
+    </div>
+
 
 <style>
     .tab-page {
         height: 100%;
-        padding: 50px 15px;
-        display: none;
+        padding: 50px 30px;
+        background-color: #f1f1f1;
     }
 
-    .tab-button {
+    button.tab-button {
         margin-bottom: 0;
+        background-color: white;
+        border-bottom-style: none;
+
+        width: 33%;
+        padding: 20px 5px;
+        font-size: 0.9em;
+    }
+
+    :global(button.tab-button.active) {
+        border: none;
+        background-color: #f1f1f1;
+    }
+
+    @media screen and (min-width: 992px) {
+        button.tab-button {
+            width: auto;
+            padding: 20px;
+            font-size: 1em;
+        }
     }
 </style>
