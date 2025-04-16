@@ -16,6 +16,7 @@
         queryParam,
         params,
         fields,
+        buttonText,
         placeholder
 
     } = searchData;
@@ -58,7 +59,7 @@
         {/if}
 
         <div class="searchbox-wrapper">
-            <Search_Box {endpoint} {queryParam} {params} {fields} {placeholder} on:submit-search/>
+            <Search_Box {endpoint} {queryParam} {params} {fields} {buttonText} {placeholder} on:submit-search/>
         </div>
     </div>
 

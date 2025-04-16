@@ -5,11 +5,12 @@
     import { removeStopwords } from 'stopword';
     import { createEventDispatcher } from 'svelte';
 
-    export let endpoint = null;    // request endpoint
-    export let queryParam = "q";  // main terms parameter (default is q)
-    export let params = {};      // params to append to querystring
-    export let fields = [];      // for 'fields' query parameter
-    export let placeholder = ""; // search box placeholder
+    export let endpoint = null;       // request endpoint
+    export let queryParam = "q";      // main terms parameter (default is q)
+    export let params = {};           // params to append to querystring
+    export let fields = [];           // for 'fields' query parameter
+    export let buttonText = "Search"; // submit button text
+    export let placeholder = "";      // search box placeholder
 
     let query = "";
     let url = "";
@@ -79,7 +80,7 @@
       <label for="searchbox" class="hidden">{placeholder}</label>
       <input class="form-control" id="searchbox" title="Search" type="search" bind:value={query} {placeholder}>
       <div class="input-group-append">
-        <button type="button" title="Submit Search" on:click|preventDefault={search} class="btn btn-secondary button" data-disable-with="Search">Search</button>
+        <button type="button" title="Submit Search" on:click|preventDefault={search} class="btn btn-secondary button" data-disable-with="Search">{buttonText}</button>
       </div> 
     </div>
   </form>

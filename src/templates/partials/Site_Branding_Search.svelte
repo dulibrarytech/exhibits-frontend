@@ -9,6 +9,7 @@
         queryParam,
         params,
         fields,
+        buttonText,
         placeholder
 
     } = data;
@@ -22,7 +23,7 @@
                     <Site_Branding />
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
-                    <Search_Box {endpoint} {queryParam} {params} {fields} {placeholder} />
+                    <Search_Box {endpoint} {queryParam} {params} {fields} {buttonText} {placeholder} />
                 </div>
             </div>
         </div>

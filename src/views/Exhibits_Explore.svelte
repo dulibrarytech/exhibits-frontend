@@ -5,7 +5,6 @@
 <script>
     'use strict'
 
-    import { onMount } from 'svelte';
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
     import { formatExhibitFields } from '../libs/exhibits_data_helpers.js';
@@ -64,6 +63,7 @@
         _searchData = {
             endpoint: null,
             queryParam: "keyword",
+            buttonText: "Filter",
             placeholder: "Filter by keyword"
         }
 
@@ -188,16 +188,6 @@
     }
 
     init();
-
-    onMount(async () => {
-        // if(_exhibits) render();
-        // else message = "Error retrieving exhibits";
-
-        // if(_exhibits) renderTabs = true;
-        // else message = "Error retrieving exhibits";
-
-        //if(!_exhibits) message = "Error retrieving exhibits";
-    });
 </script>
 
 <Site_Branding />

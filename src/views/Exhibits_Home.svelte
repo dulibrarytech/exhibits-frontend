@@ -37,6 +37,7 @@
         searchData = {
             endpoint: "/exhibits-explore",
             queryParam: "keyword",
+            buttonText: "Filter",
             placeholder: "Filter by keyword"
         }
 
