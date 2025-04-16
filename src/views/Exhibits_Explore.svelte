@@ -25,7 +25,8 @@
     var _filters = [];
     var _filterLabels = [];
 
-    var message;
+    var renderTabs = false;
+    var message = "";
 
     const EXHIBITS_DISPLAY_OPTIONS = {
         SHOW_ALL: "show_all",
@@ -77,16 +78,21 @@
 
         message = "Retrieving exhibits...";
         _exhibits = await Index.getExhibits(); 
-    }
 
-    const render = async () => {
-        if(_exhibits.length > 0) {
+        if(_exhibits?.length > 0) {
             formatExhibitFields(_exhibits);
             applyFilters();
         }
         else {
             message = "No exhibits found."
         }
+
+        render();
+    }
+
+    const render = async () => {
+        if(_exhibits) renderTabs = true;
+        else message = "Error retrieving exhibits";
     }
 
     const addFilter = (data) => {
@@ -184,8 +190,13 @@
     init();
 
     onMount(async () => {
-        if(_exhibits) render();
-        else message = "Error retrieving exhibits";
+        // if(_exhibits) render();
+        // else message = "Error retrieving exhibits";
+
+        // if(_exhibits) renderTabs = true;
+        // else message = "Error retrieving exhibits";
+
+        //if(!_exhibits) message = "Error retrieving exhibits";
     });
 </script>
 
@@ -205,7 +216,8 @@
                     on:submit-search={onSubmitKeywordFilter}/>
             </div>
                 
-            {#if _exhibits && _exhibits.length > 0}
+            <!-- {#if _exhibits && _exhibits.length > 0} -->
+            {#if renderTabs}
                 
                 <div class="exhibit-previews">
                     <div class="homepage-section">

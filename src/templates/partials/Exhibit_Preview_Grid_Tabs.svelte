@@ -2,6 +2,7 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import Exhibit_Preview_Title_Grid from './Exhibit_Preview_Title_Grid.svelte';
 
     export let sections = [];
 
@@ -44,9 +45,17 @@
         {/each}
         
         <!-- pages -->
-        {#each sections as {label, exhibits}, index}
+        {#each sections as {label, exhibits = []}, index}
             <div class="tab-page" data-index={index} bind:this={pages[index]}>
-                <h2>{label}</h2>
+
+                {#if exhibits.length > 0}
+                    <Exhibit_Preview_Title_Grid {exhibits} />
+                {:else}
+                    <div class="message">
+                        <p>No exhibits found.</p>
+                    </div>
+                {/if}
+
             </div>
         {/each}
 
@@ -73,6 +82,10 @@
     :global(button.tab-button.active) {
         border: none;
         background-color: #f1f1f1;
+    }
+
+    :global(.exhibit-preview-grid) {
+        column-gap: 2.2vw !important;
     }
 
     @media screen and (min-width: 992px) {
