@@ -84,7 +84,7 @@
 
         width: 33%;
         padding: 20px 30px;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         text-align: left;
     }
 
@@ -100,6 +100,12 @@
 
     :global(.exhibit-preview-grid) {
         column-gap: 2.2vw !important;
+    }
+
+    @media screen and (min-width: 480px) {
+        button.tab-button {
+            font-size: 1.3rem;
+        }
     }
 
     @media screen and (min-width: 992px) {
