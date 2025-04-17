@@ -52,8 +52,14 @@
 </nav>
 
 <style>
-.site-menu {
-    font-weight: bold;
-    margin-top: 2px;
-}
+    .site-menu {
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    @media screen and (min-width: 768px) {
+        .site-menu {
+            margin-top: 2px;
+        }
+    }
 </style>
