@@ -44,7 +44,7 @@
         justify-content: flex-start;
         column-gap: 2.5vw;
         row-gap: 5vw;
-        margin: 6px auto;
+        margin: 30px auto;
     }
 
     .grid-item {
