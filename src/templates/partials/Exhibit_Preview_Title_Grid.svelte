@@ -43,7 +43,7 @@
         flex-wrap: wrap;
         justify-content: flex-start;
         column-gap: 2.5vw;
-        row-gap: 5vw;
+        row-gap: 14vw;
         margin: 30px auto;
     }
 
@@ -70,6 +70,10 @@
     /* begin responsive breakpoints: small mobile devices/phones first ^ */
     @media screen and (min-width: 480px) {
     /* start of portrait tablet styles */
+        .exhibit-preview-grid {
+            row-gap: 5vw;
+        }
+
         .grid-item {
             width: 47.5%; /* 2 col */
         }
