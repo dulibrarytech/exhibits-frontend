@@ -40,10 +40,13 @@
     <div class="exhibit-preview-grid-tabs">
 
         <!-- buttons -->
-        {#each sections as {label}, index}
-            <!-- <button class="tab-button" type="button" on:click={() => showPage(index)} bind:this={tabs[index]}><h1>{label}</h1></button> -->
-            <button class="tab-button" type="button" on:click={() => showPage(index)} bind:this={tabs[index]}>{label}</button>
-        {/each}
+         <div class="tabs">
+            {#each sections as {label}, index}
+                <!-- <button class="tab-button" type="button" on:click={() => showPage(index)} bind:this={tabs[index]}><h1>{label}</h1></button> -->
+                <button class="tab-button" type="button" on:click={() => showPage(index)} bind:this={tabs[index]}>{label}</button>
+            {/each}
+         </div>
+        
         
         <!-- pages -->
         {#each sections as {label, exhibits = []}, index}
@@ -64,6 +67,10 @@
 
 
 <style>
+    .tabs {
+        display: flex;
+    }
+    
     .tab-page {
         height: 100%;
         padding: 50px 30px;
