@@ -2,6 +2,7 @@
     'use strict'
 
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
+    import { stripHtmlTags } from '../../libs/data_helpers';
 
     export let exhibits = [];
     export let limit = 0;
@@ -26,10 +27,10 @@
                 <Exhibit_Preview {exhibit} link="/exhibit/{exhibit.uuid}"/>
 
                 <div class="exhibit-preview-title" aria-hidden="true">
-                    {exhibit.title || "Untitled Exhibit"}
+                    {stripHtmlTags(exhibit.title || "Untitled Exhibit")}
                 </div>
                 {#if exhibit.subtitle}
-                    <div class="exhibit-preview-subtext" aria-hidden="true">{exhibit.subtitle}</div>
+                    <div class="exhibit-preview-subtext" aria-hidden="true">{stripHtmlTags(exhibit.subtitle)}</div>
                 {/if}
             </div>
         {/each}
