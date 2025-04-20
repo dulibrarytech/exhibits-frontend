@@ -4,6 +4,7 @@
     import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js'; 
     import { Settings } from '../config/settings.js';
+    import { stripHtmlTags } from '../libs/data_helpers';
 
     export let exhibit = {};
     export let link = null;
@@ -36,8 +37,8 @@
         exhibitId = exhibit.uuid;
         thumbnail = exhibit.thumbnail_image || null;
         heroImage = exhibit.hero_image || null;
-        title = exhibit.title || "";
-        subtitle = exhibit.subtitle || "";
+        title = stripHtmlTags(exhibit.title || "");
+        subtitle = stripHtmlTags(exhibit.subtitle || "");
         styles = exhibit.styles?.hero || {};
 
         altText = `${title} ${subtitle || undefined} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
