@@ -60,14 +60,16 @@ export const sanitizeHtml = (string) => {
 
 /**
  * 
- * @param {*} exhibits 
- * @returns {object} exhibits
+ * @param {*} object 
+ * @param {*} fields
+ * @returns null
  */
-export const formatExhibitFields = (exhibits) => {
-    exhibits.forEach((exhibit) => {
-        if(exhibit.title) exhibit.title = stripHtmlTags(exhibit.title);
-        if(exhibit.subtitle) exhibit.subtitle = stripHtmlTags(exhibit.subtitle);
-    });
+export const stripHtmlTagsFromDataFields = (object, fields) => {
+    for(let field of fields) {
+        if(object[field]) {
+            object[field] = stripHtmlTags(object[field]);
+        }
+    }
 }
 
 /**

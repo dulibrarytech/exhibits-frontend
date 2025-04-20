@@ -9,7 +9,6 @@
     import { navigateTo } from 'svelte-router-spa';
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
-    import { formatExhibitFields } from '../libs/exhibits_data_helpers.js';
 
     import Site_Branding_Search from '../templates/partials/Site_Branding_Search.svelte';
     import Homepage_Hero from '../components/Homepage_Hero.svelte';
@@ -28,7 +27,6 @@
 
     const HERO_DISPLAY = false;
     const EXHIBITS_DISPLAY = "grid";
-
     const EXHIBIT_FIELDS = Settings.exhibitDataFields;
 
     const init = async () => {
@@ -58,7 +56,6 @@
 
     const render = async () => {
         if(_exhibits.length > 0) {
-            formatExhibitFields(_exhibits);
 
             highlightExhibit = _exhibits.sort(function(a, b) {
                 return b.created - a.created;
@@ -115,7 +112,7 @@
                             {#if EXHIBITS_DISPLAY == "slider"}
                                 <Exhibit_Preview_Slider exhibits={featuredExhibits} images="3" scroll="1" />
                             {:else if EXHIBITS_DISPLAY == "grid"}
-                                <Exhibit_Preview_Title_Grid exhibits={featuredExhibits} limit="4" />
+                                <Exhibit_Preview_Title_Grid exhibits={featuredExhibits} limit="3" />
                             {/if}
                         </div>
                     {/if}

@@ -7,9 +7,9 @@
 
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
-    import { formatExhibitFields } from '../libs/exhibits_data_helpers.js';
+    import { stripHtmlTagsFromDataFields } from '../libs/exhibits_data_helpers.js';
     import queryString from 'query-string';
-    //import MiniSearch from 'minisearch';
+    import MiniSearch from 'minisearch';
 
     import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Exhibits_Explore_Search from '../templates/partials/Exhibits_Explore_Search.svelte';
@@ -23,6 +23,11 @@
     let _searchFields;
     var _filters = [];
     var _filterLabels = [];
+
+    let _miniSearch = new MiniSearch({
+        fields: Object.keys(Settings.searchFields),
+        storeFields: Object.values(Settings.exhibitDataFields)
+    });
 
     var renderTabs = false;
     var message = "";
@@ -40,6 +45,7 @@
     }
 
     const EXHIBITS_DISPLAY = EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS;
+    const KEYWORD_FILTER_FUZZY = 0.1;
 
     // import from settings
     const FILTER_OPTIONS = {
@@ -80,7 +86,7 @@
         _exhibits = await Index.getExhibits(); 
 
         if(_exhibits?.length > 0) {
-            formatExhibitFields(_exhibits);
+            initKeywordSearch();
             applyFilters();
         }
         else {
@@ -132,32 +138,27 @@
         });
     }
 
-    const filterKeyword = (terms, fields) => {
-        let exhibits = [];
+    const filterKeyword = (terms) => {
         terms = terms.toLowerCase().replace(/,/g, " ");
-
-        let matches;
-        exhibits = _exhibits.filter((exhibit) => {
-
-            matches = 0;
-            for(let field of fields) {
-                if(exhibit[field] && exhibit[field].toLowerCase().indexOf(terms) >= 0) {
-                    matches++;
-                }
-            }
-            return matches > 0;
-        });
-        return exhibits;
+        return _miniSearch.search(terms, { fuzzy: KEYWORD_FILTER_FUZZY })
     }
 
     const filterField = (field, value) => {
-        let exhibits = [];
-
-        exhibits = _exhibits.filter((exhibit) => {
+        return _exhibits.filter((exhibit) => {
             return exhibit[field] == value || exhibit[field].includes(value);
         });
+    }
 
-        return exhibits;
+    const initKeywordSearch = () => {
+        let count = 0;
+
+        _exhibits.forEach(exhibit => {
+            stripHtmlTagsFromDataFields(exhibit, ['title', 'subtitle', 'description']); // TODO settings.exhibitsearchfields
+        });
+
+        _miniSearch.addAll(_exhibits.map(exhibit => (
+            {...exhibit, id: ++count}
+        )));
     }
 
     const onSubmitKeywordFilter = ({detail}) => {
@@ -196,6 +197,8 @@
     <div class="page">
         <div class="container">
 
+            <!-- <h1>Online Exhibits</h1> -->
+
             <div class="search">
                 <Exhibits_Explore_Search 
                     filterOptions={FILTER_OPTIONS} 
@@ -206,7 +209,6 @@
                     on:submit-search={onSubmitKeywordFilter}/>
             </div>
                 
-            <!-- {#if _exhibits && _exhibits.length > 0} -->
             {#if renderTabs}
                 
                 <div class="exhibit-previews">
@@ -254,7 +256,7 @@
     }
 
     .exhibit-previews {
-        margin-top: 100px;
+        margin-top: 50px;
         margin-bottom: 100px;
     }
 
