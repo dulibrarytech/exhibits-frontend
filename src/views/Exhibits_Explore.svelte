@@ -20,12 +20,11 @@
 
     let _exhibits = [];
     let _searchData;
-    let _searchFields;
     var _filters = [];
     var _filterLabels = [];
 
     let _miniSearch = new MiniSearch({
-        fields: Object.keys(Settings.searchFields),
+        fields: Object.keys(Settings.searchFieldsExhibit),
         storeFields: Object.values(Settings.exhibitDataFields)
     });
 
@@ -65,7 +64,6 @@
     }
 
     const init = async () => {
-        _searchFields = Object.keys(Settings.searchFields);
         _searchData = {
             endpoint: null,
             queryParam: "keyword",
@@ -126,7 +124,7 @@
 
             // filter on search box terms
             if(filterOption.type == FILTER_TYPES.KEYWORD) {
-                _exhibits = filterKeyword(filter['keyword'], _searchFields);
+                _exhibits = filterKeyword(filter['keyword']);
             }
 
             // filter on data field value or array of values

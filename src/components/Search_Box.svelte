@@ -17,10 +17,10 @@
 
     const dispatch = createEventDispatcher();
 
-    //const DEFAULT_SEARCH_FIELD = "title";
+    const DEFAULT_SEARCH_FIELD = "title";
 
     const init = () => {
-      //if(fields.length == 0) fields.push(DEFAULT_SEARCH_FIELD);
+      if(fields.length == 0) fields.push(DEFAULT_SEARCH_FIELD);
     }
 
     const search = () => {

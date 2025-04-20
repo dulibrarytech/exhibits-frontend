@@ -110,12 +110,12 @@ export const Settings = {
      * Index fields included in search (in 'search all', when search field is not specified by user)
      * {index field name}:{human display name}
      */
-    searchFields: {
+    searchFieldsExhibit: {
         "title": "Title",
         "subtitle": "Subtitle",
         "description": "Description"
     },
-    searchFieldsExhibit: {
+    searchFieldsExhibitItem: {
         "title": "Title",
         "description": "Description",
         "text": "Text",
