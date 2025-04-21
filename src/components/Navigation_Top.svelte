@@ -165,7 +165,6 @@
         border-bottom-color: transparent;
         border-left-color: transparent;
         border-right-color: transparent;
-
     }
 
     ul.navbar-nav button:hover {
