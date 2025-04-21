@@ -56,13 +56,17 @@
     {#if sections}
         {#each sectionHeadings as {uuid, text, subheadings = null}}
             <div class="menuitem">
-                <a class="main-menu-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
+                <!-- <a class="main-menu-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a> -->
+                <button class="main-menu-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</button>
 
                 {#if subheadings.length > 0}
 
                     <ul class="dropdown-nav">
                         {#each subheadings as {uuid, text}}
-                            <li><a class="dropdown-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a></li>
+                            <li>
+                                <!-- <a class="dropdown-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a> -->
+                                <button class="dropdown-link" href data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</button>
+                            </li>
                         {/each}
                     </ul>
                 
@@ -74,13 +78,6 @@
 </div>
 
 <style>
-    #sidebar-nav a {
-        font-weight: bold;
-        /* font-size: 1.2em; */
-        font-size: 18px;
-    }
-
-    /********/
 
     #sidebar-nav li {
         padding-left: 0rem !important;
@@ -91,16 +88,36 @@
         margin-right: 5px;
     }
 
-    #sidebar-nav a {
+    #sidebar-nav button {
+        font-weight: bold;
+        font-size: 18px;
+
+        padding: 8px 26px;
         text-decoration: none;
+        background-color: inherit;
+        height: 100%;
+        width: 100%;
+        text-align: left;
+
+        border-width: 2px;
+        border-top-color: transparent;
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+        border-right-color: transparent;
     }
 
-    #sidebar-nav a:hover {
+    #sidebar-nav button:focus {
+        border-top-color: #252525;
+        border-bottom-color: #252525;
+        border-left-color: #252525;
+        border-right-color: #252525;
+    }
+
+    #sidebar-nav button:hover {
         text-decoration: underline;
     }
 
     .dropdown-nav {
-        position: absolute;
         padding: 15px;
         display: none;
         min-width: 160px;
@@ -117,23 +134,24 @@
         border-bottom-width: 1px;
     }
 
-    a.main-menu-link {
+    button.main-menu-link {
         display: block;
         background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
         border-radius: 3px;
+        margin-bottom: 7px;
     }
 
-    a.main-menu-link:hover {
+    button.main-menu-link:hover {
         background-image: linear-gradient(rgb(0 0 0/25%) 0 0);
         text-decoration: none;
     }
 
-    a.dropdown-link:hover {
+    button.dropdown-link:hover {
         background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
         text-decoration: none;
     }
 
-    a.dropdown-link {
+    button.dropdown-link {
         display: block;
     }
 

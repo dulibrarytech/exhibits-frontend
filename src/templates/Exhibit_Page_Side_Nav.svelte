@@ -112,7 +112,7 @@
         </div>
         
         {#if data.description}
-            <Exhibit_Introduction content={data.description} styles={styles?.inroduction || null} />
+            <Exhibit_Introduction content={data.description} styles={styles?.introduction || null} />
         {/if}
     
         {#if alert }
@@ -127,14 +127,16 @@
             <div id="sidebar-container" class="row flex-nowrap">
                 <div class="col-auto">
                     <div id="sidebar" class="exhibit-navigation collapse collapse-horizontal show border-end" bind:this={sidebarElement}>
+
+                        <button id="menu-close" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></button>
+
                         <Navigation_Side {sections} styles={styles?.navigation || null} on:click-nav-link={onClickNavigationLink} />
     
-                        <a id="menu-close" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class=" p-1 text-decoration-none" on:click={toggleMenuButtonDisplay} style="text-align: left"><i class="bi bi-chevron-left"></i></a>
                     </div>
                 </div>
     
                 <div class="col">
-                    <a id="menu-toggle" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay};" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></a>
+                    <button id="menu-toggle" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" style="display: {menuButtonDisplay};" on:click={toggleMenuButtonDisplay} ><i class="bi bi-list"></i></button>
                     
                     {#if renderTemplate}
                         <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
@@ -171,6 +173,15 @@
 
     #sidebar-container {
         display: block;
+    }
+
+    #sidebar-container button {
+        display: inline;
+        text-align: left;
+        margin: 0;
+        border: none !important;
+        background-color: inherit;
+        padding: 0 !important;
     }
 
     #sidebar-container > div {
