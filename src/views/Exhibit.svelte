@@ -241,7 +241,7 @@
                     --theme-exhibit-font-family: {DEFAULT_FONT_FAMILY};
                     --theme-exhibit-font-size: {DEFAULT_FONT_SIZE}">
 
-            <Exhibit_Menu {exhibitId} />
+            <Exhibit_Menu {exhibitId} on:click-menu-link={onOpenPageModal} />
         
             <!-- exhibit page -->
             <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} 
