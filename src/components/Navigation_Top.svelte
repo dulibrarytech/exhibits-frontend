@@ -85,14 +85,14 @@
                 {#if sectionHeadings}
                     {#each sectionHeadings as {uuid, text, subheadings = null}, index}
                         <li class="px-1">
-                            <button class="main-menu-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</button>
+                            <a href class="main-menu-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
 
                             {#if subheadings.length > 0}
 
                                 <ul class="dropdown-nav">
                                     {#each subheadings as {uuid, text}, index}
                                         <li>
-                                            <button class="dropdown-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</button>
+                                            <a href class="dropdown-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
                                         </li>
                                     {/each}
                                 </ul>
@@ -150,7 +150,7 @@
         padding: 1em;
     }
 
-    ul.navbar-nav button {
+    ul.navbar-nav a {
         padding: 8px 26px;
         font-size: 18px;
         font-weight: bold;
@@ -159,6 +159,7 @@
         height: 100%;
         margin-bottom: 0;
         width: 100%;
+        color: inherit;
 
         border-width: 2px;
         border-top-color: transparent;
@@ -167,11 +168,11 @@
         border-right-color: transparent;
     }
 
-    ul.navbar-nav button:hover {
+    ul.navbar-nav a:hover {
         text-decoration: underline;
     }
 
-    ul.navbar-nav button:focus {
+    ul.navbar-nav a:focus {
         border-top-color: #252525;
         border-bottom-color: #252525;
         border-left-color: #252525;
@@ -202,23 +203,23 @@
         border-bottom-width: 1px;
     }
 
-    button.main-menu-link {
+    a.main-menu-link {
         display: block;
         background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
         border-radius: 3px;
     }
 
-    button.main-menu-link:hover {
+    a.main-menu-link:hover {
         background-image: linear-gradient(rgb(0 0 0/25%) 0 0);
         text-decoration: none;
     }
 
-    button.dropdown-link:hover {
+    a.dropdown-link:hover {
         background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
         text-decoration: none;
     }
 
-    button.dropdown-link {
+    a.dropdown-link {
         display: block;
     }
 
