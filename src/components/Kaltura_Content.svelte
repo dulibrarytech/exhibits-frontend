@@ -90,9 +90,9 @@
                 </div>
             {:else if type == "video"}
                 <div class="preview" bind:this={previewElement}>
-                    <!-- <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} alt={title} {title} on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/>  -->
+                    <!-- <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} alt="Click to play video" on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/>  -->
                     <button type="button" on:click={onClickKalturaPreview}>
-                        <img class="preview-image" src={previewImageUrl} alt={title} {title} on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/> 
+                        <img class="preview-image" src={previewImageUrl} alt="Click to play video" on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/> 
                     </button>
                     
                     <img class="video-preview-overlay" src="../assets/images/play-button-icon-png-18919.png" />
@@ -142,6 +142,10 @@
         top: 0;
         left: 0;
         z-index: 10;
+    }
+
+    .preview > button {
+        width: 100%;
     }
 
     .preview:hover {
