@@ -37,9 +37,13 @@
     let title;
     let altText;
 
-    let link;
-    let isPlaceholderImage;
     let preview;
+    let isPlaceholderImage;
+
+    let { isInteractive = true,
+          link = null
+
+     } = args;
 
     $: init();
 
@@ -54,9 +58,8 @@
 
         if(!altText) altText = DEFAULT_IMAGE_ALT_TEXT;
 
-        link = args.link || null;
-        isPlaceholderImage = false;
         preview = null;
+        isPlaceholderImage = false;
 
         // has thumbnail, is local resource (not a url)
         if(thumbnail && isHttpUrl(thumbnail) == false) {
@@ -74,7 +77,6 @@
         }
 
         // no thumbnail, resource value is not a url (is either kaltura id, repository item id, or local resource filename)
-        // determine and assign the preview source uri
         else {
             preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : RESOURCE.getItemPlaceholderImageUrl(null);
         }
@@ -178,7 +180,7 @@
 
 {#if preview}
     <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}">
-        <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem}>
+        <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem} tabindex={isInteractive ? undefined : '-1'} >
             <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}" bind:this={itemPreviewElement} >
                 <img crossorigin="anonymous" src={preview} alt={altText} on:error={onImageLoadError} bind:this={previewImageElement}>
             </div>
