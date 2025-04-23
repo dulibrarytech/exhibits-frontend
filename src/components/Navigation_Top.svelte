@@ -136,6 +136,7 @@
 
     button.navbar-toggler {
         margin: 0 10px 0 0;
+        border-width: 2px;
     }
 
     button.navbar-toggler:focus {
