@@ -183,7 +183,8 @@
             {#if sections}
 
                 {#each sections as section}
-                    {#if section.label}<span class="timeline__year time" aria-hidden="true">{section.label}</span>{/if}
+                    <!-- {#if section.label}<span class="timeline__year time" aria-hidden="true">{section.label}</span>{/if} -->
+                    {#if section.label}<span class="timeline__year time"><h3>{section.label}</h3></span>{/if}
 
                     <div class="timeline-section">
                         {#each section.leftItems as leftItem, index}
@@ -290,6 +291,11 @@
         left: calc(50% - 1.6em);
         font-size: 1.3em;
         width: 3.2em;
+        padding: 5px;
+    }
+
+    .timeline__year h3 {
+        margin-bottom: 0;
     }
     
     /*
