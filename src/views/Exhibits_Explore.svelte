@@ -7,13 +7,13 @@
 
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
-    import { stripHtmlTagsFromDataFields } from '../libs/exhibits_data_helpers.js';
+    import { stripHtmlFromData } from '../libs/exhibits_data_helpers.js';
     import queryString from 'query-string';
     import MiniSearch from 'minisearch';
 
     import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Exhibits_Explore_Search from '../templates/partials/Exhibits_Explore_Search.svelte';
-    import Exhibit_Preview_Title_Grid from '../templates/partials/Exhibit_Preview_Title_Grid.svelte';
+    import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
     import Exhibit_Preview_Grid_Tabs from '../templates/partials/Exhibit_Preview_Grid_Tabs.svelte';
 
     export let currentRoute;
@@ -151,7 +151,7 @@
         let count = 0;
 
         _exhibits.forEach(exhibit => {
-            stripHtmlTagsFromDataFields(exhibit, ['title', 'subtitle', 'description']); // TODO settings.exhibitsearchfields
+            stripHtmlFromData(exhibit, ['title', 'subtitle', 'description']); // TODO settings settings.exhibitsearchfields
         });
 
         _miniSearch.addAll(_exhibits.map(exhibit => (
@@ -214,20 +214,20 @@
 
                         {#if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_ALL}
 
-                            <Exhibit_Preview_Title_Grid exhibits={_exhibits} />
+                            <Exhibit_Preview_Grid exhibits={_exhibits} args={{showTitle: true}} />
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.NO_STUDENT_CURATED}
                             
-                            <Exhibit_Preview_Title_Grid exhibits={
+                            <Exhibit_Preview_Grid exhibits={
                                 _exhibits.filter((exhibit) => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})
-                            } />
+                            } args={{showTitle: true}} />
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS}
 
                             <Exhibit_Preview_Grid_Tabs sections={[
                                 {"label": "University Libraries Exhibits", "exhibits": _exhibits.filter(exhibit => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})},
                                 {"label": "Student Curated Exhibits", "exhibits": _exhibits.filter(exhibit => {return exhibit.is_student_curated == 1})}
-                            ]} />
+                            ]} args={{showTitle: true}} />
                         {/if}
 
                     </div>

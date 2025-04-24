@@ -2,9 +2,10 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import Exhibit_Preview_Title_Grid from './Exhibit_Preview_Title_Grid.svelte';
+    import Exhibit_Preview_Grid from './Exhibit_Preview_Grid.svelte';
 
     export let sections = [];
+    export let args = {};
 
     const MAX_SECTIONS = 3;
 
@@ -40,20 +41,28 @@
     <div class="exhibit-preview-grid-tabs">
 
         <!-- buttons -->
-         <div class="tabs">
+        <div class="tabs">
             {#each sections as {label}, index}
-                <!-- <button class="tab-button" type="button" on:click={() => showPage(index)} bind:this={tabs[index]}><h1>{label}</h1></button> -->
-                <button class="tab-button" type="button" on:click={() => showPage(index)} bind:this={tabs[index]}>{label}</button>
+                <button class="tab-button" type="button" on:click={() => showPage(index)} aria-label="browse {label}" bind:this={tabs[index]}>{label}</button>
             {/each}
-         </div>
-        
+        </div>
+        <!-- buttons ul -->
+        <!-- <div class="tabs">
+            <ul>
+                {#each sections as {label}, index}
+                    <li>
+                        <button class="tab-button" type="button" on:click={() => showPage(index)} aria-label="show {label}" bind:this={tabs[index]}>{label}</button>
+                    </li>
+                {/each}
+            </ul>
+         </div> -->
         
         <!-- pages -->
         {#each sections as {label, exhibits = []}, index}
             <div class="tab-page" data-index={index} bind:this={pages[index]}>
 
                 {#if exhibits.length > 0}
-                    <Exhibit_Preview_Title_Grid {exhibits} />
+                    <Exhibit_Preview_Grid {exhibits} {args} />
                 {:else}
                     <div class="message">
                         <p>No exhibits found.</p>
@@ -70,9 +79,14 @@
     .tabs {
         display: flex;
     }
+     /* buttons ul */
+    /* .tabs > ul {
+        display: flex;
+    } */
     
     .tab-page {
         height: 100%;
+        min-height: 75vh;
         padding: 50px 30px;
         background-color: #f1f1f1;
     }
@@ -88,9 +102,8 @@
         text-align: left;
     }
 
-    /* button.tab-button h1 {
-        margin-bottom: 0;
-        font-size: 1.4rem;
+    /* li.tab-button {
+
     } */
 
     :global(button.tab-button.active) {

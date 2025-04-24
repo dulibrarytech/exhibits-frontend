@@ -5,13 +5,20 @@
     import ResourceUrl from '../libs/ResourceUrl.js'; 
     import { Settings } from '../config/settings.js';
     import { stripHtmlTags } from '../libs/data_helpers';
+    //import { extractHtmlInnerText } from '../libs/exhibits_data_helpers';
 
     export let exhibit = {};
     export let link = null;
     export let width = null;
     export let height = null;
 
+    export let args = {};
+
     const DEFAULT_PREVIEW_IMAGE_ALT_TEXT = Settings.exhibitPreviewImageAltText;
+
+    let {
+        showTitle = false
+    } = args;
 
     let titleTextElement;
 
@@ -39,6 +46,8 @@
         heroImage = exhibit.hero_image || null;
         title = stripHtmlTags(exhibit.title || "");
         subtitle = stripHtmlTags(exhibit.subtitle || "");
+        // title = extractHtmlInnerText(exhibit.title || "");  // call formatter from element (formatter -> exh_data_help::extractHtmlInnerText)
+        // subtitle = extractHtmlInnerText(exhibit.subtitle || ""); // call formatter from element (formatter -> exh_data_help::extractHtmlInnerText)
         styles = exhibit.styles?.hero || {};
 
         altText = `${title} ${subtitle || undefined} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
@@ -77,18 +86,30 @@
             </div>
 
         </div>
+
+        {#if showTitle}
+            <div class="exhibit-preview-title" aria-hidden="true"> <!-- TODO use:formatter -->
+                {exhibit.title || "Untitled Exhibit"}
+            </div>
+            {#if exhibit.subtitle}
+                <div class="exhibit-preview-subtext" aria-hidden="true">{exhibit.subtitle}</div> <!-- TODO use:formatter -->
+            {/if}
+        {/if}
     </a>
 </div>
 
 <style>
-    .exhibit-preview a {
+    .exhibit-preview .overlay-text {
         text-decoration: none;
         font-size: 1.4em;
+        color: white;
     }
 
-    .exhibit-preview a,
-    .exhibit-preview a:visited {
-        color: white;
+    .exhibit-preview a {
+        color: initial;
+    }
+    .exhibit-preview a:hover {
+        text-decoration: none;
     }
 
     .exhibit-thumbnail {
@@ -98,10 +119,23 @@
     .exhibit-thumbnail > img {
         width: 100%;
         height: 100%;
-        /* width: 300px;
-        height: 300px; */
         position: relative;
         border-radius: 5px;
+    }
+
+    .exhibit-preview-title {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+
+    .exhibit-preview-subtext {
+        margin-top: 10px;
+        color: #828281;
+        font-size: 16px;
+    }
+
+    .exhibit-preview-text hr {
+        color: #959391;
     }
 
     .exhibit-thumbnail:hover .overlay,

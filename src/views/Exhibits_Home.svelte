@@ -12,7 +12,7 @@
 
     import Site_Branding_Search from '../templates/partials/Site_Branding_Search.svelte';
     import Homepage_Hero from '../components/Homepage_Hero.svelte';
-    import Exhibit_Preview_Title_Grid from '../templates/partials/Exhibit_Preview_Title_Grid.svelte';
+    import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
     import Exhibit_Preview_Slider from '../components/Exhibit_Preview_Slider.svelte';
 
     export let currentRoute;
@@ -112,7 +112,7 @@
                             {#if EXHIBITS_DISPLAY == "slider"}
                                 <Exhibit_Preview_Slider exhibits={featuredExhibits} images="3" scroll="1" />
                             {:else if EXHIBITS_DISPLAY == "grid"}
-                                <Exhibit_Preview_Title_Grid exhibits={featuredExhibits} limit="3" />
+                                <Exhibit_Preview_Grid exhibits={featuredExhibits} args={{limit: 3, showTitle: true}} />
                             {/if}
                         </div>
                     {/if}
@@ -126,7 +126,7 @@
                             {#if EXHIBITS_DISPLAY == "slider"}
                                 <Exhibit_Preview_Slider exhibits={studentCuratedExhibits} images="3" scroll="1" />
                             {:else if EXHIBITS_DISPLAY == "grid"}
-                                <Exhibit_Preview_Title_Grid exhibits={studentCuratedExhibits} limit="4" />
+                                <Exhibit_Preview_Grid exhibits={studentCuratedExhibits} args={{limit: 4, showTitle: true}} />
                             {/if}
                         </div>
                     {/if}

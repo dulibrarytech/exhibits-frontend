@@ -4,7 +4,11 @@
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
 
     export let exhibits = [];
-    export let limit = 0;
+    export let args = {};
+
+    let {
+        limit = 0
+    } = args;
 
     let previews = [];
 
@@ -23,7 +27,7 @@
     {#if previews.length > 0}
         {#each previews as exhibit}
             <div class="grid-item exhibit-preview-item">
-                <Exhibit_Preview {exhibit} link="/exhibit/{exhibit.uuid}"/>
+                <Exhibit_Preview {exhibit} {args} link="/exhibit/{exhibit.uuid}"/>
             </div>
         {/each}
     {/if}
