@@ -19,7 +19,7 @@
     } = args;
 
     $: {
-        if(!title) title = "untitled video";
+        if(!title) title = "play video";
         render();
     }
 
