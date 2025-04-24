@@ -32,7 +32,7 @@
     {#if display}
         <div class="section-heading container">
             <div class="section-title">
-                <h2>{@html text}</h2>
+                <h2 aria-label={text}>{@html text}</h2>
             </div>
         </div>
     {/if}
