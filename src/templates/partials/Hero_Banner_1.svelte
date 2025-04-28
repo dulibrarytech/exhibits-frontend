@@ -15,7 +15,7 @@
 
     const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitHeroImageAltText;
 
-    let {image = null, title="exhibit title", description = null, titleText = ""} = args;
+    let {image = null, titleText = ""} = args;
 
     onMount(async () => {
         dispatch('mount', {});
@@ -24,7 +24,9 @@
 
 <div class="banner">
     <h1 style="display: none;">{titleText}</h1>
-    <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
+    {#if image}
+        <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
+    {/if}
 </div>
 
 <style>

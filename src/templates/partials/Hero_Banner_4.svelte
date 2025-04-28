@@ -25,10 +25,10 @@
     let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
     const init = () => {
-        // allows title text to be responsive when user sets the font size of the title
-        if(title) title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
+        title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
         if(subtitle) subtitle = convertPxValuesToEm(subtitle, BASE_SUBTITLE_FONT_SIZE);
-    }
+        if(!image) console.log("Hero image null path");
+     }
 
     onMount(async () => {
         dispatch('mount', {});
@@ -38,14 +38,15 @@
     init();
 </script>
 
-<!-- <div class="banner container" bind:this={bannerElement}> -->
 <div class="banner" bind:this={bannerElement}>
     <h1 style="display: none;">{titleText}</h1>
 
     <div class="row">
-        <div class="hero-image col-xl-6 col-lg-6 col-md-5 col-sm-12">
-            <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
-        </div>
+        {#if image}
+            <div class="hero-image col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
+            </div>
+        {/if}
 
         <div class="title-text col-xl-6 col-lg-6 col-md-7 col-sm-12">
             <div id="title" class="text">

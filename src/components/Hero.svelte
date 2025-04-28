@@ -3,8 +3,8 @@
 
     import { Settings } from '../config/settings';
     import { Banners } from '../templates/config/hero-banner';
-
     import ResourceUrl from '../libs/ResourceUrl.js';
+    import { getInnerText } from '../libs/exhibits_data_helpers';
     import * as Logger from '../libs/logger.js';
 
     export let data = null;
@@ -18,6 +18,7 @@
 
     let banner = null;
     let image = null;
+    let titleText = "";
 
     $: init();
 
@@ -25,18 +26,23 @@
         let { 
             banner_template = null, 
             hero_image = null, 
-            
+            title = "",
+            subtitle = null,
+            description = null
+
         } = data;
+
+        titleText = `${getInnerText(title)} ${subtitle ? getInnerText(subtitle) : ""}`;
         
         if(hero_image) image = getImagePath(hero_image);
 
         banner = $Banners[banner_template || DEFAULT_BANNER];
         bannerData = {
             image,
-            title: data.title || "",
-            titleText: data.title_string || null,
-            subtitle: data.subtitle || null,
-            description: data.description || null
+            title,
+            subtitle,
+            description,
+            titleText
         }
     }
 

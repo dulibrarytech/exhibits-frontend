@@ -26,6 +26,8 @@
 
     const init = () => {
         title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
+        if(subtitle) subtitle = convertPxValuesToEm(subtitle, BASE_SUBTITLE_FONT_SIZE);
+        if(!image) console.log("Hero image null path");
     }
 
     onMount(async () => {
@@ -44,7 +46,9 @@
 <div class="banner" bind:this={bannerElement}>
     <h1 style="display: none;">{titleText}</h1>
     <div class="hero-image" bind:this={imageElement}>
-        <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
+        {#if image}
+            <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
+        {/if}
 
         <div class="hero-image-text">
             {#if title}<div class="overlay-text text title">{@html title}</div>{/if}
