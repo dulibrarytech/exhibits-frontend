@@ -63,7 +63,7 @@
 				
 				<h5>Exhibit text:</h5>
 				<hr>
-				<div class="text-section" tabindex="0">
+				<div class="text-section background-light" tabindex="0">
 					<!-- <Text_Item {item} {title} /> -->
 
 					<div class="item-text" use:formatStripHtmlTags>{text}</div>
@@ -128,6 +128,12 @@
 		height: unset;
 		max-height: 60%;
 	} 
+
+	.text-section.background-light {
+		background-color: hsl(45, 27%, 100%);
+		padding: 10px;
+		border-radius: 7px;
+	}
 
 	.data-section {
 		display: inline-grid;
