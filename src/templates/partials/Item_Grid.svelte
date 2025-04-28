@@ -114,7 +114,7 @@
         flex-wrap: wrap;
         margin: 0 auto;
         justify-content: flex-start;
-        row-gap: 100px;
+        row-gap: 50px;
         column-gap: 2.5vw;
         width: 100%;
     }
@@ -122,6 +122,14 @@
     :global(.item-grid .item) {
         padding-top: 0 !important;
         padding-bottom: 0 !important;
+    }
+
+    :global(.item-grid .item .media-top > .media) {
+        padding: 0 0 30px 0;
+    }
+
+    :global(.item-grid .item .media-bottom > .media) {
+        padding: 30px 0 0 0;
     }
 
     :global(.item-grid .item > .container) {
