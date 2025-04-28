@@ -72,7 +72,8 @@
     }
 
     .grid-item h4 {
-        margin-bottom: 3.5em;
+        /* margin-bottom: 3.5em; */
+        margin-bottom: 30px;
     }
 
     .item-date {
