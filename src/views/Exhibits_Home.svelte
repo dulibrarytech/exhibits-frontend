@@ -83,7 +83,7 @@
 
 <div class="exhibits-home">
 
-    <Site_Branding_Search data={searchData} />
+    <Site_Branding_Search data={searchData} args={{isPageHeading: true}} />
 
     {#if HERO_DISPLAY}
         <div class="hero-banner">

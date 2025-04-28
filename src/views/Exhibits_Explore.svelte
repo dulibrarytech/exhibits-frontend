@@ -197,7 +197,7 @@
     init();
 </script>
 
-<Site_Branding />
+<Site_Branding args={{isPageHeading: true}} />
 
 <div class="exhibits-explore">
     <div class="page">

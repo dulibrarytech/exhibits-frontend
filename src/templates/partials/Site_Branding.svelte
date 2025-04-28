@@ -3,14 +3,22 @@
 </svelte:head>
 
 <script>
+    export let args = {};
 
+    let {
+        isPageHeading = false
+    } = args;
 </script>
 
 <div class="site-branding-banner">
     <div class="site-branding container">
         <div class="branding">
             <a class="site-title" href="/">
-                <p>Exhibits <span class="highlight-text">@ DU</span></p>
+                {#if isPageHeading}
+                    <h1>Exhibits <span class="highlight-text">@ DU</span></h1>
+                {:else}
+                    <p>Exhibits <span class="highlight-text">@ DU</span></p>
+                {/if}
             </a>
         </div>
     </div>
@@ -46,7 +54,8 @@
         text-decoration: none;
     }
 
-    .site-title p {
+    .site-title p,
+    .site-title h1 {
         font-size: 33px;
         text-transform: uppercase;
         margin-top: 0;

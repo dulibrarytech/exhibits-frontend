@@ -3,6 +3,7 @@
     import Search_Box from '../../components/Search_Box.svelte';
 
     export let data = {};
+    export let args = {};
 
     let {
         endpoint,
@@ -20,7 +21,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-8">
-                    <Site_Branding />
+                    <Site_Branding {args} />
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <Search_Box {endpoint} {queryParam} {params} {fields} {buttonText} {placeholder} />
