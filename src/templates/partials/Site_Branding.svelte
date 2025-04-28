@@ -3,12 +3,12 @@
 </svelte:head>
 
 <script>
-    
+
 </script>
 
 <div class="site-branding-banner">
     <div class="site-branding container">
-        <div class="branding-text">
+        <div class="branding">
             <a class="site-title" href="/">
                 <p>Exhibits <span class="highlight-text">@ DU</span></p>
             </a>
@@ -29,9 +29,13 @@
         display: table;
     }
 
-    .branding-text {
+    .branding {
         display: table-cell;
         vertical-align: middle;
+    }
+
+    .branding > a {
+        width: fit-content;
     }
 
     a.site-title {
