@@ -48,6 +48,8 @@
     var pageTitle; 
     var renderPage;
 
+    let exhibitDisplay;
+
     const init = async () => {
         exhibit = {};
         template = null;
@@ -219,6 +221,9 @@
             if(anchorId) page.navigateToItemId(anchorId);
             showLoadMessage(false);
 
+            exhibitDisplay.style.height = "unset";
+            exhibitDisplay.style.overflow = "unset";
+
         }, Settings.imageLoadDelay)
     }
 
@@ -227,7 +232,7 @@
 
 <Site_Branding />
 
-<div class="exhibit-wrapper">
+<div class="exhibit-wrapper" bind:this={exhibitDisplay}>
 
     <div class="exhibit-load-message container" style="display: {isMessageVisible ? 'absolute' : 'none'}">
         <div><h3>{message}</h3></div>
@@ -260,6 +265,9 @@
     .exhibit-wrapper {
         background: darkgray;
         min-height: 100vh;
+
+        height: 100vh;
+        overflow: hidden;
     }
 
     .exhibit-load-message {
