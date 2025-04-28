@@ -41,6 +41,7 @@
     "pdfjs-viewer-element": "^2.6.4",
     "query-string": "^9.1.1",
     "random-int": "^3.0.0",
+    "sanitize-html": "^2.16.0",
     "sirv-cli": "^1.0.0",
     "stopword": "^3.0.1",
     "svelte-carousel": "^1.0.25",

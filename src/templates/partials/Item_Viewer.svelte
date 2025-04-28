@@ -6,9 +6,12 @@
 
     export let item = {};
 
+	const DEFAULT_ITEM_TEXT = "No text available";
+
 	let itemType;
 	let itemData;
 	let title;
+	let text;
 	let date;
 	let caption;
 
@@ -17,14 +20,19 @@
 	const init = async () => {
 		itemType = item.item_type || undefined;
 		itemData = item.data_display || null;
-		title = item.title_string || null;
+		title = item.title || null;
+		text = item.text || item.description || DEFAULT_ITEM_TEXT;
+
+		// text = item.text || "No text available for this item"
 		date = item.date || null;
 		caption = item.caption || null;
 
 		if(date) date = new Date(date).toLocaleDateString();
 
-		if(!item.text) item.text = item.description || item.caption || "No text available";
-		item.text = stripHtmlTags(item.text);
+		//if(!item.text) item.text = item.description || item.caption || "No text available";
+
+		// remove if formatter f() works
+		//item.text = stripHtmlTags(item.text);
 	}
 
 	const onLoadMedia = (event) => {}
@@ -41,14 +49,24 @@
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
 			<div class="text">
 
-				{#if title}<hr style="margin-top: 0px"><div class="title">{title}</div><hr><br>{/if}
+				{#if title}
+					<hr style="margin-top: 0px">
+					<div class="title" use:formatStripHtmlTags>{title}</div>
+					<hr>
+					<br>
+				{/if}
 
-				{#if caption}<div class="caption" use:formatStripHtmlTags>{caption}</div><br>{/if}
+				{#if caption}
+					<div class="caption" use:formatStripHtmlTags>{caption}</div>
+					<br>
+				{/if}
 				
 				<h5>Exhibit text:</h5>
 				<hr>
 				<div class="text-section" tabindex="0">
-					<Text_Item {item} {title} />
+					<!-- <Text_Item {item} {title} /> -->
+
+					<div class="item-text" use:formatStripHtmlTags>{text}</div>
 				</div>
 
 				{#if itemData}

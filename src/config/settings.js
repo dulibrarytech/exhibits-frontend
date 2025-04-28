@@ -64,7 +64,12 @@ export const Settings = {
     /*
      * html tags allowed in user content
      */
-    permittedHtmlTags: ['div', 'p', 'em', 'strong', 'style', 'i', 'br', 'hr', 'b', 'span', 'img', 'button'],
+    permittedHtmlTags: ['div', 'p', 'em', 'strong', 'style', 'i', 'b', 'br', 'hr', 'b', 'span', 'button'],
+
+    /*
+     * html tags to extract inner text from in non-html textual displays
+     */
+    permittedHtmlInnerTextTags: ['div', 'p', 'span', 'i', 'b', 'strong'],
 
     /*
      * thumbnail images

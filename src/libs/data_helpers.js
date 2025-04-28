@@ -23,6 +23,7 @@
 
 import { encode, decode } from 'html-entities';
 import randomInteger from 'random-int';
+import sanitizeHtml from 'sanitize-html';
 import DOMPurify from 'dompurify';
 
 /**
@@ -34,7 +35,7 @@ import DOMPurify from 'dompurify';
  */
 export const stripHtmlTags = (string) => {
     if(string) {
-        string = string.replace(/\<[^>]*\>/g, '');
+        string = string.replace(/\<[^>]*\>/g, ' ');
     }
     return string;
 }
@@ -46,15 +47,33 @@ export const stripHtmlTags = (string) => {
  * 
  * @returns the string with html tags removed
  */
-export const sanitizeHtmlString = (string, {allowedTags = null}) => {
-    let sanitized = DOMPurify.sanitize(string, { 
+export const sanitizeHtmlString = (string = "", {allowedTags = null}) => {
 
+    let sanitized = DOMPurify.sanitize(string, { 
         USE_PROFILES: { html: true },
         ALLOWED_TAGS: allowedTags || undefined,
         FORCE_BODY: true
     });
 
     return sanitized;
+}
+
+export const removeHtmlContent = (htmlString, allowedTags) => {
+
+    // TODO if first 5 string chars is not <div> OR last 6 chars is not </div>
+    if(htmlString.substring(0, 5) != "<div>" || htmlString.slice(-6) != "</div>") {
+        htmlString = `<div>${htmlString}</div>`;
+    }
+    
+    htmlString = sanitizeHtml(htmlString, {
+        allowedTags,
+        allowedAttributes: {
+            'div': ['styles']
+        },
+        disallowedTagsMode: 'completelyDiscard'
+    });
+
+    return decodeHtmlEntities(htmlString);
 }
 
 /**

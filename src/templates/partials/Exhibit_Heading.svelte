@@ -3,6 +3,7 @@
 
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
+    import { getInnerText } from '../../libs/exhibits_data_helpers';
 
     export let id = null;
     export let text = "";
@@ -10,8 +11,13 @@
     export let styles = null;
 
     let headingElement;
+    let textString;
 
     const dispatch = createEventDispatcher();
+
+    $: {
+        textString = getInnerText(text);
+    }
 
     export const setTheme = (styles) => {
         Object.assign(headingElement.style, styles);
@@ -32,7 +38,7 @@
     {#if display}
         <div class="section-heading container">
             <div class="section-title">
-                <h2 aria-label={text}>{@html text}</h2>
+                <h2 aria-label={textString}>{@html text}</h2>
             </div>
         </div>
     {/if}

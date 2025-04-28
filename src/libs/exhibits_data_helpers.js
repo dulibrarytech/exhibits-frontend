@@ -25,7 +25,7 @@
 'use strict' 
 
 import { Settings } from '../config/settings.js';
-import { getHtmlIdString, stripHtmlTags, sanitizeHtmlString, decodeHtmlEntities } from '../libs/data_helpers';
+import { getHtmlIdString, stripHtmlTags, sanitizeHtmlString, decodeHtmlEntities, removeHtmlContent } from '../libs/data_helpers';
 import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants';
 
 /**
@@ -52,24 +52,23 @@ export const getItemById = (id, items) => {
     return gridItem || item;
 }
 
-export const sanitizeHtml = (string) => {
+// TODO goes right to data helper, then remove this
+export const sanitizeHtml = (string = "") => {
     return sanitizeHtmlString(string, {
         allowedTags: Settings.permittedHtmlTags
     });
 }
 
-/**
- * 
- * @param {*} object 
- * @param {*} fields
- * @returns null
- */
-export const stripHtmlTagsFromDataFields = (object, fields) => {
-    for(let field of fields) {
-        if(object[field]) {
-            object[field] = stripHtmlTags(object[field]);
-        }
-    }
+// filterHtmlContent pass in Settings.permittedHtmlInnerTextTags => div,span,p
+// replace all incode instances of data_helpers::stripHtmlTags
+export const getInnerText = (htmlString = "") => {
+    let textString;
+
+    htmlString = removeHtmlContent(htmlString, Settings.permittedHtmlInnerTextTags);
+    textString = stripHtmlTags(htmlString);
+    textString = textString.trim().replace(/\s{2,}/g, ' ');
+
+    return textString;
 }
 
 /**
@@ -81,9 +80,10 @@ export const stripHtmlTagsFromDataFields = (object, fields) => {
  * @returns exhibit with decoded and sanitized fields
  */
 export const sanitizeExhibitHtmlFields = (exhibit) => {
+
     for(let field of Settings.htmlFieldsExhibit) {
         if(exhibit[field]) {
-            exhibit[field] = sanitizeHtml(exhibit[field]);
+            exhibit[field] = sanitizeHtml(exhibit[field]); // sanitizes all
             exhibit[field] = decodeHtmlEntities(exhibit[field]);
         }
     }   
@@ -96,13 +96,14 @@ export const sanitizeExhibitHtmlFields = (exhibit) => {
  * @param {*} object - exhibit item data object
  * 
  * Iterates html-allowed user fields: decodes html entities, and sanitizes html string
- * 
+ *  
  * @returns item with decoded and sanitized fields
  */
 export const sanitizeExhibitItemHtmlFields = (item) => {
+
     for(let field of Settings.htmlFieldsExhibitItem) {
         if(item[field]) {
-            item[field] = sanitizeHtml(item[field]);
+            item[field] = sanitizeHtml(item[field]); // TODO goes right to data helper, add settings here
             item[field] = decodeHtmlEntities(item[field]);
         }
     } 
@@ -161,7 +162,8 @@ export const createExhibitPageSections = (items) => {
             heading = {
                 id: getHtmlIdString(text),
                 uuid,
-                text: stripHtmlTags(text),  // TODO remove in heading comp, not here
+                //text: stripHtmlTags(text),
+                text: getInnerText(text),
                 subheadings: []
             }
 
@@ -177,7 +179,8 @@ export const createExhibitPageSections = (items) => {
                 subheading = {
                     id: getHtmlIdString(title),
                     uuid,
-                    text: stripHtmlTags(title) // TODO title_string
+                    //text: stripHtmlTags(title)
+                    text: getInnerText(title)
                 }
 
                 heading.subheadings.push(subheading);

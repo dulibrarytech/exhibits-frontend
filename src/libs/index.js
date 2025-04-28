@@ -3,7 +3,6 @@
 import axios from 'axios';
 import { URLQueryParams } from "object-in-queryparams";
 import * as Logger from './logger.js';
-import { stripHtmlTags } from '../libs/data_helpers';
 import { sanitizeExhibitHtmlFields, sanitizeExhibitItemHtmlFields } from '../libs/exhibits_data_helpers';
 import { ENTITY_TYPE } from '../config/global-constants';
 import { Configuration } from '../config/config.js';
@@ -79,13 +78,11 @@ export const Index = (() => {
             response = await axios.get(dataUrl); 
             let data = response?.data || {};
             sanitizeExhibitHtmlFields(data);
-            if(data.title) data.title_string = stripHtmlTags(data.title);
 
             response = await axios.get(itemsUrl);
             let items = response?.data || [];
             for(let item of items) {
                 sanitizeExhibitItemHtmlFields(item);
-                if(item.title) item.title_string = stripHtmlTags(item.title);
             }
 
             exhibit = {data, items};

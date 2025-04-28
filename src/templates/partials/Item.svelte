@@ -118,7 +118,6 @@
 
     <div class={mediaPadding ? "container" : "container-no-margin"}>
         {#if title && showTitle && mediaPadding}
-            <!-- <div class="title-heading" bind:this={titleElement}>{@html title}</div> -->
             <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
         {/if}
 

@@ -7,6 +7,7 @@
     import * as Logger from '../libs/logger.js';
     import { Settings } from '../config/settings';
     import { Configuration } from '../config/config';
+    import { getInnerText } from '../libs/exhibits_data_helpers';
 
     import {ITEM_TYPE} from '../config/global-constants';
 
@@ -54,7 +55,8 @@
         thumbnail = item.thumbnail || null;
         caption = item.caption || null;
         title = item.title || DEFAULT_IMAGE_TITLE;
-        altText = item.altText || null;
+
+        altText = `${getInnerText(title)} click to open in viewer`;
 
         if(!altText) altText = DEFAULT_IMAGE_ALT_TEXT;
 

@@ -15,6 +15,7 @@
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
     import {ITEM_TYPE, VIEWER_TYPE, MEDIA_POSITION} from '../config/global-constants';
+    import { getInnerText } from '../libs/exhibits_data_helpers';
 
     export let item = {};
     export let args = {};
@@ -59,7 +60,7 @@
         thumbnail = item.thumbnail || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
-        title = args.title || item.title_string || null;
+        title = args.title || item.title ? getInnerText(item.title) : null;
         caption = args.caption || item.caption || null;
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
         layout = item.layout || null;

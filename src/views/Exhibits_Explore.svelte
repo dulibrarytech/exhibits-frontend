@@ -7,7 +7,8 @@
 
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
-    import { stripHtmlFromData } from '../libs/exhibits_data_helpers.js';
+    import { getInnerText } from '../libs/exhibits_data_helpers.js';
+    //import { stripHtmlTags } from '../libs/data_helpers.js';
     import queryString from 'query-string';
     import MiniSearch from 'minisearch';
 
@@ -149,12 +150,19 @@
 
     const initKeywordSearch = () => {
         let count = 0;
+        let index = [], indexItem = {};
 
-        _exhibits.forEach(exhibit => {
-            stripHtmlFromData(exhibit, ['title', 'subtitle', 'description']); // TODO settings settings.exhibitsearchfields
-        });
+        for(let exhibit of _exhibits) {
+            indexItem = {};
 
-        _miniSearch.addAll(_exhibits.map(exhibit => (
+            for(let key of Object.keys(Settings.searchFieldsExhibit)) {
+                indexItem[key] = getInnerText(exhibit[key]);
+            }
+
+            index.push(indexItem);
+        }
+
+        _miniSearch.addAll(index.map(exhibit => (
             {...exhibit, id: ++count}
         )));
     }

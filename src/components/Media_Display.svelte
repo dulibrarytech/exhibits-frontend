@@ -8,7 +8,8 @@
     let component = null;
 
     let {
-        showPreview = false
+        showPreview = false,
+
     } = args;
 
     if(showPreview) {

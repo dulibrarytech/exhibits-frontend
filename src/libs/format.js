@@ -2,10 +2,11 @@
 
 import { Settings } from '../config/settings';
 import { Cache } from '../libs/cache';
-import { stripHtmlTags, decodeHtmlEntities } from '../libs/data_helpers';
+import { decodeHtmlEntities } from './data_helpers';
+import { getInnerText } from './exhibits_data_helpers';
 
 export const formatStripHtmlTags = (node) => {
-    node.innerText = stripHtmlTags(node.innerText);
+    node.innerText = getInnerText(node.innerText);
 }
 
 export const formatFacetField = (node) => {
@@ -36,7 +37,7 @@ export const formatSearchResultValue = (node, data = {}) => {
         value = value.replace(/<\/div>/g, " </div>");
         value = value.replace(/<\/span>/g, " </span>");
 
-        value = stripHtmlTags(value)
+        value = getInnerText(value)
         value = highlightTerms(terms, value);
     }
 

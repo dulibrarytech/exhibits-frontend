@@ -11,7 +11,7 @@
     import { Fonts } from '../config/fonts'; 
     import { EXHIBIT_TEMPLATE, USER_ROLE } from '../config/global-constants';
     import { getUserRole } from '../libs/validation';
-    import { getItemById, createExhibitPageSections } from '../libs/exhibits_data_helpers';
+    import { getItemById, createExhibitPageSections, getInnerText } from '../libs/exhibits_data_helpers';
     import { Templates, Popup_Pages } from '../templates/config/exhibit.js';
     import { Page_Layouts } from '../templates/config/page-layout.js';
 
@@ -91,7 +91,7 @@
             }
 
             pageTitle = Settings.appTitle;
-            if(data.title) pageTitle = `${data.title_string} | ${pageTitle}`;
+            if(data.title) pageTitle = `${getInnerText(data.title || "no title")} | ${pageTitle}`;
 
             Logger.module().info("Importing fonts...");
             await importFonts();

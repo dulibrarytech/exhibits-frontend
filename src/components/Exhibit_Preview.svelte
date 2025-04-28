@@ -4,8 +4,8 @@
     import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js'; 
     import { Settings } from '../config/settings.js';
-    import { stripHtmlTags } from '../libs/data_helpers';
-    //import { extractHtmlInnerText } from '../libs/exhibits_data_helpers';
+    //import { stripHtmlTags } from '../libs/data_helpers';
+    import { getInnerText } from '../libs/exhibits_data_helpers';
 
     export let exhibit = {};
     export let link = null;
@@ -44,10 +44,8 @@
         exhibitId = exhibit.uuid;
         thumbnail = exhibit.thumbnail_image || null;
         heroImage = exhibit.hero_image || null;
-        title = stripHtmlTags(exhibit.title || "");
-        subtitle = stripHtmlTags(exhibit.subtitle || "");
-        // title = extractHtmlInnerText(exhibit.title || "");  // call formatter from element (formatter -> exh_data_help::extractHtmlInnerText)
-        // subtitle = extractHtmlInnerText(exhibit.subtitle || ""); // call formatter from element (formatter -> exh_data_help::extractHtmlInnerText)
+        title = getInnerText(exhibit.title || ""); 
+        subtitle = getInnerText(exhibit.subtitle || ""); 
         styles = exhibit.styles?.hero || {};
 
         altText = `${title} ${subtitle || undefined} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
@@ -89,10 +87,10 @@
 
         {#if showTitle}
             <div class="exhibit-preview-title" aria-hidden="true"> <!-- TODO use:formatter -->
-                {exhibit.title || "Untitled Exhibit"}
+                {title || "Untitled Exhibit"}
             </div>
             {#if exhibit.subtitle}
-                <div class="exhibit-preview-subtext" aria-hidden="true">{exhibit.subtitle}</div> <!-- TODO use:formatter -->
+                <div class="exhibit-preview-subtext" aria-hidden="true">{subtitle}</div> <!-- TODO use:formatter -->
             {/if}
         {/if}
     </a>
