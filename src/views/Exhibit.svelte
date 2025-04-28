@@ -217,12 +217,13 @@
         Logger.module().info("Mounted exhibit items");
 
         setTimeout(() => {
-            let anchorId = location.hash?.replace('#', '') || false;
-            if(anchorId) page.navigateToItemId(anchorId);
-            showLoadMessage(false);
-
             exhibitDisplay.style.height = "unset";
             exhibitDisplay.style.overflow = "unset";
+
+            let anchorId = location.hash?.replace('#', '') || false;
+            if(anchorId) page.navigateToItemId(anchorId);
+            
+            showLoadMessage(false);
 
         }, Settings.imageLoadDelay)
     }
