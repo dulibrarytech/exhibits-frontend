@@ -22,7 +22,8 @@
     const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitItemImageAltText;
 
     const DEFAULT_IMAGE_TITLE = "Untitled Item";
-    const IMAGE_PREVIEW_WIDTH = 500;
+    const IMAGE_PREVIEW_WIDTH = null;
+    const IMAGE_PREVIEW_HEIGHT = null;
 
     let {resourceLocation} = Configuration;
     let {placeholderImage, placeholderImageWidth} = Settings; 
@@ -94,7 +95,7 @@
         switch(itemType) {
 
             case ITEM_TYPE.IMAGE:
-                url = RESOURCE.getIIIFImageUrl(media, width || IMAGE_PREVIEW_WIDTH, height);
+                url = RESOURCE.getIIIFImageUrl(media, width || IMAGE_PREVIEW_WIDTH, height || IMAGE_PREVIEW_HEIGHT);
 
                 if(!url) {
                     url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE);

@@ -38,8 +38,12 @@ export default class ResourceUrl {
 
     getIIIFImageUrl(filename="null", width=null, height=null) {
       let dimensions = "full";
-      if(width || height) {
-          dimensions = `${width || ""},${height || ""}`;
+
+      if(width && height) {
+        dimensions = `${width || ""},${height || ""}`;
+      }
+      else if(width) {
+        dimensions = `${width}`;
       }
 
       filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
