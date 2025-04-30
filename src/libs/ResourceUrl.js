@@ -36,17 +36,21 @@ export default class ResourceUrl {
       return `${this.resourceLocation}/${this.exhibitPlaceholderImage}`;
     }
 
-    getIIIFImageUrl(filename="null", width=null, height=null) {
-      let dimensions = "full";
+    getIIIFImageUrl(filename="null", width=null, height=null, dimensions="full") {
+      //let dimensions = "full";
 
       if(width && height) {
         dimensions = `${width || ""},${height || ""}`;
       }
       else if(width) {
-        dimensions = `${width}`;
+        dimensions = `${width},`;
+      }
+      else if(height) {
+        dimensions = `,${height}`;
       }
 
       filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
+
       return `${this.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;
     }
 
@@ -87,6 +91,11 @@ export default class ResourceUrl {
           offsetY="0"
 
       } = args;
+
+      if (!width) width = "";
+      if (!height) height = "";
+      if (!offsetX) offsetX = "0";
+      if (!offsetY) offsetY = "0";
 
       filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
 
