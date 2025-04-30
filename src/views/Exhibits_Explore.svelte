@@ -8,7 +8,6 @@
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
     import { getInnerText } from '../libs/exhibits_data_helpers.js';
-    //import { stripHtmlTags } from '../libs/data_helpers.js';
     import queryString from 'query-string';
     import MiniSearch from 'minisearch';
 
@@ -139,7 +138,7 @@
 
     const filterKeyword = (terms) => {
         terms = terms.toLowerCase().replace(/,/g, " ");
-        return _miniSearch.search(terms, { fuzzy: KEYWORD_FILTER_FUZZY })
+        return _miniSearch.search(terms, { fuzzy: KEYWORD_FILTER_FUZZY });
     }
 
     const filterField = (field, value) => {
@@ -153,7 +152,7 @@
         let index = [], indexItem = {};
 
         for(let exhibit of _exhibits) {
-            indexItem = {};
+            indexItem = {...exhibit};
 
             for(let key of Object.keys(Settings.searchFieldsExhibit)) {
                 indexItem[key] = getInnerText(exhibit[key]);
