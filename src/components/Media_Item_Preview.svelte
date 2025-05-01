@@ -1,6 +1,7 @@
 <script>
     'use strict' 
     
+    import axios from 'axios';
     import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js';
     import { isHttpUrl } from '../libs/media_helpers';
@@ -13,7 +14,7 @@
 
     export let item = {};
     export let args = {};
-    export let width = null;
+    export let width = "800";
     export let height = null;
 
     const dispatch = createEventDispatcher();
@@ -22,7 +23,8 @@
     const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitItemImageAltText;
 
     const DEFAULT_IMAGE_TITLE = "Untitled Item";
-    const IMAGE_PREVIEW_WIDTH = null; // pct:75 or pct:50
+    const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
+    const IMAGE_PREVIEW_WIDTH = null; // will override dimensions value
     const LARGE_IMAGE_PREVIEW_WIDTH = "800";
 
     let {resourceLocation} = Configuration;
@@ -42,8 +44,9 @@
     let preview;
     let isPlaceholderImage;
 
-    let { isInteractive = true,
-          link = null
+    let { 
+        isInteractive = true,
+        link = null
 
      } = args;
 
@@ -92,10 +95,18 @@
     const getPreviewUrl = async (itemType, media, width=null, height=null) => {
         let url = "";
         
+        if(!width) width = IMAGE_PREVIEW_WIDTH;
+        
         switch(itemType) {
 
             case ITEM_TYPE.IMAGE:
-                url = RESOURCE.getIIIFImageUrl(media, width || IMAGE_PREVIEW_WIDTH);
+
+                if(VERIFY_IMAGE_WIDTH && width) {
+                    let imageWidth = (await axios.get(RESOURCE.getIIIFInfoUrl(media))).data.width;
+                    if(imageWidth < width) width = imageWidth;
+                }
+
+                url = RESOURCE.getIIIFImageUrl(media, width || IMAGE_PREVIEW_WIDTH, null);
 
                 if(!url) {
                     url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE);
@@ -161,8 +172,6 @@
                 Logger.module().error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
                 break;
         }
-
-        console.log("TEST MEP preview img url:", url)
         
         return url;
     }

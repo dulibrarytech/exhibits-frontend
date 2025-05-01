@@ -36,17 +36,15 @@ export default class ResourceUrl {
       return `${this.resourceLocation}/${this.exhibitPlaceholderImage}`;
     }
 
-    getIIIFImageUrl(filename="null", width=null, height=null, dimensions="full") {
-      //let dimensions = "full";
+    getIIIFInfoUrl(filename="null") {
+      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
+      return `${this.iiifImageServerUrl}/iiif/2/${filename}`;
+    }
 
-      if(width && height) {
+    getIIIFImageUrl(filename="null", width=null, height=null, dimensions="full") {
+
+      if(width || height) {
         dimensions = `${width || ""},${height || ""}`;
-      }
-      else if(width) {
-        dimensions = `${width},`;
-      }
-      else if(height) {
-        dimensions = `,${height}`;
       }
 
       filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
