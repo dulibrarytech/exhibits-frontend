@@ -14,7 +14,7 @@
 
     export let item = {};
     export let args = {};
-    export let width = "800";
+    export let width = null;
     export let height = null;
 
     const dispatch = createEventDispatcher();
@@ -24,7 +24,7 @@
 
     const DEFAULT_IMAGE_TITLE = "Untitled Item";
     const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
-    const IMAGE_PREVIEW_WIDTH = null; // will override dimensions value
+    const IMAGE_PREVIEW_WIDTH = "800"; // will override dimensions value
     const LARGE_IMAGE_PREVIEW_WIDTH = "800";
 
     let {resourceLocation} = Configuration;
@@ -95,11 +95,11 @@
     const getPreviewUrl = async (itemType, media, width=null, height=null) => {
         let url = "";
         
-        if(!width) width = IMAGE_PREVIEW_WIDTH;
-        
         switch(itemType) {
 
             case ITEM_TYPE.IMAGE:
+
+                if(!width) width = IMAGE_PREVIEW_WIDTH;
 
                 if(VERIFY_IMAGE_WIDTH && width) {
                     let imageWidth = (await axios.get(RESOURCE.getIIIFInfoUrl(media))).data.width;
