@@ -112,7 +112,7 @@
                             {#if EXHIBITS_DISPLAY == "slider"}
                                 <Exhibit_Preview_Slider exhibits={featuredExhibits} images="3" scroll="1" />
                             {:else if EXHIBITS_DISPLAY == "grid"}
-                                <Exhibit_Preview_Grid exhibits={featuredExhibits} args={{limit: 3, showTitle: true}} />
+                                <Exhibit_Preview_Grid exhibits={featuredExhibits} args={{limit: 4, showTitle: true}} />
                             {/if}
                         </div>
                     {/if}
