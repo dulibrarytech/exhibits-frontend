@@ -64,7 +64,7 @@
     <div class="controls">
         <button id="openseadragon-zoom-in"><i class="bi bi-plus-lg"></i></button>
         <button id="openseadragon-zoom-out"><i class="bi bi-dash"></i></button>
-        <button id="openseadragon-zoom-initial"><i class="bi bi-arrow-clockwise"></i></button>
+        <button id="openseadragon-zoom-initial"><i class="las la-compress-arrows-alt"></i></button>
     </div>
 
     <div class="openseadragon content" id="openseadragon1">
