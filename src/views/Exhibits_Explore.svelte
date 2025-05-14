@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>{Settings.appTitle}</title>
+	<title>{pageTitle || Settings.appTitle}</title>
 </svelte:head>
 
 <script>
@@ -23,13 +23,14 @@
     var _filters = [];
     var _filterLabels = [];
 
-    let _miniSearch = new MiniSearch({
+    let miniSearch = new MiniSearch({
         fields: Object.keys(Settings.searchFieldsExhibit),
         storeFields: Object.values(Settings.exhibitDataFields)
     });
 
-    var renderTabs = false;
-    var message = "";
+    var renderTabs;
+    var message;
+    var pageTitle;
 
     const EXHIBITS_DISPLAY_OPTIONS = {
         SHOW_ALL: "show_all",
@@ -45,6 +46,7 @@
 
     const EXHIBITS_DISPLAY = EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS;
     const KEYWORD_FILTER_FUZZY = 0.1;
+    const PAGE_TITLE = "All Exhibits";
 
     // import from settings
     const FILTER_OPTIONS = {
@@ -64,6 +66,10 @@
     }
 
     const init = async () => {
+        message = "";
+        renderTabs = false;
+        pageTitle = `${PAGE_TITLE} | ${Settings.appTitle}`;
+
         _searchData = {
             endpoint: null,
             queryParam: "keyword",
@@ -138,7 +144,7 @@
 
     const filterKeyword = (terms) => {
         terms = terms.toLowerCase().replace(/,/g, " ");
-        return _miniSearch.search(terms, { fuzzy: KEYWORD_FILTER_FUZZY });
+        return miniSearch.search(terms, { fuzzy: KEYWORD_FILTER_FUZZY });
     }
 
     const filterField = (field, value) => {
@@ -161,7 +167,7 @@
             index.push(indexItem);
         }
 
-        _miniSearch.addAll(index.map(exhibit => (
+        miniSearch.addAll(index.map(exhibit => (
             {...exhibit, id: ++count}
         )));
     }
