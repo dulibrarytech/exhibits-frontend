@@ -18,10 +18,10 @@
     export let currentRoute;
 
     let _exhibits;
-    let highlightExhibit;
-    let featuredExhibits;
-    let studentCuratedExhibits;
-    let searchData;
+    let _highlightExhibit;
+    let _featuredExhibits;
+    let _studentCuratedExhibits;
+    let _searchData;
 
     var message = "";
 
@@ -32,16 +32,16 @@
     const init = async () => {
         _exhibits = null;
 
-        searchData = {
+        _searchData = {
             endpoint: "/exhibits-explore",
             queryParam: "keyword",
             buttonText: "Filter",
             placeholder: "Filter by keyword"
         }
 
-        highlightExhibit = null;
-        featuredExhibits = null;
-        studentCuratedExhibits = null;
+        _highlightExhibit = null;
+        _featuredExhibits = null;
+        _studentCuratedExhibits = null;
 
         message = "Retrieving exhibits...";
         _exhibits = await Index.getExhibits(); 
@@ -57,15 +57,15 @@
     const render = async () => {
         if(_exhibits.length > 0) {
 
-            highlightExhibit = _exhibits.sort(function(a, b) {
+            _highlightExhibit = _exhibits.sort(function(a, b) {
                 return b.created - a.created;
             })[0];
 
-            featuredExhibits = _exhibits.filter((exhibit) => {
+            _featuredExhibits = _exhibits.filter((exhibit) => {
                 return exhibit[EXHIBIT_FIELDS.IS_FEATURED] || false;
             });
 
-            studentCuratedExhibits = _exhibits.filter((exhibit) => {
+            _studentCuratedExhibits = _exhibits.filter((exhibit) => {
                 return exhibit[EXHIBIT_FIELDS.IS_STUDENT] || false;
             });
         }
@@ -83,11 +83,11 @@
 
 <div class="exhibits-home">
 
-    <Site_Branding_Search data={searchData} args={{isPageHeading: true}} />
+    <Site_Branding_Search data={_searchData} args={{isPageHeading: true}} />
 
     {#if HERO_DISPLAY}
         <div class="hero-banner">
-            <Homepage_Hero exhibit={highlightExhibit || {}} />
+            <Homepage_Hero exhibit={_highlightExhibit || {}} />
         </div>
     {/if}
 
@@ -102,7 +102,7 @@
             {#if _exhibits && _exhibits.length > 0}
 
                 <div class="exhibit-previews">
-                    {#if featuredExhibits && featuredExhibits.length > 0}
+                    {#if _featuredExhibits && _featuredExhibits.length > 0}
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
@@ -110,13 +110,13 @@
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}
-                                <Exhibit_Preview_Slider exhibits={featuredExhibits} images="3" scroll="1" />
+                                <Exhibit_Preview_Slider exhibits={_featuredExhibits} images="3" scroll="1" />
                             {:else if EXHIBITS_DISPLAY == "grid"}
-                                <Exhibit_Preview_Grid exhibits={featuredExhibits} args={{limit: 4, showTitle: true}} />
+                                <Exhibit_Preview_Grid exhibits={_featuredExhibits} args={{limit: 4, showTitle: true}} />
                             {/if}
                         </div>
                     {/if}
-                    {#if studentCuratedExhibits && studentCuratedExhibits.length > 0}
+                    {#if _studentCuratedExhibits && _studentCuratedExhibits.length > 0}
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
@@ -124,9 +124,9 @@
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}
-                                <Exhibit_Preview_Slider exhibits={studentCuratedExhibits} images="3" scroll="1" />
+                                <Exhibit_Preview_Slider exhibits={_studentCuratedExhibits} images="3" scroll="1" />
                             {:else if EXHIBITS_DISPLAY == "grid"}
-                                <Exhibit_Preview_Grid exhibits={studentCuratedExhibits} args={{limit: 4, showTitle: true}} />
+                                <Exhibit_Preview_Grid exhibits={_studentCuratedExhibits} args={{limit: 4, showTitle: true}} />
                             {/if}
                         </div>
                     {/if}
