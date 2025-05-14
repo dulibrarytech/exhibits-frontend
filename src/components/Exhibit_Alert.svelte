@@ -4,14 +4,14 @@
     export let text = "";
 </script>
 
-<div class="alert-section">
+<div class="exhibit-alert">
     <div class="container">
         {@html text}
     </div>
 </div>
 
 <style>
-    .alert-section {
+    .exhibit-alert {
         min-height: 4.2em;
         padding: 1.3em 1.6em;
         margin-bottom: 0;

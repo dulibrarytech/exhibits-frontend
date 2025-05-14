@@ -8,7 +8,7 @@
     import Exhibit_Introduction from './partials/Exhibit_Introduction.svelte';
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
     import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
-    import Alert from '../components/Alert.svelte';
+    import Alert from '../components/Exhibit_Alert.svelte';
 
     export let data = {};
     export let template = null;
