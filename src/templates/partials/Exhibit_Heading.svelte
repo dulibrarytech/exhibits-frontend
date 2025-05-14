@@ -48,12 +48,7 @@
     .exhibit-heading {
         font-size: 47px;
     }
-
-    .section-heading.container {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
+    
     .section-heading {
         padding-top: 0.532em; 
         padding-bottom: 0.532em; 
