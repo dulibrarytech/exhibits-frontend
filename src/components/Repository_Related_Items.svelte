@@ -82,16 +82,21 @@
             itemDisplayData.title = itemData.title || "Untitled Item";
             itemDisplayData.link = itemData.link_to_item || null;
             itemDisplayData.thumbnail = itemData.thumbnail_datastream || null;
-            itemDisplayData.subject = itemData.subject;
+            itemDisplayData.subject = itemData.subject || "Not available";
 
-            // search the repository for subject related items, append any results to the related items display
+            // search the repository for subject related items
             let relatedItems = [];
-            let results = await Repository.searchRepository({
-               facets: {
-                  "Subject": itemData.subject
-               }
-            });
+            let results = [];
+            if(itemData.subject) {
+               results = await Repository.searchRepository({
+                  facets: {
+                     "Subject": itemData.subject
+                  }
+               });
+            }
+            else console.log(`Subject field not present in repository item ${id}. Skipping search for related items`);
 
+            // build the dispaly data object for the related items cards
             if(RELATED_ITEM_DISPLAY_COUNT < results.length) {
                let randomNumbers = getRandomNumberArray(RELATED_ITEM_DISPLAY_COUNT, results.length-1);
                
@@ -203,7 +208,7 @@
       flex-direction: row;
       justify-content: space-between;
       row-gap: 32px;
-      margin-top: 25px;
+      margin-top: 50px;
    }
 
    .item-preview {
