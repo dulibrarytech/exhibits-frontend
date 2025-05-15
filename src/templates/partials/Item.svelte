@@ -327,7 +327,8 @@
     }
 
     .title-heading {
-        margin: 0 0 1.15em 0;
+        /* margin: 0 0 1.15em 0; */
+        margin-bottom: 3.65ex;
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
