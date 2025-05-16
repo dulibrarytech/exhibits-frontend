@@ -10,6 +10,7 @@
     let {
         url=null, 
         title=null,
+        altText=null,
         embedCode=null, 
         mimeType=null,
         kalturaId=null,
@@ -39,9 +40,9 @@
             {:else if url}
                 <div class="content">   
                     {#if mimeType}
-                        <video src={url} type={mimeType} controls poster={thumbnailImage || undefined} aria-label={title} {title}></video>
+                        <video src={url} type={mimeType} controls poster={thumbnailImage || undefined} aria-label={altText} {title}></video>
                     {:else}
-                        <video src={url} controls poster={thumbnailImage || undefined} aria-label={title} {title}></video>
+                        <video src={url} controls poster={thumbnailImage || undefined} aria-label={altText} {title}></video>
                     {/if}
                 </div>
             {:else}

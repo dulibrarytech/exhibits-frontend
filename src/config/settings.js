@@ -212,7 +212,11 @@ export const Settings = {
         CREATED: "created"
     },
 
+    exhibitItemDefaultTitle: "Untitled item",
     exhibitHeroImageAltText: "Exhibit hero image",
     exhibitPreviewImageAltText: "click to enter exhibit",
-    exhibitItemImageAltText: "click to open item"
+    exhibitItemImageAltText: "click to open image viewer",
+    exhibitItemAudioAltText: "click to open audio player",
+    exhibitItemVideoAltText: "click to open video player",
+    exhibitItemPdfAltText: "click to open document viewer"
 }

@@ -496,6 +496,10 @@
             padding: 0 0 0 50px;
         }
 
+        :global(.placeholder-image) {
+            max-width: 200px;
+        }
+
         :global(.media-top .placeholder-image),
         :global(.media-bottom .placeholder-image) {
             max-width: 40%;

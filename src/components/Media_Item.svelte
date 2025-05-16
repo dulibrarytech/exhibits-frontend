@@ -5,6 +5,7 @@
      * 
     */
     import { createEventDispatcher } from 'svelte';
+    import { Settings } from '../config/settings';
     import ResourceUrl from '../libs/ResourceUrl.js';
     import * as Logger from '../libs/logger.js';
 
@@ -21,6 +22,7 @@
     export let args = {};
 
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
+    const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
 
     const dispatch = createEventDispatcher();
 
@@ -33,6 +35,7 @@
     let viewerType;
     let viewerHeight;
     let title;
+    let altText;
     let caption;
     let layout;
     let isEmbedded;
@@ -61,6 +64,7 @@
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
         title = args.title || item.title ? getInnerText(item.title) : null;
+        altText = item.alt_text || null;
         caption = args.caption || item.caption || null;
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
         layout = item.layout || null;
@@ -85,6 +89,10 @@
             default:
                 viewerHeight = VIEWER_HEIGHT_SMALL;
         }
+
+        if(!title) title = DEFAULT_ITEM_TITLE;
+        //if(!altText) altText = getAltText(title, itemType);
+        if(!altText) altText = title;
 
         if(thumbnail) {
             if(URL_PATTERN.test(thumbnail) == false) {
@@ -143,6 +151,7 @@
         let url = media;
         let imageType = itemType;
         let isTileImage = !isEmbedded;
+        let onErrorImage = isEmbedded ? RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE) : null;
 
         if(viewerType == VIEWER_TYPE.STATIC) {
             isTileImage = false;
@@ -156,7 +165,7 @@
 		    messageDisplay = true;
         }
 
-        params = {url, title, caption, isTileImage, imageType};
+        params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
         component = Image_Viewer;
     }
 
@@ -164,6 +173,7 @@
         let url = media;
         let imageType = itemType;
         let isTileImage = !isEmbedded;
+        let onErrorImage = isEmbedded ? RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE) : null;
 
         if(URL_PATTERN.test(url) == false) {
             if(viewerType == VIEWER_TYPE.STATIC) {
@@ -182,7 +192,7 @@
             }
         }
         
-        params = {url, title, caption, isTileImage, imageType};
+        params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
         component = Image_Viewer;
     }
 
@@ -193,7 +203,7 @@
         let kalturaId = item.is_kaltura_item ? item.media : null;
         let thumbnailImage = thumbnail;
 
-        params = {url, embedCode, title, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
+        params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Audio_Player;
     }
 
@@ -204,7 +214,7 @@
         let kalturaId = item.is_kaltura_item ? item.media : null;
         let thumbnailImage = thumbnail;
         
-        params = {url, embedCode, title, caption, mimeType, kalturaId, thumbnailImage, ...args}; 
+        params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
         component = Video_Player;
     }
 
@@ -212,7 +222,7 @@
         let url = media;
         let page = item.pdf_open_to_page || null;
 
-        params = {url, caption, page};
+        params = {url, altText, caption, page};
         component = PDFJS_Viewer; 
     }
 
@@ -220,7 +230,7 @@
         let url = media;
         let height = viewerHeight;
         
-        params = {url, caption, height}; 
+        params = {url, altText, caption, height}; 
         component = Embed_Iframe_Viewer;
     }
 

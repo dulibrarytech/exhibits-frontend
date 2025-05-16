@@ -11,16 +11,14 @@
 
     let {
         url = null,
-        title = null,
-        caption = null,
-        isTileImage = false
+        altText = null,
+        isTileImage = false,
+        onErrorImage = null
 
     } = args;
 
     let sourceUrl = null;
     let viewer = null;
-    let placeholder = false;
-    let altText;
 
     const HTML_VIEWER = "html";
     const TILE_VIEWER = "openseadragon";
@@ -35,8 +33,11 @@
             viewer = HTML_VIEWER;
         }
 
-        altText = title || caption || "Image";
         sourceUrl = url;
+    }
+
+    const onImageLoadError = (event) => {
+        sourceUrl = null;
     }
 
     $: render();
@@ -48,7 +49,7 @@
 
             {#if viewer == HTML_VIEWER}
                 <div class="content">
-                    <img src={sourceUrl} alt={altText} title={altText}/>
+                    <img src={sourceUrl} alt={altText ? altText : undefined} title={altText ? altText : undefined} on:error={onImageLoadError}/>
                 </div>
 
             {:else if viewer == TILE_VIEWER}
@@ -58,10 +59,11 @@
                 <h6>Error</h6>
 
             {/if}
-        {:else if placeholder}
-            <img src="/error" alt="error" />
+
         {:else}
-            <h5>Initializing...</h5>
+            <div class="placeholder-image">
+                <img src={onErrorImage || "./error"} alt="load error" />
+            </div>
         {/if}
     </div>
 </div>

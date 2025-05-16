@@ -21,8 +21,13 @@
 
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
     const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitItemImageAltText;
+    const DEFAULT_AUDIO_ALT_TEXT = Settings.exhibitItemImageAltText;
+    const DEFAULT_VIDEO_ALT_TEXT = Settings.exhibitItemImageAltText;
+    const DEFAULT_PDF_ALT_TEXT = Settings.exhibitItemImageAltText;
 
-    const DEFAULT_IMAGE_TITLE = "Untitled Item";
+    // const DEFAULT_IMAGE_TITLE = Settings.exhibitItemImageTitle;
+    const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
+
     const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
     const IMAGE_PREVIEW_WIDTH = "800"; // will override dimensions value
     const LARGE_IMAGE_PREVIEW_WIDTH = "800";
@@ -58,11 +63,8 @@
         resource = item.media || null;
         thumbnail = item.thumbnail || null;
         caption = item.caption || null;
-        title = item.title || DEFAULT_IMAGE_TITLE;
-
-        altText = `${getInnerText(title)} click to open in viewer`;
-
-        if(!altText) altText = DEFAULT_IMAGE_ALT_TEXT;
+        title = item.title ? getInnerText(item.title) : null;
+        altText = item.alt_text || null;
 
         preview = null;
         isPlaceholderImage = false;
@@ -87,12 +89,37 @@
             preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : RESOURCE.getItemPlaceholderImageUrl(null);
         }
 
-        if(!preview) {
-            Logger.module().error(`Could not determine preview source url for item: ${itemId}`);
-        }
+        if(!title) title = DEFAULT_ITEM_TITLE;
+        if(!altText) altText = getAltText(title, itemType);
     }
 
-    const getPreviewUrl = async (itemType, media, width=null, height=null) => {
+    const getAltText = (title="null", itemType="null") => {
+        let text;
+        switch(itemType) {
+            case ITEM_TYPE.IMAGE:
+                text = `${title} ${DEFAULT_IMAGE_ALT_TEXT}`;
+                break;
+            case ITEM_TYPE.LARGE_IMAGE:
+                text = `${title} ${DEFAULT_IMAGE_ALT_TEXT}`;
+                break;
+            case ITEM_TYPE.AUDIO:
+                text = `${title} ${DEFAULT_AUDIO_ALT_TEXT}`;
+                break;
+            case ITEM_TYPE.VIDEO:
+                text = `${title} ${DEFAULT_VIDEO_ALT_TEXT}`;
+                break;
+            case ITEM_TYPE.PDF:
+                text = `${title} ${DEFAULT_PDF_ALT_TEXT}`;
+                break;
+            default:
+                text = `${title} ${DEFAULT_IMAGE_ALT_TEXT}`;
+                break;
+        }
+
+        return text;
+    }
+
+    const getPreviewUrl = async (itemType="null", media="null", width=null, height=null) => {
         let url = "";
         
         switch(itemType) {
@@ -102,8 +129,13 @@
                 if(!width) width = IMAGE_PREVIEW_WIDTH;
 
                 if(VERIFY_IMAGE_WIDTH && width) {
-                    let imageWidth = (await axios.get(RESOURCE.getIIIFInfoUrl(media))).data.width;
-                    if(imageWidth < width) width = imageWidth;
+                    try {
+                        let imageWidth = (await axios.get(RESOURCE.getIIIFInfoUrl(media))).data.width;
+                        if(imageWidth < width) width = imageWidth;
+                    }
+                    catch(error) {
+                        Logger.module().error(`Could not get iiif data for image, Image id: ${media} Message: ${error.message}`);
+                    }
                 }
 
                 url = RESOURCE.getIIIFImageUrl(media, width || IMAGE_PREVIEW_WIDTH, null);
@@ -183,10 +215,12 @@
     }
 
     const onImageLoadError = (event) => {
+        Logger.module().error(`Image load error: ${event}`);
         let placeholderImageUrl = `${resourceLocation}/${placeholderImage[itemType || 'DEFAULT']}`;
 
         if(event.target.src.includes(placeholderImageUrl) == false) {
             previewImageElement.src = placeholderImageUrl;
+            previewImageElement.alt = altText;
             isPlaceholderImage = true;
         }
     }

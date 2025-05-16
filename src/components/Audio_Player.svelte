@@ -8,6 +8,7 @@
     let {
         url=null, 
         title=null,
+        altText=null,
         embedCode=null, 
         mimeType=null,
         kalturaId=null,
@@ -39,7 +40,7 @@
 
     {:else}
         {#if isEmbedded && thumbnailImage}
-            <img class="thumbnail" src={thumbnailImage} alt={title} title={`${title} thumbnail image`}/>
+            <img class="thumbnail" src={thumbnailImage} alt={altText} title={`${title} thumbnail image`}/>
         {/if}
 
         <div class="audio">
@@ -55,7 +56,7 @@
                         <audio src={url} controls></audio>
                     {/if} -->
 
-                    <audio src={url} type={mimeType || undefined} controls aria-label={title} {title}></audio>
+                    <audio src={url} type={mimeType || undefined} controls aria-label={altText} {title}></audio>
                 </div>
 
             {:else}
