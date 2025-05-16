@@ -40,7 +40,7 @@
     });
 </script>
 
-<div class="vertical-timeline-grid-item item" {id}>
+<div class="vertical-timeline-grid-item" {id}>
     
     <div class="timeline__card">
 
@@ -126,7 +126,7 @@
     }
     
     .card__content{
-        margin: 0 auto 2rem auto;
+        margin: 0 auto 1rem auto;
         width: 100%;
     }
 
