@@ -36,9 +36,9 @@
     const onClickNavigationLink = (event) => {
         let link = event.currentTarget;
         let anchorId = link.getAttribute('data-anchor') || null;
-        let offset = (0 - (document.querySelector(".navigation-page-section").offsetHeight / 2.75));
+        let navOffset = 0 - (document.querySelector(".navigation-page-section").offsetHeight * 0.35);
 
-        if(anchorId) dispatch('click-nav-link', {anchorId, offset});
+        if(anchorId) dispatch('click-nav-link', {anchorId, offset: navOffset});
         else Logger.module().info("Invalid or missing 'data-anchor' property:", event.currentTarget);
 	}
 

@@ -58,7 +58,7 @@
     });
 </script>
 
-<div class="exhibit-template">
+<div id="exhibit_template">
     {#if displayItems}
         <div class="exhibit-items">
             {#each displayItems as {uuid = "", type = "", text = "", anchorId = null, is_visible = null, is_embedded = false}, index}
@@ -90,7 +90,7 @@
 </div>
 
 <style>
-    .exhibit-template {
+    #exhibit-template {
         font-size: inherit;
     }
 

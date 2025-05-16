@@ -53,15 +53,16 @@
 
     export const navigateToItemId = (anchorId, topOffset = 0) => {
         let anchor = document.getElementById(anchorId);
-        let anchorOffset = anchor.offsetTop;
-
-		window.scrollTo({
-			top: topOffset + anchorOffset,
-			behavior: 'smooth'
-		});
-
         anchor.setAttribute('tabindex', 0)
         anchor.focus();
+
+        let anchorOffset = anchor.offsetTop;
+        let total = anchorOffset + topOffset;
+
+		window.scrollTo({
+			top: total,
+			behavior: 'smooth'
+		});
     }
 
     const onMountItems = () => {
