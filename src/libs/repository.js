@@ -53,18 +53,19 @@ export const Repository = (() => {
 
     /**
      *
-     * pings server to fetch and store the repository item source file in the exhibits resource storage
+     * gets item data and resource file from the repository
+     * writes the resource file to local resource storage if it is not present
      * 
-     * * @param {string} repositoryItemId - The repository item id 
+     * @param {string} repositoryItemId - The repository item id 
+     * @param {string} exhibitItemId - The exhibit item id of exhibit item that includes the repository item data and resource
      * 
      */
-    const getResourceFile = (repositoryItemId, exhibitItemId) => {
-        let url = `${exhibitsApiDomain}/repository/resource/fetch/${repositoryItemId}?key=${exhibitsApiKey}`;
+    const getItem = (repositoryItemId, exhibitItemId) => {
+        let url = `${exhibitsApiDomain}/repository/item/${repositoryItemId}?key=${exhibitsApiKey}`;
         return new Promise(function(resolve, reject) {
             axios.post(url, {exhibitItemId})
                 .then(function (response) {
-                    let {mediaFile} = response.data;
-                    resolve(mediaFile);
+                    resolve(response.data)
                 })
                 .catch(function (error) {
                     reject(error);
@@ -99,7 +100,7 @@ export const Repository = (() => {
 
     return {
         getItemData,
-        getResourceFile,
+        getItem,
         searchRepository
     };
 })()

@@ -23,31 +23,21 @@
         _exhibitItemId = item?.uuid || "null";
         _repositoryItemId = args.id || item.media || null;
 
-        Logger.module().info(`Fetching data from repository... Repo item id: ${_repositoryItemId}`);
-
-        let repositoryData;
         try {
-            repositoryData = await Repository.getItemData(_repositoryItemId);
-            _exhibitItem = structuredClone(item);
-            _exhibitItem.item_type = getItemTypeForMimeType( repositoryData.mime_type );
-            _exhibitItem.data_display = getDataDisplay(repositoryData);
+            Logger.module().info(`Fetching repository item data and resource file... Repository item id: ${_repositoryItemId}`);
+            let {mediaFile, itemData} = await Repository.getItem(_repositoryItemId, _exhibitItemId) 
+            
+            _exhibitItem = {...item};
+            _exhibitItem.media = mediaFile;
+            _exhibitItem.item_type = getItemTypeForMimeType( itemData.mime_type );
+            _exhibitItem.data_display = getDataDisplay(itemData);
 
-            Logger.module().info(`Repository data fetch successful`);
-        }
-        catch(error) {
-            Logger.module().error(`Error retrieving data from repository: Item id: ${item.uuid} Error: ${error}`);
-            dispatch('mount-template-item', {type: "item"});
-        }
-
-        try {
-            Logger.module().info(`Fetching media source file for exhibit item: ${_exhibitItemId}. Please wait...`);
-            _exhibitItem.media = await Repository.getResourceFile(_repositoryItemId, _exhibitItemId);
-
-            Logger.module().info(`File fetch complete.`);
+            Logger.module().info(`File fetch complete. Repository item id: ${_repositoryItemId}`);
             _renderTemplate = true;
         }
         catch(error) {
-            Logger.module().error(`Error retrieving source file(s) from repository: Item id: ${item.uuid} Error: ${error}`);
+            Logger.module().error(`Error retrieving item from repository: Item id: ${item.uuid} Error: ${error}`);
+
             dispatch('mount-template-item', {type: "item"});
         }
 
