@@ -1,4 +1,5 @@
 <script>
+    /* https://github.com/alekswebnet/pdfjs-viewer-element */
     import "pdfjs-viewer-element";
 
     export let args = {};
@@ -12,6 +13,7 @@
     let search = null;
     let phrase = true;
     let textLayer = "hover";
+    let styles = "#toolbarViewerRight { display: none; }";
 
     let url = null;
     let caption = null;
@@ -39,13 +41,18 @@
       {zoom}
       {pagemode}
       text-layer={textLayer}
-    />
+      viewer-extra-styles={styles}
+    /> 
   </div>
   
   <style>
     pdfjs-viewer-element {
       /* height: 122vw; */
       height: 115vw;
+    }
+
+    :global(pdfjs-viewer-element #toolbarViewerRight) {
+      display: none !important;
     }
 
     /* begin responsive breakpoints: small mobile devices/phones first ^ */
