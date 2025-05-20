@@ -29,9 +29,8 @@
     const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
 
     const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
-    const ITEM_MEDIA_WIDTH = 50;
     const IMAGE_PREVIEW_WIDTH = 800; // will override dimensions value
-    const LARGE_IMAGE_PREVIEW_WIDTH = 1500;
+    const LARGE_IMAGE_PREVIEW_WIDTH = 1800;
 
     let {resourceLocation} = Configuration;
     let {placeholderImage, placeholderImageWidth} = Settings; 
