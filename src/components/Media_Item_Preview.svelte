@@ -24,8 +24,6 @@
     const DEFAULT_AUDIO_ALT_TEXT = Settings.exhibitItemImageAltText;
     const DEFAULT_VIDEO_ALT_TEXT = Settings.exhibitItemImageAltText;
     const DEFAULT_PDF_ALT_TEXT = Settings.exhibitItemImageAltText;
-
-    // const DEFAULT_IMAGE_TITLE = Settings.exhibitItemImageTitle;
     const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
 
     const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
