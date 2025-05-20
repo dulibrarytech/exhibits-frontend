@@ -46,7 +46,7 @@ export default class ResourceUrl {
       if(width || height) {
         dimensions = `${width || ""},${height || ""}`;
       }
-
+      
       filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
 
       return `${this.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;

@@ -29,8 +29,9 @@
     const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
 
     const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
-    const IMAGE_PREVIEW_WIDTH = "800"; // will override dimensions value
-    const LARGE_IMAGE_PREVIEW_WIDTH = "800";
+    const ITEM_MEDIA_WIDTH = 50;
+    const IMAGE_PREVIEW_WIDTH = 800; // will override dimensions value
+    const LARGE_IMAGE_PREVIEW_WIDTH = 1500;
 
     let {resourceLocation} = Configuration;
     let {placeholderImage, placeholderImageWidth} = Settings; 
@@ -41,6 +42,7 @@
     let itemId;
     let itemType;
     let resource;
+    let mediaWidth;
     let thumbnail;
     let caption;
     let title;
@@ -61,6 +63,7 @@
         itemId = item.uuid || "";
         itemType = item.item_type || null;
         resource = item.media || null;
+        mediaWidth = item.media_width || null;
         thumbnail = item.thumbnail || null;
         caption = item.caption || null;
         title = item.title ? getInnerText(item.title) : null;
@@ -125,8 +128,9 @@
         switch(itemType) {
 
             case ITEM_TYPE.IMAGE:
+            case ITEM_TYPE.LARGE_IMAGE:
 
-                if(!width) width = IMAGE_PREVIEW_WIDTH;
+                if(!width) width = (mediaWidth >= 75) ? LARGE_IMAGE_PREVIEW_WIDTH : IMAGE_PREVIEW_WIDTH;
 
                 if(VERIFY_IMAGE_WIDTH && width) {
                     try {
@@ -139,21 +143,6 @@
                 }
 
                 url = RESOURCE.getIIIFImageUrl(media, width || IMAGE_PREVIEW_WIDTH, null);
-
-                if(!url) {
-                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE);
-                    isPlaceholderImage = true; 
-                }
-
-                break;
-
-            case ITEM_TYPE.LARGE_IMAGE:
-                let data = {
-                    width: width || LARGE_IMAGE_PREVIEW_WIDTH,
-                    height: height || undefined
-                }
-
-                url = RESOURCE.getImageDerivativeUrl(media, data);
 
                 if(!url) {
                     url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE);
