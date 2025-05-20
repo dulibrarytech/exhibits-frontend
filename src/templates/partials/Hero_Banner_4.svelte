@@ -44,7 +44,7 @@
     <div class="row">
         {#if image}
             <div class="hero-image col-xl-6 col-lg-6 col-md-5 col-sm-12">
-                <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
+                <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
             </div>
         {/if}
 

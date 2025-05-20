@@ -47,7 +47,7 @@
     <h1 style="display: none;">{titleText}</h1>
     <div class="hero-image" bind:this={imageElement}>
         {#if image}
-            <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
+            <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
         {/if}
 
         <div class="hero-image-text">

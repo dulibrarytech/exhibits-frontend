@@ -25,7 +25,7 @@
 <div class="banner">
     <h1 style="display: none;">{titleText}</h1>
     {#if image}
-        <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} />
+        <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText}/>
     {/if}
 </div>
 
