@@ -160,7 +160,7 @@
                             {#if title}
                                 <div class="title-heading title-padding" bind:this={titleElement}><h3>{@html title}</h3></div>
                             {/if}
-                            <div class="text-padding" bind:this={textElement}>
+                            <div class="container" bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
 
@@ -211,7 +211,7 @@
                             {#if title}
                                 <div class="title-heading title-padding" bind:this={titleElement}><h3>{@html title}</h3></div>
                             {/if}
-                            <div class="text-padding" bind:this={textElement}>
+                            <div class="container" bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
                             
@@ -342,7 +342,7 @@
         margin: 0;
     }
 
-    .text-padding {
+    .text-padding {  /* REM? */
         padding: 3.5rem;
     }
 
@@ -456,6 +456,14 @@
 
     :global(.item .item-content:not(.media-right) .media:not(.media-padding) .caption) {
         margin-left: 3.5rem;
+    }
+
+    @media screen and (min-width: 480px) {
+
+    }
+
+    @media screen and (min-width: 480px) {
+
     }
 
     @media screen and (min-width: 768px) {
