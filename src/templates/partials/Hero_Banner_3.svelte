@@ -24,6 +24,8 @@
 
     let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
+    console.log("TEST Ban3 image:", image)
+
     const init = () => {
         title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
         if(subtitle) subtitle = convertPxValuesToEm(subtitle, BASE_SUBTITLE_FONT_SIZE);
@@ -37,7 +39,7 @@
         if(styles.backgroundColor) bannerElement.style.backgroundColor = styles.backgroundColor;
 
         /* TEMP: fixed height hero image update - use background image and sizing, fixed height */
-        // if(image) imageElement.style.backgroundImage = `url("${image}")`;
+        if(image) imageElement.style.backgroundImage = `url("${image}")`;
     });
 
     init();
@@ -63,26 +65,24 @@
     }
 
     .hero-image {
-        /* TEMP: fixed height hero image update - use background image and sizing, fixed height */
-        /* background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover; */
-        /* height: 85vh; */
-
-        position: relative;
+        min-height: 300px;
+        display: table;
+        background-size: cover;
     }
 
     .hero-image > img {
         width: 100%;
+        display: none;
     }
 
     .hero-image-text {
-        text-align: center;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         width: 90%;
+        margin: auto;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        padding: 40px;
+        position: static;
     }
 
     .title {
@@ -94,13 +94,7 @@
     }
 
     @media screen and (min-width: 480px) {
-        /* .title {
-            font-size: 31px;
-        }
 
-        .subtitle {
-            font-size: 16px;
-        } */
     }
 
     @media screen and (min-width: 576px) {
@@ -120,6 +114,23 @@
 
         .subtitle {
             font-size: 41px;
+        }
+
+        .hero-image > img {
+            display: inline;
+        }
+
+        .hero-image {
+            position: relative;
+            display: block;
+        }
+
+        .hero-image-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
         }
     }
 
