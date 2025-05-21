@@ -5,44 +5,27 @@
     export let modalDisplay = null;
     export let modalData = null;
 
-    let dialogElement; // HTMLDialogElement
-	let height;
-	let width;
+    let dialogElement;
 
     const dispatch = createEventDispatcher();
-
-	const DEFAULT_DIALOG_HEIGHT = 100;
-	const DEFAULT_DIALOG_WIDTH = 100;
-	const MODAL_WINDOW_PADDING = 30;
-
-	$: {
-		height = DEFAULT_DIALOG_HEIGHT.toString() + "%";
-		width = DEFAULT_DIALOG_WIDTH.toString() + "%";
-	}
 
     const render = () => {
 		if (dialogElement && modalData) {
             dialogElement.showModal();
-			setDialogDimensions();
         }
 	}
 
     const closeDialog = () => {
         dispatch('close', {});
     }
-
-	const setDialogDimensions = () => {
-		height = (window.innerHeight - MODAL_WINDOW_PADDING).toString() + "px";
-		width = (window.innerWidth - MODAL_WINDOW_PADDING).toString() + "px";
-	}
-
+	
 	onMount(async () => {
         render();
     });
 </script>
 
 <div class="modal-dialog-window">
-	<dialog bind:this={dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}>
+	<dialog bind:this={dialogElement} on:close={closeDialog}>
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div>
 			<div class="dialog-content">
@@ -71,9 +54,8 @@
 
 <style>
     .modal-dialog-window {
-		height: 100vh;
 		width: 100%;
-		/* height: 100%; */
+		height: 100%;
 	}
 
 	/* dialog control buttons/openseadragon buttons */
@@ -101,13 +83,17 @@
 	}
 
     dialog {
-		width: 100%;
-		height: 100%;
+		width: 100vw;
+		height: 100vh;
+		max-width: 100vw;
+    	max-height: 100vh;
+
 		border-radius: 0.2em;
 		border: none;
 		padding: 0;
 		overflow: hidden;
 		background: #e5e3e1;
+		margin: 0;
 		
 	}
 	dialog::backdrop {
@@ -156,7 +142,13 @@
 
     @media screen and (min-width: 768px) {
         /* start of landscape/large tablet styles */
-
+		dialog {
+			width: 98vw;
+			height: 98vh;
+			max-width: 98vw;
+			max-height: 98vh;
+			margin: auto;
+		}
     }
 
     @media screen and (min-width: 992px) {

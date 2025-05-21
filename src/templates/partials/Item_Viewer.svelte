@@ -138,7 +138,7 @@
 	.data-section {
 		display: inline-grid;
 		margin-top: 50px;
-		/* margin-bottom: 50px; */
+		margin-bottom: 50px;
 		position: relative;
 		bottom: unset;
 	}
