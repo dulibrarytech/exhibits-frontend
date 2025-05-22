@@ -78,8 +78,6 @@
 
 <style>
 .openseadragon {
-    height: 81vh;
-
     position: relative;
 }
 

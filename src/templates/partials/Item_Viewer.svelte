@@ -2,7 +2,6 @@
     import Media_Display from '../../components/Media_Display.svelte';
 	import Text_Item from '../../components/Text_Item.svelte';
 	import {formatStripHtmlTags} from '../../libs/format';
-	import {stripHtmlTags} from '../../libs/data_helpers'; 
 
     export let item = {};
 
@@ -22,17 +21,10 @@
 		itemData = item.data_display || null;
 		title = item.title || null;
 		text = item.text || item.description || DEFAULT_ITEM_TEXT;
-
-		// text = item.text || "No text available for this item"
 		date = item.date || null;
 		caption = item.caption || null;
 
 		if(date) date = new Date(date).toLocaleDateString();
-
-		//if(!item.text) item.text = item.description || item.caption || "No text available";
-
-		// remove if formatter f() works
-		//item.text = stripHtmlTags(item.text);
 	}
 
 	const onLoadMedia = (event) => {}
@@ -159,6 +151,7 @@
 
 	.text-display-container {
 		padding-left: 0;
+		height: auto;
 	}
 
 	:global(.data-section li a) {
@@ -185,7 +178,7 @@
 
 	:global(.item-viewer .openseadragon) {
 		width: unset;
-		height: 100% !important;
+		/* height: 100% !important; */
 	}
 
 	:global(.item-viewer .text-item) {
@@ -257,16 +250,11 @@
 
 		.text-section {
 			height: unset;
-
-			/* UPDATE */
-			/* max-height: 60%; */
 			overflow-y: scroll; 
 		}
 
 		.data-section {
 			margin-top: 0;
-
-			/* UPDATE */
 			margin-top: 50px;
 		}
     }

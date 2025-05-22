@@ -9,23 +9,41 @@
 
     const dispatch = createEventDispatcher();
 
+	const DEFAULT_DIALOG_HEIGHT = 100;
+	const DEFAULT_DIALOG_WIDTH = 100;
+	const MODAL_WINDOW_PADDING = 30;
+
+	let height = DEFAULT_DIALOG_HEIGHT.toString() + "%";
+	let width = DEFAULT_DIALOG_WIDTH.toString() + "%";
+
     const render = () => {
 		if (dialogElement && modalData) {
             dialogElement.showModal();
+			setDialogDimensions();
         }
 	}
 
     const closeDialog = () => {
         dispatch('close', {});
     }
-	
+
+	const setDialogDimensions = () => {
+		height = (window.innerHeight - MODAL_WINDOW_PADDING).toString() + "px";
+		width = (window.innerWidth - MODAL_WINDOW_PADDING).toString() + "px";
+	}
+
+	const onWindowResize = () => {
+		setDialogDimensions();
+	}
+
 	onMount(async () => {
+		window.addEventListener('resize', onWindowResize);
         render();
     });
 </script>
 
 <div class="modal-dialog-window">
-	<dialog bind:this={dialogElement} on:close={closeDialog}>
+	<dialog bind:this={dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}>
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div>
 			<div class="dialog-content">
@@ -54,20 +72,10 @@
 
 <style>
     .modal-dialog-window {
+		height: 100vh;
 		width: 100%;
-		height: 100%;
+		/* height: 100%; */
 	}
-
-	/* dialog control buttons/openseadragon buttons */
-	:global(.modal-dialog-window .dialog-controls button, .modal-dialog-window .controls > button) {
-		width: 40px;
-		height: 40px;
-	}
-	:global(.modal-dialog-window .dialog-controls button > i, .modal-dialog-window .controls > button > i) {
-		bottom: 1px;
-    	position: relative;
-	}
-	/* End dialog control buttons/openseadragon buttons */
 
     .dialog-content {
 		height: 100%;
@@ -80,20 +88,17 @@
 	.display-content {
 		height: 100%;
 		overflow-y: scroll;
+		padding-right: 10px;
 	}
 
     dialog {
-		width: 100vw;
-		height: 100vh;
-		max-width: 100vw;
-    	max-height: 100vh;
-
+		width: 100%;
+		height: 100%;
 		border-radius: 0.2em;
 		border: none;
 		padding: 0;
 		overflow: hidden;
 		background: #e5e3e1;
-		margin: 0;
 		
 	}
 	dialog::backdrop {
@@ -134,39 +139,57 @@
 		height: 40px;
 	}
 
-	/* begin responsive breakpoints: small mobile devices/phones first ^ */
+	:global(.modal-dialog-window .item-viewer .openseadragon) {
+		height: 71vh;
+	}
+
+	:global(.modal-dialog-window .text-display-container) {
+		padding-bottom: 20px;
+		/* height: auto !important; */
+	}
+
+	/* dialog control buttons/openseadragon buttons */
+	:global(.modal-dialog-window .dialog-controls button, .modal-dialog-window .controls > button) {
+		width: 40px;
+		height: 40px;
+	}
+	:global(.modal-dialog-window .dialog-controls button > i, .modal-dialog-window .controls > button > i) {
+		bottom: 1px;
+    	position: relative;
+	}
+	/* End dialog control buttons/openseadragon buttons */
+
     @media screen and (min-width: 480px) {
-        /* start of portrait tablet styles */
 
     }
 
     @media screen and (min-width: 768px) {
-        /* start of landscape/large tablet styles */
-		dialog {
-			width: 98vw;
-			height: 98vh;
-			max-width: 98vw;
-			max-height: 98vh;
-			margin: auto;
-		}
+
     }
 
     @media screen and (min-width: 992px) {
-        /* start of large tablet styles */
 		.display-content {
 			overflow-y: clip;
+			padding-right: 0;
+		}
+
+		:global(.modal-dialog-window .item-viewer .openseadragon) {
+			height: 89vh;
+		}
+
+		:global(.modal-dialog-window .text-display-container) {
+			padding-bottom: 0;
+			/* height: 100%; */
 		}
     }
 
     @media screen and (min-width: 1280px) {
-        /* start of medium/large desktop styles */
 		.display-content {
 			height: calc(100% - 50px);
 		}
     }
 
     @media screen and (min-width: 1920px) {
-        /* start of extra large desktop styles */
 
     }
 </style>
