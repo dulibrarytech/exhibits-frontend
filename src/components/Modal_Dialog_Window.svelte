@@ -11,7 +11,7 @@
 
 	const DEFAULT_DIALOG_HEIGHT = 100;
 	const DEFAULT_DIALOG_WIDTH = 100;
-	const MODAL_WINDOW_PADDING = 30;
+	const MODAL_WINDOW_PADDING = 0;
 
 	let height = DEFAULT_DIALOG_HEIGHT.toString() + "%";
 	let width = DEFAULT_DIALOG_WIDTH.toString() + "%";
@@ -99,7 +99,6 @@
 		padding: 0;
 		overflow: hidden;
 		background: #e5e3e1;
-		
 	}
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.8);
@@ -174,7 +173,7 @@
 		}
 
 		:global(.modal-dialog-window .item-viewer .openseadragon) {
-			height: 89vh;
+			height: 91vh;
 		}
 
 		:global(.modal-dialog-window .text-display-container) {

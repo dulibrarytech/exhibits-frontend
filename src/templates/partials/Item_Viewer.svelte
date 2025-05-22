@@ -112,7 +112,6 @@
 	}
 
     .text {
-		/* height: 100%; */
 		position: relative;
 	}
 
@@ -178,7 +177,6 @@
 
 	:global(.item-viewer .openseadragon) {
 		width: unset;
-		/* height: 100% !important; */
 	}
 
 	:global(.item-viewer .text-item) {
