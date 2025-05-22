@@ -108,7 +108,9 @@
 
 	.text-display-container {
 		padding-left: 0;
-		height: auto;
+		/* height: auto; */
+		height: 50%;
+		overflow-y: scroll;
 	}
 
     .text {
@@ -146,7 +148,8 @@
 	}
 
 	.media-display-container {
-		height: 75%;
+		/* height: 75%; */
+		height: 50%;
 	}
 
 	:global(.data-section li a) {

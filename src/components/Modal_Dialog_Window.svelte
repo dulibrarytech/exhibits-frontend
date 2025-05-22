@@ -11,7 +11,7 @@
 
 	const DEFAULT_DIALOG_HEIGHT = 100;
 	const DEFAULT_DIALOG_WIDTH = 100;
-	const MODAL_WINDOW_PADDING = 15;
+	const MODAL_WINDOW_PADDING = 0;
 
 	let height = DEFAULT_DIALOG_HEIGHT.toString() + "%";
 	let width = DEFAULT_DIALOG_WIDTH.toString() + "%";
@@ -44,6 +44,7 @@
 
 <div class="modal-dialog-window">
 	<dialog bind:this={dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}>
+	<!-- <dialog class="modal-dialog-window" bind:this={dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}> -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div>
 			<div class="dialog-content">
@@ -74,7 +75,6 @@
     .modal-dialog-window {
 		height: 100vh;
 		width: 100%;
-		/* height: 100%; */
 	}
 
     .dialog-content {
@@ -87,7 +87,7 @@
 
 	.display-content {
 		height: 100%;
-		overflow-y: scroll;
+		/* overflow-y: scroll; */ 
 		padding-right: 10px;
 	}
 
@@ -140,7 +140,8 @@
 	}
 
 	:global(.modal-dialog-window .item-viewer .openseadragon) {
-		height: 71vh;
+		/* height: 71vh; */
+		height: 50vh;
 	}
 
 	:global(.modal-dialog-window .text-display-container) {
