@@ -43,7 +43,7 @@
         <!-- buttons -->
         <div class="tabs">
             {#each sections as {label}, index}
-                <button class="tab-button" type="button" on:click={() => showPage(index)} aria-label="browse {label}" bind:this={tabs[index]}>{label}</button>
+                <button class="tab-button" type="button" on:click={() => showPage(index)} aria-label="page tab {label}" bind:this={tabs[index]}>{label}</button>
             {/each}
         </div>
         <!-- buttons ul -->
@@ -65,7 +65,7 @@
                     <Exhibit_Preview_Grid {exhibits} {args} />
                 {:else}
                     <div class="message">
-                        <p>No exhibits found.</p>
+                        <p>{label} coming soon</p>
                     </div>
                 {/if}
 
