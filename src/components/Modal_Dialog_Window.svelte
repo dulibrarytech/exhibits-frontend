@@ -11,7 +11,7 @@
 
 	const DEFAULT_DIALOG_HEIGHT = 100;
 	const DEFAULT_DIALOG_WIDTH = 100;
-	const MODAL_WINDOW_PADDING = 0;
+	const MODAL_WINDOW_PADDING = 15;
 
 	let height = DEFAULT_DIALOG_HEIGHT.toString() + "%";
 	let width = DEFAULT_DIALOG_WIDTH.toString() + "%";
@@ -28,8 +28,8 @@
     }
 
 	const setDialogDimensions = () => {
-		height = (document.querySelector(".modal-dialog-window").offsetHeight - MODAL_WINDOW_PADDING).toString() + "px";
-		width = (document.querySelector(".modal-dialog-window").offsetWidth - MODAL_WINDOW_PADDING).toString() + "px";
+		height = (document.querySelector(".modal-dialog-window").offsetHeight + MODAL_WINDOW_PADDING).toString() + "px";
+		width = (document.querySelector(".modal-dialog-window").offsetWidth + MODAL_WINDOW_PADDING).toString() + "px";
 	}
 
 	const onWindowResize = () => {
