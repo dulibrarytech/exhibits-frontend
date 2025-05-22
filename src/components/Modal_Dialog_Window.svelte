@@ -28,8 +28,8 @@
     }
 
 	const setDialogDimensions = () => {
-		height = (window.innerHeight - MODAL_WINDOW_PADDING).toString() + "px";
-		width = (window.innerWidth - MODAL_WINDOW_PADDING).toString() + "px";
+		height = (document.querySelector(".modal-dialog-window").offsetHeight - MODAL_WINDOW_PADDING).toString() + "px";
+		width = (document.querySelector(".modal-dialog-window").offsetWidth - MODAL_WINDOW_PADDING).toString() + "px";
 	}
 
 	const onWindowResize = () => {
@@ -99,6 +99,7 @@
 		padding: 0;
 		overflow: hidden;
 		background: #e5e3e1;
+		margin: 0;
 	}
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.8);
