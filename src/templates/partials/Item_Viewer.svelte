@@ -93,6 +93,7 @@
 
 	.item-viewer > .row {
 		height: 100%;
+		background: #F4F2EC; /* TEST */
 	}
 
 	.item-viewer .text {
@@ -108,8 +109,9 @@
 
 	.text-display-container {
 		padding-left: 0;
-		/* height: auto; */
-		height: 50%;
+		/* height: 50%; */
+		height: 48%;
+		margin-top: 2%;
 		overflow-y: scroll;
 	}
 
