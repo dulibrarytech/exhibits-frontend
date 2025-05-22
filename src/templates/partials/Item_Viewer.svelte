@@ -107,8 +107,8 @@
 	}
 
 	.text-display-container {
-		height: 100%;
-		padding-left: 0px;
+		padding-left: 0;
+		height: auto;
 	}
 
     .text {
@@ -146,11 +146,6 @@
 
 	.media-display-container {
 		height: 75%;
-	}
-
-	.text-display-container {
-		padding-left: 0;
-		height: auto;
 	}
 
 	:global(.data-section li a) {
@@ -256,10 +251,4 @@
 			margin-top: 50px;
 		}
     }
-
-	@media screen and (max-width: 992px) {
-		.text-display-container {
-			padding-right: 0;
-		}
-	}
 </style>
