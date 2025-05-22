@@ -118,6 +118,7 @@
 	.text-section {
 		height: unset;
 		max-height: 60%;
+		margin-bottom: 50px;
 	} 
 
 	.text-section.background-light {
@@ -128,7 +129,7 @@
 
 	.data-section {
 		display: inline-grid;
-		margin-top: 50px;
+		/* margin-top: 50px; */
 		margin-bottom: 50px;
 		position: relative;
 		bottom: unset;
