@@ -83,6 +83,7 @@
         text-align: center;
         padding: 40px;
         position: static;
+        opacity: 0.94;
     }
 
     .title {
@@ -91,6 +92,8 @@
 
     .subtitle {
         font-size: 28px;
+        margin: 0 auto;
+        max-width: 900px;
     }
 
     @media screen and (min-width: 480px) {
