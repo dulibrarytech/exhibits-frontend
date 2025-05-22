@@ -354,14 +354,13 @@
         padding-left: 0;
     }
 
+    .item-content .media:not(.media-padding) + .text {
+        padding: 3.65em 0;
+    }
+
     .anchor-offset {
         position: relative;
         top: -120px;
-    }
-
-    .item-content {
-        width: 100%;
-        height: 100%;
     }
 
     .media {
@@ -536,6 +535,10 @@
         .media-right:not(.wrap-text) > .media,
         .media-right:not(.wrap-text) > .text {
             height: 100%;
+        }
+
+        .item-content .media:not(.media-padding) + .text {
+            padding: 3.65em;
         }
     }
 </style>
