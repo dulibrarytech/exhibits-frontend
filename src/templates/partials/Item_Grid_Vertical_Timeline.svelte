@@ -95,7 +95,7 @@
 
         // define the first decade bucket
         currentBucket = {
-            label: currentDecade.toString() + 's',
+            label: currentDecade.toString(),
             leftItems: [],
             rightItems: []
         }
@@ -141,7 +141,7 @@
 
                 // define the next decade bucket
                 currentBucket = {
-                    label: currentDecade.toString() + 's',
+                    label: currentDecade.toString(),
                     leftItems: [],
                     rightItems: []
                 }
