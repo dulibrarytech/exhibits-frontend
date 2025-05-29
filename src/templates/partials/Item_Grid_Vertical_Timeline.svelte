@@ -289,8 +289,8 @@
     .timeline__year {
         position: relative;
         left: calc(50% - 1.6em);
-        font-size: 1.3em;
-        width: 3.2em;
+        font-size: 22px;
+        width: 68px;
         padding: 5px;
     }
 
