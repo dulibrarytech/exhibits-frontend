@@ -24,8 +24,6 @@
 
     let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
-    console.log("TEST Ban3 image:", image)
-
     const init = () => {
         title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
         if(subtitle) subtitle = convertPxValuesToEm(subtitle, BASE_SUBTITLE_FONT_SIZE);

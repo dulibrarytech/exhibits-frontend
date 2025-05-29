@@ -91,7 +91,6 @@
         }
 
         if(!title) title = DEFAULT_ITEM_TITLE;
-        //if(!altText) altText = getAltText(title, itemType);
         if(!altText) altText = title;
 
         if(thumbnail) {

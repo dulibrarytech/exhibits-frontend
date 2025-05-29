@@ -16,19 +16,21 @@
     let styles = "#toolbarViewerRight { display: none; }";
 
     let url = null;
+    let altText = null;
     let caption = null;
     let page = null; 
 
     $: {
-        if(!url) url = args.url || null;
-        if(!caption) caption = args.caption || "";
-        if(!page) page = args.page || defaultPage;
+        url = args.url || null;
+        altText = args.altText || "pdf document viewer";
+        caption = args.caption || "";
+        page = args.page || defaultPage;
 
         url = `${url}#toolbar=0&navpanes=0&scrollbar=0`;
     }
   </script>
   
-  <div class="pdf-viewer pdfjs-viewer">
+  <div class="pdf-viewer pdfjs-viewer" aria-label={altText}>
 
     <pdfjs-viewer-element
       class="viewer"

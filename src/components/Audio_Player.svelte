@@ -36,7 +36,7 @@
     {/if} -->
 
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} preview={null} args={{isEmbedded, type: "audio"}} {title}/>
+        <Kaltura_Content entryId={kalturaId} {title} {altText} args={{isEmbedded, type: "audio"}} />
 
     {:else}
         {#if isEmbedded && thumbnailImage}

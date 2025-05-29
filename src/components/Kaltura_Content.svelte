@@ -6,8 +6,9 @@
 
     export let entryId = null;
     export let title = "kaltura media player";
-    export let caption = "kaltura media player";
-    export let preview = null;
+    export let altText = "kaltura media player";
+    export let height = null;
+    export let width = null;
     export let args = {};
 
     let {   
@@ -18,10 +19,9 @@
     } = Settings;
 
     let {
+        preview = null,
         isEmbedded = false,
         mimeType = null,
-        height = kalturaPlayerHeight,
-        width = kalturaPlayerWidth,
         type = "video"
 
     } = args;
@@ -38,7 +38,10 @@
     let htmlPlayerElement;
     let htmlPlayer;
 
-    $: {
+    const init = () => {
+        if(!height) height = kalturaPlayerHeight;
+        if(!width) width = kalturaPlayerWidth;
+
         if(isEmbedded) {
             // embedded html audio or video player will source from kaltura stream url
             kalturaUrl = Kaltura.getStreamingMediaUrl(entryId);
@@ -73,6 +76,8 @@
     const onPreviewImageLoadError = () => {
         previewImageElement.src = Kaltura.getThumbnailUrl(entryId, 1000, 1000);
     }
+
+    init();
 </script>
 
 <div class="kaltura-content content" bind:this={contentSection} >
@@ -81,25 +86,24 @@
             {#if type == "audio"}
                 {#if previewImageUrl}
                     <div class="preview" bind:this={previewElement}>
-                        <img class="preview-image audio-preview-image" src={previewImageUrl} alt={title} {title} on:error={onPreviewImageLoadError}/>
+                        <img class="preview-image audio-preview-image" src={previewImageUrl} alt="preview image for audio file" {title} on:error={onPreviewImageLoadError}/>
                     </div>
                 {/if}
 
                 <div class="embedded-audio" style="" bind:this={htmlPlayerElement}>
-                    <audio src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} ></audio>
+                    <audio src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} aria-label={altText}></audio>
                 </div>
             {:else if type == "video"}
                 <div class="preview" bind:this={previewElement}>
-                    <!-- <img class="preview-image" src={previewImageUrl} on:click={onClickKalturaPreview} alt="Click to play video" on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/>  -->
                     <button type="button" on:click={onClickKalturaPreview}>
-                        <img class="preview-image" src={previewImageUrl} alt="Click to play video" on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/> 
+                        <img class="preview-image" src={previewImageUrl} alt={`${altText} click to play video`} {title} on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/> 
                     </button>
                     
                     <img class="video-preview-overlay" src="../assets/images/play-button-icon-png-18919.png" />
                 </div>
 
                 <div class="embedded-video" style="display: none" bind:this={htmlPlayerElement}>
-                    <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} aria-label={title}></video>
+                    <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} aria-label={altText}></video>
                 </div>
             {:else}
                 <h6>Invalid media type</h6>
@@ -109,8 +113,8 @@
             <div class="player-load-message" bind:this={iframeLoadMessage}>
                 <h5>Loading Kaltura player...</h5>
             </div>
-            <div class="iframe-wrapper" bind:this={iframeSection}>
-                <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} title={caption} src={kalturaUrl} {width} {height} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
+            <div class="iframe-wrapper" bind:this={iframeSection} aria-label={altText}>
+                <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} {title} src={kalturaUrl} {width} {height} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
                 <div class="subframe-content"></div>
             </div>
 
