@@ -162,7 +162,7 @@
     }
 
     .exhibit-previews {
-        padding: 50px 0;
+        padding: 100px 0;
     }
 
     .exhibit-previews hr:first-child {
