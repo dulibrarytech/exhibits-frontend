@@ -20,10 +20,11 @@
     const dispatch = createEventDispatcher();
 
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
-    const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitItemImageAltText;
-    const DEFAULT_AUDIO_ALT_TEXT = Settings.exhibitItemImageAltText;
-    const DEFAULT_VIDEO_ALT_TEXT = Settings.exhibitItemImageAltText;
-    const DEFAULT_PDF_ALT_TEXT = Settings.exhibitItemImageAltText;
+    
+    const DEFAULT_IMAGE_ALT_TEXT = Settings.itemImagePreviewAltText;
+    const DEFAULT_AUDIO_ALT_TEXT = Settings.itemAudioPreviewAltText;
+    const DEFAULT_VIDEO_ALT_TEXT = Settings.itemVideoPreviewAltText;
+    const DEFAULT_PDF_ALT_TEXT = Settings.itemPdfPreviewAltText;
     const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
 
     const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
@@ -90,10 +91,11 @@
         }
 
         if(!title) title = DEFAULT_ITEM_TITLE;
-        if(!altText) altText = getAltText(title, itemType);
+        //if(!altText) altText = getAltText(title, itemType);
+        altText = getAltText(altText || title, itemType);
     }
 
-    const getAltText = (title="null", itemType="null") => {
+    const getAltText = (title="untitled item", itemType="null") => {
         let text;
         switch(itemType) {
             case ITEM_TYPE.IMAGE:
