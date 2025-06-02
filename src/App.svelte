@@ -23,18 +23,8 @@
     font-size: var(--theme-site-font-size);
     font-family: var(--theme-site-font-family);
   }
-
-  /* main {
-    min-height: calc(100vh - 249px); 
-  } */
 </style>
 
-<!-- <main class="container-1700 site-wrapper" 
-      styles="--theme-site-font-color: {DEFAULT_FONT_COLOR}; 
-              --theme-site-font-size: {DEFAULT_FONT_SIZE};
-              --theme-site-font-family: {DEFAULT_FONT_FAMILY}"
-
-> -->
 <main class="container-1700">
 
   <div class="site-wrapper"
@@ -43,10 +33,7 @@
       --theme-site-font-family: {DEFAULT_FONT_FAMILY}">
 
     <Header />
-
-    <!-- renders page -->
     <Router {routes} />
-  
     <Footer />
   </div>
 

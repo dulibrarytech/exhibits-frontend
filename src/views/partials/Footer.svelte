@@ -4,7 +4,7 @@
 
             <div class="col-lg-5 col-md-4 col-sm-12 logo-container">
                 <div class="logo">
-                    <img src="../assets/images/du-logo3.png" alt="University of Denver University Libraries logo" />
+                    <img src="/assets/images/du-logo3.png" alt="University of Denver University Libraries logo" />
                 </div>
             </div>
 
