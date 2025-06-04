@@ -267,7 +267,7 @@
     }
 
     .exhibit-previews {
-        margin: 100px 0;
+        padding: 50px 0 100px 0;
     }
 
     .message {
