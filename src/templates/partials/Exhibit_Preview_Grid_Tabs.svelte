@@ -91,22 +91,26 @@
         background-color: #f1f1f1;
     }
 
+    .message {
+        padding: 20px 40px;
+    }
+
     button.tab-button {
         margin-bottom: 0;
         background-color: white;
         border-bottom-style: none;
-
+        border-color: #ddd;
         width: 33%;
         padding: 15px;
         font-size: 1rem;
         text-align: left;
     }
 
-    /* li.tab-button {
+    button.tab-button:focus {
+        border-color: #ddd;
+    }
 
-    } */
-
-    :global(button.tab-button.active) {
+    :global(.exhibit-preview-grid-tabs button.tab-button.active) {
         border: none;
         background-color: #f1f1f1;
     }
