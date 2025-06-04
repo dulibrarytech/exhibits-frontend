@@ -215,9 +215,4 @@ export const Settings = {
     exhibitItemDefaultTitle: "Untitled item",
     exhibitHeroImageAltText: "Exhibit hero image",
     exhibitPreviewImageAltText: "click to enter exhibit",
-
-    itemImagePreviewAltText: "click to open image viewer",
-    itemAudioPreviewAltText: "click to open audio player",
-    itemVideoPreviewAltText: "click to open video player",
-    itemPdfPreviewAltText: "click to open document viewer"
 }

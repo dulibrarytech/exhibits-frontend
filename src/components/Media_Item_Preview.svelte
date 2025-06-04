@@ -20,11 +20,6 @@
     const dispatch = createEventDispatcher();
 
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
-    
-    const DEFAULT_IMAGE_ALT_TEXT = Settings.itemImagePreviewAltText;
-    const DEFAULT_AUDIO_ALT_TEXT = Settings.itemAudioPreviewAltText;
-    const DEFAULT_VIDEO_ALT_TEXT = Settings.itemVideoPreviewAltText;
-    const DEFAULT_PDF_ALT_TEXT = Settings.itemPdfPreviewAltText;
     const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
 
     const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
@@ -34,7 +29,6 @@
     let {resourceLocation} = Configuration;
     let {placeholderImage, placeholderImageWidth} = Settings; 
 
-    let itemPreviewElement;
     let previewImageElement;
 
     let itemId;
@@ -70,6 +64,9 @@
         preview = null;
         isPlaceholderImage = false;
 
+        if(!title) title = DEFAULT_ITEM_TITLE;
+        if(!altText) altText = title;
+
         // has thumbnail, is local resource (not a url)
         if(thumbnail && isHttpUrl(thumbnail) == false) {
             preview = RESOURCE.getFileUrl(thumbnail);
@@ -89,36 +86,6 @@
         else {
             preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : RESOURCE.getItemPlaceholderImageUrl(null);
         }
-
-        if(!title) title = DEFAULT_ITEM_TITLE;
-        //if(!altText) altText = getAltText(title, itemType);
-        altText = getAltText(altText || title, itemType);
-    }
-
-    const getAltText = (title="untitled item", itemType="null") => {
-        let text;
-        switch(itemType) {
-            case ITEM_TYPE.IMAGE:
-                text = `${title} ${DEFAULT_IMAGE_ALT_TEXT}`;
-                break;
-            case ITEM_TYPE.LARGE_IMAGE:
-                text = `${title} ${DEFAULT_IMAGE_ALT_TEXT}`;
-                break;
-            case ITEM_TYPE.AUDIO:
-                text = `${title} ${DEFAULT_AUDIO_ALT_TEXT}`;
-                break;
-            case ITEM_TYPE.VIDEO:
-                text = `${title} ${DEFAULT_VIDEO_ALT_TEXT}`;
-                break;
-            case ITEM_TYPE.PDF:
-                text = `${title} ${DEFAULT_PDF_ALT_TEXT}`;
-                break;
-            default:
-                text = `${title} ${DEFAULT_IMAGE_ALT_TEXT}`;
-                break;
-        }
-
-        return text;
     }
 
     const getPreviewUrl = async (itemType="null", media="null", width=null, height=null) => {
@@ -197,6 +164,7 @@
     }
 
     const onClickItem = (event) => {
+        console.log("TEST click item")
         let itemId = event.target.getAttribute('data-item-id');
         if(itemId) dispatch('click-item', {itemId});
         if(link) window.location.replace(link);
@@ -216,11 +184,13 @@
 
 {#if preview}
     <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}">
-        <a href data-item-id={itemId} on:click|stopPropagation|preventDefault={onClickItem} tabindex={isInteractive ? undefined : '-1'} >
-            <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}" bind:this={itemPreviewElement} >
+
+        <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}">
+            <button data-item-id={itemId} on:click={onClickItem} tabindex={isInteractive ? undefined : '-1'} aria-label={`click to open item viewer`}>
                 <img crossorigin="anonymous" src={preview} alt={altText} on:error={onImageLoadError} bind:this={previewImageElement}>
-            </div>
-        </a>
+            </button>
+        </div>
+
         {#if caption}<div class="caption">{@html caption}</div>{/if}
     </div>
 
@@ -240,7 +210,10 @@
     .item-preview {
         margin-bottom: 1em;
         margin: 0 auto;
-        pointer-events: none;
+    }
+
+    .item-preview button {
+        margin: 0;
     }
 
     .item-preview.placeholder-image {
