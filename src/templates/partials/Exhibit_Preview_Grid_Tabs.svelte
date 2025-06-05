@@ -115,10 +115,6 @@
         background-color: #f1f1f1;
     }
 
-    :global(.exhibit-preview-grid) {
-        column-gap: 2.2vw !important;
-    }
-
     @media screen and (min-width: 420px) {
         button.tab-button {
             font-size: 1.2rem;
@@ -140,7 +136,6 @@
 
     @media screen and (min-width: 992px) {
         button.tab-button {
-            /* width: auto; */
             padding: 20px 30px;
         }
     }

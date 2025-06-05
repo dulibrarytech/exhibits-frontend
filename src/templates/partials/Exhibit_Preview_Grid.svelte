@@ -39,7 +39,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        column-gap: 2.5vw;
+        column-gap: 2.2vw;
         row-gap: 14vw;
         margin: 6px auto;
     }
@@ -51,7 +51,7 @@
 
     /* begin responsive breakpoints: small mobile devices/phones first ^ */
     @media screen and (min-width: 480px) {
-    /* start of portrait tablet styles */
+        /* start of portrait tablet styles */
         .exhibit-preview-grid {
             row-gap: 5vw;
         }
@@ -62,26 +62,28 @@
     }
 
     @media screen and (min-width: 768px) {
-    /* start of landscape/large tablet styles */
+        /* start of landscape/large tablet styles */
         .grid-item {
             width: 30.5%; /* 3 col */
         }
     }
 
     @media screen and (min-width: 992px) {
-    /* start of large tablet styles */
+        /* start of large tablet styles */
         .grid-item {
             width: 22.5%; /* 4 col */
         }
     }
 
     @media screen and (min-width: 1280px) {
-    /* start of medium/large desktop styles */
+        /* start of medium/large desktop styles */
 
     }
 
-    @media screen and (min-width: 1920px) {
-    /* start of extra large desktop styles */
-
+    @media screen and (min-width: 1860px) {
+        /* start of extra large desktop styles */
+        .exhibit-preview-grid {
+            column-gap: 35px;
+        }
     }
 </style>
