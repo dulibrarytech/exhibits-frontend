@@ -97,12 +97,6 @@
 </div>
 
 <style>
-    .exhibit-preview .overlay-text {
-        text-decoration: none;
-        font-size: 1.4em;
-        color: white;
-    }
-
     .exhibit-preview a {
         color: initial;
     }

@@ -189,6 +189,13 @@
             <button data-item-id={itemId} on:click={onClickItem} tabindex={isInteractive ? undefined : '-1'} aria-label={`click to open item viewer`}>
                 <img crossorigin="anonymous" src={preview} alt={altText} on:error={onImageLoadError} bind:this={previewImageElement}>
             </button>
+
+            <!-- UPDATE hover overlay -->
+            <div class="overlay"></div>
+            <div class="overlay-text">
+                <i class="las la-search"></i>
+            </div>
+            <!-- END UPDATE hover overlay -->
         </div>
 
         {#if caption}<div class="caption">{@html caption}</div>{/if}
@@ -210,6 +217,7 @@
     .item-preview {
         margin-bottom: 1em;
         margin: 0 auto;
+        position: relative;
     }
 
     .item-preview button {
@@ -230,5 +238,38 @@
         text-decoration: none;
         color: inherit;
         line-height: 1.5em;
+    }
+
+    .item-preview:hover .overlay,
+    .item-preview:hover .overlay-text {
+        display: block;
+    }
+
+    .overlay {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        background-color: #181818;
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    .overlay-text {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: calc(50% - 13px);
+        left: 0;
+        z-index: 11;
+        color: white;
+        font-size: 24px;
+        text-align: center;
+        pointer-events: none;
+        font-size: 34px;
     }
 </style>
