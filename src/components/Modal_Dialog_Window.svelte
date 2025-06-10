@@ -44,7 +44,6 @@
 
 <div class="modal-dialog-window">
 	<dialog bind:this={dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}>
-	<!-- <dialog class="modal-dialog-window" bind:this={dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}> -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div>
 			<div class="dialog-content">
@@ -140,7 +139,7 @@
 	}
 
 	:global(.modal-dialog-window .item-viewer .openseadragon) {
-		/* height: 71vh; */
+		/* height: 50vh; */
 		height: 50vh;
 	}
 
@@ -175,12 +174,12 @@
 		}
 
 		:global(.modal-dialog-window .item-viewer .openseadragon) {
-			height: 91vh;
+			/* height: 91vh; */
+			height: 100%;
 		}
 
 		:global(.modal-dialog-window .text-display-container) {
 			padding-bottom: 0;
-			/* height: 100%; */
 		}
     }
 
