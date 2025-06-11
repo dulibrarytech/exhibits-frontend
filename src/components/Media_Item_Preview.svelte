@@ -190,12 +190,12 @@
                 <img crossorigin="anonymous" src={preview} alt={altText} on:error={onImageLoadError} bind:this={previewImageElement}>
             </button>
 
-            <!-- UPDATE hover overlay -->
             <div class="overlay"></div>
-            <div class="overlay-text">
+            <!-- begin overlay text magnifying glass icon -->
+            <!-- <div class="overlay-text">
                 <i class="las la-search"></i>
-            </div>
-            <!-- END UPDATE hover overlay -->
+            </div> -->
+            <!-- end overlay text magnifying glass icon -->
         </div>
 
         {#if caption}<div class="caption">{@html caption}</div>{/if}
