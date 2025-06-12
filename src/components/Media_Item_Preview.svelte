@@ -191,11 +191,11 @@
             </button>
 
             <div class="overlay"></div>
-            <!-- begin overlay text magnifying glass icon -->
-            <!-- <div class="overlay-text">
-                <i class="las la-search"></i>
-            </div> -->
-            <!-- end overlay text magnifying glass icon -->
+            <div class="overlay-text">
+                <!-- magnifying glass icon -->
+                <!-- <i class="las la-search"></i> -->
+                <p>Click to enlarge</p>
+            </div>
         </div>
 
         {#if caption}<div class="caption">{@html caption}</div>{/if}
@@ -209,6 +209,11 @@
 {/if}
 
 <style>
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
     img {
         width: 100%;
         pointer-events: none;
@@ -267,9 +272,20 @@
         left: 0;
         z-index: 11;
         color: white;
-        font-size: 24px;
         text-align: center;
         pointer-events: none;
+
+    }
+
+    .overlay-text p {
+        font-size: 18px;
+        font-family: 'IBM Plex Mono', Arial;
+        animation: fadeIn 1s;
+    }
+
+    .overlay-text i {
         font-size: 34px;
     }
+
+
 </style>
