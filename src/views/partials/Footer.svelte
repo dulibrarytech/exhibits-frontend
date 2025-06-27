@@ -4,7 +4,7 @@
 
             <div class="col-lg-5 col-md-4 col-sm-12 logo-container">
                 <div class="logo">
-                    <img src="/assets/images/du-logo3.png" alt="University of Denver University Libraries logo" />
+                    <a href="https://library.du.edu" title="Link to university libraries website" target="_blank"><img src="/assets/images/du-logo3.png" alt="University of Denver University Libraries logo" /></a>
                 </div>
             </div>
 
@@ -20,7 +20,7 @@
 
             <div class="col-lg-3 col-md-4 col-sm-12">
                 <div class="links">
-                    <a href="https://library.du.edu/collections-library-materials/exhibits" title="Link to About Us">About Us</a>
+                    <a href="https://library.du.edu/collections-library-materials/exhibits" title="Link to About Us" target="_blank">About Us</a>
                     <a href="mailto:Madison.Sussmann@du.edu" title="Link to Contact Us">Contact</a>
                 </div>
             </div>
