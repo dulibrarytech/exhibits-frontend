@@ -10,7 +10,7 @@
     import { convertPxValuesToEm } from '../../libs/data_helpers';
     import { Settings } from '../../config/settings';
 
-    export let styles = null;
+    export let styles = {};
     export let args = {};
 
     const dispatch = createEventDispatcher();
@@ -26,6 +26,7 @@
 
     const init = () => {
         title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
+        
         if(subtitle) subtitle = convertPxValuesToEm(subtitle, BASE_SUBTITLE_FONT_SIZE);
         if(!image) console.log("Hero image null path");
     }
@@ -36,7 +37,6 @@
         if(styles.color) bannerElement.style.color = styles.color;
         if(styles.backgroundColor) bannerElement.style.backgroundColor = styles.backgroundColor;
 
-        /* TEMP: fixed height hero image update - use background image and sizing, fixed height */
         if(image) imageElement.style.backgroundImage = `url("${image}")`;
     });
 
