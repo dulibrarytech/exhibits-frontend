@@ -9,7 +9,8 @@
   let {
     DEFAULT_FONT_COLOR,
     DEFAULT_FONT_SIZE,
-    DEFAULT_FONT_FAMILY
+    DEFAULT_FONT_FAMILY,
+    DEFAULT_BACKGROUND_COLOR
 
   } = Settings.siteDefaultTheme;
 
@@ -22,6 +23,7 @@
     color: var(--theme-site-font-color);
     font-size: var(--theme-site-font-size);
     font-family: var(--theme-site-font-family);
+    background-color: var(--theme-site-background-color);
   }
 </style>
 
@@ -29,6 +31,7 @@
 
   <div class="site-wrapper"
       style="--theme-site-font-color: {DEFAULT_FONT_COLOR}; 
+      --theme-site-background-color: {DEFAULT_BACKGROUND_COLOR}; 
       --theme-site-font-size: {DEFAULT_FONT_SIZE};
       --theme-site-font-family: {DEFAULT_FONT_FAMILY}">
 

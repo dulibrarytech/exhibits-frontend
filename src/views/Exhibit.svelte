@@ -23,7 +23,12 @@
 
     export let currentRoute;
 
-    let { DEFAULT_FONT_FAMILY, DEFAULT_FONT_COLOR, DEFAULT_FONT_SIZE } = Settings.exhibitDefaultTheme;
+    let {   DEFAULT_FONT_FAMILY, 
+            DEFAULT_FONT_COLOR, 
+            DEFAULT_FONT_SIZE,
+            DEFAULT_BACKGROUND_COLOR 
+
+        } = Settings.exhibitDefaultTheme;
 
     const EXHIBIT_LOAD_MESSAGE = "Loading exhibit...";
     const EXHIBIT_LOAD_ERROR = "Error loading exhibit";
@@ -244,6 +249,7 @@
         <div class="exhibit" 
             style="visibility: {isExhibitVisible ? 'visible' : 'hidden'}; 
                     --theme-exhibit-font-color: {DEFAULT_FONT_COLOR}; 
+                    --theme-exhibit-background-color: {DEFAULT_BACKGROUND_COLOR}; 
                     --theme-exhibit-font-family: {DEFAULT_FONT_FAMILY};
                     --theme-exhibit-font-size: {DEFAULT_FONT_SIZE}">
 

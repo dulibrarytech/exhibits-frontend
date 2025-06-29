@@ -137,6 +137,7 @@
         color: var(--theme-exhibit-font-color);
         font-family: var(--theme-exhibit-font-family);
         font-size: var(--theme-exhibit-font-size);
+        background-color: var(--theme-exhibit-background-color)
     }
 
     .alert-section {

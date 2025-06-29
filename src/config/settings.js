@@ -10,13 +10,15 @@ export const Settings = {
     siteDefaultTheme: {
         DEFAULT_FONT_FAMILY: "IBM Plex Sans",
         DEFAULT_FONT_COLOR: "#181818",
-        DEFAULT_FONT_SIZE: "18px"
+        DEFAULT_FONT_SIZE: "18px",
+        DEFAULT_BACKGROUND_COLOR: "#FFFFFF",
     },
 
     exhibitDefaultTheme: {
         DEFAULT_FONT_FAMILY: "Arial",
         DEFAULT_FONT_COLOR: "#181818",
-        DEFAULT_FONT_SIZE: "20px"
+        DEFAULT_FONT_SIZE: "20px",
+        DEFAULT_BACKGROUND_COLOR: "#FFFFFF",
     },
 
     /*
