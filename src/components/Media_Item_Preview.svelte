@@ -164,7 +164,6 @@
     }
 
     const onClickItem = (event) => {
-        console.log("TEST click item")
         let itemId = event.target.getAttribute('data-item-id');
         if(itemId) dispatch('click-item', {itemId});
         if(link) window.location.replace(link);
