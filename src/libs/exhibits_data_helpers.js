@@ -80,7 +80,6 @@ export const getInnerText = (htmlString = "") => {
  * @returns exhibit with decoded and sanitized fields
  */
 export const sanitizeExhibitHtmlFields = (exhibit) => {
-
     for(let field of Settings.htmlFieldsExhibit) {
         if(exhibit[field]) {
             exhibit[field] = sanitizeHtml(exhibit[field]); // sanitizes all

@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { URLQueryParams } from "object-in-queryparams";
 import * as Logger from './logger.js';
-import { sanitizeExhibitHtmlFields, sanitizeExhibitItemHtmlFields } from '../libs/exhibits_data_helpers';
+import { sanitizeExhibitHtmlFields, sanitizeExhibitItemHtmlFields, getInnerText } from '../libs/exhibits_data_helpers';
 import { ENTITY_TYPE } from '../config/global-constants';
 import { Configuration } from '../config/config.js';
 
@@ -32,23 +32,18 @@ export const Index = (() => {
      */
     const getExhibits = async (isAdmin = false) => {
         let exhibits = [];
-
-        // TODO api key update
-        // no updates required. at this point client only needs published exhibits for home pages
         
         try {
             let {data} = await axios.get(EXHIBIT_ENDPOINT);
             exhibits = data;
-        }
-        catch(e) {
-            Logger.module().error(`Error fetching exhibits. Server: '${EXHIBIT_ENDPOINT}': ${e}`);
-            exhibits = null;
-        }
 
-        if(exhibits) {
-            for(let index in exhibits) {
-                sanitizeExhibitHtmlFields(exhibits[index]);
-            }
+            exhibits?.forEach((exhibit) => {
+                sanitizeExhibitHtmlFields(exhibit);
+            })
+        }
+        catch(error) {
+            Logger.module().error(`Error fetching exhibits. Server: '${EXHIBIT_ENDPOINT}': ${error}`);
+            exhibits = null;
         }
         
         return exhibits;
@@ -87,8 +82,8 @@ export const Index = (() => {
 
             exhibit = {data, items};
         }
-        catch(e) {
-            Logger.module().error(`Error fetching exhibit data. Server: '${EXHIBIT_ENDPOINT}': ${e}`);
+        catch(error) {
+            Logger.module().error(`Error fetching exhibit data. Server: '${EXHIBIT_ENDPOINT}': ${error}`);
         }
 
         return exhibit;

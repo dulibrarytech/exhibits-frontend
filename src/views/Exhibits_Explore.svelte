@@ -89,20 +89,24 @@
         message = "Retrieving exhibits...";
         _exhibits = await Index.getExhibits(); 
 
-        if(_exhibits?.length > 0) {
+        if(_exhibits) {
+            render();
+        }
+        else message = "Error retrieving exhibits";
+    }
+
+    const render = async () => {
+
+        if(_exhibits.length > 0) {
+            renderTabs = true;
+
+            sortExhibits();
             initKeywordSearch();
             applyFilters();
         }
         else {
             message = "No exhibits found."
         }
-
-        render();
-    }
-
-    const render = async () => {
-        if(_exhibits) renderTabs = true;
-        else message = "Error retrieving exhibits";
     }
 
     const addFilter = (data) => {
@@ -199,6 +203,20 @@
         })
     }
 
+    /* sort alphabetically by title */
+    const sortExhibits = () => {
+        _exhibits = _exhibits.map((exhibit) => {
+            return {
+                ...exhibit,
+                title_string: getInnerText(exhibit.title).replace(/[^a-zA-Z0-9 ]/g, "")
+            }
+        }).sort((a, b) => {
+            if (a.title_string.toLowerCase() < b.title_string.toLowerCase()) {return -1}
+            else if (a.title_string.toLowerCase() > b.title_string.toLowerCase()) {return 1}
+            return 0;
+        })
+    }
+        
     init();
 </script>
 
@@ -272,5 +290,6 @@
 
     .message {
         font-size: 18px;
+        margin-top: 30px;
     }
 </style>
