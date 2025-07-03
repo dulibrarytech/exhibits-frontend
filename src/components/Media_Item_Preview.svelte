@@ -45,7 +45,8 @@
 
     let { 
         isInteractive = true,
-        link = null
+        link = null,
+        overlay = true
 
      } = args;
 
@@ -189,12 +190,14 @@
                 <img crossorigin="anonymous" src={preview} alt={altText} on:error={onImageLoadError} bind:this={previewImageElement}>
             </button>
 
-            <div class="overlay"></div>
-            <div class="overlay-text">
-                <!-- magnifying glass icon -->
-                <!-- <i class="las la-search"></i> -->
-                <p>Click to enlarge</p>
-            </div>
+            {#if overlay}
+                <div class="overlay"></div>
+                <div class="overlay-text">
+                    <!-- magnifying glass icon -->
+                    <!-- <i class="las la-search"></i> -->
+                    <p>Click to enlarge</p>
+                </div>
+            {/if}
         </div>
 
         {#if caption}<div class="caption">{@html caption}</div>{/if}

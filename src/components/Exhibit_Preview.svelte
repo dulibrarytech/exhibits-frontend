@@ -17,7 +17,8 @@
     const DEFAULT_PREVIEW_IMAGE_ALT_TEXT = Settings.exhibitPreviewImageAltText;
 
     let {
-        showTitle = false
+        showTitle = false,
+        overlay = true
     } = args;
 
     let titleTextElement;
@@ -78,10 +79,12 @@
         <div class="exhibit-thumbnail">
             <img src={thumbnail || ""} alt={altText} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
 
-            <div class="overlay"></div>
-            <div class="overlay-text">
-                {DEFAULT_EXHIBIT_OVERLAY_TEXT}
-            </div>
+            {#if overlay}
+                <div class="overlay"></div>
+                <div class="overlay-text">
+                    {DEFAULT_EXHIBIT_OVERLAY_TEXT}
+                </div>
+            {/if}
 
         </div>
 

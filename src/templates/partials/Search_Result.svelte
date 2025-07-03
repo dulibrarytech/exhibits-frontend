@@ -51,10 +51,9 @@
 
         {:else}
             {#if isRepoItem}
-                <Repository_Item id={null} item={result} args={{showPreview:true, link: (result.link || false)}} template={Item_Preview} on:click-item on:mount-template-item />
+                <Repository_Item id={null} item={result} args={{showPreview:true, link: (result.link || false), overlay: false}} template={Item_Preview} on:click-item on:mount-template-item />
             {:else}
-                <!-- <Item_Preview item={result} width="200" args={{link: (result.link || false)}} /> -->
-                <Item_Preview item={result} width="200" args={{link: (result.link || false), isInteractive: false}} />
+                <Item_Preview item={result} width="200" args={{link: (result.link || false), isInteractive: false, overlay: false}} />
             {/if}
         {/if}
     </div>
