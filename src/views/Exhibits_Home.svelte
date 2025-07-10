@@ -26,6 +26,7 @@
     var message = "";
 
     const HERO_DISPLAY = false;
+    const SHOW_STUDENT_CURATED_EXHIBITS = false;
     const EXHIBITS_DISPLAY = "grid";
     const EXHIBIT_FIELDS = Settings.exhibitDataFields;
 
@@ -102,7 +103,7 @@
             {#if _exhibits && _exhibits.length > 0}
 
                 <div class="exhibit-previews">
-                    {#if _featuredExhibits && _featuredExhibits.length > 0}
+                    {#if _featuredExhibits?.length > 0}
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
@@ -116,7 +117,7 @@
                             {/if}
                         </div>
                     {/if}
-                    {#if _studentCuratedExhibits && _studentCuratedExhibits.length > 0}
+                    {#if SHOW_STUDENT_CURATED_EXHIBITS && _studentCuratedExhibits?.length > 0}
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
