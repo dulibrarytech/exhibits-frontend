@@ -65,7 +65,7 @@
                     <Exhibit_Preview_Grid {exhibits} {args} />
                 {:else}
                     <div class="message">
-                        <p>{label} coming soon</p>
+                        <p>No exhibits found.</p>
                     </div>
                 {/if}
 
