@@ -16,6 +16,7 @@ export default class ResourceUrl {
 
       this.resourceLocation = Configuration.resourceLocation;
       this.iiifImageServerUrl = Configuration.iiifImageServerUrl;
+      this.publicImageLocation = Settings.imageAssetsPath;
       this.itemPlaceholderImages = Settings.placeholderImage;
       this.exhibitPlaceholderImage = Settings.exhibitDefaultImage;
     }
@@ -27,13 +28,13 @@ export default class ResourceUrl {
 
     getItemPlaceholderImageUrl(itemType = null) {
       let url;
-      if(!itemType) url = `${this.resourceLocation}/${this.itemPlaceholderImages['DEFAULT']}`;
-      else url = `${this.resourceLocation}/${this.itemPlaceholderImages[itemType]}`;
+      if(!itemType) url = `${this.publicImageLocation}/${this.itemPlaceholderImages['DEFAULT']}`;
+      else url = `${this.publicImageLocation}/${this.itemPlaceholderImages[itemType]}`;
       return url;
     }
 
     getExhibitPlaceholderImageUrl() {
-      return `${this.resourceLocation}/${this.exhibitPlaceholderImage}`;
+      return `${this.publicImageLocation}/${this.exhibitPlaceholderImage}`;
     }
 
     getIIIFInfoUrl(filename="null") {

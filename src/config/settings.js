@@ -21,6 +21,8 @@ export const Settings = {
         DEFAULT_BACKGROUND_COLOR: "#FFFFFF",
     },
 
+    imageAssetsPath: "/assets/images",
+
     /*
      * Mime types for item type
      */
