@@ -31,16 +31,12 @@
 </script>
 
 <div class="audio-player">
-    <!-- {#if isEmbedded && thumbnailImage}
-        <img class="thumbnail" src={thumbnailImage} />
-    {/if} -->
-
     {#if kalturaId}
         <Kaltura_Content entryId={kalturaId} {title} {altText} args={{isEmbedded, type: "audio"}} />
 
     {:else}
         {#if isEmbedded && thumbnailImage}
-            <img class="thumbnail" src={thumbnailImage} alt={altText} title={`${title} thumbnail image`}/>
+            <img class="thumbnail" src={thumbnailImage} alt={altText || undefined} title={`${title} thumbnail image`}/>
         {/if}
 
         <div class="audio">
@@ -56,7 +52,7 @@
                         <audio src={url} controls></audio>
                     {/if} -->
 
-                    <audio src={url} type={mimeType || undefined} controls aria-label={altText} {title}></audio>
+                    <audio src={url} type={mimeType || undefined} controls aria-label={altText || undefined} {title}></audio>
                 </div>
 
             {:else}

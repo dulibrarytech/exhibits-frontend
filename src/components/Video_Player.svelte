@@ -40,9 +40,9 @@
             {:else if url}
                 <div class="content">   
                     {#if mimeType}
-                        <video src={url} type={mimeType} controls poster={thumbnailImage || undefined} aria-label={altText} {title}></video>
+                        <video src={url} type={mimeType} controls poster={thumbnailImage || undefined} aria-label={altText || undefined} {title}></video>
                     {:else}
-                        <video src={url} controls poster={thumbnailImage || undefined} aria-label={altText} {title}></video>
+                        <video src={url} controls poster={thumbnailImage || undefined} aria-label={altText || undefined} {title}></video>
                     {/if}
                 </div>
             {:else}

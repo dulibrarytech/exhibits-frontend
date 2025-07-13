@@ -91,19 +91,38 @@
                 {/if}
 
                 <div class="embedded-audio" style="" bind:this={htmlPlayerElement}>
-                    <audio src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} aria-label={altText}></audio>
+                    <audio src={kalturaUrl} 
+                        type={mimeType} 
+                        controls 
+                        id={kalturaUniqueObjectID} 
+                        aria-label={altText || undefined}
+                        bind:this={htmlPlayer}>
+                    </audio>
                 </div>
             {:else if type == "video"}
                 <div class="preview" bind:this={previewElement}>
                     <button type="button" on:click={onClickKalturaPreview}>
-                        <img class="preview-image" src={previewImageUrl} alt={`${altText} click to play video`} {title} on:keypress={onClickKalturaPreview} on:error={onPreviewImageLoadError} bind:this={previewImageElement}/> 
+                        <img class="preview-image" 
+                            src={previewImageUrl} 
+                            alt={`${altText || undefined}`} 
+                            aria-label="click to play video"
+                            title={title} 
+                            on:keypress={onClickKalturaPreview} 
+                            on:error={onPreviewImageLoadError} 
+                            bind:this={previewImageElement}/> 
                     </button>
                     
                     <img class="video-preview-overlay" src="../assets/images/play-button-icon-png-18919.png" />
                 </div>
 
                 <div class="embedded-video" style="display: none" bind:this={htmlPlayerElement}>
-                    <video src={kalturaUrl} type={mimeType} controls id={kalturaUniqueObjectID} bind:this={htmlPlayer} aria-label={altText}></video>
+                    <video src={kalturaUrl} 
+                        type={mimeType} 
+                        controls 
+                        id={kalturaUniqueObjectID} 
+                        aria-label={altText || undefined}
+                        bind:this={htmlPlayer}>
+                    </video>
                 </div>
             {:else}
                 <h6>Invalid media type</h6>
@@ -113,7 +132,7 @@
             <div class="player-load-message" bind:this={iframeLoadMessage}>
                 <h5>Loading Kaltura player...</h5>
             </div>
-            <div class="iframe-wrapper" bind:this={iframeSection} aria-label={altText}>
+            <div class="iframe-wrapper" bind:this={iframeSection} aria-label={altText || undefined}>
                 <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} {title} src={kalturaUrl} {width} {height} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
                 <div class="subframe-content"></div>
             </div>

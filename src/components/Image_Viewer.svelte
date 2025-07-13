@@ -11,6 +11,7 @@
 
     let {
         url = null,
+        title = null,
         altText = null,
         isTileImage = false,
         onErrorImage = null
@@ -49,7 +50,7 @@
 
             {#if viewer == HTML_VIEWER}
                 <div class="content">
-                    <img src={sourceUrl} alt={altText ? altText : undefined} title={altText ? altText : undefined} on:error={onImageLoadError}/>
+                    <img src={sourceUrl} alt={altText ? altText : undefined} title={title || undefined} on:error={onImageLoadError}/>
                 </div>
 
             {:else if viewer == TILE_VIEWER}

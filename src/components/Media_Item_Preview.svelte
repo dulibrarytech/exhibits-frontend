@@ -60,13 +60,10 @@
         thumbnail = item.thumbnail || null;
         caption = item.caption || null;
         title = item.title ? getInnerText(item.title) : null;
-        altText = item.alt_text || null;
+        altText = item.is_alt_text_decorative ? null : (item.alt_text || null);
 
         preview = null;
         isPlaceholderImage = false;
-
-        if(!title) title = DEFAULT_ITEM_TITLE;
-        if(!altText) altText = title;
 
         // has thumbnail, is local resource (not a url)
         if(thumbnail && isHttpUrl(thumbnail) == false) {
@@ -171,12 +168,12 @@
     }
 
     const onImageLoadError = (event) => {
-        Logger.module().error(`Image load error: ${event}`);
+        Logger.module().error(`Preview image load error. Url: ${preview}`);
         let placeholderImageUrl = `${resourceLocation}/${placeholderImage[itemType || 'DEFAULT']}`;
 
         if(event.target.src.includes(placeholderImageUrl) == false) {
             previewImageElement.src = placeholderImageUrl;
-            previewImageElement.alt = altText;
+            if(altText) previewImageElement.alt = altText;
             isPlaceholderImage = true;
         }
     }
@@ -187,7 +184,7 @@
 
         <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}">
             <button data-item-id={itemId} on:click={onClickItem} tabindex={isInteractive ? undefined : '-1'} aria-label={`click to open item viewer`}>
-                <img crossorigin="anonymous" src={preview} alt={altText} on:error={onImageLoadError} bind:this={previewImageElement}>
+                <img crossorigin="anonymous" src={preview} alt={altText || undefined} on:error={onImageLoadError} bind:this={previewImageElement}>
             </button>
 
             {#if overlay}
