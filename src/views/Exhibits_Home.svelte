@@ -43,16 +43,6 @@
         _highlightExhibit = null;
         _featuredExhibits = null;
         _studentCuratedExhibits = null;
-
-        message = "Retrieving exhibits...";
-        _exhibits = await Index.getExhibits(); 
-
-        if(_exhibits) {
-            render();
-        }
-        else {
-            message = "Error retrieving exhibits";
-        }
     }
 
     const render = async () => {
@@ -79,6 +69,12 @@
 
     onMount(async () => {
         if(currentRoute.path == '/') navigateTo('/exhibits-home');
+
+        message = "Retrieving exhibits...";
+        _exhibits = await Index.getExhibits(); 
+
+        if(_exhibits) render();
+        else message = "Error retrieving exhibits";
     })
 </script>
 

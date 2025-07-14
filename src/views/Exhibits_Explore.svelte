@@ -5,6 +5,7 @@
 <script>
     'use strict'
 
+    import { onMount } from 'svelte';
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
     import { getInnerText } from '../libs/exhibits_data_helpers.js';
@@ -85,14 +86,6 @@
                 })
             }
         }
-
-        message = "Retrieving exhibits...";
-        _exhibits = await Index.getExhibits(); 
-
-        if(_exhibits) {
-            render();
-        }
-        else message = "Error retrieving exhibits";
     }
 
     const render = async () => {
@@ -218,6 +211,14 @@
     }
         
     init();
+
+    onMount(async () => {
+        message = "Retrieving exhibits...";
+        _exhibits = await Index.getExhibits(); 
+
+        if(_exhibits) render();
+        else message = "Error retrieving exhibits";
+    });
 </script>
 
 <Site_Branding args={{isPageHeading: true}} />
