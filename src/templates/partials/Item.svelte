@@ -223,27 +223,32 @@
             
         {:else if layout == MEDIA_POSITION.TOP}
             <div class="item-content media-top {mediaPadding ? '' : 'item-padding'}">
-                <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
-                    <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
-                </div>
-                <div class="text">
-                    {#if mediaPadding}
+                {#if mediaPadding}
+                    <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
+                        <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
+                    </div>
+                    <div class="text">
                         <div bind:this={textElement}>
                             <Text_Display {item} />
                         </div>
-
-                    {:else}
+                    </div>
+                    
+                {:else}
+                    {#if title}
+                        <div class="title-heading container" bind:this={titleElement}><h3>{@html title}</h3></div>
+                    {/if}
+                    <div class="media media-fullwidth width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
+                        <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
+                    </div>
+                    <div class="text">
                         <div class="container">
-                            {#if title}
-                                <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
-                            {/if}
                             <div bind:this={textElement}>
                                 <Text_Display {item} />
                             </div>
                         </div>
+                    </div>
 
-                    {/if}
-                </div>
+                {/if}
             </div>
 
         {:else if layout == MEDIA_POSITION.BOTTOM}
@@ -334,6 +339,26 @@
         padding: 0 !important;
     }
 
+    .media:not(.media-padding) + .text .title-padding {
+        padding: 0 0 3.5rem 0;
+    }
+
+    .media:not(.media-padding) + .text .container {
+        padding: 0;
+    }
+
+    .media-right .media:not(.media-padding) {
+        margin: 0 0 50px 50px;
+    }
+
+    .media-left .media:not(.media-padding) {
+        margin: 0 50px 50px 0;
+    }
+
+    .media-bottom .media:not(.media-padding) {
+        margin: 50px 0 0 0;
+    }
+
     .title-heading {
         margin-bottom: 3.65ex;
         text-transform: uppercase;
@@ -342,6 +367,7 @@
 
     .title-heading > h3 {
         font-size: inherit;
+        margin: 0;
     }
 
     .title-padding {
@@ -463,14 +489,6 @@
 
     :global(.item .item-content:not(.media-right) .media:not(.media-padding) .caption) {
         margin-left: 3.5rem;
-    }
-
-    @media screen and (min-width: 480px) {
-
-    }
-
-    @media screen and (min-width: 480px) {
-
     }
 
     @media screen and (min-width: 768px) {
