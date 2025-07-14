@@ -326,8 +326,15 @@
         padding-bottom: 3.65em;
     }
 
+    .container-no-margin {
+        width: 100%;
+    }
+
+    .container-no-margin .media {
+        padding: 0 !important;
+    }
+
     .title-heading {
-        /* margin: 0 0 1.15em 0; */
         margin-bottom: 3.65ex;
         text-transform: uppercase;
         letter-spacing: 0.05em;
@@ -342,7 +349,7 @@
         margin: 0;
     }
 
-    .text-padding {  /* REM? */
+    .text-padding {
         padding: 3.5rem;
     }
 
@@ -408,6 +415,7 @@
     .width-66 {width: 100%}
     .width-67 {width: 100%}
     .width-75 {width: 100%}
+    .width-100 {width: 100%}
 
     :global(.caption) {
         font-size: 0.842105em;
@@ -529,6 +537,7 @@
         .width-66 {width: 66%}
         .width-67 {width: 67%}
         .width-75 {width: 75%}
+        .width-100 {width: 100%}
 
         .media-left:not(.wrap-text) > .media,
         .media-left:not(.wrap-text) > .text,
