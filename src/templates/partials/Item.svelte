@@ -359,6 +359,18 @@
         margin: 50px 0 0 0;
     }
 
+    .media-left:not(.wrap-text) .media-padding {
+        padding-right: 0;
+    }
+
+    .media-right:not(.wrap-text) .media-padding {
+        padding-left: 0;
+    }
+
+    .item-content .media:not(.media-padding) + .text {
+        padding: 3.65em 0;
+    }
+
     .title-heading {
         margin-bottom: 3.65ex;
         text-transform: uppercase;
@@ -377,18 +389,6 @@
 
     .text-padding {
         padding: 3.5rem;
-    }
-
-    .media-left:not(.wrap-text) .media-padding {
-        padding-right: 0;
-    }
-
-    .media-right:not(.wrap-text) .media-padding {
-        padding-left: 0;
-    }
-
-    .item-content .media:not(.media-padding) + .text {
-        padding: 3.65em 0;
     }
 
     .anchor-offset {
@@ -514,19 +514,26 @@
             float: right;
         }
 
-        /* pad around the media element if text wraps AND media padding is enabled */
         .media-left.wrap-text > .media {
             padding: 0 50px 20px 0;
         }
         .media-right.wrap-text > .media {
             padding: 0 0 20px 50px;
         }
-        /* pad to the left or right of the media element, not top or bottom, if text wraps AND media padding is not enabled */
+
         .media-left.wrap-text > .media:not(.media-padding) {
             padding: 0 50px 0 0;
         }
         .media-right.wrap-text > .media:not(.media-padding) {
             padding: 0 0 0 50px;
+        }
+
+        .media-left:not(.wrap-text) .media-padding {
+            padding-right: 2.5em;
+        }
+
+        .media-right:not(.wrap-text) .media-padding {
+            padding-left: 2.5em;
         }
 
         :global(.placeholder-image) {
@@ -536,14 +543,6 @@
         :global(.media-top .placeholder-image),
         :global(.media-bottom .placeholder-image) {
             max-width: 40%;
-        }
-
-        .media-left:not(.wrap-text) .media-padding {
-            padding-right: 2.5em;
-        }
-
-        .media-right:not(.wrap-text) .media-padding {
-            padding-left: 2.5em;
         }
     }
 

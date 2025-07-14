@@ -27,17 +27,16 @@
   }
 </style>
 
-<main class="container-1700">
+ <div class="site-wrapper"
+    style="--theme-site-font-color: {DEFAULT_FONT_COLOR}; 
+    --theme-site-background-color: {DEFAULT_BACKGROUND_COLOR}; 
+    --theme-site-font-size: {DEFAULT_FONT_SIZE};
+    --theme-site-font-family: {DEFAULT_FONT_FAMILY}">
 
-  <div class="site-wrapper"
-      style="--theme-site-font-color: {DEFAULT_FONT_COLOR}; 
-      --theme-site-background-color: {DEFAULT_BACKGROUND_COLOR}; 
-      --theme-site-font-size: {DEFAULT_FONT_SIZE};
-      --theme-site-font-family: {DEFAULT_FONT_FAMILY}">
-
-    <Header />
+  <Header />
+  <main>
     <Router {routes} />
-    <Footer />
-  </div>
-
-</main>
+  </main>
+  <Footer />
+  
+ </div>
