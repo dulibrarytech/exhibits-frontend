@@ -17,6 +17,9 @@
 
     export let data = {};
 
+    // adjust to account for item template padding for proper scroll location
+    const SCROLLTO_PADDING_OFFSET = 34;
+
     let pageElement;
     let scrollToPageTopElement;
 
@@ -47,20 +50,19 @@
 
     const onClickNavigationLink = (event) => {
 		let anchorId = event.detail.anchorId;
-        let topOffset = event.detail.offset;
-        navigateToItemId(anchorId, topOffset);
+        navigateToItemId(anchorId);
     }
 
-    export const navigateToItemId = (anchorId, topOffset = 0) => {
+    export const navigateToItemId = (anchorId) => {
         let anchor = document.getElementById(anchorId);
         anchor.setAttribute('tabindex', 0)
         anchor.focus();
 
-        let anchorOffset = anchor.offsetTop;
-        let total = anchorOffset + topOffset;
+        let navbarHeight = document.querySelector(".navigation-page-section").offsetHeight;
+        let scrollOffset = anchor.offsetTop + navbarHeight + SCROLLTO_PADDING_OFFSET;
 
 		window.scrollTo({
-			top: total,
+			top: scrollOffset,
 			behavior: 'smooth'
 		});
     }

@@ -19,26 +19,11 @@
         sectionHeadings = sections;
     }
 
-    const truncateHeadingText = (sections) => {
-        let headings = [];
-        for(let {id, text} of sections) {
-            if(text.length > 30) {
-                text = text.substring(0, 30).concat('...');
-            }
-            headings.push({
-                text,
-                id
-            })
-        }
-        return headings;
-    }
-
     const onClickNavigationLink = (event) => {
         let link = event.currentTarget;
         let anchorId = link.getAttribute('data-anchor') || null;
-        let navOffset = 0 - (document.querySelector(".navigation-page-section").offsetHeight * 0.35);
 
-        if(anchorId) dispatch('click-nav-link', {anchorId, offset: navOffset});
+        if(anchorId) dispatch('click-nav-link', {anchorId});
         else Logger.module().info("Invalid or missing 'data-anchor' property:", event.currentTarget);
 	}
 
