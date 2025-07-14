@@ -232,7 +232,7 @@
                             <Text_Display {item} />
                         </div>
                     </div>
-                    
+
                 {:else}
                     {#if title}
                         <div class="title-heading container" bind:this={titleElement}><h3>{@html title}</h3></div>
@@ -347,11 +347,11 @@
         padding: 0;
     }
 
-    .media-right .media:not(.media-padding) {
+    .media-right.wrap-text .media:not(.media-padding) {
         margin: 0 0 50px 50px;
     }
 
-    .media-left .media:not(.media-padding) {
+    .media-left.wrap-text .media:not(.media-padding) {
         margin: 0 50px 50px 0;
     }
 
