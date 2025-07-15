@@ -356,7 +356,11 @@
     }
 
     .media-bottom .media:not(.media-padding) {
-        margin: 50px 0 0 0;
+        margin: 50px auto 0 auto;
+    }
+
+    .media-top .media:not(.media-padding) {
+        margin: 0 auto;
     }
 
     .media-left:not(.wrap-text) .media-padding {
@@ -448,8 +452,8 @@
         font-style: italic;
     }
 
-    :global(.item .media:not(.media-padding) .caption) {
-        margin-bottom: 3.15em;
+    :global(.item .media:not(.media-padding).width-100 .caption) {
+        margin-left: 3.5rem;
     }
 
     :global(.item p:not(:last-child)) {
@@ -485,10 +489,6 @@
     :global(.media-top .placeholder-image),
     :global(.media-bottom .placeholder-image) {
         max-width: 100%;
-    }
-
-    :global(.item .item-content:not(.media-right) .media:not(.media-padding) .caption) {
-        margin-left: 3.5rem;
     }
 
     @media screen and (min-width: 768px) {

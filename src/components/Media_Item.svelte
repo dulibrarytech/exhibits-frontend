@@ -261,10 +261,6 @@
 {/if}
 
 <style>
-    .media-item {
-        margin: 0 auto;
-    }
-
     .message {
         text-align: center;
         position: absolute;
