@@ -1,35 +1,34 @@
 <script>
-   import { onMount } from 'svelte';
    import { Repository } from '../libs/repository';
    import { getRandomNumberArray } from '../libs/data_helpers';
    import {ENTITY_TYPE, ITEM_GRIDS} from '../config/global-constants';
    import * as Logger from '../libs/logger.js';
 
+   const REPOSITORY_ITEM_DISPLAY_COUNT = 4;
+   const RELATED_ITEM_DISPLAY_COUNT = 4;
+
    export let items = [];
 
    let repositoryItemIds = [];
+   let subjects = [];
    let relatedItemsDisplay = null;
-
-   const REPOSITORY_ITEM_DISPLAY_COUNT = 4;
-   const RELATED_ITEM_DISPLAY_COUNT = 4;
-   // const METADATA_FIELD = "display_record";
-   // const SUBJECT_FIELD = "subjects";
-   // const SUBJECT_SUBFIELD = "title"
 
    const init = async () => {
       
       let repositoryItems = getRepositoryItems(items);
+
+      // this exhibit contains repository items. proceed with the search for related items
       if(repositoryItems.length > 0) {
 
+         // case: more items found than can be used in the display. get a set of randomly selected items for the display
          if(REPOSITORY_ITEM_DISPLAY_COUNT < repositoryItems.length) {
-            // get a set of randomly selected repository items for the display
             let randomNumbers = getRandomNumberArray(REPOSITORY_ITEM_DISPLAY_COUNT, repositoryItems.length-1);
             for(let index of randomNumbers) {
                repositoryItemIds.push(repositoryItems[index].media);
             }
          }
+         // case: less items found than can be used in the display. add all of the items to the display
          else {
-            // add all of the repository items to the display
             for(let item of repositoryItems) {
                repositoryItemIds.push(item.media);
             }
@@ -58,9 +57,9 @@
       return repositoryItems;
    }
 
-   const render = () => {}
-
+   // main algorithm
    const getRelatedItems = async (repositoryItemIds = []) => {
+
       let items = [];
       let itemData = {};
       let itemDisplayData = null;
@@ -73,64 +72,83 @@
          }
          catch(error) {
             Logger.module().error(`Error fetching repository data for repository item id: ${id}`);
-            itemData = null;
+            //itemData = null;
+            continue;
          }
 
          if(itemData) {
 
-            // set the data fields for the related items display
-            itemDisplayData.title = itemData.title || "Untitled Item";
-            itemDisplayData.link = itemData.link_to_item || null;
-            itemDisplayData.thumbnail = itemData.thumbnail_datastream || null;
-            itemDisplayData.subject = itemData.subject || "Not available";
-
             // search the repository for subject related items
             let relatedItems = [];
             let results = [];
-            if(itemData.subject) {
+            let {subject = null} = itemData;
+
+            if(subject && subjects.includes(subject) == false) {
+               subjects.push(subject);
+
                results = await Repository.searchRepository({
                   facets: {
-                     "Subject": itemData.subject
+                     "Subject": subject
                   }
                });
+
+               // if no results continue
+               if(results.length == 0) {
+                  Logger.module().info(`Repository related items: no subject matches found in repository for subject ${subject}`);
+                  continue;
+               }
+               else {
+                  itemDisplayData.title = itemData.title || "Untitled Item";
+                  itemDisplayData.link = itemData.link_to_item || null;
+                  itemDisplayData.thumbnail = itemData.thumbnail_datastream || null;
+                  itemDisplayData.subject = subject;
+               }
             }
-            else console.log(`Subject field not present in repository item ${id}. Skipping search for related items`);
+            else {
+               Logger.module().info(`Repository related items: Subject: ${subject || "null"} Item: ${id}. Subject not found for item, or it already has been added to the display. Skipping item.`);
+               continue;
+            }
 
             // build the dispaly data object for the related items cards
             if(RELATED_ITEM_DISPLAY_COUNT < results.length) {
                let randomNumbers = getRandomNumberArray(RELATED_ITEM_DISPLAY_COUNT, results.length-1);
                
                for(let index of randomNumbers) {
-                  relatedItems.push({
-                     title: results[index].title || "Untitled",
-                     link: results[index].link_to_item || "null",
-                     thumbnail: results[index].thumbnail_datastream || "null"
-                  });
+                  if(results[index].pid != itemData.id) {
+
+                     relatedItems.push({
+                        title: results[index].title || "Untitled",
+                        link: results[index].link_to_item || "null",
+                        thumbnail: results[index].thumbnail_datastream || "null"
+                     });
+                  }     
                }
             }
             else {
                for(let result of results) {
-                  relatedItems.push({
-                     title: result.title || "Untitled",
-                     link: result.link_to_item,
-                     thumbnail: result.thumbnail_datastream || "null"
-                  });
+                  if(result.pid != itemData.id) {
+
+                     relatedItems.push({
+                        title: result.title || "Untitled",
+                        link: result.link_to_item,
+                        thumbnail: result.thumbnail_datastream || "null"
+                     });
+                  }
                }
             }
             itemDisplayData.relatedItems = relatedItems;
          }
          
-         items.push(itemDisplayData);
+         // add the related items display card for this item if any related items have been found
+         if(itemDisplayData.relatedItems.length > 0) {
+            items.push(itemDisplayData);
+         }
       }
 
       return items;
    }
 
    init();
-
-   onMount(async () => {
-      render();
-   });
 </script>
 
 {#if relatedItemsDisplay}
