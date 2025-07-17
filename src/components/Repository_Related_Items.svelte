@@ -1,6 +1,6 @@
 <script>
    import { Repository } from '../libs/repository';
-   import { getRandomNumberArray } from '../libs/data_helpers';
+   import { getRandomNumberArray, shuffleArrayElements } from '../libs/data_helpers';
    import {ENTITY_TYPE, ITEM_GRIDS} from '../config/global-constants';
    import * as Logger from '../libs/logger.js';
 
@@ -14,24 +14,16 @@
    let relatedItemsDisplay = null;
 
    const init = async () => {
-      
+
       let repositoryItems = getRepositoryItems(items);
 
       // this exhibit contains repository items. proceed with the search for related items
       if(repositoryItems.length > 0) {
 
-         // case: more items found than can be used in the display. get a set of randomly selected items for the display
-         if(REPOSITORY_ITEM_DISPLAY_COUNT < repositoryItems.length) {
-            let randomNumbers = getRandomNumberArray(REPOSITORY_ITEM_DISPLAY_COUNT, repositoryItems.length-1);
-            for(let index of randomNumbers) {
-               repositoryItemIds.push(repositoryItems[index].media);
-            }
-         }
-         // case: less items found than can be used in the display. add all of the items to the display
-         else {
-            for(let item of repositoryItems) {
-               repositoryItemIds.push(item.media);
-            }
+         repositoryItems = shuffleArrayElements(repositoryItems);
+
+         for(let item of repositoryItems) {
+            repositoryItemIds.push(item.media);
          }
 
          // get the display data from the repository items 
@@ -72,7 +64,6 @@
          }
          catch(error) {
             Logger.module().error(`Error fetching repository data for repository item id: ${id}`);
-            //itemData = null;
             continue;
          }
 
@@ -138,8 +129,9 @@
             }
             itemDisplayData.relatedItems = relatedItems;
          }
-         
-         // add the related items display card for this item if any related items have been found
+
+         if (items.length >= RELATED_ITEM_DISPLAY_COUNT) break;
+
          if(itemDisplayData.relatedItems.length > 0) {
             items.push(itemDisplayData);
          }
