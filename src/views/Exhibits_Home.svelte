@@ -104,6 +104,8 @@
                         <div class="homepage-section">
                             <div class="heading">
                                 <h1>Featured Exhibits</h1>
+
+                                <a href="/exhibits-explore">View More</a>
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}
@@ -118,6 +120,8 @@
                         <div class="homepage-section">
                             <div class="heading">
                                 <h1>Student Curated Exhibits</h1>
+
+                                <a href="/exhibits-explore">View More</a>
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}
@@ -169,5 +173,34 @@
     .homepage-section {
         margin-top: 50px;
         margin-bottom: 50px;
+    }
+
+    .homepage-section .heading {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 50px;
+        row-gap: 20px;
+    }
+
+    .homepage-section .heading h1 {
+        margin-bottom: 0;
+    }
+
+    .homepage-section .heading a {
+        text-decoration: underline;
+        color: #71190E;
+        font-family: "IBM Plex Mono";
+    }
+
+    :global(.homepage-section .exhibit-preview-grid) {
+        justify-content: space-between !important;
+    }
+
+    @media screen and (min-width: 480px) {
+        .homepage-section .heading {
+            flex-direction: row;
+        }
     }
 </style>
