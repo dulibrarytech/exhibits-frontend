@@ -85,7 +85,6 @@
 
                // if no results continue
                if(results.length == 0) {
-                  Logger.module().info(`Repository related items: no subject matches found in repository for subject ${subject}`);
                   continue;
                }
                else {
@@ -96,7 +95,6 @@
                }
             }
             else {
-               Logger.module().info(`Repository related items: Subject: ${subject || "null"} Item: ${id}. Subject not found for item, or it already has been added to the display. Skipping item.`);
                continue;
             }
 
@@ -127,6 +125,7 @@
                   }
                }
             }
+
             itemDisplayData.relatedItems = relatedItems;
          }
 
@@ -143,46 +142,48 @@
    init();
 </script>
 
+<div class="repository-related-items">
 {#if relatedItemsDisplay}
-   <div class="repository-related-items">
 
-      <div class="item-container">
-         
-         {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}}
+   <div class="item-container">
+   {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}}
 
-            <div class="item shadow-wrapper">
-               <div class="item-content">
-                  <h3>Seen in the exhibit</h3>
+      <div class="item shadow-wrapper">
+         <div class="item-content">
+            <h3>Seen in the exhibit</h3>
 
-                  <div class="item-preview">
-                     <a href={link} target="_blank">
-                        <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
-                     </a>
-                  </div>
-
-                  <h4>Explore similar subjects</h4>
-                  <span style="color: grey"><h6>Subject: {subject}</h6></span>
-
-                  <div class="related-items">
-                     {#each relatedItems as {thumbnail, title, link}}
-
-                        <div class="related-item-preview">
-                           <a href={link} target="_blank">
-                              <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
-                           </a>
-                        </div>
-
-                     {/each}
-                  </div>
-               </div>
+            <div class="item-preview">
+               <a href={link} target="_blank">
+                  <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+               </a>
             </div>
 
-         {/each}
+            <h4>Explore similar subjects</h4>
+            <span style="color: grey"><h6>Subject: {subject}</h6></span>
 
-      </div> 
-   </div>
+            <div class="related-items">
+            {#each relatedItems as {thumbnail, title, link}}
+
+               <div class="related-item-preview">
+                  <a href={link} target="_blank">
+                     <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+                  </a>
+               </div>
+
+            {/each}
+            </div>
+         </div>
+      </div>
+
+   {/each}
+
+   </div> 
+
+{:else}
+   <p>Loading related items...</p>
 
 {/if}
+</div>
 
 <style>
    .repository-related-items {
