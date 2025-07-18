@@ -194,7 +194,7 @@
         font-family: "IBM Plex Mono";
     }
 
-    :global(.homepage-section .exhibit-preview-grid) {
+    :global(.exhibits-home .homepage-section .exhibit-preview-grid) {
         justify-content: space-between !important;
     }
 
