@@ -239,7 +239,6 @@
 
     .caption {
         margin-top: 1rem;
-        margin-bottom: 1rem;
         text-decoration: none;
         color: inherit;
         line-height: 1.5em;
