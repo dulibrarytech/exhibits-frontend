@@ -121,7 +121,8 @@
     </Media_Right>
 {/if} -->
 
-<div class="item {mediaPadding ? 'item-padding' : ''}" data-uuid={uuid} bind:this={itemElement}>
+<!-- <div class="item {mediaPadding ? 'item-padding' : ''}" data-uuid={uuid} bind:this={itemElement}> -->
+ <div class="item item-padding" data-uuid={uuid} bind:this={itemElement}>
     <div id={itemElementId ?? undefined} class="anchor-offset"></div>
 
     <div class="{mediaPadding ? "container" : "container-no-margin"}">
@@ -286,7 +287,7 @@
             </div>
 
         {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
-            <div class="item-content {mediaPadding ? '' : 'item-padding'}">
+            <div class="item-content">
 
                 {#if mediaPadding}
                     <div class="media media-fullwidth width-{mediaWidth} media-padding">
@@ -334,11 +335,6 @@
     }
 
     .item a { color: inherit }
-
-    :global(.item-padding) {
-        padding-top: 3.65em;
-        padding-bottom: 3.65em;
-    }
 
     .item ~ .item-content:has(.text-only) {
         padding-top: 1.825em;

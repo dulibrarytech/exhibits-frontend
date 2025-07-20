@@ -94,6 +94,11 @@
         font-size: inherit;
     }
 
+    :global(.item-padding) {
+        padding-top: 3.65rem;
+        padding-bottom: 3.65rem;
+    }
+
     :global(.caption) {
         text-decoration: none;
         color: inherit;
@@ -101,7 +106,6 @@
         font-size: 0.842105em;
     }
 
-    /* affects title heading in item and all grids */
     :global(.title-heading) {
         font-weight: bold;
         text-transform: uppercase;
