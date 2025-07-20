@@ -17,9 +17,6 @@
 
     export let data = {};
 
-    // adjust to account for item template padding for proper scroll location
-    const SCROLLTO_PADDING_OFFSET = 34;
-
     let pageElement;
     let scrollToPageTopElement;
 
@@ -59,7 +56,7 @@
         anchor.focus();
 
         let navbarHeight = document.querySelector(".navigation-page-section").offsetHeight;
-        let scrollOffset = anchor.offsetTop + navbarHeight + SCROLLTO_PADDING_OFFSET;
+        let scrollOffset = anchor.offsetTop + navbarHeight / 2;
 
 		window.scrollTo({
 			top: scrollOffset,
