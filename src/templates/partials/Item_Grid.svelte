@@ -63,7 +63,7 @@
     });
 </script>
 
-<div class="item-grid" bind:this={gridElement} >
+<div class="item-grid item-padding" bind:this={gridElement} >
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     <div class="container">
@@ -90,10 +90,10 @@
         width: 100%;
     }
 
-    .item-grid {
+    /* .item-grid {
         padding-top: 3.5rem;
         padding-bottom: 3.5rem;
-    }
+    } */
 
     .title-heading {
         text-transform: uppercase;
@@ -102,6 +102,10 @@
 
     .title-heading > h3 {
         font-size: inherit;
+    }
+
+    .text {
+        margin-bottom: 3.5rem;
     }
 
     .anchor-offset {
@@ -122,6 +126,8 @@
     :global(.item-grid .item) {
         padding-top: 0 !important;
         padding-bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
     }
 
     :global(.item-grid .item .media-top > .media) {

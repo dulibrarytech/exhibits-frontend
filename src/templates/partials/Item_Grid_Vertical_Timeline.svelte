@@ -162,14 +162,13 @@
     });
 </script>
 
-<div class="vertical-timeline-item-grid" bind:this={timelineSection}>
+<div class="vertical-timeline-item-grid item-padding" bind:this={timelineSection}>
     <div id={id ?? undefined} class="anchor-offset"></div>
     
     <div class="container">
 
         {#if title}
             <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
-            <br>
         {/if}
 
         <div class="row timeline-line">
@@ -323,10 +322,13 @@
     DU 2-column update
     =====
     */
+    .text {
+        margin-bottom: 3.5rem;
+    }
 
     .title-heading {
         text-transform: uppercase;
-        margin-bottom: 3.5em;
+        margin-bottom: 3.5rem;
     }
 
     .title-heading > h3 {
@@ -362,9 +364,9 @@
         margin-bottom: 50px;
     }
 
-    .vertical-timeline-item-grid {
+    /* .vertical-timeline-item-grid {
         padding: 80px 0;
-    }
+    } */
 
     .vertical-timeline-item-grid > .container {
         position: relative;
@@ -416,7 +418,6 @@
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
-        /* top: 150px; */
         top: 50%;
         right: 0
     }
@@ -428,7 +429,6 @@
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
         z-index: -1;
-        /* top: 150px; */
         top: 50%;
     }
 
