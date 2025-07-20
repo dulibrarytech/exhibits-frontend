@@ -113,15 +113,24 @@
     });
 </script>
 
+<!-- {#if layout == MEDIA_POSITION.RIGHT}
+    <Media_Right>
+        {#if title && showTitle && mediaPadding}
+            <div class="title-heading" bind:this={titleElement} slot="title"><h3>{@html title}</h3></div>
+        {/if}
+    </Media_Right>
+{/if} -->
+
 <div class="item {mediaPadding ? 'item-padding' : ''}" data-uuid={uuid} bind:this={itemElement}>
     <div id={itemElementId ?? undefined} class="anchor-offset"></div>
 
-    <div class={mediaPadding ? "container" : "container-no-margin"}>
+    <div class="{mediaPadding ? "container" : "container-no-margin"}">
         {#if title && showTitle && mediaPadding}
             <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
         {/if}
 
         {#if layout == MEDIA_POSITION.RIGHT}
+            <!-- <Media_Right  -->
             {#if wrapText}
                 <div class="item-content wrap-text text media-right">
                     <div class="media width-{mediaWidth} {mediaPadding ? 'media-padding' : ''}">
@@ -296,7 +305,7 @@
             </div>
 
         {:else if layout == MEDIA_POSITION.TEXT_ONLY}
-            <div class="item-content text">
+            <div class="item-content text text-only">
                 {#if mediaPadding}
                     <div bind:this={textElement}>
                         <Text_Display {item} />
@@ -326,9 +335,14 @@
 
     .item a { color: inherit }
 
-    .item-padding {
+    :global(.item-padding) {
         padding-top: 3.65em;
         padding-bottom: 3.65em;
+    }
+
+    .item ~ .item-content:has(.text-only) {
+        padding-top: 1.825em;
+        padding-bottom: 1.825em;
     }
 
     .container-no-margin {
@@ -452,8 +466,13 @@
         font-style: italic;
     }
 
-    :global(.item .media:not(.media-padding).width-100 .caption) {
+    :global(.item .media:not(.media-padding).width-100 .caption),
+    :global(.item .media-left .media:not(.media-padding) .caption) {
         margin-left: 3.5rem;
+    }
+
+    :global(.item .media-right .media:not(.media-padding) .caption) {
+        margin-right: 3.5rem;
     }
 
     :global(.item p:not(:last-child)) {
