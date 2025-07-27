@@ -1,4 +1,5 @@
 <script>
+   import { onMount } from 'svelte';
    import { Repository } from '../libs/repository';
    import { getRandomNumberArray, shuffleArrayElements } from '../libs/data_helpers';
    import {ENTITY_TYPE, ITEM_GRIDS} from '../config/global-constants';
@@ -19,7 +20,6 @@
 
       // this exhibit contains repository items. proceed with the search for related items
       if(repositoryItems.length > 0) {
-
          repositoryItems = shuffleArrayElements(repositoryItems);
 
          for(let item of repositoryItems) {
@@ -28,6 +28,9 @@
 
          // get the display data from the repository items 
          relatedItemsDisplay = await getRelatedItems(repositoryItemIds);
+      }
+      else {
+         document.querySelector(".repository-related-items").style.display = "none";
       }
    }
 
@@ -139,7 +142,9 @@
       return items;
    }
 
-   init();
+   onMount(async () => {
+      init();
+   });
 </script>
 
 <div class="repository-related-items">
@@ -180,7 +185,7 @@
    </div> 
 
 {:else}
-   <p>Loading related items...</p>
+   <div class="message"><p>Loading related items...</p></div>
 
 {/if}
 </div>
