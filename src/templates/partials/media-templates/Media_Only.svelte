@@ -27,6 +27,14 @@
         margin-left: auto;
     }
 
+    .title-heading:has(> div:empty) {
+        display: none;
+    }
+
+    .media {
+        margin: 0 auto;
+    }
+
     .layout.media-padding .caption {
         margin-left: 0.75rem;
     }
@@ -35,6 +43,15 @@
         margin-left: 3.5vw;
         padding-left: 0.75rem;
     }
+
+    .width-25 {width: 100%}
+    .width-33 {width: 100%}
+    .width-34 {width: 100%}
+    .width-50 {width: 100%}
+    .width-66 {width: 100%}
+    .width-67 {width: 100%}
+    .width-75 {width: 100%}
+    .width-100 {width: 100%}
 
     @media screen and (min-width: 576px) {
         .container-wide {
@@ -52,6 +69,15 @@
         .container-wide {
             max-width: 93vw;
         }
+
+        .width-25 {width: 25%}
+        .width-33 {width: 33%}
+        .width-34 {width: 34%}
+        .width-50 {width: 50%}
+        .width-66 {width: 66%}
+        .width-67 {width: 67%}
+        .width-75 {width: 75%}
+        .width-100 {width: 100%}
     }
 
     @media screen and (min-width: 1200px) {

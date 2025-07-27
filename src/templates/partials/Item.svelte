@@ -116,7 +116,7 @@
     {#if layout == MEDIA_POSITION.RIGHT}
         <Media_Right {wrapText} {mediaPadding} {mediaWidth} {caption}>
             <div slot="title">
-                <div bind:this={titleElement}><h3>{@html title}</h3></div>
+                {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
                 <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
@@ -129,7 +129,7 @@
     {:else if layout == MEDIA_POSITION.LEFT}
         <Media_Left {wrapText} {mediaPadding} {mediaWidth} {caption}>
             <div slot="title">
-                <div bind:this={titleElement}><h3>{@html title}</h3></div>
+                {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
                 <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
@@ -142,7 +142,7 @@
     {:else if layout == MEDIA_POSITION.TOP}
         <Media_Top {mediaPadding} {mediaWidth} {caption}>
             <div slot="title">
-                <div bind:this={titleElement}><h3>{@html title}</h3></div>
+                {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
                 <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
@@ -155,7 +155,7 @@
     {:else if layout == MEDIA_POSITION.BOTTOM}
         <Media_Bottom {mediaPadding} {mediaWidth} {caption}>
             <div slot="title">
-                <div bind:this={titleElement}><h3>{@html title}</h3></div>
+                {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
                 <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
@@ -168,7 +168,7 @@
     {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
         <Media_Only {mediaPadding} {mediaWidth} {caption}>
             <div slot="title">
-                <div bind:this={titleElement}><h3>{@html title}</h3></div>
+                {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
                 <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
@@ -178,7 +178,7 @@
     {:else if layout == MEDIA_POSITION.TEXT_ONLY}
         <Text_Only>
             <div slot="title">
-                <div bind:this={titleElement}><h3>{@html title}</h3></div>
+                {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="text-display">
                 <Text_Display {item} />

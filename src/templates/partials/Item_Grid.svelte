@@ -90,11 +90,6 @@
         width: 100%;
     }
 
-    /* .item-grid {
-        padding-top: 3.5rem;
-        padding-bottom: 3.5rem;
-    } */
-
     .title-heading {
         text-transform: uppercase;
         margin-bottom: 45px;

@@ -120,6 +120,10 @@
             flex-wrap: wrap;
         }
 
+        .title-heading:has(> div:empty) {
+            display: none;
+        }
+
         .width-25 {width: 25%}
         .width-33 {width: 33%}
         .width-34 {width: 34%}

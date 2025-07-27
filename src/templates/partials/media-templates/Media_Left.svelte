@@ -64,6 +64,10 @@
         margin-left: auto;
     }
 
+    .title-heading:has(> div:empty) {
+        display: none;
+    }
+
     .width-25 {width: 100%}
     .width-33 {width: 100%}
     .width-34 {width: 100%}
