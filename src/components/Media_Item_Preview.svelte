@@ -36,7 +36,7 @@
     let resource;
     let mediaWidth;
     let thumbnail;
-    let caption;
+    //let caption;
     let title;
     let altText;
 
@@ -58,7 +58,6 @@
         resource = item.media || null;
         mediaWidth = item.media_width || null;
         thumbnail = item.thumbnail || null;
-        caption = item.caption || null;
         title = item.title ? getInnerText(item.title) : null;
         altText = item.is_alt_text_decorative ? null : (item.alt_text || null);
 
@@ -197,7 +196,7 @@
             {/if}
         </div>
 
-        {#if caption}<div class="caption">{@html caption}</div>{/if}
+        <!-- {#if caption}<div class="caption">{@html caption}</div>{/if} -->
     </div>
 
 {:else}
@@ -237,12 +236,12 @@
         max-width: 200px;
     }
 
-    .caption {
+    /* .caption {
         margin-top: 1rem;
         text-decoration: none;
         color: inherit;
         line-height: 1.5em;
-    }
+    } */
 
     .item-preview:hover .overlay,
     .item-preview:hover .overlay-text {
