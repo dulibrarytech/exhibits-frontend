@@ -21,4 +21,8 @@
 .text-item {
     height: 100%;
 }
+
+:global(.text-item p:last-child) {
+    margin-bottom: 0;
+}
 </style>
