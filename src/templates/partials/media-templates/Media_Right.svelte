@@ -60,6 +60,10 @@
         margin-left: auto;
     }
 
+    .title-heading:has(> div:empty) {
+        display: none;
+    }
+
     .width-25 {width: 100%}
     .width-33 {width: 100%}
     .width-34 {width: 100%}
@@ -103,6 +107,11 @@
         margin-right: 3.5vw;
     }
 
+    .media-right:has(> .wrap-text) {
+        display: flex;
+        flex-direction: column;
+    }
+
     @media screen and (min-width: 576px) {
         .container-wide {
             max-width: 640px;
@@ -118,10 +127,6 @@
     @media screen and (min-width: 992px) {
         .flex {
             flex-wrap: wrap;
-        }
-
-        .title-heading:has(> div:empty) {
-            display: none;
         }
 
         .width-25 {width: 25%}

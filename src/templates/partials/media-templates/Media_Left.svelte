@@ -115,6 +115,11 @@
         margin-right: 3.5vw;
     }
 
+    .media-left:has(> .wrap-text) {
+        display: flex;
+        flex-direction: column;
+    }
+
     @media screen and (min-width: 576px) {
         .container-wide {
             max-width: 640px;
