@@ -18,8 +18,4 @@
     .title-heading:has(> div:empty) {
         display: none;
     }
-    
-    .text {
-        margin-top: 3.65rem;
-    }
 </style>
