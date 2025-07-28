@@ -110,7 +110,7 @@
         font-weight: bold;
         text-transform: uppercase;
         font-size: 1.736842em;
-        letter-spacing: 0.05em;
+        /* letter-spacing: 0.05em; */
         line-height: 1.45em;
     }
 </style>
