@@ -190,6 +190,10 @@
 </div>
 
 <style>
+    :global(.item .text-item a) {
+        text-decoration: underline;
+    }
+
     :global(.item .title-heading) {
         margin-bottom: 3.65rem;
         text-transform: uppercase;

@@ -36,6 +36,10 @@
         padding-bottom: 5.5vw;
     }
 
+    :global(.exhibit-introduction a) {
+        text-decoration: underline;
+    }
+
     :global(.exhibit-introduction a:hover) {
         cursor: pointer;
     }
