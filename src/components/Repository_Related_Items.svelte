@@ -200,7 +200,7 @@
       display: flex;
       flex-wrap: wrap;
       flex-direction: row;
-      justify-content: flex-start;
+      justify-content: center;
       row-gap: 12px;
       column-gap: 12px;
    }
