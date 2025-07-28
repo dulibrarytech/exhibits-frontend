@@ -72,7 +72,6 @@
     }
 
     .grid-item h4 {
-        /* margin-bottom: 3.5em; */
         margin-bottom: 30px;
     }
 
@@ -87,5 +86,23 @@
 
     :global(.grid-item .title-heading) {
         font-size: 1em;
+    }
+
+    :global(.grid-item .media-top .text:has(.text-display.description)) {
+        margin-top: 20px;
+    }
+
+    :global(.grid-item .media-bottom .text:has(.text-display.description)) {
+        margin-bottom: 20px;
+    }
+
+    @media screen and (min-width: 992px) {
+        :global(.grid-item .media-top .text:has(.text-display.description)) {
+            margin-top: 30px;
+        }
+
+        :global(.grid-item .media-bottom .text:has(.text-display.description)) {
+            margin-bottom: 30px;
+        }
     }
 </style>

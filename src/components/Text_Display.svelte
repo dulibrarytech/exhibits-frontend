@@ -8,7 +8,7 @@
     if(item.description) text = item.description;
 </script>
 
-<div class="text-display">
+<div class="text-display {item.description ? 'description' : ''}">
     {#if title}
         <div class="title">{title}</div>
         <hr>

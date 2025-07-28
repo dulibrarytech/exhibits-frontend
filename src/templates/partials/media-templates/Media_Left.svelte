@@ -91,7 +91,7 @@
         box-sizing: border-box;
         padding-right: 0;
         padding-bottom: 0;
-        margin-bottom: 3.5rem; 
+        margin-bottom: 3.65rem; 
     }
 
     .layout.media-padding .caption {

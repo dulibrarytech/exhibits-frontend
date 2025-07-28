@@ -4,7 +4,7 @@
     export let caption = null;
 </script>
 
-<div class="media-bottoms layout {mediaPadding ? 'container media-padding' : ''}">
+<div class="media-bottom layout {mediaPadding ? 'container media-padding' : ''}">
 
     <div class="content">
         {#if mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
