@@ -148,7 +148,7 @@
 </div>
 
 <style>
-    .kaltura-content {
+    .kaltura-content:not(.embedded) {
         height: 100%;
         width: 100%;
     }
@@ -214,11 +214,5 @@
         position: relative;
         top: 50%;
         left: calc(50% - 100px);
-    }
-
-    @media screen and (min-width: 992px) {
-        .kaltura-content.embedded {
-            height: 40vw;
-        }
     }
 </style>

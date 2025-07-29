@@ -210,4 +210,30 @@
         color: inherit;
         line-height: 1.5em;
     }
+
+    :global(.item .kaltura-content.embedded) {
+        height: 75vw;
+    }
+
+    @media screen and (min-width: 992px) {
+        /* kaltura iframe dimensions must be set manually */
+        :global(.item .media.width-25 .kaltura-content.embedded) {
+            height: 20vw;
+        }
+        :global(.item .media.width-33 .kaltura-content.embedded) {
+            height: 25vw;
+        }
+        :global(.item .media.width-50 .kaltura-content.embedded) {
+            height: 37vw;
+        }
+        :global(.item .media.width-66 .kaltura-content.embedded) {
+            height: 45vw;
+        }
+        :global(.item .media.width-75 .kaltura-content.embedded) {
+            height: 48vw;
+        }
+        :global(.item .media.width-100 .kaltura-content.embedded) {
+            height: 55vw;
+        }
+    }
 </style>
