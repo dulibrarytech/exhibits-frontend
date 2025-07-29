@@ -11,6 +11,8 @@
     export let width = null;
     export let args = {};
 
+    const EMBED_HTML_PLAYER = false;
+
     let {   
         kalturaUniqueObjectID,
         kalturaPlayerHeight,
@@ -43,12 +45,10 @@
         if(!width) width = kalturaPlayerWidth;
 
         if(isEmbedded) {
-            // embedded html audio or video player will source from kaltura stream url
-            kalturaUrl = Kaltura.getStreamingMediaUrl(entryId);
+            kalturaUrl = EMBED_HTML_PLAYER ? Kaltura.getStreamingMediaUrl(entryId) : Kaltura.getViewerUrl(entryId);
         }
         else {
-            // modal viewer template displays the kaltura embedded player iframe
-            kalturaUrl = Kaltura.getEmbeddedViewerUrl(entryId);
+            kalturaUrl = Kaltura.getTranscriptViewerUrl(entryId);
         }
 
         previewImageUrl = preview || Kaltura.getThumbnailUrl(entryId, 1000, 1000);
@@ -64,7 +64,7 @@
     }
 
     const onShowTranscriptSection = () => {
-        //contentSection.style.height = "100%";
+        // contentSection.style.height = "100%";
     }
 
     const onClickKalturaPreview = (event) => {
@@ -80,9 +80,9 @@
     init();
 </script>
 
-<div class="kaltura-content content" bind:this={contentSection} >
+<div class="kaltura-content content {isEmbedded ? 'embedded' : ''}" bind:this={contentSection} >
     {#if kalturaUrl}
-        {#if isEmbedded}
+        {#if EMBED_HTML_PLAYER && isEmbedded}
             {#if type == "audio"}
                 {#if previewImageUrl}
                     <div class="preview" bind:this={previewElement}>
@@ -153,6 +153,10 @@
         width: 100%;
     }
 
+    .kaltura-content.embedded {
+        height: 75vw;
+    }
+
     .kaltura-content iframe,
     .kaltura-content video {
         width: 100%;
@@ -210,5 +214,11 @@
         position: relative;
         top: 50%;
         left: calc(50% - 100px);
+    }
+
+    @media screen and (min-width: 992px) {
+        .kaltura-content.embedded {
+            height: 40vw;
+        }
     }
 </style>

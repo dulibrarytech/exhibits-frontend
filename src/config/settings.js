@@ -51,7 +51,8 @@ export const Settings = {
      */
     kalturaDomain: "https://cdnapisec.kaltura.com",
     kalturaPartnerID: "2357732",
-    kalturaUI_ID: "44058172",
+    kalturaUiConfID: "43244771",
+    kalturaTranscriptUiConfID: "44058172",
     kalturaUniqueObjectID: "kaltura_player_1559751114",
     kalturaFlavorId: "0_7gx3rx5v",
     kalturaPlayerHeight: "100%",

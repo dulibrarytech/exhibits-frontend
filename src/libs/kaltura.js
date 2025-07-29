@@ -27,7 +27,8 @@ export const Kaltura = (() => {
     var {   
         kalturaDomain,
         kalturaPartnerID,
-        kalturaUI_ID,
+        kalturaUiConfID,
+        kalturaTranscriptUiConfID,
         kalturaUniqueObjectID,
         kalturaThumbnailWidth,
         kalturaThumbnailHeight,
@@ -43,8 +44,20 @@ export const Kaltura = (() => {
      * 
      * @returns 
      */
-    const getEmbeddedViewerUrl = (entryId) => {
-        return `${kalturaDomain}/p/${kalturaPartnerID}/sp/${kalturaPartnerID}00/embedIframeJs/uiconf_id/${kalturaUI_ID}/partner_id/${kalturaPartnerID}?iframeembed=true&playerId=${kalturaUniqueObjectID}&entry_id=${entryId}&flashvars[leadWithHTML5]=true`;
+    const getViewerUrl = (entryId) => {
+        return `${kalturaDomain}/p/${kalturaPartnerID}/sp/${kalturaPartnerID}00/embedIframeJs/uiconf_id/${kalturaUiConfID}/partner_id/${kalturaPartnerID}?iframeembed=true&playerId=${kalturaUniqueObjectID}&entry_id=${entryId}&flashvars[leadWithHTML5]=true`;
+    }
+
+    /**
+     * 
+     * @method getViewerContent
+     * 
+     * @param {string} entryId 
+     * 
+     * @returns 
+     */
+    const getTranscriptViewerUrl = (entryId) => {
+        return `${kalturaDomain}/p/${kalturaPartnerID}/sp/${kalturaPartnerID}00/embedIframeJs/uiconf_id/${kalturaTranscriptUiConfID}/partner_id/${kalturaPartnerID}?iframeembed=true&playerId=${kalturaUniqueObjectID}&entry_id=${entryId}&flashvars[leadWithHTML5]=true`;
     }
 
     /**
@@ -71,7 +84,8 @@ export const Kaltura = (() => {
     }
 
     return {
-        getEmbeddedViewerUrl,
+        getViewerUrl,
+        getTranscriptViewerUrl,
         getThumbnailUrl,
         getStreamingMediaUrl
     };
