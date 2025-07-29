@@ -212,28 +212,28 @@
     }
 
     :global(.item .kaltura-content.embedded) {
-        height: 75vw;
+        height: 700px;
     }
 
     @media screen and (min-width: 992px) {
-        /* kaltura iframe dimensions must be set manually */
+        /* kaltura iframe dimensions must be set manually for each media element width */
         :global(.item .media.width-25 .kaltura-content.embedded) {
-            height: 20vw;
+            height: 244px;
         }
         :global(.item .media.width-33 .kaltura-content.embedded) {
-            height: 25vw;
+            height: 322px;
         }
         :global(.item .media.width-50 .kaltura-content.embedded) {
-            height: 37vw;
+            height: 488px;
         }
         :global(.item .media.width-66 .kaltura-content.embedded) {
-            height: 45vw;
+            height: 645px;
         }
         :global(.item .media.width-75 .kaltura-content.embedded) {
-            height: 48vw;
+            height: 733px;
         }
         :global(.item .media.width-100 .kaltura-content.embedded) {
-            height: 55vw;
+            height: 866px;
         }
     }
 </style>

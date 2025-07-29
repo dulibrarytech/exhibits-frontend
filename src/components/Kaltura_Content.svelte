@@ -154,7 +154,7 @@
     }
 
     .kaltura-content.embedded {
-        height: 75vw;
+        height: 700px;
     }
 
     .kaltura-content iframe,
