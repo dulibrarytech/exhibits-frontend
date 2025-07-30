@@ -10,7 +10,6 @@
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
 
-    import Site_Branding_Search from '../templates/partials/Site_Branding_Search.svelte';
     import Homepage_Hero from '../components/Homepage_Hero.svelte';
     import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
     import Exhibit_Preview_Slider from '../components/Exhibit_Preview_Slider.svelte';
@@ -79,8 +78,6 @@
 </script>
 
 <div class="exhibits-home">
-
-    <Site_Branding_Search data={_searchData} args={{isPageHeading: true}} />
 
     {#if HERO_DISPLAY}
         <div class="hero-banner">

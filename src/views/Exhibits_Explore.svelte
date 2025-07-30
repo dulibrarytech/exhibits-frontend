@@ -12,7 +12,6 @@
     import queryString from 'query-string';
     import MiniSearch from 'minisearch';
 
-    import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Exhibits_Explore_Search from '../templates/partials/Exhibits_Explore_Search.svelte';
     import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
     import Exhibit_Preview_Grid_Tabs from '../templates/partials/Exhibit_Preview_Grid_Tabs.svelte';
@@ -220,8 +219,6 @@
         else message = "Error retrieving exhibits";
     });
 </script>
-
-<Site_Branding args={{isPageHeading: true}} />
 
 <div class="exhibits-explore">
     <div class="page">
