@@ -211,29 +211,33 @@
         line-height: 1.5em;
     }
 
-    :global(.item .kaltura-content.embedded) {
-        height: 700px;
+    :global(.item .layout.media-padding .kaltura-content.embedded) {
+        height: 65vw;
+    }
+
+    :global(.item .layout:not(.media-padding) .kaltura-content.embedded) {
+        height: 75vw;
     }
 
     @media screen and (min-width: 992px) {
         /* kaltura iframe dimensions must be set manually for each media element width */
         :global(.item .media.width-25 .kaltura-content.embedded) {
-            height: 244px;
+            height: 15.5vw;
         }
         :global(.item .media.width-33 .kaltura-content.embedded) {
-            height: 322px;
+            height: 19.5vw;
         }
         :global(.item .media.width-50 .kaltura-content.embedded) {
-            height: 488px;
+            height: 29vw;
         }
         :global(.item .media.width-66 .kaltura-content.embedded) {
-            height: 645px;
+            height: 37vw;
         }
         :global(.item .media.width-75 .kaltura-content.embedded) {
-            height: 733px;
+            height: 42vw;
         }
         :global(.item .media.width-100 .kaltura-content.embedded) {
-            height: 866px;
+            height: 49vw;
         }
     }
 </style>
