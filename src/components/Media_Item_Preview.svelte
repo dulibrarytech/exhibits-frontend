@@ -27,7 +27,7 @@
     const LARGE_IMAGE_PREVIEW_WIDTH = 1800;
 
     let {resourceLocation} = Configuration;
-    let {placeholderImage, placeholderImageWidth} = Settings; 
+    let {imageAssetsPath, placeholderImage, placeholderImageWidth} = Settings; 
 
     let previewImageElement;
 
@@ -168,8 +168,9 @@
 
     const onImageLoadError = (event) => {
         Logger.module().error(`Preview image load error. Url: ${preview}`);
-        let placeholderImageUrl = `${resourceLocation}/${placeholderImage[itemType || 'DEFAULT']}`;
+        let placeholderImageUrl = `${imageAssetsPath}/${placeholderImage[itemType || 'DEFAULT']}`;
         overlay = false;
+        previewImageElement.parentElement.title = altText;
 
         if(event.target.src.includes(placeholderImageUrl) == false) {
             previewImageElement.src = placeholderImageUrl;
