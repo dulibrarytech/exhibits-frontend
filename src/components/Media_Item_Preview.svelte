@@ -169,6 +169,7 @@
     const onImageLoadError = (event) => {
         Logger.module().error(`Preview image load error. Url: ${preview}`);
         let placeholderImageUrl = `${resourceLocation}/${placeholderImage[itemType || 'DEFAULT']}`;
+        overlay = false;
 
         if(event.target.src.includes(placeholderImageUrl) == false) {
             previewImageElement.src = placeholderImageUrl;
