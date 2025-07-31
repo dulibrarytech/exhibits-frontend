@@ -19,7 +19,7 @@
 		itemType = item.item_type || undefined;
 		itemData = item.data_display || null;
 		title = item.title || null;
-		text = item.description || item.text || DEFAULT_ITEM_TEXT;
+		text = item.description || DEFAULT_ITEM_TEXT;
 		date = item.date || null;
 		caption = item.caption || null;
 
