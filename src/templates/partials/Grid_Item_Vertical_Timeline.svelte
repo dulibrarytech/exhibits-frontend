@@ -4,6 +4,7 @@
     import { onMount } from 'svelte';
     import * as Logger from '../../libs/logger.js';
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
+    import Item_Display from '../../components/Item_Display.svelte';
 
     export let item = {};
 
@@ -60,7 +61,7 @@
                 {#if media} 
                     <div class="vertical-timeline-item">
                         <div class="preview">
-                            <Item_Preview {item} on:click-item />
+                            <Item_Display {item} template={Item_Preview} args={{showTitle: true, showPreview: true}} on:click-item />
                         </div>
                     </div>
                 {/if}
