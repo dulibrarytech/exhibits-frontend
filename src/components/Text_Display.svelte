@@ -3,16 +3,13 @@
 
     export let item;
     export let title=null;
-
-    let text = null;
-    if(item.description) text = item.description;
 </script>
 
-<div class="text-display {item.description ? 'description' : ''}">
+<div class="text-display">
     {#if title}
         <div class="title">{title}</div>
         <hr>
         <br>
     {/if}
-    <Text_Item {item} {text} />
+    <Text_Item {item} />
 </div>

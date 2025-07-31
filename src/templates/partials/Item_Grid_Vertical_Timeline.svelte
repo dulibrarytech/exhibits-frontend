@@ -364,10 +364,6 @@
         margin-bottom: 50px;
     }
 
-    /* .vertical-timeline-item-grid {
-        padding: 80px 0;
-    } */
-
     .vertical-timeline-item-grid > .container {
         position: relative;
     }

@@ -27,7 +27,6 @@
 
     let uuid;
     let title;
-    let text;
     let caption;
     let itemType;
     let layout;
@@ -57,7 +56,6 @@
 
         uuid        = item.uuid || null;
         title       = item.title || null;
-        text        = item.text || "";
         caption     = item.caption || null;
         itemType    = item.item_type || undefined;
         layout      = item.layout || MEDIA_POSITION.RIGHT;

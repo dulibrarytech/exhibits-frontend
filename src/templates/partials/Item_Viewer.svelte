@@ -1,11 +1,10 @@
 <script>	
-    import Media_Display from '../../components/Media_Display.svelte';
-	import Text_Item from '../../components/Text_Item.svelte';
+  import Media_Display from '../../components/Media_Display.svelte';
 	import {formatStripHtmlTags} from '../../libs/format';
 
     export let item = {};
 
-	const DEFAULT_ITEM_TEXT = "No text available";
+	const DEFAULT_ITEM_TEXT = "No description available";
 
 	let itemType;
 	let itemData;
@@ -20,7 +19,7 @@
 		itemType = item.item_type || undefined;
 		itemData = item.data_display || null;
 		title = item.title || null;
-		text = item.text || item.description || DEFAULT_ITEM_TEXT;
+		text = item.description || item.text || DEFAULT_ITEM_TEXT;
 		date = item.date || null;
 		caption = item.caption || null;
 
@@ -51,13 +50,10 @@
 				{#if caption}
 					<div class="caption" use:formatStripHtmlTags>{caption}</div>
 					<br>
+					<hr>
 				{/if}
 				
-				<h5>Exhibit text:</h5>
-				<hr>
 				<div class="text-section background-light" tabindex="0">
-					<!-- <Text_Item {item} {title} /> -->
-
 					<div class="item-text" use:formatStripHtmlTags>{text}</div>
 				</div>
 
@@ -93,7 +89,7 @@
 
 	.item-viewer > .row {
 		height: 100%;
-		background: #F4F2EC; /* TEST */
+		background: #F4F2EC;
 	}
 
 	.item-viewer .text {
@@ -109,7 +105,6 @@
 
 	.text-display-container {
 		padding-left: 0;
-		/* height: 50%; */
 		height: 48%;
 		margin-top: 2%;
 		overflow-y: scroll;
@@ -133,7 +128,6 @@
 
 	.data-section {
 		display: inline-grid;
-		/* margin-top: 50px; */
 		margin-bottom: 50px;
 		position: relative;
 		bottom: unset;
@@ -150,7 +144,6 @@
 	}
 
 	.media-display-container {
-		/* height: 75%; */
 		height: 50%;
 	}
 

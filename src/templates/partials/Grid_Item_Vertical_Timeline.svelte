@@ -15,14 +15,14 @@
     let type;
     let date;
     let title;
-    let description;
+    let text;
     let media;
 
     $: {
         id = item.uuid || "null";
         date = item.date || null;
         title = item.title || null;
-        description = item.description || null;
+        text = item.text || null;
         type = item.item_type || null;
         media = item.media || null;
         styles = item.styles || null;
@@ -55,7 +55,7 @@
             </header>
 
             <div class="card__content">
-                {#if description && description.length > 0}<p class="description">{@html description}</p>{/if}
+                {#if text && text.length > 0}<p class="text">{@html text}</p>{/if}
 
                 {#if media} 
                     <div class="vertical-timeline-item">
@@ -140,7 +140,6 @@
     */
     
     .card{
-        /* box-shadow: var(--timelineCardBoxShadow, 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24)); */
         background-color: var(--timelineCardBackgroundColor, #fff);
     }
     
@@ -167,7 +166,7 @@
         margin-top: 30px;
     }
 
-    p.description {
+    p.text {
         margin-top: 1rem;
     }
 </style>

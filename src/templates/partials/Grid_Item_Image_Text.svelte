@@ -21,7 +21,6 @@
     let title;
     let date;
     let type;
-    let description;
     let caption;
     let media;
     let styles;
@@ -31,9 +30,7 @@
     $: {
         id = item.uuid || "null";
         title = item.title || null;
-        // date = item.date || null;
         type = item.item_type || null;
-        description = item.description || null;
         caption = item.caption || null;
         media = item.media || null;
         styles = item.styles || null;
@@ -88,20 +85,20 @@
         font-size: 1em;
     }
 
-    :global(.grid-item .media-top .text:has(.text-display.description)) {
+     :global(.grid-item .media-top .text) {
         margin-top: 20px;
     }
 
-    :global(.grid-item .media-bottom .text:has(.text-display.description)) {
+    :global(.grid-item .media-bottom .text) {
         margin-bottom: 20px;
     }
 
     @media screen and (min-width: 992px) {
-        :global(.grid-item .media-top .text:has(.text-display.description)) {
+        :global(.grid-item .media-top .text) {
             margin-top: 30px;
         }
 
-        :global(.grid-item .media-bottom .text:has(.text-display.description)) {
+        :global(.grid-item .media-bottom .text) {
             margin-bottom: 30px;
         }
     }
