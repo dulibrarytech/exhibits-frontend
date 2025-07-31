@@ -63,7 +63,7 @@
     });
 </script>
 
-<div class="item-grid item-padding" bind:this={gridElement} >
+<div class="item-grid item-padding columns-{columns}" bind:this={gridElement} >
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     <div class="container">
@@ -143,10 +143,18 @@
         font-size: 0.85em;
     }
 
+    :global(.item-grid.columns-3 .grid-item .media-top .text),
+    :global(.item-grid.columns-4 .grid-item .media-top .text) {
+        margin-top: 20px !important;
+    }
+
+    :global(.item-grid.columns-3 .grid-item .media-bottom .text),
+    :global(.item-grid.columns-4 .grid-item .media-bottom .text) {
+        margin-bottom: 20px !important;
+    }
+
     @media screen and (min-width: 624px) {
-        /* .col-4, .col-3, .col-2 {
-            width: 45.5%;
-        } */
+
     }
 
     @media screen and (min-width: 768px) {
@@ -158,6 +166,16 @@
     @media screen and (min-width: 992px) {
         .col-4, .col-3 {
             width: 30.5%;
+        }
+
+        :global(.item-grid.columns-3 .grid-item .media-top .text),
+        :global(.item-grid.columns-4 .grid-item .media-top .text) {
+            margin-top: 30px !important;
+        }
+
+        :global(.item-grid.columns-3 .grid-item .media-bottom .text),
+        :global(.item-grid.columns-4 .grid-item .media-bottom .text) {
+            margin-bottom: 30px !important;
         }
     }
 

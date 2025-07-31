@@ -84,22 +84,4 @@
     :global(.grid-item .title-heading) {
         font-size: 1em;
     }
-
-     :global(.grid-item .media-top .text) {
-        margin-top: 20px;
-    }
-
-    :global(.grid-item .media-bottom .text) {
-        margin-bottom: 20px;
-    }
-
-    @media screen and (min-width: 992px) {
-        :global(.grid-item .media-top .text) {
-            margin-top: 30px;
-        }
-
-        :global(.grid-item .media-bottom .text) {
-            margin-bottom: 30px;
-        }
-    }
 </style>
