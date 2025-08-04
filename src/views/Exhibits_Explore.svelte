@@ -224,7 +224,7 @@
     <div class="page">
         <div class="container">
 
-            <!-- <h1>Online Exhibits</h1> -->
+            <h1>Explore Exhibits</h1>
 
             <div class="search">
                 <Exhibits_Explore_Search 
@@ -289,5 +289,9 @@
     .message {
         font-size: 18px;
         margin-top: 30px;
+    }
+
+    .page > .container > h1 {
+        font-weight: normal;
     }
 </style>
