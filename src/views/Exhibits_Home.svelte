@@ -183,6 +183,10 @@
         font-family: "IBM Plex Mono";
     }
 
+    .heading h2 {
+        font-weight: normal;
+    }
+
     :global(.exhibits-home .homepage-section .exhibit-preview-grid) {
         justify-content: space-between !important;
     }
