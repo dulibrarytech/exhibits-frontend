@@ -1,9 +1,7 @@
 <script>
-    import Site_Branding from './Site_Branding.svelte';
     import Search_Box from '../../components/Search_Box.svelte';
 
     export let data = {};
-    export let args = {};
 
     let {
         endpoint,
@@ -16,46 +14,58 @@
     } = data;
 </script>
 
-<div class="site-branding-search-banner">
+<div class="homepage-hero-banner">
     <div class="container">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-8">
-                    <Site_Branding {args} />
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <Search_Box {endpoint} {queryParam} {params} {fields} {buttonText} {placeholder} />
-                </div>
+        <div class="content">
+            <h1>Online Exhibits</h1>
+
+            <div class="search-form">
+                <Search_Box {endpoint} {queryParam} {params} {fields} {buttonText} {placeholder} />
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .site-branding-search-banner {
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-color: #e5e3e1;
-        padding-bottom: 10px;
+    .homepage-hero-banner {
+        background-image: url("/assets/images/homepage-banner.png");
+        background-size: cover;
+        height: 177px;
     }
 
-    .row>* {
-        padding-right: 0;
-        padding-left: 0;
+    .homepage-hero-banner > .container {
+        height: 100%;
     }
 
-    :global(.site-branding-search-banner .site-branding.container) {
-        padding-right: 0;
-        padding-left: 0;
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: left;
+        height: 100%;
+        row-gap: 25px;
     }
 
-    :global(.site-branding-search-banner .site-branding-banner) {
-        border-bottom-style: none !important;
+    .content > h1 {
+        color: white;
+        font-family: "IBM Plex Mono";
+    }
+
+    .search-form {
+        width: 300px;
     }
 
     @media screen and (min-width: 768px) {
-        .site-branding-search-banner {
-            padding-bottom: 0px;
+        .content {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .search-form {
+            width: 400px;
         }
     }
 </style>

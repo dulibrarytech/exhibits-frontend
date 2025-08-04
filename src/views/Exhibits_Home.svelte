@@ -10,7 +10,7 @@
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
 
-    import Homepage_Hero from '../components/Homepage_Hero.svelte';
+    import Homepage_Hero_Banner from '../templates/partials/Homepage_Hero_Banner.svelte';
     import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
     import Exhibit_Preview_Slider from '../components/Exhibit_Preview_Slider.svelte';
 
@@ -24,7 +24,6 @@
 
     var message = "";
 
-    const HERO_DISPLAY = false;
     const SHOW_STUDENT_CURATED_EXHIBITS = false;
     const EXHIBITS_DISPLAY = "grid";
     const EXHIBIT_FIELDS = Settings.exhibitDataFields;
@@ -79,18 +78,12 @@
 
 <div class="exhibits-home">
 
-    {#if HERO_DISPLAY}
-        <div class="hero-banner">
-            <Homepage_Hero exhibit={_highlightExhibit || {}} />
-        </div>
-    {/if}
+    <Homepage_Hero_Banner data={_searchData} />
 
     <div class="page">
-
         <div class="container">
             <div class="page-description">
-                <p>Discover curated stories, collections, and creative projects from the University Libraries.</p>
-                <p>These exhibits bring together unique materials and fresh perspectives to inspire discovery, reflection, and connection.</p>
+                <p>Discover curated stories, collections, and creative projects from the University's Libraries to inspire discovery, reflection, and connection.</p>
             </div>
             
             {#if _exhibits && _exhibits.length > 0}
@@ -100,7 +93,7 @@
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
-                                <h1>Featured Exhibits</h1>
+                                <h2>Featured Exhibits</h2>
 
                                 <a href="/exhibits-explore">View More</a>
                             </div>
@@ -116,7 +109,7 @@
                         <hr>
                         <div class="homepage-section">
                             <div class="heading">
-                                <h1>Student Curated Exhibits</h1>
+                                <h2>Student Curated Exhibits</h2>
 
                                 <a href="/exhibits-explore">View More</a>
                             </div>
@@ -147,7 +140,6 @@
 
     .exhibits-home {
         font-size: 18px;
-        letter-spacing: 0.02em;
     }
 
     .message {
@@ -181,7 +173,7 @@
         row-gap: 20px;
     }
 
-    .homepage-section .heading h1 {
+    .homepage-section .heading h2 {
         margin-bottom: 0;
     }
 
