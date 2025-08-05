@@ -282,6 +282,10 @@
         src: url('../assets/fonts/BreveSansTextLight.otf') format("truetype");
     }
 
+    h1 {
+        font-size: 1.7rem;
+    }
+
     .exhibit-previews {
         padding: 50px 0 100px 0;
     }
