@@ -12,7 +12,6 @@
     import queryString from 'query-string';
     import MiniSearch from 'minisearch';
 
-    import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Exhibits_Explore_Search from '../templates/partials/Exhibits_Explore_Search.svelte';
     import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
     import Exhibit_Preview_Grid_Tabs from '../templates/partials/Exhibit_Preview_Grid_Tabs.svelte';
@@ -221,13 +220,11 @@
     });
 </script>
 
-<Site_Branding args={{isPageHeading: true}} />
-
 <div class="exhibits-explore">
     <div class="page">
         <div class="container">
 
-            <!-- <h1>Online Exhibits</h1> -->
+            <h1>Explore Exhibits</h1>
 
             <div class="search">
                 <Exhibits_Explore_Search 
@@ -292,5 +289,9 @@
     .message {
         font-size: 18px;
         margin-top: 30px;
+    }
+
+    .page > .container > h1 {
+        font-weight: normal;
     }
 </style>

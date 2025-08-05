@@ -1,4 +1,5 @@
 <script>
+    import Site_Branding from '../../templates/partials/Site_Branding.svelte';
     import Site_Menu from '../../components/Site_Menu.svelte';
 </script>
 
@@ -12,6 +13,8 @@
             <Site_Menu />
         </div>
     </div>
+
+    <Site_Branding />
 </header>
 
 <style>

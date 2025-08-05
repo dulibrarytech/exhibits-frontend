@@ -15,7 +15,6 @@
     import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN, SEARCH_TYPE} from '../config/global-constants.js';
     import * as Logger from '../libs/logger.js';
 
-    import Site_Branding from '../templates/partials/Site_Branding.svelte';
     import Search_Results_Display from '../components/Search_Results_Display.svelte';
 
     export let currentRoute;
@@ -149,8 +148,6 @@
 
     $: init();
 </script>
-
-<Site_Branding />
 
 <div class="search-page page">
     <div class="search-results container">

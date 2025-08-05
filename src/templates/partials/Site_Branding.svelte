@@ -4,21 +4,13 @@
 
 <script>
     export let args = {};
-
-    let {
-        isPageHeading = false
-    } = args;
 </script>
 
 <div class="site-branding-banner">
     <div class="site-branding container">
-        <div class="branding">
-            <a class="site-title" href="/">
-                {#if isPageHeading}
-                    <h1>Exhibits <span class="highlight-text">@ DU</span></h1>
-                {:else}
-                    <p>Exhibits <span class="highlight-text">@ DU</span></p>
-                {/if}
+        <div class="site-title-link">
+            <a href="/">
+                <p>Exhibits <span class="highlight-text">@ DU</span></p>
             </a>
         </div>
     </div>
@@ -37,16 +29,15 @@
         display: table;
     }
 
-    .branding {
+    .site-title-link {
         display: table-cell;
         vertical-align: middle;
+        position: relative;
+        left: -2px;
     }
 
-    .branding > a {
+    .site-title-link a {
         width: fit-content;
-    }
-
-    a.site-title {
         font-size: 18px;
         font-family: "Montserrat";
         display: block;
@@ -54,8 +45,7 @@
         text-decoration: none;
     }
 
-    .site-title p,
-    .site-title h1 {
+    .site-title-link p {
         font-size: 33px;
         text-transform: uppercase;
         margin-top: 0;
