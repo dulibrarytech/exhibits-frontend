@@ -48,15 +48,28 @@
     }
 
     .content > h1 {
+        margin-bottom: 0;
         color: white;
         font-family: "Libre Baskerville";
         letter-spacing: 0.04em;
-        font-size: 34px;
-        margin-bottom: 0;
+        font-size: 40px;
+        font-weight: bold;
+        text-shadow: 0px 1px 3px #303030;
     }
 
     .search-form {
+        height: 40px;
         width: 300px;
+        box-shadow: 0px 4px 4px -4px #5b5b5b;
+    }
+
+    :global(.homepage-hero-banner .search-box input),
+    :global(.homepage-hero-banner .search-box button) {
+        height: 100%;
+    }
+
+    :global(.homepage-hero-banner .input-group) {
+        height: 100%;
     }
 
     @media screen and (min-width: 768px) {

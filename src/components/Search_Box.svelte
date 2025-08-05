@@ -99,16 +99,14 @@
       background: #71190E;
   }
 
-  form.form-inline {
-      width: 100%;
-      display: table-cell;
-      vertical-align: middle;
-  }
-
   .search-box input,
   .search-box button {
       margin: 0;
   }
 
-
+  form.form-inline {
+      width: 100%;
+      display: table-cell;
+      vertical-align: middle;
+  }
 </style>
