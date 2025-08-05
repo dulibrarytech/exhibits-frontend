@@ -28,9 +28,10 @@
 
 <style>
     .homepage-hero-banner {
+        height: 177px;
         background-image: url("/assets/images/homepage-banner.png");
         background-size: cover;
-        height: 177px;
+        filter: brightness(95%);
     }
 
     .homepage-hero-banner > .container {
