@@ -23,6 +23,8 @@
     let parentExhibitId;
     let isRepoItem;
 
+    let previewImageElement;
+
     var truncateDescription;
 
     const MAX_DESCRIPTION_TEXT_LENGTH = 800;
@@ -42,18 +44,22 @@
 
         parentExhibitId = (searchType == SEARCH_TYPE.SEARCH_ALL) ? result.is_member_of_exhibit : null;
     }
+
+    const onPreviewImageLoad = (event) => {
+        previewImageElement.style.visibility = "visible";
+    }
 </script>
 
 <section class="search-result-item">
-    <div class="image-link">
+    <div class="image-link" bind:this={previewImageElement}>
         {#if type == ENTITY_TYPE.EXHIBIT}
-            <Exhibit_Preview exhibit={result} link={result.link} width="200" height="200" />  
+            <Exhibit_Preview exhibit={result} link={result.link} width="200" height="200" on:image-loaded={onPreviewImageLoad} />  
 
         {:else}
             {#if isRepoItem}
-                <Repository_Item id={null} item={result} args={{showPreview:true, link: (result.link || false), overlay: false}} template={Item_Preview} on:click-item on:mount-template-item />
+                <Repository_Item id={null} item={result} args={{showPreview:true, link: (result.link || false), overlay: false}} template={Item_Preview} on:image-loaded={onPreviewImageLoad} on:click-item on:mount-template-item />
             {:else}
-                <Item_Preview item={result} width="200" args={{link: (result.link || false), isInteractive: false, overlay: false}} />
+                <Item_Preview item={result} width="200" args={{link: (result.link || false), isInteractive: false, overlay: false}} on:image-loaded={onPreviewImageLoad} />
             {/if}
         {/if}
     </div>
@@ -137,6 +143,10 @@
 
     .search-result-item-heading {
         margin-bottom: 1rem;
+    }
+
+    .image-link {
+        visibility: hidden;
     }
 
     @media (min-width:768px) {

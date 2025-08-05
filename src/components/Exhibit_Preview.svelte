@@ -72,12 +72,16 @@
         if(exhibitId) dispatch('click-preview', {exhibitId});
         if(link) window.location.replace(link);
     }
+
+    const onImageLoad = (event) => {
+        dispatch('image-loaded', {itemId});
+    }
 </script>
 
 <div class="exhibit-preview">
     <a href={link || undefined} data-exhibit-id={exhibitId} bind:this={titleTextElement} on:click|stopPropagation|preventDefault={onClickPreview} aria-label="enter exhibit {title}">
         <div class="exhibit-thumbnail">
-            <img src={thumbnail || ""} alt={altText} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
+            <img src={thumbnail || ""} alt={altText} on:load={onImageLoad} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
 
             {#if overlay}
                 <div class="overlay"></div>

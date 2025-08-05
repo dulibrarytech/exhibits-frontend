@@ -85,7 +85,7 @@
 
 {#if _renderTemplate}
     <div class="repository-item">
-        <svelte:component this={template} {id} item={_exhibitItem} {args} on:click-item on:mount-template-item />
+        <svelte:component this={template} {id} item={_exhibitItem} {args} on:click-item on:mount-template-item on:image-loaded />
     </div>
 
 {:else}

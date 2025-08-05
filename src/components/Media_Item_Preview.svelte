@@ -36,7 +36,6 @@
     let resource;
     let mediaWidth;
     let thumbnail;
-    //let caption;
     let title;
     let altText;
 
@@ -178,6 +177,10 @@
             isPlaceholderImage = true;
         }
     }
+
+    const onImageLoad = (event) => {
+        dispatch('image-loaded', {itemId});
+    }
 </script>
 
 {#if preview}
@@ -185,7 +188,7 @@
 
         <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}">
             <button data-item-id={itemId} on:click={onClickItem} tabindex={isInteractive ? undefined : '-1'} aria-label={`click to open item viewer`}>
-                <img crossorigin="anonymous" src={preview} alt={altText || undefined} on:error={onImageLoadError} bind:this={previewImageElement}>
+                <img crossorigin="anonymous" src={preview} alt={altText || undefined} on:load={onImageLoad} on:error={onImageLoadError} bind:this={previewImageElement}>
             </button>
 
             {#if overlay}
@@ -237,13 +240,6 @@
         margin-right: unset;
         max-width: 200px;
     }
-
-    /* .caption {
-        margin-top: 1rem;
-        text-decoration: none;
-        color: inherit;
-        line-height: 1.5em;
-    } */
 
     .item-preview:hover .overlay,
     .item-preview:hover .overlay-text {
