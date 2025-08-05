@@ -32,6 +32,8 @@
     .site-title-link {
         display: table-cell;
         vertical-align: middle;
+        position: relative;
+        left: -2px;
     }
 
     .site-title-link a {
