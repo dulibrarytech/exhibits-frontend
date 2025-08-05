@@ -54,7 +54,7 @@
         letter-spacing: 0.04em;
         font-size: 40px;
         font-weight: bold;
-        text-shadow: 0px 1px 3px #303030;
+        text-shadow: 0px 2px 4px #4a4a4a;
     }
 
     .search-form {
