@@ -49,7 +49,9 @@
 
     .content > h1 {
         color: white;
-        font-family: "IBM Plex Mono";
+        font-family: "Libre Baskerville";
+        letter-spacing: 0.055em;
+        font-size: xx-large;
     }
 
     .search-form {
