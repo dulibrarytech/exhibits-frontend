@@ -51,7 +51,8 @@
         color: white;
         font-family: "Libre Baskerville";
         letter-spacing: 0.04em;
-        font-size: xx-large;
+        font-size: 34px;
+        margin-bottom: 0;
     }
 
     .search-form {
