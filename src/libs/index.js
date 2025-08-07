@@ -1,7 +1,6 @@
 'use strict'
 
 import axios from 'axios';
-import { URLQueryParams } from "object-in-queryparams";
 import * as Logger from './logger.js';
 import { sanitizeExhibitHtmlFields, sanitizeExhibitItemHtmlFields, getInnerText } from '../libs/exhibits_data_helpers';
 import { ENTITY_TYPE } from '../config/global-constants';
@@ -108,16 +107,28 @@ export const Index = (() => {
         let terms = searchData.terms?.toString();
         let page = searchData.page || 1;
         let facets = searchData.facets || null;
-        let type = searchData.type || ENTITY_TYPE.ITEM;
+        let type = searchData.type || null;
 
-        let queryParams = new URLQueryParams({
-            q: terms,
-            f: facets || undefined,
-            page,
-            type: type || undefined
-        });
+        let queryParams = new URLSearchParams();
 
-        let url = `${SEARCH_ENDPOINT}?${queryParams}`;
+        queryParams.append(`q`, terms);
+        queryParams.append(`page`, page);
+
+        if(type) {
+            queryParams.append(`type`, type);
+        }
+
+        if(facets) {
+            facets.forEach(facet => {
+                for (const key in facet) {
+                    queryParams.append(`f[${key}]`, facet[key]);
+                }
+            });
+        }
+
+        let queryString = queryParams.toString();
+        let url = `${SEARCH_ENDPOINT}?${queryString}`;
+
         if(exhibitId) url = url.concat(`&exhibitId=${exhibitId}`);
 
         try {

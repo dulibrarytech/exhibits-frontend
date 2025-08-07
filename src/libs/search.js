@@ -47,24 +47,15 @@ export const Search = (() => {
 
         } = data;
 
-        let type = exhibitId ? ENTITY_TYPE.ITEM : ENTITY_TYPE.EXHIBIT;
-
         // get facet query data
-        if(Object.keys(facets).length > 0) {
-            let converted = {};
-            
-            for(let {field, value} of facets) {
-                if(field in converted == false) converted[field] = [];
-                converted[field].push(value);
-            }
-            facets = converted;
-        }
-        else {
-            facets = null;
+        if(facets) {
+            facets = facets.map(({field, value}) => {
+                return {[field]: value}
+            })
         }
 
         // execute the index search
-        let {results = [], aggregations = [], resultCount = null} = await Index.searchIndex({terms, boolean, fields, facets, page, type}, exhibitId);
+        let {results = [], aggregations = [], resultCount = null} = await Index.searchIndex({terms, boolean, fields, facets, page}, exhibitId);
 
         // get result limiter options from results aggs
         for(let field in aggregations) {
@@ -94,8 +85,10 @@ export const Search = (() => {
                 result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`;
             }
             else if(result.type == ENTITY_TYPE.GRID) {
-                result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`;
+                result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`; 
             }
+
+            // else if result.container_id => result.link = `/exhibit/${result.is_member_of_exhibit}#{result.grid_id}_${result.uuid}`
         }
 
         return {results, limitOptions, resultCount};
