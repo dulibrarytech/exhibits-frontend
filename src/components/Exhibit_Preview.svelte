@@ -4,7 +4,6 @@
     import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js'; 
     import { Settings } from '../config/settings.js';
-    //import { stripHtmlTags } from '../libs/data_helpers';
     import { getInnerText } from '../libs/exhibits_data_helpers';
 
     export let exhibit = {};
@@ -74,7 +73,7 @@
     }
 
     const onImageLoad = (event) => {
-        dispatch('image-loaded', {itemId});
+        dispatch('image-loaded', {itemId: exhibitId});
     }
 </script>
 
