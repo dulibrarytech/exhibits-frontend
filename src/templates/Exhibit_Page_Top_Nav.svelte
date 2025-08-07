@@ -8,6 +8,7 @@
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
     import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
     import Alert from '../components/Exhibit_Alert.svelte';
+    import { convertPxValuesToEm } from '../libs/data_helpers';
 
     export let args = {};
     export let template = null;
@@ -51,12 +52,13 @@
     }
 
     export const navigateToItemId = (anchorId) => {
-        let anchor = document.getElementById(anchorId);
-        anchor.setAttribute('tabindex', 0)
-        anchor.focus();
-
         let navbarHeight = document.querySelector(".navigation-page-section").offsetHeight;
-        let scrollOffset = anchor.offsetTop + navbarHeight / 2;
+
+        let [itemId, containerId] = anchorId.split('_')
+
+        let itemOffset = document.getElementById(itemId).offsetTop;
+        let containerOffset = containerId ? document.getElementById(containerId).offsetTop : 0;
+        let scrollOffset = (navbarHeight / 2) + containerOffset + itemOffset;
 
 		window.scrollTo({
 			top: scrollOffset,

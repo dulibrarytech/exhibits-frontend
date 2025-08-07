@@ -210,10 +210,14 @@
     const onMountPage = (event) => {
         Logger.module().info("Mounted exhibit page");
 
-        let anchorId = location.hash?.replace('#', '') || false;
-        if(anchorId) {
-            let item = getItemById(anchorId, items);
-            if(item && !item.is_embedded) openViewerModal(anchorId);
+        // check for an item id in the url
+        let hash = location.hash?.replace('#', '') || false;
+        let [itemId] = hash.split('_');
+
+        // if there is an item id in the url, get the item and open it in the modal item viewer
+        if(itemId) {
+            let item = getItemById(itemId, items);
+            if(item && !item.is_embedded) openViewerModal(itemId);
         }
     }
 
