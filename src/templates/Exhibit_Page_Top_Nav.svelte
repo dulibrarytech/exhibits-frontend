@@ -8,7 +8,6 @@
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';
     import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
     import Alert from '../components/Exhibit_Alert.svelte';
-    import { convertPxValuesToEm } from '../libs/data_helpers';
 
     export let args = {};
     export let template = null;
@@ -52,13 +51,21 @@
     }
 
     export const navigateToItemId = (anchorId) => {
+        let anchorOffset = 0;
         let navbarHeight = document.querySelector(".navigation-page-section").offsetHeight;
 
-        let [itemId, containerId] = anchorId.split('_')
+        let [itemId, gridId] = anchorId.split('_')
 
-        let itemOffset = document.getElementById(itemId).offsetTop;
-        let containerOffset = containerId ? document.getElementById(containerId).offsetTop : 0;
-        let scrollOffset = (navbarHeight / 2) + containerOffset + itemOffset;
+        if(gridId) {
+            anchorOffset = document.getElementById(gridId).offsetTop;
+
+            // TODO: get grid row offset, add to anchorOffset
+        }
+        else if(itemId) {
+            anchorOffset = document.getElementById(itemId).offsetTop;
+        }
+
+        let scrollOffset = (navbarHeight / 2) + anchorOffset;
 
 		window.scrollTo({
 			top: scrollOffset,
