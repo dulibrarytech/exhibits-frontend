@@ -211,7 +211,7 @@
         Logger.module().info("Mounted exhibit page");
 
         // check for an item id in the url
-        let hash = location.hash?.replace('#', '') || false;
+        let hash = location.hash?.replace('#', '');
         let [itemId] = hash.split('_');
 
         // if there is an item id in the url, get the item and open it in the modal item viewer
