@@ -19,6 +19,8 @@
 
     export let currentRoute;
 
+    const RESULTS_PER_PAGE = 10;    // move to configuration
+
     var results = null;
     var limitOptions = null;
     var facets = [];
@@ -39,13 +41,21 @@
         terms = currentRoute.queryParams.q?.split(',') || "";
         fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
         boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
-        page = currentRoute.queryParams.page || "1";
+        page = currentRoute.queryParams.page || 1;
         entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT;
         cache = currentRoute.queryParams.cache || false;
         exhibitId = currentRoute.queryParams.exhibitId || null;
 
+        searchParams = {
+            searchType: exhibitId ? SEARCH_TYPE.SEARCH_EXHIBIT : SEARCH_TYPE.SEARCH_ALL,
+            pageNumber: page,
+            resultsPerPage: RESULTS_PER_PAGE,
+            totalResults: 0
+        }
+
         if(cache) facets = Cache.getSearchData()?.selectedFacets || [];
 
+        // to on mount?
         let response = false;
         if(validateUrlParameters()) {
             response = await executeSearch();
@@ -55,19 +65,17 @@
         }
         
         message = response == true ? null : message = "An error occurred when executing the search.";
+        // to on mount?
     }
 
     const executeSearch = async () => {
         try {
-            let response = await Search.execute({terms, boolean, fields, exhibitId, page, facets});
+            // let response = await Search.execute({terms, boolean, fields, exhibitId, page, facets});
+            let response = await Search.execute({terms, boolean, fields, exhibitId, facets});
             
             results = response.results || [];
             limitOptions = response.limitOptions || null;
-
             searchParams.totalResults = response.resultCount || null;
-            searchParams.searchType = exhibitId ? SEARCH_TYPE.SEARCH_EXHIBIT : SEARCH_TYPE.SEARCH_ALL;
-            searchParams.pageNumber = page;
-            searchParams.resultsPerPage = 10;
 
             return true;
         }

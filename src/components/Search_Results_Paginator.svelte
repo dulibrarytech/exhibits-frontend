@@ -5,7 +5,7 @@
     import { createEventDispatcher } from 'svelte';
     import { create } from '../libs/paginator';
 
-    export let resultPage = [];
+    export let resultsPage = [];
     export let params = {};
 
     const dispatch = createEventDispatcher();
@@ -20,51 +20,51 @@
     $: render();
 
     const render = () => {
-        pageNumber = parseInt(params.pageNumber) ?? 1;
+        pageNumber = params.pageNumber ?? 1;
         resultsPerPage = params.resultsPerPage || 10;
         totalResults = params.totalResults ?? 0;
         path = window.location.href;
 
-        paginator = create(resultPage, pageNumber, resultsPerPage, totalResults, path);
+        paginator = create(resultsPage, pageNumber, resultsPerPage, totalResults, path);
     }
 
     const onClickLink = (event) => {
-        dispatch('click-paginator-link', {url: event.target.href})
+        dispatch('click-paginator-link', {page: event.target.getAttribute('data-page'), url: event.target.href})
     }
 </script>
 
-{#if resultPage.length > 0}
-<div class="search-results-paginator text-align-center">
-    <ul class="pagination pagination-sm">
-        
-        {#if paginator.totalHits > 0}
-            <p>Showing <strong>{paginator.beginCount} - {paginator.pageHits}</strong> of <strong>{paginator.totalHits}</strong> results.</p>
-        {/if}
+{#if resultsPage.length > 0}
+    <div class="search-results-paginator text-align-center">
+        <ul class="pagination pagination-sm">
+            
+            {#if paginator.totalHits > 0}
+                <p>Showing <strong>{paginator.beginCount} - {paginator.pageHits}</strong> of <strong>{paginator.totalHits}</strong> results.</p>
+            {/if}
 
-        {#if paginator.buttons.first}<li><a href={paginator.path.first} title="Go to First Page" on:click={onClickLink}>First</a></li>{/if}
-        {#if paginator.buttons.prev}<li><a href={paginator.path.prev} title="Go to Previous Page" on:click={onClickLink}>Previous</a></li>{/if}
+            {#if paginator.buttons.first}<li><a href={paginator.path.first} title="Go to First Page" on:click={onClickLink}>First</a></li>{/if}
+            {#if paginator.buttons.prev}<li><a href={paginator.path.prev} title="Go to Previous Page" on:click={onClickLink}>Previous</a></li>{/if}
 
-        {#if paginator.firstPageLink > 0}
-            {#each Array((paginator.lastPageLink+1) - paginator.firstPageLink) as _, index (index)}
+            {#if paginator.firstPageLink > 0}
+                {#each Array((paginator.lastPageLink+1) - paginator.firstPageLink) as _, index (index)}
 
-                <li>
-                    <a href={`${paginator.path.current}page=${index+1}`} title="Go to Page {index+1}" on:click={onClickLink}>
-                        {#if paginator.page == index+1}
-                            <strong class="highlight-page-link active">{index+1}</strong>
-                        {:else}
-                            {index+1}
-                        {/if}
-                    </a>
-                </li>
+                    <li>
+                        <a href={`${paginator.path.current}page=${index+1}`} title="Go to Page {index+1}" data-page={index+1} on:click={onClickLink}>
+                            {#if paginator.page == index+1}
+                                <strong class="highlight-page-link active">{index+1}</strong>
+                            {:else}
+                                {index+1}
+                            {/if}
+                        </a>
+                    </li>
 
-            {/each}
-        {/if}
+                {/each}
+            {/if}
 
-        {#if paginator.buttons.next}<li><a href={paginator.path.next} title="Go to Next Page" on:click={onClickLink}>Next</a></li>{/if}
-        {#if paginator.buttons.last}<li><a href={paginator.path.last} title="Go to Last Page" on:click={onClickLink}>Last</a></li>{/if}
+            {#if paginator.buttons.next}<li><a href={paginator.path.next} title="Go to Next Page" on:click={onClickLink}>Next</a></li>{/if}
+            {#if paginator.buttons.last}<li><a href={paginator.path.last} title="Go to Last Page" on:click={onClickLink}>Last</a></li>{/if}
 
-    </ul>
-</div>
+        </ul>
+    </div>
 {/if}
 
 <style>

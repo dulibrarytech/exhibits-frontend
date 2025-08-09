@@ -6,6 +6,7 @@
 
     import { createEventDispatcher } from 'svelte';
     import { formatFacetField, formatFacetValue } from '../libs/format';
+    import { getArrayPage } from '../libs/data_helpers';
     import Search_Result from '../templates/partials/Search_Result.svelte';
     import FacetLabels from './FacetLabels.svelte';
     import SearchResultsPaginator from './Search_Results_Paginator.svelte';
@@ -18,14 +19,20 @@
 
     const dispatch = createEventDispatcher();
 
+    var resultsPage = [];
     var searchType = null;
-    var termsLabel = ""; // search terms e.g. "X results found for [terms]";
+    var termsLabel = "";
 
     $: render();
 
     const render = () => {
+        resultsPage = getResultsPage(searchParams.pageNumber);
         termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
         searchType = searchParams.searchType || null;
+    }
+
+    const getResultsPage = (pageNumber) => {
+        return getArrayPage(results, pageNumber, searchParams.resultsPerPage);
     }
 
     const onClickFacet = (event) => {
@@ -94,19 +101,21 @@
 
                         <FacetLabels {facets} on:remove-facet={onRemoveFacet} />
 
-                        <SearchResultsPaginator resultPage={results} params={searchParams} on:click-paginator-link />
+                        <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
                     </div>
 
-                    {#if results.length > 0}
-                        {#each results as result, index} 
+                    <!-- {#if results.length > 0} -->
+                    {#if resultsPage.length > 0}
+                        <!-- {#each results as result, index}  -->
+                        {#each resultsPage as result, index}
                             <hr>
-                            <Search_Result {terms} {result} {index} {searchType} />
+                            <Search_Result {terms} {result} index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index} {searchType} />
                         {/each}
                     {:else}
                         <p>No results found.</p>
                     {/if}
                     
-                    <SearchResultsPaginator resultPage={results} params={searchParams} on:click-paginator-link />
+                     <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
                 </div>
             </div>
         </div>

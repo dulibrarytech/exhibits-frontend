@@ -194,6 +194,20 @@ export const shuffleArrayElements = (array) => {
       return array;
 }
 
+export const getArrayPage = (array, pageNumber, pageSize) => {
+    let page = [];
+    let index = pageSize * (pageNumber-1);
+
+    if(index+pageSize < array.length) {
+        page = array.slice(index, index+pageSize)
+    }
+    else {
+        page = array.slice(index, array.length)
+    }
+
+    return page;
+}
+
 /**
  * 
  * @param {*} htmlString 
