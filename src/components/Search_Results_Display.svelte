@@ -104,9 +104,7 @@
                         <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
                     </div>
 
-                    <!-- {#if results.length > 0} -->
                     {#if resultsPage.length > 0}
-                        <!-- {#each results as result, index}  -->
                         {#each resultsPage as result, index}
                             <hr>
                             <Search_Result {terms} {result} index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index} {searchType} />
