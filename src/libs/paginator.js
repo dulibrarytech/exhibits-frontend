@@ -46,7 +46,7 @@
   * @property {integer}
   */
  export const create = function(items, page, maxItems, totalItems, path) {
-    const MAX_PAGE_LINKS = 5;
+    const MAX_PAGE_LINKS = 10;
 
     var pagination = {};
     pagination['page'] = page || 1;
