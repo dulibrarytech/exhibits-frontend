@@ -113,7 +113,7 @@
             cache = true;
         }
 
-        window.location.replace(url);
+        window.location.replace( url.replace(/(&|)page=[0-9]+/g, "") );
     } 
 
     const onRemoveFacet = (event) => {
@@ -126,7 +126,7 @@
             cache = true;
         }
 
-        window.location.replace(url);
+        window.location.replace( url.replace(/(&|)page=[0-9]+/g, "") );
     }
 
     const onResetFacets = (event) => {
