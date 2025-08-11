@@ -5,6 +5,7 @@
     'use strict'
 
     import { createEventDispatcher } from 'svelte';
+    import { Settings } from '../config/settings.js';
     import { formatFacetField, formatFacetValue } from '../libs/format';
     import { getArrayPage } from '../libs/data_helpers';
     import Search_Result from '../templates/partials/Search_Result.svelte';
@@ -18,6 +19,10 @@
     export let searchParams = {};
 
     const dispatch = createEventDispatcher();
+
+    let {
+        facetValues
+    } = Settings;
 
     var resultsPage = [];
     var searchType = null;
@@ -72,6 +77,7 @@
 
                     {#if limitOptions.length > 0}
                         <div class="facet-panel">
+                            
                             <h4>Filter Results</h4>
                             <div class="facets">
                                 {#each limitOptions as {field, values, label=null}}
@@ -81,7 +87,9 @@
                                         <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
 
                                             {#each values as {value, count, label=null}, index}
-                                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span use:formatFacetValue={field} style="pointer-events:none">{value}</span><span class="badge">{count}</span></a></li>
+                                                {#if facetValues[field].includes(value)}
+                                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span use:formatFacetValue={field} style="pointer-events:none">{value}</span><span class="badge">{count}</span></a></li>
+                                                {/if}
                                             {/each}
 
                                         </ul>

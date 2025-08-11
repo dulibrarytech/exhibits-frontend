@@ -105,18 +105,16 @@ export const Index = (() => {
      */
     const searchIndex = async (searchData = {}, exhibitId = null) => {    
         let terms = searchData.terms?.toString();
-        let page = searchData.page || 1;
+        let page = searchData.page || null;
         let facets = searchData.facets || null;
         let type = searchData.type || null;
 
         let queryParams = new URLSearchParams();
 
         queryParams.append(`q`, terms);
-        queryParams.append(`page`, page);
-
-        if(type) {
-            queryParams.append(`type`, type);
-        }
+        
+        if(page) queryParams.append(`page`, page);
+        if(type) queryParams.append(`type`, type);
 
         if(facets) {
             facets.forEach(facet => {

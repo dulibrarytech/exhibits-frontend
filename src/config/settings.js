@@ -158,21 +158,24 @@ export const Settings = {
      * Limit panel labels (facet labels)
      */
     facetLabels: {
-        "type": "Entity",
+        "type": "Type",
         "is_member_of_exhibit": "Exhibits",
-        "item_type": "Item Type",
+        "item_type": "Format",
         "keyword": "Keywords"
     },
     facetValueLabels: {
         "item": "Exhibit Item",
         "exhibit": "Exhibit",
-        "grid": "Exhibit Item Grid",
         "text": "Exhibit Text",
         "image": "Image",
         "audio": "Audio",
         "video": "Video",
         "pdf": "Text Document",
         "external": "Unknown Type"
+    },
+    facetValues: {
+        "type": ["item", "exhibit"],
+        "item_type": ["image", "audio", "video", "pdf"]
     },
 
     /*
