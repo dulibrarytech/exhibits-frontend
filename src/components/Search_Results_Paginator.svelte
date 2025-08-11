@@ -47,13 +47,9 @@
             {#if paginator.firstPageLink > 0}
                 {#each Array((paginator.lastPageLink+1) - paginator.firstPageLink) as _, index (index)}
 
-                    <li>
+                    <li class={paginator.page == index+1 ? "active" : undefined}>
                         <a href={`${paginator.path.current}page=${index+1}`} title="Go to Page {index+1}" data-page={index+1} on:click={onClickLink}>
-                            {#if paginator.page == index+1}
-                                <strong class="highlight-page-link active">{index+1}</strong>
-                            {:else}
-                                {index+1}
-                            {/if}
+                            {index+1}
                         </a>
                     </li>
 
@@ -103,7 +99,7 @@
 
     .pagination-sm>li>a, .pagination-sm>li>span {
         padding: 5px 10px;
-        font-size: 12px;
+        font-size: 16px;
         line-height: 1.5;
     }
 
