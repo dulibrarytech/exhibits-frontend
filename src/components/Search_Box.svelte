@@ -96,7 +96,7 @@
   }
 
   .search-box button {
-      background: #71190E;
+      background: #7C0A02;
   }
 
   .search-box input,

@@ -179,7 +179,7 @@
 
     .homepage-section .heading a {
         text-decoration: underline;
-        color: #71190E;
+        color: #7C0A02;
         font-family: "IBM Plex Mono";
     }
 
