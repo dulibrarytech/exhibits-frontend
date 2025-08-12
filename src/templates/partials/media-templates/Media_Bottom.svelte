@@ -9,7 +9,8 @@
     <div class="content">
         {#if mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
 
-        <div class="text {mediaPadding ? '' : 'container-wide'}">
+        <!-- <div class="text {mediaPadding ? '' : 'container-wide'}"> -->
+        <div class="text {mediaPadding ? '' : 'container'}">
             {#if !mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
             <slot name="text-display" />
         </div>

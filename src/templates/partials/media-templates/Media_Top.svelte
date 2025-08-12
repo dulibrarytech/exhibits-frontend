@@ -14,7 +14,8 @@
             {#if caption}<div class="{mediaPadding ? '' : ''} caption">{caption}</div>{/if}
         </div>
 
-        <div class="text {mediaPadding ? '' : 'container-wide'}">
+        <!-- <div class="text {mediaPadding ? '' : 'container-wide'}"> -->
+        <div class="text {mediaPadding ? '' : 'container'}">
             {#if !mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
             <slot name="text-display" />
         </div>

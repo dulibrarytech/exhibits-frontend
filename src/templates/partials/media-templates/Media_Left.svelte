@@ -1,23 +1,41 @@
+<svelte:window on:resize={updateTextMargin} />
+
 <script>
+    import { onMount } from 'svelte';
+
     export let wrapText = true;
     export let mediaPadding = true;
     export let mediaWidth = "50";
     export let caption = null;
+
+    let containerPadding;
+    let textContainer;
+    let textMargin;
+
+    const updateTextMargin = () => {
+        if(wrapText == false) {
+            textMargin = window.getComputedStyle(containerPadding).getPropertyValue("margin-right");
+            textContainer.style.marginRight = textMargin;
+        }
+    }
+
+    onMount(() => {
+        updateTextMargin();
+    });
 </script>
 
 <div class="media-left layout {mediaPadding ? 'container media-padding' : ''}">
 
     {#if wrapText}
-
         <!-- floating media in text section -->
         <div class="content wrap-text">
             {#if mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
             <div class="media width-{mediaWidth}">
                 <slot name="media-display" />
-                {#if caption}<div class="{mediaPadding ? '' : 'container-wide'} caption">{caption}</div>{/if}
+                {#if caption}<div class="{mediaPadding ? '' : 'container'} caption">{caption}</div>{/if}
             </div>
 
-            <div class="text {mediaPadding ? '' : 'container-wide'}">
+            <div class="text {mediaPadding ? '' : 'container'}">
                 {#if !mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
                 <slot name="text-display" />
             </div>
@@ -27,14 +45,16 @@
 
         <!-- flexbox -->
         <div class="content">
+            <div class="container" bind:this={containerPadding}></div>
+
             {#if mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
             <div class="flex">
-                <div class="media width-{mediaWidth} flex-{mediaWidth}"> <!-- flex-50 -->
+                <div class="media width-{mediaWidth} flex-{mediaWidth}">
                     <slot name="media-display" />
                     {#if caption}<div class="{mediaPadding ? '' : 'container'} caption">{caption}</div>{/if}
                 </div>
 
-                <div class="text"> <!-- flex: 1 --> <!-- temp remove .container-wide -->
+                <div class="text {mediaPadding ? '' : 'container'}" bind:this={textContainer}>
                     {#if !mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
                     <slot name="text-display" />
                 </div>
@@ -47,6 +67,7 @@
 <style>
     .flex {
         display: flex;
+        justify-content: end;
         flex-wrap: wrap-reverse;
         row-gap: 3.5rem;
     }
@@ -96,10 +117,6 @@
 
     .layout.media-padding .caption {
         margin-left: 0.75rem;
-    }
-
-    .layout:not(.media-padding) .caption {
-        margin-left: 3.5vw;
     }
 
     .layout.media-padding .content:not(.wrap-text) .text {
@@ -174,6 +191,15 @@
         .layout:not(.media-padding) .content:not(.wrap-text) .text {
             margin-left: 3.5vw;
             margin-right: 3.5vw;
+        }
+
+        .media-left:not(.media-padding) .caption.container {
+            width: 75%;
+            margin-right: unset;
+        }
+
+        .media-left:not(.media-padding) .text.container {
+            width: unset;
         }
     }
 
