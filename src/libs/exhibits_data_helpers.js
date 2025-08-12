@@ -204,3 +204,27 @@ export const createExhibitPageSections = (items) => {
 
     return headings;
 }
+
+/**
+ * 
+ * @param {*} index 
+ * @param {*} grid 
+ * @returns 
+ */
+export const getGridTopOffset = (itemId, grid) => {
+    let offset = 0;
+    let {uuid, items = [], columns = 2} = grid;
+
+    let index = items.findIndex(({uuid}) => {
+        return uuid == itemId;
+    })+ 1;
+
+    let gridHeight = document.getElementById(uuid).offsetHeight;
+    let rowCount = items.length / columns;
+    let rowHeight = gridHeight / rowCount;
+    let rowNumber = Math.ceil(index / columns);
+
+    offset = rowHeight * (rowNumber-1);
+
+    return offset;
+}

@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
+    import { getItemById, getGridTopOffset } from '../libs/exhibits_data_helpers';
         
     import Hero from '../components/Hero.svelte';
     import Navigation_Top from '../components/Navigation_Top.svelte';
@@ -50,7 +51,7 @@
         navigateToItemId(anchorId);
     }
 
-    export const navigateToItemId = (anchorId) => {
+    export const navigateToItemId = (anchorId) => {  
         let anchorOffset = 0;
         let navbarHeight = document.querySelector(".navigation-page-section").offsetHeight;
 
@@ -59,7 +60,8 @@
         if(gridId) {
             anchorOffset = document.getElementById(gridId).offsetTop;
 
-            // TODO: get grid row offset, add to anchorOffset
+            let grid = getItemById(gridId, items);
+            anchorOffset += getGridTopOffset(itemId, grid);
         }
         else if(itemId) {
             anchorOffset = document.getElementById(itemId).offsetTop;
