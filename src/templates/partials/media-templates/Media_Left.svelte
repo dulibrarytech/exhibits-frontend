@@ -10,6 +10,7 @@
 
     let containerPadding;
     let textContainer;
+    let captionElement;
     let textMargin;
 
     const updateTextMargin = () => {
@@ -29,10 +30,11 @@
     {#if wrapText}
         <!-- floating media in text section -->
         <div class="content wrap-text">
+
             {#if mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
             <div class="media width-{mediaWidth}">
                 <slot name="media-display" />
-                {#if caption}<div class="{mediaPadding ? '' : 'container'} caption">{caption}</div>{/if}
+                {#if caption}<div class="{mediaPadding ? '' : 'container'} caption" bind:this={captionElement}>{@html caption}</div>{/if}
             </div>
 
             <div class="text {mediaPadding ? '' : 'container'}">
@@ -51,7 +53,7 @@
             <div class="flex">
                 <div class="media width-{mediaWidth} flex-{mediaWidth}">
                     <slot name="media-display" />
-                    {#if caption}<div class="{mediaPadding ? '' : 'container'} caption">{caption}</div>{/if}
+                    {#if caption}<div class="{mediaPadding ? '' : 'container'} caption">{@html caption}</div>{/if}
                 </div>
 
                 <div class="text {mediaPadding ? '' : 'container'}" bind:this={textContainer}>
