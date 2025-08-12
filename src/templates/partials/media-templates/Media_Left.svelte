@@ -195,11 +195,6 @@
             margin-right: 3.5vw;
         }
 
-        .media-left:not(.media-padding) .caption.container {
-            width: 75%;
-            margin-right: unset;
-        }
-
         .media-left:not(.media-padding) .text.container {
             width: unset;
         }
