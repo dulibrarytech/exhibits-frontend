@@ -17,7 +17,7 @@
 
         <div class="media width-{mediaWidth}">
             <slot name="media-display" />
-            {#if caption}<div class="{mediaPadding ? '' : ''} caption">{@html caption}</div>{/if}
+            {#if caption}<div class="{mediaPadding ? '' : ''} caption">{caption}</div>{/if}
         </div>
     </div>
 

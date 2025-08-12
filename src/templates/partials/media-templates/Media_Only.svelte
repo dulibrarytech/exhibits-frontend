@@ -11,7 +11,7 @@
 
         <div class="media width-{mediaWidth}">
             <slot name="media-display" />
-            {#if caption}<div class="{mediaPadding ? '' : ''} caption">{@html caption}</div>{/if}
+            {#if caption}<div class="{mediaPadding ? '' : ''} caption">{caption}</div>{/if}
         </div>
     </div>
 
@@ -35,13 +35,12 @@
         margin: 0 auto;
     }
 
-    .layout.media-padding .caption {
+    .caption {
         margin-left: 0.75rem;
     }
 
-    .layout:not(.media-padding) .caption {
+    .layout:not(.media-padding) .media-100 .caption {
         margin-left: 3.5vw;
-        padding-left: 0.75rem;
     }
 
     .width-25 {width: 100%}
