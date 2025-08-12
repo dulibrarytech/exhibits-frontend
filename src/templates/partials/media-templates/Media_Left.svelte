@@ -117,8 +117,9 @@
         margin-bottom: 3.65rem; 
     }
 
-    .layout.media-padding .caption {
-        margin-left: 0.75rem;
+    .layout:not(.media-padding) .caption.container {
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
     }
 
     .layout.media-padding .content:not(.wrap-text) .text {
@@ -184,6 +185,11 @@
             padding-right: 40px;
             padding-bottom: 25px;
             margin-bottom: 0; 
+        }
+
+        .layout:not(.media-padding) .caption.container {
+            padding-left: 50px;
+            padding-right: 0.75rem;
         }
 
         .layout.media-padding .content:not(.wrap-text) .text {

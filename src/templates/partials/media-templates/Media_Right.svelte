@@ -109,8 +109,9 @@
         margin-bottom: 3.65rem; 
     }
 
-    .layout.media-padding .caption {
-        padding-left: 0.75rem;
+    .layout:not(.media-padding) .caption.container {
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
     }
 
     .layout.media-padding .content:not(.wrap-text) .text {
@@ -187,12 +188,12 @@
             margin-right: 3.5vw;
         }
 
-        .media-right:not(.media-padding) .caption.container {
-            width: 75%;
-            margin-left: unset;
+        .layout:not(.media-padding) .caption.container {
+            padding-right: 50px;
+            padding-left: 0.75rem;
         }
 
-        .media-right:not(.media-padding) .text.container {
+        .layout:not(.media-padding) .text.container {
             width: unset;
         }
     }
