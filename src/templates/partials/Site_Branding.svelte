@@ -53,7 +53,7 @@
     }
 
     .highlight-text {
-        color: #8b2332;
-        border-color: #8b2332;
+        color: #BA0C2F;
+        border-color: #BA0C2F;
     }
 </style>

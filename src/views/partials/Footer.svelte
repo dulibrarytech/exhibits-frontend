@@ -31,7 +31,7 @@
 
 <style>
     footer {
-        background-color: #7C0A02;
+        background-color: #71190E;
     }
 
     footer > .container {
