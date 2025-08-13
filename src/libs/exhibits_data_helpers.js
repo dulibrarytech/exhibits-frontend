@@ -213,16 +213,20 @@ export const createExhibitPageSections = (items) => {
  */
 export const getGridTopOffset = (itemId, grid) => {
     let offset = 0;
-    let {uuid, items = [], columns = 2} = grid;
+    let {uuid, items = []} = grid;
 
-    let index = items.findIndex(({uuid}) => {
+    let itemWidth = parseInt( window.getComputedStyle( document.getElementById(itemId) ).getPropertyValue("width").replace("px", "") );
+    let gridWidth = parseInt( window.getComputedStyle( document.querySelector(`#${uuid} > .item-grid > .container`) ).getPropertyValue("width").replace("px", "") );
+
+    let itemIndex = items.findIndex(({uuid}) => {
         return uuid == itemId;
     })+ 1;
 
+    let columns = Math.floor(gridWidth / itemWidth);
     let gridHeight = document.getElementById(uuid).offsetHeight;
-    let rowCount = items.length / columns;
+    let rowCount = Math.ceil(items.length / columns);
     let rowHeight = gridHeight / rowCount;
-    let rowNumber = Math.ceil(index / columns);
+    let rowNumber = Math.ceil(itemIndex / columns);
 
     offset = rowHeight * (rowNumber-1);
 

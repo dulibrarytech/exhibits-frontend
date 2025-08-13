@@ -60,6 +60,7 @@
         if(gridId) {
             anchorOffset = document.getElementById(gridId).offsetTop;
 
+            // add the top offset of grid row that contains the item
             let grid = getItemById(gridId, items);
             anchorOffset += getGridTopOffset(itemId, grid);
         }
