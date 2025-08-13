@@ -211,24 +211,29 @@ export const createExhibitPageSections = (items) => {
  * @param {*} grid 
  * @returns 
  */
-export const getGridTopOffset = (itemId, grid) => {
+export const getGridRowOffset = (itemId, grid) => {
     let offset = 0;
     let {uuid, items = []} = grid;
 
-    let itemWidth = parseInt( window.getComputedStyle( document.getElementById(itemId) ).getPropertyValue("width").replace("px", "") );
-    let gridWidth = parseInt( window.getComputedStyle( document.querySelector(`#${uuid} > .item-grid > .container`) ).getPropertyValue("width").replace("px", "") );
+    try {
+        let itemWidth = parseInt( window.getComputedStyle( document.getElementById(itemId) ).getPropertyValue("width").replace("px", "") );
+        let gridWidth = parseInt( window.getComputedStyle( document.querySelector(`#${uuid} .grid .grid-container`) ).getPropertyValue("width").replace("px", "") );
 
-    let itemIndex = items.findIndex(({uuid}) => {
-        return uuid == itemId;
-    })+ 1;
+        let itemIndex = items.findIndex(({uuid}) => {
+            return uuid == itemId;
+        })+ 1;
 
-    let columns = Math.floor(gridWidth / itemWidth);
-    let gridHeight = document.getElementById(uuid).offsetHeight;
-    let rowCount = Math.ceil(items.length / columns);
-    let rowHeight = gridHeight / rowCount;
-    let rowNumber = Math.ceil(itemIndex / columns);
+        let columns = Math.floor(gridWidth / itemWidth);
+        let gridHeight = document.getElementById(uuid).offsetHeight;
+        let rowCount = Math.ceil(items.length / columns);
+        let rowHeight = gridHeight / rowCount;
+        let rowNumber = Math.ceil(itemIndex / columns);
 
-    offset = rowHeight * (rowNumber-1);
+        offset = rowHeight * (rowNumber-1);
+    }
+    catch(e) {
+        console.error(`Could not calculate grid top offset: ${e}`);
+    }
 
     return offset;
 }

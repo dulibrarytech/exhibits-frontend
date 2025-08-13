@@ -162,10 +162,10 @@
     });
 </script>
 
-<div class="vertical-timeline-item-grid item-padding" bind:this={timelineSection}>
+<div class="vertical-timeline-item-grid grid item-padding" bind:this={timelineSection}>
     <div id={id ?? undefined} class="anchor-offset"></div>
     
-    <div class="container">
+    <div class="container grid-container">
 
         {#if title}
             <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>

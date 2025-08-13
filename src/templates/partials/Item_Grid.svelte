@@ -63,10 +63,10 @@
     });
 </script>
 
-<div class="item-grid item-padding columns-{columns}" bind:this={gridElement} >
+<div class="item-grid grid item-padding columns-{columns}" bind:this={gridElement} >
     <div id={id ?? undefined} class="anchor-offset"></div>
 
-    <div class="container">
+    <div class="container grid-container">
         {#if title}
             <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
         {/if}
