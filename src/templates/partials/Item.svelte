@@ -48,7 +48,6 @@
     $: init();
 
     const init = async () => {
-        // handle a null item value
         if(!item) {
             item = {};
             Logger.module().error("Null item data");
@@ -117,7 +116,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
+                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -130,7 +129,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
+                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -143,7 +142,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
+                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -156,7 +155,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
+                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -169,7 +168,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item />
+                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
             </div>
         </Media_Only>
 
