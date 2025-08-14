@@ -21,7 +21,7 @@
 </script>
 
 {#if component}
-    <svelte:component this={component} {item} {args} on:load-media on:load-media-fail on:click-item/>
+    <svelte:component this={component} {item} {args} on:load-media on:load-error on:click-item/>
     
 {:else}
     <div class="load-message">

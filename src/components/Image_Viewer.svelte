@@ -4,10 +4,13 @@
      * 
      * Determines image type, renders an Image_Viewer for a standard image and an image tile viewer (OpenSeadragon) for large images
      */
+    import { createEventDispatcher } from 'svelte';
     import OpenSeadragon_Content from './OpenSeadragon_Content.svelte';
     import * as Logger from '../libs/logger.js';
 
     export let args;
+
+    const dispatch = createEventDispatcher();
 
     let {
         url = null,
@@ -39,6 +42,8 @@
 
     const onImageLoadError = (event) => {
         sourceUrl = null;
+
+        dispatch('load-error', {url});
     }
 
     $: render();

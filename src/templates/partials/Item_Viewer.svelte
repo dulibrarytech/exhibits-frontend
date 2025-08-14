@@ -28,13 +28,13 @@
 
 	const onLoadMedia = (event) => {}
 
-	const onLoadMediaFail = (event) => {}
+	const onLoadError = (event) => {}
 </script>
 
 <div class="item-viewer">
 	<div class="row">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
-			<Media_Display {item} args={{viewerType: 'interactive'}} on:load-media={onLoadMedia} on:load-media-fail={onLoadMediaFail} />
+			<Media_Display {item} args={{viewerType: 'interactive'}} on:load-media={onLoadMedia} on:load-error={onLoadError} />
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
