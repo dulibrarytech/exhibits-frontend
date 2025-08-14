@@ -2,12 +2,17 @@
     import { createEventDispatcher } from 'svelte';
     import { getItemTypeForMimeType } from '../libs/media_helpers';
     import { Repository } from '../libs/repository';
+    import { Settings } from '../config/settings.js';
     import * as Logger from '../libs/logger.js';
     
     export let id = null; // dom element id
     export let item = {};
     export let args = {};
     export let template = null;
+
+    const {
+        fileExtensions
+    } = Settings;
 
     let _exhibitItem;
     let _exhibitItemId;
@@ -25,14 +30,13 @@
 
         try {
             Logger.module().info(`Fetching repository item data and resource file... Repository item id: ${_repositoryItemId}`);
-            let {mediaFile, itemData} = await Repository.getItem(_repositoryItemId, _exhibitItemId) 
+            let itemData = await Repository.getItemData(_repositoryItemId); // UPDATE
             
             _exhibitItem = {...item};
-            _exhibitItem.media = mediaFile;
             _exhibitItem.item_type = getItemTypeForMimeType( itemData.mime_type );
+            _exhibitItem.media = `${_exhibitItemId}_repository_item_media.${fileExtensions[_exhibitItem.item_type][0]}`;
             _exhibitItem.data_display = getDataDisplay(itemData);
 
-            Logger.module().info(`File fetch complete. Repository item id: ${_repositoryItemId}`);
             _renderTemplate = true;
         }
         catch(error) {
@@ -80,22 +84,36 @@
         return display;
     }
 
+    const onLoadError = async (event) => {
+        _renderTemplate = false;
+        await Repository.getItem(_repositoryItemId, _exhibitItemId);
+        _renderTemplate = true;
+    }
+
     init();
 </script>
 
 {#if _renderTemplate}
     <div class="repository-item">
-        <svelte:component this={template} {id} item={_exhibitItem} {args} on:click-item on:mount-template-item on:image-loaded />
+        <svelte:component this={template} {id} item={_exhibitItem} {args} on:click-item on:mount-template-item on:image-loaded on:load-error={onLoadError} />
     </div>
 
 {:else}
-    <!-- <div class="message">
-        <p>Loading item...</p>
-    </div> -->
+    <div class="message">
+        <p>Loading item, please wait...</p>
+    </div>
 
 {/if}
 
 <style>
+    .message {
+        background: white;
+        padding: 5px;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+    }
+
     .repository-item {
         height: 100%;
     }

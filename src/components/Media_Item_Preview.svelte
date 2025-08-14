@@ -167,8 +167,9 @@
 
     const onImageLoadError = (event) => {
         Logger.module().error(`Preview image load error. Url: ${preview}`);
-        let placeholderImageUrl = `${imageAssetsPath}/${placeholderImage[itemType || 'DEFAULT']}`;
         overlay = false;
+
+        let placeholderImageUrl = `${imageAssetsPath}/${placeholderImage[itemType || 'DEFAULT']}`;
         previewImageElement.parentElement.title = altText;
 
         if(event.target.src.includes(placeholderImageUrl) == false) {
@@ -176,6 +177,8 @@
             if(altText) previewImageElement.alt = altText;
             isPlaceholderImage = true;
         }
+
+        dispatch('load-error', {url: preview});
     }
 
     const onImageLoad = (event) => {

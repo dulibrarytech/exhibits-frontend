@@ -236,17 +236,17 @@
         dispatch('load-media', {});
 	}
 
-	const onLoadMediaFail = (event) => {
+	const onLoadError = (event) => {
         mediaElement.style.visibility = "hidden";
 		message = "Error loading file";
         Logger.module().error(`Item viewer error: ${event?.detail?.error || ""}`);
-        dispatch('load-media-fail', {});
+        dispatch('load-error', {url: media});
 	}
 </script>
 
 {#if component}
     <div class="media-item" bind:this={mediaElement}>
-        <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadMediaFail} height={viewerHeight}/>
+        <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadError} height={viewerHeight}/>
 
         {#if caption}<div class="caption">{@html caption}</div>{/if}
     </div>
