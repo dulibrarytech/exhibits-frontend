@@ -70,7 +70,7 @@ const highlightTerms = (terms, text) => {
             
             matches.forEach((matchText) => {
                 highlightedText = `<span class="text-highlight">${matchText}</span>`;
-                updatedText = updatedText.replace(matchText, highlightedText);
+                updatedText = text.replace(matchText, highlightedText);
             });
         }
     });
