@@ -196,10 +196,8 @@
         modalDialog = null;
         document.body.classList.remove('modal-open');
 
-        // if there is a hash in the exhibit page url, remove the anchor from the url when the item viewer dialog is closed
-        if(location.href.indexOf('#') > 0) {
-            history.pushState(null, null, location.href.substring(0, location.href.indexOf('#')));
-        }
+        let anchorId = location.hash?.replace('#', '') || false;
+        if(anchorId) page.navigateToItemId(anchorId, "instant");
     }
 
     const showLoadMessage = (show) => {
@@ -227,9 +225,6 @@
         setTimeout(() => {
             exhibitDisplay.style.height = "unset";
             exhibitDisplay.style.overflow = "unset";
-
-            let anchorId = location.hash?.replace('#', '') || false;
-            if(anchorId) page.navigateToItemId(anchorId);
             
             showLoadMessage(false);
 

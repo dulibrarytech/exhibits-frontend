@@ -1,7 +1,6 @@
 <script>
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
-    import { getItemById, getGridRowOffset } from '../libs/exhibits_data_helpers';
         
     import Hero from '../components/Hero.svelte';
     import Navigation_Top from '../components/Navigation_Top.svelte';
@@ -51,28 +50,14 @@
         navigateToItemId(anchorId);
     }
 
-    export const navigateToItemId = (anchorId) => {  
-        let anchorOffset = 0;
+    export const navigateToItemId = (anchorId, scrollType = 'smooth') => {  
         let navbarHeight = document.querySelector(".navigation-page-section").offsetHeight;
-
-        let [itemId, gridId] = anchorId.split('_')
-
-        if(gridId) {
-            anchorOffset = document.getElementById(gridId).offsetTop;
-
-            // add the top offset of grid row that contains the item
-            let grid = getItemById(gridId, items);
-            anchorOffset += getGridRowOffset(itemId, grid);
-        }
-        else if(itemId) {
-            anchorOffset = document.getElementById(itemId).offsetTop;
-        }
-
+        let anchorOffset = document.getElementById(anchorId).offsetTop;
         let scrollOffset = (navbarHeight / 2) + anchorOffset;
 
 		window.scrollTo({
 			top: scrollOffset,
-			behavior: 'smooth'
+			behavior: scrollType
 		});
     }
 

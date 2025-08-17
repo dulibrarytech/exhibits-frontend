@@ -83,8 +83,6 @@ export const Search = (() => {
             }
             else if(result.type == ENTITY_TYPE.ITEM) {
                 result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`;
-
-                if(result.container_uuid) result.link = result.link.concat(`_${result.container_uuid}`);
             }
             else if(result.type == ENTITY_TYPE.GRID) {
                 result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`; 
