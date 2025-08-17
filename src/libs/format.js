@@ -58,23 +58,13 @@ export const formatSearchResultValue = (node, data = {}) => {
  * @returns text with highlight tags inserted 
  */
 const highlightTerms = (terms, text) => {
-    let pattern, matches;
-    let updatedText = text;
-     
+    let pattern;
+    
     terms.forEach((term) => {
         pattern = new RegExp(`${term}`, "gi");
-        matches = text.match(pattern);
-
-        if(matches) {
-            let highlightedText = "";
-            
-            matches.forEach((matchText) => {
-                highlightedText = `<span class="text-highlight">${matchText}</span>`;
-                updatedText = text.replace(matchText, highlightedText);
-            });
-        }
+        text = text.replace(pattern, `<span class="text-highlight">${term}</span>`)
     });
 
-    return updatedText;
+    return text;
 }
 
