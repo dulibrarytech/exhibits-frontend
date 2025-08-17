@@ -171,8 +171,14 @@
     }
 
     const openViewerModal = (itemId) => {
+        // add item id to url
+        if(location.href.indexOf('#') < 0) {
+            history.pushState(null, null, `${location.href}#${itemId}`);
+        }
+
         modalDialogData = getItemById((itemId || null), items);
-        if(!modalDialog) modalDialog = Modal_Item_Display;
+        if(!modalDialog) modalDialog = Modal_Item_Display;8
+
         document.body.classList.add('modal-open');
     }
 
@@ -187,8 +193,8 @@
         };
 
         if(!modalDialog) modalDialog = Modal_Page_Display;
+        
         document.body.classList.add('modal-open');
-
     }
 
     const closeModal = (event) => {
@@ -198,6 +204,11 @@
 
         let anchorId = location.hash?.replace('#', '') || false;
         if(anchorId) page.navigateToItemId(anchorId, "instant");
+
+        // remove item id from url
+        if(location.href.indexOf('#') > 0) {
+            history.pushState(null, null, location.href.substring(0, location.href.indexOf('#')));
+        }
     }
 
     const showLoadMessage = (show) => {
