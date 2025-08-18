@@ -1,13 +1,7 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { Settings } from '../config/settings.js';
-    import Search_Box from './Search_Box.svelte';
-    
-    export let exhibitId = null;
     
     const dispatch = createEventDispatcher();
-
-    let _searchFields = Object.keys(Settings.searchFieldsExhibitItem);
     
     const onClickLink = (event) => {
         dispatch('click-menu-link', {pageId: event.target.getAttribute('data-page-id') || null})
@@ -23,10 +17,6 @@
                 <a href class="me-3 py-2 text-dark text-decoration-underline" data-page-id="about-the-curators" on:click|preventDefault={onClickLink} >About the Curators</a>
                 <!-- <a href class="me-3 py-2 text-dark text-decoration-underline" data-page-id="download-exhibit" on:click|preventDefault={onClickLink} >Download Exhibit</a> -->
             </nav>
-        
-            <div class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <Search_Box endpoint="/search" fields={_searchFields} placeholder="Search in this exhibit" params={{exhibitId}}/>
-            </div>
         </div>
     </div>
 

@@ -1,5 +1,5 @@
 <script>
-    import Site_Branding from '../../templates/partials/Site_Branding.svelte';
+    import Site_Branding_Search from '../../templates/partials/Site_Branding_Search.svelte';
     import Site_Menu from '../../components/Site_Menu.svelte';
 </script>
 
@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <Site_Branding />
+    <Site_Branding_Search />
 </header>
 
 <style>

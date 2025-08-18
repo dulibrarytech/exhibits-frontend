@@ -20,7 +20,6 @@
     let _highlightExhibit;
     let _featuredExhibits;
     let _studentCuratedExhibits;
-    let _searchData;
 
     var message = "";
 
@@ -30,13 +29,6 @@
 
     const init = async () => {
         _exhibits = null;
-
-        _searchData = {
-            endpoint: "/exhibits-explore",
-            queryParam: "keyword",
-            buttonText: "Filter",
-            placeholder: "Filter by keyword"
-        }
 
         _highlightExhibit = null;
         _featuredExhibits = null;
@@ -78,7 +70,7 @@
 
 <div class="exhibits-home">
 
-    <Homepage_Hero_Banner data={_searchData} />
+    <Homepage_Hero_Banner />
 
     <div class="page">
         <div class="container">
