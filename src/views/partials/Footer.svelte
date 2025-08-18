@@ -4,7 +4,7 @@
 
             <div class="col-lg-5 col-md-4 col-sm-12 logo-container">
                 <div class="logo">
-                    <a href="https://library.du.edu" title="Link to university libraries website" target="_blank"><img src="/assets/images/du-logo3.png" alt="University of Denver University Libraries logo" /></a>
+                    <a href="https://library.du.edu" title="Link to university libraries website" target="_blank"><img src="/assets/images/du-logo-blue.svg" alt="University of Denver University Libraries logo" /></a>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
 
 <style>
     footer {
-        background-color: #7C0A02;
+        background-color: #375060;
     }
 
     footer > .container {
@@ -89,7 +89,7 @@
 
     @media screen and (min-width: 992px) {
         .logo img {
-            width: 70%;
+            width: 60%;
         }
     }
 </style>
