@@ -109,7 +109,7 @@
 
 <style>
     .search-data-display {
-        display: inline-flex;
+        display: block;
         margin-bottom: 30px;
         margin-top: 30px;
     }
