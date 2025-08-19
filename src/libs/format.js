@@ -19,7 +19,7 @@ export const formatFacetField = (node) => {
 
 export const formatFacetValue = (node, field) => {
     let value = node.innerText.trim();
-    
+
     if(field == 'is_member_of_exhibit') {
         node.innerText = Cache.getExhibitById(value)?.title || value;
     }

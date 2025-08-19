@@ -159,7 +159,7 @@ export const Settings = {
      */
     facetLabels: {
         "type": "Type",
-        "is_member_of_exhibit": "Exhibits",
+        "is_member_of_exhibit": "Exhibit",
         "item_type": "Format",
         "keyword": "Keywords"
     },
@@ -175,7 +175,8 @@ export const Settings = {
     },
     facetValues: {
         "type": ["item", "exhibit"],
-        "item_type": ["image", "audio", "video", "pdf"]
+        "item_type": ["image", "audio", "video", "pdf"],
+        // "is_member_of_exhibit": "*"
     },
 
     /*

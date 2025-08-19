@@ -23,7 +23,7 @@
 
 import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants.js';
 import { Index } from './index.js';
-import { Cache } from '../libs/cache';
+import { getInnerText } from '../libs/exhibits_data_helpers';
 
 export const Search = (() => {
     /**
@@ -64,11 +64,12 @@ export const Search = (() => {
                 values: []
             };
 
-            for(let {key = null, doc_count = 0} of aggregations[field]) {
+            for(let {key = null, doc_count = 0, display=null} of aggregations[field]) {
                 if(doc_count > 0) {
                     limitOption.values.push({
                         value: key, 
-                        count: doc_count
+                        count: doc_count,
+                        label: display ? getInnerText(display) : undefined
                     });
                 }
             }

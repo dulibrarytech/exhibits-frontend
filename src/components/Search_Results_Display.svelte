@@ -43,12 +43,13 @@
     const onClickFacet = (event) => {
         let field = event.target.getAttribute('data-facet-field');
         let value = event.target.getAttribute('data-facet-value');
+        let label = event.target.getAttribute('data-facet-label');
 
         let existing = facets.find((facet) => {
             return facet.field == field && facet.value == value;
         })
         if(!existing) {
-            facets.push({field, value})
+            facets.push({field, value, label})
             dispatch('click-facet', facets);
         }
     }
@@ -76,19 +77,21 @@
                     </div>
 
                     {#if limitOptions.length > 0}
+
+                        <!-- TODO move to <LimitOptionsPanel /> -->
                         <div class="facet-panel">
-                            
                             <h4>Filter Results</h4>
+
                             <div class="facets">
                                 {#each limitOptions as {field, values, label=null}}
 
-                                    {#if values.length > 0}
+                                    {#if facetValues[field] && values.length > 0}
                                         <h6 use:formatFacetField >{field}</h6>
                                         <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
 
-                                            {#each values as {value, count, label=null}, index}
-                                                {#if facetValues[field].includes(value)}
-                                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value}><span use:formatFacetValue={field} style="pointer-events:none">{value}</span><span class="badge">{count}</span></a></li>
+                                            {#each values as {value, count, label=null}}
+                                                {#if facetValues[field].includes(value) || facetValues[field] == "*"}
+                                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
                                                 {/if}
                                             {/each}
 
@@ -98,8 +101,9 @@
                                 {/each}
                             </div>
                         </div>
-                    {/if}
+                        <!-- TODO move to <LimitOptionsPanel /> -->
 
+                    {/if}
                 </div>
 
                 <div class="col-md-9 col-md-pull-3 results-container">
@@ -134,6 +138,7 @@
         padding-left: 0;
         margin-bottom: 0;
         list-style: none;
+        margin-bottom: 30px;
     }
 
     .nav-stacked>li {
@@ -163,6 +168,7 @@
     .facets {
         background-color: #e5e3e1;
         padding: 15px;
+        font-size: 1rem;
     }
 
     .facets > ul li {

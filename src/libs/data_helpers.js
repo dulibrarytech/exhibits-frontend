@@ -60,7 +60,6 @@ export const sanitizeHtmlString = (string = "", {allowedTags = null}) => {
 
 export const removeHtmlContent = (htmlString, allowedTags) => {
 
-    // TODO if first 5 string chars is not <div> OR last 6 chars is not </div>
     if(htmlString.substring(0, 5) != "<div>" || htmlString.slice(-6) != "</div>") {
         htmlString = `<div>${htmlString}</div>`;
     }

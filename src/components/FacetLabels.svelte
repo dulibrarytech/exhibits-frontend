@@ -20,11 +20,11 @@ const onClickLabel = (event) => {
 
 {#if facets.length > 0}
     <div class="facet-labels">
-        {#each facets as {field, value}, index}
+        {#each facets as {field, value, label=null}, index}
             <div class="facet-label"><a class="removelink" href={"javascript:void(0)"} on:click|stopPropagation={onClickLabel} on:keypress|stopPropagation={onClickLabel} data-index={index}><i class="bi bi-x-circle"></i></a>
                 &nbsp;<b use:formatFacetField>{field}</b>
                 
-                {#if value}<span use:formatFacetValue={field}>: {value}</span>{/if}
+                {#if value}: <span use:formatFacetValue={field}>{label || value}</span>{/if}
             </div>
         {/each}
     </div>
