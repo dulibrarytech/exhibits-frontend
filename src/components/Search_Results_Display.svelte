@@ -6,15 +6,15 @@
 
     import { createEventDispatcher } from 'svelte';
     import { Settings } from '../config/settings.js';
-    import { formatFacetField, formatFacetValue } from '../libs/format';
     import { getArrayPage } from '../libs/data_helpers';
     import Search_Result from '../templates/partials/Search_Result.svelte';
     import FacetLabels from './FacetLabels.svelte';
+    import FacetPanel from './FacetPanel.svelte';
     import SearchResultsPaginator from './Search_Results_Paginator.svelte';
 
     export let results = [];
-    export let limitOptions = null; //  all available facet options from search
-    export let facets = []; // user selected facets to add to faceted search
+    export let limitOptions = null;
+    export let facets = [];
     export let terms = [];
     export let searchParams = {};
 
@@ -41,13 +41,12 @@
     }
 
     const onClickFacet = (event) => {
-        let field = event.target.getAttribute('data-facet-field');
-        let value = event.target.getAttribute('data-facet-value');
-        let label = event.target.getAttribute('data-facet-label');
+        let {field, value, label} = event.detail;
 
         let existing = facets.find((facet) => {
             return facet.field == field && facet.value == value;
-        })
+        });
+
         if(!existing) {
             facets.push({field, value, label})
             dispatch('click-facet', facets);
@@ -77,32 +76,7 @@
                     </div>
 
                     {#if limitOptions.length > 0}
-
-                        <!-- TODO move to <LimitOptionsPanel /> -->
-                        <div class="facet-panel">
-                            <h4>Filter Results</h4>
-
-                            <div class="facets">
-                                {#each limitOptions as {field, values, label=null}}
-
-                                    {#if facetValues[field] && values.length > 0}
-                                        <h6 use:formatFacetField >{field}</h6>
-                                        <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
-
-                                            {#each values as {value, count, label=null}}
-                                                {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
-                                                {/if}
-                                            {/each}
-
-                                        </ul>
-                                    {/if}
-
-                                {/each}
-                            </div>
-                        </div>
-                        <!-- TODO move to <LimitOptionsPanel /> -->
-
+                        <FacetPanel {limitOptions} {facetValues} on:click-facet={onClickFacet} />
                     {/if}
                 </div>
 
@@ -125,7 +99,7 @@
                         <p>No results found.</p>
                     {/if}
                     
-                     <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
+                    <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
                 </div>
             </div>
         </div>
@@ -134,93 +108,6 @@
 </div>
 
 <style>
-    .nav {
-        padding-left: 0;
-        margin-bottom: 0;
-        list-style: none;
-        margin-bottom: 30px;
-    }
-
-    .nav-stacked>li {
-        float: none;
-    }
-
-    .nav>li {
-        position: relative;
-        display: block;
-    }
-
-    .nav-pills>li>a {
-        border-radius: 4px;
-    }
-
-    .nav>li>a {
-        position: relative;
-        display: block;
-        padding: 5px 15px;
-    }
-
-    .nav>li>a:hover {
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .facets {
-        background-color: #e5e3e1;
-        padding: 15px;
-        font-size: 1rem;
-    }
-
-    .facets > ul li {
-        width: 284px;
-    }
-
-    .facets h6 {
-        margin-top: 0.5rem;
-    }
-
-    .search-result-categories>li>a {
-        color: #858381;
-        font-weight: 400
-    }
-
-    .search-result-categories>li>a:hover {
-        background-color: #c5c3c1;
-        color: #555
-    }
-
-    .search-result-categories>li>a>.badge {
-        float: right;
-    }
-
-    .nav-pills>li>a>.badge {
-        margin-left: 3px;
-        margin-top: 3px;
-    }
-
-    .badge {
-        display: inline-block;
-        min-width: 10px;
-        padding: 3px 7px;
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 1;
-        color: #fff;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: middle;
-        background-color: #777;
-        border-radius: 10px;
-    }
-
-    .search-result-categories>li>a>.glyphicon {
-        margin-right: 5px;
-    }
-
-    .search-result-categories>li>a>.badge {
-        float: right;
-    }
-
     .search-data-display {
         display: inline-flex;
         margin-bottom: 30px;
@@ -231,19 +118,19 @@
         margin-right: 30px;
     }
 
-    .results-sidebar > div:not(:first-child) {
+    :global(.search-results-display .results-sidebar > div:not(:first-child)) {
         margin-top: 30px;
     }
 
-    :global(.search-result-item + .search-result-item) {
+    :global(.search-results-display .search-result-item + .search-result-item) {
         margin-top: 70px
     }
 
-    :global(.search-results-paginator) {
+    :global(.search-results-display .search-results-paginator) {
         margin-top: 1.75rem;
     }
 
-    :global(.text-highlight) {
+    :global(.search-results-display .text-highlight) {
         background: yellow;
     }
 
