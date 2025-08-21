@@ -142,12 +142,7 @@
     }
 
     const onClickBack = (event) => {
-        let url = "/";
-
-        if(searchParams.searchType == SEARCH_TYPE.SEARCH_ALL) url = "/exhibits";
-        else if(searchParams.searchType == SEARCH_TYPE.SEARCH_EXHIBIT) url = `/exhibit/${exhibitId}`;
-
-        window.location.replace(url);
+        history.go(-2);
     }
 
     const onClickPaginatorLink = (event) => {
