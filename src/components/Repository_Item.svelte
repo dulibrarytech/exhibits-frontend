@@ -2,6 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import { getItemTypeForMimeType } from '../libs/media_helpers';
     import { Repository } from '../libs/repository';
+    import { Resource } from '../libs/resource';
     import { Settings } from '../config/settings.js';
     import * as Logger from '../libs/logger.js';
     
@@ -29,7 +30,7 @@
         _repositoryItemId = args.id || item.media || null;
 
         try {
-            Logger.module().info(`Fetching repository item data and resource file... Repository item id: ${_repositoryItemId}`);
+            Logger.module().info(`Fetching repository item data... Repository item id: ${_repositoryItemId}`);
             let itemData = await Repository.getItemData(_repositoryItemId); // UPDATE
             
             _exhibitItem = {...item};
@@ -86,8 +87,18 @@
 
     const onLoadError = async (event) => {
         _renderTemplate = false;
-        await Repository.getItem(_repositoryItemId, _exhibitItemId);
-        _renderTemplate = true;
+
+        let fileFound = await Resource.verifyResourceFile(_exhibitItem);
+
+        if(fileFound == false) {
+            Logger.module().info(`Fetching repository item resource file... Repository item id: ${_repositoryItemId}`);
+            await Repository.getItem(_repositoryItemId, _exhibitItemId);
+            Logger.module().info(`Repository item resource file fetch complete. Repository item id: ${_repositoryItemId}`);
+            _renderTemplate = true;
+        }
+        else {
+            Logger.module().error(`Error loading repository item resource: exhibit item uuid: ${_exhibitItem.uuid} repository item uuid: ${_repositoryItemId}`);
+        }
     }
 
     init();
@@ -99,9 +110,9 @@
     </div>
 
 {:else}
-    <div class="message">
+    <!-- <div class="message">
         <p>Loading item, please wait...</p>
-    </div>
+    </div> -->
 
 {/if}
 
