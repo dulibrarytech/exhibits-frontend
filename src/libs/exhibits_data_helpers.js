@@ -161,14 +161,25 @@ export const createExhibitPageSections = (items) => {
             heading = {
                 id: getHtmlIdString(text),
                 uuid,
-                //text: stripHtmlTags(text),
                 text: getInnerText(text),
                 subheadings: []
             }
 
             item.anchorId = heading.id;
 
-            if(item.styles) sectionStyles = item.styles; // use heading styles for current section
+            if(item.styles) sectionStyles = item.styles;
+        }
+
+        else if(type == ENTITY_TYPE.EXHIBIT_SUBHEADING) {
+
+            subheading = {
+                id: getHtmlIdString(title),
+                uuid,
+                text: getInnerText(title)
+            }
+
+            if(heading) heading.subheadings.push(subheading);
+            item.anchorId = subheading.id;
         }
 
         else if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
@@ -178,7 +189,6 @@ export const createExhibitPageSections = (items) => {
                 subheading = {
                     id: getHtmlIdString(title),
                     uuid,
-                    //text: stripHtmlTags(title)
                     text: getInnerText(title)
                 }
 
