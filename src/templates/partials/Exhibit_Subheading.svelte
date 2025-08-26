@@ -32,30 +32,30 @@
     });
 </script>
 
-<div class="exhibit-heading" bind:this={headingElement}>
+<div class="exhibit-subheading" bind:this={headingElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     {#if display}
-        <div class="section-heading container">
+        <div class="section-subheading container">
             <div class="section-title">
-                <h2 aria-label={textString}>{@html text}</h2>
+                <h3 aria-label={textString}>{@html text}</h3>
             </div>
         </div>
     {/if}
 </div>
 
 <style>
-    .exhibit-heading {
-        font-size: 2.15em;
+    .exhibit-subheading {
+        font-size: 1.736842em;
     }
     
-    .section-heading {
-        padding-top: 0.532em; 
-        padding-bottom: 0.532em; 
+    .section-subheading {
+        padding-top: 3.65rem; 
+        padding-bottom: 0; 
         text-transform: uppercase;
     }
 
-    .section-heading h2 {
+    .section-subheading h3 {
         margin-bottom: 0;
         letter-spacing: 0.06383em;
         font-size: inherit;

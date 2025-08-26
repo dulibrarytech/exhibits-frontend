@@ -6,6 +6,7 @@
     import {createEventDispatcher} from 'svelte';
     
     import Exhibit_Heading from './partials/Exhibit_Heading.svelte';
+    import Exhibit_Subheading from './partials/Exhibit_Subheading.svelte';
     import Item_Display from '../components/Item_Display.svelte';
     import Item_Grid from './partials/Item_Grid.svelte';
     import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline.svelte';
@@ -69,7 +70,11 @@
                     {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
                         <Exhibit_Heading id={anchorId} {text} styles={displayItems[index].styles || styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
 
-                    <!-- exhibit item container - grid -->
+                     <!-- exhibit heading -->
+                    {:else if type == ENTITY_TYPE.EXHIBIT_SUBHEADING} 
+                        <Exhibit_Subheading id={anchorId} {text} styles={displayItems[index].styles || styles?.subheading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
+                    
+                        <!-- exhibit item container - grid -->
                     {:else if type == ENTITY_TYPE.GRID}
                         <Item_Grid id={anchorId} grid={displayItems[index]} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
 
@@ -110,7 +115,6 @@
         font-weight: bold;
         text-transform: uppercase;
         font-size: 1.736842em;
-        /* letter-spacing: 0.05em; */
         line-height: 1.45em;
     }
 </style>

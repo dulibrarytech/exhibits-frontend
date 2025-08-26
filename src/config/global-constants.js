@@ -11,6 +11,7 @@ export const USER_ROLE = {
 export const ENTITY_TYPE = {
     EXHIBIT: "exhibit",
     EXHIBIT_HEADING: "heading",
+    EXHIBIT_SUBHEADING: "subheading",
     ITEM: "item",
     GRID: "grid",
     VERTICAL_TIMELINE: "vertical_timeline"
