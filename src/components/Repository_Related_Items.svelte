@@ -2,144 +2,138 @@
    import { onMount } from 'svelte';
    import { Repository } from '../libs/repository';
    import { getRandomNumberArray, shuffleArrayElements } from '../libs/data_helpers';
+   import { getInnerText } from '../libs/exhibits_data_helpers';
    import {ENTITY_TYPE, ITEM_GRIDS} from '../config/global-constants';
+   import ResourceUrl from '../libs/ResourceUrl.js';
    import * as Logger from '../libs/logger.js';
 
-   const REPOSITORY_ITEM_DISPLAY_COUNT = 4;
-   const RELATED_ITEM_DISPLAY_COUNT = 4;
-
    export let items = [];
+   export let exhibitId = "";
 
-   let repositoryItemIds = [];
-   let subjects = [];
+   console.log("TEST RRI exhibitId in:", exhibitId)
+
+   const ITEM_DISPLAY_COUNT = 4;
+   const RELATED_ITEM_DISPLAY_COUNT = 4;
+   const IMAGE_PREVIEW_WIDTH = 200;
+
+   const RESOURCE = new ResourceUrl(exhibitId);
+
+   let selectedSubjects = [];
    let relatedItemsDisplay = null;
 
+   console.log("TEST RRI items in:", items)
+
    const init = async () => {
-
-      let repositoryItems = getRepositoryItems(items);
-
-      // this exhibit contains repository items. proceed with the search for related items
-      if(repositoryItems.length > 0) {
-         repositoryItems = shuffleArrayElements(repositoryItems);
-
-         for(let item of repositoryItems) {
-            repositoryItemIds.push(item.media);
-         }
-
-         // get the display data from the repository items 
-         relatedItemsDisplay = await getRelatedItems(repositoryItemIds);
+      if(items.length > 0) {
+         items = shuffleArrayElements( getDisplayItems(items) );
+         relatedItemsDisplay = await getRelatedItemsDisplay(items);
       }
       else {
          document.querySelector(".repository-related-items").style.display = "none";
       }
    }
 
-   const getRepositoryItems = (items) => {
-      let repositoryItems = [];
+   const getDisplayItems = (items) => {
+      let displayItems = [];
 
       for(let item of items) {
-
-         // get the repository items from the nested grid items
-         if(ITEM_GRIDS.includes(item.type)) {
-            repositoryItems = repositoryItems.concat( getRepositoryItems(item.items) );
+         if(item.type == ENTITY_TYPE.ITEM) {
+            displayItems.push(item);
          }
-
-         else if(item.type == ENTITY_TYPE.ITEM) {
-            if(item.is_repo_item) repositoryItems.push(item);
+         // else if(ITEM_GRIDS.includes(item.type)) {
+         else if(item.items) {
+            displayItems = displayItems.concat( getDisplayItems(item.items) );
          }
       }
 
-      return repositoryItems;
+      return displayItems;
    }
 
    // main algorithm
-   const getRelatedItems = async (repositoryItemIds = []) => {
+   const getRelatedItemsDisplay = async (items = []) => {
+      let displayItems = [];
+      let itemDisplayData = {};
+      let relatedItems = [];
+      let results = [];
 
-      let items = [];
-      let itemData = {};
-      let itemDisplayData = null;
+      items = items.filter((item) => {
+         return item.subjects?.length > 0;
+      })
 
-      for(let id of repositoryItemIds) {
+      if(items.length == 0) Logger.module().info(`Repository related items: no items with 'subjects' field found. Can not display related items for this exhibit.`);
+
+      for(let item of items) {
          itemDisplayData = {};
+         relatedItems = [];
+         results = [];
 
-         try {
-            itemData = await Repository.getItemData(id);
-         }
-         catch(error) {
-            Logger.module().error(`Error fetching repository data for repository item id: ${id}`);
-            continue;
-         }
+         let index = Math.floor(Math.random() * item.subjects.length);
+         let subject = item.subjects[index];
 
-         if(itemData) {
+         if(subject && selectedSubjects.includes(subject) == false) {
+            selectedSubjects.push(subject);
 
-            // search the repository for subject related items
-            let relatedItems = [];
-            let results = [];
-            let {subject = null} = itemData;
-
-            if(subject && subjects.includes(subject) == false) {
-               subjects.push(subject);
-
-               results = await Repository.searchRepository({
-                  facets: {
-                     "Subject": subject
-                  }
-               });
-
-               // if no results continue
-               if(results.length == 0) {
-                  continue;
+            results = await Repository.searchRepository({
+               facets: {
+                  "Subject": subject
                }
-               else {
-                  itemDisplayData.title = itemData.title || "Untitled Item";
-                  itemDisplayData.link = itemData.link_to_item || null;
-                  itemDisplayData.thumbnail = itemData.thumbnail_datastream || null;
-                  itemDisplayData.subject = subject;
-               }
-            }
-            else {
+            });
+
+            if(results.length == 0) {
                continue;
             }
-
-            // build the dispaly data object for the related items cards
-            if(RELATED_ITEM_DISPLAY_COUNT < results.length) {
-               let randomNumbers = getRandomNumberArray(RELATED_ITEM_DISPLAY_COUNT, results.length-1);
-               
-               for(let index of randomNumbers) {
-                  if(results[index].pid != itemData.id) {
-
-                     relatedItems.push({
-                        title: results[index].title || "Untitled",
-                        link: results[index].link_to_item || "null",
-                        thumbnail: results[index].thumbnail_datastream || "null"
-                     });
-                  }     
-               }
-            }
             else {
-               for(let result of results) {
-                  if(result.pid != itemData.id) {
+               //let thumbnail = item.thumbnail || RESOURCE.getFileUrl(item.media); // TEST
+               let thumbnail = item.thumbnail || RESOURCE.getIIIFImageUrl(item.media, IMAGE_PREVIEW_WIDTH, null); // UPDATE
 
-                     relatedItems.push({
-                        title: result.title || "Untitled",
-                        link: result.link_to_item,
-                        thumbnail: result.thumbnail_datastream || "null"
-                     });
-                  }
+               itemDisplayData.title = item.title ? getInnerText(item.title) : "Untitled Item";
+               itemDisplayData.link = `${window.location.href}#${item.uuid}`;
+               itemDisplayData.thumbnail = thumbnail;
+               itemDisplayData.subject = subject;
+            }
+         }
+         else {
+            continue;
+         }
+         
+         // build the display data object for the related items cards
+         if(RELATED_ITEM_DISPLAY_COUNT < results.length) {
+            let randomNumbers = getRandomNumberArray(RELATED_ITEM_DISPLAY_COUNT, results.length-1);
+            
+            for(let index of randomNumbers) {
+               if(results[index].pid != item.uuid) {
+
+                  relatedItems.push({
+                     title: results[index].title || "Untitled",
+                     link: results[index].link_to_item || "null",
+                     thumbnail: results[index].thumbnail_datastream || "null"
+                  });
+               }     
+            }
+         }
+         else {
+            for(let result of results) {
+               if(result.pid != item.id) {
+
+                  relatedItems.push({
+                     title: result.title || "Untitled",
+                     link: result.link_to_item,
+                     thumbnail: result.thumbnail_datastream || "null"
+                  });
                }
             }
-
-            itemDisplayData.relatedItems = relatedItems;
          }
 
-         if (items.length >= RELATED_ITEM_DISPLAY_COUNT) break;
+         itemDisplayData.relatedItems = relatedItems;
+
+         if(displayItems.length >= RELATED_ITEM_DISPLAY_COUNT) break;
 
          if(itemDisplayData.relatedItems.length > 0) {
-            items.push(itemDisplayData);
+            displayItems.push(itemDisplayData);
          }
       }
 
-      return items;
+      return displayItems;
    }
 
    onMount(async () => {
