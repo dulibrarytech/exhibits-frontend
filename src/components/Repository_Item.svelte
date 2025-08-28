@@ -1,9 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { getItemTypeForMimeType } from '../libs/media_helpers';
-    import { Repository } from '../libs/repository';
     import { Resource } from '../libs/resource';
-    import { Settings } from '../config/settings.js';
     import * as Logger from '../libs/logger.js';
     
     export let id = null; // dom element id
@@ -11,42 +8,31 @@
     export let args = {};
     export let template = null;
 
-    const {
-        fileExtensions
-    } = Settings;
-
-    let _exhibitItem;
-    let _exhibitItemId;
-    let _repositoryItemId;
-
+    let _repositoryData;
     let _renderTemplate;
+
+    console.log("TEST repo item into RI component:", item)
 
     const dispatch = createEventDispatcher();
 
     const init = async () => {
         _renderTemplate = false;
-        _exhibitItem = {};
-        _exhibitItemId = item?.uuid || "null";
-        _repositoryItemId = args.id || item.media || null;
+        _repositoryData = item.repository_data;
+
+        console.log("TEST repo item data:", _repositoryData)
 
         try {
-            Logger.module().info(`Fetching repository item data... Repository item id: ${_repositoryItemId}`);
-            let itemData = await Repository.getItemData(_repositoryItemId); // UPDATE
-            
-            _exhibitItem = {...item};
-            _exhibitItem.item_type = getItemTypeForMimeType( itemData.mime_type );
-            _exhibitItem.media = `${_exhibitItemId}_repository_item_media.${fileExtensions[_exhibitItem.item_type][0]}`;
-            _exhibitItem.data_display = getDataDisplay(itemData);
+            // TODO verify all repo item fields (in repository_data)
 
+            item.data_display = getDataDisplay(_repositoryData);
             _renderTemplate = true;
         }
         catch(error) {
-            Logger.module().error(`Error retrieving item from repository: Item id: ${item.uuid} Error: ${error}`);
-
+            Logger.module().error(`Error creating repository item data display: Item id: ${item.uuid} Error: ${error}`);
             dispatch('mount-template-item', {type: "item"});
         }
 
-        if(_renderTemplate == false) Logger.module().error(`Can't render repository item: Item id: ${item.uuid} Repository item id: ${_repositoryItemId}`);
+        if(_renderTemplate == false) Logger.module().error(`Can't render repository item: Item id: ${item.uuid} Repository item id: ${_repositoryData.id || "null"}`);
     }
 
     // get the data for the exhibit item viewer
@@ -88,16 +74,14 @@
     const onLoadError = async (event) => {
         _renderTemplate = false;
 
-        let fileFound = await Resource.verifyResourceFile(_exhibitItem);
+        let {is_member_of_exhibit, media} = item;
+        let fileFound = await Resource.verifyResourceFile({is_member_of_exhibit, media});
 
         if(fileFound == false) {
-            Logger.module().info(`Fetching repository item resource file... Repository item id: ${_repositoryItemId}`);
-            await Repository.getItem(_repositoryItemId, _exhibitItemId);
-            Logger.module().info(`Repository item resource file fetch complete. Repository item id: ${_repositoryItemId}`);
-            _renderTemplate = true;
+            Logger.module().info(`Repository item local resource file not found. Exhibit item: ${item.uuid} Repository item id: ${_repositoryData.id}`);
         }
         else {
-            Logger.module().error(`Error loading repository item resource: exhibit item uuid: ${_exhibitItem.uuid} repository item uuid: ${_repositoryItemId}`);
+            Logger.module().error(`Error loading repository item resource: Exhibit item: ${item.uuid} Repository item id: ${_repositoryData.id}`);
         }
     }
 
@@ -106,7 +90,7 @@
 
 {#if _renderTemplate}
     <div class="repository-item">
-        <svelte:component this={template} {id} item={_exhibitItem} {args} on:click-item on:mount-template-item on:image-loaded on:load-error={onLoadError} />
+        <svelte:component this={template} {id} {item} {args} on:click-item on:mount-template-item on:image-loaded on:load-error={onLoadError} />
     </div>
 
 {:else}

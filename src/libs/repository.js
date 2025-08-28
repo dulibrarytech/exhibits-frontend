@@ -51,28 +51,6 @@ export const Repository = (() => {
         });
     }
 
-    /**
-     *
-     * gets item data and resource file from the repository
-     * writes the resource file to local resource storage if it is not present
-     * 
-     * @param {string} repositoryItemId - The repository item id 
-     * @param {string} exhibitItemId - The exhibit item id of exhibit item that includes the repository item data and resource
-     * 
-     */
-    const getItem = (repositoryItemId, exhibitItemId) => {
-        let url = `${exhibitsApiDomain}/repository/item/${repositoryItemId}?key=${exhibitsApiKey}`;
-        return new Promise(function(resolve, reject) {
-            axios.post(url, {exhibitItemId})
-                .then(function (response) {
-                    resolve(response.data)
-                })
-                .catch(function (error) {
-                    reject(error);
-                });
-        });
-    }
-
     const searchRepository = async (queryData = {}) => {
         let { 
             query = "", 
@@ -100,7 +78,6 @@ export const Repository = (() => {
 
     return {
         getItemData,
-        getItem,
         searchRepository
     };
 })()
