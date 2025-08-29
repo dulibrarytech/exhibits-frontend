@@ -10,8 +10,6 @@
    export let items = [];
    export let exhibitId = "";
 
-   console.log("TEST RRI exhibitId in:", exhibitId)
-
    const ITEM_DISPLAY_COUNT = 4;
    const RELATED_ITEM_DISPLAY_COUNT = 4;
    const IMAGE_PREVIEW_WIDTH = 200;
@@ -20,8 +18,6 @@
 
    let selectedSubjects = [];
    let relatedItemsDisplay = null;
-
-   console.log("TEST RRI items in:", items)
 
    const init = async () => {
       if(items.length > 0) {

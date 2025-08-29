@@ -11,19 +11,13 @@
     let _repositoryData;
     let _renderTemplate;
 
-    console.log("TEST repo item into RI component:", item)
-
     const dispatch = createEventDispatcher();
 
     const init = async () => {
         _renderTemplate = false;
         _repositoryData = item.repository_data;
 
-        console.log("TEST repo item data:", _repositoryData)
-
         try {
-            // TODO verify all repo item fields (in repository_data)
-
             item.data_display = getDataDisplay(_repositoryData);
             _renderTemplate = true;
         }
