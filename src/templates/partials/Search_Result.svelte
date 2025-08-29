@@ -37,7 +37,8 @@
         itemType = result.item_type || null;
         link = result.link || null;
         type = result.type || ENTITY_TYPE.ITEM;
-        isRepoItem = result.is_repo_item || false;
+        // isRepoItem = result.is_repo_item || false;
+        isRepoItem = false;
 
         if(!searchType) searchType = SEARCH_TYPE.SEARCH_ALL;
         if(description) truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
