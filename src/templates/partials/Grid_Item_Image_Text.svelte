@@ -35,6 +35,8 @@
         media = item.media || null;
         styles = item.styles || null;
 
+        console.log("TEST grid item:", item)
+
         if(date) date = new Date(date).toLocaleDateString();
         if(title) item.title = null;
 
@@ -60,7 +62,7 @@
     {/if}
 
     {#if title}<h4>{@html title}</h4>{/if}
-    <Item_Display {item} template={Item} args={{showTitle: true, showPreview: true}} on:click-item />
+    <Item_Display {item} template={Item} args={{showTitle: true}} on:click-item />
 </div>
 
 <style>

@@ -61,7 +61,7 @@
                 {#if media} 
                     <div class="vertical-timeline-item">
                         <div class="preview">
-                            <Item_Display {item} template={Item_Preview} args={{showTitle: true, showPreview: true}} on:click-item />
+                            <Item_Display {item} template={Item_Preview} args={{showTitle: true}} on:click-item />
                         </div>
                     </div>
                 {/if}

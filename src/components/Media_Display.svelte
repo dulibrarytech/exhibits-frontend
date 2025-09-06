@@ -9,7 +9,6 @@
 
     let {
         showPreview = false,
-
     } = args;
 
     if(showPreview) {

@@ -34,23 +34,18 @@
     let mediaPadding;
     let wrapText;
     let isEmbedded;
-
     let styles;
-
-    let {
-        showTitle = true,
-        showPreview = true
-
-    } = args;
+    let showPreview;
 
     const dispatch = createEventDispatcher();
 
     $: init();
 
     const init = async () => {
+
         if(!item) {
             item = {};
-            Logger.module().error("Null item data");
+            Logger.module().error("Null item data:");
         }
 
         uuid        = item.uuid || null;
@@ -63,6 +58,8 @@
         wrapText    = item.wrap_text ?? true;
         isEmbedded  = item.is_embedded || false;
         styles      = item.styles || null;
+
+        showPreview = !isEmbedded;
         
         // ensure the text items use the TEXT_ONLY layout
         if(item.item_type == ITEM_TYPE.TEXT) layout = MEDIA_POSITION.TEXT_ONLY;

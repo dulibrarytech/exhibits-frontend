@@ -21,7 +21,6 @@
     let link;
     let type;
     let parentExhibitId;
-    let isRepoItem;
 
     let previewImageElement;
 
@@ -37,8 +36,6 @@
         itemType = result.item_type || null;
         link = result.link || null;
         type = result.type || ENTITY_TYPE.ITEM;
-        // isRepoItem = result.is_repo_item || false;
-        isRepoItem = false;
 
         if(!searchType) searchType = SEARCH_TYPE.SEARCH_ALL;
         if(description) truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
@@ -57,11 +54,7 @@
             <Exhibit_Preview exhibit={result} link={result.link} width="200" height="200" on:image-loaded={onPreviewImageLoad} />  
 
         {:else}
-            {#if isRepoItem}
-                <Repository_Item id={null} item={result} args={{showPreview:true, link: (result.link || false), overlay: false}} template={Item_Preview} on:image-loaded={onPreviewImageLoad} on:click-item on:mount-template-item />
-            {:else}
-                <Item_Preview item={result} width="200" args={{link: (result.link || false), isInteractive: false, overlay: false}} on:image-loaded={onPreviewImageLoad} />
-            {/if}
+            <Item_Preview item={result} width="200" args={{link: (result.link || false), isInteractive: false, overlay: false}} on:image-loaded={onPreviewImageLoad} />
         {/if}
     </div>
 
