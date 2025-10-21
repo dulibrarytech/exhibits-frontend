@@ -35,8 +35,6 @@
         media = item.media || null;
         styles = item.styles || null;
 
-        console.log("TEST grid item:", item)
-
         if(date) date = new Date(date).toLocaleDateString();
         if(title) item.title = null;
 
@@ -45,7 +43,7 @@
     }
 
     const setTheme = ({item = {}}) => {
-        Object.assign(itemElement.style, item)
+        Object.assign(itemElement.style, item);
     }
 
     onMount(() => {
