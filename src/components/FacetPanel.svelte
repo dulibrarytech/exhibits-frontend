@@ -7,7 +7,20 @@
     export let limitOptions = [];
     export let facetValues = {};
 
+    let limitOptionsDisplay = [];
+
     const dispatch = createEventDispatcher();
+
+    const init = () => {
+        let option = {};
+        for(let key in facetValues) {
+            option = limitOptions.find((option) => {
+                return option.field == key
+            })
+
+            if(option) limitOptionsDisplay.push(option);
+        }
+    }
 
     const onClickFacet = (event) => {
         let field = event.target.getAttribute('data-facet-field');
@@ -16,25 +29,24 @@
 
         dispatch('click-facet', {field, value, label});
     }
+
+    init();
 </script>
 
 <div class="facet-panel">
     <h4>Filter Results</h4>
 
     <div class="facets">
-        {#each limitOptions as {field, values, label=null}}
+        {#each limitOptionsDisplay as {field, values, label=null}}
 
-            {#if facetValues[field] && values.length > 0}
-                <h6 use:formatFacetField >{field}</h6>
-                
-                <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
-                    {#each values as {value, count, label=null}}
-                        {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                            <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
-                        {/if}
-                    {/each}
-                </ul>
-            {/if}
+            <h6 use:formatFacetField >{field}</h6>
+            <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
+                {#each values as {value, count, label=null}}
+                    {#if facetValues[field].includes(value) || facetValues[field] == "*"}
+                        <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
+                    {/if}
+                {/each}
+            </ul>
 
         {/each}
     </div>

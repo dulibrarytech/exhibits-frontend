@@ -34,6 +34,10 @@
         resultsPage = getResultsPage(searchParams.pageNumber);
         termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
         searchType = searchParams.searchType || null;
+
+        limitOptions = limitOptions.sort((a,b) => {
+            return a.order - b.order
+        })
     }
 
     const getResultsPage = (pageNumber) => {

@@ -119,6 +119,8 @@ export const Settings = {
     /* 
      * Index fields included in search (in 'search all', when search field is not specified by user)
      * {index field name}:{human display name}
+     * 
+     * *** API is not currently configured to accept search fields from client. (searchFieldsExhibit, searchFieldsExhibitItem) are not in use. search fields are configured in "api/search/service.js" ***
      */
     searchFieldsExhibit: {
         "title": "Title",
@@ -161,7 +163,8 @@ export const Settings = {
         "type": "Type",
         "is_member_of_exhibit": "Exhibit",
         "item_type": "Format",
-        "keyword": "Keywords"
+        "keyword": "Keywords",
+        "subject": "Subject",
     },
     facetValueLabels: {
         "item": "Exhibit Item",
@@ -176,6 +179,7 @@ export const Settings = {
     facetValues: {
         "type": ["item", "exhibit"],
         "item_type": ["image", "audio", "video", "pdf"],
+        "subject": ["*"],
         // "is_member_of_exhibit": "*"
     },
 
