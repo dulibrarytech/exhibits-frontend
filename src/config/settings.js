@@ -164,7 +164,7 @@ export const Settings = {
         "is_member_of_exhibit": "Exhibit",
         "item_type": "Format",
         "keyword": "Keywords",
-        "subject": "Subject",
+        "subjects": "Subject",
     },
     facetValueLabels: {
         "item": "Exhibit Item",
@@ -179,7 +179,7 @@ export const Settings = {
     facetValues: {
         "type": ["item", "exhibit"],
         "item_type": ["image", "audio", "video", "pdf"],
-        "subject": ["*"],
+        "subjects": ["*"],
         // "is_member_of_exhibit": "*"
     },
 
