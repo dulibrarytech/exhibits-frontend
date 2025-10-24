@@ -55,7 +55,11 @@ export const Search = (() => {
         }
 
         // execute the index search
-        let {results = [], aggregations = [], resultCount = null} = await Index.searchIndex({terms, boolean, fields, facets}, exhibitId);
+        let {
+            results = [], 
+            aggregations = [], 
+            resultCount = null
+        } = await Index.searchIndex({terms, boolean, fields, facets}, exhibitId);
 
         // get result limiter options from results aggs
         for(let field in aggregations) {
