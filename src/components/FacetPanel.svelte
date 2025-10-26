@@ -33,16 +33,20 @@
         dispatch('click-facet', {field, value, label});
     }
 
-    const onClickFacetLabel = ({target}) => {
-        let index = target.getAttribute('data-index');
+    const onClickFacetLabel = ({target, currentTarget}) => {
+        let index = currentTarget.getAttribute('data-index');
 
         facetLabelButtons[index].classList.toggle('active');
+        facetLabelButtons[index].querySelector("i").classList.toggle("la-plus");
+        facetLabelButtons[index].querySelector("i").classList.toggle("la-minus");
 
-        if(facetDrodownLists[index].style.display == "block") {
-            facetDrodownLists[index].style.display = "none";
+        if(facetLabelButtons[index].classList.contains('active')) {
+            facetLabelButtons[index].setAttribute("aria-label", "collapse filter options list");
+            facetDrodownLists[index].style.display = "block";
         }
         else {
-            facetDrodownLists[index].style.display = "block";
+            facetLabelButtons[index].setAttribute("aria-label", "expand filter options list");
+            facetDrodownLists[index].style.display = "none";
         }
     }
 
@@ -56,11 +60,17 @@
         {#each limitOptionsDisplay as {field, values, label=null}, index}
 
             {#if values.length > 0}
+                <button 
+                    type="button" 
+                    class="collapsible" 
+                    data-index={index}
+                    aria-label="expand filter options list"
 
-                <button type="button" class="collapsible" data-index={index}
                     on:click={onClickFacetLabel} 
                     bind:this={facetLabelButtons[index]}
-                    use:formatFacetField>{field}
+                >
+                    <span use:formatFacetField>{field}</span>
+                    <i class="las la-plus"></i>
                 </button>
 
                 <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]}>
@@ -88,7 +98,6 @@
         padding-left: 0;
         margin-bottom: 0;
         list-style: none;
-        /* margin-bottom: 30px; */
         padding: 10px 0;
     }
 
@@ -119,7 +128,6 @@
 
     .facets {
         background-color: #fff;
-        /* padding: 15px; */
         font-size: 1rem;
     }
 
@@ -127,18 +135,15 @@
         width: 284px;
     }
 
-    .facets h6 {
-        margin-top: 0.5rem;
+    .facets button i {
+        float: right;
+        position: relative;
+        top: 5px;
     }
 
     .search-result-categories>li>a {
         color: #858381;
         font-weight: 400
-    }
-
-    .search-result-categories>li>a:hover {
-        background-color: #c5c3c1;
-        color: #555
     }
 
     .search-result-categories>li>a>.badge {
@@ -165,10 +170,6 @@
         border-radius: 10px;
     }
 
-    .search-result-categories>li>a>.glyphicon {
-        margin-right: 5px;
-    }
-
     .search-result-categories>li>a>.badge {
         float: right;
     }
@@ -184,11 +185,6 @@
         text-align: left;
         outline: none;
     }
-
-    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-    /* .active, .collapsible:hover {
-        background-color: #ccc;
-    } */
 
     /* Style the collapsible content. Note: hidden by default */
     .panel-section {

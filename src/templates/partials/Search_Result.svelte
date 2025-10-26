@@ -141,6 +141,7 @@
 
     .search-result-item-heading {
         margin-bottom: 1rem;
+        font-weight: 400
     }
 
     .image-link {
@@ -157,12 +158,9 @@
         font-size: 13px
     }
 
-    .search-result-item-heading {
-        font-weight: 400
-    }
-
     .search-result-item-heading>a {
-        color: #555
+        color: #555;
+        text-decoration: underline;
     }
 
     a.expand-text-link {
