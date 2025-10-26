@@ -35,9 +35,17 @@
         termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
         searchType = searchParams.searchType || null;
 
-        limitOptions = limitOptions.sort((a,b) => {
-            return a.order - b.order
-        })
+        for(let facet of facets) {
+            
+            let option = limitOptions.find((option) => {
+                return option.field == facet.field;
+            });
+
+            if(!option) continue;
+
+            let index = option.values.findIndex(({value}) => value == facet.value);
+            option.values.splice(index, 1);
+        }
     }
 
     const getResultsPage = (pageNumber) => {

@@ -1,6 +1,7 @@
 <script>
     'use strict'
 
+    import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
     import { formatFacetField, formatFacetValue } from '../libs/format';
 
@@ -8,6 +9,8 @@
     export let facetValues = {};
 
     let limitOptionsDisplay = [];
+    let facetLabelButtons = [];
+    let facetDrodownLists = [];
 
     const dispatch = createEventDispatcher();
 
@@ -30,34 +33,63 @@
         dispatch('click-facet', {field, value, label});
     }
 
-    init();
+    const onClickFacetLabel = ({target}) => {
+        let index = target.getAttribute('data-index');
+
+        facetLabelButtons[index].classList.toggle('active');
+
+        if(facetDrodownLists[index].style.display == "block") {
+            facetDrodownLists[index].style.display = "none";
+        }
+        else {
+            facetDrodownLists[index].style.display = "block";
+        }
+    }
+
+    init(); 
 </script>
 
 <div class="facet-panel">
     <h4>Filter Results</h4>
 
     <div class="facets">
-        {#each limitOptionsDisplay as {field, values, label=null}}
+        {#each limitOptionsDisplay as {field, values, label=null}, index}
 
-            <h6 use:formatFacetField >{field}</h6>
-            <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
-                {#each values as {value, count, label=null}}
-                    {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                        <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
-                    {/if}
-                {/each}
-            </ul>
+            {#if values.length > 0}
+
+                <button type="button" class="collapsible" data-index={index}
+                    on:click={onClickFacetLabel} 
+                    bind:this={facetLabelButtons[index]}
+                    use:formatFacetField>{field}
+                </button>
+
+                <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]}>
+                  <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
+                        {#each values as {value, count, label=null}}
+                            {#if facetValues[field].includes(value) || facetValues[field] == "*"}
+                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
+                            {/if}
+                        {/each}
+                    </ul> 
+                </div>
+
+            {/if}
 
         {/each}
     </div>
 </div>
 
 <style>
+    .facet-panel > h4 {
+        margin-bottom: 20px;
+    }
+
     .nav {
         padding-left: 0;
         margin-bottom: 0;
         list-style: none;
-        margin-bottom: 30px;
+        /* margin-bottom: 30px; */
+        padding: 10px 0;
     }
 
     .nav-stacked>li {
@@ -67,6 +99,7 @@
     .nav>li {
         position: relative;
         display: block;
+        width: 100%;
     }
 
     .nav-pills>li>a {
@@ -85,8 +118,8 @@
     }
 
     .facets {
-        background-color: #e5e3e1;
-        padding: 15px;
+        background-color: #fff;
+        /* padding: 15px; */
         font-size: 1rem;
     }
 
@@ -138,5 +171,36 @@
 
     .search-result-categories>li>a>.badge {
         float: right;
+    }
+
+    /* Style the button that is used to open and close the collapsible content */
+    .collapsible {
+        background-color: #e5e5e5;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+    }
+
+    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    /* .active, .collapsible:hover {
+        background-color: #ccc;
+    } */
+
+    /* Style the collapsible content. Note: hidden by default */
+    .panel-section {
+        display: none;
+        overflow: hidden;
+        max-height: 400px;
+        overflow-y: scroll;
+        background-color: #fff;
+        margin-bottom: 0.5em;
+        margin-top: -0.5em;
+        border-right: 1px solid rgb(229, 229, 229);
+        border-left: 1px solid rgb(229, 229, 229);
+        border-bottom: 1px solid rgb(229, 229, 229);
     }
 </style>
