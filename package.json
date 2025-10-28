@@ -1,7 +1,11 @@
 {
-  "name": "exhibits-app",
-  "version": "0.0.1",
+  "name": "exhibits-frontend-client",
+  "version": "2.0.0",
   "description": "Digital exhibits presentation and interaction platform",
+  "engines": {
+    "node": ">=20.7.0",
+    "npm": ">=10.1.0"
+  },
   "main": "main.js",
   "repository": {
     "type": "git",
