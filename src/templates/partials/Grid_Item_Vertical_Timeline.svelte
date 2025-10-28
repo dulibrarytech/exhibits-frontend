@@ -170,4 +170,8 @@
     p.text {
         margin-top: 1rem;
     }
+
+    .vertical-timeline-grid-item {
+        scroll-margin-top: 150px;
+    }
 </style>

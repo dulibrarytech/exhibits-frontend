@@ -95,6 +95,10 @@
 </div>
 
 <style>
+    .exhibit-item {
+        scroll-margin-top: 150px;
+    }
+
     #exhibit-template {
         font-size: inherit;
     }

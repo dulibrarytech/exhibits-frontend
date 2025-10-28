@@ -66,6 +66,7 @@
 <style>
     .grid-item {
         padding: 1.5rem;
+        scroll-margin-top: 150px;
     }
 
     .grid-item h4 {
