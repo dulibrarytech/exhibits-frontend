@@ -45,6 +45,7 @@
     let data;
     let modalDialog;
     let modalDialogData;
+    let navigateToItem;
     let isExhibitVisible;
     let isMessageVisible;
 
@@ -64,6 +65,7 @@
         data = null;
         modalDialog = null;
         modalDialogData = null;
+        navigateToItem = false;
         renderPage = false;
 
         authKey = currentRoute.queryParams.key || null;
@@ -202,9 +204,12 @@
         modalDialog = null;
         document.body.classList.remove('modal-open');
 
-        let anchorId = location.hash?.replace('#', '') || false;
-        if(anchorId) page.navigateToItemId(anchorId, "instant");
-
+        if(navigateToItem) {
+            let anchorId = location.hash?.replace('#', '') || false;
+            if(anchorId) page.navigateToItemId(anchorId, "instant");
+            navigateToItem = false;
+        }
+        
         // remove item id from url
         if(location.href.indexOf('#') > 0) {
             history.pushState(null, null, location.href.substring(0, location.href.indexOf('#')));
@@ -227,6 +232,7 @@
         if(itemId) {
             let item = getItemById(itemId, items);
             if(item && !item.is_embedded) openViewerModal(itemId);
+            navigateToItem = true;
         }
     }
 
@@ -236,7 +242,6 @@
         setTimeout(() => {
             exhibitDisplay.style.height = "unset";
             exhibitDisplay.style.overflow = "unset";
-            
             showLoadMessage(false);
 
         }, Settings.imageLoadDelay)
