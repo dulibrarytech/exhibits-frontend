@@ -45,7 +45,6 @@
     let data;
     let modalDialog;
     let modalDialogData;
-    let navigateToItem;
     let isExhibitVisible;
     let isMessageVisible;
 
@@ -65,7 +64,6 @@
         data = null;
         modalDialog = null;
         modalDialogData = null;
-        navigateToItem = false;
         renderPage = false;
 
         authKey = currentRoute.queryParams.key || null;
@@ -203,12 +201,6 @@
         modalDialogData = null;
         modalDialog = null;
         document.body.classList.remove('modal-open');
-
-        if(navigateToItem) {
-            let anchorId = location.hash?.replace('#', '') || false;
-            if(anchorId) page.navigateToItemId(anchorId, "instant");
-            navigateToItem = false;
-        }
         
         // remove item id from url
         if(location.href.indexOf('#') > 0) {
@@ -243,6 +235,9 @@
             exhibitDisplay.style.height = "unset";
             exhibitDisplay.style.overflow = "unset";
             showLoadMessage(false);
+
+            let anchorId = location.hash?.replace('#', '') || false;
+            if(anchorId) page.goToItemId(anchorId, "instant");
 
         }, Settings.imageLoadDelay)
     }

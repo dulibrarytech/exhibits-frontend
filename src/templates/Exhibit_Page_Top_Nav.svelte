@@ -47,10 +47,10 @@
 
     const onClickNavigationLink = (event) => {
 		let anchorId = event.detail.anchorId;
-        navigateToItemId(anchorId);
+        scrollToItemId(anchorId);
     }
 
-    export const navigateToItemId = (anchorId, scrollType = 'smooth') => {  
+    export const scrollToItemId = (anchorId, scrollType = 'smooth') => {
         let navbarHeight = document.querySelector(".navigation-page-section").offsetHeight;
         let anchorOffset = document.getElementById(anchorId).offsetTop;
         let scrollOffset = (navbarHeight / 2) + anchorOffset;
@@ -59,6 +59,10 @@
 			top: scrollOffset,
 			behavior: scrollType
 		});
+    }
+
+    export const goToItemId = (anchorId) => {
+        document.getElementById(anchorId).scrollIntoView({ behavior: 'instant' });
     }
 
     const onMountItems = () => {
