@@ -24,6 +24,10 @@
     }
 
     const search = () => {
+      if(!query) return false;
+      
+      query = query.replaceAll(',', ' ');
+
       // parse out the terms enclosed in quotes, include in the query as a phrase
       let quotedTerms = query.match(/"([^"]*)"/gi);
       if(quotedTerms) {
