@@ -6,5 +6,5 @@
 </script>
 
 <div class="test">
-    <Repository_Related_Items items={test_data} />
+    <Repository_Related_Items exhibitId={"bea561ce-5746-4adb-b7d2-b9f997fbcd37"} items={test_data} />
 </div>
