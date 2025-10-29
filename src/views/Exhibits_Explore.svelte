@@ -12,7 +12,7 @@
     import queryString from 'query-string';
     import MiniSearch from 'minisearch';
 
-    import Exhibits_Explore_Search from '../templates/partials/Exhibits_Explore_Search.svelte';
+    import Exhibits_Explore_Search from '../components/Exhibits_Explore_Search.svelte';
     import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
     import Exhibit_Preview_Grid_Tabs from '../templates/partials/Exhibit_Preview_Grid_Tabs.svelte';
 
@@ -150,21 +150,30 @@
     }
 
     const initKeywordSearch = () => {
-        let count = 0;
-        let index = [], indexItem = {};
+        let count = 0, index = [], indexItem = {};
 
+        // add the exhibit data to the minisearch index
         for(let exhibit of _exhibits) {
+
             indexItem = {...exhibit};
 
-            for(let key of Object.keys(Settings.searchFieldsExhibit)) {
-                indexItem[key] = getInnerText(exhibit[key]);
+            for(let field of Object.keys(Settings.searchFieldsExhibit)) {
+
+                if(typeof indexItem[field] == 'string') {
+                    indexItem[field] = getInnerText(exhibit[field]);
+                }
+                else if(typeof indexItem[field] == 'object') {
+                    indexItem[field] = getInnerText( exhibit[field].toString() );
+                }
             }
 
             index.push(indexItem);
         }
 
-        miniSearch.addAll(index.map(exhibit => (
-            {...exhibit, id: ++count}
+        miniSearch.addAll(index.map(exhibit => ({
+                ...exhibit, 
+                id: ++count
+            }
         )));
     }
 

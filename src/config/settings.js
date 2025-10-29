@@ -125,7 +125,8 @@ export const Settings = {
     searchFieldsExhibit: {
         "title": "Title",
         "subtitle": "Subtitle",
-        "description": "Description"
+        "description": "Description",
+        "subjects": "Subjects"
     },
     searchFieldsExhibitItem: {
         "title": "Title",
@@ -205,6 +206,7 @@ export const Settings = {
         HERO_IMAGE: "hero_image",
         THUMBNAIL_IMAGE: "thumbnail_image",
         DESCRIPTION: "description",
+        SUBJECTS: "subjects",
         PAGE_LAYOUT: "page_layout",
         EXHIBIT_TEMPLATE: "exhibit_template",
         STYLES: "styles",

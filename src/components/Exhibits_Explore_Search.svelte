@@ -1,7 +1,7 @@
 <script>
-    import FacetLabels from '../../components/FacetLabels.svelte';
-    import Search_Box from '../../components/Search_Box.svelte';
-    import Filter_Select_Menu from '../../components/Filter_Select_Menu.svelte';
+    import FacetLabels from './FacetLabels.svelte';
+    import Search_Box from './Search_Box.svelte';
+    import Filter_Select_Menu from './Filter_Select_Menu.svelte';
 
     export let searchData = {};
     export let filters = [];
