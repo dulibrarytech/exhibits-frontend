@@ -1,9 +1,12 @@
 <script>
     'use strict'
 
-    import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
     import { formatFacetField, formatFacetValue } from '../libs/format';
+
+    const dispatch = createEventDispatcher();
+
+    const DISPLAY_COLLAPSIBLE_PANELS = false;
 
     export let limitOptions = [];
     export let facetValues = {};
@@ -11,8 +14,6 @@
     let limitOptionsDisplay = [];
     let facetLabelButtons = [];
     let facetDrodownLists = [];
-
-    const dispatch = createEventDispatcher();
 
     const init = () => {
         let option = {};
@@ -58,33 +59,55 @@
 
     <div class="facets">
         {#each limitOptionsDisplay as {field, values, label=null}, index}
-
             {#if values.length > 0}
-                <button 
-                    type="button" 
-                    class="collapsible" 
-                    data-index={index}
-                    aria-label="expand filter options list"
 
-                    on:click={onClickFacetLabel} 
-                    bind:this={facetLabelButtons[index]}
-                >
-                    <span use:formatFacetField>{field}</span>
-                    <i class="las la-plus"></i>
-                </button>
+                {#if DISPLAY_COLLAPSIBLE_PANELS}
+                    <button 
+                        type="button" 
+                        class="collapsible" 
+                        data-index={index}
+                        aria-label="expand filter options list"
 
-                <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]}>
-                  <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
-                        {#each values as {value, count, label=null}}
-                            {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                                <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
-                            {/if}
-                        {/each}
-                    </ul> 
-                </div>
+                        on:click={onClickFacetLabel} 
+                        bind:this={facetLabelButtons[index]}
+                    >
+                        <span use:formatFacetField>{field}</span>
+                        <i class="las la-plus"></i>
+                    </button>
+
+                    <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]}>
+                      <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
+                            {#each values as {value, count, label=null}}
+                                {#if facetValues[field].includes(value) || facetValues[field] == "*"}
+                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
+                                {/if}
+                            {/each}
+                        </ul> 
+                    </div>
+                {:else}
+                    <div class="static-panel">
+                        <h6 use:formatFacetField >{field}</h6>
+                        <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
+                            {#each values as {value, count, label=null}}
+                                {#if facetValues[field].includes(value) || facetValues[field] == "*"}
+                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
+                                {/if}
+                            {/each}
+                        </ul>
+                    </div>
+                    <style>
+                        .facets .static-panel {
+                            background-color: #e5e3e1;
+                            padding: 15px;
+                        }
+
+                        .facets .static-panel h6 {
+                            margin-bottom: 0px;
+                        }
+                    </style>
+                {/if}
 
             {/if}
-
         {/each}
     </div>
 </div>
