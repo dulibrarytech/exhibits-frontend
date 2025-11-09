@@ -173,9 +173,9 @@ export const createExhibitPageSections = (items) => {
         else if(type == ENTITY_TYPE.EXHIBIT_SUBHEADING) {
 
             subheading = {
-                id: getHtmlIdString(title),
+                id: getHtmlIdString(text),
                 uuid,
-                text: getInnerText(title)
+                text: getInnerText(text)
             }
 
             if(heading) heading.subheadings.push(subheading);
