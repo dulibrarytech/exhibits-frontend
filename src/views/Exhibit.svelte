@@ -71,8 +71,8 @@
         else isAdmin = false;
 
         message = EXHIBIT_LOAD_MESSAGE;
-        Logger.module().info(`Loading exhibit... ID: ${exhibitId}`);
         showLoadMessage(true);
+        Logger.module().info(`Loading exhibit... ID: ${exhibitId}`);
 
         exhibitId = currentRoute.namedParams.id ?? "null";
         exhibit = await Index.getExhibit(exhibitId, isAdmin);
@@ -177,7 +177,7 @@
         }
 
         modalDialogData = getItemById((itemId || null), items);
-        if(!modalDialog) modalDialog = Modal_Item_Display;8
+        if(!modalDialog) modalDialog = Modal_Item_Display;
 
         document.body.classList.add('modal-open');
     }
@@ -258,18 +258,31 @@
                     --theme-exhibit-font-color: {DEFAULT_FONT_COLOR}; 
                     --theme-exhibit-background-color: {DEFAULT_BACKGROUND_COLOR}; 
                     --theme-exhibit-font-family: {DEFAULT_FONT_FAMILY};
-                    --theme-exhibit-font-size: {DEFAULT_FONT_SIZE}">
+                    --theme-exhibit-font-size: {DEFAULT_FONT_SIZE}"
+            >
 
             <Exhibit_Menu {exhibitId} on:click-menu-link={onOpenPageModal} />
         
             <!-- exhibit page -->
-            <svelte:component this={pageLayout} {data} {template} {sections} {items} {styles} 
+            <svelte:component 
+                this={pageLayout} 
+                {data} 
+                {template} 
+                {sections} 
+                {items} 
+                {styles} 
                 bind:this={page}
                 on:mount={onMountPage} 
                 on:mount-items={onMountItems} 
                 on:click-item={onOpenViewerModal} />
         
-            {#if modalDialog}<Modal_Dialog_Window modalDisplay={modalDialog} modalData={modalDialogData} on:close={closeModal} />{/if}
+            {#if modalDialog}
+                <Modal_Dialog_Window 
+                    modalDisplay={modalDialog} 
+                    modalData={modalDialogData} 
+                    on:close={closeModal} 
+                />
+            {/if}
         </div>
 
     {/if}
