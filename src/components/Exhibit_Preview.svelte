@@ -54,7 +54,7 @@
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
 
         if(thumbnail) {
-            thumbnail = RESOURCE.getFileUrl(thumbnail);
+            thumbnail = RESOURCE.getIIIFImageUrl(thumbnail, width);
         }
         else if(heroImage) {
             let file = heroImage || "no-image-available";
