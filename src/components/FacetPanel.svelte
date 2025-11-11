@@ -47,11 +47,9 @@
         facetLabelButtons[index].querySelector("i").classList.toggle("la-minus");
 
         if(facetLabelButtons[index].classList.contains('active')) {
-            facetLabelButtons[index].setAttribute("aria-label", "collapse filter options list");
             facetDrodownLists[index].style.display = "block";
         }
         else {
-            facetLabelButtons[index].setAttribute("aria-label", "expand filter options list");
             facetDrodownLists[index].style.display = "none";
         }
     }
@@ -69,15 +67,15 @@
                 {#if DISPLAY_COLLAPSIBLE_PANELS}
                     <button 
                         type="button" 
-                        class="collapsible" 
+                        class="collapsible active" 
                         data-index={index}
-                        aria-label="expand search result filters for item {getFacetFieldLabel(field)}"
+                        aria-label={`filter by ${getFacetFieldLabel(field)}`} 
 
                         on:click={onClickFacetLabel} 
                         bind:this={facetLabelButtons[index]}
                     >
                         <span use:formatFacetField>{field}</span>
-                        <i class="las la-plus"></i>
+                        <i class="las la-minus"></i>
                     </button>
 
                     <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]}>
@@ -216,7 +214,8 @@
 
     /* Style the collapsible content. Note: hidden by default */
     .panel-section {
-        display: none;
+        /* display: none; */
+        display: block;
         overflow: hidden;
         max-height: 400px;
         overflow-y: scroll;
