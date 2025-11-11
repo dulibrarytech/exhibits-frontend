@@ -2,11 +2,16 @@
     'use strict'
 
     import { createEventDispatcher } from 'svelte';
-    import { formatFacetField, formatFacetValue } from '../libs/format';
+    import { 
+        formatFacetField, 
+        formatFacetValue,
+        getFacetFieldLabel
+
+    } from '../libs/format';
 
     const dispatch = createEventDispatcher();
 
-    const DISPLAY_COLLAPSIBLE_PANELS = false;
+    const DISPLAY_COLLAPSIBLE_PANELS = true;
 
     export let limitOptions = [];
     export let facetValues = {};
@@ -66,7 +71,7 @@
                         type="button" 
                         class="collapsible" 
                         data-index={index}
-                        aria-label="expand filter options list"
+                        aria-label="expand search result filters for item {getFacetFieldLabel(field)}"
 
                         on:click={onClickFacetLabel} 
                         bind:this={facetLabelButtons[index]}

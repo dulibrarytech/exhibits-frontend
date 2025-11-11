@@ -28,6 +28,20 @@ export const formatFacetValue = (node, field) => {
     }
 }
 
+export const getFacetFieldLabel = (field) => {
+    if(field in Settings.facetLabels) {
+        field = Settings.facetLabels[field];
+    }
+    return field;
+}
+
+export const getFacetValueLabel = (value) => {
+    if(field in Settings.facetValueLabels) {
+        value = Settings.facetValueLabels[value];
+    }
+    return value;
+}
+
 export const formatSearchResultValue = (node, data = {}) => {
     let {result = {}, terms = []} = data;
     let value = decodeHtmlEntities(node.innerHTML);
