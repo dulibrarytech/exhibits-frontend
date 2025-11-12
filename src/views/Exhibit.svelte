@@ -72,8 +72,8 @@
 
         message = EXHIBIT_LOAD_MESSAGE;
         showLoadMessage(true);
-        Logger.module().info(`Loading exhibit... ID: ${exhibitId}`);
 
+        Logger.module().info(`Loading exhibit...`);
         exhibitId = currentRoute.namedParams.id ?? "null";
         exhibit = await Index.getExhibit(exhibitId, isAdmin);
         data = exhibit?.data;
