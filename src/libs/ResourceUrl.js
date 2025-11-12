@@ -42,7 +42,11 @@ export default class ResourceUrl {
       return `${this.iiifImageServerUrl}/iiif/2/${filename}`;
     }
 
-    getIIIFImageUrl(filename="null", width=null, height=null, dimensions="full") {
+    getIIIFImageUrl(filename="null", width=null, height=null, dimensions=null) {
+
+      if(!dimensions) {
+        dimensions = "full";
+      }
 
       if(width || height) {
         dimensions = `${width || ""},${height || ""}`;

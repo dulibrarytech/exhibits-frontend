@@ -3,6 +3,7 @@
     
     import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js'; 
+    import { Configuration } from '../config/config';
     import { Settings } from '../config/settings.js';
     import { getInnerText } from '../libs/exhibits_data_helpers';
 
@@ -15,7 +16,11 @@
 
     const DEFAULT_PREVIEW_IMAGE_ALT_TEXT = Settings.exhibitPreviewImageAltText;
 
-    let {
+    const {
+        iiifImageServerUrl
+    } = Configuration;
+
+    const {
         showTitle = false,
         overlay = true
     } = args;
@@ -66,21 +71,35 @@
         }
     }
 
-    const onClickPreview = (event) => {
-        let exhibitId = event.target.getAttribute('data-exhibit-id');
+    const onClickPreview = ({target}) => {
+        let exhibitId = target.getAttribute('data-exhibit-id');
         if(exhibitId) dispatch('click-preview', {exhibitId});
         if(link) window.location.replace(link);
     }
 
-    const onImageLoad = (event) => {
+    const onImageLoad = ({target}) => {
         dispatch('image-loaded', {itemId: exhibitId});
+    }
+
+    const onImageLoadError = ({target}) => {
+        let {src} = target;
+        let isIIIFImage = src.includes(iiifImageServerUrl);
+
+        if(isIIIFImage && src.includes("/full/full") === false) {
+            console.log(`Error scaling thumbnail image for exhibit: ${exhibitId}. Attempting fullsize image...`);
+            thumbnail = RESOURCE.getIIIFImageUrl(exhibit.thumbnail_image);
+        }
+        else {
+            src = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
+        }
     }
 </script>
 
 <div class="exhibit-preview">
     <a href={link || undefined} data-exhibit-id={exhibitId} bind:this={titleTextElement} on:click|stopPropagation|preventDefault={onClickPreview} aria-label="enter exhibit {title}">
         <div class="exhibit-thumbnail">
-            <img src={thumbnail || ""} alt={altText} on:load={onImageLoad} onerror="this.onerror=null;this.src='{RESOURCE.getExhibitPlaceholderImageUrl()}';" />
+
+            <img src={thumbnail || ""} alt={altText} on:load={onImageLoad} on:error={onImageLoadError} />
 
             {#if overlay}
                 <div class="overlay"></div>
