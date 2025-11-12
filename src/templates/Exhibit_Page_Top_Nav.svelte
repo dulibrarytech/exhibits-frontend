@@ -51,12 +51,9 @@
     }
 
     export const scrollToItemId = (anchorId, scrollType = 'smooth') => {
-        let navbarHeight = document.querySelector(".navigation-page-section").offsetHeight;
         let anchorOffset = document.getElementById(anchorId).offsetTop;
-        let scrollOffset = (navbarHeight / 2) + anchorOffset;
-
 		window.scrollTo({
-			top: scrollOffset,
+			top: anchorOffset,
 			behavior: scrollType
 		});
     }
