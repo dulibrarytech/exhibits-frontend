@@ -45,7 +45,7 @@ export const Kaltura = (() => {
      * @returns 
      */
     const getViewerUrl = (entryId) => {
-        return `${kalturaDomain}/p/${kalturaPartnerID}/sp/${kalturaPartnerID}00/embedIframeJs/uiconf_id/${kalturaUiConfID}/partner_id/${kalturaPartnerID}?iframeembed=true&playerId=${kalturaUniqueObjectID}&entry_id=${entryId}&flashvars[leadWithHTML5]=true`;
+        return `${kalturaDomain}/p/${kalturaPartnerID}/embedPlaykitJs/uiconf_id/${kalturaUiConfID}?iframeembed=true&entry_id=${entryId}`;
     }
 
     /**
