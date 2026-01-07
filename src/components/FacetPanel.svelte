@@ -57,6 +57,8 @@
     init(); 
 </script>
 
+{#if limitOptionsDisplay.length > 0}
+
 <div class="facet-panel">
     <h4>Filter Results</h4>
 
@@ -114,6 +116,8 @@
         {/each}
     </div>
 </div>
+
+{/if}
 
 <style>
     .facet-panel > h4 {
