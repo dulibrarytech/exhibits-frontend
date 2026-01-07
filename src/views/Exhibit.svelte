@@ -196,6 +196,10 @@
     const closeModal = (event) => {
         modalDialogData = null;
         modalDialog = null;
+
+        if(location.href.indexOf('#') > 0) {
+            history.replaceState(null, null, location.href.substring(0, location.href.indexOf('#')));
+        }
     }
 
     const showLoadMessage = (show) => {
