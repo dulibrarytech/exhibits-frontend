@@ -53,7 +53,8 @@ export const Settings = {
     kalturaPartnerID: "2357732",
     // kalturaUiConfID: "44461971",
     kalturaUiConfID: "56856002",
-    kalturaTranscriptUiConfID: "44058172",
+    // kalturaTranscriptUiConfID: "44058172",
+    kalturaTranscriptUiConfID: "56856002",
     kalturaUniqueObjectID: "kaltura_player_1559751114",
     kalturaFlavorId: "0_7gx3rx5v",
     kalturaPlayerHeight: "100%",
@@ -175,7 +176,7 @@ export const Settings = {
         "image": "Image",
         "audio": "Audio",
         "video": "Video",
-        "pdf": "Text Document",
+        "pdf": "PDF",
         "external": "Unknown Type"
     },
     facetValues: {
