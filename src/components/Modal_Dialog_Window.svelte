@@ -18,12 +18,14 @@
 
     const render = () => {
 		if (dialogElement && modalData) {
-            dialogElement.showModal();
+			document.body.classList.add('modal-open');
+        	dialogElement.showModal();
 			setDialogDimensions();
-        }
+    	}
 	}
 
     const closeDialog = () => {
+		document.body.classList.remove('modal-open');
         dispatch('close', {});
     }
 
@@ -38,6 +40,12 @@
 
 	onMount(async () => {
 		window.addEventListener('resize', onWindowResize);
+
+		// close dialog on browser navigation (1/6/26)
+		window.addEventListener('popstate', function(event) {
+			closeDialog();
+		});
+
         render();
     });
 </script>
@@ -86,7 +94,6 @@
 
 	.display-content {
 		height: 100%;
-		/* overflow-y: scroll; */ 
 		padding-right: 10px;
 	}
 
@@ -136,6 +143,12 @@
 		top: 5px;
 		left: 8px;
 		height: 40px;
+	}
+
+	:global(body.modal-open) {
+		height: 100vh;
+		overflow-y: hidden;
+		padding-right: 15px;
 	}
 
 	:global(.modal-dialog-window .item-viewer .openseadragon) {

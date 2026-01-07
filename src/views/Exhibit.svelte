@@ -178,8 +178,6 @@
 
         modalDialogData = getItemById((itemId || null), items);
         if(!modalDialog) modalDialog = Modal_Item_Display;
-
-        document.body.classList.add('modal-open');
     }
 
     const onOpenPageModal = (event) => {
@@ -193,19 +191,11 @@
         };
 
         if(!modalDialog) modalDialog = Modal_Page_Display;
-        
-        document.body.classList.add('modal-open');
     }
 
     const closeModal = (event) => {
         modalDialogData = null;
         modalDialog = null;
-        document.body.classList.remove('modal-open');
-        
-        // remove item id from url
-        if(location.href.indexOf('#') > 0) {
-            history.pushState(null, null, location.href.substring(0, location.href.indexOf('#')));
-        }
     }
 
     const showLoadMessage = (show) => {
@@ -224,7 +214,6 @@
         if(itemId) {
             let item = getItemById(itemId, items);
             if(item && !item.is_embedded) openViewerModal(itemId);
-            navigateToItem = true;
         }
     }
 
@@ -309,12 +298,6 @@
     :global(.navbar.fixed-top) {
         position: relative;
     }
-
-    :global(body.modal-open) {
-		height: 100vh;
-		overflow-y: hidden;
-		padding-right: 15px;
-	}
 
     :global(.exhibit-search .search-box form) {
         margin-right: 15px;
