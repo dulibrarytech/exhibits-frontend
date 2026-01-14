@@ -1,0 +1,5 @@
+2.1.0
+Fixed issues with page navigation to and from search results
+Updated page navigation from exhibit menu and page load using exhibit item anchor
+Updated home page filter to enable filtering on exhibit subjects
+Added capability for user-created exhibt page subheadings
