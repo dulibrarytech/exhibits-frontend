@@ -48,7 +48,7 @@
             kalturaUrl = EMBED_HTML_PLAYER ? Kaltura.getStreamingMediaUrl(entryId) : Kaltura.getViewerUrl(entryId);
         }
         else {
-            kalturaUrl = Kaltura.getTranscriptViewerUrl(entryId);
+            kalturaUrl = Kaltura.getViewerUrl(entryId);
         }
 
         previewImageUrl = preview || Kaltura.getThumbnailUrl(entryId, 1000, 1000);

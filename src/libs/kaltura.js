@@ -57,7 +57,7 @@ export const Kaltura = (() => {
      * @returns 
      */
     const getTranscriptViewerUrl = (entryId) => {
-        return `${kalturaDomain}/p/${kalturaPartnerID}/sp/${kalturaPartnerID}00/embedIframeJs/uiconf_id/${kalturaTranscriptUiConfID}/partner_id/${kalturaPartnerID}?iframeembed=true&playerId=${kalturaUniqueObjectID}&entry_id=${entryId}&flashvars[leadWithHTML5]=true`;
+        return `${kalturaDomain}/p/${kalturaPartnerID}/sp/${kalturaPartnerID}00/embedIframeJs/uiconf_id/${kalturaTranscriptUiConfID}/partner_id/${kalturaPartnerID}?iframeembed=true&playerId=${kalturaUniqueObjectID}&entry_id=${entryId}&flashvars[leadWithHTML5]=true`; // PROD
     }
 
     /**
