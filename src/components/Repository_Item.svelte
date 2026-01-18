@@ -1,6 +1,7 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     import { Resource } from '../libs/resource';
+    import { Repository } from '../libs/repository';
     import * as Logger from '../libs/logger.js';
     
     export let id = null; // dom element id
@@ -18,7 +19,7 @@
         _repositoryData = item.repository_data;
 
         try {
-            item.data_display = getDataDisplay(_repositoryData);
+            item.data_display = Repository.getMetadataDisplay(_repositoryData);
             _renderTemplate = true;
         }
         catch(error) {
@@ -27,42 +28,6 @@
         }
 
         if(_renderTemplate == false) Logger.module().error(`Can't render repository item: Item id: ${item.uuid} Repository item id: ${_repositoryData.id || "null"}`);
-    }
-
-    // get the data for the exhibit item viewer
-    const getDataDisplay = (repositoryData) => {
-        let display = [];
-
-        let {
-            link_to_item = "null", 
-            link_to_collection = "null", 
-            collection_name = "null",
-            collection_id = "null",
-            local_identifier = "null"
-
-        } = repositoryData;
-
-        // add local identifier
-        display.push({
-            "label": null,
-            "value": local_identifier
-        });
-
-        // add link to object
-        display.push({
-            "label": null,
-            "value": `<a href="${link_to_item}" target="_blank">Record in the University Libraries' Digital Repository</a>`
-        });
-
-        // add link to collection
-        if(collection_id) {
-            display.push({
-                "label": null,
-                "value": `<a href="${link_to_collection}" target="_blank">${collection_name || "Parent Collection"}</a>`
-            });
-        }
-
-        return display;
     }
 
     const onLoadError = async (event) => {

@@ -76,8 +76,45 @@ export const Repository = (() => {
         });
     }
 
+    const getMetadataDisplay = (repositoryData) => {
+        let display = [];
+
+        let {
+            link_to_item = "null", 
+            link_to_collection = "null", 
+            collection_name = "null",
+            collection_id = "null",
+            local_identifier = "null",
+            archival_object_url = "null",
+
+        } = repositoryData;
+
+        // add local identifier
+        display.push({
+            "label": null,
+            "value": `<a href="${archival_object_url}" target="_blank">${local_identifier}</a>`
+        });
+
+        // add link to object
+        display.push({
+            "label": null,
+            "value": `<a href="${link_to_item}" target="_blank">Record in the University Libraries' Digital Repository</a>`
+        });
+
+        // add link to collection
+        if(collection_id) {
+            display.push({
+                "label": null,
+                "value": `<a href="${link_to_collection}" target="_blank">${collection_name || "Parent Collection"}</a>`
+            });
+        }
+
+        return display;
+    }
+
     return {
         getItemData,
-        searchRepository
+        searchRepository,
+        getMetadataDisplay,
     };
 })()

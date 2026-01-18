@@ -102,7 +102,7 @@
                   relatedItems.push({
                      title: results[index].title || "Untitled",
                      link: results[index].link_to_item || "null",
-                     thumbnail: results[index].thumbnail_datastream || "null"
+                     thumbnail: results[index].thumbnail_datastream_url || "null"
                   });
                }     
             }
@@ -114,7 +114,7 @@
                   relatedItems.push({
                      title: result.title || "Untitled",
                      link: result.link_to_item,
-                     thumbnail: result.thumbnail_datastream || "null"
+                     thumbnail: result.thumbnail_datastream_url || "null"
                   });
                }
             }

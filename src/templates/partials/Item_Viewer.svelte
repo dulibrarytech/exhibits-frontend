@@ -16,12 +16,12 @@
 	$: init();
 
 	const init = async () => {
-		itemType = item.item_type || undefined;
-		itemData = item.data_display || null;
-		title = item.title || null;
-		text = item.description || DEFAULT_ITEM_TEXT;
-		date = item.date || null;
-		caption = item.caption || null;
+		itemType = 	item.item_type || undefined;
+		itemData = 	item.data_display || null;
+		title = 		item.title || null;
+		text = 			item.description || DEFAULT_ITEM_TEXT;
+		date = 			item.date || null;
+		caption = 	item.caption || null;
 
 		if(date) date = new Date(date).toLocaleDateString();
 	}
