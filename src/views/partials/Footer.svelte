@@ -1,3 +1,7 @@
+<script>
+    import Copyright_Banner from '../../templates/partials/Copyright_Banner.svelte';
+</script>
+
 <footer>
     <div class="container">
         <div class="footer-content row">
@@ -27,6 +31,8 @@
 
         </div>
     </div>
+
+    <Copyright_Banner />
 </footer>
 
 <style>
