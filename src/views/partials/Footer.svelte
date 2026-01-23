@@ -6,13 +6,13 @@
     <div class="container">
         <div class="footer-content row">
 
-            <div class="col-lg-5 col-md-4 col-sm-12 logo-container">
+            <div class="col-lg-3 col-md-4 col-sm-12 logo-container">
                 <div class="logo">
                     <a href="https://library.du.edu" title="Link to university libraries website" target="_blank"><img src="/assets/images/du-univ-libraries.png" alt="University of Denver University Libraries logo" /></a>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="text address">
                     <p>University Libraries</p>
                     <p>Anderson Academic Commons</p>
@@ -22,7 +22,15 @@
                 
             </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-12">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <p>Explore More:</p>
+                <div class="links">
+                    <a href="https://specialcollections.du.edu" target="_blank">Digital Collections</a>
+                    <a href="https://duarchives.coalliance.org/" target="_blank">Archives Finding Aids</a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-2 col-sm-12">
                 <div class="links">
                     <a href="https://library.du.edu/collections-library-materials/exhibits" title="Link to About Us" target="_blank">About Us</a>
                     <a href="mailto:Madison.Sussmann@du.edu" title="Link to Contact Us">Contact</a>
@@ -38,6 +46,7 @@
 <style>
     footer {
         background-color: #375060;
+        font-size: 0.8em;
     }
 
     footer > .container {
@@ -69,7 +78,7 @@
     }
 
     .logo img {
-        width: 70%;
+        width: 90%;
     }
 
     .links > a {
@@ -82,9 +91,9 @@
             margin-bottom: 0;
         }
 
-        .logo img {
+        /* .logo img {
             width: 85%;
-        }
+        } */
     }
 
     @media screen and (min-width: 768px) and (max-width: 992px) {
@@ -94,8 +103,8 @@
     }
 
     @media screen and (min-width: 992px) {
-        .logo img {
+        /* .logo img {
             width: 60%;
-        }
+        } */
     }
 </style>
