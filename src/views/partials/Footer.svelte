@@ -12,14 +12,14 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-3 col-sm-12">
-                <div class="text address">
+            <div class="col-lg-3 col-md-3 col-sm-12 address">
+                <span class="icon-du-location" aria-hidden="true"><i class="las la-map-marker"></i></span>
+                <span class="text">
                     <p>University Libraries</p>
                     <p>Anderson Academic Commons</p>
                     <p>2150 East Evans Avenue</p>
                     <p>Denver, CO 80208</p>
-                </div>
-                
+                </span>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-12">
@@ -64,7 +64,11 @@
         margin-bottom: 50px;
     }
 
-    .text.address p {
+    .address {
+        display: inline-flex;
+    }
+
+    .address .text p {
         margin: 0;
     }
 
@@ -84,6 +88,11 @@
     .links > a {
         display: block;
         color: white;
+    }
+
+    .icon-du-location {
+        font-size: 1.7em;
+        margin-right: 5px;
     }
 
     @media screen and (min-width: 768px) {
