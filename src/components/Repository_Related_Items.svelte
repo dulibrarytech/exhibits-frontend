@@ -79,8 +79,7 @@
                continue;
             }
             else {
-               //let thumbnail = item.thumbnail || RESOURCE.getFileUrl(item.media); // TEST
-               let thumbnail = item.thumbnail || RESOURCE.getIIIFImageUrl(item.media, IMAGE_PREVIEW_WIDTH, null); // UPDATE
+               let thumbnail = item.thumbnail || RESOURCE.getIIIFImageUrl(item.media, IMAGE_PREVIEW_WIDTH, null);
 
                itemDisplayData.title = item.title ? getInnerText(item.title) : "Untitled Item";
                itemDisplayData.link = `${window.location.href}#${item.uuid}`;
@@ -97,20 +96,20 @@
             let randomNumbers = getRandomNumberArray(RELATED_ITEM_DISPLAY_COUNT, results.length-1);
             
             for(let index of randomNumbers) {
-               if(results[index].pid != item.uuid) {
+               if(results[index].pid != item.repository_data.id) {
 
                   relatedItems.push({
                      title: results[index].title || "Untitled",
                      link: results[index].link_to_item || "null",
                      thumbnail: results[index].thumbnail_datastream_url || "null"
                   });
-               }     
+               }   
             }
          }
          else {
             for(let result of results) {
-               if(result.pid != item.id) {
-
+               if(result.pid != item.repository_data.id) {
+                  
                   relatedItems.push({
                      title: result.title || "Untitled",
                      link: result.link_to_item,
