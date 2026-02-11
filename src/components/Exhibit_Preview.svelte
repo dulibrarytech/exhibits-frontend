@@ -53,7 +53,7 @@
         subtitle = getInnerText(exhibit.subtitle || ""); 
         styles = exhibit.styles?.hero || {};
 
-        altText = `${title} ${subtitle || undefined} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
+        altText = `${title} ${subtitle || ""} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
 
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
