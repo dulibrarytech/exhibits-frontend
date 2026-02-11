@@ -18,6 +18,12 @@
         _renderTemplate = false;
         _repositoryData = item.repository_data;
 
+        if(!_repositoryData) {
+            Logger.module().error(`Error retrieving repository item data: Item id: ${item.uuid}`);
+            dispatch('mount-template-item', {type: "item"});
+            return false;
+        }
+
         try {
             item.data_display = Repository.getMetadataDisplay(_repositoryData);
             _renderTemplate = true;
