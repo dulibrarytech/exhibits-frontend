@@ -20,6 +20,7 @@
    let relatedItemsDisplay = null;
 
    const init = async () => {
+      // get the items with repository data to find related items for, and shuffle the order of the items so that different related items are shown each time
       if(items.length > 0) {
          items = shuffleArrayElements( getDisplayItems(items) );
          relatedItemsDisplay = await getRelatedItemsDisplay(items);
@@ -36,7 +37,6 @@
          if(item.type == ENTITY_TYPE.ITEM) {
             displayItems.push(item);
          }
-         // else if(ITEM_GRIDS.includes(item.type)) {
          else if(item.items) {
             displayItems = displayItems.concat( getDisplayItems(item.items) );
          }
@@ -45,19 +45,38 @@
       return displayItems;
    }
 
-   // main algorithm
-   const getRelatedItemsDisplay = async (items = []) => {
+   /* 
+    * Get the related items to display for the exhibit based on the subjects of the items in the exhibit that have repository data and a subjects field. 
+    * For each item, one subject is randomly selected from the item's subjects field and used to search the repository for related items with that subject. 
+    * The related items for each exhibit item are then compiled into an object with the exhibit item title, thumbnail, and link, along with an array of related items with their titles, thumbnails, and links. A random selection of the related items is made if there are more than the max number of related items to display. The resulting array of exhibit items with their related items is returned for display in the frontend.
+    */
+    const getRelatedItemsDisplay = async (items = []) => {
       let displayItems = [];
       let itemDisplayData = {};
       let relatedItems = [];
       let results = [];
 
+      // add repository subjects to exhibit item subjects, to allow related items matches based on repository item subjects 
+      // along with user-added exhibit item subjects (if any) 2/11/26
+      items = items.map((item) => {
+         if(item.repository_data && item.repository_data.subjects) {
+            if(!item.subjects) {
+               item.subjects = [];
+            }
+            item.subjects = item.subjects.concat(item.repository_data.subjects);
+         }
+
+         return item;
+      });
+
+      // filter out items that do not have a subjects field, since related items can only be found for items with subjects
       items = items.filter((item) => {
          return item.subjects?.length > 0;
-      })
+      });
 
       if(items.length == 0) Logger.module().info(`Repository related items: no items with 'subjects' field found. Can not display related items for this exhibit.`);
 
+      // main loop to build the related items display data for each exhibit item with a subjects field, stopping when the max number of exhibit items to display is reached
       for(let item of items) {
          itemDisplayData = {};
          relatedItems = [];
@@ -95,9 +114,13 @@
          if(RELATED_ITEM_DISPLAY_COUNT < results.length) {
             let randomNumbers = getRandomNumberArray(RELATED_ITEM_DISPLAY_COUNT, results.length-1);
             
+            // if there are more related items than the max to display, randomly select the max number of related items to display (after ensuring that the exhibit item is not included in the related items)
             for(let index of randomNumbers) {
+
+               // ensure that the related item is not the same as the exhibit item by comparing their repository ids (pids)
                if(results[index].pid != item.repository_data.id) {
 
+                  // add the related item 
                   relatedItems.push({
                      title: results[index].title || "Untitled",
                      link: results[index].link_to_item || "null",
@@ -107,9 +130,13 @@
             }
          }
          else {
+            // if there are fewer related items than the max to display, just use them all (after ensuring that the exhibit item is not included in the related items)
             for(let result of results) {
+
+               // ensure that the related item is not the same as the exhibit item by comparing their repository ids (pids)
                if(result.pid != item.repository_data.id) {
                   
+                  // add the related item 
                   relatedItems.push({
                      title: result.title || "Untitled",
                      link: result.link_to_item,
@@ -119,6 +146,8 @@
             }
          }
 
+         // add the related items display data for the exhibit item to the array of items to display in the frontend, 
+         // only if there is at least one related item to display for the exhibit item
          itemDisplayData.relatedItems = relatedItems;
 
          if(displayItems.length >= RELATED_ITEM_DISPLAY_COUNT) break;
