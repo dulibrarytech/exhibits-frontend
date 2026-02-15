@@ -1,4 +1,21 @@
 <script>
+    /**
+     * @component Media_Item_Preview
+     * @description Component for displaying a preview thumbnail image for a media item. Will attempt to get a thumbnail or preview image for the item, but will fall back to a placeholder image if no preview is available.
+     * 
+     * @param {Object} item - The exhibit item object containing metadata and resource information.
+     * @param {Object} args - Additional arguments for configuring the component behavior [
+     *  args.isInteractive (boolean, default: true) to enable/disable click interaction, 
+     *  args.link (string, optional) to specify a URL to navigate to on click instead of dispatching event, 
+     *  args.overlay (boolean, default: true) to show/hide the "Click to enlarge" overlay on hover
+     * ]
+     * @param {number} width - Desired width for the preview image (optional).
+     * @param {number} height - Desired height for the preview image (optional).
+     * @event click-item - Dispatched when the item preview is clicked, with the item ID as detail.
+     * @event load-error - Dispatched when there is an error loading the preview image, with the image URL as detail.
+     * @event image-loaded - Dispatched when the preview image has successfully loaded, with the item ID as detail.
+    */
+    
     'use strict' 
     
     import axios from 'axios';
@@ -38,16 +55,15 @@
     let thumbnail;
     let title;
     let altText;
-
+    
     let preview;
     let isPlaceholderImage;
 
     let { 
         isInteractive = true,
         link = null,
-        overlay = true
-
-     } = args;
+        overlay = true,
+    } = args;
 
     $: init();
 

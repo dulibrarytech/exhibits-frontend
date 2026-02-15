@@ -7,6 +7,8 @@
    import ResourceUrl from '../libs/ResourceUrl.js';
    import * as Logger from '../libs/logger.js';
 
+   import MediaItemPreview from './Media_Item_Preview.svelte';   
+
    export let items = [];
    export let exhibitId = "";
 
@@ -94,15 +96,16 @@
                }
             });
 
+            // if there are no results for the subject in the repository, skip to the next item and subject until an item with related items is found or the total number of exhibit items is reached
             if(results.length == 0) {
                continue;
             }
             else {
-               let thumbnail = item.thumbnail || RESOURCE.getIIIFImageUrl(item.media, IMAGE_PREVIEW_WIDTH, null);
-
+               // primary item display data for the exhibit item with related items, including the thumbnail, title, and link to the item in the exhibit 
+               itemDisplayData.uuid = item.uuid;
                itemDisplayData.title = item.title ? getInnerText(item.title) : "Untitled Item";
                itemDisplayData.link = `${window.location.href}#${item.uuid}`;
-               itemDisplayData.thumbnail = thumbnail;
+               itemDisplayData.thumbnail = item.thumbnail || RESOURCE.getIIIFImageUrl(item.media, IMAGE_PREVIEW_WIDTH, null);;
                itemDisplayData.subject = subject;
             }
          }
@@ -126,6 +129,8 @@
                      link: results[index].link_to_item || "null",
                      thumbnail: results[index].thumbnail_datastream_url || "null"
                   });
+
+                  // addRelatedItem(results[index])
                }   
             }
          }
@@ -142,6 +147,8 @@
                      link: result.link_to_item,
                      thumbnail: result.thumbnail_datastream_url || "null"
                   });
+
+                  // addRelatedItem(result)
                }
             }
          }
@@ -169,16 +176,20 @@
 {#if relatedItemsDisplay}
 
    <div class="item-container">
-   {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}}
+   {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}, index}
 
       <div class="item shadow-wrapper">
          <div class="item-content">
             <h3>Seen in the exhibit</h3>
 
-            <div class="item-preview">
+            <!-- <div class="item-preview">
                <a href={link} target="_blank">
                   <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
                </a>
+            </div> -->
+
+            <div class="exhibit-item-preview">
+               <MediaItemPreview item={relatedItemsDisplay[index]} args={{isInteractive: false, overlay: false}} on:click-item />
             </div>
 
             <h4>Explore similar subjects</h4>
@@ -245,7 +256,7 @@
       margin-top: 50px;
    }
 
-   .item-preview {
+   /* .item-preview {
       width: 80%;
       margin: 25px auto 60px auto;
       height: 250px;
@@ -254,7 +265,17 @@
 
    .item-preview img {
       height: 100%;
+   } */
+   .exhibit-item-preview {
+      width: 80%;
+      margin: 25px auto 60px auto;
+      height: 250px;
+      overflow: hidden;
    }
+
+   /* .exhibit-item-preview img {
+      height: 100%;
+   } */
 
    .related-item-preview {
       width: 40.5%;

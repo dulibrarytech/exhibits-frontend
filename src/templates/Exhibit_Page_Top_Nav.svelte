@@ -120,7 +120,7 @@
         
     <Exhibit_Thank_You />
 
-    <Repository_Related_Items {items} exhibitId={exhibitData.uuid} />
+    <Repository_Related_Items {items} exhibitId={exhibitData.uuid} on:click-item />
 
     <div class="scrollto-page-top" bind:this={scrollToPageTopElement}>
         <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit" aria-label="Return to top of exhibit">

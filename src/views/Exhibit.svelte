@@ -166,7 +166,7 @@
         return pageComponent;
     }
 
-    const onOpenViewerModal = (event) => {
+    const onClickItem = (event) => {
         openViewerModal(event.detail.itemId);
     }
 
@@ -267,7 +267,7 @@
                 bind:this={page}
                 on:mount={onMountPage} 
                 on:mount-items={onMountItems} 
-                on:click-item={onOpenViewerModal} />
+                on:click-item={onClickItem} />
         
             {#if modalDialog}
                 <Modal_Dialog_Window 
