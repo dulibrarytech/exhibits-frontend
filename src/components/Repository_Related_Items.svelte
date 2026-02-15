@@ -62,9 +62,18 @@
       // along with user-added exhibit item subjects (if any) 2/11/26
       items = items.map((item) => {
          if(item.repository_data && item.repository_data.subjects) {
+
+            // if the item does not have a subjects field, add one and set it to an empty array so that the repository subjects can be added to it. if the item has a subjects field but it is a csv string instead of an array, split the string into an array on the ',' delimiter and trim whitespace from each subject before adding the repository subjects to the array. if the item already has a subjects array, just add the repository subjects to it. this allows for flexibility in how exhibit creators can input subjects for their items while still ensuring that related items can be found based on repository subjects.
             if(!item.subjects) {
                item.subjects = [];
             }
+
+            // handle csv string of subjects by splitting into an array on the ',' delimiter, trimming whitespace, and adding to the subjects array for the item 2/15/26
+            else if(typeof item.subjects == 'string') {
+               item.subjects = item.subjects.split(",").map((subject) => subject.trim());
+            }
+
+            // add the repository subjects to the item's subjects array
             item.subjects = item.subjects.concat(item.repository_data.subjects);
          }
 
@@ -181,12 +190,6 @@
       <div class="item shadow-wrapper">
          <div class="item-content">
             <h3>Seen in the exhibit</h3>
-
-            <!-- <div class="item-preview">
-               <a href={link} target="_blank">
-                  <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
-               </a>
-            </div> -->
 
             <div class="exhibit-item-preview">
                <MediaItemPreview item={relatedItemsDisplay[index]} args={{isInteractive: false, overlay: false}} on:click-item />
