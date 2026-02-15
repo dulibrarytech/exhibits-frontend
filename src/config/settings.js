@@ -89,7 +89,7 @@ export const Settings = {
         [ITEM_TYPE.VIDEO]: "video-tn.png",
         [ITEM_TYPE.PDF]: "pdf-tn.png"
     },
-    exhibitDefaultImage: "exhibit-default.png",
+    exhibitDefaultImage: "default-placeholder-tn.png",
 
     /*
      * Delay time before showing the exhibit to allow all exhibit preview images to load

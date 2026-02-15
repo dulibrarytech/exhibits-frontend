@@ -82,16 +82,8 @@
     }
 
     const onImageLoadError = ({target}) => {
-        let {src} = target;
-        let isIIIFImage = src.includes(iiifImageServerUrl);
-
-        if(isIIIFImage && src.includes("/full/full") === false) {
-            console.log(`Error scaling thumbnail image for exhibit: ${exhibitId}. Attempting fullsize image...`);
-            thumbnail = RESOURCE.getIIIFImageUrl(exhibit.thumbnail_image);
-        }
-        else {
-            src = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
-        }
+        console.error("Error loading exhibit preview image for exhibit:", exhibitId);
+        thumbnail = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
     }
 </script>
 
