@@ -55,7 +55,7 @@
     let thumbnail;
     let title;
     let altText;
-    
+
     let preview;
     let isPlaceholderImage;
 
@@ -186,7 +186,8 @@
         overlay = false;
 
         let placeholderImageUrl = `${imageAssetsPath}/${placeholderImage[itemType || 'DEFAULT']}`;
-        previewImageElement.parentElement.title = altText;
+        
+        previewImageElement.parentElement.title = "Preview image failed to load. Click to view item.";
 
         if(event.target.src.includes(placeholderImageUrl) == false) {
             previewImageElement.src = placeholderImageUrl;
