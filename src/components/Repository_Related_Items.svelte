@@ -268,7 +268,7 @@
    .exhibit-item-preview {
       width: 80%;
       margin: 25px auto 60px auto;
-      height: auto;
+      height: 250px;
       overflow: hidden;
    }
 
