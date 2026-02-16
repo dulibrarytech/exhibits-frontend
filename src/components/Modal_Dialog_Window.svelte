@@ -30,6 +30,8 @@
     }
 
 	const setDialogDimensions = () => {
+		// get dialog window pointer, test if null, replace selectors below with pointer, and get dimensions to set dialog width and height based on content size with some padding for smaller screens, and max dimensions for larger screens	
+
 		height = (document.querySelector(".modal-dialog-window").offsetHeight + MODAL_WINDOW_PADDING).toString() + "px";
 		width = (document.querySelector(".modal-dialog-window").offsetWidth + MODAL_WINDOW_PADDING).toString() + "px";
 	}
@@ -46,8 +48,8 @@
 			closeDialog();
 		});
 
-        render();
-    });
+    render();
+  });
 </script>
 
 <div class="modal-dialog-window">

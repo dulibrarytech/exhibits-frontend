@@ -28,6 +28,7 @@ export default class ResourceUrl {
 
     getItemPlaceholderImageUrl(itemType = null) {
       let url;
+
       if(!itemType) url = `${this.publicImageLocation}/${this.itemPlaceholderImages['DEFAULT']}`;
       else url = `${this.publicImageLocation}/${this.itemPlaceholderImages[itemType]}`;
       return url;

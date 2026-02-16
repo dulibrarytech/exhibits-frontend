@@ -97,6 +97,7 @@
         // no thumbnail, resource value is not a url (is either kaltura id, repository item id, or local resource filename)
         else {
             preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : RESOURCE.getItemPlaceholderImageUrl(null);
+            // TODO isPlaceholderImage = true if getPreviewUrl fails to get a preview and returns null or undefined, which will cause the component to use the placeholder image
         }
     }
 
@@ -107,7 +108,6 @@
 
             case ITEM_TYPE.IMAGE:
             case ITEM_TYPE.LARGE_IMAGE:
-
                 if(!width) width = (mediaWidth >= 75) ? LARGE_IMAGE_PREVIEW_WIDTH : IMAGE_PREVIEW_WIDTH;
 
                 if(VERIFY_IMAGE_WIDTH && width) {
@@ -208,7 +208,14 @@
 
         <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}">
             <button data-item-id={itemId} on:click={onClickItem} tabindex={isInteractive ? undefined : '-1'} aria-label={`click to open item viewer`}>
-                <img crossorigin="anonymous" src={preview} alt={altText || undefined} on:load={onImageLoad} on:error={onImageLoadError} bind:this={previewImageElement}>
+                <img 
+                    crossorigin="anonymous" 
+                    src={preview} 
+                    alt={altText || undefined} 
+                    title={isPlaceholderImage ? `Preview image failed to load. Click to view item.` : undefined}
+                    on:load={onImageLoad} 
+                    on:error={onImageLoadError} 
+                    bind:this={previewImageElement}>
             </button>
 
             {#if overlay}

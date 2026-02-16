@@ -22,9 +22,10 @@
    let relatedItemsDisplay = null;
 
    const init = async () => {
+
       // get the items with repository data to find related items for, and shuffle the order of the items so that different related items are shown each time
       if(items.length > 0) {
-         items = shuffleArrayElements( getDisplayItems(items) );
+         items = shuffleArrayElements( getExhibitItems(items) );
          relatedItemsDisplay = await getRelatedItemsDisplay(items);
       }
       else {
@@ -32,7 +33,7 @@
       }
    }
 
-   const getDisplayItems = (items) => {
+   const getExhibitItems = (items) => {
       let displayItems = [];
 
       for(let item of items) {
@@ -40,7 +41,7 @@
             displayItems.push(item);
          }
          else if(item.items) {
-            displayItems = displayItems.concat( getDisplayItems(item.items) );
+            displayItems = displayItems.concat( getExhibitItems(item.items) );
          }
       }
 
@@ -97,8 +98,11 @@
          let subject = item.subjects[index];
 
          if(subject && selectedSubjects.includes(subject) == false) {
+
+            // add the subject to the array of selected subjects so that it is not used again for another exhibit item, to allow for a wider variety of related items to be displayed based on different subjects if there are multiple exhibit items with the same subject(s)
             selectedSubjects.push(subject);
 
+            // search the repository for items with the same subject
             results = await Repository.searchRepository({
                facets: {
                   "Subject": subject
@@ -110,12 +114,14 @@
                continue;
             }
             else {
-               // primary item display data for the exhibit item with related items, including the thumbnail, title, and link to the item in the exhibit 
-               itemDisplayData.uuid = item.uuid;
-               itemDisplayData.title = item.title ? getInnerText(item.title) : "Untitled Item";
-               itemDisplayData.link = `${window.location.href}#${item.uuid}`;
-               itemDisplayData.thumbnail = item.thumbnail || RESOURCE.getIIIFImageUrl(item.media, IMAGE_PREVIEW_WIDTH, null);;
-               itemDisplayData.subject = subject;
+
+               // build the display data for the exhibit item to be used in the related items display data, including the title, thumbnail, and link for the exhibit item
+               itemDisplayData = {
+                  ...item,
+                  subject,
+                  title: item.title ? getInnerText(item.title) : "Untitled Item",
+                  link: `${window.location.href}#${item.uuid}`,
+               }
             }
          }
          else {
@@ -259,26 +265,12 @@
       margin-top: 50px;
    }
 
-   /* .item-preview {
-      width: 80%;
-      margin: 25px auto 60px auto;
-      height: 250px;
-      overflow: hidden;
-   }
-
-   .item-preview img {
-      height: 100%;
-   } */
    .exhibit-item-preview {
       width: 80%;
       margin: 25px auto 60px auto;
-      height: 250px;
+      height: auto;
       overflow: hidden;
    }
-
-   /* .exhibit-item-preview img {
-      height: 100%;
-   } */
 
    .related-item-preview {
       width: 40.5%;
