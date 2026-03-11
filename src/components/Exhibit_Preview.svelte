@@ -63,15 +63,14 @@
     $: init();
 
     const init = async () => {
-        // init display fields
-        altText     = `${title} ${subtitle || ""} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
-
         // init exhibit data fields
         exhibitId   = exhibit.uuid;
         thumbnail   = exhibit.thumbnail_image || null;
         heroImage   = exhibit.hero_image || null;
         title       = getInnerText(exhibit.title || ""); 
         subtitle    = getInnerText(exhibit.subtitle || ""); 
+
+        altText = `${title || ""} ${subtitle || ""} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
 
         // set default width and height if not provided
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
