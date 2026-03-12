@@ -63,6 +63,7 @@
     $: init();
 
     const init = async () => {
+
         // init exhibit data fields
         exhibitId   = exhibit.uuid;
         thumbnail   = exhibit.thumbnail_image || null;
@@ -76,6 +77,7 @@
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
 
+        // render the exhibit preview image from the thumbnail if it exists
         if(thumbnail) {
 
             // get the thumbnail image width from iiif info endpoint and if the image is smaller than the requested width, use the image width to avoid requesting an image larger than the original which can cause iiif servers to fail to deliver an image
@@ -93,6 +95,7 @@
             thumbnailSourceUrl = RESOURCE.getIIIFImageUrl(thumbnail, width);
         }
 
+        // render the exhibit preview image from the hero image if there is no thumbnail
         else if(heroImage) {
 
             // if no thumbnail, but there is a hero image, get hero image derivative for the exhibit preview
@@ -102,6 +105,12 @@
                 width,
                 height
             });
+
+        // if there is no thumbnail or hero image, use a placeholder image
+        }
+        else {
+            console.log("No thumbnail or hero image available for exhibit:", exhibitId);
+            thumbnailSourceUrl = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
         }
     }
 
