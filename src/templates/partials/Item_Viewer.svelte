@@ -1,8 +1,9 @@
 <script>	
   import Media_Display from '../../components/Media_Display.svelte';
+	import Item_Data_Display from './Item_Data_Display.svelte';
 	import {formatStripHtmlTags} from '../../libs/format';
 
-    export let item = {};
+  export let item = {};
 
 	const DEFAULT_ITEM_TEXT = "No description available";
 
@@ -59,11 +60,7 @@
 
 				{#if itemData}
 					<div class="data-section">
-						<ul>
-							{#each itemData as {label = null, value = 'unset'}}
-								<li>{#if label}{label}:{/if}{@html value}</li>
-							{/each}
-						</ul>
+						<Item_Data_Display data={itemData} />
 					</div>
 				{/if}
 
@@ -85,6 +82,7 @@
 	.item-viewer {
 		height: 100%;
 		background: white;
+		overflow: hidden;
 	}
 
 	.item-viewer > .row {

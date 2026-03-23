@@ -2,6 +2,7 @@
  * User settings
  * Update this file or via admin UI
  */
+import { text } from 'stream/consumers';
 import { EXHIBIT_TEMPLATE, ITEM_TYPE } from './global-constants.js';
 
 export const Settings = {
@@ -227,7 +228,57 @@ export const Settings = {
         CREATED: "created"
     },
 
+    /*
+     * Default values for exhibit and exhibit item fields
+     */
+    exhibitDefaultTitle: "Untitled exhibit",
     exhibitItemDefaultTitle: "Untitled item",
     exhibitHeroImageAltText: "Exhibit hero image",
     exhibitPreviewImageAltText: "click to enter exhibit",
+
+    /*
+     * Item data display configuration for standard items
+     * (if using fields, they must be valid fields in the exhibit item data object)
+     *
+     * label: not implemented - label to display before the link (e.g. "View item: ")
+     * linkToField: the field in the item data that contains the url for the link
+     * textField: the field in the item data that contains the text to display for the link
+     * linkToValue: use instead of linkToField to use a custom link url
+     * textValue: use instead of textField to use custom text for the link
+     * itemTypes: array of item types that this link configuration applies to (e.g. only show this link for audio items)
+     */
+    itemDisplayLinks: [
+        {
+            linkToValue: "https://mediaspace.du.edu/category/Academics%3EUniversity+Libraries%3EExhibits+%40+DU/382033902",
+            textValue: "Explore the Exhibits @ DU Media Gallery",
+            itemTypes: ["audio", "video"],
+        }
+    ],
+
+    /*
+     * Item data display configuration for repository imported items
+     * (if using fields, they must be valid fields in the 'repository_data' object)
+     *
+     * label: not implemented - label to display before the link (e.g. "View item: ")
+     * linkToField: the field in the item data that contains the url for the link
+     * textField: the field in the item data that contains the text to display for the link
+     * linkToValue: use instead of linkToField to use a custom link url
+     * textValue: use instead of textField to use custom text for the link
+     * itemTypes: array of item types that this link configuration applies to (e.g. only show this link for audio items)
+     */
+    itemDisplayLinksRepositoryItem: [
+        {
+            linkToField: "archival_object_url",
+            textField: "local_identifier",
+        },
+        {
+            linkToField: "link_to_item",
+            textValue: "Record in the University Libraries' Digital Repository",
+        },
+        {
+            linkToField: "link_to_collection",
+            textField: "collection_name",
+            textValue: "Parent Collection",
+        },
+    ]
 }

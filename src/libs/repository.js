@@ -1,21 +1,5 @@
- /**
-    Copyright 2022 University of Denver
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-
-    You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-    
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
- */
-
 /**
- * Digital repository interface
+ * Repository API functions for fetching item data and searching the repository
  * repository.js
  */
 
@@ -51,6 +35,20 @@ export const Repository = (() => {
         });
     }
 
+    /**
+     * 
+     * @param {object} queryData - object containing query and facets for repository search
+     * @returns - search results from the repository search endpoint
+     * 
+     * queryData object structure:
+     * {
+     *   query: string,
+     *   facets: {
+     *     field_name: facet_value,
+     *     ...
+     *   }
+     * }
+     */
     const searchRepository = async (queryData = {}) => {
         let { 
             query = "", 
@@ -76,45 +74,8 @@ export const Repository = (() => {
         });
     }
 
-    const getMetadataDisplay = (repositoryData) => {
-        let display = [];
-
-        let {
-            link_to_item = "null", 
-            link_to_collection = "null", 
-            collection_name = "null",
-            collection_id = "null",
-            local_identifier = "null",
-            archival_object_url = "null",
-
-        } = repositoryData;
-
-        // add local identifier
-        display.push({
-            "label": null,
-            "value": `<a href="${archival_object_url}" target="_blank">${local_identifier}</a>`
-        });
-
-        // add link to object
-        display.push({
-            "label": null,
-            "value": `<a href="${link_to_item}" target="_blank">Record in the University Libraries' Digital Repository</a>`
-        });
-
-        // add link to collection
-        if(collection_id) {
-            display.push({
-                "label": null,
-                "value": `<a href="${link_to_collection}" target="_blank">${collection_name || "Parent Collection"}</a>`
-            });
-        }
-
-        return display;
-    }
-
     return {
         getItemData,
         searchRepository,
-        getMetadataDisplay,
     };
 })()

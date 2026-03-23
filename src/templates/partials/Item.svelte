@@ -214,7 +214,6 @@
     }
 
     @media screen and (min-width: 992px) {
-        /* kaltura iframe dimensions must be set manually for each media element width */
         :global(.item .media.width-25 .kaltura-content.embedded) {
             height: 15.5vw;
         }

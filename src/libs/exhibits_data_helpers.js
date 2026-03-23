@@ -25,8 +25,21 @@
 'use strict' 
 
 import { Settings } from '../config/settings.js';
-import { getHtmlIdString, stripHtmlTags, sanitizeHtmlString, decodeHtmlEntities, removeHtmlContent } from '../libs/data_helpers';
-import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants';
+
+import { 
+    getHtmlIdString, 
+    stripHtmlTags, 
+    sanitizeHtmlString, 
+    decodeHtmlEntities, 
+    removeHtmlContent, 
+    
+} from '../libs/data_helpers';
+
+import { 
+    ENTITY_TYPE, 
+    ITEM_GRIDS,
+
+} from '../config/global-constants';
 
 /**
  * Find an item by id
@@ -52,30 +65,11 @@ export const getItemById = (id, items) => {
     return gridItem || item;
 }
 
-// TODO goes right to data helper, then remove this
-export const sanitizeHtml = (string = "") => {
-    return sanitizeHtmlString(string, {
-        allowedTags: Settings.permittedHtmlTags
-    });
-}
-
-// filterHtmlContent pass in Settings.permittedHtmlInnerTextTags => div,span,p
-// replace all incode instances of data_helpers::stripHtmlTags
-export const getInnerText = (htmlString = "") => {
-    let textString;
-
-    htmlString = removeHtmlContent(htmlString, Settings.permittedHtmlInnerTextTags);
-    textString = stripHtmlTags(htmlString);
-    textString = textString.trim().replace(/\s{2,}/g, ' ');
-
-    return textString;
-}
-
 /**
  * 
  * @param {*} object - exhibit data object
  * 
- * Iterates html-allowed user fields: decodes html entities and sanitizes html string
+ * decodes html entities and sanitizes html string in exhibit data fields that allow user html
  * 
  * @returns exhibit with decoded and sanitized fields
  */
@@ -94,7 +88,7 @@ export const sanitizeExhibitHtmlFields = (exhibit) => {
  * 
  * @param {*} object - exhibit item data object
  * 
- * Iterates html-allowed user fields: decodes html entities, and sanitizes html string
+ * decodes html entities and sanitizes html string in exhibit item data fields that allow user html
  *  
  * @returns item with decoded and sanitized fields
  */
@@ -213,4 +207,71 @@ export const createExhibitPageSections = (items) => {
     }
 
     return headings;
+}
+
+/**
+ * Creates display data for an exhibit item based on a link configuration
+ * 
+ * @param {object} itemData - exhibit item data object
+ * @param {object} linkConfiguration - configuration object defining how to create display data for the item (see settings.itemDisplayLinks and settings.itemDisplayLinksRepositoryItem)
+ * @returns 
+ */
+export const getItemDisplayData = (itemData, linkConfiguration) => {
+    let display = [];
+
+    linkConfiguration.forEach(linkConfig => {
+
+        let {
+            linkToValue = null, 
+            textValue = null, 
+            linkToField = null, 
+            textField = null,
+            itemTypes = null,
+            
+        } = linkConfig;
+
+        // if itemTypes is specified and the current item type is not included, skip this link configuration
+        if(itemTypes && itemTypes.includes(itemData.item_type) == false) return; 
+
+        // get the value to link to from the specified field in the item data or use the provided linkToValue
+        let linkTo = linkToField ? (itemData[linkToField] || "missing data field for link") : (linkToValue || "#");
+        if(!linkTo) return; 
+
+        // get the text for the link from the specified field in the item data or use the provided textValue or default to "Link"
+        let linkText = textField ? itemData[textField] || ("missing data field for text") : (textValue || "missing link text in settings");
+
+        display.push({
+            label: null,
+            linkTo,
+            linkText,
+        })
+    }); 
+
+    return display;
+}
+
+/**
+ * 
+ * @param {*} string 
+ * @returns {string} sanitized per settings permitted tags
+ */
+export const sanitizeHtml = (string = "") => {
+    return sanitizeHtmlString(string, {
+        allowedTags: Settings.permittedHtmlTags
+    });
+}
+
+/**
+ * 
+ * @param {*} htmlString 
+ * @returns {string} remove all html tags, and leave tags in place that are permitted for user created content
+ */
+export const getInnerText = (htmlString = "") => {
+    let textString;
+
+    htmlString = removeHtmlContent(htmlString, Settings.permittedHtmlInnerTextTags);
+    textString = stripHtmlTags(htmlString);
+    textString = textString.trim().replace(/\s{2,}/g, ' ');
+
+    return textString;
 }
