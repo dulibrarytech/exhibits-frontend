@@ -81,13 +81,14 @@
 </div>
 
 <style>
-    .modal-dialog-window {
+  .modal-dialog-window {
 		height: 100vh;
 		width: 100%;
 	}
 
-    .dialog-content {
+  .dialog-content {
 		height: 100%;
+		padding: 0.6em;
 	}
 
 	.dialog-controls {
@@ -142,8 +143,8 @@
 	.button-close {
 		display: block;
 		position: relative;
-		top: 5px;
-		left: 8px;
+		/* top: 5px;
+		left: 8px; */
 		height: 40px;
 	}
 
