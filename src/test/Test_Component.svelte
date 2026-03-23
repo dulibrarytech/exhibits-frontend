@@ -8,7 +8,6 @@
     import Text_Display_test from './components/Text_Display_test.svelte';
     import Media_Display_test from './components/Media_Display_test.svelte';
     import Media_Item_test from './components/Media_Item_test.svelte';
-    import Repository_Item_test from './components/Repository_Item_test.svelte';
     import IIIF_Item_test from './components/IIIF_Item_test.svelte';
     import IIIF_Viewer_test from './components/IIIF_Viewer_test.svelte';
     import Image_Viewer_test from './components/Image_Viewer_test.svelte';
@@ -28,7 +27,6 @@
         Text_Display_test,
         Media_Display_test,
         Media_Item_test,
-        Repository_Item_test,
         IIIF_Item_test,
         IIIF_Viewer_test,
         Image_Viewer_test,

@@ -4,7 +4,6 @@
      */
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
-    import Repository_Item from '../../components/Repository_Item.svelte';
     import { ENTITY_TYPE, SEARCH_TYPE } from '../../config/global-constants';
     import { formatSearchResultValue } from '../../libs/format';
 
