@@ -128,7 +128,7 @@ export const validateUserThemeStyles = (styles) => {
 }
 
 /**
- * Creates data structure to represent exhibit headings and subitems as sections
+ * Creates data structure to build exhibit navigation menu (heading links > subheading links)
  * 
  * @param {Array} items - array of exhibit item data objects
  * 
