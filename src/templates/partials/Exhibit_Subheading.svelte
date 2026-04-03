@@ -50,7 +50,6 @@
     }
     
     .section-subheading {
-        padding-top: 3.65rem; 
         padding-bottom: 0; 
         text-transform: uppercase;
     }
