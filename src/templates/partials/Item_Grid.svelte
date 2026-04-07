@@ -67,10 +67,6 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     <div class="container grid-container">
-        {#if title}
-            <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
-        {/if}
-
         {#if text}<div class="text">{@html text}</div>{/if}
 
         <div class="grid-content">

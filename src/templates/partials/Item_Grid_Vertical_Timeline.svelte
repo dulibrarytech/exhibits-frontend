@@ -167,10 +167,6 @@
     
     <div class="container grid-container">
 
-        {#if title}
-            <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
-        {/if}
-
         <div class="row timeline-line">
             <div class="col-6" style="border-right: solid"></div>
             <div class="col-6" style="border-left: solid"></div>
