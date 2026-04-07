@@ -176,30 +176,6 @@ export const createExhibitPageSections = (items) => {
             item.anchorId = subheading.id;
         }
 
-        else if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
-
-            // If this item is in a heading section, and it has a title, add a subheading
-            if(heading && title) {
-                subheading = {
-                    id: getHtmlIdString(title),
-                    uuid,
-                    text: getInnerText(title)
-                }
-
-                heading.subheadings.push(subheading);
-                item.anchorId = subheading.id;
-            }
-
-            // Apply heading styles
-            let styles = {
-                item: item.styles
-            }
-            if(sectionStyles) {
-                styles.heading = sectionStyles;
-            }
-            item.styles = styles;
-        }
-
         // End case: push current heading to the headings array if this is the last item in the exhibit
         if(parseInt(index) == items.length-1) {
             if(heading) headings.push(heading);
