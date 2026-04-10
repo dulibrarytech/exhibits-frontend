@@ -21,9 +21,11 @@
     let _featuredExhibits;
     let _studentCuratedExhibits;
 
-    var message = "";
+    let message = "";
 
-    const SHOW_STUDENT_CURATED_EXHIBITS = false;
+    /* feature flags */
+    const SHOW_STUDENT_CURATED_EXHIBITS = true;
+
     const EXHIBITS_DISPLAY = "grid";
     const EXHIBIT_FIELDS = Settings.exhibitDataFields;
 
@@ -87,7 +89,13 @@
                             <div class="heading">
                                 <h2>Featured Exhibits</h2>
 
-                                <a href="/exhibits-explore">View More</a>
+                                <!-- <a href="/exhibits-explore/university-libraries-exhibits">View More</a> -->
+                                <a 
+                                    href="/exhibits-explore#university-libraries-exhibits"
+                                    aria-label="view more university exhibits"
+                                >
+                                    View More
+                                </a>
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}
@@ -103,7 +111,13 @@
                             <div class="heading">
                                 <h2>Student Curated Exhibits</h2>
 
-                                <a href="/exhibits-explore">View More</a>
+                                <!-- <a href="/exhibits-explore/student-curated-exhibits">View More</a> -->
+                                <a 
+                                    href="/exhibits-explore#student-curated-exhibits"
+                                    aria-label="view more student curated exhibits"
+                                >
+                                    View More
+                                </a>
                             </div>
 
                             {#if EXHIBITS_DISPLAY == "slider"}

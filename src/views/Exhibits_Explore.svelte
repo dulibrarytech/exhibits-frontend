@@ -20,17 +20,18 @@
 
     let _exhibits = [];
     let _searchData;
-    var _filters = [];
-    var _filterLabels = [];
+    let _filters = [];
+    let _filterLabels = [];
+    let _activeTabLabel = null;
 
     let miniSearch = new MiniSearch({
         fields: Object.keys(Settings.searchFieldsExhibit),
         storeFields: Object.values(Settings.exhibitDataFields)
     });
 
-    var renderTabs;
-    var message;
-    var pageTitle;
+    let renderTabs;
+    let message;
+    let pageTitle;
 
     const EXHIBITS_DISPLAY_OPTIONS = {
         SHOW_ALL: "show_all",
@@ -48,7 +49,6 @@
     const KEYWORD_FILTER_FUZZY = 0.1;
     const PAGE_TITLE = "All Exhibits";
 
-    // import from settings
     const FILTER_OPTIONS = {
         "keyword": {
             "type": FILTER_TYPES.KEYWORD,
@@ -56,16 +56,25 @@
             "label": "Keywords",
             "field": ""
         },
-
-        // "student_curated": {
-        //     "type": FILTER_TYPES.FIELD,
-        //     "name": "student_curated",
-        //     "label": "Student Curated",
-        //     "field": "is_student_curated"
-        // }
     }
 
     const init = async () => {
+        let {
+            queryParams,
+        } = currentRoute;
+
+        for(let key in queryParams) {
+            if(FILTER_OPTIONS[key]) {
+                _filters.push({
+                    [key]: queryParams[key]
+                })
+            }
+        }
+
+        if(currentRoute.hash) {
+            _activeTabLabel = currentRoute.hash.substring(1);    
+        }
+
         message = "";
         renderTabs = false;
         pageTitle = `${PAGE_TITLE} | ${Settings.appTitle}`;
@@ -75,15 +84,6 @@
             queryParam: "keyword",
             buttonText: "Filter",
             placeholder: "Filter by keyword"
-        }
-
-        let {queryParams} = currentRoute;
-        for(let key in queryParams) {
-            if(FILTER_OPTIONS[key]) {
-                _filters.push({
-                    [key]: queryParams[key]
-                })
-            }
         }
     }
 
@@ -262,12 +262,16 @@
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS}
 
-                            <Exhibit_Preview_Grid_Tabs sections={[
-                                {"label": "University Libraries Exhibits", "exhibits": _exhibits.filter(exhibit => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})},
-                                {"label": "Student Curated Exhibits", "exhibits": _exhibits.filter(exhibit => {return exhibit.is_student_curated == 1})}
-                            ]} args={{showTitle: true}} />
+                            <Exhibit_Preview_Grid_Tabs 
+                                sections={[
+                                    {"label": "University Libraries Exhibits", "exhibits": _exhibits.filter(exhibit => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})},
+                                    {"label": "Student Curated Exhibits", "exhibits": _exhibits.filter(exhibit => {return exhibit.is_student_curated == 1})}
+                                ]} 
+                                
+                                args={{showTitle: true}} 
+                                activeTab={_activeTabLabel}
+                            />
                         {/if}
-
                     </div>
                 </div>
 

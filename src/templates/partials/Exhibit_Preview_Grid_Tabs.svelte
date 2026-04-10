@@ -6,6 +6,10 @@
 
     export let sections = [];
     export let args = {};
+    export let activeTab = null;
+
+    console.log("active tab: ", activeTab);
+    console.log("sections: ", sections);
 
     const MAX_SECTIONS = 3;
 
@@ -18,8 +22,8 @@
         }
     }
 
-    const showPage = (index) => {
-
+    const showPage = (index, label = null) => {
+        
         for(let page of pages) {
             page.style.display = (page.getAttribute('data-index')) == index ? "block" : "none";
         }
@@ -30,10 +34,21 @@
             }
             else tabs[tabIndex].classList.remove('active');
         }
+
+        if(label) {
+            // add the hash to the current url if a page label is present
+            history.pushState(null, null, `${window.location.pathname}#${label.replace(/\s+/g, '-').toLowerCase()}`);
+        }
     }
 
     onMount(async () => {
-        showPage(0);
+        if (activeTab) {
+            let activeTabIndex = sections.findIndex(section => section.label.replace(/\s+/g, '-').toLowerCase() == activeTab);
+            showPage(activeTabIndex != -1 ? activeTabIndex : 0, activeTab);
+        }        
+        else {
+            showPage(0, sections[0].label);
+        }
     });
     
 </script>
@@ -43,7 +58,13 @@
         <!-- buttons -->
         <div class="tabs">
             {#each sections as {label}, index}
-                <button class="tab-button" type="button" on:click={() => showPage(index)} aria-label="page tab {label}" bind:this={tabs[index]}>{label}</button>
+                <button 
+                    class="tab-button" 
+                    type="button" 
+                    aria-label="page tab {label}"
+                    on:click={() => showPage(index, label)} 
+                    bind:this={tabs[index]}>{label}
+                </button>
             {/each}
         </div>
         <!-- buttons ul -->
