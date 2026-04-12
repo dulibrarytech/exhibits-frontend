@@ -221,6 +221,8 @@
     init();
 
     onMount(async () => {
+        window.scrollTo(0, 0);
+        
         message = "Retrieving exhibits...";
         _exhibits = await Index.getExhibits(); 
 
