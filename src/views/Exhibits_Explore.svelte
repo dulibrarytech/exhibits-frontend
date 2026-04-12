@@ -204,6 +204,11 @@
         })
     }
 
+    const onChangeTabPage = ({detail}) => {
+        let {index, label} = detail;
+        history.pushState(null, null, `${window.location.pathname}#${label.replace(/\s+/g, '-').toLowerCase()}`);
+    }
+
     /* sort alphabetically by title */
     const sortExhibits = () => {
         _exhibits = _exhibits.map((exhibit) => {
@@ -222,7 +227,7 @@
 
     onMount(async () => {
         window.scrollTo(0, 0);
-        
+
         message = "Retrieving exhibits...";
         _exhibits = await Index.getExhibits(); 
 
@@ -272,6 +277,7 @@
                                 
                                 args={{showTitle: true}} 
                                 activeTab={_activeTabLabel}
+                                on:page-updated={onChangeTabPage} 
                             />
                         {/if}
                     </div>

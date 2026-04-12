@@ -2,14 +2,14 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import {createEventDispatcher} from 'svelte';
     import Exhibit_Preview_Grid from './Exhibit_Preview_Grid.svelte';
 
     export let sections = [];
     export let args = {};
     export let activeTab = null;
 
-    console.log("active tab: ", activeTab);
-    console.log("sections: ", sections);
+    const dispatch = createEventDispatcher();
 
     const MAX_SECTIONS = 3;
 
@@ -35,10 +35,14 @@
             else tabs[tabIndex].classList.remove('active');
         }
 
-        if(label) {
-            // add the hash to the current url if a page label is present
-            history.pushState(null, null, `${window.location.pathname}#${label.replace(/\s+/g, '-').toLowerCase()}`);
-        }
+        dispatch('page-updated', {index, label});
+
+        // if(label) {
+        //     // add the hash to the current url if a page label is present
+        //     // history.pushState(null, null, `${window.location.pathname}#${label.replace(/\s+/g, '-').toLowerCase()}`);
+
+        //     dispatch('page-updated', {index, label});
+        // }
     }
 
     onMount(async () => {
