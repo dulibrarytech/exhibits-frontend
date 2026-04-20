@@ -22,8 +22,10 @@
     export let args = {};
 
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
+
     const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
 
+    // component options
     const URL_PATTERN = /^https?:\/\//;
     const LARGE_IMAGE_PREVIEW_HEIGHT = "600";
     const VIEWER_HEIGHT_SMALL = "350";
@@ -63,7 +65,7 @@
         thumbnail = item.thumbnail || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
-        title = args.title || item.title ? getInnerText(item.title) : null;
+        title = args.title || item.title ? getInnerText(item.title) : DEFAULT_ITEM_TITLE;
         caption = args.caption || item.caption || null;
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
         layout = item.layout || null;

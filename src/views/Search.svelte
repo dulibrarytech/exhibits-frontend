@@ -12,14 +12,20 @@
     import { Search } from '../libs/search.js';
     import { Settings } from '../config/settings.js';
     import { Cache } from '../libs/cache';
-    import {ENTITY_TYPE, INDEX_FIELD, SEARCH_BOOLEAN, SEARCH_TYPE} from '../config/global-constants.js';
     import * as Logger from '../libs/logger.js';
 
     import Search_Results_Display from '../components/Search_Results_Display.svelte';
 
-    export let currentRoute;
+    import {
+        ENTITY_TYPE, 
+        INDEX_FIELD, 
+        SEARCH_BOOLEAN, 
+        SEARCH_TYPE
+    } from '../config/global-constants.js';
 
-    const RESULTS_PER_PAGE = 10;    // move to configuration
+    const RESULTS_PER_PAGE = Settings.searchResultsPerPage || 10;
+
+    export let currentRoute;
 
     var results = null;
     var limitOptions = null;
@@ -55,7 +61,6 @@
 
         if(cache) facets = Cache.getSearchData()?.selectedFacets || [];
 
-        // to on mount?
         let response = false;
         if(validateUrlParameters()) {
             response = await executeSearch();
@@ -65,12 +70,10 @@
         }
         
         message = response == true ? null : message = "An error occurred when executing the search.";
-        // to on mount?
     }
 
     const executeSearch = async () => {
         try {
-            // let response = await Search.execute({terms, boolean, fields, exhibitId, page, facets});
             let response = await Search.execute({terms, boolean, fields, exhibitId, facets});
             
             results = response.results || [];

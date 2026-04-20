@@ -39,6 +39,7 @@
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
     const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
 
+    // component options
     const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
     const IMAGE_PREVIEW_WIDTH = 800; // will override dimensions value
     const LARGE_IMAGE_PREVIEW_WIDTH = 1800;
@@ -73,7 +74,7 @@
         resource = item.media || null;
         mediaWidth = item.media_width || null;
         thumbnail = item.thumbnail || null;
-        title = item.title ? getInnerText(item.title) : null;
+        title = item.title ? getInnerText(item.title) : DEFAULT_ITEM_TITLE;
         altText = item.is_alt_text_decorative ? null : (item.alt_text || null);
 
         preview = null;

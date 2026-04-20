@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { createEventDispatcher } from 'svelte';
         
-    import Hero from '../components/Hero.svelte';
+    import Hero from '../components/Exhibit_Hero.svelte';
     import Navigation_Top from '../components/Navigation_Top.svelte';
     import Exhibit_Introduction from './partials/Exhibit_Introduction.svelte';
     import Exhibit_Thank_You from './partials/Exhibit_Thank_You.svelte';

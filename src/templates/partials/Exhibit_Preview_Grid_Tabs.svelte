@@ -36,13 +36,6 @@
         }
 
         dispatch('page-updated', {index, label});
-
-        // if(label) {
-        //     // add the hash to the current url if a page label is present
-        //     // history.pushState(null, null, `${window.location.pathname}#${label.replace(/\s+/g, '-').toLowerCase()}`);
-
-        //     dispatch('page-updated', {index, label});
-        // }
     }
 
     onMount(async () => {
