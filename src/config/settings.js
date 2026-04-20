@@ -144,6 +144,7 @@ export const Settings = {
         "description": "Description",
         "text": "Text"
     },
+    searchResultsPerPage: 10,
 
     /*
      * Styles permitted to be applied by the exhibit creator 
