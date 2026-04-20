@@ -10,6 +10,7 @@
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
 
+    import Homepage_Hero from '../templates/partials/Homepage_Hero.svelte';
     import Homepage_Hero_Banner from '../templates/partials/Homepage_Hero_Banner.svelte';
     import Exhibit_Preview_Grid from '../templates/partials/Exhibit_Preview_Grid.svelte';
     import Exhibit_Preview_Slider from '../components/Exhibit_Preview_Slider.svelte';
@@ -26,7 +27,8 @@
     /* feature flags */
     const SHOW_STUDENT_CURATED_EXHIBITS = true;
 
-    const EXHIBITS_DISPLAY = "grid";
+    const HERO_LAYOUT = Settings.homepageHeroLayout || "image";  // ["image" | "banner"]
+    const EXHIBITS_LAYOUT = Settings.homepageExhibitsLayout || "grid";  // ["grid" | "slider"]
     const EXHIBIT_FIELDS = Settings.exhibitDataFields;
 
     const init = async () => {
@@ -72,7 +74,11 @@
 
 <div class="exhibits-home">
 
-    <Homepage_Hero_Banner />
+    {#if HERO_LAYOUT == "image"}
+        <Homepage_Hero />
+    {:else if HERO_LAYOUT == "banner"}
+        <Homepage_Hero_Banner />
+    {/if}
 
     <div class="page">
         <div class="container">
@@ -88,8 +94,6 @@
                         <div class="homepage-section">
                             <div class="heading">
                                 <h2>Featured Exhibits</h2>
-
-                                <!-- <a href="/exhibits-explore/university-libraries-exhibits">View More</a> -->
                                 <a 
                                     href="/exhibits-explore#university-libraries-exhibits"
                                     aria-label="view more university exhibits"
@@ -98,9 +102,9 @@
                                 </a>
                             </div>
 
-                            {#if EXHIBITS_DISPLAY == "slider"}
+                            {#if EXHIBITS_LAYOUT == "slider"}
                                 <Exhibit_Preview_Slider exhibits={_featuredExhibits} images="3" scroll="1" />
-                            {:else if EXHIBITS_DISPLAY == "grid"}
+                            {:else if EXHIBITS_LAYOUT == "grid"}
                                 <Exhibit_Preview_Grid exhibits={_featuredExhibits} args={{limit: 4, showTitle: true}} />
                             {/if}
                         </div>
@@ -110,8 +114,6 @@
                         <div class="homepage-section">
                             <div class="heading">
                                 <h2>Student Curated Exhibits</h2>
-
-                                <!-- <a href="/exhibits-explore/student-curated-exhibits">View More</a> -->
                                 <a 
                                     href="/exhibits-explore#student-curated-exhibits"
                                     aria-label="view more student curated exhibits"
@@ -120,9 +122,9 @@
                                 </a>
                             </div>
 
-                            {#if EXHIBITS_DISPLAY == "slider"}
+                            {#if EXHIBITS_LAYOUT == "slider"}
                                 <Exhibit_Preview_Slider exhibits={_studentCuratedExhibits} images="3" scroll="1" />
-                            {:else if EXHIBITS_DISPLAY == "grid"}
+                            {:else if EXHIBITS_LAYOUT == "grid"}
                                 <Exhibit_Preview_Grid exhibits={_studentCuratedExhibits} args={{limit: 4, showTitle: true}} />
                             {/if}
                         </div>
