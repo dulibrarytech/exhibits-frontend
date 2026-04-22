@@ -26,6 +26,8 @@ export const Settings = {
 
     /*
      * Mime types for item type
+     * value: content mime types for this item type (e.g. "image/jpeg")
+     * TODO move to item type config objects: [ITEM_TYPE.IMAGE].mimeTypes 
      */
     mimeTypes: {
         [ITEM_TYPE.IMAGE]:        ['image/jpg', 'image/jpeg', 'image/png'], // use <img>
@@ -36,7 +38,8 @@ export const Settings = {
     },
 
     /*
-     * File extensions for item type
+     * File extensions for item type - for determining item type when mime type is not available 
+     * TODO move to item type config objects: [ITEM_TYPE.IMAGE].fileExtensions
      */
     fileExtensions: {
         [ITEM_TYPE.IMAGE]:        ['jpg', 'jpeg', 'png', 'gif'],
@@ -44,6 +47,19 @@ export const Settings = {
         [ITEM_TYPE.AUDIO]:        ['mp3'],
         [ITEM_TYPE.VIDEO]:        ['mp4'],
         [ITEM_TYPE.PDF]:          ['pdf']
+    },
+
+    /*
+     * Viewers available for item type
+     * value: ["iiif", "html"] (array of viewer types available for this item type, in order of preference to try when determining which viewer to use for an item of this type)
+     * TODO move to item type config objects: [ITEM_TYPE.IMAGE].viewerTypes = ["html", "iiif"]
+     */
+    itemViewerTypes: {
+        [ITEM_TYPE.IMAGE]:        ["iiif"],
+        [ITEM_TYPE.LARGE_IMAGE]:  ["iiif"],
+        [ITEM_TYPE.AUDIO]:        ["iiif"],
+        [ITEM_TYPE.VIDEO]:        ["iiif"],
+        [ITEM_TYPE.PDF]:          ["iiif"]
     },
 
     /*
@@ -215,7 +231,7 @@ export const Settings = {
         IS_FEATURED: "is_featured",
         IS_PUBLISHED: "is_published",
         IS_STUDENT: "is_student_curated",
-        CREATED: "created"
+        CREATED: "created",
     },
 
     /*
@@ -226,7 +242,8 @@ export const Settings = {
         TITLE: "title",
         IS_MEMBER_OF_EXHIBIT: "is_member_of_exhibit",
         IS_PUBLISHED: "is_published",
-        CREATED: "created"
+        CREATED: "created",
+        MANIFEST: "manifest",
     },
 
     /*
@@ -281,5 +298,12 @@ export const Settings = {
             textField: "collection_name",
             textValue: "Parent Collection",
         },
-    ]
+    ],
+
+    /*
+     * Universal viewer settings
+     */
+    universalViewerSettings: {
+        embedKalturaPlayer: true, 
+    },
 }
