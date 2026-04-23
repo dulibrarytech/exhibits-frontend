@@ -21,6 +21,8 @@
 
     } = args;
 
+    console.log("test: image viewer args: ", args);
+
     let sourceUrl = null;
     let viewer = null;
 
@@ -38,6 +40,8 @@
         }
 
         sourceUrl = url;
+
+        console.log("test: sourceUrl/viewer: ", {sourceUrl, viewer});
     }
 
     const onImageLoadError = (event) => {
@@ -78,5 +82,9 @@
     .image-viewer, .image, img {
         width: 100%;
         height: 100%;
+    }
+
+    :global(.image-viewer .openseadragon) {
+        height: 100vh; /* default height */
     }
 </style>
