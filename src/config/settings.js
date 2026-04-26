@@ -240,6 +240,8 @@ export const Settings = {
      */
     exhibitItemDataFields: {
         TITLE: "title",
+        TYPE: "type",
+        ITEM_TYPE: "item_type",
         IS_MEMBER_OF_EXHIBIT: "is_member_of_exhibit",
         IS_PUBLISHED: "is_published",
         CREATED: "created",

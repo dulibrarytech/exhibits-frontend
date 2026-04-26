@@ -3,7 +3,12 @@
 	import Item_Data_Display from './Item_Data_Display.svelte';
 	import {formatStripHtmlTags} from '../../libs/format';
 
+	import {
+        VIEWER_TYPE, 
+    } from '../../config/global-constants';
+
   export let item = {};
+	export let args = {};
 
 	const DEFAULT_ITEM_TEXT = "No description available";
 
@@ -14,9 +19,13 @@
 	let date;
 	let caption;
 
+	let isIIIFItem = false;
+
 	$: init();
 
 	const init = async () => {
+		console.log("item viewer init: ", item);
+
 		itemType = 	item.item_type || undefined;
 		itemData = 	item.data_display || null;
 		title = 		item.title || null;
@@ -24,7 +33,13 @@
 		date = 			item.date || null;
 		caption = 	item.caption || null;
 
+		isIIIFItem = item.is_iiif_item || false;
+
 		if(date) date = new Date(date).toLocaleDateString();
+
+		if(isIIIFItem) {
+			args.viewerType = VIEWER_TYPE.IIIF;
+		}
 	}
 
 	const onLoadMedia = (event) => {}
