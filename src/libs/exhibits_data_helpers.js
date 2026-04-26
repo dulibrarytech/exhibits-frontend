@@ -147,6 +147,10 @@ export const createExhibitPageSections = (items) => {
         
         let {type = "", title = null, text = "", uuid = ""}  = item;
 
+        console.log("test: adding heading:", text);
+        console.log("test: inner text will be:", getInnerText(text));
+        console.log("test: strip html tags would be:", stripHtmlTags(text));
+
         if(type == ENTITY_TYPE.EXHIBIT_HEADING) {
             
             // Push the previous heading, if any, to the heading array before building the current heading
@@ -155,7 +159,7 @@ export const createExhibitPageSections = (items) => {
             heading = {
                 id: getHtmlIdString(text),
                 uuid,
-                text: getInnerText(text),
+                text: stripHtmlTags(text),
                 subheadings: []
             }
 
@@ -169,13 +173,14 @@ export const createExhibitPageSections = (items) => {
             subheading = {
                 id: getHtmlIdString(text),
                 uuid,
-                text: getInnerText(text)
+                text: stripHtmlTags(text)
             }
 
             if(heading) heading.subheadings.push(subheading);
             item.anchorId = subheading.id;
         }
 
+        /* if the exhibit item has a 'title' field, it will create and add a subheading. this block will be unnecessary if the exhibit contains 'subheading' items. */
         else if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
 
             // If this item is in a heading section, and it has a title, add a subheading
