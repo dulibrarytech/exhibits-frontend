@@ -135,8 +135,11 @@
             // if there are more related items than the max to display, randomly select the max number of related items to display (after ensuring that the exhibit item is not included in the related items)
             for(let index of randomNumbers) {
 
-               // ensure that the related item is not the same as the exhibit item by comparing their repository ids (pids)
-               if(results[index].pid != item.repository_data.id) {
+               /* 
+                * ensure that the repository related item is not the same as the exhibit item (current 'item' in iteration) by comparing their repository ids (pids)
+                * this test should only be used if the current item in iteration is a repository item. if it is not, then a duplicate is not possible (as the item is not in the repository) 
+                */
+               if(item.is_repo_item == 0 || results[index].pid != item.repository_data.id) {
 
                   // add the related item 
                   relatedItems.push({
@@ -144,8 +147,6 @@
                      link: results[index].link_to_item || "null",
                      thumbnail: results[index].thumbnail_datastream_url || "null"
                   });
-
-                  // addRelatedItem(results[index])
                }   
             }
          }
@@ -153,8 +154,11 @@
             // if there are fewer related items than the max to display, just use them all (after ensuring that the exhibit item is not included in the related items)
             for(let result of results) {
 
-               // ensure that the related item is not the same as the exhibit item by comparing their repository ids (pids)
-               if(result.pid != item.repository_data.id) {
+               /* 
+                * ensure that the repository related item is not the same as the exhibit item (current 'item' in iteration) by comparing their repository ids (pids)
+                * this test should only be used if the current item in iteration is a repository item. if it is not, then a duplicate is not possible (as the item is not in the repository) 
+                */
+               if(item.is_repo_item == 0 || result.pid != item.repository_data.id) {
                   
                   // add the related item 
                   relatedItems.push({
@@ -162,8 +166,6 @@
                      link: result.link_to_item,
                      thumbnail: result.thumbnail_datastream_url || "null"
                   });
-
-                  // addRelatedItem(result)
                }
             }
          }
