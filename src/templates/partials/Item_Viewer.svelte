@@ -37,8 +37,12 @@
 
 		if(date) date = new Date(date).toLocaleDateString();
 
+		// iiif will use the iiif viewer e.g. universalviewer, and non-iiif use the interactive (tile) viewer e.g. openseadragon
 		if(isIIIFItem) {
 			args.viewerType = VIEWER_TYPE.IIIF;
+		}
+		else {
+			args.viewerType = VIEWER_TYPE.INTERACTIVE;
 		}
 	}
 
@@ -50,7 +54,8 @@
 <div class="item-viewer">
 	<div class="row">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
-			<Media_Display {item} args={{viewerType: 'interactive'}} on:load-media={onLoadMedia} on:load-error={onLoadError} />
+			<!-- <Media_Display {item} args={{viewerType: 'interactive'}} on:load-media={onLoadMedia} on:load-error={onLoadError} /> -->
+			<Media_Display {item} {args} on:load-media={onLoadMedia} on:load-error={onLoadError} />
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">

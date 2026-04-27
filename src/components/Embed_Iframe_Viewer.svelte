@@ -4,12 +4,12 @@
     let url = null;
     let caption = null;
 
-    let {height = null, width = null} = args;
-
     const DEFAULT_IFRAME_HEIGHT = "350";
     const DEFAULT_IFRAME_WIDTH = "100%";
 
     $: {
+        console.log("test: embed iframe: url:", url)
+
         if(!url) url = args.url || null;
         if(!caption) caption = args.caption || "";
 

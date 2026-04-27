@@ -50,19 +50,6 @@ export const Settings = {
     },
 
     /*
-     * Viewers available for item type
-     * value: ["iiif", "html"] (array of viewer types available for this item type, in order of preference to try when determining which viewer to use for an item of this type)
-     * TODO move to item type config objects: [ITEM_TYPE.IMAGE].viewerTypes = ["html", "iiif"]
-     */
-    itemViewerTypes: {
-        [ITEM_TYPE.IMAGE]:        ["iiif"],
-        [ITEM_TYPE.LARGE_IMAGE]:  ["iiif"],
-        [ITEM_TYPE.AUDIO]:        ["iiif"],
-        [ITEM_TYPE.VIDEO]:        ["iiif"],
-        [ITEM_TYPE.PDF]:          ["iiif"]
-    },
-
-    /*
      * Kaltura embedded viewer settings
      * Kaltura stream settings
      */

@@ -1,7 +1,7 @@
 <script>
-    import Media_Item from '../../components/Media_Item.svelte';
+    import Media_Item_Preview from '../../components/Media_Item_Preview.svelte';
 
-    import {test_data} from '../data/media-item.js';
+    import {test_data} from '../data/media-item-preview.js';
 
     // test_data = {
     //     "A": {
@@ -18,5 +18,12 @@
 </script>
 
 <div class="test">
-    <Media_Item args={data.args} item={data.item} />
+    <Media_Item_Preview args={data.args} item={data.item} />
 </div>
+
+<style>
+    .test {
+        width: 400px;
+        height: 400px;
+    }
+</style>

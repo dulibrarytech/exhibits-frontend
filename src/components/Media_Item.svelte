@@ -13,9 +13,15 @@
     import Audio_Player from './Audio_Player.svelte';
     import Video_Player from './Video_Player.svelte';
     import PDFJS_Viewer from './PDFJS_Viewer.svelte';
+    import IIIF_Viewer from './IIIF_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
-    import {ITEM_TYPE, VIEWER_TYPE, MEDIA_POSITION} from '../config/global-constants';
+    import {
+        ITEM_TYPE, 
+        VIEWER_TYPE, 
+        MEDIA_POSITION
+    } from '../config/global-constants';
+
     import { getInnerText } from '../libs/exhibits_data_helpers';
 
     export let item = {};
@@ -33,20 +39,24 @@
 
     const dispatch = createEventDispatcher();
 
-    let mediaElement;
-
+    // item data fields
     let media;
     let thumbnail;
     let itemType;
     let mimeType;
-    let viewerType;
-    let viewerHeight;
     let title;
     let altText;
     let caption;
     let layout;
+    let isIIIFItem;
+
+    // args
+    let viewerType;
+    let viewerHeight;
     let isEmbedded;
 
+    // module variables (convert to "_" prefix)
+    var mediaElement;
     var filename;
     var component;
     var message;
@@ -58,21 +68,35 @@
     $: init();
 
     const init = () => {
-        filename = null;
-        component = null;
+        console.log("test: init media item", item, "viewer type:", args.viewerType)
 
+        // item data fields
         media = args.media || item.media || null;
         thumbnail = item.thumbnail || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
         title = args.title || item.title ? getInnerText(item.title) : DEFAULT_ITEM_TITLE;
         caption = args.caption || item.caption || null;
-        viewerType = args.viewerType || VIEWER_TYPE.STATIC;
         layout = item.layout || null;
         altText = item.is_alt_text_decorative ? null : (item.alt_text || null);
+        isIIIFItem = item.is_iiif_item || false; 
 
-        isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false;
+        // args
+        isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false; 
+        viewerType = args.viewerType || VIEWER_TYPE.STATIC;
 
+        // module variables
+        filename = null;
+        component = null;
+        // _filename = null;
+        // _component = null;
+
+        // always use a static (not zooming or iiif) viewer for embedded items on the page
+        if(isEmbedded) {
+            viewerType = VIEWER_TYPE.STATIC;
+        }
+
+        // handle cases of missing item type on kaltura items
         if(!itemType && item.is_kaltura_item) {
             itemType = ITEM_TYPE.VIDEO;
         }
@@ -147,13 +171,17 @@
     }
 
     const renderStandardImageViewer = () => {
+        console.log("test: MI: standard image viewer")
+
         let url = media;
         let imageType = itemType;
-        let isTileImage = !isEmbedded;
+        let isTileImage = !isEmbedded; // default to set this based on 'isEmbedded' value. The viewerType (component arg) may update the tile image flag.
         let onErrorImage = isEmbedded ? RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE) : null;
 
         if(viewerType == VIEWER_TYPE.STATIC) {
             isTileImage = false;
+            params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
+            component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
             if(URL_PATTERN.test(url) == false) {
@@ -162,16 +190,22 @@
             isTileImage = true;
             message = "Loading, please wait...";
 		    messageDisplay = true;
-        }
 
-        params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
-        component = Image_Viewer;
+            params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
+            component = Image_Viewer;
+        }
+        else if(viewerType == VIEWER_TYPE.IIIF) {
+            params = {manifest: item.manifest, type: itemType};
+            component = IIIF_Viewer;
+        }
     }
 
     const renderLargeImageViewer = () => {
+        console.log("test: MI: large image viewer")
+
         let url = media;
         let imageType = itemType;
-        let isTileImage = !isEmbedded;
+        let isTileImage = !isEmbedded; // default to set this based on 'isEmbedded' value. The viewerType (component arg) may update the tile image flag.
         let onErrorImage = isEmbedded ? RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE) : null;
 
         if(URL_PATTERN.test(url) == false) {
@@ -189,40 +223,82 @@
                 message = "Loading, please wait...";
 		        messageDisplay = true;
             }
+
+            params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
+            component = Image_Viewer;
         }
-        
-        params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
-        component = Image_Viewer;
+        else if(viewerType == VIEWER_TYPE.IIIF) {
+            params = {manifest: item.manifest, type: itemType};
+            component = IIIF_Viewer;
+        }
     }
 
     const renderAudioPlayer = () => {
+        console.log("test: MI: audio player")
+
         let url = media;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
         let thumbnailImage = thumbnail;
 
-        params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
-        component = Audio_Player;
+        if(viewerType == VIEWER_TYPE.IIIF) {
+            if(kalturaId) {
+                params = {url};
+                component = Embed_Iframe_Viewer;
+            }
+            else {
+                params = {manifest: item.manifest};
+                component = IIIF_Viewer;
+            }
+        }
+        else {
+            // if not iiif viewer
+            params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
+            component = Audio_Player; // if manifest, render the UV and pass in audio_player to embed (this will internally determine if kaltura or not, and use tahat viewer) *must render UV - that parses the IIIF manifest (nothing else does in the component heirarchy)
+        }
     }
 
     const renderVideoPlayer = () => {
+        console.log("test: MI: video player")
+
         let url = media;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
         let kalturaId = item.is_kaltura_item ? item.media : null;
         let thumbnailImage = thumbnail;
-        
-        params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
-        component = Video_Player;
+
+        if(viewerType == VIEWER_TYPE.IIIF) {
+            if(kalturaId) {
+                params = {url};
+                component = Embed_Iframe_Viewer;
+            }
+            else {
+                params = {manifest: item.manifest};
+                component = IIIF_Viewer;
+            }
+        }
+        else {
+            // if not iiif viewer
+            params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
+            component = Video_Player;
+        }
     }
 
     const renderPdfViewer = () => {
+        console.log("test: MI: pdf viewer") 
+
         let url = media;
         let page = item.pdf_open_to_page || null;
 
-        params = {url, altText, caption, page};
-        component = PDFJS_Viewer; 
+        if(viewerType == VIEWER_TYPE.IIIF) {
+            params = {manifest: item.manifest, type: itemType, page};
+            component = IIIF_Viewer;
+        }
+        else {
+            params = {url, altText, caption, page};
+            component = PDFJS_Viewer; 
+        }
     }
 
     const renderIframeViewer = () => {
