@@ -25,7 +25,8 @@
     import ResourceUrl from '../libs/ResourceUrl.js'; 
     import { isHttpUrl } from '../libs/media_helpers';
     import { getInnerText } from '../libs/exhibits_data_helpers';
-    import { getIIIFManifestThumbnailUrl } from '../libs/iiif_helpers.js'; 
+    // import { getImageThumbnailUrl } from '../libs/iiif_helpers.js'; 
+    import * as IIIF from '../libs/iiif_helpers.js';
 
     import {
         ITEM_TYPE,
@@ -79,6 +80,8 @@
     $: init();
 
     const init = async () => {
+        console.log("test: init media item display", item)
+
         itemId      = item.uuid || "";
         itemType    = item.item_type || null;
         resource    = item.media || null;
@@ -90,8 +93,8 @@
         _preview = null;
         _isPlaceholderImage = false;
 
-        if(item[Settings.exhibitItemDataFields.MANIFEST]) {
-            _preview = getIIIFManifestThumbnailUrl(item[ Settings.exhibitItemDataFields.MANIFEST ] || {});
+        if(item.is_iiif_item) {
+            _preview = IIIF.getImageThumbnailUrl(item[ Settings.exhibitItemDataFields.MANIFEST ] || {});
             console.log("test: iiif manifest thumbnail url: ", _preview);
             if(!_preview) Logger.module().error(`Could not get thumbnail source url from iiif info for item. Manifest may be missing or have errors. Item id: ${itemId} Item type: ${itemType}`);
         }

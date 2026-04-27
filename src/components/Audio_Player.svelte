@@ -6,7 +6,7 @@
     export let args = {};
 
     let {
-        url=null, 
+        url=null, // universal viewer will pass in kaltura url from manifest
         title=null,
         altText=null,
         embedCode=null, 
@@ -14,7 +14,7 @@
         kalturaId=null,
         isEmbedded=false,
         thumbnailImage=null,
-        errorThumbnailImage=null
+        isKalturaItem=false, // UV will set to true if UVsettings.embedKalturaPlayer is true
         
     } = args;
 
@@ -31,7 +31,7 @@
 </script>
 
 <div class="audio-player">
-    {#if kalturaId}
+    {#if isKalturaItem || kalturaId}
         <Kaltura_Content entryId={kalturaId} {title} {altText} args={{isEmbedded, type: "audio"}} />
 
     {:else}
@@ -45,13 +45,6 @@
                 
             {:else if url}
                 <div class="content">
-                    <!-- UPDATE type param assignment -->
-                    <!-- {#if mimeType}
-                        <audio src={url} type={mimeType} controls></audio> 
-                    {:else}
-                        <audio src={url} controls></audio>
-                    {/if} -->
-
                     <audio src={url} type={mimeType || undefined} controls aria-label={altText || undefined} {title}></audio>
                 </div>
 

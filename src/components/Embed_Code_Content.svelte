@@ -16,7 +16,8 @@
 
 <div class="embed content">
     <div>
-        {@html code}
+        <!-- {@html code} -->
+        <p>This content is currently unavailable.</p>
     </div>
 </div>
 

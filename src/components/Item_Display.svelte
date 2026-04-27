@@ -23,6 +23,7 @@
     } = item;
 
     const init = () => {
+        console.log("test: init item display", item)
 
         /* add data display */
         let displayData = getItemDisplayData(item, itemDisplayLinks);

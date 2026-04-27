@@ -5,13 +5,16 @@
     // "A": {
     //     url: "" // iiif manifest url
     // }
-    import {test_data} from '../data/iiif-viewer.js';
 
-    let data = test_data["E"];
+    // test_items
+    // ['IMAGE', 'IMAGE_REPO', 'AUDIO', 'AUDIO_REPO', 'VIDEO', 'VIDEO_REPO', 'PDF', 'PDF_REPO']
+    import {test_items} from '../data/items.js';
+
+    let data = test_items["IMAGE"];
 </script>
 
 <div class="test">
-    <IIIF_Viewer url={data.media} />
+    <IIIF_Viewer manifest={data.manifest} />
 </div>
 
 <style>
