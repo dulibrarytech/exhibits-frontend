@@ -9,6 +9,7 @@
     export let text = "";
     export let display = true;
     export let styles = null;
+    export let padTop = false;
 
     let headingElement;
     let textString;
@@ -36,7 +37,7 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     {#if display}
-        <div class="section-subheading container">
+        <div class="section-subheading container" class:subheading-pad-top={padTop}>
             <div class="section-title">
                 <h3 aria-label={textString}>{@html text}</h3>
             </div>
@@ -52,6 +53,10 @@
     .section-subheading {
         padding-bottom: 0; 
         text-transform: uppercase;
+    }
+
+    .subheading-pad-top {
+        padding-top: 3.65rem; 
     }
 
     .section-subheading h3 {
