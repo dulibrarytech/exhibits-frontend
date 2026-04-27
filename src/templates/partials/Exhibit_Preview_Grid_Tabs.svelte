@@ -2,10 +2,14 @@
     'use strict'
 
     import { onMount } from 'svelte';
+    import {createEventDispatcher} from 'svelte';
     import Exhibit_Preview_Grid from './Exhibit_Preview_Grid.svelte';
 
     export let sections = [];
     export let args = {};
+    export let activeTab = null;
+
+    const dispatch = createEventDispatcher();
 
     const MAX_SECTIONS = 3;
 
@@ -18,8 +22,8 @@
         }
     }
 
-    const showPage = (index) => {
-
+    const showPage = (index, label = null) => {
+        
         for(let page of pages) {
             page.style.display = (page.getAttribute('data-index')) == index ? "block" : "none";
         }
@@ -30,10 +34,18 @@
             }
             else tabs[tabIndex].classList.remove('active');
         }
+
+        dispatch('page-updated', {index, label});
     }
 
     onMount(async () => {
-        showPage(0);
+        if (activeTab) {
+            let activeTabIndex = sections.findIndex(section => section.label.replace(/\s+/g, '-').toLowerCase() == activeTab);
+            showPage(activeTabIndex != -1 ? activeTabIndex : 0, activeTab);
+        }        
+        else {
+            showPage(0, sections[0].label);
+        }
     });
     
 </script>
@@ -43,7 +55,13 @@
         <!-- buttons -->
         <div class="tabs">
             {#each sections as {label}, index}
-                <button class="tab-button" type="button" on:click={() => showPage(index)} aria-label="page tab {label}" bind:this={tabs[index]}>{label}</button>
+                <button 
+                    class="tab-button" 
+                    type="button" 
+                    aria-label="page tab {label}"
+                    on:click={() => showPage(index, label)} 
+                    bind:this={tabs[index]}>{label}
+                </button>
             {/each}
         </div>
         <!-- buttons ul -->

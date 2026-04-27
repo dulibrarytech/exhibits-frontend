@@ -1,12 +1,8 @@
 <script>
     'use strict'
 
-    // this might be a template
-
     import { onMount } from 'svelte';
-    import { Settings } from '../config/settings.js';
-
-    export let exhibit;
+    import { Settings } from '../../config/settings.js';
 
     const LAYOUT = {
         BACKGROUND_IMAGE: 'background_image',
@@ -14,18 +10,21 @@
     }
 
     const HERO_LAYOUT = LAYOUT.HIGHLIGHT_ITEM;
-    const BACKGROUND_IMAGE_PATH = "/assets/images/AAC-exhibits.jpg";
 
-    let heroElement;
+    let {   
+        homepageHeroImage,
+    } = Settings;
+
+    let _heroElement;
 
     onMount(async () => {
         if(HERO_LAYOUT == LAYOUT.BACKGROUND_IMAGE) {
-            heroElement.style.background = `url('${BACKGROUND_IMAGE_PATH}')`;
+            _heroElement.style.background = `url('${homepageHeroImage}') no-repeat center center`;
         }
     })
 </script>
 
-<div class="homepage-hero" bind:this={heroElement}>
+<div class="homepage-hero" bind:this={_heroElement}>
 
     {#if HERO_LAYOUT == LAYOUT.HIGHLIGHT_ITEM}
         <div class="container">

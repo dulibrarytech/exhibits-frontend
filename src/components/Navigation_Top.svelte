@@ -8,15 +8,15 @@
     export let sections = null;
     export let styles = null;
 
-    let sectionHeadings = null;
-    let navigationElement;
+    let _sectionHeadings = null;
+    let _navigationElement;
 
     const dispatch = createEventDispatcher();
 
     $: init();
 
     const init = () => {
-        sectionHeadings = sections;
+        _sectionHeadings = sections;
     }
 
     const onClickNavigationLink = (event) => {
@@ -42,7 +42,7 @@
 
     const setTheme = (styles) => {
         let menuStyles = styles || {};
-        Object.assign(navigationElement.style, menuStyles);
+        Object.assign(_navigationElement.style, menuStyles);
     }
 
     onMount(async () => {
@@ -50,7 +50,7 @@
     });
 </script>
 
-<nav class="exhibit-navigation navbar navbar-expand-lg navbar-light" id="mainNav" bind:this={navigationElement}>
+<nav class="exhibit-navigation navbar navbar-expand-lg navbar-light" id="mainNav" bind:this={_navigationElement}>
     <div class="container outer-container">
         <button 
             class="navbar-toggler" 
@@ -67,8 +67,8 @@
         <div class="collapse show" id="navbarResponsive">
 
             <ul class="nav nav-link navbar-nav ms-auto">
-                {#if sectionHeadings}
-                    {#each sectionHeadings as {uuid, text, subheadings = null}, index}
+                {#if _sectionHeadings}
+                    {#each _sectionHeadings as {uuid, text, subheadings = null}, index}
                         <li class="px-1">
                             <a href class="main-menu-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
 

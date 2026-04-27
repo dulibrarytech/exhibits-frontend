@@ -107,9 +107,9 @@ export const Settings = {
     /*
      * Homepage settings
      */
-    defaultHeroImage: null,
-    heroSliderAutoplayEnabled: false,
-    heroSliderAutoplayDuration: 5000,
+    homepageHeroLayout: "banner", // ["image" | "banner"]
+    homepageExhibitsLayout: "grid", // ["grid" | "slider"]
+    homepageHeroImage: "/assets/images/AAC-exhibits.jpg",
 
     /*
      * Time period for exhibit to be displayed in the 'Recently Added' exhibits section
@@ -144,6 +144,7 @@ export const Settings = {
         "description": "Description",
         "text": "Text"
     },
+    searchResultsPerPage: 10,
 
     /*
      * Styles permitted to be applied by the exhibit creator 

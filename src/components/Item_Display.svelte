@@ -1,5 +1,6 @@
 <script>
     import { Settings } from '../config/settings';
+    import {Resource} from '../libs/Resource.js';
     import * as Logger from '../libs/logger.js';
 
     import { getItemDisplayData } from '../libs/exhibits_data_helpers';
@@ -37,8 +38,6 @@
     }
 
     const onLoadError = async (event) => {
-        _renderTemplate = false;
-
         let {is_member_of_exhibit, media} = item;
         let fileFound = await Resource.verifyResourceFile({is_member_of_exhibit, media});
 
