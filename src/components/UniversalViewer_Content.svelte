@@ -12,15 +12,13 @@
 </svelte:head>
 
 <script>
-    export let manifest; // expect data object
+    export let manifest;
     export let type;
-
-    console.log("test: UV: manifest id:", manifest.id)
 
     var UV;
 
     const data = {
-        manifest: manifest.id || "", // expect the manifest url
+        manifest,
         embedded: true // needed for codesandbox frame
     };
     
