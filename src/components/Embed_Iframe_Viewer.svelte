@@ -8,8 +8,6 @@
     const DEFAULT_IFRAME_WIDTH = "100%";
 
     $: {
-        console.log("test: embed iframe: url:", url)
-
         if(!url) url = args.url || null;
         if(!caption) caption = args.caption || "";
 

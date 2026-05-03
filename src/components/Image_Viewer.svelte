@@ -21,8 +21,6 @@
 
     } = args;
 
-    console.log("test: image viewer args: ", args);
-
     let sourceUrl = null;
     let viewer = null;
 
@@ -40,8 +38,6 @@
         }
 
         sourceUrl = url;
-
-        console.log("test: sourceUrl/viewer: ", {sourceUrl, viewer});
     }
 
     const onImageLoadError = (event) => {
