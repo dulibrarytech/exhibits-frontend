@@ -2,8 +2,13 @@
     import UniversalViewer_Content from "./UniversalViewer_Content.svelte";
     import * as Logger from '../libs/logger.js';
 
-    export let manifest = null; 
-    export let type = null; // may not be used for iiif viewer, unless content component has various styles for different types
+    export let args;
+
+    let {
+        manifest,
+        type,
+
+    } = args;
 
     let manifestUrl;
 

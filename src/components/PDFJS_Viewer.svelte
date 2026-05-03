@@ -4,7 +4,7 @@
 
     export let args = {};
 
-    const viewerPath = "../libs/pdfjs-4.4.168-dist";
+    const viewerPath = "../../libs/pdfjs-4.4.168-dist";
 
     let defaultPage = "1";
     let locale = "us";
