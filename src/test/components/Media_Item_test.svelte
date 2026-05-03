@@ -1,22 +1,20 @@
 <script>
     import Media_Item from '../../components/Media_Item.svelte';
 
-    import {test_data} from '../data/media-item.js';
+    // test_items
+    // ['IMAGE', 'IMAGE_REPO', 'AUDIO', 'AUDIO_REPO', 'VIDEO', 'VIDEO_REPO', 'PDF', 'PDF_REPO']
+    import {test_items} from '../data/items.js';
 
-    // test_data = {
-    //     "A": {
-    //         args: { // The args override the values found in the exhibit item data object (item{}). Media Item should render with or without args
-    //             type: "",
-    //             url: "",
-    //             isTileImage: true
-    //         },
-    //         item: {} // exhibit item
-    //     }
-    // }
-    const TEST = "A";
-    let data = test_data[TEST];
+    let data = test_items["IMAGE"];
+
+    let args = {
+        type: "",
+        url: "",
+        viewerType: "iiif", // ['static', 'interactive', 'iiif']
+        isEmbedded: false,
+    }
 </script>
 
 <div class="test">
-    <Media_Item args={data.args} item={data.item} />
+    <Media_Item {args} item={data} />
 </div>
