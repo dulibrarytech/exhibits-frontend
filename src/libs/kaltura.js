@@ -36,8 +36,6 @@ export const Kaltura = (() => {
 
     } = Settings;
 
-    console.log("test: Kal settings tn width:", kalturaThumbnailWidth)
-
     /**
      * 
      * @method getViewerContent
