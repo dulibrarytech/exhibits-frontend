@@ -1,8 +1,9 @@
 <script>
     import { Settings } from '../config/settings';
-    import * as Logger from '../libs/logger.js';
+    import { Resource } from '../libs/resource';
     import { getItemDisplayData } from '../libs/exhibits_data_helpers';
     import IIIF_Item from './IIIF_Item.svelte';
+    import * as Logger from '../libs/logger.js';
 
     export let item = null;
     export let id = null; // dom element id
@@ -18,12 +19,11 @@
     const {
         is_repo_item = false,
         repository_data = {},
-        manifest = null,
+        iiif_manifest = null,
 
     } = item;
 
     const init = () => {
-        console.log("test: init item display", item)
 
         /* add data display */
         let displayData = getItemDisplayData(item, itemDisplayLinks);
@@ -49,7 +49,7 @@
 </script>
 
 <div class="item-display">
-    {#if manifest}
+    {#if iiif_manifest}
         <IIIF_Item {item} {template} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />
     {:else}
         <svelte:component this={template} {id} {item} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />

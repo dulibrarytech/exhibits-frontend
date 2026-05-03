@@ -61,7 +61,7 @@ export const Settings = {
     kalturaFlavorId: "0_7gx3rx5v",
     kalturaPlayerHeight: "100%",
     kalturaPlayerWidth: "100%",
-    kalturaThumbnailWidth: "full",
+    kalturaThumbnailWidth: "400",
     kalturaThumbnailHeight: "full",
 
     /*
