@@ -22,8 +22,10 @@
 
     const DEFAULT_MEDIA_WIDTH = "50";
 
+    // to _
     let itemElement;
     let titleElement;
+    let showPreview;
 
     let uuid;
     let title;
@@ -35,7 +37,6 @@
     let wrapText;
     let isEmbedded;
     let styles;
-    let showPreview;
 
     const dispatch = createEventDispatcher();
 
@@ -60,6 +61,13 @@
         styles      = item.styles || null;
 
         showPreview = !isEmbedded;
+
+        // set args
+        // args = {
+        //     showPreview,
+        //     isEmbedded,
+        //     ...args
+        // }
         
         // ensure the text items use the TEXT_ONLY layout
         if(item.item_type == ITEM_TYPE.TEXT) layout = MEDIA_POSITION.TEXT_ONLY;
@@ -113,7 +121,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -126,7 +134,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -139,7 +147,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -152,7 +160,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -165,7 +173,7 @@
                 {#if title}<div bind:this={titleElement}><h3>{@html title}</h3></div>{/if}
             </div>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
         </Media_Only>
 
@@ -199,7 +207,8 @@
     }
 
     :global(.item .caption) {
-        margin-top: 0.9rem;
+        margin-top: 1rem;
+        margin-left: 1rem;
         text-decoration: none;
         color: inherit;
         line-height: 1.5em;

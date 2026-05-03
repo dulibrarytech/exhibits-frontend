@@ -48,19 +48,18 @@
     let altText;
     let caption;
     let layout;
-    let isIIIFItem;
+    let isEmbedded;
 
     // args
     let viewerType;
     let viewerHeight;
-    let isEmbedded;
 
     // module variables (convert to "_" prefix)
-    var mediaElement;
-    var filename;
-    var component;
-    var message;
-	var messageDisplay;
+    var _mediaElement;
+    var _filename;
+    var _component;
+    var _message;
+	var _messageDisplay;
 
     /* args object for child components */
     var params = {};
@@ -68,7 +67,6 @@
     $: init();
 
     const init = () => {
-        console.log("test: init media item", item, "viewer type:", args.viewerType)
 
         // item data fields
         media = args.media || item.media || null;
@@ -79,17 +77,14 @@
         caption = args.caption || item.caption || null;
         layout = item.layout || null;
         altText = item.is_alt_text_decorative ? null : (item.alt_text || null);
-        isIIIFItem = item.is_iiif_item || false; 
 
         // args
         isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false; 
         viewerType = args.viewerType || VIEWER_TYPE.STATIC;
 
         // module variables
-        filename = null;
-        component = null;
-        // _filename = null;
-        // _component = null;
+        _filename = null;
+        _component = null;
 
         // always use a static (not zooming or iiif) viewer for embedded items on the page
         if(isEmbedded) {
@@ -129,7 +124,7 @@
 
         /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
         else if(URL_PATTERN.test(media) == false) { // TODO data.helper::isUrlFormat()
-            filename = media;
+            _filename = media;
             media = RESOURCE.getFileUrl(media);
             render();
         }
@@ -171,8 +166,7 @@
     }
 
     const renderStandardImageViewer = () => {
-        console.log("test: MI: standard image viewer")
-
+        
         let url = media;
         let imageType = itemType;
         let isTileImage = !isEmbedded; // default to set this based on 'isEmbedded' value. The viewerType (component arg) may update the tile image flag.
@@ -180,28 +174,28 @@
 
         if(viewerType == VIEWER_TYPE.STATIC) {
             isTileImage = false;
+
             params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
-            component = Image_Viewer;
+            _component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
             if(URL_PATTERN.test(url) == false) {
-                url = RESOURCE.getImageTileSourceUrl(filename);
+                url = RESOURCE.getImageTileSourceUrl(_filename);
             }
             isTileImage = true;
-            message = "Loading, please wait...";
-		    messageDisplay = true;
+            _message = "Loading, please wait...";
+		    _messageDisplay = true;
 
             params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
-            component = Image_Viewer;
+            _component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.IIIF) {
-            params = {manifest: item.manifest, type: itemType};
-            component = IIIF_Viewer;
+            params = {manifest: item.iiif_manifest, type: itemType};
+            _component = IIIF_Viewer;
         }
     }
 
     const renderLargeImageViewer = () => {
-        console.log("test: MI: large image viewer")
 
         let url = media;
         let imageType = itemType;
@@ -213,91 +207,74 @@
                 isTileImage = false;
 
                 /* get jpg derivative to display on the page */
-                url = RESOURCE.getImageDerivativeUrl(filename, {
+                url = RESOURCE.getImageDerivativeUrl(_filename, {
                     height: LARGE_IMAGE_PREVIEW_HEIGHT
                 })
             }
             else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
-                url = RESOURCE.getImageTileSourceUrl(filename);
+                url = RESOURCE.getImageTileSourceUrl(_filename);
                 isTileImage = true;
-                message = "Loading, please wait...";
-		        messageDisplay = true;
+                _message = "Loading, please wait...";
+		        _messageDisplay = true;
             }
 
             params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
-            component = Image_Viewer;
+            _component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.IIIF) {
-            params = {manifest: item.manifest, type: itemType};
-            component = IIIF_Viewer;
+            params = {manifest: item.iiif_manifest, type: itemType};
+            _component = IIIF_Viewer;
         }
     }
 
     const renderAudioPlayer = () => {
-        console.log("test: MI: audio player")
 
         let url = media;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
-        let kalturaId = item.is_kaltura_item ? item.media : null;
+        let kalturaId = item.is_kaltura_item ? item.kaltura_id || null : null;
         let thumbnailImage = thumbnail;
 
-        if(viewerType == VIEWER_TYPE.IIIF) {
-            if(kalturaId) {
-                params = {url};
-                component = Embed_Iframe_Viewer;
-            }
-            else {
-                params = {manifest: item.manifest};
-                component = IIIF_Viewer;
-            }
+        if(viewerType == VIEWER_TYPE.IIIF && kalturaId == null) {
+            params = {manifest: item.iiif_manifest};
+            _component = IIIF_Viewer;
         }
         else {
-            // if not iiif viewer
             params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
-            component = Audio_Player; // if manifest, render the UV and pass in audio_player to embed (this will internally determine if kaltura or not, and use tahat viewer) *must render UV - that parses the IIIF manifest (nothing else does in the component heirarchy)
+            _component = Audio_Player; 
         }
     }
 
     const renderVideoPlayer = () => {
-        console.log("test: MI: video player")
 
         let url = media;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
-        let kalturaId = item.is_kaltura_item ? item.media : null;
+        let kalturaId = item.is_kaltura_item ? item.kaltura_id || null : null;
         let thumbnailImage = thumbnail;
 
-        if(viewerType == VIEWER_TYPE.IIIF) {
-            if(kalturaId) {
-                params = {url};
-                component = Embed_Iframe_Viewer;
-            }
-            else {
-                params = {manifest: item.manifest};
-                component = IIIF_Viewer;
-            }
+        if(viewerType == VIEWER_TYPE.IIIF && kalturaId == null) {
+            params = {manifest: item.iiif_manifest};
+            _component = IIIF_Viewer;
         }
         else {
-            // if not iiif viewer
             params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
-            component = Video_Player;
+            _component = Video_Player; 
         }
     }
 
     const renderPdfViewer = () => {
-        console.log("test: MI: pdf viewer") 
 
         let url = media;
         let page = item.pdf_open_to_page || null;
 
         if(viewerType == VIEWER_TYPE.IIIF) {
-            params = {manifest: item.manifest, type: itemType, page};
-            component = IIIF_Viewer;
+            params = {manifest: item.iiif_manifest, type: itemType, page};
+            _component = IIIF_Viewer;
         }
         else {
             params = {url, altText, caption, page};
-            component = PDFJS_Viewer; 
+            _component = PDFJS_Viewer; 
         }
     }
 
@@ -306,31 +283,29 @@
         let height = viewerHeight;
         
         params = {url, altText, caption, height}; 
-        component = Embed_Iframe_Viewer;
+        _component = Embed_Iframe_Viewer;
     }
 
     const onLoadMedia = (event) => {
-		messageDisplay = false;
+		_messageDisplay = false;
         dispatch('load-media', {});
 	}
 
 	const onLoadError = (event) => {
-        mediaElement.style.visibility = "hidden";
-		message = "Error loading file";
+        _mediaElement.style.visibility = "hidden";
+		_message = "Error loading file";
         Logger.module().error(`Item viewer error: ${event?.detail?.error || ""}`);
         dispatch('load-error', {url: media});
 	}
 </script>
 
-{#if component}
-    <div class="media-item" bind:this={mediaElement}>
-        <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadError} height={viewerHeight}/>
-
-        {#if caption}<div class="caption">{@html caption}</div>{/if}
+{#if _component}
+    <div class="media-item" bind:this={_mediaElement}>
+        <svelte:component this={_component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadError} height={viewerHeight}/>
     </div>
 
-    <div class="message" style="display: {messageDisplay ? "block" : "none"}" >
-        <div class="message-text">{message}</div>
+    <div class="message" style="display: {_messageDisplay ? "block" : "none"}" >
+        <div class="message-text">{_message}</div>
     </div>
 {:else}
     <div class="load-message">
@@ -345,12 +320,5 @@
         top: 50%;
 		left: 0;
 		width:100%;
-    }
-
-    .caption {
-        margin-top: 1rem;
-        text-decoration: none;
-        color: inherit;
-        line-height: 1.5em;
     }
 </style>
