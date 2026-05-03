@@ -3,79 +3,79 @@
 import * as Logger from '../libs/logger.js';
 
 export const getImageThumbnailUrl = (manifest) => {
-  let url = null;
+  let thumbnailResource = null;
 
   try {
     // iiif v2
     if(manifest.sequences) {
-      url = manifest.sequences[0].canvases[0].thumbnail || manifest.sequences[0].canvases[0].images[0].resource || null;
+      thumbnailResource = manifest.sequences[0].canvases[0].thumbnail || manifest.sequences[0].canvases[0].images[0].resource || null;
     }
     // iiif v3
     else if(manifest.thumbnail || manifest.items) {   
-      url = manifest.thumbnail[0] || manifest.items[0].thumbnail || null;
+      thumbnailResource = manifest.thumbnail[0] || manifest.items[0].thumbnail || null;
     }
   }
   catch(error) {
     Logger.module().error("Error getting iiif manifest thumbnail url: " + error);
   }
 
-  return url;
+  return thumbnailResource.id || thumbnailResource['@id'] || null;
 }
 
 export const getAudioVideoThumbnailUrl = (manifest) => {
-  let url = null;
+  let thumbnailResource = null;
 
   // iiif v2
   if(manifest.mediaSequences || manifest.sequences) {
-    url = 
+    thumbnailResource = 
     manifest.mediaSequences[0].elements[0].thumbnail || 
     manifest.sequences[0].canvases[0].thumbnail || 
     manifest.sequences[0].canvases[0].images[0].resource || null;
   }
   // iiif v3
   else if(manifest.thumbnail || manifest.items) {   
-    url = manifest.thumbnail[0] || manifest.items[0].thumbnail || null;
+    thumbnailResource = manifest.thumbnail[0] || manifest.items[0].thumbnail || null;
   }
 
-  return url;
+  return thumbnailResource.id || thumbnailResource['@id'] || null;
 }
 
 export const getTextThumbnailUrl = (manifest) => {
-  let url = null;
+  let thumbnailResource = null;
 
   if(manifest.sequences) {
-    url = manifest.sequences[0].canvases[0].thumbnail || manifest.sequences[0].canvases[0].content[0].body || null;
+    thumbnailResource = manifest.sequences[0].canvases[0].thumbnail || manifest.sequences[0].canvases[0].content[0].body || null;
   }
   // iiif v3
   else if(manifest.thumbnail || manifest.items) {   
-    url = manifest.thumbnail[0] || manifest.items[0].thumbnail || null;
+    thumbnailResource = manifest.thumbnail[0] || manifest.items[0].thumbnail || null;
   }
 
-  return url;
+  return thumbnailResource.id || thumbnailResource['@id'] || null;
 }
 
 export const getImageResourceUrl = (manifest) => {
-  let url = null;
+  let mediaResource = null;
 
   try {
     // iiif v2
     if(manifest.sequences) {
-      url = manifest.sequences[0].canvases[0].images[0].resource;
+      mediaResource = manifest.sequences[0].canvases[0].images[0].resource;
     }
     // iiif v3
     else if(manifest.items) {   
-      url = manifest.items[0].items[0].items[0].body;
+      mediaResource = manifest.items[0].items[0].items[0].body;
     }
   }
   catch(error) {
     Logger.module().error("Error getting iiif manifest resource url: " + error);
   }
 
-  return url;
+  return mediaResource.id || mediaResource['@id'] || null;
 }
 
 export const getAudioVideoResourceUrl = (manifest) => {
-  let url = null;
+  let mediaResource = null;
 
   try {
     // iiif v2
@@ -91,11 +91,11 @@ export const getAudioVideoResourceUrl = (manifest) => {
     Logger.module().error("Error getting iiif manifest resource url: " + error);
   }
 
-  return url;
+  return mediaResource.id || mediaResource['@id'] || null;
 }
 
 export const getTextResourceUrl = (manifest) => {
-  let url = null;
+  let mediaResource = null;
 
    try {
     // iiif v2
@@ -111,5 +111,5 @@ export const getTextResourceUrl = (manifest) => {
     Logger.module().error("Error getting iiif manifest resource url: " + error);
   }
 
-  return url;
+  return mediaResource?.id || mediaResource['@id'] || null;
 }

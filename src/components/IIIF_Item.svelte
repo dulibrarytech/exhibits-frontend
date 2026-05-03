@@ -1,4 +1,5 @@
 <script>
+  import { Settings } from '../config/settings';
   import * as IIIF from '../libs/iiif_helpers';
   import * as Logger from '../libs/logger.js';
   
@@ -28,14 +29,14 @@
   }
 
   const init = () => {
-    console.log("test: init iiif item", item)
 
-    if(item.manifest && typeof item.manifest == 'string') {
-      _manifest = JSON.parse(item.manifest);
+    if(item.iiif_manifest && typeof item.iiif_manifest == 'string') {
+      _manifest = JSON.parse(item.iiif_manifest);
 
-      item.media = getManifestResourceUrl(_manifest) || "";
-      item.thumbnail = getManifestThumbnailUrl(_manifest) || "";
+      item.media = getManifestResourceUrl(_manifest) || null;
+      item.thumbnail = item.iiif_thumbnail_url || getManifestThumbnailUrl(_manifest) || null;
 
+      /* flag iiif item for other components' iiif cases */
       item.is_iiif_item = true;
 
       /* Add metadata fields to viewer metadata display NOT YET IMPL. */
@@ -62,7 +63,7 @@
       mediaResource = IIIF.getTextResourceUrl(manifest);
     }
 
-    return mediaResource['@id'] || mediaResource.id || null;
+    return mediaResource || null;
   }
 
   const getManifestThumbnailUrl = (manifest) => {
@@ -79,7 +80,7 @@
       thumbnailResource = IIIF.getTextThumbnailUrl(manifest);
     }
 
-    return thumbnailResource['@id'] || thumbnailResource.id || null;
+    return thumbnailResource || null;
   }       
 </script>
 

@@ -1,8 +1,9 @@
 <script>
     import { Settings } from '../config/settings';
-    import * as Logger from '../libs/logger.js';
+    import { Resource } from '../libs/resource';
     import { getItemDisplayData } from '../libs/exhibits_data_helpers';
     import IIIF_Item from './IIIF_Item.svelte';
+    import * as Logger from '../libs/logger.js';
 
     export let item = null;
     export let id = null; // dom element id
@@ -18,12 +19,11 @@
     const {
         is_repo_item = false,
         repository_data = {},
-        manifest = null,
+        iiif_manifest = null,
 
     } = item;
 
     const init = () => {
-        console.log("test: init item display", item)
 
         /* add data display */
         let displayData = getItemDisplayData(item, itemDisplayLinks);
@@ -35,22 +35,23 @@
     }
 
     const onLoadError = async (event) => {
-        const {is_member_of_exhibit, media} = item;
-        const fileFound = await Resource.verifyResourceFile({is_member_of_exhibit, media});
+        const {
+            uuid, 
+            is_member_of_exhibit, 
+            is_repo_item,
+            repository_data,
+            media
+        } = item;
 
-        if(fileFound == false) {
-            Logger.module().info(`Item resource file not found. Item id: ${item.uuid} ${item.is_repo_item ? "Repository item id: " + item.repository_data.id : ""}`);
-        }
-        else {
-            Logger.module().error(`Error loading item resource: Item id: ${item.uuid} ${item.is_repo_item ? "Repository item id: " + item.repository_data.id : ""}`);
-        }
+        Logger.module().error(`Error loading item resource: Item id: ${uuid} ${is_repo_item ? "Repository item id: " + repository_data.id : ""}`);
+
     }
 
     init();
 </script>
 
 <div class="item-display">
-    {#if manifest}
+    {#if iiif_manifest}
         <IIIF_Item {item} {template} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />
     {:else}
         <svelte:component this={template} {id} {item} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />
