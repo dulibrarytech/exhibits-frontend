@@ -59,7 +59,7 @@
             kalturaUrl = Kaltura.getViewerUrl(entryId);
         }        
 
-        previewImageUrl = preview || Kaltura.getThumbnailUrl(entryId, 1000, 1000);
+        previewImageUrl = preview || Kaltura.getThumbnailUrl(entryId, "full");
     }
 
     const onLoadIframe = () => {
@@ -78,7 +78,7 @@
     }
 
     const onPreviewImageLoadError = () => {
-        previewImageElement.src = Kaltura.getThumbnailUrl(entryId, 1000, 1000);
+        previewImageElement.src = Kaltura.getThumbnailUrl(entryId, "full");
     }
 
     const validateKalturaUrl = (url) => {
