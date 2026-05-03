@@ -6,7 +6,6 @@
 
 import { Configuration } from '../config/config';
 import { Settings } from '../config/settings';
-import { Kaltura } from './kaltura';
 
 export default class ResourceUrl {
 
@@ -59,25 +58,11 @@ export default class ResourceUrl {
     }
 
     getAudioPreviewImageUrl(item = {}, width, height) {
-      let url = null;
-      let {is_kaltura_item = null} = item;
-
-      if(is_kaltura_item) {
-          url = Kaltura.getThumbnailUrl(item.media);
-      }
-
-      return url;
+      return item.thumbnail || null;
     }
 
     getVideoPreviewImageUrl(item = {}, width, height) {
-      let url = null;
-      let {is_kaltura_item = null} = item;
-
-      if(is_kaltura_item) {
-          url = Kaltura.getThumbnailUrl(item.media);
-      }
-
-      return url;
+      return item.thumbnail || null;
     }
 
     getPdfPreviewImageUrl(filename="null", width=null, height=null) {

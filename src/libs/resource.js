@@ -23,6 +23,7 @@
 
 import axios from 'axios';
 import { Configuration } from '../config/config.js';
+import * as Logger from '../libs/logger.js';
 
 export const Resource = (() => {
 
