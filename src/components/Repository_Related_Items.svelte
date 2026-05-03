@@ -198,7 +198,7 @@
             <h3>Seen in the exhibit</h3>
 
             <div class="exhibit-item-preview">
-               <MediaItemPreview item={relatedItemsDisplay[index]} args={{isInteractive: false, overlay: false}} on:click-item />
+               <MediaItemPreview item={relatedItemsDisplay[index]} args={{isInteractive: false}} on:click-item />
             </div>
 
             <h4>Explore similar subjects</h4>
