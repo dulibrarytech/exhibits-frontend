@@ -21,6 +21,7 @@
     import Kaltura_Content_test from './components/Kaltura_Content_test.svelte';
     import Item_Grid_test from './components/Item_Grid_test.svelte';
     import Exhibit_Preview_Slider_test from './components/Exhibit_Preview_Slider_test.svelte';
+    import Item_Display_test from './components/Item_Display_test.svelte'
 
     export let currentRoute;
 
@@ -40,7 +41,8 @@
         PDFJS_Viewer_test,
         Kaltura_Content_test,
         Item_Grid_test,
-        Exhibit_Preview_Slider_test
+        Exhibit_Preview_Slider_test,
+        Item_Display_test,
     }
 
     let component;
