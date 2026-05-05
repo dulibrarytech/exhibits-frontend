@@ -115,8 +115,7 @@
 		padding: 30px 15px 30px 30px;
 	}
 
-    .media-display-container {
-		height: 100%;
+  .media-display-container {
 		padding-right: 0px;
 		position: relative;
 	}
@@ -228,9 +227,9 @@
 		height: 100%;
 	}
 
-	:global(.item-viewer .pdf-viewer *) {
+	/* :global(.item-viewer .pdf-viewer *) {
 		height: 100%;
-	}
+	} */
 
 	:global(.item-viewer .iframe-viewer) {
 		height: 100%;
