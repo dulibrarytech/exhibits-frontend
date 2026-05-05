@@ -9,7 +9,7 @@
 
     let args = {
         isThumbnail: false,
-        isInteractive: false,
+        isInteractive: true,
         link: null,
         overlay: true,
     }
