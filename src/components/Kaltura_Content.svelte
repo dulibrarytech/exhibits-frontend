@@ -8,16 +8,16 @@
     export let kalturaUrl = null;
     export let title = "kaltura media player";
     export let altText = "kaltura media player";
-    export let height = null;
-    export let width = null;
+    // export let height = null;
+    // export let width = null;
     export let args = {};
 
     const EMBED_HTML_MEDIA_PLAYER = false; // to settings
 
     let {   
         kalturaUniqueObjectID,
-        kalturaPlayerHeight,
-        kalturaPlayerWidth,
+        // kalturaPlayerHeight,
+        // kalturaPlayerWidth,
         kalturaDomain
 
     } = Settings;
@@ -42,8 +42,8 @@
     let htmlPlayer;
 
     const init = () => {
-        if(!height) height = kalturaPlayerHeight;
-        if(!width) width = kalturaPlayerWidth;
+        // if(!height) height = kalturaPlayerHeight;
+        // if(!width) width = kalturaPlayerWidth;
 
         if(kalturaUrl) {
             kalturaUrl = validateKalturaUrl(kalturaUrl) ? kalturaUrl : null;
@@ -148,7 +148,7 @@
                 <h5>Loading Kaltura player...</h5>
             </div>
             <div class="iframe-wrapper" bind:this={iframeSection} aria-label={altText || undefined}>
-                <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} {title} src={kalturaUrl} {width} {height} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
+                <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} {title} src={kalturaUrl} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
                 <div class="subframe-content"></div>
             </div>
 
@@ -210,6 +210,10 @@
         top: calc(50% - 64px);
         left: calc(50% - 64px);
         pointer-events: none;
+    }
+
+    .iframe-wrapper iframe {
+        height: 75vh;
     }
 
     .subframe-content {
