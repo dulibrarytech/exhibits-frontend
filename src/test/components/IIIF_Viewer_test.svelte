@@ -14,7 +14,7 @@
 </script>
 
 <div class="test">
-    <IIIF_Viewer manifest={data.manifest} />
+    <IIIF_Viewer manifestUrl={data.media_iiif.manifest_url} />
 </div>
 
 <style>
