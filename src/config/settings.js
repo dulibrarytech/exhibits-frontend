@@ -59,8 +59,8 @@ export const Settings = {
     kalturaTranscriptUiConfID: "56856002",
     kalturaUniqueObjectID: "kaltura_player_1559751114",
     kalturaFlavorId: "0_7gx3rx5v",
-    kalturaPlayerHeight: "100%",
-    kalturaPlayerWidth: "100%",
+    // kalturaPlayerHeight: "100vh",
+    // kalturaPlayerWidth: "100%",
     kalturaThumbnailWidth: "400",
     kalturaThumbnailHeight: "full",
 
