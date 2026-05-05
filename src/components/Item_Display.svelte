@@ -19,7 +19,7 @@
     const {
         is_repo_item = false,
         repository_data = {},
-        iiif_manifest = null,
+        media_iiif = null,
 
     } = item;
 
@@ -29,7 +29,7 @@
         let displayData = getItemDisplayData(item, itemDisplayLinks);
         if(is_repo_item) {
             let repoDisplayData = getItemDisplayData(repository_data, itemDisplayLinksRepositoryItem);
-            displayData = repoDisplayData.concat(displayData);
+            displayData = displayData.concat(repoDisplayData);
         }
         item.data_display = displayData;
     }
@@ -49,7 +49,7 @@
 </script>
 
 <div class="item-display">
-    {#if iiif_manifest}
+    {#if media_iiif}
         <IIIF_Item {item} {template} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />
     {:else}
         <svelte:component this={template} {id} {item} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />

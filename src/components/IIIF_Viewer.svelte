@@ -4,28 +4,18 @@
 
     export let args;
 
-    let {
-        manifest,
+    const {
+        manifestUrl,
         type,
 
     } = args;
 
-    let manifestUrl;
-
-    $: {
-        if(manifest) {
-            if(typeof manifest == 'string') manifest = JSON.parse(manifest);
-            manifestUrl = manifest.id || "";
-        }
-        else {
-            Logger.module().error("Can not initialize IIIF viewer, manifest is not present");
-        }
-    }
+    if(!manifestUrl) Logger.module().error("Can not initialize IIIF viewer, manifest url is not present");
 </script>
 
 <div class="iiif-viewer">
     <div class="universal-viewer">
-        {#if manifest}
+        {#if manifestUrl}
             <UniversalViewer_Content manifest={manifestUrl} {type} />
 
         {:else}
@@ -36,4 +26,5 @@
     </div>
 
     <!-- can add additional viewers here, use feature toggles -->
+    
 </div>

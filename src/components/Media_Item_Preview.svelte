@@ -67,7 +67,7 @@
         media_width: mediaWidth = null,
         is_iiif_item: isIIIFItem = false,
         is_kaltura_item: isKalturaItem = false,
-        iiif_image_url: iiifImageUrl = null,
+        //iiif_image_url: iiifImageUrl = null,
         alt_text: altText = item.is_alt_text_decorative ? null : (item.alt_text || null),
 
         media = null,
@@ -122,6 +122,8 @@
         let url = null;
 
         if(isIIIFItem) {
+            const {image_url: iiifImageUrl = null} = item.media_iiif || {};
+
             url = isThumbnail ?
                 thumbnail : 
                 iiifImageUrl || thumbnail || null;      
@@ -157,8 +159,10 @@
         let url = null;
 
         if(isIIIFItem) {
+            const {image_url: iiifImageUrl = null} = item.media_iiif = {};
+
             url = isThumbnail ? 
-                thumbnail : // thumbnail will be iiif_thumbnail or manifest thumbnail resource
+                thumbnail : // thumbnail will be thumbnail_iiif.thumbnail_url or manifest thumbnail resource
                 iiifImageUrl || thumbnail || null;
         }
         else {

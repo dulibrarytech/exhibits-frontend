@@ -25,16 +25,23 @@
   let _viewerMetadata = {};
 
   $: {
-    init();
+    if(item.media_iiif) init();
   }
 
   const init = () => {
+    const {
+      manifest: manifestData = null,
+    } = item.media_iiif;
 
-    if(item.iiif_manifest && typeof item.iiif_manifest == 'string') {
-      _manifest = JSON.parse(item.iiif_manifest);
+    const {
+      thumbnail_url: thumbnailUrl = null
+    } = item.thumbnail_iiif || {};
+
+    if(manifestData) {
+      _manifest = JSON.parse(manifestData);
 
       item.media = getManifestResourceUrl(_manifest) || null;
-      item.thumbnail = item.iiif_thumbnail_url || getManifestThumbnailUrl(_manifest) || null;
+      item.thumbnail = thumbnailUrl || getManifestThumbnailUrl(_manifest) || null;
 
       /* flag iiif item for other components' iiif cases */
       item.is_iiif_item = true;
@@ -45,7 +52,7 @@
       }
     }
     else {
-      Logger.module().error(`Item IIIF manifest is missing, or is not of expected format (expected JSON string). Item: ${item.uuid}`);
+      Logger.module().error(`Item IIIF manifest is missing. 'manifest' field expected. Item: ${item.uuid}`);
     }
   }
 
