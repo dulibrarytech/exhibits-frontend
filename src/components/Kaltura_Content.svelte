@@ -8,16 +8,12 @@
     export let kalturaUrl = null;
     export let title = "kaltura media player";
     export let altText = "kaltura media player";
-    // export let height = null;
-    // export let width = null;
     export let args = {};
 
     const EMBED_HTML_MEDIA_PLAYER = false; // to settings
 
     let {   
         kalturaUniqueObjectID,
-        // kalturaPlayerHeight,
-        // kalturaPlayerWidth,
         kalturaDomain
 
     } = Settings;
@@ -30,8 +26,6 @@
 
     } = args;
 
-    //let kalturaUrl = null;
-
     let previewImageUrl;
     let iframeSection;
     let iframeElement;
@@ -42,9 +36,6 @@
     let htmlPlayer;
 
     const init = () => {
-        // if(!height) height = kalturaPlayerHeight;
-        // if(!width) width = kalturaPlayerWidth;
-
         if(kalturaUrl) {
             kalturaUrl = validateKalturaUrl(kalturaUrl) ? kalturaUrl : null;
             if(!kalturaUrl) {
