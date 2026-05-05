@@ -190,7 +190,8 @@
             _component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.IIIF) {
-            params = {manifest: item.iiif_manifest, type: itemType};
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {};
+            params = {manifestUrl: manifestUrl, type: itemType};
             _component = IIIF_Viewer;
         }
     }
@@ -222,7 +223,8 @@
             _component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.IIIF) {
-            params = {manifest: item.iiif_manifest, type: itemType};
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {}; 
+            params = {manifestUrl, type: itemType};
             _component = IIIF_Viewer;
         }
     }
@@ -236,7 +238,9 @@
         let thumbnailImage = thumbnail;
 
         if(viewerType == VIEWER_TYPE.IIIF && kalturaId == null) {
-            params = {manifest: item.iiif_manifest};
+            //params = {manifest: item.iiif_manifest};
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {}; 
+            params = {manifestUrl};
             _component = IIIF_Viewer;
         }
         else {
@@ -254,7 +258,9 @@
         let thumbnailImage = thumbnail;
 
         if(viewerType == VIEWER_TYPE.IIIF && kalturaId == null) {
-            params = {manifest: item.iiif_manifest};
+            //params = {manifest: item.iiif_manifest};
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {}; 
+            params = {manifestUrl};
             _component = IIIF_Viewer;
         }
         else {
@@ -269,7 +275,8 @@
         let page = item.pdf_open_to_page || null;
 
         if(viewerType == VIEWER_TYPE.IIIF) {
-            params = {manifest: item.iiif_manifest, type: itemType, page};
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {}; 
+            params = {manifestUrl, type: itemType, page}; // can UV open to pdf page? If not, maybe just ust the pdf viewer (will use source from manifest if iiif item)
             _component = IIIF_Viewer;
         }
         else {
