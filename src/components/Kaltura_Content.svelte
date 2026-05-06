@@ -204,7 +204,7 @@
     }
 
     .iframe-wrapper iframe {
-        height: 75vh;
+        height: 100%;
     }
 
     .subframe-content {
@@ -217,7 +217,6 @@
 
     .iframe-wrapper {
         visibility: hidden;
-        height: 100%;
     }
 
     .player-load-message {

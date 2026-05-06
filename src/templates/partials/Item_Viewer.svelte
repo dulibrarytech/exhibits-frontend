@@ -231,11 +231,11 @@
 		height: 100%;
 	} */
 
-	:global(.item-viewer .iframe-viewer) {
-		height: 100%;
+	:global(.item-viewer .iframe-wrapper) {
+		height: 75vh;
 	}
 
-	:global(.item-viewer .iframe-viewer *) {
+	:global(.item-viewer .iframe-wrapper *) {
 		height: 100%;
 	}
 
