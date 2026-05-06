@@ -61,13 +61,6 @@
         styles      = item.styles || null;
 
         showPreview = !isEmbedded;
-
-        // set args
-        // args = {
-        //     showPreview,
-        //     isEmbedded,
-        //     ...args
-        // }
         
         // ensure the text items use the TEXT_ONLY layout
         if(item.item_type == ITEM_TYPE.TEXT) layout = MEDIA_POSITION.TEXT_ONLY;
@@ -220,6 +213,10 @@
 
     :global(.item .layout:not(.media-padding) .kaltura-content.embedded) {
         height: 75vw;
+    }
+
+    :global(.item .kaltura-content .iframe-wrapper) {
+        height: 100%;
     }
 
     @media screen and (min-width: 992px) {
