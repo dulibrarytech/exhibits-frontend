@@ -1,7 +1,7 @@
 <script>
     /**
      * @component Media_Item_Preview
-     * @description Component for displaying a preview thumbnail image for a media item. Will attempt to get a thumbnail or preview image for the item, but will fall back to a placeholder image if no preview is available.
+     * @description Component for displaying a preview image (fullsize or thumbnail size image) for a media item. Will attempt to get a thumbnail or preview image for the item, but will fall back to a placeholder image if no preview is available.
      * 
      * @param {Object} item - The exhibit item object containing metadata and resource information.
      * @param {Object} args - Additional arguments for configuring the component behavior [
@@ -18,12 +18,12 @@
     
     'use strict' 
     
-    import axios from 'axios';
+    //import axios from 'axios';
     import { createEventDispatcher } from 'svelte';
-    import * as Logger from '../libs/logger.js';
     import { Settings } from '../config/settings';
     import ResourceUrl from '../libs/ResourceUrl.js'; 
     import { Kaltura } from '../libs/kaltura.js';
+    import * as Logger from '../libs/logger.js';
 
     import {
         ITEM_TYPE,
@@ -49,8 +49,9 @@
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
     // component options
-    const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
+    // const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
     const IMAGE_THUMBNAIL_WIDTH = 400;
+    const IMAGE_PREVIEW_WIDTH = "max";
 
     const {
         exhibitItemDefaultTitle: DEFAULT_ITEM_TITLE,
@@ -121,14 +122,16 @@
         if(isIIIFItem) {
             const {image_url: iiifImageUrl = null} = item.media_iiif || {};
 
+            // using IIIF data from the exhibit item (external or local)
             url = isThumbnail ?
-                thumbnail : 
-                iiifImageUrl || thumbnail || null;      
+                thumbnail : // IIIF.getIIIFImageScale(serviceUrl, "min")
+                iiifImageUrl || thumbnail || null;      // IIIF.getIIIFImageScale(serviceUrl, "max")
         }
         else {
+            // using local IIIF server to fetch local resources
             url = isThumbnail ? 
-                thumbnail || await getMediaIIIFImageUrl(IMAGE_THUMBNAIL_WIDTH) : 
-                await getMediaIIIFImageUrl();
+                thumbnail || await RESOURCE.getIIIFImageUrl(media, IMAGE_THUMBNAIL_WIDTH) :  // IIIF.getIIIFImageUrl(media, "min")
+                await RESOURCE.getIIIFImageUrl(media); // RESOURCE.getIIIFImageUrl(media, "max")
         }
 
         return url;
@@ -165,27 +168,9 @@
         }
         else {
             url = isThumbnail ? 
-                RESOURCE.getPdfPreviewImageUrl(thumbnail || media, IMAGE_THUMBNAIL_WIDTH, height) : 
-                RESOURCE.getPdfPreviewImageUrl(media, width, height);
+                await RESOURCE.getPdfPreviewImageUrl(thumbnail || media, IMAGE_THUMBNAIL_WIDTH, height) : 
+                await RESOURCE.getPdfPreviewImageUrl(media, width, height);
         }
-
-        return url;
-    }
-
-    const getMediaIIIFImageUrl = async (width=null, height=null) => {   
-        let url = null;
-
-        if(VERIFY_IMAGE_WIDTH_ON_RESIZE && width) {
-            try {
-                let imageWidth = (await axios.get(RESOURCE.getIIIFInfoUrl(media))).data.width;
-                if(imageWidth < width) width = imageWidth;
-            }
-            catch(error) {
-                Logger.module().error(`Could not get iiif data for image, Image id: ${media} Message: ${error.message}`);
-            }
-        }
-
-        url = RESOURCE.getIIIFImageUrl(media, width, height);
 
         return url;
     }
