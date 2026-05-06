@@ -10,14 +10,12 @@ import { Settings } from '../config/settings';
 export default class ResourceUrl {
 
     constructor(exhibitId = null) {
-      this.exhibitId = exhibitId;
-      this.exhibitFolderDelimiter = "__";
-
-      this.resourceLocation = Configuration.resourceLocation;
-      this.iiifImageServerUrl = Configuration.iiifImageServerUrl;
-      this.publicImageLocation = Settings.imageAssetsPath;
-      this.itemPlaceholderImages = Settings.placeholderImage;
-      this.exhibitPlaceholderImage = Settings.exhibitDefaultImage;
+      this.exhibitId                = exhibitId;
+      this.resourceLocation         = Configuration.resourceLocation;
+      this.iiifImageServerUrl       = Configuration.iiifImageServerUrl;
+      this.publicImageLocation      = Settings.imageAssetsPath;
+      this.itemPlaceholderImages    = Settings.placeholderImage;
+      this.exhibitPlaceholderImage  = Settings.exhibitDefaultImage;
     }
 
     getFileUrl(filename="null") {
@@ -38,22 +36,21 @@ export default class ResourceUrl {
     }
 
     getIIIFInfoUrl(filename="null") {
-      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
+      filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
       return `${this.iiifImageServerUrl}/iiif/2/${filename}`;
     }
 
     getIIIFImageUrl(filename="null", width=null, height=null, dimensions=null) {
-
+      
       if(!dimensions) {
         dimensions = "full";
       }
-
+      
       if(width || height) {
         dimensions = `${width || ""},${height || ""}`;
       }
       
-      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
-
+      filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
       return `${this.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;
     }
 
@@ -86,7 +83,7 @@ export default class ResourceUrl {
       if (!offsetX) offsetX = "0";
       if (!offsetY) offsetY = "0";
 
-      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
+      filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
 
       switch(type) {
           case 'resize':
@@ -100,7 +97,7 @@ export default class ResourceUrl {
     }
 
     getImageTileSourceUrl (filename="null") {
-      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
+      filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
       return `${this.iiifImageServerUrl}/iiif/2/${filename}/info.json`;
     }
   }
