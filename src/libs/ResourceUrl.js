@@ -1,16 +1,24 @@
 'use strict'
 
 /*
- * Create uris to local file storage locations
+ * ResourceUrl
+ * Resource access class
+ *
+ * Functions to retrieve local resource uris (for accessing resources in local storage directly or via local iiif server)
  */
 
 import { Configuration } from '../config/config';
 import { Settings } from '../config/settings';
+import * as Logger from './logger.js';
+import axios from 'axios';
+
+const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
 
 export default class ResourceUrl {
 
-    constructor(exhibitId = null) {
+    constructor(exhibitId = null, iiifVersion = "2") {
       this.exhibitId                = exhibitId;
+      this.iiifVersion              = iiifVersion;
       this.resourceLocation         = Configuration.resourceLocation;
       this.iiifImageServerUrl       = Configuration.iiifImageServerUrl;
       this.publicImageLocation      = Settings.imageAssetsPath;
@@ -35,15 +43,28 @@ export default class ResourceUrl {
       return `${this.publicImageLocation}/${this.exhibitPlaceholderImage}`;
     }
 
-    getIIIFInfoUrl(filename="null") {
+    getIIIFServiceUrl(filename="null") {
       filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
       return `${this.iiifImageServerUrl}/iiif/2/${filename}`;
     }
 
-    getIIIFImageUrl(filename="null", width=null, height=null, dimensions=null) {
+    // TODO: getIIIFImageUrl(filename, scale, size)
+    async getIIIFImageUrl(filename="null", width=null, height=null, dimensions=null) {
+      let url = null;
+
+      // TODO: replace w/h params with "scale" ["min", "max"] and "size" [sizes index] so it always uses a IIIf specified available size for the image (the width test will not be required)
+      if(VERIFY_IMAGE_WIDTH_ON_RESIZE && width) {
+          try {
+              let imageWidth = (await axios.get(this.getIIIFServiceUrl(filename))).data.width;
+              if(imageWidth < width) width = imageWidth;
+          }
+          catch(error) {
+              Logger.module().error(`Could not get iiif data for image, file: ${filename} Message: ${error.message}`);
+          }
+      }
       
       if(!dimensions) {
-        dimensions = "full";
+        dimensions = "full"; // if this.iiifVersion == "3" use "max"
       }
       
       if(width || height) {
@@ -51,7 +72,9 @@ export default class ResourceUrl {
       }
       
       filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
-      return `${this.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;
+      url = `${this.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;
+
+      return url;
     }
 
     getAudioPreviewImageUrl(item = {}, width, height) {
@@ -62,8 +85,8 @@ export default class ResourceUrl {
       return item.thumbnail || null;
     }
 
-    getPdfPreviewImageUrl(filename="null", width=null, height=null) {
-      return this.getIIIFImageUrl(filename, width, height);
+    async getPdfPreviewImageUrl(filename="null", width=null, height=null) {
+      return await this.getIIIFImageUrl(filename, width, height);
     }
 
     getImageDerivativeUrl = (filename="null", args) => {

@@ -83,7 +83,7 @@
             // get the thumbnail image width from iiif info endpoint and if the image is smaller than the requested width, use the image width to avoid requesting an image larger than the original which can cause iiif servers to fail to deliver an image
             if(VERIFY_IMAGE_WIDTH && width) {
                 try {
-                    let imageWidth = (await axios.get(RESOURCE.getIIIFInfoUrl(thumbnail))).data.width;
+                    let imageWidth = (await axios.get(RESOURCE.getIIIFServiceUrl(thumbnail))).data.width;
                     if(imageWidth < width) width = imageWidth;
                 }
                 catch(error) {
@@ -92,7 +92,7 @@
             }
 
             // get the iiif url for the thumbnail derivative
-            thumbnailSourceUrl = RESOURCE.getIIIFImageUrl(thumbnail, width);
+            thumbnailSourceUrl = await RESOURCE.getIIIFImageUrl(thumbnail, width);
         }
 
         // render the exhibit preview image from the hero image if there is no thumbnail
