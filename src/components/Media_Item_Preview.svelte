@@ -49,9 +49,7 @@
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
     // component options
-    const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
-    const IMAGE_PREVIEW_WIDTH = 800; // will override dimensions value
-    const LARGE_IMAGE_PREVIEW_WIDTH = 1800;
+    const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
     const IMAGE_THUMBNAIL_WIDTH = 400;
 
     const {
@@ -67,7 +65,6 @@
         media_width: mediaWidth = null,
         is_iiif_item: isIIIFItem = false,
         is_kaltura_item: isKalturaItem = false,
-        //iiif_image_url: iiifImageUrl = null,
         alt_text: altText = item.is_alt_text_decorative ? null : (item.alt_text || null),
 
         media = null,
@@ -130,8 +127,8 @@
         }
         else {
             url = isThumbnail ? 
-                thumbnail || await getMediaImageDerivativeUrl(IMAGE_THUMBNAIL_WIDTH) : // new function utilizes RESOURCE lib
-                await getMediaImageDerivativeUrl( mediaWidth >= 75 ? LARGE_IMAGE_PREVIEW_WIDTH : IMAGE_PREVIEW_WIDTH );
+                thumbnail || await getMediaIIIFImageUrl(IMAGE_THUMBNAIL_WIDTH) : 
+                await getMediaIIIFImageUrl();
         }
 
         return url;
@@ -142,7 +139,8 @@
 
         if(isKalturaItem) { 
             let{kaltura_id = null} = item;
-            url = isThumbnail ? thumbnail || Kaltura.getThumbnailUrl(kaltura_id):
+            url = isThumbnail ? 
+                thumbnail || Kaltura.getThumbnailUrl(kaltura_id):
                 Kaltura.getThumbnailUrl(kaltura_id, "full");
         }
         else if(isIIIFItem) {
@@ -168,16 +166,16 @@
         else {
             url = isThumbnail ? 
                 RESOURCE.getPdfPreviewImageUrl(thumbnail || media, IMAGE_THUMBNAIL_WIDTH, height) : 
-                RESOURCE.getPdfPreviewImageUrl(media, IMAGE_PREVIEW_WIDTH, height);
+                RESOURCE.getPdfPreviewImageUrl(media, width, height);
         }
 
         return url;
     }
 
-    const getMediaImageDerivativeUrl = async (width=null, height=null) => {   
+    const getMediaIIIFImageUrl = async (width=null, height=null) => {   
         let url = null;
 
-        if(VERIFY_IMAGE_WIDTH && width) {
+        if(VERIFY_IMAGE_WIDTH_ON_RESIZE && width) {
             try {
                 let imageWidth = (await axios.get(RESOURCE.getIIIFInfoUrl(media))).data.width;
                 if(imageWidth < width) width = imageWidth;
@@ -187,7 +185,7 @@
             }
         }
 
-        url = RESOURCE.getIIIFImageUrl(media, width || IMAGE_PREVIEW_WIDTH, height);
+        url = RESOURCE.getIIIFImageUrl(media, width, height);
 
         return url;
     }
