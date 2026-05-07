@@ -49,7 +49,6 @@
   
   <style>
     pdfjs-viewer-element {
-      /* height: 122vw; */
       height: 115vw;
     }
 
