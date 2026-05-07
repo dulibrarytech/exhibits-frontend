@@ -227,9 +227,9 @@
 		height: 100%;
 	}
 
-	/* :global(.item-viewer .pdf-viewer *) {
+	:global(.item-viewer .pdf-viewer *) {
 		height: 100%;
-	} */
+	}
 
 	:global(.item-viewer .iframe-wrapper) {
 		height: 75vh;
