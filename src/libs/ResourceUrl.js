@@ -85,8 +85,9 @@ export default class ResourceUrl {
       return item.thumbnail || null;
     }
 
-    async getPdfPreviewImageUrl(filename="null", width=null, height=null) {
-      return await this.getIIIFImageUrl(filename, width, height);
+    async getPdfPreviewImageUrl(filename="null", width=null, height=null, page=null) {
+      let url = `${ (await this.getIIIFImageUrl(filename, width))}${page ? `?page=${page}` : "" }`;
+      return url;
     }
 
     getImageDerivativeUrl = (filename="null", args) => {

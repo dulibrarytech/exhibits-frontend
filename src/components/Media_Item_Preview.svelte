@@ -160,16 +160,20 @@
         let url = null;
 
         if(isIIIFItem) {
-            const {image_url: iiifImageUrl = null} = item.media_iiif = {};
-
             url = isThumbnail ? 
-                thumbnail : // thumbnail will be thumbnail_iiif.thumbnail_url or manifest thumbnail resource
-                iiifImageUrl || media || null;
+                thumbnail : // thumbnail will be either thumbnail_iiif.thumbnail_url or manifest thumbnail resource for iiif items
+                thumbnail || media || null;
         }
         else {
-            url = isThumbnail ? 
-                await RESOURCE.getPdfPreviewImageUrl(thumbnail || media, IMAGE_THUMBNAIL_WIDTH, height) : 
-                await RESOURCE.getPdfPreviewImageUrl(media, width, height);
+            // if thumbnail file is present, this will show in the media item preview regardless of the isThumbnail state. if it is not, get a derivative of the "media" file and open to the pdf page specified
+            if(thumbnail) {
+                url = await RESOURCE.getPdfPreviewImageUrl(thumbnail, IMAGE_THUMBNAIL_WIDTH, height);
+            }
+            else {
+                const {pdf_open_to_page = "1"} = item;
+                const width = isThumbnail ? IMAGE_THUMBNAIL_WIDTH : null;
+                url = `${ (await RESOURCE.getPdfPreviewImageUrl(media, width, null, pdf_open_to_page)) }`;
+            }
         }
 
         return url;
