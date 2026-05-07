@@ -125,7 +125,7 @@
             // using IIIF data from the exhibit item (external or local)
             url = isThumbnail ?
                 thumbnail : // IIIF.getIIIFImageScale(serviceUrl, "min")
-                iiifImageUrl || thumbnail || null;      // IIIF.getIIIFImageScale(serviceUrl, "max")
+                iiifImageUrl || media || null;      // IIIF.getIIIFImageScale(serviceUrl, "max")
         }
         else {
             // using local IIIF server to fetch local resources
@@ -164,7 +164,7 @@
 
             url = isThumbnail ? 
                 thumbnail : // thumbnail will be thumbnail_iiif.thumbnail_url or manifest thumbnail resource
-                iiifImageUrl || thumbnail || null;
+                iiifImageUrl || media || null;
         }
         else {
             url = isThumbnail ? 
