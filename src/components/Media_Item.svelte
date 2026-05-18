@@ -80,15 +80,18 @@
 
         // args
         isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false; 
-        viewerType = args.viewerType || VIEWER_TYPE.STATIC;
+        // viewerType = args.viewerType || VIEWER_TYPE.STATIC;
 
         // module variables
         _filename = null;
         _component = null;
 
-        // always use a static (not zooming or iiif) viewer for embedded items on the page
+        // always use a static viewer (not interactive, such as tile or iiif) for embedded items on the page
         if(isEmbedded) {
             viewerType = VIEWER_TYPE.STATIC;
+        }
+        else {
+            viewerType = args.viewerType || VIEWER_TYPE.STATIC;
         }
 
         // handle cases of missing item type on kaltura items
@@ -165,6 +168,11 @@
         }
     }
 
+    /*
+     * static viewer: Image_Viewer: display image file directly without tiles (for small images and embedded media)
+     * interactive viewer: Image_Viewer: display image tile viewer (e.g. OpenSeadragon) for large images
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
+     */
     const renderStandardImageViewer = () => {
         
         let url = media;
@@ -179,10 +187,11 @@
             _component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
+            isTileImage = true;
+
             if(URL_PATTERN.test(url) == false) {
                 url = RESOURCE.getImageTileSourceUrl(_filename);
             }
-            isTileImage = true;
             _message = "Loading, please wait...";
 		    _messageDisplay = true;
 
@@ -196,6 +205,11 @@
         }
     }
 
+    /*
+     * static viewer: Image_Viewer: display image derivative (for embedding on page) without tiles (for small images and embedded media)
+     * interactive viewer: Image_Viewer: display image tile viewer (e.g. OpenSeadragon) for large images
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
+     */
     const renderLargeImageViewer = () => {
 
         let url = media;
@@ -207,14 +221,17 @@
             if(viewerType == VIEWER_TYPE.STATIC) {
                 isTileImage = false;
 
-                /* get jpg derivative to display on the page */
                 url = RESOURCE.getImageDerivativeUrl(_filename, {
                     height: LARGE_IMAGE_PREVIEW_HEIGHT
-                })
+                });
+
+                _messageDisplay = false;
             }
             else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
-                url = RESOURCE.getImageTileSourceUrl(_filename);
                 isTileImage = true;
+
+                url = RESOURCE.getImageTileSourceUrl(_filename);
+
                 _message = "Loading, please wait...";
 		        _messageDisplay = true;
             }
@@ -229,6 +246,10 @@
         }
     }
 
+    /*
+     * interactive viewer: Audio_Player: display audio player for audio files * if this is a kaltura item, the Audio_Player will embed a kaltura player 
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
+     */
     const renderAudioPlayer = () => {
 
         let url = media;
@@ -248,6 +269,10 @@
         }
     }
 
+    /*
+     * interactive viewer: Video_Player: display video player for video files * if this is a kaltura item, the Video_Player will embed a kaltura player 
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
+     */
     const renderVideoPlayer = () => {
 
         let url = media;
@@ -267,6 +292,10 @@
         }
     }
 
+    /*
+     * interactive viewer: PDFJS_Viewer: display pdf viewer for pdf files 
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content (pdf_open_to_page parameter can't be used to open to a specific page in universalviewer, not yet implemented)
+     */
     const renderPdfViewer = () => {
 
         let url = media;
