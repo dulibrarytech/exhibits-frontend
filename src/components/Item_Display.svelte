@@ -1,6 +1,5 @@
 <script>
     import { Settings } from '../config/settings';
-    import { Resource } from '../libs/resource';
     import { getItemDisplayData } from '../libs/exhibits_data_helpers';
     import IIIF_Item from './IIIF_Item.svelte';
     import * as Logger from '../libs/logger.js';
@@ -43,7 +42,6 @@
         } = item;
 
         Logger.module().error(`Error loading item resource: Item id: ${uuid} ${is_repo_item ? "Repository item id: " + repository_data.id : ""}`);
-
     }
 
     init();
