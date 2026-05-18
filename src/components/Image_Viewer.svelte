@@ -24,7 +24,7 @@
     let sourceUrl = null;
     let viewer = null;
 
-    const HTML_VIEWER = "html";
+    const FILE_VIEWER = "html";
     const TILE_VIEWER = "openseadragon";
 
     const render = () => {
@@ -34,7 +34,7 @@
             viewer = TILE_VIEWER;
         }
         else {
-            viewer = HTML_VIEWER;
+            viewer = FILE_VIEWER;
         }
 
         sourceUrl = url;
@@ -53,7 +53,7 @@
     <div class="image">
         {#if sourceUrl}
 
-            {#if viewer == HTML_VIEWER}
+            {#if viewer == FILE_VIEWER}
                 <div class="content">
                     <img src={sourceUrl} alt={altText ? altText : undefined} title={title || undefined} on:error={onImageLoadError}/>
                 </div>
