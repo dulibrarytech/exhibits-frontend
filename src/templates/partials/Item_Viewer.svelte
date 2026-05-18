@@ -10,6 +10,8 @@
   export let item = {};
 	export let args = {};
 
+	const USE_IIIF_VIEWER = false; // TODO use feature toggle for iiif viewer vs static media display (can be used for fallback if iiif manifest or media resource is missing)
+
 	const DEFAULT_ITEM_TEXT = "No description available";
 
 	let itemType;
@@ -37,8 +39,7 @@
 
 		if(date) date = new Date(date).toLocaleDateString();
 
-		// iiif will use the iiif viewer e.g. universalviewer, and non-iiif use the interactive (tile) viewer e.g. openseadragon
-		if(isIIIFItem) {
+		if(USE_IIIF_VIEWER && isIIIFItem) {
 			args.viewerType = VIEWER_TYPE.IIIF;
 		}
 		else {
