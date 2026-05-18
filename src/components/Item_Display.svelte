@@ -1,6 +1,5 @@
 <script>
     import { Settings } from '../config/settings';
-    import {Resource} from '../libs/Resource.js';
     import * as Logger from '../libs/logger.js';
 
     import { getItemDisplayData } from '../libs/exhibits_data_helpers';
@@ -38,15 +37,14 @@
     }
 
     const onLoadError = async (event) => {
-        let {is_member_of_exhibit, media} = item;
-        let fileFound = await Resource.verifyResourceFile({is_member_of_exhibit, media});
+        const {
+            uuid, 
+            is_repo_item,
+            repository_data,
 
-        if(fileFound == false) {
-            Logger.module().info(`Item resource file not found. Item id: ${item.uuid} ${item.is_repo_item ? "Repository item id: " + item.repository_data.id : ""}`);
-        }
-        else {
-            Logger.module().error(`Error loading item resource: Item id: ${item.uuid} ${item.is_repo_item ? "Repository item id: " + item.repository_data.id : ""}`);
-        }
+        } = item;
+
+        Logger.module().error(`Error loading item resource: Item id: ${uuid} ${is_repo_item ? "Repository item id: " + repository_data.id : ""}`);
     }
 
     init();
