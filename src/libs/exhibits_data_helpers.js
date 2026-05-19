@@ -147,10 +147,6 @@ export const createExhibitPageSections = (items) => {
         
         let {type = "", title = null, text = "", uuid = ""}  = item;
 
-        console.log("test: adding heading:", text);
-        console.log("test: inner text will be:", getInnerText(text));
-        console.log("test: strip html tags would be:", stripHtmlTags(text));
-
         if(type == ENTITY_TYPE.EXHIBIT_HEADING) {
             
             // Push the previous heading, if any, to the heading array before building the current heading
@@ -272,11 +268,13 @@ export const sanitizeHtml = (string = "") => {
  * @returns {string} remove all html tags, and leave tags in place that are permitted for user created content
  */
 export const getInnerText = (htmlString = "") => {
-    let textString;
+    let textString = "";
 
-    htmlString = removeHtmlContent(htmlString, Settings.permittedHtmlInnerTextTags);
-    textString = stripHtmlTags(htmlString);
-    textString = textString.trim().replace(/\s{2,}/g, ' ');
+    if(htmlString) {
+        htmlString = removeHtmlContent(htmlString, Settings.permittedHtmlInnerTextTags);
+        textString = stripHtmlTags(htmlString);
+        textString = textString.trim().replace(/\s{2,}/g, ' ');
+    }
 
     return textString;
 }
