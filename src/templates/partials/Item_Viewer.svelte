@@ -1,44 +1,47 @@
 <script>	
+	// please make this module a component
+
+	import { Settings } from '../../config/settings';
   import Media_Display from '../../components/Media_Display.svelte';
-	import Item_Data_Display from './Item_Data_Display.svelte';
-	import {formatStripHtmlTags} from '../../libs/format';
+	import Item_Link_Display from './Item_Link_Display.svelte';
 
 	import {
-        VIEWER_TYPE, 
-    } from '../../config/global-constants';
+		formatStripHtmlTags
+	} from '../../libs/format';
+
+	import {
+    VIEWER_TYPE, 
+  } from '../../config/global-constants';
 
   export let item = {};
 	export let args = {};
 
-	const USE_IIIF_VIEWER = false; // TODO use feature toggle for iiif viewer vs static media display (can be used for fallback if iiif manifest or media resource is missing)
+	// feature flags
+	const USE_IIIF_VIEWER = false;
 
+	// module settings
 	const DEFAULT_ITEM_TEXT = "No description available";
 
-	let itemType;
-	let itemData;
-	let title;
-	let text;
-	let date;
-	let caption;
+	const {
+		title: 				title = null,
+		description: 	text = DEFAULT_ITEM_TEXT,
+		caption: 			caption = null,
+		links: 				linkList = null,
+		is_iiif_item: isIIIFItem = false,
+	} = item;
 
-	let isIIIFItem = false;
+	let {
+		date = null,	
+	} = item;
 
 	$: init();
 
 	const init = async () => {
-		console.log("item viewer init: ", item);
 
-		itemType = 	item.item_type || undefined;
-		itemData = 	item.data_display || null;
-		title = 		item.title || null;
-		text = 			item.description || DEFAULT_ITEM_TEXT;
-		date = 			item.date || null;
-		caption = 	item.caption || null;
-
-		isIIIFItem = item.is_iiif_item || false;
-
+		// format date 
 		if(date) date = new Date(date).toLocaleDateString();
 
+		// set viewer type for media display
 		if(USE_IIIF_VIEWER && isIIIFItem) {
 			args.viewerType = VIEWER_TYPE.IIIF;
 		}
@@ -55,13 +58,12 @@
 <div class="item-viewer">
 	<div class="row">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
-			<!-- <Media_Display {item} args={{viewerType: 'interactive'}} on:load-media={onLoadMedia} on:load-error={onLoadError} /> -->
 			<Media_Display {item} {args} on:load-media={onLoadMedia} on:load-error={onLoadError} />
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
-			<div class="text">
 
+			<div class="text">
 				{#if title}
 					<hr style="margin-top: 0px">
 					<div class="title" use:formatStripHtmlTags>{title}</div>
@@ -75,17 +77,19 @@
 					<hr>
 				{/if}
 				
-				<div class="text-section background-light" tabindex="0">
-					<div class="item-text" use:formatStripHtmlTags>{text}</div>
-				</div>
-
-				{#if itemData}
-					<div class="data-section">
-						<Item_Data_Display data={itemData} />
+				{#if text}
+					<div class="text-section background-light" tabindex="0">
+						<div class="item-text" use:formatStripHtmlTags>{text}</div>
 					</div>
 				{/if}
 
+				{#if linkList}
+					<div class="data-section">
+						<Item_Link_Display data={linkList} />
+					</div>
+				{/if}
 			</div>
+			
 		</div>
 	</div>
 </div>
@@ -119,6 +123,7 @@
   .media-display-container {
 		padding-right: 0px;
 		position: relative;
+		background: white;
 	}
 
 	.text-display-container {
@@ -173,7 +178,7 @@
 		width: 100%;
 		height: 100%;
 		position: relative;
-		background: grey;
+		background: white;;
 	}
 
 	:global(.item-viewer .media-item .caption) {

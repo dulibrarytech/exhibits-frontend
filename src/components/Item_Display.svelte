@@ -1,8 +1,11 @@
 <script>
     import { Settings } from '../config/settings';
-    import { getItemDisplayData } from '../libs/exhibits_data_helpers';
     import IIIF_Item from './IIIF_Item.svelte';
     import * as Logger from '../libs/logger.js';
+
+    import { 
+        getItemLinks 
+    } from '../libs/exhibits_data_helpers';
 
     export let item = null;
     export let id = null; // dom element id
@@ -12,42 +15,32 @@
     const {
         itemDisplayLinks,
         itemDisplayLinksRepositoryItem,
-
     } = Settings;
 
     const {
         is_repo_item = false,
         repository_data = {},
         media_iiif = null,
-
     } = item;
 
     const init = () => {
 
-        /* add data display */
-        let displayData = getItemDisplayData(item, itemDisplayLinks);
+        // get links for item display
+        let links = getItemLinks(item, itemDisplayLinks);
+
+        // get links for repository item if applicable and add to item links for display in viewer
         if(is_repo_item) {
-            let repoDisplayData = getItemDisplayData(repository_data, itemDisplayLinksRepositoryItem);
-            displayData = displayData.concat(repoDisplayData);
+            if(!repository_data) {Logger.module().error("Item is linked to repository item but repository data is missing")}
+            else {
+                links = links.concat( getItemLinks(repository_data, itemDisplayLinksRepositoryItem) );
+            }
         }
-        item.data_display = displayData;
+        item.links = links;
     }
 
     const onLoadError = async (event) => {
-        const {
-            uuid, 
-            is_repo_item,
-            repository_data,
-
-        } = item;
-
-        if(repository_data) {
-            Logger.module().error(`Error loading item resource: Item id: ${uuid} Repository item id: ${repository_data.id}`);
-        }        else {
-            Logger.module().error(`Error loading item resource: Item id: ${uuid} Repository data not available`);
-        }
-
-        Logger.module().error(`Error loading item resource: Item id: ${uuid} ${is_repo_item ? "Repository item id: " + repository_data?.id : ""}`);
+        const {uuid} = item;
+        Logger.module().error(`Error loading item resource: Item id: ${uuid}`);
     }
 
     init();
