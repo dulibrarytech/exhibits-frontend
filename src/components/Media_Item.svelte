@@ -327,7 +327,7 @@
 
 	const onLoadError = (event) => {
         _mediaElement.style.visibility = "hidden";
-		_message = "Error loading file";
+		_message = "Error loading media";
         Logger.module().error(`Item viewer error: ${event?.detail?.error || ""}`);
         dispatch('load-error', {url: media});
 	}

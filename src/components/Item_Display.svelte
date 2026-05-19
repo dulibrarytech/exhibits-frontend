@@ -41,7 +41,13 @@
 
         } = item;
 
-        Logger.module().error(`Error loading item resource: Item id: ${uuid} ${is_repo_item ? "Repository item id: " + repository_data.id : ""}`);
+        if(repository_data) {
+            Logger.module().error(`Error loading item resource: Item id: ${uuid} Repository item id: ${repository_data.id}`);
+        }        else {
+            Logger.module().error(`Error loading item resource: Item id: ${uuid} Repository data not available`);
+        }
+
+        Logger.module().error(`Error loading item resource: Item id: ${uuid} ${is_repo_item ? "Repository item id: " + repository_data?.id : ""}`);
     }
 
     init();
