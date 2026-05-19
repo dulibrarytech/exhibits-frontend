@@ -1,8 +1,6 @@
 <script>
     import Repository_Related_Items from '../../components/Repository_Related_Items.svelte';
-    import {test_data} from '../data/related-repo-items.js';
-
-    console.log(test_data)
+    import {test_data} from '../data/related-repo-items.js'; // array of repository items
 </script>
 
 <div class="test">

@@ -3,4 +3,3 @@ node_modules
 public/bundle.*
 package-lock.json
 .env
-src/test/data/

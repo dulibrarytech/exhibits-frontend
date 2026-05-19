@@ -1,11 +1,6 @@
 <script>
     import IIIF_Viewer from '../../components/IIIF_Viewer.svelte';
 
-    // test_data = {
-    // "A": {
-    //     url: "" // iiif manifest url
-    // }
-
     // test_items
     // ['IMAGE', 'IMAGE_REPO', 'AUDIO', 'AUDIO_REPO', 'VIDEO', 'VIDEO_REPO', 'PDF', 'PDF_REPO']
     import {test_items} from '../data/items.js';

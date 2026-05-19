@@ -1,19 +1,10 @@
 <script>
     import Media_Display from '../../components/Media_Display.svelte';
 
-    // test_data = {
-    //     "repo_source__small-image__no_iiif": {}, // exhibit item
-    //     "repo_source__small-image__is_iiif": {},
-    //     "repo_source__large-image__no_iiif": {},
-    //     "repo_source__large-image__is_iiif": {},
-    //     "user_source__small-image__remote-url": {},
-    //     "user_source__small-image__local-file": {},
-    //     "user_source__large-image__remote-url": {},
-    //     "user_source__large-image__local-file": {}
-    // }
-    import {test_data} from '../data/media-display.js';
-
-    let TEST_ITEM = "user_source__small-image__local-file";
+    // test_items
+    // ['IMAGE', 'IMAGE_REPO', 'AUDIO', 'AUDIO_REPO', 'VIDEO', 'VIDEO_REPO', 'PDF', 'PDF_REPO']
+    import {test_items} from '../data/items.js';
+    let data = test_items["PDF"];
 
     let args = {
         isTileImage: true
@@ -22,5 +13,5 @@
 </script>
 
 <div class="test">
-    <Media_Display item={test_data[TEST_ITEM]} {args} />
+    <Media_Display item={data} args={args} />
 </div>
