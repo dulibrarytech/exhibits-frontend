@@ -1,7 +1,4 @@
 <script>	
-	// please make this module a component
-
-	import { Settings } from '../../config/settings';
   import Media_Display from '../../components/Media_Display.svelte';
 	import Item_Link_Display from './Item_Link_Display.svelte';
 
@@ -177,6 +174,7 @@
 	:global(.item-viewer .media-item) {
 		width: 100%;
 		height: 100%;
+		min-height: 92vh;
 		position: relative;
 		background: white;;
 	}
