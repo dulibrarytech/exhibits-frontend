@@ -121,6 +121,7 @@
 		padding-right: 0px;
 		position: relative;
 		background: white;
+		height: 50vh;
 	}
 
 	.text-display-container {
@@ -163,10 +164,6 @@
 		margin-bottom: 4px;
 	}
 
-	.media-display-container {
-		height: 50%;
-	}
-
 	:global(.data-section li a) {
 		text-decoration: underline;
 	}
@@ -174,7 +171,6 @@
 	:global(.item-viewer .media-item) {
 		width: 100%;
 		height: 100%;
-		min-height: 92vh;
 		position: relative;
 		background: white;;
 	}
@@ -249,7 +245,7 @@
 		}
 
 		.media-display-container {
-			height: 100%;
+			height: 100vh;
 		}
 
 		.text-display-container {
