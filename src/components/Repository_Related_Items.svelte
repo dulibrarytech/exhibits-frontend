@@ -3,8 +3,7 @@
    import { Repository } from '../libs/repository';
    import { getRandomNumberArray, shuffleArrayElements } from '../libs/data_helpers';
    import { getInnerText } from '../libs/exhibits_data_helpers';
-   import {ENTITY_TYPE, ITEM_GRIDS} from '../config/global-constants';
-   import ResourceUrl from '../libs/ResourceUrl.js';
+   import { ENTITY_TYPE } from '../config/global-constants';
    import * as Logger from '../libs/logger.js';
 
    import MediaItemPreview from './Media_Item_Preview.svelte';   
@@ -12,11 +11,7 @@
    export let items = [];
    export let exhibitId = "";
 
-   const ITEM_DISPLAY_COUNT = 4;
    const RELATED_ITEM_DISPLAY_COUNT = 4;
-   const IMAGE_PREVIEW_WIDTH = 200;
-
-   const RESOURCE = new ResourceUrl(exhibitId);
 
    let selectedSubjects = [];
    let relatedItemsDisplay = null;
@@ -24,11 +19,12 @@
    const init = async () => {
 
       // get the items with repository data to find related items for, and shuffle the order of the items so that different related items are shown each time
-      if(items.length > 0) {
+      if(items?.length > 0) {
          items = shuffleArrayElements( getExhibitItems(items) );
          relatedItemsDisplay = await getRelatedItemsDisplay(items);
       }
       else {
+         Logger.module().info(`Repository related items: no items found for exhibit ${exhibitId}.`);
          document.querySelector(".repository-related-items").style.display = "none";
       }
    }
