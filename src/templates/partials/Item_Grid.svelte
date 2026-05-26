@@ -8,12 +8,9 @@
 
     export let grid = {};
     export let id = null;
-    export let templateStyles = {};
 
-    let itemDisplay = null;
-
+    let itemDisplay = null; // to _, init below
     let gridElement;
-    let titleElement;
 
     let title;
     let text;
@@ -30,21 +27,11 @@
         items = grid.items || [];
         styles = grid.styles || {};
 
-        // parse styles json string for all grid items
-        items = items.map((item) => {
-            if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
-            return item;
-        }) || [];
-
         render();
     }
 
-    const setTheme = ({item = {}, heading = null}) => {
-        Object.assign(gridElement.style, item);
-
-        if(titleElement && heading) {
-            titleElement.style.fontFamily = templateStyles.heading || heading.fontFamily || 'inherit';
-        }
+    const setTheme = (styles) => {
+        Object.assign(gridElement.style, styles);
     }
 
     const render = () => {
@@ -58,7 +45,7 @@
     $: init();
 
     onMount(async () => {
-        setTheme(styles);
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
         dispatch('mount-template-item', {});
     });
 </script>
@@ -68,7 +55,7 @@
 
     <div class="container grid-container">
         {#if title}
-            <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
+            <div class="title-heading"><h3>{@html title}</h3></div>
         {/if}
 
         {#if text}<div class="text">{@html text}</div>{/if}

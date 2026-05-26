@@ -42,12 +42,12 @@
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
     }
 
-    const setTheme = ({item = {}}) => {
-        Object.assign(itemElement.style, item);
+    const setTheme = (styles) => {
+        Object.assign(itemElement.style, styles);
     }
 
     onMount(() => {
-        if(styles) setTheme(styles); 
+        if(styles && Object.keys(styles).length > 0) setTheme(styles); 
     });
 </script>
 

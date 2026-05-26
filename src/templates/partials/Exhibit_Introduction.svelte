@@ -7,7 +7,8 @@
     let introductionElement;
 
     onMount(async () => {
-        if(styles) {
+        if(styles && Object.keys(styles).length > 0) {
+            // set theme
             Object.assign(introductionElement.style, styles);
         }
     });

@@ -11,10 +11,8 @@
     let id = null;
     let styles = null;
 
-    let gridItemElement;
+    let itemElement;
 
-    let type;
-    let date;
     let title;
     let text;
     let media;
@@ -32,12 +30,12 @@
     }
 
     const setTheme = (styles) => {
-        if(typeof styles == 'object') Object.assign(gridItemElement.style, styles);
-        else Logger.module().error(`Invalid grid item style object. Grid item id: ${id}`);    
+        //if(typeof styles == 'object') Object.assign(gridItemElement.style, styles);
+        Object.assign(itemElement.style, styles);
     }
 
     onMount(() => {
-        if(styles) setTheme(styles); 
+        if(styles && Object.keys(styles).length > 0) setTheme(styles); 
     });
 </script>
 
@@ -45,7 +43,7 @@
     
     <div class="timeline__card">
 
-        <div class="card" bind:this={gridItemElement}>
+        <div class="card" bind:this={itemElement}>
             <header class="card__header">
 
                 {#if title}

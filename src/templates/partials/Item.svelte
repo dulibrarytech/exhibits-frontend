@@ -69,10 +69,7 @@
         if(Object.values(MEDIA_POSITION).includes(layout) == false) Logger.module().error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
     }
 
-    const setTheme = ({item, heading}) => {
-
-        let itemStyles = item || {};
-        let headingStyles = heading || {};
+    const setTheme = (styles) => {
 
         // set permitted styles
         let {
@@ -81,26 +78,16 @@
             color = null,
             backgroundColor = null
 
-        } = itemStyles;
+        } = styles;
 
         // assign permitted styles to the item element
         if(itemElement) {
-            Object.assign(itemElement.style,  {fontFamily, color, backgroundColor});
-        }
-
-        // append background image
-        if(itemStyles.backgroundImage) {
-            itemElement.style.backgroundImage = `url('${ itemStyles.backgroundImage }')`;
-        }
-
-        // set title font family to heading style font family
-        if(titleElement) {
-            titleElement.style.fontFamily = headingStyles.fontFamily || 'inherit';
+            Object.assign(itemElement.style, {fontFamily, fontSize, color, backgroundColor});
         }
     }
 
     onMount(async () => {
-        if(styles) setTheme(styles);
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
         dispatch('mount-template-item', {type: "item"});
     });
 </script>

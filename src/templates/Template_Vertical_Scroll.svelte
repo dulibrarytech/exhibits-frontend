@@ -16,13 +16,15 @@
 
     export let items = [];
     export let styles = null;
-    export let args;
+    export let args = {};
 
     const dispatch = createEventDispatcher();
 
     let displayItems;
     let templateItemCount;
     var templateItemsMounted;
+
+    let templateElement;
 
     const init = () => {
         Logger.module().info("Initializing template...");
@@ -41,6 +43,10 @@
         if(!displayItems) displayItems = formatTemplateItems(items);
     }
 
+    const setTheme = (styles) => {
+        Object.assign(templateElement.style, styles);
+    }
+
     const formatTemplateItems = (items) => {
         return items; 
     }
@@ -54,12 +60,14 @@
     init();
 
     onMount(async () => {
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
+        
         Logger.module().info("Mounted exhibit template");
         dispatch('mount-template', {});
     });
 </script>
 
-<div id="exhibit_template">
+<div id="exhibit_template" class="exhibit-template" bind:this={templateElement}>
     {#if displayItems}
         <div class="exhibit-items">
             {#each displayItems as {uuid = "", type = "", text = "", anchorId = null, is_visible = null, is_embedded = false}, index}
@@ -68,19 +76,19 @@
 
                     <!-- exhibit heading -->
                     {#if type == ENTITY_TYPE.EXHIBIT_HEADING} 
-                        <Exhibit_Heading id={anchorId} {text} styles={displayItems[index].styles || styles?.heading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
+                        <Exhibit_Heading id={anchorId} {text} styles={displayItems[index].styles || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
 
                      <!-- exhibit heading -->
                     {:else if type == ENTITY_TYPE.EXHIBIT_SUBHEADING} 
-                        <Exhibit_Subheading id={anchorId} {text} styles={displayItems[index].styles || styles?.subheading || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
+                        <Exhibit_Subheading id={anchorId} {text} styles={displayItems[index].styles || null} display={is_visible} on:mount-template-item={onMountTemplateItem} />
                     
                         <!-- exhibit item container - grid -->
                     {:else if type == ENTITY_TYPE.GRID}
-                        <Item_Grid id={anchorId} grid={displayItems[index]} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                        <Item_Grid id={anchorId} grid={displayItems[index]} on:click-item on:mount-template-item={onMountTemplateItem} />
 
                     <!-- exhibit item container - vertical timeline grid 1 column -->
                     {:else if type == ENTITY_TYPE.VERTICAL_TIMELINE}
-                        <Item_Grid_Vertical_Timeline id={anchorId} grid={displayItems[index]} templateStyles={styles} on:click-item on:mount-template-item={onMountTemplateItem} />
+                        <Item_Grid_Vertical_Timeline id={anchorId} grid={displayItems[index]} on:click-item on:mount-template-item={onMountTemplateItem} />
                     
                     <!--exhibit item - row layout -->
                     {:else if type == ENTITY_TYPE.ITEM}
@@ -99,7 +107,7 @@
         scroll-margin-top: 150px;
     }
 
-    #exhibit-template {
+    .exhibit-template {
         font-size: inherit;
     }
 

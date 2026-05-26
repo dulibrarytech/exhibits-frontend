@@ -41,12 +41,11 @@
     }
 
     const setTheme = (styles) => {
-        let menuStyles = styles || {};
-        Object.assign(_navigationElement.style, menuStyles);
+        Object.assign(_navigationElement.style, styles);
     }
 
     onMount(async () => {
-        if(styles) setTheme(styles);
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
     });
 </script>
 
