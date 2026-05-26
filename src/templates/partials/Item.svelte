@@ -24,15 +24,10 @@
 
     // to _
     let itemElement;
-<<<<<<< HEAD
-    let titleElement;
     let showPreview;
-=======
->>>>>>> 9f361df (remove item titles)
 
     let uuid;
     let caption;
-    let itemType;
     let layout;
     let mediaWidth;
     let mediaPadding;
@@ -53,7 +48,6 @@
 
         uuid        = item.uuid || null;
         caption     = item.caption || null;
-        itemType    = item.item_type || undefined;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
         mediaPadding = item.media_padding ?? true;
