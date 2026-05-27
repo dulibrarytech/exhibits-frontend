@@ -29,8 +29,12 @@
   }
 
   const init = () => {
+    /* flag iiif item for other components' iiif cases */
+    item.is_iiif_item = true;
+
     const {
       manifest: manifestData = null,
+      image_url: imageUrl = null,
     } = item.media_iiif;
 
     const {
@@ -39,12 +43,8 @@
 
     if(manifestData) {
       _manifest = JSON.parse(manifestData);
-
       item.media = getManifestResourceUrl(_manifest) || null;
       item.thumbnail = thumbnailUrl || getManifestThumbnailUrl(_manifest) || null;
-
-      /* flag iiif item for other components' iiif cases */
-      item.is_iiif_item = true;
 
       /* Add metadata fields to viewer metadata display NOT YET IMPL. */
       for(let field in VIEWER_METADATA) {
@@ -52,7 +52,9 @@
       }
     }
     else {
-      Logger.module().error(`Item IIIF manifest is missing. 'manifest' field expected. Item: ${item.uuid}`);
+      Logger.module().info(`Item IIIF manifest is missing. 'manifest' field expected. Item: ${item.uuid}. Using fallback iiif media and thumbnail if available.`);
+      item.thumbnail = thumbnailUrl || null;
+      item.media = imageUrl || null;
     }
   }
 
