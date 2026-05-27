@@ -80,7 +80,6 @@
 
         // args
         isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false; 
-        // viewerType = args.viewerType || VIEWER_TYPE.STATIC;
 
         // module variables
         _filename = null;
@@ -192,6 +191,13 @@
             if(URL_PATTERN.test(url) == false) {
                 url = RESOURCE.getImageTileSourceUrl(_filename);
             }
+
+            // if(isIIIFItem)
+            if(item.is_iiif_item) {
+                const {service_url: serviceUrl = null} = item.media_iiif || {};
+                url = serviceUrl ? serviceUrl : url; // if iiif item, use the iiif service url for the tile source
+            }
+
             _message = "Loading, please wait...";
 		    _messageDisplay = true;
 
