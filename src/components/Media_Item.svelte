@@ -22,10 +22,14 @@
         MEDIA_POSITION
     } from '../config/global-constants';
 
-    import { getInnerText } from '../libs/exhibits_data_helpers';
+    import { 
+        getInnerText 
+    } from '../libs/exhibits_data_helpers';
 
     export let item = {};
     export let args = {};
+
+    const dispatch = createEventDispatcher();
 
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
@@ -37,13 +41,10 @@
     const VIEWER_HEIGHT_SMALL = "350";
     const VIEWER_HEIGHT_LARGE = "700";
 
-    const dispatch = createEventDispatcher();
-
     // item data fields
     let media;
     let thumbnail;
     let itemType;
-    let mimeType;
     let title;
     let altText;
     let caption;
@@ -54,25 +55,25 @@
     let viewerType;
     let viewerHeight;
 
-    // module variables (convert to "_" prefix)
+    // module variables
     var _mediaElement;
     var _filename;
     var _component;
     var _message;
 	var _messageDisplay;
 
-    /* args object for child components */
+    // args object for child components 
     var params = {};
 
     $: init();
 
     const init = () => {
+        Logger.module().info(`Initializing media item component. Item: ${item.uuid}`);
 
         // item data fields
         media = args.media || item.media || null;
         thumbnail = item.thumbnail || null;
         itemType = args.type || item.item_type || null;
-        mimeType = args.mimeType || item.mime_type || null;
         title = args.title || item.title ? getInnerText(item.title) : DEFAULT_ITEM_TITLE;
         caption = args.caption || item.caption || null;
         layout = item.layout || null;
