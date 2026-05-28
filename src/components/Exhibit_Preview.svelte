@@ -47,7 +47,7 @@
     // exhibit data fields
     let exhibitId;
     let thumbnail;
-    let heroImage;
+    //let heroImage;
     let title;
     let subtitle;
 
@@ -55,58 +55,56 @@
 
     const RESOURCE = new ResourceUrl(exhibit.uuid);
 
+    // module settings
     const EXHIBIT_THUMBNAIL_WIDTH = "400";
     const EXHIBIT_THUMBNAIL_HEIGHT = "400";
-    //const VERIFY_IMAGE_WIDTH = true;
     const DEFAULT_EXHIBIT_OVERLAY_TEXT = "VISIT";
 
     $: init();
 
     const init = async () => {
+        //thumbnailSourceUrl = null;
 
         // init exhibit data fields
         exhibitId   = exhibit.uuid;
-        thumbnail   = exhibit.thumbnail_image || null;
-        heroImage   = exhibit.hero_image || null;
         title       = getInnerText(exhibit.title || ""); 
         subtitle    = getInnerText(exhibit.subtitle || ""); 
-
-        altText = `${title || ""} ${subtitle || ""} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
-        thumbnailSourceUrl = null; // reset thumbnail source url on init
+        altText     = `${title || ""} ${subtitle || ""} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
 
         // set default width and height if not provided
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
 
-        // render the exhibit preview image from the thumbnail if it exists
-        if(thumbnail) {
+        thumbnailSourceUrl = await getThumbnailSourceUrl();
+        if(!thumbnailSourceUrl) {
+            Logger.module().info(`No thumbnail or hero image available for exhibit: ${exhibitId}. No preview image will be displayed.`);    
+            thumbnailSourceUrl = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
+        }
+    }
+
+    const getThumbnailSourceUrl = async () => {
+        let url = null;
+
+        const {
+            thumbnail_iiif = null,
+            thumbnail = null
+        } = exhibit;
+
+        if(thumbnail_iiif) {
+            url = thumbnail_iiif.thumbnail_url || null;
+        }
+
+        else if(thumbnail) {
             try {
-                thumbnailSourceUrl = await RESOURCE.getIIIFImageUrl(thumbnail, width);
+                url = await RESOURCE.getIIIFImageUrl(thumbnail, width, height);
             }
             catch(error) {
                 Logger.module().error(`Could not get IIIF image url for thumbnail, Thumbnail id: ${thumbnail} Message: ${error}`);
             }
         }
 
-        // render the exhibit preview image from the hero image if there is no thumbnail
-        else if(heroImage) {
-            thumbnailSourceUrl = RESOURCE.getImageDerivativeUrl(heroImage, {
-                type: 'crop',
-                width,
-                height
-            });
-            Logger.module().info(`Using hero image derivative for preview image. Hero image: ${heroImage} Thumbnail url: ${thumbnailSourceUrl}`);
-        }
-        else {
-            Logger.module().info("No thumbnail or hero image available for exhibit:", exhibitId);
-        }
-
-        // use a placeholder image if there is no thumbnail or hero image available
-        if(!thumbnailSourceUrl) {
-            Logger.module().info(`No thumbnail or hero image available for exhibit: ${exhibitId}. No preview image will be displayed.`);    
-            thumbnailSourceUrl = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
-        }
-    }
+        return url;
+    }   
 
     const onClickPreview = ({target}) => {
         dispatch('click-preview', {exhibitId});
