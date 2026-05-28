@@ -52,9 +52,11 @@
       }
     }
     else {
-      Logger.module().info(`Item IIIF manifest is missing. 'manifest' field expected. Item: ${item.uuid}. Using fallback iiif media and thumbnail if available.`);
-      item.thumbnail = thumbnailUrl || null;
+      Logger.module().info(`IIIF manifest not found. Item: ${item.uuid}.`);
+      if(!imageUrl) Logger.module().info(`IIIF image resource url not found.`);
+
       item.media = imageUrl || null;
+      item.thumbnail = thumbnailUrl || null;
     }
   }
 

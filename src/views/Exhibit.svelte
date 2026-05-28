@@ -194,7 +194,7 @@
 
             // the template was not found. if item.styles is a string test if it is a styles object by attempting to parse it as json. if parsing fails, the value is invalid
             else {
-                Logger.module().info(`No style template found for item id: ${item.uuid}. Item 'styles' value will be parsed as json.`);
+                Logger.module().info(`No style template found for item id: ${item.uuid}. Attempting to parse styles value as json string for styles object...`);
 
                 // check if styles value is a json string for styles object. if so, parse it and assign it to item.styles. (object type is not permitted in this field)
                 const styleValue = styles;
@@ -202,12 +202,12 @@
                     item.styles = JSON.parse(styleValue || '{}');
                 }
                 catch(error) {
-                    Logger.module().error(`Error parsing styles for item id: ${itemId}. Error: ${error}. Possible invalid 'styles' value`);
+                    Logger.module().error(`Error parsing styles object for item id: ${itemId}. Error: ${error}. Possible invalid 'styles' value`);
                     item.styles = null;
                 }
             }
 
-            // if this item has children items (e.g. it is a container item suchas a grid), set their styles as well
+            // if this item has children items (e.g. it is a container item suchas a grid), set their styles
             if(item.items) {
                 item.items = await setItemStyles(item.items, styleTemplates);
             }
