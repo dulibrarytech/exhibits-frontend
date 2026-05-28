@@ -9,7 +9,6 @@
 
 import { Configuration } from '../config/config';
 import { Settings } from '../config/settings';
-import * as Logger from './logger.js';
 import axios from 'axios';
 
 const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
@@ -52,14 +51,13 @@ export default class ResourceUrl {
     async getIIIFImageUrl(filename="null", width=null, height=null, dimensions=null) {
       let url = null;
 
-      // TODO: replace w/h params with "scale" ["min", "max"] and "size" [sizes index] so it always uses a IIIf specified available size for the image (the width test will not be required)
       if(VERIFY_IMAGE_WIDTH_ON_RESIZE && width) {
           try {
               let imageWidth = (await axios.get(this.getIIIFServiceUrl(filename))).data.width;
               if(imageWidth < width) width = imageWidth;
           }
           catch(error) {
-              Logger.module().error(`Could not get iiif data for image, file: ${filename} Message: ${error.message}`);
+              throw `Could not verify image width, iiif server returns error: ${error.message}. Image file: ${filename}`;
           }
       }
       
@@ -107,6 +105,7 @@ export default class ResourceUrl {
       if (!offsetX) offsetX = "0";
       if (!offsetY) offsetY = "0";
 
+      if(!filename) filename = "null";
       filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
 
       switch(type) {

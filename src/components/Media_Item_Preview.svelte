@@ -49,7 +49,6 @@
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
     // component options
-    // const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
     const IMAGE_THUMBNAIL_WIDTH = 400;
     const IMAGE_PREVIEW_WIDTH = "max";
 

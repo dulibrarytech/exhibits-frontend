@@ -20,8 +20,9 @@
     'use strict'
     
     import axios from 'axios';
-    import { createEventDispatcher } from 'svelte';
     import ResourceUrl from '../libs/ResourceUrl.js'; 
+    import * as Logger from '../libs/logger.js';
+    import { createEventDispatcher } from 'svelte';
     import { Settings } from '../config/settings.js';
     import { getInnerText } from '../libs/exhibits_data_helpers';
 
@@ -40,7 +41,6 @@
     } = args;
 
     // display fields
-    let titleTextElement;
     let thumbnailSourceUrl;
     let altText;
 
@@ -57,7 +57,7 @@
 
     const EXHIBIT_THUMBNAIL_WIDTH = "400";
     const EXHIBIT_THUMBNAIL_HEIGHT = "400";
-    const VERIFY_IMAGE_WIDTH = true;
+    //const VERIFY_IMAGE_WIDTH = true;
     const DEFAULT_EXHIBIT_OVERLAY_TEXT = "VISIT";
 
     $: init();
@@ -72,6 +72,7 @@
         subtitle    = getInnerText(exhibit.subtitle || ""); 
 
         altText = `${title || ""} ${subtitle || ""} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
+        thumbnailSourceUrl = null; // reset thumbnail source url on init
 
         // set default width and height if not provided
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
@@ -79,37 +80,30 @@
 
         // render the exhibit preview image from the thumbnail if it exists
         if(thumbnail) {
-
-            // get the thumbnail image width from iiif info endpoint and if the image is smaller than the requested width, use the image width to avoid requesting an image larger than the original which can cause iiif servers to fail to deliver an image
-            if(VERIFY_IMAGE_WIDTH && width) {
-                try {
-                    let imageWidth = (await axios.get(RESOURCE.getIIIFServiceUrl(thumbnail))).data.width;
-                    if(imageWidth < width) width = imageWidth;
-                }
-                catch(error) {
-                    console.error(`Could not get iiif data for image, Image id: ${thumbnail} Message: ${error.message}`)
-                }
+            try {
+                thumbnailSourceUrl = await RESOURCE.getIIIFImageUrl(thumbnail, width);
             }
-
-            // get the iiif url for the thumbnail derivative
-            thumbnailSourceUrl = await RESOURCE.getIIIFImageUrl(thumbnail, width);
+            catch(error) {
+                Logger.module().error(`Could not get IIIF image url for thumbnail, Thumbnail id: ${thumbnail} Message: ${error}`);
+            }
         }
 
         // render the exhibit preview image from the hero image if there is no thumbnail
         else if(heroImage) {
-
-            // if no thumbnail, but there is a hero image, get hero image derivative for the exhibit preview
-            let file = heroImage || "no-image-available";
-            thumbnailSourceUrl = RESOURCE.getImageDerivativeUrl(file, {
+            thumbnailSourceUrl = RESOURCE.getImageDerivativeUrl(heroImage, {
                 type: 'crop',
                 width,
                 height
             });
-
-        // if there is no thumbnail or hero image, use a placeholder image
+            Logger.module().info(`Using hero image derivative for preview image. Hero image: ${heroImage} Thumbnail url: ${thumbnailSourceUrl}`);
         }
         else {
-            console.log("No thumbnail or hero image available for exhibit:", exhibitId);
+            Logger.module().info("No thumbnail or hero image available for exhibit:", exhibitId);
+        }
+
+        // use a placeholder image if there is no thumbnail or hero image available
+        if(!thumbnailSourceUrl) {
+            Logger.module().info(`No thumbnail or hero image available for exhibit: ${exhibitId}. No preview image will be displayed.`);    
             thumbnailSourceUrl = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
         }
     }
@@ -124,7 +118,7 @@
     }
 
     const onImageLoadError = (event) => {
-        console.error("Error loading exhibit preview image for exhibit:", exhibitId);
+        Logger.module().error("Error loading exhibit preview image for exhibit:", exhibitId);
         thumbnailSourceUrl = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
     }
 </script>
@@ -132,7 +126,7 @@
 <div class="exhibit-preview">
 
     {#if thumbnailSourceUrl}
-        <a href={link || undefined} data-exhibit-id={exhibitId} bind:this={titleTextElement} on:click|stopPropagation|preventDefault={onClickPreview} aria-label="enter exhibit {title}">
+        <a href={link || undefined} data-exhibit-id={exhibitId} on:click|stopPropagation|preventDefault={onClickPreview} aria-label="enter exhibit {title}">
             <div class="exhibit-thumbnail">
 
                 <img src={thumbnailSourceUrl} alt={altText} on:load={onImageLoad} on:error={onImageLoadError} />
