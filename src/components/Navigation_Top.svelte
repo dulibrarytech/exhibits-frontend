@@ -102,7 +102,6 @@
     }
 
     .navbar {
-        background: #e5e3e1;
         min-height: 4.2em;
         border-bottom-style: solid;
         border-width: 1px;
