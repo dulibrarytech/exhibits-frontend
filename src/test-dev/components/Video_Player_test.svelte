@@ -1,11 +1,11 @@
 <script>
     import Video_Player from '../../components/Video_Player.svelte';
 
-    import {test_data} from '../data/video-player.js';
+    let args = {};
 </script>
 
 <div class="test">
-    <Video_Player />
+    <Video_Player args={args} />
 </div>
 
 <style>

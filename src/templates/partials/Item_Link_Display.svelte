@@ -10,7 +10,7 @@
   }
 </script>
 
-<div class="item-data-display">
+<div class="item-link-display">
   <ul>
     {#each data as {label = null, linkTo = '#', linkText = ""}}
       <li>
@@ -22,12 +22,12 @@
 </div>
 
 <style>
-  .item-data-display ul {
+  .item-link-display ul {
     list-style-type: none;
     padding: 0;
   }
 
-  .item-data-display ul li {
+  .item-link-display ul li {
     margin-bottom: 0.5em;
   }
 </style>

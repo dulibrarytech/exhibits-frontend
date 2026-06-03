@@ -1,9 +1,11 @@
 <script>
     import { Settings } from '../config/settings';
-    import {Resource} from '../libs/Resource.js';
+    import IIIF_Item from './IIIF_Item.svelte';
     import * as Logger from '../libs/logger.js';
 
-    import { getItemDisplayData } from '../libs/exhibits_data_helpers';
+    import { 
+        getItemLinks 
+    } from '../libs/exhibits_data_helpers';
 
     export let item = null;
     export let id = null; // dom element id
@@ -12,48 +14,44 @@
 
     const {
         itemDisplayLinks,
-        itemDisplayLinksRepositoryItem
+        itemDisplayLinksRepositoryItem,
     } = Settings;
 
+    const {
+        is_repo_item = false,
+        repository_data = {},
+        media_iiif = null,
+    } = item;
+
     const init = () => {
-        if(item) {
 
-            let displayData = getItemDisplayData(item, itemDisplayLinks);
+        // get links for item display
+        let links = getItemLinks(item, itemDisplayLinks);
 
-            let {
-                is_repo_item = false,
-                repository_data = {},
-            } = item;
-
-            if(is_repo_item) {
-                let repoDisplayData = getItemDisplayData(repository_data, itemDisplayLinksRepositoryItem);
-                displayData = repoDisplayData.concat(displayData);
+        // get links for repository item if applicable and add to item links for display in viewer
+        if(is_repo_item) {
+            if(!repository_data) {Logger.module().error("Item is linked to repository item but repository data is missing")}
+            else {
+                links = links.concat( getItemLinks(repository_data, itemDisplayLinksRepositoryItem) );
             }
-
-            item.data_display = displayData;
         }
-        else {
-            Logger.module().error("Null item")
-        }
+        item.links = links;
     }
 
     const onLoadError = async (event) => {
-        let {is_member_of_exhibit, media} = item;
-        let fileFound = await Resource.verifyResourceFile({is_member_of_exhibit, media});
-
-        if(fileFound == false) {
-            Logger.module().info(`Item resource file not found. Item id: ${item.uuid} ${item.is_repo_item ? "Repository item id: " + item.repository_data.id : ""}`);
-        }
-        else {
-            Logger.module().error(`Error loading item resource: Item id: ${item.uuid} ${item.is_repo_item ? "Repository item id: " + item.repository_data.id : ""}`);
-        }
+        const {uuid} = item;
+        Logger.module().error(`Error loading item resource: Item id: ${uuid}`);
     }
 
     init();
 </script>
 
 <div class="item-display">
-    <svelte:component this={template} {id} {item} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />
+    {#if media_iiif}
+        <IIIF_Item {item} {template} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />
+    {:else}
+        <svelte:component this={template} {id} {item} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />
+    {/if}
 </div>
 
 <style>

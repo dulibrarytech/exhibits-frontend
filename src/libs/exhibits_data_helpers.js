@@ -147,10 +147,6 @@ export const createExhibitPageSections = (items) => {
         
         let {type = "", title = null, text = "", uuid = ""}  = item;
 
-        console.log("test: adding heading:", text);
-        console.log("test: inner text will be:", getInnerText(text));
-        console.log("test: strip html tags would be:", stripHtmlTags(text));
-
         if(type == ENTITY_TYPE.EXHIBIT_HEADING) {
             
             // Push the previous heading, if any, to the heading array before building the current heading
@@ -196,7 +192,7 @@ export const createExhibitPageSections = (items) => {
  * @param {object} linkConfiguration - configuration object defining how to create display data for the item (see settings.itemDisplayLinks and settings.itemDisplayLinksRepositoryItem)
  * @returns 
  */
-export const getItemDisplayData = (itemData, linkConfiguration) => {
+export const getItemLinks = (itemData, linkConfiguration) => {
     let display = [];
 
     linkConfiguration.forEach(linkConfig => {
@@ -214,16 +210,16 @@ export const getItemDisplayData = (itemData, linkConfiguration) => {
         if(itemTypes && itemTypes.includes(itemData.item_type) == false) return; 
 
         // get the value to link to from the specified field in the item data or use the provided linkToValue
-        let linkTo = linkToField ? (itemData[linkToField] || "missing data field for link") : (linkToValue || "#");
+        let linkTo = linkToField ? (itemData[linkToField] || null) : (linkToValue || "#");
         if(!linkTo) return; 
 
         // get the text for the link from the specified field in the item data or use the provided textValue or default to "Link"
-        let linkText = textField ? itemData[textField] || ("missing data field for text") : (textValue || "missing link text in settings");
+        let linkText = textField ? itemData[textField] || null : (textValue || "missing link text in settings");
 
         display.push({
             label: null,
             linkTo,
-            linkText,
+            linkText: linkText || linkTo,
         })
     }); 
 
@@ -247,11 +243,13 @@ export const sanitizeHtml = (string = "") => {
  * @returns {string} remove all html tags, and leave tags in place that are permitted for user created content
  */
 export const getInnerText = (htmlString = "") => {
-    let textString;
+    let textString = "";
 
-    htmlString = removeHtmlContent(htmlString, Settings.permittedHtmlInnerTextTags);
-    textString = stripHtmlTags(htmlString);
-    textString = textString.trim().replace(/\s{2,}/g, ' ');
+    if(htmlString) {
+        htmlString = removeHtmlContent(htmlString, Settings.permittedHtmlInnerTextTags);
+        textString = stripHtmlTags(htmlString);
+        textString = textString.trim().replace(/\s{2,}/g, ' ');
+    }
 
     return textString;
 }

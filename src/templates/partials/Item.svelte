@@ -22,7 +22,10 @@
 
     const DEFAULT_MEDIA_WIDTH = "50";
 
+    // to _
     let itemElement;
+    let titleElement;
+    let showPreview;
 
     let uuid;
     let caption;
@@ -33,7 +36,6 @@
     let wrapText;
     let isEmbedded;
     let styles;
-    let showPreview;
 
     const dispatch = createEventDispatcher();
 
@@ -102,7 +104,7 @@
     {#if layout == MEDIA_POSITION.RIGHT}
         <Media_Right {wrapText} {mediaPadding} {mediaWidth} {caption}>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -112,7 +114,7 @@
     {:else if layout == MEDIA_POSITION.LEFT}
         <Media_Left {wrapText} {mediaPadding} {mediaWidth} {caption}>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -122,7 +124,7 @@
     {:else if layout == MEDIA_POSITION.TOP}
         <Media_Top {mediaPadding} {mediaWidth} {caption}>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -132,7 +134,7 @@
     {:else if layout == MEDIA_POSITION.BOTTOM}
         <Media_Bottom {mediaPadding} {mediaWidth} {caption}>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
             <div slot="text-display">
                 <Text_Display {item} />
@@ -142,7 +144,7 @@
     {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
         <Media_Only {mediaPadding} {mediaWidth} {caption}>
             <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded}} on:click-item on:load-error />
+                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
             </div>
         </Media_Only>
 
@@ -163,7 +165,8 @@
     }
 
     :global(.item .caption) {
-        margin-top: 0.9rem;
+        margin-top: 1rem;
+        margin-left: 1rem;
         text-decoration: none;
         color: inherit;
         line-height: 1.5em;
@@ -175,6 +178,10 @@
 
     :global(.item .layout:not(.media-padding) .kaltura-content.embedded) {
         height: 75vw;
+    }
+
+    :global(.item .kaltura-content .iframe-wrapper) {
+        height: 100%;
     }
 
     @media screen and (min-width: 992px) {

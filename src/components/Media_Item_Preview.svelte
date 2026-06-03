@@ -1,16 +1,16 @@
 <script>
     /**
      * @component Media_Item_Preview
-     * @description Component for displaying a preview thumbnail image for a media item. Will attempt to get a thumbnail or preview image for the item, but will fall back to a placeholder image if no preview is available.
+     * @description Component for displaying a preview image (fullsize or thumbnail size image) for a media item. Will attempt to get a thumbnail or preview image for the item, but will fall back to a placeholder image if no preview is available.
      * 
      * @param {Object} item - The exhibit item object containing metadata and resource information.
      * @param {Object} args - Additional arguments for configuring the component behavior [
      *  args.isInteractive (boolean, default: true) to enable/disable click interaction, 
      *  args.link (string, optional) to specify a URL to navigate to on click instead of dispatching event, 
-     *  args.overlay (boolean, default: true) to show/hide the "Click to enlarge" overlay on hover
      * ]
      * @param {number} width - Desired width for the preview image (optional).
      * @param {number} height - Desired height for the preview image (optional).
+     * 
      * @event click-item - Dispatched when the item preview is clicked, with the item ID as detail.
      * @event load-error - Dispatched when there is an error loading the preview image, with the image URL as detail.
      * @event image-loaded - Dispatched when the preview image has successfully loaded, with the item ID as detail.
@@ -18,161 +18,164 @@
     
     'use strict' 
     
-    import axios from 'axios';
+    //import axios from 'axios';
     import { createEventDispatcher } from 'svelte';
-    import ResourceUrl from '../libs/ResourceUrl.js';
-    import { isHttpUrl } from '../libs/media_helpers';
-    import * as Logger from '../libs/logger.js';
     import { Settings } from '../config/settings';
-    import { Configuration } from '../config/config';
-    import { getInnerText } from '../libs/exhibits_data_helpers';
+    import ResourceUrl from '../libs/ResourceUrl.js'; 
+    import { Kaltura } from '../libs/kaltura.js';
+    import * as Logger from '../libs/logger.js';
 
-    import {ITEM_TYPE} from '../config/global-constants';
+    import {
+        ITEM_TYPE,
+        
+    } from '../config/global-constants';
 
     export let item = {};
-    export let args = {};
+    export let args;
     export let width = null;
     export let height = null;
 
     const dispatch = createEventDispatcher();
 
-    const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
-    const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
-
-    // component options
-    const VERIFY_IMAGE_WIDTH = true; // will get image width from iiif info api and use it in image api request if < specified width
-    const IMAGE_PREVIEW_WIDTH = 800; // will override dimensions value
-    const LARGE_IMAGE_PREVIEW_WIDTH = 1800;
-
-    let {resourceLocation} = Configuration;
-    let {imageAssetsPath, placeholderImage, placeholderImageWidth} = Settings; 
-
-    let previewImageElement;
-
-    let itemId;
-    let itemType;
-    let resource;
-    let mediaWidth;
-    let thumbnail;
-    let title;
-    let altText;
-
-    let preview;
-    let isPlaceholderImage;
-
+    // item options
     let { 
+        isThumbnail,
         isInteractive = true,
         link = null,
-        overlay = true,
+
     } = args;
 
-    $: init();
+    // resource url helper
+    const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
+
+    // component options
+    // const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
+    const IMAGE_THUMBNAIL_WIDTH = 400;
+    const IMAGE_PREVIEW_WIDTH = "max";
+
+    const {
+        exhibitItemDefaultTitle: DEFAULT_ITEM_TITLE,
+        imageAssetsPath: IMAGE_ASSETS_PATH, 
+        placeholderImage: PLACEHOLDER_IMAGE,
+
+    } = Settings; 
+
+    const {
+        uuid: itemId = "",
+        item_type: itemType = null,
+        media_width: mediaWidth = null,
+        is_iiif_item: isIIIFItem = false,
+        is_kaltura_item: isKalturaItem = false,
+        alt_text: altText = item.is_alt_text_decorative ? null : (item.alt_text || null),
+
+        media = null,
+        thumbnail = null,
+
+    } = item;
+
+    // module variables
+    let _previewUrl;
+    let _isPlaceholderImage;
+    let _previewImageElement;
+    let _showOverlay = true;
 
     const init = async () => {
-        itemId = item.uuid || "";
-        itemType = item.item_type || null;
-        resource = item.media || null;
-        mediaWidth = item.media_width || null;
-        thumbnail = item.thumbnail || null;
-        title = item.title ? getInnerText(item.title) : DEFAULT_ITEM_TITLE;
-        altText = item.is_alt_text_decorative ? null : (item.alt_text || null);
+        _isPlaceholderImage = false;
+        _previewUrl = await getPreviewUrl(isThumbnail);
 
-        preview = null;
-        isPlaceholderImage = false;
-
-        // has thumbnail, is local resource (not a url)
-        if(thumbnail && isHttpUrl(thumbnail) == false) {
-            preview = RESOURCE.getFileUrl(thumbnail);
-        }
-
-        // has thumbnail, is url
-        else if(thumbnail && isHttpUrl(thumbnail) == true) {
-            preview = thumbnail;
-        }
-
-        // no thumbnail, resource value is a url
-        else if(isHttpUrl(resource) == true) {
-            preview = resource;
-        }
-
-        // no thumbnail, resource value is not a url (is either kaltura id, repository item id, or local resource filename)
-        else {
-            preview = itemType ? await getPreviewUrl(itemType, resource, width, height) : RESOURCE.getItemPlaceholderImageUrl(null);
-            // TODO isPlaceholderImage = true if getPreviewUrl fails to get a preview and returns null or undefined, which will cause the component to use the placeholder image
+        if(!_previewUrl) {
+            _previewUrl = RESOURCE.getItemPlaceholderImageUrl(itemType);
+            _isPlaceholderImage = true;
+            Logger.module().error(`Could not determine thumbnail source url for item. Item id: ${itemId} Item type: ${itemType}`);
         }
     }
 
-    const getPreviewUrl = async (itemType="null", media="null", width=null, height=null) => {
-        let url = "";
-        
-        switch(itemType) {
+    const getPreviewUrl = async (isThumbnail=true) => {
+        let previewUrl = null;
 
+        switch(itemType) {
             case ITEM_TYPE.IMAGE:
             case ITEM_TYPE.LARGE_IMAGE:
-                if(!width) width = (mediaWidth >= 75) ? LARGE_IMAGE_PREVIEW_WIDTH : IMAGE_PREVIEW_WIDTH;
-
-                if(VERIFY_IMAGE_WIDTH && width) {
-                    try {
-                        let imageWidth = (await axios.get(RESOURCE.getIIIFInfoUrl(media))).data.width;
-                        if(imageWidth < width) width = imageWidth;
-                    }
-                    catch(error) {
-                        Logger.module().error(`Could not get iiif data for image, Image id: ${media} Message: ${error.message}`);
-                    }
-                }
-
-                url = RESOURCE.getIIIFImageUrl(media, width || IMAGE_PREVIEW_WIDTH, null);
-
-                if(!url) {
-                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE);
-                    isPlaceholderImage = true; 
-                }
-
+                previewUrl = await getImagePreviewUrl(isThumbnail);
                 break;
 
             case ITEM_TYPE.AUDIO:
-                url = RESOURCE.getAudioPreviewImageUrl(item, width, height);
-
-                if(!url) {
-                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.AUDIO);
-                    isPlaceholderImage = true; 
-                }
-
-                break;
-
             case ITEM_TYPE.VIDEO:
-                url = RESOURCE.getVideoPreviewImageUrl(item, width, height);
-
-                if(!url) {
-                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.VIDEO);
-                    isPlaceholderImage = true; 
-                }
-
+                previewUrl = await getAudioVideoPreviewUrl(isThumbnail);
                 break;
 
             case ITEM_TYPE.PDF:
-                url = RESOURCE.getPdfPreviewImageUrl(media, width, height);
-
-                if(!url) {
-                    url = RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.PDF);
-                    isPlaceholderImage = true; 
-                }
-
-                break;
-
-            case ITEM_TYPE.TEXT:
-                url = RESOURCE.getItemPlaceholderImageUrl(null);
-                break;
-
-            case ITEM_TYPE.EXTERNAL_SOURCE:
-                url = media;
+                previewUrl = await getPdfPreviewUrl(isThumbnail);
                 break;
 
             default:
-                Logger.module().error(`Invalid item type: ${itemType} Item: ${item.uuid}`);
+                Logger.module().error(`Invalid item type: ${itemType} Item: ${itemId}`);
                 break;
         }
-        
+
+        return previewUrl;
+    }
+
+    const getImagePreviewUrl = async (isThumbnail=true) => {
+        let url = null;
+
+        if(isIIIFItem) {
+            const {image_url: iiifImageUrl = null} = item.media_iiif || {};
+
+            // using IIIF data from the exhibit item (external or local)
+            url = isThumbnail ?
+                thumbnail : // IIIF.getIIIFImageScale(serviceUrl, "min")
+                iiifImageUrl || media || null;      // IIIF.getIIIFImageScale(serviceUrl, "max")
+        }
+        else {
+            // using local IIIF server to fetch local resources
+            url = isThumbnail ? 
+                thumbnail || await RESOURCE.getIIIFImageUrl(media, IMAGE_THUMBNAIL_WIDTH) :  // IIIF.getIIIFImageUrl(media, "min")
+                await RESOURCE.getIIIFImageUrl(media); // RESOURCE.getIIIFImageUrl(media, "max")
+        }
+
+        return url;
+    }
+
+    const getAudioVideoPreviewUrl = async (isThumbnail=true) => {
+        let url = null;
+
+        if(isKalturaItem) { 
+            let{kaltura_id = null} = item;
+            url = isThumbnail ? 
+                thumbnail || Kaltura.getThumbnailUrl(kaltura_id):
+                Kaltura.getThumbnailUrl(kaltura_id, "full");
+        }
+        else if(isIIIFItem) {
+            url = thumbnail || null; // thumbnail image is currently the only means of providing any preview image of a local a/v resource
+        }
+        else {
+            url = RESOURCE.getFileUrl(thumbnail); // thumbnail image is currently the only means of providing any preview image of a local a/v resource
+        }
+
+        return url;
+    }
+
+    const getPdfPreviewUrl = async (isThumbnail=true) => {
+        let url = null;
+
+        if(isIIIFItem) {
+            url = isThumbnail ? 
+                thumbnail : // thumbnail will be either thumbnail_iiif.thumbnail_url or manifest thumbnail resource for iiif items
+                thumbnail || media || null;
+        }
+        else {
+            // if thumbnail file is present, this will show in the media item preview regardless of the isThumbnail state. if it is not, get a derivative of the "media" file and open to the pdf page specified
+            if(thumbnail) {
+                url = await RESOURCE.getPdfPreviewImageUrl(thumbnail, IMAGE_THUMBNAIL_WIDTH, height);
+            }
+            else {
+                const {pdf_open_to_page = "1"} = item;
+                const width = isThumbnail ? IMAGE_THUMBNAIL_WIDTH : null;
+                url = `${ (await RESOURCE.getPdfPreviewImageUrl(media, width, null, pdf_open_to_page)) }`;
+            }
+        }
+
         return url;
     }
 
@@ -183,43 +186,51 @@
     }
 
     const onImageLoadError = (event) => {
-        Logger.module().error(`Preview image load error. Url: ${preview}`);
-        overlay = false;
+        let placeholderImageUrl = `${IMAGE_ASSETS_PATH}/${PLACEHOLDER_IMAGE[itemType || 'DEFAULT']}`;
 
-        let placeholderImageUrl = `${imageAssetsPath}/${placeholderImage[itemType || 'DEFAULT']}`;
-        
-        previewImageElement.parentElement.title = "Preview image failed to load. Click to view item.";
+        Logger.module().error(`Preview image load error. Url: ${_previewUrl}`);
+        _previewImageElement.parentElement.title = "Preview image failed to load. Click to view item.";
+        _showOverlay = false;
 
         if(event.target.src.includes(placeholderImageUrl) == false) {
-            previewImageElement.src = placeholderImageUrl;
-            if(altText) previewImageElement.alt = altText;
-            isPlaceholderImage = true;
+            _previewImageElement.src = placeholderImageUrl;
+            if(altText) _previewImageElement.alt = altText;
+            _isPlaceholderImage = true;
         }
 
-        dispatch('load-error', {url: preview});
+        dispatch('load-error', {url: _previewUrl});
     }
 
     const onImageLoad = (event) => {
         dispatch('image-loaded', {itemId});
     }
+
+    init();
 </script>
 
-{#if preview}
+{#if _previewUrl}
     <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}">
 
-        <div class="item-preview {isPlaceholderImage ? 'placeholder-image' : ''}">
-            <button data-item-id={itemId} on:click={onClickItem} tabindex={isInteractive ? undefined : '-1'} aria-label={`click to open item viewer`}>
+        <div class="item-preview {_isPlaceholderImage ? 'placeholder-image' : ''}">
+            <button 
+                data-item-id={itemId} 
+                on:click={onClickItem} 
+                tabindex={isInteractive ? undefined : '-1'} 
+                aria-label={isInteractive ? `click to open item viewer` : undefined}
+                disabled={isInteractive ? false : true}
+            >
                 <img 
                     crossorigin="anonymous" 
-                    src={preview} 
+                    src={_previewUrl} 
                     alt={altText || undefined} 
-                    title={isPlaceholderImage ? `Preview image failed to load. Click to view item.` : undefined}
+                    title={_isPlaceholderImage ? `Preview image failed to load. Click to view item.` : undefined}
                     on:load={onImageLoad} 
                     on:error={onImageLoadError} 
-                    bind:this={previewImageElement}>
+                    bind:this={_previewImageElement}
+                >
             </button>
 
-            {#if overlay}
+            {#if isInteractive && _showOverlay}
                 <div class="overlay"></div>
                 <div class="overlay-text">
                     <!-- magnifying glass icon -->
@@ -228,8 +239,6 @@
                 </div>
             {/if}
         </div>
-
-        <!-- {#if caption}<div class="caption">{@html caption}</div>{/if} -->
     </div>
 
 {:else}
@@ -310,6 +319,4 @@
     .overlay-text i {
         font-size: 34px;
     }
-
-
 </style>

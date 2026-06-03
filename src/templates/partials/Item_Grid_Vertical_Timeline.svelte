@@ -103,7 +103,9 @@
         let decadeIndex = 0, itemDate;
         for(let index=0; index < items.length; index++) {
 
-            itemDate = new Date(items[index].date);
+            // JR 5/19/2026 updated Date to initialize with values rather than datestring e.g 2020-1-1, to avoid timezone issues that can cause the date to be off by one day and sorted into the wrong decade
+            let [year, month, day] = items[index].date.split("-").map(num => parseInt(num));
+            itemDate = new Date(year, month-1, day);
 
             // insert the item into the current decade
             if(itemDate.getFullYear() >= currentDecade && itemDate.getFullYear() < nextDecade) {
@@ -150,6 +152,8 @@
                 index--;
             }
         }
+
+        console.log(`test: Timeline grid sorted items:`, sorted);
 
         return sorted;
     }

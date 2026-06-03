@@ -5,18 +5,16 @@
     import { Kaltura } from '../libs/kaltura';
 
     export let entryId = null;
+    export let kalturaUrl = null;
     export let title = "kaltura media player";
     export let altText = "kaltura media player";
-    export let height = null;
-    export let width = null;
     export let args = {};
 
-    const EMBED_HTML_PLAYER = false;
+    const EMBED_HTML_MEDIA_PLAYER = false; // to settings
 
     let {   
         kalturaUniqueObjectID,
-        kalturaPlayerHeight,
-        kalturaPlayerWidth
+        kalturaDomain
 
     } = Settings;
 
@@ -28,10 +26,7 @@
 
     } = args;
 
-    let kalturaUrl = null;
-
     let previewImageUrl;
-    let contentSection;
     let iframeSection;
     let iframeElement;
     let iframeLoadMessage;
@@ -41,17 +36,21 @@
     let htmlPlayer;
 
     const init = () => {
-        if(!height) height = kalturaPlayerHeight;
-        if(!width) width = kalturaPlayerWidth;
+        if(kalturaUrl) {
+            kalturaUrl = validateKalturaUrl(kalturaUrl) ? kalturaUrl : null;
+            if(!kalturaUrl) {
+                console.error("Invalid Kaltura URL provided: ", kalturaUrl);
+            }   
+        }
 
-        if(isEmbedded) {
-            kalturaUrl = EMBED_HTML_PLAYER ? Kaltura.getStreamingMediaUrl(entryId) : Kaltura.getViewerUrl(entryId);
+        else if(isEmbedded) {
+            kalturaUrl = EMBED_HTML_MEDIA_PLAYER ? Kaltura.getStreamingMediaUrl(entryId) : Kaltura.getViewerUrl(entryId);
         }
         else {
             kalturaUrl = Kaltura.getViewerUrl(entryId);
-        }
+        }        
 
-        previewImageUrl = preview || Kaltura.getThumbnailUrl(entryId, 1000, 1000);
+        previewImageUrl = preview || Kaltura.getThumbnailUrl(entryId, "full");
     }
 
     const onLoadIframe = () => {
@@ -63,10 +62,6 @@
         }, true);
     }
 
-    const onShowTranscriptSection = () => {
-        // contentSection.style.height = "100%";
-    }
-
     const onClickKalturaPreview = (event) => {
         previewElement.style.display = "none";
         htmlPlayerElement.style.display = "block";
@@ -74,15 +69,26 @@
     }
 
     const onPreviewImageLoadError = () => {
-        previewImageElement.src = Kaltura.getThumbnailUrl(entryId, 1000, 1000);
+        previewImageElement.src = Kaltura.getThumbnailUrl(entryId, "full");
+    }
+
+    const validateKalturaUrl = (url) => {
+        try {
+            const parsedUrl = new URL(url);
+            return parsedUrl.hostname.includes(kalturaDomain);
+        }
+        catch (error) {
+            console.error("Error validating Kaltura URL: ", error);
+            return false;
+        }
     }
 
     init();
 </script>
 
-<div class="kaltura-content content {isEmbedded ? 'embedded' : ''}" bind:this={contentSection} >
+<div class="kaltura-content content {isEmbedded ? 'embedded' : ''}">
     {#if kalturaUrl}
-        {#if EMBED_HTML_PLAYER && isEmbedded}
+        {#if EMBED_HTML_MEDIA_PLAYER && isEmbedded}
             {#if type == "audio"}
                 {#if previewImageUrl}
                     <div class="preview" bind:this={previewElement}>
@@ -133,7 +139,7 @@
                 <h5>Loading Kaltura player...</h5>
             </div>
             <div class="iframe-wrapper" bind:this={iframeSection} aria-label={altText || undefined}>
-                <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} {title} src={kalturaUrl} {width} {height} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
+                <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} {title} src={kalturaUrl} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
                 <div class="subframe-content"></div>
             </div>
 
@@ -141,7 +147,7 @@
 
     {:else}
         <div class="player-load-message" bind:this={iframeLoadMessage}>
-            <h6>Null Kaltura entry id</h6>
+            <h6>Kaltura player could not be initialized</h6>
         </div>
         
     {/if}
@@ -197,6 +203,10 @@
         pointer-events: none;
     }
 
+    .iframe-wrapper iframe {
+        height: 100%;
+    }
+
     .subframe-content {
         padding: 0 15px;
     }
@@ -207,7 +217,6 @@
 
     .iframe-wrapper {
         visibility: hidden;
-        height: 100%;
     }
 
     .player-load-message {

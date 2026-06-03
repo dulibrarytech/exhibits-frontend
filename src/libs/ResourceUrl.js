@@ -1,24 +1,29 @@
 'use strict'
 
 /*
- * Create uris to local file storage locations
+ * ResourceUrl
+ * Resource access class
+ *
+ * Functions to retrieve local resource uris (for accessing resources in local storage directly or via local iiif server)
  */
 
 import { Configuration } from '../config/config';
 import { Settings } from '../config/settings';
-import { Kaltura } from './kaltura';
+import * as Logger from './logger.js';
+import axios from 'axios';
+
+const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
 
 export default class ResourceUrl {
 
-    constructor(exhibitId = null) {
-      this.exhibitId = exhibitId;
-      this.exhibitFolderDelimiter = "__";
-
-      this.resourceLocation = Configuration.resourceLocation;
-      this.iiifImageServerUrl = Configuration.iiifImageServerUrl;
-      this.publicImageLocation = Settings.imageAssetsPath;
-      this.itemPlaceholderImages = Settings.placeholderImage;
-      this.exhibitPlaceholderImage = Settings.exhibitDefaultImage;
+    constructor(exhibitId = null, iiifVersion = "2") {
+      this.exhibitId                = exhibitId;
+      this.iiifVersion              = iiifVersion;
+      this.resourceLocation         = Configuration.resourceLocation;
+      this.iiifImageServerUrl       = Configuration.iiifImageServerUrl;
+      this.publicImageLocation      = Settings.imageAssetsPath;
+      this.itemPlaceholderImages    = Settings.placeholderImage;
+      this.exhibitPlaceholderImage  = Settings.exhibitDefaultImage;
     }
 
     getFileUrl(filename="null") {
@@ -38,50 +43,51 @@ export default class ResourceUrl {
       return `${this.publicImageLocation}/${this.exhibitPlaceholderImage}`;
     }
 
-    getIIIFInfoUrl(filename="null") {
-      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
+    getIIIFServiceUrl(filename="null") {
+      filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
       return `${this.iiifImageServerUrl}/iiif/2/${filename}`;
     }
 
-    getIIIFImageUrl(filename="null", width=null, height=null, dimensions=null) {
+    // TODO: getIIIFImageUrl(filename, scale, size)
+    async getIIIFImageUrl(filename="null", width=null, height=null, dimensions=null) {
+      let url = null;
 
-      if(!dimensions) {
-        dimensions = "full";
+      // TODO: replace w/h params with "scale" ["min", "max"] and "size" [sizes index] so it always uses a IIIf specified available size for the image (the width test will not be required)
+      if(VERIFY_IMAGE_WIDTH_ON_RESIZE && width) {
+          try {
+              let imageWidth = (await axios.get(this.getIIIFServiceUrl(filename))).data.width;
+              if(imageWidth < width) width = imageWidth;
+          }
+          catch(error) {
+              Logger.module().error(`Could not get iiif data for image, file: ${filename} Message: ${error.message}`);
+          }
       }
-
+      
+      if(!dimensions) {
+        dimensions = "full"; // if this.iiifVersion == "3" use "max"
+      }
+      
       if(width || height) {
         dimensions = `${width || ""},${height || ""}`;
       }
       
-      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
+      filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
+      url = `${this.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;
 
-      return `${this.iiifImageServerUrl}/iiif/2/${filename}/full/${dimensions}/0/default.jpg`;
+      return url;
     }
 
     getAudioPreviewImageUrl(item = {}, width, height) {
-      let url = null;
-      let {is_kaltura_item = null} = item;
-
-      if(is_kaltura_item) {
-          url = Kaltura.getThumbnailUrl(item.media);
-      }
-
-      return url;
+      return item.thumbnail || null;
     }
 
     getVideoPreviewImageUrl(item = {}, width, height) {
-      let url = null;
-      let {is_kaltura_item = null} = item;
-
-      if(is_kaltura_item) {
-          url = Kaltura.getThumbnailUrl(item.media);
-      }
-
-      return url;
+      return item.thumbnail || null;
     }
 
-    getPdfPreviewImageUrl(filename="null", width=null, height=null) {
-      return this.getIIIFImageUrl(filename, width, height);
+    async getPdfPreviewImageUrl(filename="null", width=null, height=null, page=null) {
+      let url = `${ (await this.getIIIFImageUrl(filename, width))}${page ? `?page=${page}` : "" }`;
+      return url;
     }
 
     getImageDerivativeUrl = (filename="null", args) => {
@@ -101,7 +107,7 @@ export default class ResourceUrl {
       if (!offsetX) offsetX = "0";
       if (!offsetY) offsetY = "0";
 
-      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
+      filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
 
       switch(type) {
           case 'resize':
@@ -115,7 +121,7 @@ export default class ResourceUrl {
     }
 
     getImageTileSourceUrl (filename="null") {
-      filename = this.exhibitId ? `${this.exhibitId}${this.exhibitFolderDelimiter}${filename}` : filename;
+      filename = this.exhibitId ? `${this.exhibitId}__${filename}` : filename;
       return `${this.iiifImageServerUrl}/iiif/2/${filename}/info.json`;
     }
   }

@@ -2,24 +2,29 @@
     import UniversalViewer_Content from "./UniversalViewer_Content.svelte";
     import * as Logger from '../libs/logger.js';
 
-    export let manifest = null;
-    export let type = null; // may not be used for iiif viewer, unless content component has various styles for different types
+    export let args;
 
-    $: {
-        if(!manifest) Logger.module().error("IIIF manifest url not present");
-    }
+    const {
+        manifestUrl,
+        type,
+
+    } = args;
+
+    if(!manifestUrl) Logger.module().error("Can not initialize IIIF viewer, manifest url is not present");
 </script>
 
-<div class="image-viewer">
-    <div class="image">
-        {#if manifest}
-            <UniversalViewer_Content {manifest} {type} />
+<div class="iiif-viewer">
+    <div class="universal-viewer">
+        {#if manifestUrl}
+            <UniversalViewer_Content manifest={manifestUrl} {type} />
 
         {:else}
             <div class="load-message">
                 <h5>Loading content...</h5>
             </div>
-            
         {/if}
     </div>
+
+    <!-- can add additional viewers here, use feature toggles -->
+    
 </div>

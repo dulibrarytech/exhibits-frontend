@@ -4,8 +4,6 @@
     let url = null;
     let caption = null;
 
-    let {height = null, width = null} = args;
-
     const DEFAULT_IFRAME_HEIGHT = "350";
     const DEFAULT_IFRAME_WIDTH = "100%";
 

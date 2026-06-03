@@ -24,7 +24,7 @@ import { Settings } from '../config/settings';
 
 export const Kaltura = (() => {
 
-    var {   
+    const {   
         kalturaDomain,
         kalturaPartnerID,
         kalturaUiConfID,
@@ -67,7 +67,7 @@ export const Kaltura = (() => {
      * 
      * @returns 
      */
-    const getThumbnailUrl = (entryId, height=null, width=null) => {
+    const getThumbnailUrl = (entryId, width=null, height=null) => {
         return `${kalturaDomain}/p/${kalturaPartnerID}/thumbnail/entry_id/${entryId}/width/${width || kalturaThumbnailWidth}/height/${height || kalturaThumbnailHeight}`;
     }
 

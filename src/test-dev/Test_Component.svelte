@@ -5,9 +5,9 @@
     import * as Logger from '../libs/logger.js';
 
     /* Import test modules */
-    import Text_Display_test from './components/Text_Display_test.svelte';
     import Media_Display_test from './components/Media_Display_test.svelte';
     import Media_Item_test from './components/Media_Item_test.svelte';
+    import Media_Item_Preview_test from './components/Media_Item_Preview_test.svelte';
     import IIIF_Item_test from './components/IIIF_Item_test.svelte';
     import IIIF_Viewer_test from './components/IIIF_Viewer_test.svelte';
     import Image_Viewer_test from './components/Image_Viewer_test.svelte';
@@ -19,14 +19,15 @@
     import PDFJS_Viewer_test from './components/PDFJS_Viewer_test.svelte';
     import Kaltura_Content_test from './components/Kaltura_Content_test.svelte';
     import Item_Grid_test from './components/Item_Grid_test.svelte';
-    import Exhibit_Preview_Slider_test from './components/Exhibit_Preview_Slider_test.svelte';
+    import Item_Display_test from './components/Item_Display_test.svelte'
+    import Item_Viewer_test from './components/Item_Viewer_test.svelte';
 
     export let currentRoute;
 
     const modules = {
-        Text_Display_test,
         Media_Display_test,
         Media_Item_test,
+        Media_Item_Preview_test,
         IIIF_Item_test,
         IIIF_Viewer_test,
         Image_Viewer_test,
@@ -38,7 +39,8 @@
         PDFJS_Viewer_test,
         Kaltura_Content_test,
         Item_Grid_test,
-        Exhibit_Preview_Slider_test
+        Item_Display_test,
+        Item_Viewer_test,
     }
 
     let component;

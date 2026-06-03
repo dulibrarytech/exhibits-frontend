@@ -19,38 +19,40 @@
     const BASE_SUBTITLE_FONT_SIZE = 34;
     const DEFAULT_IMAGE_ALT_TEXT = Settings.exhibitHeroImageAltText;
 
-    let bannerElement;
-    let imageElement;
+    let _bannerElement;
+    let _imageElement;
+    let _textElement;
 
     let {image=null, title="exhibit title", subtitle=null, titleText = ""} = args;
 
     const init = () => {
         title = convertPxValuesToEm(title, BASE_TITLE_FONT_SIZE);
-        
         if(subtitle) subtitle = convertPxValuesToEm(subtitle, BASE_SUBTITLE_FONT_SIZE);
-        if(!image) console.log("Hero image null path");
     }
 
     onMount(async () => {
+        if(styles.color) _bannerElement.style.color = styles.color;
+        if(styles.backgroundColor) _bannerElement.style.backgroundColor = styles.backgroundColor;
+
+        if(!image) {
+            const heroImageTextHeight = _textElement.offsetHeight;
+            _imageElement.style.minHeight = `${heroImageTextHeight + 80}px`;
+        }
+
         dispatch('mount', {});
-
-        if(styles.color) bannerElement.style.color = styles.color;
-        if(styles.backgroundColor) bannerElement.style.backgroundColor = styles.backgroundColor;
-
-        if(image) imageElement.style.backgroundImage = `url("${image}")`;
     });
 
     init();
 </script>
 
-<div class="banner" bind:this={bannerElement}>
+<div class="banner" bind:this={_bannerElement}>
     <h1 style="display: none;">{titleText}</h1>
-    <div class="hero-image" bind:this={imageElement}>
+    <div class="hero-image" bind:this={_imageElement}>
         {#if image}
             <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
         {/if}
 
-        <div class="hero-image-text">
+        <div class="hero-image-text" bind:this={_textElement}>
             {#if title}<div class="overlay-text text title">{@html title}</div>{/if}
             {#if subtitle}<hr><div class="overlay-text text subtitle">{@html subtitle}</div>{/if}
         </div>

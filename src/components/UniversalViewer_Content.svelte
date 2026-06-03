@@ -13,6 +13,7 @@
 
 <script>
     export let manifest;
+    export let type;
 
     var UV;
 

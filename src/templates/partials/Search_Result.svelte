@@ -53,7 +53,7 @@
             <Exhibit_Preview exhibit={result} link={result.link} width="200" height="200" on:image-loaded={onPreviewImageLoad} />  
 
         {:else}
-            <Item_Preview item={result} width="200" args={{link: (result.link || false), isInteractive: false, overlay: false}} on:image-loaded={onPreviewImageLoad} />
+            <Item_Preview item={result} width="200" args={{link: (result.link || false), isInteractive: false}} on:image-loaded={onPreviewImageLoad} />
         {/if}
     </div>
 

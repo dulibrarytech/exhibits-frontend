@@ -5,8 +5,8 @@ import Search from './views/Search.svelte';
 import Whats_On from './views/Whats_On.svelte';
 import Events from './views/Events.svelte';
 
-import Test_Component from './test/Test_Component.svelte';
-import Test_View from './test/Test_View.svelte';
+import Test_Component from './test-dev/Test_Component.svelte';
+import Test_View from './test-dev/Test_View.svelte';
 
 import NotFound from './views/NotFound.svelte';
 

@@ -1,30 +1,53 @@
 <script>	
+	// please make this module a component
+
+	import { Settings } from '../../config/settings';
   import Media_Display from '../../components/Media_Display.svelte';
-	import Item_Data_Display from './Item_Data_Display.svelte';
-	import {formatStripHtmlTags} from '../../libs/format';
+	import Item_Link_Display from './Item_Link_Display.svelte';
+
+	import {
+		formatStripHtmlTags
+	} from '../../libs/format';
+
+	import {
+    VIEWER_TYPE, 
+  } from '../../config/global-constants';
 
   export let item = {};
+	export let args = {};
 
+	// feature flags
+	const USE_IIIF_VIEWER = false;
+
+	// module settings
 	const DEFAULT_ITEM_TEXT = "No description available";
 
-	let itemType;
-	let itemData;
-	let title;
-	let text;
-	let date;
-	let caption;
+	const {
+		title: 				title = null,
+		description: 	text = DEFAULT_ITEM_TEXT,
+		caption: 			caption = null,
+		links: 				linkList = null,
+		is_iiif_item: isIIIFItem = false,
+	} = item;
+
+	let {
+		date = null,	
+	} = item;
 
 	$: init();
 
 	const init = async () => {
-		itemType = 	item.item_type || undefined;
-		itemData = 	item.data_display || null;
-		title = 		item.title || null;
-		text = 			item.description || DEFAULT_ITEM_TEXT;
-		date = 			item.date || null;
-		caption = 	item.caption || null;
 
+		// format date 
 		if(date) date = new Date(date).toLocaleDateString();
+
+		// set viewer type for media display
+		if(USE_IIIF_VIEWER && isIIIFItem) {
+			args.viewerType = VIEWER_TYPE.IIIF;
+		}
+		else {
+			args.viewerType = VIEWER_TYPE.INTERACTIVE;
+		}
 	}
 
 	const onLoadMedia = (event) => {}
@@ -35,12 +58,12 @@
 <div class="item-viewer">
 	<div class="row">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
-			<Media_Display {item} args={{viewerType: 'interactive'}} on:load-media={onLoadMedia} on:load-error={onLoadError} />
+			<Media_Display {item} {args} on:load-media={onLoadMedia} on:load-error={onLoadError} />
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
-			<div class="text">
 
+			<div class="text">
 				{#if title}
 					<hr style="margin-top: 0px">
 					<div class="title" use:formatStripHtmlTags>{title}</div>
@@ -54,17 +77,19 @@
 					<hr>
 				{/if}
 				
-				<div class="text-section background-light" tabindex="0">
-					<div class="item-text" use:formatStripHtmlTags>{text}</div>
-				</div>
-
-				{#if itemData}
-					<div class="data-section">
-						<Item_Data_Display data={itemData} />
+				{#if text}
+					<div class="text-section background-light" tabindex="0">
+						<div class="item-text" use:formatStripHtmlTags>{text}</div>
 					</div>
 				{/if}
 
+				{#if linkList}
+					<div class="data-section">
+						<Item_Link_Display data={linkList} />
+					</div>
+				{/if}
 			</div>
+			
 		</div>
 	</div>
 </div>
@@ -95,10 +120,10 @@
 		padding: 30px 15px 30px 30px;
 	}
 
-    .media-display-container {
-		height: 100%;
+  .media-display-container {
 		padding-right: 0px;
 		position: relative;
+		background: white;
 	}
 
 	.text-display-container {
@@ -153,7 +178,7 @@
 		width: 100%;
 		height: 100%;
 		position: relative;
-		background: grey;
+		background: white;;
 	}
 
 	:global(.item-viewer .media-item .caption) {
@@ -212,11 +237,11 @@
 		height: 100%;
 	}
 
-	:global(.item-viewer .iframe-viewer) {
-		height: 100%;
+	:global(.item-viewer .iframe-wrapper) {
+		height: 75vh;
 	}
 
-	:global(.item-viewer .iframe-viewer *) {
+	:global(.item-viewer .iframe-wrapper *) {
 		height: 100%;
 	}
 

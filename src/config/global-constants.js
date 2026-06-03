@@ -54,7 +54,8 @@ export const MEDIA_BLOCK_WIDTH = {
 
 export const VIEWER_TYPE = {
     STATIC: "static",
-    INTERACTIVE: "interactive"
+    INTERACTIVE: "interactive",
+    IIIF: "iiif"
 }
 
 export const THEME_OBJECT = {

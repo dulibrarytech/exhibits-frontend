@@ -13,9 +13,15 @@
     import Audio_Player from './Audio_Player.svelte';
     import Video_Player from './Video_Player.svelte';
     import PDFJS_Viewer from './PDFJS_Viewer.svelte';
+    import IIIF_Viewer from './IIIF_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
-    import {ITEM_TYPE, VIEWER_TYPE, MEDIA_POSITION} from '../config/global-constants';
+    import {
+        ITEM_TYPE, 
+        VIEWER_TYPE, 
+        MEDIA_POSITION
+    } from '../config/global-constants';
+
     import { getInnerText } from '../libs/exhibits_data_helpers';
 
     export let item = {};
@@ -33,24 +39,27 @@
 
     const dispatch = createEventDispatcher();
 
-    let mediaElement;
-
+    // item data fields
     let media;
     let thumbnail;
     let itemType;
     let mimeType;
-    let viewerType;
-    let viewerHeight;
     let title;
     let altText;
     let caption;
     let layout;
     let isEmbedded;
 
-    var filename;
-    var component;
-    var message;
-	var messageDisplay;
+    // args
+    let viewerType;
+    let viewerHeight;
+
+    // module variables (convert to "_" prefix)
+    var _mediaElement;
+    var _filename;
+    var _component;
+    var _message;
+	var _messageDisplay;
 
     /* args object for child components */
     var params = {};
@@ -58,21 +67,34 @@
     $: init();
 
     const init = () => {
-        filename = null;
-        component = null;
 
+        // item data fields
         media = args.media || item.media || null;
         thumbnail = item.thumbnail || null;
         itemType = args.type || item.item_type || null;
         mimeType = args.mimeType || item.mime_type || null;
         title = args.title || item.title ? getInnerText(item.title) : DEFAULT_ITEM_TITLE;
         caption = args.caption || item.caption || null;
-        viewerType = args.viewerType || VIEWER_TYPE.STATIC;
         layout = item.layout || null;
         altText = item.is_alt_text_decorative ? null : (item.alt_text || null);
 
-        isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false;
+        // args
+        isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false; 
+        // viewerType = args.viewerType || VIEWER_TYPE.STATIC;
 
+        // module variables
+        _filename = null;
+        _component = null;
+
+        // always use a static viewer (not interactive, such as tile or iiif) for embedded items on the page
+        if(isEmbedded) {
+            viewerType = VIEWER_TYPE.STATIC;
+        }
+        else {
+            viewerType = args.viewerType || VIEWER_TYPE.STATIC;
+        }
+
+        // handle cases of missing item type on kaltura items
         if(!itemType && item.is_kaltura_item) {
             itemType = ITEM_TYPE.VIDEO;
         }
@@ -105,7 +127,7 @@
 
         /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
         else if(URL_PATTERN.test(media) == false) { // TODO data.helper::isUrlFormat()
-            filename = media;
+            _filename = media;
             media = RESOURCE.getFileUrl(media);
             render();
         }
@@ -146,83 +168,148 @@
         }
     }
 
+    /*
+     * static viewer: Image_Viewer: display image file directly without tiles (for small images and embedded media)
+     * interactive viewer: Image_Viewer: display image tile viewer (e.g. OpenSeadragon) for large images
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
+     */
     const renderStandardImageViewer = () => {
+        
         let url = media;
         let imageType = itemType;
-        let isTileImage = !isEmbedded;
+        let isTileImage = !isEmbedded; // default to set this based on 'isEmbedded' value. The viewerType (component arg) may update the tile image flag.
         let onErrorImage = isEmbedded ? RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE) : null;
 
         if(viewerType == VIEWER_TYPE.STATIC) {
             isTileImage = false;
+
+            params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
+            _component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
-            if(URL_PATTERN.test(url) == false) {
-                url = RESOURCE.getImageTileSourceUrl(filename);
-            }
             isTileImage = true;
-            message = "Loading, please wait...";
-		    messageDisplay = true;
-        }
 
-        params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
-        component = Image_Viewer;
+            if(URL_PATTERN.test(url) == false) {
+                url = RESOURCE.getImageTileSourceUrl(_filename);
+            }
+            _message = "Loading, please wait...";
+		    _messageDisplay = true;
+
+            params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
+            _component = Image_Viewer;
+        }
+        else if(viewerType == VIEWER_TYPE.IIIF) {
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {};
+            params = {manifestUrl: manifestUrl, type: itemType};
+            _component = IIIF_Viewer;
+        }
     }
 
+    /*
+     * static viewer: Image_Viewer: display image derivative (for embedding on page) without tiles (for small images and embedded media)
+     * interactive viewer: Image_Viewer: display image tile viewer (e.g. OpenSeadragon) for large images
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
+     */
     const renderLargeImageViewer = () => {
+
         let url = media;
         let imageType = itemType;
-        let isTileImage = !isEmbedded;
+        let isTileImage = !isEmbedded; // default to set this based on 'isEmbedded' value. The viewerType (component arg) may update the tile image flag.
         let onErrorImage = isEmbedded ? RESOURCE.getItemPlaceholderImageUrl(ITEM_TYPE.IMAGE) : null;
 
         if(URL_PATTERN.test(url) == false) {
             if(viewerType == VIEWER_TYPE.STATIC) {
                 isTileImage = false;
 
-                /* get jpg derivative to display on the page */
-                url = RESOURCE.getImageDerivativeUrl(filename, {
+                url = RESOURCE.getImageDerivativeUrl(_filename, {
                     height: LARGE_IMAGE_PREVIEW_HEIGHT
-                })
+                });
+
+                _messageDisplay = false;
             }
             else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
-                url = RESOURCE.getImageTileSourceUrl(filename);
                 isTileImage = true;
-                message = "Loading, please wait...";
-		        messageDisplay = true;
+
+                url = RESOURCE.getImageTileSourceUrl(_filename);
+
+                _message = "Loading, please wait...";
+		        _messageDisplay = true;
             }
+
+            params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
+            _component = Image_Viewer;
         }
-        
-        params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
-        component = Image_Viewer;
+        else if(viewerType == VIEWER_TYPE.IIIF) {
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {}; 
+            params = {manifestUrl, type: itemType};
+            _component = IIIF_Viewer;
+        }
     }
 
+    /*
+     * interactive viewer: Audio_Player: display audio player for audio files * if this is a kaltura item, the Audio_Player will embed a kaltura player 
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
+     */
     const renderAudioPlayer = () => {
+
         let url = media;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
-        let kalturaId = item.is_kaltura_item ? item.media : null;
+        let kalturaId = item.is_kaltura_item ? item.kaltura_id || null : null;
         let thumbnailImage = thumbnail;
 
-        params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
-        component = Audio_Player;
+        if(viewerType == VIEWER_TYPE.IIIF && kalturaId == null) {
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {}; 
+            params = {manifestUrl};
+            _component = IIIF_Viewer;
+        }
+        else {
+            params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
+            _component = Audio_Player; 
+        }
     }
 
+    /*
+     * interactive viewer: Video_Player: display video player for video files * if this is a kaltura item, the Video_Player will embed a kaltura player 
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
+     */
     const renderVideoPlayer = () => {
+
         let url = media;
         let embedCode = item.code || null;
         let mimeType = item.mime_type || null;
-        let kalturaId = item.is_kaltura_item ? item.media : null;
+        let kalturaId = item.is_kaltura_item ? item.kaltura_id || null : null;
         let thumbnailImage = thumbnail;
-        
-        params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
-        component = Video_Player;
+
+        if(viewerType == VIEWER_TYPE.IIIF && kalturaId == null) {
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {}; 
+            params = {manifestUrl};
+            _component = IIIF_Viewer;
+        }
+        else {
+            params = {url, embedCode, title, altText, mimeType, kalturaId, thumbnailImage, ...args}; 
+            _component = Video_Player; 
+        }
     }
 
+    /*
+     * interactive viewer: PDFJS_Viewer: display pdf viewer for pdf files 
+     * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content (pdf_open_to_page parameter can't be used to open to a specific page in universalviewer, not yet implemented)
+     */
     const renderPdfViewer = () => {
+
         let url = media;
         let page = item.pdf_open_to_page || null;
 
-        params = {url, altText, caption, page};
-        component = PDFJS_Viewer; 
+        if(viewerType == VIEWER_TYPE.IIIF) {
+            const {manifest_url: manifestUrl = null} = item.media_iiif || {}; 
+            params = {manifestUrl, type: itemType, page}; // can UV open to pdf page? If not, maybe just ust the pdf viewer (will use source from manifest if iiif item)
+            _component = IIIF_Viewer;
+        }
+        else {
+            params = {url, altText, caption, page};
+            _component = PDFJS_Viewer; 
+        }
     }
 
     const renderIframeViewer = () => {
@@ -230,31 +317,29 @@
         let height = viewerHeight;
         
         params = {url, altText, caption, height}; 
-        component = Embed_Iframe_Viewer;
+        _component = Embed_Iframe_Viewer;
     }
 
     const onLoadMedia = (event) => {
-		messageDisplay = false;
+		_messageDisplay = false;
         dispatch('load-media', {});
 	}
 
 	const onLoadError = (event) => {
-        mediaElement.style.visibility = "hidden";
-		message = "Error loading file";
+        _mediaElement.style.visibility = "hidden";
+		_message = "Error loading media";
         Logger.module().error(`Item viewer error: ${event?.detail?.error || ""}`);
         dispatch('load-error', {url: media});
 	}
 </script>
 
-{#if component}
-    <div class="media-item" bind:this={mediaElement}>
-        <svelte:component this={component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadError} height={viewerHeight}/>
-
-        {#if caption}<div class="caption">{@html caption}</div>{/if}
+{#if _component}
+    <div class="media-item" bind:this={_mediaElement}>
+        <svelte:component this={_component} args={params} on:loaded={onLoadMedia} on:load-error={onLoadError} height={viewerHeight}/>
     </div>
 
-    <div class="message" style="display: {messageDisplay ? "block" : "none"}" >
-        <div class="message-text">{message}</div>
+    <div class="message" style="display: {_messageDisplay ? "block" : "none"}" >
+        <div class="message-text">{_message}</div>
     </div>
 {:else}
     <div class="load-message">
@@ -269,12 +354,5 @@
         top: 50%;
 		left: 0;
 		width:100%;
-    }
-
-    .caption {
-        margin-top: 1rem;
-        text-decoration: none;
-        color: inherit;
-        line-height: 1.5em;
     }
 </style>

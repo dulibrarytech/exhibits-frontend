@@ -26,6 +26,8 @@ export const Settings = {
 
     /*
      * Mime types for item type
+     * value: content mime types for this item type (e.g. "image/jpeg")
+     * TODO move to item type config objects: [ITEM_TYPE.IMAGE].mimeTypes 
      */
     mimeTypes: {
         [ITEM_TYPE.IMAGE]:        ['image/jpg', 'image/jpeg', 'image/png'], // use <img>
@@ -36,7 +38,8 @@ export const Settings = {
     },
 
     /*
-     * File extensions for item type
+     * File extensions for item type - for determining item type when mime type is not available 
+     * TODO move to item type config objects: [ITEM_TYPE.IMAGE].fileExtensions
      */
     fileExtensions: {
         [ITEM_TYPE.IMAGE]:        ['jpg', 'jpeg', 'png', 'gif'],
@@ -56,9 +59,7 @@ export const Settings = {
     kalturaTranscriptUiConfID: "56856002",
     kalturaUniqueObjectID: "kaltura_player_1559751114",
     kalturaFlavorId: "0_7gx3rx5v",
-    kalturaPlayerHeight: "100%",
-    kalturaPlayerWidth: "100%",
-    kalturaThumbnailWidth: "full",
+    kalturaThumbnailWidth: "400",
     kalturaThumbnailHeight: "full",
 
     /*
@@ -215,7 +216,7 @@ export const Settings = {
         IS_FEATURED: "is_featured",
         IS_PUBLISHED: "is_published",
         IS_STUDENT: "is_student_curated",
-        CREATED: "created"
+        CREATED: "created",
     },
 
     /*
@@ -224,9 +225,12 @@ export const Settings = {
      */
     exhibitItemDataFields: {
         TITLE: "title",
+        TYPE: "type",
+        ITEM_TYPE: "item_type",
         IS_MEMBER_OF_EXHIBIT: "is_member_of_exhibit",
         IS_PUBLISHED: "is_published",
-        CREATED: "created"
+        CREATED: "created",
+        MANIFEST: "manifest",
     },
 
     /*
@@ -281,5 +285,12 @@ export const Settings = {
             textField: "collection_name",
             textValue: "Parent Collection",
         },
-    ]
+    ],
+
+    /*
+     * Universal viewer settings
+     */
+    universalViewerSettings: {
+        embedKalturaPlayer: true, 
+    },
 }
