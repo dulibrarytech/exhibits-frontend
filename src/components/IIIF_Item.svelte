@@ -11,10 +11,6 @@
   export let template;
   export let args;
 
-  const VIEWER_METADATA = { // TODO move to settings? (data layer)
-    title: "title"
-  }
-
   let { 
     type = null, 
     metadata = {} 
@@ -22,41 +18,41 @@
   } = args;
 
   let _manifest = null; 
-  let _viewerMetadata = {};
-
   $: {
     if(item.media_iiif) init();
   }
 
   const init = () => {
-    /* flag iiif item for other components' iiif cases */
     item.is_iiif_item = true;
 
     const {
-      manifest: manifestData = null,
+      manifest: manifestJSON = null,
       image_url: imageUrl = null,
+
     } = item.media_iiif;
 
     const {
-      thumbnail_url: thumbnailUrl = null
+      thumbnail_url: thumbnailUrl = null,
+
     } = item.thumbnail_iiif || {};
 
-    if(manifestData) {
-      _manifest = JSON.parse(manifestData);
-      item.media = getManifestResourceUrl(_manifest) || null;
-      item.thumbnail = thumbnailUrl || getManifestThumbnailUrl(_manifest) || null;
+    if(manifestJSON) {
+      try {
+        _manifest = JSON.parse(manifestJSON);
+        item.media = getManifestResourceUrl(_manifest) || item.media;
+        item.thumbnail = thumbnailUrl || getManifestThumbnailUrl(_manifest) || item.thumbnail;
 
-      /* Add metadata fields to viewer metadata display NOT YET IMPL. */
-      for(let field in VIEWER_METADATA) {
-        if(metadata[ VIEWER_METADATA[field] ]) _viewerMetadata[ field ] = metadata[ VIEWER_METADATA[field] ];
+      } catch (error) {
+        Logger.module().error("Error parsing IIIF manifest data: " + error);
       }
     }
     else {
       Logger.module().info(`IIIF manifest not found. Item: ${item.uuid}.`);
-      if(!imageUrl) Logger.module().info(`IIIF image resource url not found.`);
 
-      item.media = imageUrl || null;
-      item.thumbnail = thumbnailUrl || null;
+      if(imageUrl) item.media = imageUrl;
+      else Logger.module().info(`IIIF image url not found. Using existing media url for item ${item.uuid}.`);
+
+      if(thumbnailUrl) item.thumbnail = thumbnailUrl;
     }
   }
 
