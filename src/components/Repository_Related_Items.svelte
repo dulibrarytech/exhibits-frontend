@@ -11,11 +11,13 @@
    export let items = [];
    export let exhibitId = "";
 
+   const INIT_MESSAGE = "Loading related items...";
+   const INIT_ERROR_MESSAGE = "Error loading related items.";
    const RELATED_ITEM_DISPLAY_COUNT = 4;
 
-   let selectedSubjects = [];
-   let relatedItemsDisplay = null;
-   let message = "Loading related items...";
+   let _selectedSubjects = [];
+   let _relatedItemsDisplay = null;
+   let _message = INIT_MESSAGE;
 
    const init = async () => {
 
@@ -23,10 +25,10 @@
       if(items?.length > 0) {
          try {
             items = shuffleArrayElements( getExhibitItems(items) );
-            relatedItemsDisplay = await getRelatedItemsDisplay(items);
+            _relatedItemsDisplay = await getRelatedItemsDisplay(items);
          }
          catch(error) {
-            message = "Error loading related items";
+            _message = INIT_ERROR_MESSAGE;
             Logger.module().error(`Repository related items: error getting related items for exhibit ${exhibitId}:`, error);
          }
       }
@@ -103,10 +105,10 @@
             let index = Math.floor(Math.random() * item.subjects.length);
             let subject = item.subjects[index];
 
-            if(subject && selectedSubjects.includes(subject) == false) {
+            if(subject && _selectedSubjects.includes(subject) == false) {
 
                // add the subject to the array of selected subjects so that it is not used again for another exhibit item, to allow for a wider variety of related items to be displayed based on different subjects if there are multiple exhibit items with the same subject(s)
-               selectedSubjects.push(subject);
+               _selectedSubjects.push(subject);
 
                // search the repository for items with the same subject
                results = await Repository.searchRepository({
@@ -199,17 +201,17 @@
 </script>
 
 <div class="repository-related-items">
-{#if relatedItemsDisplay}
+{#if _relatedItemsDisplay}
 
    <div class="item-container">
-   {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}, index}
+   {#each _relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}, index}
 
       <div class="item shadow-wrapper">
          <div class="item-content">
             <h3>Seen in the exhibit</h3>
 
             <div class="exhibit-item-preview">
-               <MediaItemPreview item={relatedItemsDisplay[index]} args={{isInteractive: false}} on:click-item />
+               <MediaItemPreview item={_relatedItemsDisplay[index]} args={{isInteractive: false}} on:click-item />
             </div>
 
             <h4>Explore similar subjects</h4>
@@ -234,7 +236,7 @@
    </div> 
 
 {:else}
-   <div class="message"><p>{message}</p></div>
+   <div class="message"><p>{_message}</p></div>
 
 {/if}
 </div>
