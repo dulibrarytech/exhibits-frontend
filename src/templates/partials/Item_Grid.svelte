@@ -9,37 +9,30 @@
     export let grid = {};
     export let id = null;
 
-    let itemDisplay = null; // to _, init below
-    let gridElement;
-
-    let title;
-    let text;
-    let items;
-    let columns;
-    let styles;
-
     const dispatch = createEventDispatcher();
 
+    let _itemDisplay = null;
+    let _gridElement;
+
+    let {
+        title = null,
+        text = null, 
+        items = [],
+        columns = DEFAULT_COLUMN_COUNT, 
+        styles = {},
+
+    } = grid;
+
     const init = () => {
-        columns = grid.columns || "2";
-        title = grid.title || null;
-        text = grid.text || null;
-        items = grid.items || [];
-        styles = grid.styles || {};
-
-        render();
-    }
-
-    const setTheme = (styles) => {
-        Object.assign(gridElement.style, styles);
-    }
-
-    const render = () => {
         items = items.sort(function(a, b) {
             return a.order - b.order
         });
 
-        itemDisplay = items;
+        _itemDisplay = items;
+    }
+
+    const setTheme = (styles) => {
+        Object.assign(_gridElement.style, styles);
     }
 
     $: init();
@@ -50,15 +43,15 @@
     });
 </script>
 
-<div class="item-grid grid item-padding columns-{columns}" bind:this={gridElement} >
+<div class="item-grid grid item-padding columns-{columns}" bind:this={_gridElement} >
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     <div class="container grid-container">
         {#if text}<div class="text">{@html text}</div>{/if}
 
         <div class="grid-content">
-            {#if itemDisplay}
-                {#each itemDisplay as item}
+            {#if _itemDisplay}
+                {#each _itemDisplay as item}
                     <div class="col-{columns}">
                         <Grid_Item_Image_Text {item} on:click-item /> 
                     </div>
