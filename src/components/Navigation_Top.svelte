@@ -93,6 +93,7 @@
 </nav>
 
 <style>
+
     .nav-link, .nav-link button {
         color: inherit;
     }
@@ -106,6 +107,7 @@
         border-bottom-style: solid;
         border-width: 1px;
         border-color: #c5c3c1;
+        background-color: #ffffff;
     }
 
     .navbar > .container {
