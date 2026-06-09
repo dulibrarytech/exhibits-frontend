@@ -213,7 +213,7 @@
 	:global(.item-viewer .video-player) {
 		height: 100%;
 		color: white;
-		padding: 0 30px;
+		padding: 30px;
 	}
 
 	:global(.item-viewer .video-player .video) {
@@ -221,7 +221,7 @@
 	}
 
 	:global(.item-viewer .video-player .video *) {
-		height: 95%;
+		height: 94%;
 	}
 
 	:global(.item-viewer .pdf-viewer) {
@@ -246,7 +246,7 @@
 		}
 
 		.media-display-container {
-			height: calc(100% - 50px);
+			height: 100%;
 		}
 
 		.text-display-container {
