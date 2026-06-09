@@ -204,14 +204,14 @@
 {#if _relatedItemsDisplay}
 
    <div class="item-container">
-   {#each _relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}, index}
+   {#each _relatedItemsDisplay as {caption = null, subject, relatedItems = [], link}, index}
 
       <div class="item shadow-wrapper">
          <div class="item-content">
             <h3>Seen in the exhibit</h3>
 
             <div class="exhibit-item-preview">
-               <MediaItemPreview item={_relatedItemsDisplay[index]} args={{isInteractive: false}} on:click-item />
+               <MediaItemPreview item={_relatedItemsDisplay[index]} args={{isInteractive: false, title: caption}} on:click-item />
             </div>
 
             <h4>Explore similar subjects</h4>

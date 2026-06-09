@@ -37,12 +37,11 @@
 
     const dispatch = createEventDispatcher();
 
-    // item options
-    let { 
+    const { 
         isThumbnail,
         isInteractive = true,
         link = null,
-
+        title = null,
     } = args;
 
     // resource url helper
@@ -50,7 +49,6 @@
 
     // component options
     const IMAGE_THUMBNAIL_WIDTH = 400;
-    const IMAGE_PREVIEW_WIDTH = "max";
     const OVERLAY_TEXT_SMALL = "Click to enlarge";
     const OVERLAY_TEXT_LARGE = "Click to view item";
 
@@ -64,7 +62,6 @@
     const {
         uuid: itemId = "",
         item_type: itemType = null,
-        media_width: mediaWidth = null,
         is_iiif_item: isIIIFItem = false,
         is_kaltura_item: isKalturaItem = false,
         alt_text: altText = item.is_alt_text_decorative ? null : (item.alt_text || null),
@@ -85,10 +82,10 @@
         _previewUrl = await getPreviewUrl(isThumbnail);
 
         if(!_previewUrl) {
+            Logger.module().info(`Could not determine thumbnail source url for item. Item id: ${itemId} Item type: ${itemType}`);
             _previewUrl = RESOURCE.getItemPlaceholderImageUrl(itemType);
             _isPlaceholderImage = true;
             _showOverlay = false;
-            Logger.module().info(`Could not determine thumbnail source url for item. Item id: ${itemId} Item type: ${itemType}`);
         }
     }
 
@@ -191,7 +188,7 @@
         let placeholderImageUrl = `${IMAGE_ASSETS_PATH}/${PLACEHOLDER_IMAGE[itemType || 'DEFAULT']}`;
 
         Logger.module().error(`Preview image load error. Url: ${_previewUrl}`);
-        _previewImageElement.parentElement.title = "Preview image failed to load. Click to view item.";
+        if(!title) _previewImageElement.parentElement.title = "Preview image failed to load. No item description available";
         _showOverlay = false;
 
         if(event.target.src.includes(placeholderImageUrl) == false) {
@@ -215,17 +212,17 @@
 
         <div class="item-preview {_isPlaceholderImage ? 'placeholder-image' : ''}">
             <button 
+                title={title || undefined}
                 data-item-id={itemId} 
-                on:click={onClickItem} 
                 tabindex={isInteractive ? undefined : '-1'} 
                 aria-label={isInteractive ? `click to open item viewer` : undefined}
                 disabled={isInteractive ? false : true}
+                on:click={onClickItem} 
             >
                 <img 
                     crossorigin="anonymous" 
                     src={_previewUrl} 
                     alt={altText || undefined} 
-                    title={_isPlaceholderImage ? `Preview image failed to load. Click to view item.` : undefined}
                     on:load={onImageLoad} 
                     on:error={onImageLoadError} 
                     bind:this={_previewImageElement}
@@ -277,7 +274,7 @@
         margin-top: unset;
         margin-left: unset;
         margin-right: unset;
-        max-width: 200px;
+        width: 200px;
     }
 
     .item-preview:hover .overlay,
