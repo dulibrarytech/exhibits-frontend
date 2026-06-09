@@ -121,7 +121,7 @@
 		padding-right: 0px;
 		position: relative;
 		background: white;
-		height: 50vh;
+		height: 50%;
 	}
 
 	.text-display-container {
@@ -207,6 +207,7 @@
 	:global(.item-viewer .audio-player .audio) {
 		position: absolute;
 		bottom: 15px;
+		left: 15px;
 	}
 
 	:global(.item-viewer .video-player) {
@@ -245,7 +246,7 @@
 		}
 
 		.media-display-container {
-			height: 100vh;
+			height: calc(100% - 50px);
 		}
 
 		.text-display-container {

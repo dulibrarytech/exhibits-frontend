@@ -95,3 +95,9 @@
   <!-- verify boolean for content state -->
   <svelte:component this={template} {item} {args} on:click-item on:mount-template-item on:load-error />
 </div>
+
+<style>
+  .iiif-item {
+    height: 100%;
+  }
+</style>
