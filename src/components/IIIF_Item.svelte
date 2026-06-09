@@ -47,7 +47,7 @@
       }
     }
     else {
-      Logger.module().info(`IIIF manifest not found. Item: ${item.uuid}.`);
+      Logger.module().info(`IIIF item: IIIF manifest not found. Media source may not be available for this item. Item: ${item.uuid}.`);
 
       if(imageUrl) item.media = imageUrl;
       else Logger.module().info(`IIIF image url not found. Using existing media url for item ${item.uuid}.`);
