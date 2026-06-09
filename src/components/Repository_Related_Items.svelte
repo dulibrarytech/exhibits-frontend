@@ -286,16 +286,21 @@
    }
 
    .related-item-preview {
-      width: 40.5%;
+      /* width: 40.5%; */
+      width: 100%;
    }
 
    .related-item-preview img {
-      width: 100%;
+      width: 85%;
    }
 
    @media screen and (min-width: 575px) {
       .item {
          width: 48.5%;
+      }
+
+      .related-item-preview {
+         width: 40.5%;
       }
    }
 
