@@ -8,70 +8,50 @@
 
     export let grid = {};
     export let id = null;
-    export let templateStyles = {};
-
-    let itemDisplay = null;
-
-    let gridElement;
-    let titleElement;
-
-    let title;
-    let text;
-    let items;
-    let columns;
-    let styles;
 
     const dispatch = createEventDispatcher();
 
+    let _itemDisplay = null;
+    let _gridElement;
+
+    let {
+        title = null,
+        text = null, 
+        items = [],
+        columns = DEFAULT_COLUMN_COUNT, 
+        styles = {},
+
+    } = grid;
+
     const init = () => {
-        columns = grid.columns || "2";
-        title = grid.title || null;
-        text = grid.text || null;
-        items = grid.items || [];
-        styles = grid.styles || {};
-
-        // parse styles json string for all grid items
-        items = items.map((item) => {
-            if(typeof item.styles == 'string') item.styles = JSON.parse(item.styles);
-            return item;
-        }) || [];
-
-        render();
-    }
-
-    const setTheme = ({item = {}, heading = null}) => {
-        Object.assign(gridElement.style, item);
-
-        if(titleElement && heading) {
-            titleElement.style.fontFamily = templateStyles.heading || heading.fontFamily || 'inherit';
-        }
-    }
-
-    const render = () => {
         items = items.sort(function(a, b) {
             return a.order - b.order
         });
 
-        itemDisplay = items;
+        _itemDisplay = items;
+    }
+
+    const setTheme = (styles) => {
+        Object.assign(_gridElement.style, styles);
     }
 
     $: init();
 
     onMount(async () => {
-        setTheme(styles);
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
         dispatch('mount-template-item', {});
     });
 </script>
 
-<div class="item-grid grid item-padding columns-{columns}" bind:this={gridElement} >
+<div class="item-grid grid item-padding columns-{columns}" bind:this={_gridElement} >
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     <div class="container grid-container">
         {#if text}<div class="text">{@html text}</div>{/if}
 
         <div class="grid-content">
-            {#if itemDisplay}
-                {#each itemDisplay as item}
+            {#if _itemDisplay}
+                {#each _itemDisplay as item}
                     <div class="col-{columns}">
                         <Grid_Item_Image_Text {item} on:click-item /> 
                     </div>

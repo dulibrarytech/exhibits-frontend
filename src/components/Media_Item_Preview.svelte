@@ -49,9 +49,10 @@
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
     // component options
-    // const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
     const IMAGE_THUMBNAIL_WIDTH = 400;
     const IMAGE_PREVIEW_WIDTH = "max";
+    const OVERLAY_TEXT_SMALL = "Click to enlarge";
+    const OVERLAY_TEXT_LARGE = "Click to view item";
 
     const {
         exhibitItemDefaultTitle: DEFAULT_ITEM_TITLE,
@@ -86,7 +87,8 @@
         if(!_previewUrl) {
             _previewUrl = RESOURCE.getItemPlaceholderImageUrl(itemType);
             _isPlaceholderImage = true;
-            Logger.module().error(`Could not determine thumbnail source url for item. Item id: ${itemId} Item type: ${itemType}`);
+            _showOverlay = false;
+            Logger.module().info(`Could not determine thumbnail source url for item. Item id: ${itemId} Item type: ${itemType}`);
         }
     }
 
@@ -235,7 +237,7 @@
                 <div class="overlay-text">
                     <!-- magnifying glass icon -->
                     <!-- <i class="las la-search"></i> -->
-                    <p>Click to enlarge</p>
+                    <p>{OVERLAY_TEXT_SMALL}</p>
                 </div>
             {/if}
         </div>

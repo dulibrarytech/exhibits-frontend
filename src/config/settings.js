@@ -168,7 +168,9 @@ export const Settings = {
         "is_member_of_exhibit": "Exhibit",
         "item_type": "Format",
         "keyword": "Keywords",
-        "subjects": "Subject",
+        "media_subjects.genre_form": "Genre",
+        "media_subjects.topics": "Topic",
+        "media_subjects.places": "Place",
     },
     facetValueLabels: {
         "item": "Exhibit Item",
@@ -183,7 +185,9 @@ export const Settings = {
     facetValues: {
         "type": ["item", "exhibit"],
         "item_type": ["image", "audio", "video", "pdf"],
-        "subjects": ["*"],
+        "media_subjects.genre_form": ["*"],
+        "media_subjects.topics": ["*"],
+        "media_subjects.places": ["*"],
         // "is_member_of_exhibit": "*"
     },
 

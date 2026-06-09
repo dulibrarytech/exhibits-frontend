@@ -41,12 +41,11 @@
     }
 
     const setTheme = (styles) => {
-        let menuStyles = styles || {};
-        Object.assign(_navigationElement.style, menuStyles);
+        Object.assign(_navigationElement.style, styles);
     }
 
     onMount(async () => {
-        if(styles) setTheme(styles);
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
     });
 </script>
 
@@ -94,6 +93,7 @@
 </nav>
 
 <style>
+
     .nav-link, .nav-link button {
         color: inherit;
     }
@@ -103,11 +103,11 @@
     }
 
     .navbar {
-        background: #e5e3e1;
         min-height: 4.2em;
         border-bottom-style: solid;
         border-width: 1px;
         border-color: #c5c3c1;
+        background-color: #ffffff;
     }
 
     .navbar > .container {

@@ -11,10 +11,6 @@
   export let template;
   export let args;
 
-  const VIEWER_METADATA = { // TODO move to settings? (data layer)
-    title: "title"
-  }
-
   let { 
     type = null, 
     metadata = {} 
@@ -22,37 +18,41 @@
   } = args;
 
   let _manifest = null; 
-  let _viewerMetadata = {};
-
   $: {
     if(item.media_iiif) init();
   }
 
   const init = () => {
+    item.is_iiif_item = true;
+
     const {
-      manifest: manifestData = null,
+      manifest: manifestJSON = null,
+      image_url: imageUrl = null,
+
     } = item.media_iiif;
 
     const {
-      thumbnail_url: thumbnailUrl = null
+      thumbnail_url: thumbnailUrl = null,
+
     } = item.thumbnail_iiif || {};
 
-    if(manifestData) {
-      _manifest = JSON.parse(manifestData);
+    if(manifestJSON) {
+      try {
+        _manifest = JSON.parse(manifestJSON);
+        item.media = getManifestResourceUrl(_manifest) || item.media;
+        item.thumbnail = thumbnailUrl || getManifestThumbnailUrl(_manifest) || item.thumbnail;
 
-      item.media = getManifestResourceUrl(_manifest) || null;
-      item.thumbnail = thumbnailUrl || getManifestThumbnailUrl(_manifest) || null;
-
-      /* flag iiif item for other components' iiif cases */
-      item.is_iiif_item = true;
-
-      /* Add metadata fields to viewer metadata display NOT YET IMPL. */
-      for(let field in VIEWER_METADATA) {
-        if(metadata[ VIEWER_METADATA[field] ]) _viewerMetadata[ field ] = metadata[ VIEWER_METADATA[field] ];
+      } catch (error) {
+        Logger.module().error("Error parsing IIIF manifest data: " + error);
       }
     }
     else {
-      Logger.module().error(`Item IIIF manifest is missing. 'manifest' field expected. Item: ${item.uuid}`);
+      Logger.module().info(`IIIF item: IIIF manifest not found. Media source may not be available for this item. Item: ${item.uuid}.`);
+
+      if(imageUrl) item.media = imageUrl;
+      else Logger.module().info(`IIIF image url not found. Using existing media url for item ${item.uuid}.`);
+
+      if(thumbnailUrl) item.thumbnail = thumbnailUrl;
     }
   }
 
@@ -95,3 +95,9 @@
   <!-- verify boolean for content state -->
   <svelte:component this={template} {item} {args} on:click-item on:mount-template-item on:load-error />
 </div>
+
+<style>
+  .iiif-item {
+    height: 100%;
+  }
+</style>

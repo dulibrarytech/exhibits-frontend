@@ -1,34 +1,39 @@
 <script>
-   import { onMount } from 'svelte';
    import { Repository } from '../libs/repository';
    import { getRandomNumberArray, shuffleArrayElements } from '../libs/data_helpers';
    import { getInnerText } from '../libs/exhibits_data_helpers';
-   import {ENTITY_TYPE, ITEM_GRIDS} from '../config/global-constants';
-   import ResourceUrl from '../libs/ResourceUrl.js';
+   import { ENTITY_TYPE } from '../config/global-constants';
    import * as Logger from '../libs/logger.js';
+   import { onMount } from 'svelte';
 
    import MediaItemPreview from './Media_Item_Preview.svelte';   
 
    export let items = [];
    export let exhibitId = "";
 
-   const ITEM_DISPLAY_COUNT = 4;
+   const INIT_MESSAGE = "Loading related items...";
+   const INIT_ERROR_MESSAGE = "Error loading related items.";
    const RELATED_ITEM_DISPLAY_COUNT = 4;
-   const IMAGE_PREVIEW_WIDTH = 200;
 
-   const RESOURCE = new ResourceUrl(exhibitId);
-
-   let selectedSubjects = [];
-   let relatedItemsDisplay = null;
+   let _selectedSubjects = [];
+   let _relatedItemsDisplay = null;
+   let _message = INIT_MESSAGE;
 
    const init = async () => {
 
       // get the items with repository data to find related items for, and shuffle the order of the items so that different related items are shown each time
-      if(items.length > 0) {
-         items = shuffleArrayElements( getExhibitItems(items) );
-         relatedItemsDisplay = await getRelatedItemsDisplay(items);
+      if(items?.length > 0) {
+         try {
+            items = shuffleArrayElements( getExhibitItems(items) );
+            _relatedItemsDisplay = await getRelatedItemsDisplay(items);
+         }
+         catch(error) {
+            _message = INIT_ERROR_MESSAGE;
+            Logger.module().error(`Repository related items: error getting related items for exhibit ${exhibitId}:`, error);
+         }
       }
       else {
+         Logger.module().info(`Repository related items: no items found for exhibit ${exhibitId}.`);
          document.querySelector(".repository-related-items").style.display = "none";
       }
    }
@@ -86,98 +91,104 @@
          return item.subjects?.length > 0;
       });
 
-      if(items.length == 0) Logger.module().info(`Repository related items: no items with 'subjects' field found. Can not display related items for this exhibit.`);
+      if(items.length == 0) {
+         Logger.module().info(`Repository related items: no items with 'subjects' field found. Can not display related items for this exhibit.`);
+      }
+      else {
 
-      // main loop to build the related items display data for each exhibit item with a subjects field, stopping when the max number of exhibit items to display is reached
-      for(let item of items) {
-         itemDisplayData = {};
-         relatedItems = [];
-         results = [];
+         // main loop to build the related items display data for each exhibit item with a subjects field, stopping when the max number of exhibit items to display is reached
+         for(let item of items) {
+            itemDisplayData = {};
+            relatedItems = [];
+            results = [];
 
-         let index = Math.floor(Math.random() * item.subjects.length);
-         let subject = item.subjects[index];
+            let index = Math.floor(Math.random() * item.subjects.length);
+            let subject = item.subjects[index];
 
-         if(subject && selectedSubjects.includes(subject) == false) {
+            if(subject && _selectedSubjects.includes(subject) == false) {
 
-            // add the subject to the array of selected subjects so that it is not used again for another exhibit item, to allow for a wider variety of related items to be displayed based on different subjects if there are multiple exhibit items with the same subject(s)
-            selectedSubjects.push(subject);
+               // add the subject to the array of selected subjects so that it is not used again for another exhibit item, to allow for a wider variety of related items to be displayed based on different subjects if there are multiple exhibit items with the same subject(s)
+               _selectedSubjects.push(subject);
 
-            // search the repository for items with the same subject
-            results = await Repository.searchRepository({
-               facets: {
-                  "Subject": subject
+               // search the repository for items with the same subject
+               results = await Repository.searchRepository({
+                  facets: {
+                     "Subject": subject
+                  }
+               });
+
+               // if there are no results for the subject in the repository, skip to the next item and subject until an item with related items is found or the total number of exhibit items is reached
+               if(results.length == 0) {
+                  continue;
                }
-            });
+               else {
 
-            // if there are no results for the subject in the repository, skip to the next item and subject until an item with related items is found or the total number of exhibit items is reached
-            if(results.length == 0) {
-               continue;
+                  // build the display data for the exhibit item to be used in the related items display data, including the title, thumbnail, and link for the exhibit item
+                  itemDisplayData = {
+                     ...item,
+                     subject,
+                     title: item.title ? getInnerText(item.title) : "Untitled Item",
+                     link: `${window.location.href}#${item.uuid}`,
+                  }
+               }
             }
             else {
-
-               // build the display data for the exhibit item to be used in the related items display data, including the title, thumbnail, and link for the exhibit item
-               itemDisplayData = {
-                  ...item,
-                  subject,
-                  title: item.title ? getInnerText(item.title) : "Untitled Item",
-                  link: `${window.location.href}#${item.uuid}`,
-               }
+               continue;
             }
-         }
-         else {
-            continue;
-         }
-         
-         // build the display data object for the related items cards
-         if(RELATED_ITEM_DISPLAY_COUNT < results.length) {
-            let randomNumbers = getRandomNumberArray(RELATED_ITEM_DISPLAY_COUNT, results.length-1);
             
-            // if there are more related items than the max to display, randomly select the max number of related items to display (after ensuring that the exhibit item is not included in the related items)
-            for(let index of randomNumbers) {
+            // build the display data object for the related items cards
+            if(RELATED_ITEM_DISPLAY_COUNT < results.length) {
+               let randomNumbers = getRandomNumberArray(RELATED_ITEM_DISPLAY_COUNT, results.length-1);
+               
+               // if there are more related items than the max to display, randomly select the max number of related items to display (after ensuring that the exhibit item is not included in the related items)
+               for(let index of randomNumbers) {
 
-               /* 
-                * ensure that the repository related item is not the same as the exhibit item (current 'item' in iteration) by comparing their repository ids (pids)
-                * this test should only be used if the current item in iteration is a repository item. if it is not, then a duplicate is not possible (as the item is not in the repository) 
-                */
-               if(item.is_repo_item == 0 || results[index].pid != item.repository_data.id) {
+                  /* 
+                   * ensure that the repository related item is not the same as the exhibit item (current 'item' in iteration) by comparing their repository ids (pids)
+                   * this test should only be used if the current item in iteration is a repository item. if it is not, then a duplicate is not possible (as the item is not in the repository) 
+                   */
+                  if(item.is_repo_item == 0 || results[index].pid != item.repository_data.id) {
 
-                  // add the related item 
-                  relatedItems.push({
-                     title: results[index].title || "Untitled",
-                     link: results[index].link_to_item || "null",
-                     thumbnail: results[index].thumbnail_datastream_url || "null"
-                  });
-               }   
-            }
-         }
-         else {
-            // if there are fewer related items than the max to display, just use them all (after ensuring that the exhibit item is not included in the related items)
-            for(let result of results) {
-
-               /* 
-                * ensure that the repository related item is not the same as the exhibit item (current 'item' in iteration) by comparing their repository ids (pids)
-                * this test should only be used if the current item in iteration is a repository item. if it is not, then a duplicate is not possible (as the item is not in the repository) 
-                */
-               if(item.is_repo_item == 0 || result.pid != item.repository_data.id) {
-                  
-                  // add the related item 
-                  relatedItems.push({
-                     title: result.title || "Untitled",
-                     link: result.link_to_item,
-                     thumbnail: result.thumbnail_datastream_url || "null"
-                  });
+                     // add the related item 
+                     relatedItems.push({
+                        title: results[index].title || "Untitled",
+                        link: results[index].link_to_item || "null",
+                        thumbnail: results[index].thumbnail_url || "null"
+                     });
+                  }   
                }
             }
-         }
+            else {
+               // if there are fewer related items than the max to display, just use them all (after ensuring that the exhibit item is not included in the related items)
+               for(let result of results) {
 
-         // add the related items display data for the exhibit item to the array of items to display in the frontend, 
-         // only if there is at least one related item to display for the exhibit item
-         itemDisplayData.relatedItems = relatedItems;
+                  /* 
+                   * ensure that the repository related item is not the same as the exhibit item (current 'item' in iteration) by comparing their repository ids (pids)
+                   * this test should only be used if the current item in iteration is a repository item. if it is not, then a duplicate is not possible (as the item is not in the repository) 
+                   */
+                  if(item.is_repo_item == 0 || result.pid != item.repository_data.id) {
+                     
+                     // add the related item 
+                     relatedItems.push({
+                        title: result.title || "Untitled",
+                        link: result.link_to_item,
+                        thumbnail: result.thumbnail_url || "null"
+                     });
+                  }
+               }
+            }
 
-         if(displayItems.length >= RELATED_ITEM_DISPLAY_COUNT) break;
+            // add the related items display data for the exhibit item to the array of items to display in the frontend, 
+            // only if there is at least one related item to display for the exhibit item
+            // itemDisplayData.relatedItems = relatedItems;
 
-         if(itemDisplayData.relatedItems.length > 0) {
-            displayItems.push(itemDisplayData);
+            if(displayItems.length >= RELATED_ITEM_DISPLAY_COUNT) break;
+
+            // itemDisplayData.relatedItems = relatedItems;
+            if(relatedItems.length > 0) {
+               itemDisplayData.relatedItems = relatedItems;
+               displayItems.push(itemDisplayData);
+            }
          }
       }
 
@@ -190,17 +201,17 @@
 </script>
 
 <div class="repository-related-items">
-{#if relatedItemsDisplay}
+{#if _relatedItemsDisplay}
 
    <div class="item-container">
-   {#each relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}, index}
+   {#each _relatedItemsDisplay as {thumbnail, title, subject, relatedItems = [], link}, index}
 
       <div class="item shadow-wrapper">
          <div class="item-content">
             <h3>Seen in the exhibit</h3>
 
             <div class="exhibit-item-preview">
-               <MediaItemPreview item={relatedItemsDisplay[index]} args={{isInteractive: false}} on:click-item />
+               <MediaItemPreview item={_relatedItemsDisplay[index]} args={{isInteractive: false}} on:click-item />
             </div>
 
             <h4>Explore similar subjects</h4>
@@ -225,7 +236,7 @@
    </div> 
 
 {:else}
-   <div class="message"><p>Loading related items...</p></div>
+   <div class="message"><p>{_message}</p></div>
 
 {/if}
 </div>

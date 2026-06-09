@@ -9,11 +9,11 @@
     
     export let grid = {};
     export let id = null;
-    export let templateStyles = {};
 
     let titleElement;
+    
+    let gridElement;
 
-    let timelineSection;
     let title;
     let text;
     let items;
@@ -23,8 +23,6 @@
     const dispatch = createEventDispatcher();
 
     const SHOW_EMPTY_DECADES = false;
-    const CARD_MIN_HEIGHT = 500;
-    const RIGHT_SIDE_ITEMS_TOP_OFFSET = 150;
 
     const init = () => {
         title = grid.title || null;
@@ -45,13 +43,8 @@
         
     }
 
-    const setTheme = ({item = {}, heading = null}) => {
-        if(typeof item == 'object') Object.assign(timelineSection.style, item);
-        else Logger.module().error(`Invalid grid style object. Grid id: ${id}`);  
-
-        if(titleElement && heading) {
-            titleElement.style.fontFamily = heading.fontFamily || 'inherit';
-        }
+    const setTheme = (styles) => {
+        Object.assign(gridElement.style, styles);
     }
 
     /**
@@ -153,20 +146,18 @@
             }
         }
 
-        console.log(`test: Timeline grid sorted items:`, sorted);
-
         return sorted;
     }
 
     $: init();
 
     onMount(async () => {
-        setTheme(styles);
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
         dispatch('mount-template-item', {});
     });
 </script>
 
-<div class="vertical-timeline-item-grid grid item-padding" bind:this={timelineSection}>
+<div class="vertical-timeline-item-grid grid item-padding" bind:this={gridElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
     
     <div class="container grid-container">
@@ -182,7 +173,6 @@
             {#if sections}
 
                 {#each sections as section}
-                    <!-- {#if section.label}<span class="timeline__year time" aria-hidden="true">{section.label}</span>{/if} -->
                     {#if section.label}<span class="timeline__year time"><h3>{section.label}</h3></span>{/if}
 
                     <div class="timeline-section">

@@ -140,7 +140,6 @@ export const createExhibitPageSections = (items) => {
     let headings = [];
     let heading = null;
     let subheading = null;
-    let sectionStyles = null;
 
     for(let index in items) {
         item = items[index];
@@ -160,8 +159,6 @@ export const createExhibitPageSections = (items) => {
             }
 
             item.anchorId = heading.id;
-
-            if(item.styles) sectionStyles = item.styles;
         }
 
         else if(type == ENTITY_TYPE.EXHIBIT_SUBHEADING) {
@@ -174,6 +171,22 @@ export const createExhibitPageSections = (items) => {
 
             if(heading) heading.subheadings.push(subheading);
             item.anchorId = subheading.id;
+        }
+
+        /* if the exhibit item has a 'title' field, it will create and add a subheading. this block will be unnecessary if the exhibit contains 'subheading' items. */
+        else if(type == ENTITY_TYPE.ITEM || ITEM_GRIDS.includes(type)) {
+
+            // If this item is in a heading section, and it has a title, add a subheading
+            if(heading && title) {
+                subheading = {
+                    id: getHtmlIdString(title),
+                    uuid,
+                    text: getInnerText(title)
+                }
+
+                heading.subheadings.push(subheading);
+                item.anchorId = subheading.id;
+            }
         }
 
         // End case: push current heading to the headings array if this is the last item in the exhibit

@@ -14,11 +14,9 @@
     export let sections = [];
     export let items = null;
     export let styles = null;
-
     export let data = {};
 
-    let pageElement;
-    let scrollToPageTopElement;
+    let pageTopLinkElement;
 
     let renderTemplate = false;
     let templateMessage = null;
@@ -31,12 +29,6 @@
     }
 
     const dispatch = createEventDispatcher();
-
-    const setTheme = (styles) => {
-        if(pageElement) {
-            Object.assign(pageElement.style, styles);
-        }
-    }
 
     const scrollToPageTop = () => {
         window.scrollTo({
@@ -63,36 +55,35 @@
     }
 
     const onMountItems = () => {
-        if(styles.template) setTheme(styles.template);
         dispatch('mount-items', {});
     }
 
     onMount(async () => {
-        if(items.length > 0) {
+        if(items?.length > 0) {
             renderTemplate = true;
             dispatch('mount', {});
         }
         else {
             templateMessage = "No items found";
-            dispatch('mount-items', {});
+            dispatch('mount-items', {error: `Exhibit items: ${items}`});
         }
 
-        if(scrollToPageTopElement) scrollToPageTopElement.style.display = "none";
+        if(pageTopLinkElement) pageTopLinkElement.style.display = "none";
     });
 
     window.onscroll = function() {
         if(window.scrollY > 500) {
-            if(scrollToPageTopElement?.style.display == "none") scrollToPageTopElement.style.display = "block";
+            if(pageTopLinkElement?.style.display == "none") pageTopLinkElement.style.display = "block";
         }
         else {
-            if(scrollToPageTopElement?.style.display == "block") scrollToPageTopElement.style.display = "none";
+            if(pageTopLinkElement?.style.display == "block") pageTopLinkElement.style.display = "none";
         }
     };
 </script>
 
 <div class="exhibit-page" style="position: relative">
 
-    <div class="exhibit-content" bind:this={pageElement}>
+    <div class="exhibit-content">
         <div class="hero-page-section">
             <Hero data={exhibitData} {styles} />
         </div>
@@ -112,7 +103,7 @@
         {/if}
 
         {#if renderTemplate}
-            <svelte:component this={template} {items} {styles} {args} on:click-item on:mount-items={onMountItems} />
+            <svelte:component this={template} {items} styles={styles?.template || null} {args} on:click-item on:mount-items={onMountItems} />
         {:else if templateMessage}
             <div class="template-message"><h3>{templateMessage}</h3></div>
         {/if}
@@ -122,7 +113,7 @@
 
     <Repository_Related_Items {items} exhibitId={exhibitData.uuid} on:click-item />
 
-    <div class="scrollto-page-top" bind:this={scrollToPageTopElement}>
+    <div class="scrollto-page-top" bind:this={pageTopLinkElement}>
         <a href on:click|preventDefault={scrollToPageTop} title="Return to top of exhibit" aria-label="Return to top of exhibit">
             <i class="bi bi-chevron-up"></i>
         </a>

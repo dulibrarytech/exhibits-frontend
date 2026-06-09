@@ -24,12 +24,10 @@
 
     // to _
     let itemElement;
-    let titleElement;
     let showPreview;
 
     let uuid;
     let caption;
-    let itemType;
     let layout;
     let mediaWidth;
     let mediaPadding;
@@ -50,7 +48,6 @@
 
         uuid        = item.uuid || null;
         caption     = item.caption || null;
-        itemType    = item.item_type || undefined;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
         mediaPadding = item.media_padding ?? true;
@@ -67,10 +64,7 @@
         if(Object.values(MEDIA_POSITION).includes(layout) == false) Logger.module().error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
     }
 
-    const setTheme = ({item, heading}) => {
-
-        let itemStyles = item || {};
-        let headingStyles = heading || {};
+    const setTheme = (styles) => {
 
         // set permitted styles
         let {
@@ -79,21 +73,22 @@
             color = null,
             backgroundColor = null
 
-        } = itemStyles;
+        } = styles;
 
         // assign permitted styles to the item element
         if(itemElement) {
-            Object.assign(itemElement.style,  {fontFamily, color, backgroundColor});
+            Object.assign(itemElement.style,  {fontFamily, fontSize, color, backgroundColor});
         }
 
         // append background image
         if(itemStyles.backgroundImage) {
             itemElement.style.backgroundImage = `url('${ itemStyles.backgroundImage }')`;
+
         }
     }
 
     onMount(async () => {
-        if(styles) setTheme(styles);
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
         dispatch('mount-template-item', {type: "item"});
     });
 </script>
