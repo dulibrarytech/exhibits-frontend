@@ -258,6 +258,10 @@
         pointer-events: none;
     }
 
+    .item-preview-wrapper {
+        margin-inline: auto;
+    }
+
     .item-preview {
         margin-bottom: 1em;
         margin: 0 auto;
@@ -272,8 +276,6 @@
 
     .item-preview.placeholder-image {
         margin-top: unset;
-        margin-left: unset;
-        margin-right: unset;
         width: 200px;
     }
 
