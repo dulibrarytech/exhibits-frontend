@@ -157,7 +157,7 @@
     });
 </script>
 
-<div class="vertical-timeline-item-grid grid item-padding" bind:this={gridElement}>
+<div class="vertical-timeline-item-grid grid template-item item-padding" bind:this={gridElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
     
     <div class="container grid-container">

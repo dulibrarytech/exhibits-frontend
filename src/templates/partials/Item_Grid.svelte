@@ -43,7 +43,7 @@
     });
 </script>
 
-<div class="item-grid grid item-padding columns-{columns}" bind:this={_gridElement} >
+<div class="item-grid grid template-item item-padding columns-{columns}" bind:this={_gridElement} >
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     <div class="container grid-container">

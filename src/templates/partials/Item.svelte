@@ -87,7 +87,7 @@
     });
 </script>
 
-<div class="item item-padding" data-uuid={uuid} bind:this={itemElement}>
+<div class="item template-item item-padding" data-uuid={uuid} bind:this={itemElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     {#if layout == MEDIA_POSITION.RIGHT}
