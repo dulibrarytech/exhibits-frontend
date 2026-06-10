@@ -29,7 +29,7 @@
             if(typeof styles == 'string') styles = JSON.parse(styles);
             setTheme(styles);
         }
-        dispatch('mount-template-item', {type: "heading"});
+        dispatch('mount-template-item', {type: "subheading"});
     });
 </script>
 
