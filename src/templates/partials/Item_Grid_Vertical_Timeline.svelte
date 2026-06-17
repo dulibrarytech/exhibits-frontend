@@ -10,11 +10,8 @@
     export let grid = {};
     export let id = null;
 
-    let titleElement;
-    
     let gridElement;
 
-    let title;
     let text;
     let items;
     let sections = null;
@@ -25,7 +22,6 @@
     const SHOW_EMPTY_DECADES = false;
 
     const init = () => {
-        title = grid.title || null;
         text = grid.text || null;
         items = grid.items || [];
 
@@ -160,7 +156,7 @@
 <div class="vertical-timeline-item-grid grid template-item item-padding" bind:this={gridElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
     
-    <div class="container grid-container">
+    <div class="container-{styles.margins ?? 'medium'} grid-container">
 
         <div class="row timeline-line">
             <div class="col-6" style="border-right: solid"></div>
@@ -316,15 +312,6 @@
         margin-bottom: 3.5rem;
     }
 
-    .title-heading {
-        text-transform: uppercase;
-        margin-bottom: 3.5rem;
-    }
-
-    .title-heading > h3 {
-        font-size: inherit;
-    }
-
     .timeline-wrapper {
         margin: 0 auto;
         width: 100%;
@@ -354,8 +341,10 @@
         margin-bottom: 50px;
     }
 
-    .vertical-timeline-item-grid > .container {
-        position: relative;
+    .vertical-timeline-item-grid .container-medium,
+    .vertical-timeline-item-grid .container-small,
+    .vertical-timeline-item-grid .container-large {
+            position: relative;
     }
 
     .timeline-line {

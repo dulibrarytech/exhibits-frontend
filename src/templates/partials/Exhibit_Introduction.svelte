@@ -15,7 +15,7 @@
 </script>
 
 <div class="exhibit-introduction-section" bind:this={introductionElement}>
-    <div class="exhibit-introduction container">
+    <div class="exhibit-introduction container-{styles.margins ?? 'medium'}">
         {@html content}
     </div>
 </div>

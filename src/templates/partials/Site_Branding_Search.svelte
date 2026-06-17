@@ -12,7 +12,7 @@
 </script>
 
 <div class="site-branding-banner">
-    <div class="container d-flex flex-column flex-md-row align-items-left py-2 site-branding">
+    <div class="container-large d-flex flex-column flex-md-row align-items-left py-2 site-branding">
 
         <div class="d-flex align-items-center site-title-link">
             <a href="/" class="me-3 py-2">

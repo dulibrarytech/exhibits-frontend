@@ -26,7 +26,7 @@ export const updateExhibitTemplateElements = (exhibitTemplate) => {
  * sets a subheading item background color to the background color of its sibling item on the template, if the background color has not been set by the user styles
  */
 const setSubheadingBackgroundColor = (subheadingItem) => {
-  let siblingItem = subheadingItem.nextElementSibling.querySelector(".template-item"); // this element will have styles set by user data
+  let siblingItem = subheadingItem?.nextElementSibling?.querySelector(".template-item"); // this element will have styles set by user data
   let subheadingElement = subheadingItem.children[0];
 
   if(siblingItem && subheadingElement.style.backgroundColor == "") {

@@ -81,7 +81,7 @@
     {/if}
 
     <div class="page">
-        <div class="container">
+        <div class="container-large">
             <div class="page-description">
                 <p>Discover curated stories, collections, and creative projects from the University's Libraries to inspire discovery, reflection, and connection.</p>
             </div>

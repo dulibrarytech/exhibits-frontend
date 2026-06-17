@@ -3,7 +3,7 @@
 </script>
 
 <div class="homepage-hero-banner">
-    <div class="container">
+    <div class="container-large">
         <div class="content">
             <h1>Online Exhibits</h1>
         </div>
@@ -18,7 +18,7 @@
         filter: brightness(95%);
     }
 
-    .homepage-hero-banner > .container {
+    .homepage-hero-banner > .container-large {
         height: 100%;
     }
 

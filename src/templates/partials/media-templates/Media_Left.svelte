@@ -25,20 +25,18 @@
     });
 </script>
 
-<div class="media-left layout {mediaPadding ? 'container media-padding' : ''}">
+<div class="media-left layout {mediaPadding ? 'media-padding' : ''}">
 
     {#if wrapText}
         <!-- floating media in text section -->
         <div class="content wrap-text">
 
-            {#if mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
             <div class="media width-{mediaWidth}">
                 <slot name="media-display" />
-                {#if caption}<div class="{mediaPadding ? '' : 'container'} caption" bind:this={captionElement}>{caption}</div>{/if}
+                {#if caption}<div class="caption" bind:this={captionElement}>{caption}</div>{/if}
             </div>
 
-            <div class="text {mediaPadding ? '' : 'container'}">
-                {#if !mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
+            <div class="text">
                 <slot name="text-display" />
             </div>
         </div>
@@ -47,17 +45,15 @@
 
         <!-- flexbox -->
         <div class="content">
-            <div class="container" bind:this={containerPadding}></div>
+            <div bind:this={containerPadding}></div>
 
-            {#if mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
             <div class="flex">
                 <div class="media width-{mediaWidth} flex-{mediaWidth}">
                     <slot name="media-display" />
-                    {#if caption}<div class="{mediaPadding ? '' : 'container'} caption">{caption}</div>{/if}
+                    {#if caption}<div class="caption">{caption}</div>{/if}
                 </div>
 
-                <div class="text {mediaPadding ? '' : 'container'}" bind:this={textContainer}>
-                    {#if !mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
+                <div class="text" bind:this={textContainer}>
                     <slot name="text-display" />
                 </div>
             </div>
@@ -76,15 +72,6 @@
 
     .content:not(.wrap-text) .flex {
       flex-wrap: wrap;
-    }
-
-    .container-wide {
-        /* extends .container Bootstrap v5.1.3 */
-        width: 100%;
-        padding-right: var(--bs-gutter-x,.75rem);
-        padding-left: var(--bs-gutter-x,.75rem);
-        margin-right: auto;
-        margin-left: auto;
     }
 
     .title-heading:has(> div:empty) {
@@ -117,7 +104,7 @@
         margin-bottom: 3.65rem; 
     }
 
-    .layout:not(.media-padding) .caption.container {
+    .layout:not(.media-padding) .caption {
         padding-right: 1.5rem;
         padding-left: 1.5rem;
     }
@@ -140,31 +127,19 @@
         flex-direction: column;
     }
 
-    @media screen and (min-width: 576px) {
-        .container-wide {
-            max-width: 640px;
-        }
-    }
-
-    @media screen and (min-width: 768px) {
-        .container-wide {
-            max-width: 93vw;
-        }
-    }
-
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 901px) {
         .flex {
             flex-wrap: wrap;
         }
 
-        .width-25 {width: 25%}
-        .width-33 {width: 33%}
-        .width-34 {width: 34%}
-        .width-50 {width: 50%}
-        .width-66 {width: 66%}
-        .width-67 {width: 67%}
-        .width-75 {width: 75%}
-        .width-100 {width: 100%}
+        .width-25 {width: 25%; --width: 25%;}
+        .width-33 {width: 33%; --width: 33%;}
+        .width-34 {width: 34%; --width: 34%;}
+        .width-50 {width: 50%; --width: 50%;}
+        .width-66 {width: 66%; --width: 66%;}
+        .width-67 {width: 67%; --width: 67%;}
+        .width-75 {width: 75%; --width: 75%;}
+        .width-100 {width: 100%; --width: 100%;}
 
         .flex-25 {flex: 0 0 25%}
         .flex-33 {flex: 0 0 33%}
@@ -175,10 +150,6 @@
         .flex-75 {flex: 0 0 75%}
         .flex-100 {flex: 0 0 100%}
 
-        .container-wide {
-            max-width: 93vw;
-        }
-
         .content.wrap-text .media {
             float: left;
             box-sizing: content-box;
@@ -187,7 +158,7 @@
             margin-bottom: 0; 
         }
 
-        .layout:not(.media-padding) .caption.container {
+        .layout:not(.media-padding) .caption {
             padding-left: 50px;
             padding-right: 0.75rem;
         }
@@ -201,20 +172,13 @@
             margin-right: 3.5vw;
         }
 
-        .media-left:not(.media-padding) .text.container {
+        .media-left:not(.media-padding) .text {
             width: unset;
         }
-    }
 
-    @media screen and (min-width: 1200px) {
-        .container-wide {
-            max-width: 93vw;
-        }
-    }
-
-    @media screen and (min-width: 1400px) {
-        .container-wide {
-            max-width: 93vw;
+        .media-left.media-padding .media {
+            margin-left: -150px;
+            width: calc(var(--width) + 150px);
         }
     }
 </style>

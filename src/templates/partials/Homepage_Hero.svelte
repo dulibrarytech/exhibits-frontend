@@ -27,7 +27,7 @@
 <div class="homepage-hero" bind:this={_heroElement}>
 
     {#if HERO_LAYOUT == LAYOUT.HIGHLIGHT_ITEM}
-        <div class="container">
+        <div class="container-large">
             <div class="row">
 
                 <!-- highlight exhibit title, description -->

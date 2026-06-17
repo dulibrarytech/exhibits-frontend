@@ -36,7 +36,7 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     {#if display}
-        <div class="section-heading container">
+        <div class="section-heading container-{styles.margins ?? 'medium'}">
             <div class="section-title">
                 <h2 aria-label={textString}>{@html text}</h2>
             </div>

@@ -335,7 +335,7 @@
 
 <div class="exhibit-wrapper" bind:this={_exhibitDisplay}>
 
-    <div class="exhibit-load-message container" style="display: {_showMessageOverlay ? 'absolute' : 'none'}">
+    <div class="exhibit-load-message container-large" style="display: {_showMessageOverlay ? 'absolute' : 'none'}">
         <div><h3>{_message}</h3></div>
     </div>
 

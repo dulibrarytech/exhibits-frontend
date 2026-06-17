@@ -71,13 +71,13 @@
             fontFamily = null,
             fontSize = null,
             color = null,
-            backgroundColor = null
-
+            backgroundColor = null,
+            textAlign = 'left'
         } = styles;
 
         // assign permitted styles to the item element
         if(itemElement) {
-            Object.assign(itemElement.style, {fontFamily, fontSize, color, backgroundColor});
+            Object.assign(itemElement.style, {fontFamily, fontSize, color, backgroundColor, textAlign});
         }
     }
 
@@ -87,7 +87,7 @@
     });
 </script>
 
-<div class="item template-item item-padding" data-uuid={uuid} bind:this={itemElement}>
+<div class="item template-item item-padding container-{styles?.margins ?? 'medium'}" data-uuid={uuid} bind:this={itemElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     {#if layout == MEDIA_POSITION.RIGHT}
