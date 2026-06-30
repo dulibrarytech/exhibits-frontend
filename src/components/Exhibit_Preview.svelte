@@ -46,8 +46,6 @@
 
     // exhibit data fields
     let exhibitId;
-    let thumbnail;
-    //let heroImage;
     let title;
     let subtitle;
 
@@ -63,7 +61,6 @@
     $: init();
 
     const init = async () => {
-        //thumbnailSourceUrl = null;
 
         // init exhibit data fields
         exhibitId   = exhibit.uuid;
