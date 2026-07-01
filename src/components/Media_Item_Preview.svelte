@@ -159,9 +159,11 @@
         let url = null;
 
         if(isIIIFItem) {
+            const {image_url: iiifImageUrl = null} = item.media_iiif || {};
+
             url = isThumbnail ? 
                 thumbnail : // thumbnail will be either thumbnail_iiif.thumbnail_url or manifest thumbnail resource for iiif items
-                thumbnail || media || null;
+                iiifImageUrl || media || null;
         }
         else {
             // if thumbnail file is present, this will show in the media item preview regardless of the isThumbnail state. if it is not, get a derivative of the "media" file and open to the pdf page specified
