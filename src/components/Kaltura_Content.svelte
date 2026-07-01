@@ -223,5 +223,6 @@
         position: relative;
         top: 50%;
         left: calc(50% - 100px);
+        color: #333333;
     }
 </style>
