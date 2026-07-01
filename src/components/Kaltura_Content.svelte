@@ -10,7 +10,10 @@
     export let altText = "kaltura media player";
     export let args = {};
 
-    const EMBED_HTML_MEDIA_PLAYER = false; // to settings
+    const EMBED_HTML_MEDIA_PLAYER = false; // to app settings
+
+    // module settings
+    const LOAD_MESSAGE = "Loading media player...";
 
     let {   
         kalturaUniqueObjectID,
@@ -136,7 +139,7 @@
 
         {:else}
             <div class="player-load-message" bind:this={iframeLoadMessage}>
-                <h5>Loading Kaltura player...</h5>
+                <h5>{LOAD_MESSAGE}</h5>
             </div>
             <div class="iframe-wrapper" bind:this={iframeSection} aria-label={altText || undefined}>
                 <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} {title} src={kalturaUrl} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
