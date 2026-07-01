@@ -233,7 +233,7 @@
 	}
 
 	:global(.item-viewer .iframe-wrapper) {
-		height: 75vh;
+		height: 100%;
 	}
 
 	:global(.item-viewer .iframe-wrapper *) {
