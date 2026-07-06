@@ -119,15 +119,19 @@
         let url = null;
 
         if(isIIIFItem) {
-            const {image_url: iiifImageUrl = null} = item.media_iiif || {};
+            const {
+                image_url: iiifImageUrl = null
+            } = item.media_iiif || {};
 
-            // using IIIF data from the exhibit item (external or local)
+            const {
+                thumbnail_url: iiifThumbnailImageUrl = null,
+            } = item.thumbnail_iiif || {};
+
             url = isThumbnail ?
-                thumbnail : // IIIF.getIIIFImageScale(serviceUrl, "min")
-                iiifImageUrl || media || null;      // IIIF.getIIIFImageScale(serviceUrl, "max")
+                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || null : 
+                iiifImageUrl || media || null; 
         }
         else {
-            // using local IIIF server to fetch local resources
             url = isThumbnail ? 
                 thumbnail || await RESOURCE.getIIIFImageUrl(media, IMAGE_THUMBNAIL_WIDTH) :  // IIIF.getIIIFImageUrl(media, "min")
                 await RESOURCE.getIIIFImageUrl(media); // RESOURCE.getIIIFImageUrl(media, "max")
@@ -146,7 +150,7 @@
                 Kaltura.getThumbnailUrl(kaltura_id, "full");
         }
         else if(isIIIFItem) {
-            url = thumbnail || null; // thumbnail image is currently the only means of providing any preview image of a local a/v resource
+            url = thumbnail || null; 
         }
         else {
             url = RESOURCE.getFileUrl(thumbnail); // thumbnail image is currently the only means of providing any preview image of a local a/v resource
@@ -158,13 +162,19 @@
     const getPdfPreviewUrl = async (isThumbnail=true) => {
         let url = null;
 
+        const {pdf_open_to_page: page = "1"} = item;
+
         if(isIIIFItem) {
             const {
                 image_url: iiifImageUrl = null,
             } = item.media_iiif || {};
 
+            const {
+                thumbnail_url: iiifThumbnailImageUrl = null,
+            } = item.thumbnail_iiif || {};
+
             url = isThumbnail ? 
-                thumbnail || null : // thumbnail will be either thumbnail_iiif.thumbnail_url or manifest thumbnail resource for iiif items
+                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || null : // TODO need to append page parameter to iiifThumbnailImageUrl or iiifImageUrl 
                 thumbnail || iiifImageUrl || media || null;
         }
         else {
@@ -173,7 +183,6 @@
                 url = await RESOURCE.getPdfPreviewImageUrl(thumbnail, IMAGE_THUMBNAIL_WIDTH, height);
             }
             else {
-                const {pdf_open_to_page: page = "1"} = item;
                 const width = isThumbnail ? IMAGE_THUMBNAIL_WIDTH : null;
                 url = `${ (await RESOURCE.getPdfPreviewImageUrl(media, width, null, page)) }`;
             }
