@@ -9,10 +9,10 @@
     import ResourceUrl from '../libs/ResourceUrl.js';
     import * as Logger from '../libs/logger.js';
 
-    import Image_Viewer from './Image_Viewer.svelte';
-    import Audio_Player from './Audio_Player.svelte';
-    import Video_Player from './Video_Player.svelte';
-    import PDFJS_Viewer from './PDFJS_Viewer.svelte';
+    import Image_Viewer from './Image_Viewer.svelte'; // emit loaded
+    import Audio_Player from './Audio_Player.svelte'; // emit loaded (via kaltura)
+    import Video_Player from './Video_Player.svelte'; // emit loaded (via kaltura)
+    import PDFJS_Viewer from './PDFJS_Viewer.svelte'; // emit loaded
     import IIIF_Viewer from './IIIF_Viewer.svelte';
     import Embed_Iframe_Viewer from './Embed_Iframe_Viewer.svelte';
 
@@ -30,6 +30,7 @@
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
     const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
+    const LOAD_MESSAGE = "Loading media...";
 
     // component options
     const URL_PATTERN = /^https?:\/\//;
@@ -74,6 +75,8 @@
         // module variables
         _filename = null;
         _component = null;
+        _message = LOAD_MESSAGE;
+		_messageDisplay = true;
 
         // always use a static viewer (not interactive, such as tile or iiif) for embedded items on the page
         if(isEmbedded) {
@@ -175,9 +178,6 @@
                 url = RESOURCE.getImageTileSourceUrl(_filename);
             }
 
-            _message = "Loading, please wait...";
-		    _messageDisplay = true;
-
             params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
             _component = Image_Viewer;
         }
@@ -210,7 +210,7 @@
                     height: LARGE_IMAGE_PREVIEW_HEIGHT
                 });
 
-                _messageDisplay = false;
+                _messageDisplay = false; // on loaded only (IV must emit)
             }
             else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
                 isTileImage = true;
@@ -218,7 +218,7 @@
                 url = RESOURCE.getImageTileSourceUrl(_filename);
 
                 _message = "Loading, please wait...";
-		        _messageDisplay = true;
+		        _messageDisplay = true;  // on loaded only (IV must emit)
             }
 
             params = {url, title, altText, caption, isTileImage, imageType, onErrorImage};
@@ -292,6 +292,7 @@
             _component = IIIF_Viewer;
         }
         else {
+            _messageDisplay = false;
             params = {url, altText, caption, page};
             _component = PDFJS_Viewer; 
         }

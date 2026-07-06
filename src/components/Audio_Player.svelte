@@ -32,7 +32,7 @@
 
 <div class="audio-player">
     {#if isKalturaItem || kalturaId}
-        <Kaltura_Content entryId={kalturaId} {title} {altText} args={{isEmbedded, type: "audio"}} />
+        <Kaltura_Content entryId={kalturaId} {title} {altText} args={{isEmbedded, type: "audio"}} on:loaded />
 
     {:else}
         {#if isEmbedded && thumbnailImage}

@@ -31,7 +31,7 @@
 
 <div class="video-player">
     {#if kalturaId}
-        <Kaltura_Content entryId={kalturaId} {title} {altText} args={{preview: thumbnailImage, isEmbedded, mimeType, type: "video"}} />
+        <Kaltura_Content entryId={kalturaId} {title} {altText} args={{preview: thumbnailImage, isEmbedded, mimeType, type: "video"}} on:loaded />
     
     {:else}
         <div class="video">

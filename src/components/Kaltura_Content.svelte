@@ -1,6 +1,7 @@
 <script>
     'use-strict'
     
+    import { createEventDispatcher } from 'svelte';
     import { Settings } from '../config/settings';
     import { Kaltura } from '../libs/kaltura';
 
@@ -10,10 +11,10 @@
     export let altText = "kaltura media player";
     export let args = {};
 
-    const EMBED_HTML_MEDIA_PLAYER = false; // to app settings
+    const dispatch = createEventDispatcher();
 
     // module settings
-    const LOAD_MESSAGE = "Loading media player...";
+    const EMBED_HTML_MEDIA_PLAYER = false;
 
     let {   
         kalturaUniqueObjectID,
@@ -32,7 +33,6 @@
     let previewImageUrl;
     let iframeSection;
     let iframeElement;
-    let iframeLoadMessage;
     let previewElement;
     let previewImageElement;
     let htmlPlayerElement;
@@ -42,7 +42,7 @@
         if(kalturaUrl) {
             kalturaUrl = validateKalturaUrl(kalturaUrl) ? kalturaUrl : null;
             if(!kalturaUrl) {
-                console.error("Invalid Kaltura URL provided: ", kalturaUrl);
+                console.error("Missing Kaltura URL or invalid Kaltura URL.");
             }   
         }
 
@@ -58,11 +58,12 @@
 
     const onLoadIframe = () => {
         iframeSection.style.visibility = "visible";
-        iframeLoadMessage.style.display = "none";
 
         window.addEventListener('resize', function(event) {
             iframeElement.src = iframeElement.src;
         }, true);
+
+        dispatch('loaded', {entryId});
     }
 
     const onClickKalturaPreview = (event) => {
@@ -90,6 +91,7 @@
 </script>
 
 <div class="kaltura-content content {isEmbedded ? 'embedded' : ''}">
+
     {#if kalturaUrl}
         {#if EMBED_HTML_MEDIA_PLAYER && isEmbedded}
             {#if type == "audio"}
@@ -138,21 +140,11 @@
             {/if}
 
         {:else}
-            <div class="player-load-message" bind:this={iframeLoadMessage}>
-                <h5>{LOAD_MESSAGE}</h5>
-            </div>
             <div class="iframe-wrapper" bind:this={iframeSection} aria-label={altText || undefined}>
                 <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} {title} src={kalturaUrl} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
                 <div class="subframe-content"></div>
             </div>
-
         {/if}
-
-    {:else}
-        <div class="player-load-message" bind:this={iframeLoadMessage}>
-            <h6>Kaltura player could not be initialized</h6>
-        </div>
-        
     {/if}
 </div>
 
@@ -214,18 +206,7 @@
         padding: 0 15px;
     }
 
-    .transcript-expanded {
-        height: 100%;
-    }
-
     .iframe-wrapper {
         visibility: hidden;
-    }
-
-    .player-load-message {
-        position: relative;
-        top: 50%;
-        left: calc(50% - 100px);
-        color: #333333;
     }
 </style>
