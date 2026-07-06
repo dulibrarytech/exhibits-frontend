@@ -22,10 +22,6 @@
         MEDIA_POSITION
     } from '../config/global-constants';
 
-    import { 
-        getInnerText 
-    } from '../libs/exhibits_data_helpers';
-
     export let item = {};
     export let args = {};
 
@@ -41,19 +37,24 @@
     const VIEWER_HEIGHT_SMALL = "350";
     const VIEWER_HEIGHT_LARGE = "700";
 
-    // item data fields
-    let media;
-    let thumbnail;
-    let itemType;
-    let title;
-    let altText;
-    let caption;
-    let layout;
-    let isEmbedded;
-
     // args
     let viewerType;
     let viewerHeight;
+
+    const {
+        item_type: itemType = null,
+        title: title = DEFAULT_ITEM_TITLE,
+        alt_text: altText = null,
+        caption: caption = null,
+        layout: layout = null,
+        is_embedded: isEmbedded = false,
+        is_iiif_item: isIIIFItem = false,
+    } = item;
+
+    let {
+        media: media = null,
+        thumbnail: thumbnail = null,
+    } = item;
 
     // module variables
     var _mediaElement;
@@ -64,23 +65,11 @@
 
     // args object for child components 
     var params = {};
-
+        
     $: init();
 
     const init = () => {
         Logger.module().info(`Initializing media item component. Item: ${item.uuid}`);
-
-        // item data fields
-        media = args.media || item.media || null;
-        thumbnail = item.thumbnail || null;
-        itemType = args.type || item.item_type || null;
-        title = args.title || item.title ? getInnerText(item.title) : DEFAULT_ITEM_TITLE;
-        caption = args.caption || item.caption || null;
-        layout = item.layout || null;
-        altText = item.is_alt_text_decorative ? null : (item.alt_text || null);
-
-        // args
-        isEmbedded = args.isEmbedded ?? item.isEmbedded ?? false; 
 
         // module variables
         _filename = null;
@@ -92,11 +81,6 @@
         }
         else {
             viewerType = args.viewerType || VIEWER_TYPE.STATIC;
-        }
-
-        // handle cases of missing item type on kaltura items
-        if(!itemType && item.is_kaltura_item) {
-            itemType = ITEM_TYPE.VIDEO;
         }
 
         switch(layout) {
@@ -115,35 +99,26 @@
                 viewerHeight = VIEWER_HEIGHT_SMALL;
         }
 
+        if(media) {
+            if(URL_PATTERN.test(media) == false) {
+                _filename = media;
+                media = RESOURCE.getFileUrl(media);
+            }
+        }
+
         if(thumbnail) {
             if(URL_PATTERN.test(thumbnail) == false) {
                 thumbnail = RESOURCE.getFileUrl(thumbnail);
             }
         }
 
-        if(!media) {
-            Logger.module().error(`Missing path or url to resource. Item: ${item.uuid}`);
-        }
-
-        /* If resource value is not a url, it should be a filename with extension (filename.ext) construct the url to the resource using the filename */
-        else if(URL_PATTERN.test(media) == false) { // TODO data.helper::isUrlFormat()
-            _filename = media;
-            media = RESOURCE.getFileUrl(media);
-            render();
-        }
-        else {
-            render();
-        }
+        render();
     }
 
     const render = () => {
         switch(itemType) {
             case ITEM_TYPE.IMAGE:
                 renderStandardImageViewer();
-                break;
-
-            case ITEM_TYPE.LARGE_IMAGE:
-                renderLargeImageViewer();
                 break;
 
             case ITEM_TYPE.AUDIO:
@@ -174,7 +149,7 @@
      * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
      */
     const renderStandardImageViewer = () => {
-        
+
         let url = media;
         let imageType = itemType;
         let isTileImage = !isEmbedded; // default to set this based on 'isEmbedded' value. The viewerType (component arg) may update the tile image flag.
@@ -189,14 +164,15 @@
         else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
             isTileImage = true;
 
-            if(URL_PATTERN.test(url) == false) {
-                url = RESOURCE.getImageTileSourceUrl(_filename);
-            }
-
-            // if(isIIIFItem)
-            if(item.is_iiif_item) {
+            if(isIIIFItem) {
                 const {service_url: serviceUrl = null} = item.media_iiif || {};
-                url = serviceUrl ? serviceUrl : url; // if iiif item, use the iiif service url for the tile source
+
+                if(serviceUrl) {
+                    url = serviceUrl.indexOf("info.json") == -1 ? `${serviceUrl}/info.json` : serviceUrl;
+                }
+            }
+            else if(URL_PATTERN.test(url) == false) {
+                url = RESOURCE.getImageTileSourceUrl(_filename);
             }
 
             _message = "Loading, please wait...";
@@ -212,7 +188,9 @@
         }
     }
 
-    /*
+    /* 
+     * this function is not in use
+     * 
      * static viewer: Image_Viewer: display image derivative (for embedding on page) without tiles (for small images and embedded media)
      * interactive viewer: Image_Viewer: display image tile viewer (e.g. OpenSeadragon) for large images
      * iiif viewer: IIIF_Viewer (UniversalViewer): display iiif manifest content
@@ -350,7 +328,7 @@
     </div>
 {:else}
     <div class="load-message">
-        <h5>Loading media item...</h5>
+        <h5>Loading media...</h5>
     </div>
 {/if}
 
