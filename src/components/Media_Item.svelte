@@ -340,5 +340,6 @@
         top: 50%;
 		left: 0;
 		width:100%;
+        color: #555555;
     }
 </style>
