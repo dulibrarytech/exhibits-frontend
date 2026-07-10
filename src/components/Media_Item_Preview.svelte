@@ -2,6 +2,7 @@
     /**
      * @component Media_Item_Preview
      * @description Component for displaying a preview image (fullsize or thumbnail size image) for a media item. Will attempt to get a thumbnail or preview image for the item, but will fall back to a placeholder image if no preview is available.
+     * @description This component contains the logic to determine the appropriate preview image source for different item types (image, audio, video, pdf) and handles IIIF and Kaltura items. It also dispatches events for click interactions and image load errors.
      * 
      * @param {Object} item - The exhibit item object containing metadata and resource information.
      * @param {Object} args - Additional arguments for configuring the component behavior [
@@ -44,6 +45,14 @@
         title = null,
     } = args;
 
+    // global settings
+    const {
+        exhibitItemDefaultTitle: DEFAULT_ITEM_TITLE,
+        imageAssetsPath: IMAGE_ASSETS_PATH, 
+        placeholderImage: PLACEHOLDER_IMAGE,
+
+    } = Settings; 
+
     // resource url helper
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
@@ -52,22 +61,15 @@
     const OVERLAY_TEXT_SMALL = "Click to enlarge";
     const OVERLAY_TEXT_LARGE = "Click to view item";
 
+    // item properties
     const {
-        exhibitItemDefaultTitle: DEFAULT_ITEM_TITLE,
-        imageAssetsPath: IMAGE_ASSETS_PATH, 
-        placeholderImage: PLACEHOLDER_IMAGE,
-
-    } = Settings; 
-
-    const {
-        uuid: itemId = "",
-        item_type: itemType = null,
-        is_iiif_item: isIIIFItem = false,
-        is_kaltura_item: isKalturaItem = false,
-        alt_text: altText = item.is_alt_text_decorative ? null : (item.alt_text || null),
-
-        media = null,
-        thumbnail = null,
+        uuid:               itemId = "",
+        item_type:          itemType = null,
+        is_iiif_item:       isIIIFItem = false,
+        is_kaltura_item:    isKalturaItem = false,
+        alt_text:           altText = item.is_alt_text_decorative ? null : (item.alt_text || null),
+        media:              media = null,
+        thumbnail:          thumbnail = null,
 
     } = item;
 
@@ -83,6 +85,7 @@
 
         if(!_previewUrl) {
             Logger.module().info(`Could not determine thumbnail source url for item. Item id: ${itemId} Item type: ${itemType}`);
+
             _previewUrl = RESOURCE.getItemPlaceholderImageUrl(itemType);
             _isPlaceholderImage = true;
             _showOverlay = false;
@@ -118,9 +121,11 @@
     const getImagePreviewUrl = async (isThumbnail=true) => {
         let url = null;
 
+        // handle iiif source urls for image items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
         if(isIIIFItem) {
             const {
-                image_url: iiifImageUrl = null
+                image_url: iiifImageUrl = null,
+                service_url: iiifServiceUrl = null,
             } = item.media_iiif || {};
 
             const {
@@ -128,13 +133,18 @@
             } = item.thumbnail_iiif || {};
 
             url = isThumbnail ?
-                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || null : 
-                iiifImageUrl || media || null; 
+                // use iiif api thumbnail url from item data || get cropped image via iiif image api || use thumbnail from iiif manifest
+                iiifThumbnailImageUrl || `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` || thumbnail || null :
+
+                // use iiif api thumbnail url from item data || get full image via iiif image api || use thumbnail url from iiif manifest || use image url from iiif manifest
+                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || media || null;
         }
+
+        // handle non-iiif source urls for image items (media/thumbnail are expected to be file names)
         else {
             url = isThumbnail ? 
-                thumbnail || await RESOURCE.getIIIFImageUrl(media, IMAGE_THUMBNAIL_WIDTH) :  // IIIF.getIIIFImageUrl(media, "min")
-                await RESOURCE.getIIIFImageUrl(media); // RESOURCE.getIIIFImageUrl(media, "max")
+                (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getIIIFImageUrl(media, IMAGE_THUMBNAIL_WIDTH)) :
+                (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getIIIFImageUrl(media))
         }
 
         return url;
@@ -142,18 +152,25 @@
 
     const getAudioVideoPreviewUrl = async (isThumbnail=true) => {
         let url = null;
+        let kalturaThumbnail = null;
 
         if(isKalturaItem) { 
             let{kaltura_id = null} = item;
-            url = isThumbnail ? 
-                thumbnail || Kaltura.getThumbnailUrl(kaltura_id):
-                Kaltura.getThumbnailUrl(kaltura_id, "full");
+            kalturaThumbnail = Kaltura.getThumbnailUrl(kaltura_id);
         }
-        else if(isIIIFItem) {
-            url = thumbnail || null; 
+
+        // handle iiif source urls for audio/video items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
+        if(isIIIFItem) {
+            const {
+                thumbnail_url: iiifThumbnailImageUrl = null,
+            } = item.thumbnail_iiif || {};
+
+            url = iiifThumbnailImageUrl || kalturaThumbnail || thumbnail || null;
         }
+
+        // handle non-iiif source urls for audio/video items (media/thumbnail are expected to be file names)
         else {
-            url = RESOURCE.getFileUrl(thumbnail); // thumbnail image is currently the only means of providing any preview image of a local a/v resource
+            url = (thumbnail ? RESOURCE.getFileUrl(thumbnail) : kalturaThumbnail || null);
         }
 
         return url;
@@ -164,28 +181,27 @@
 
         const {pdf_open_to_page: page = "1"} = item;
 
+        // handle iiif source urls for pdf items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
         if(isIIIFItem) {
             const {
                 image_url: iiifImageUrl = null,
+                service_url: iiifServiceUrl = null,
             } = item.media_iiif || {};
 
             const {
                 thumbnail_url: iiifThumbnailImageUrl = null,
             } = item.thumbnail_iiif || {};
 
-            url = isThumbnail ? 
-                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || null : // TODO need to append page parameter to iiifThumbnailImageUrl or iiifImageUrl 
-                thumbnail || iiifImageUrl || media || null;
+            url = isThumbnail ?
+                iiifThumbnailImageUrl || `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` || thumbnail || null :
+                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || null;
         }
+
+        // handle non-iiif source urls for pdf items (media/thumbnail are expected to be file names)
         else {
-            // if thumbnail file is present, this will show in the media item preview regardless of the isThumbnail state. if it is not, get a derivative of the "media" file and open to the pdf page specified
-            if(thumbnail) {
-                url = await RESOURCE.getPdfPreviewImageUrl(thumbnail, IMAGE_THUMBNAIL_WIDTH, height);
-            }
-            else {
-                const width = isThumbnail ? IMAGE_THUMBNAIL_WIDTH : null;
-                url = `${ (await RESOURCE.getPdfPreviewImageUrl(media, width, null, page)) }`;
-            }
+            url = isThumbnail ? 
+                (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getPdfPreviewImageUrl(media, IMAGE_THUMBNAIL_WIDTH, height, page)) :
+                (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getPdfPreviewImageUrl(media, null, height, page)); 
         }
 
         return url;
