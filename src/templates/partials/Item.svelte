@@ -34,6 +34,8 @@
     let wrapText;
     let isEmbedded;
     let styles;
+    let textAlign;
+    let margins;
 
     const dispatch = createEventDispatcher();
 
@@ -49,11 +51,13 @@
         uuid        = item.uuid || null;
         caption     = item.caption || null;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
-        mediaWidth  = item.media_width || DEFAULT_MEDIA_WIDTH;
-        mediaPadding = item.media_padding ?? true;
+        mediaWidth  = item.media_item_width || DEFAULT_MEDIA_WIDTH;
+        mediaPadding = item.margins === 'large' ? false : item.media_padding ?? true;
         wrapText    = item.wrap_text ?? true;
         isEmbedded  = item.is_embedded || false;
         styles      = item.styles || null;
+        textAlign   = item.text_alignment || 'left';
+        margins   = item.margins || 'medium';
 
         showPreview = !isEmbedded;
         
@@ -71,8 +75,7 @@
             fontFamily = null,
             fontSize = null,
             color = null,
-            backgroundColor = null,
-            textAlign = 'left'
+            backgroundColor = null
         } = styles;
 
         // assign permitted styles to the item element
@@ -87,65 +90,67 @@
     });
 </script>
 
-<div class="item template-item item-padding container-{styles?.margins ?? 'medium'}" data-uuid={uuid} bind:this={itemElement}>
-    <div id={id ?? undefined} class="anchor-offset"></div>
+<div class="item template-item" data-uuid={uuid} bind:this={itemElement}>
+    <div class="item-padding container-{margins}">
+        <div id={id ?? undefined} class="anchor-offset"></div>
 
-    {#if layout == MEDIA_POSITION.RIGHT}
-        <Media_Right {wrapText} {mediaPadding} {mediaWidth} {caption}>
-            <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
-            </div>
-            <div slot="text-display">
-                <Text_Display {item} />
-            </div>
-        </Media_Right>
+        {#if layout == MEDIA_POSITION.RIGHT}
+            <Media_Right {wrapText} {mediaPadding} {mediaWidth} {caption}>
+                <div slot="media-display">
+                    <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
+                </div>
+                <div slot="text-display">
+                    <Text_Display {item} />
+                </div>
+            </Media_Right>
 
-    {:else if layout == MEDIA_POSITION.LEFT}
-        <Media_Left {wrapText} {mediaPadding} {mediaWidth} {caption}>
-            <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
-            </div>
-            <div slot="text-display">
-                <Text_Display {item} />
-            </div>
-        </Media_Left>
+        {:else if layout == MEDIA_POSITION.LEFT}
+            <Media_Left {wrapText} {mediaPadding} {mediaWidth} {caption}>
+                <div slot="media-display">
+                    <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
+                </div>
+                <div slot="text-display">
+                    <Text_Display {item} />
+                </div>
+            </Media_Left>
 
-    {:else if layout == MEDIA_POSITION.TOP}
-        <Media_Top {mediaPadding} {mediaWidth} {caption}>
-            <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
-            </div>
-            <div slot="text-display">
-                <Text_Display {item} />
-            </div>
-        </Media_Top>
+        {:else if layout == MEDIA_POSITION.TOP}
+            <Media_Top {mediaPadding} {mediaWidth} {caption}>
+                <div slot="media-display">
+                    <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
+                </div>
+                <div slot="text-display">
+                    <Text_Display {item} />
+                </div>
+            </Media_Top>
 
-    {:else if layout == MEDIA_POSITION.BOTTOM}
-        <Media_Bottom {mediaPadding} {mediaWidth} {caption}>
-            <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
-            </div>
-            <div slot="text-display">
-                <Text_Display {item} />
-            </div>
-        </Media_Bottom>
+        {:else if layout == MEDIA_POSITION.BOTTOM}
+            <Media_Bottom {mediaPadding} {mediaWidth} {caption}>
+                <div slot="media-display">
+                    <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
+                </div>
+                <div slot="text-display">
+                    <Text_Display {item} />
+                </div>
+            </Media_Bottom>
 
-    {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
-        <Media_Only {mediaPadding} {mediaWidth} {caption}>
-            <div slot="media-display">
-                <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
-            </div>
-        </Media_Only>
+        {:else if layout == MEDIA_POSITION.MEDIA_ONLY}
+            <Media_Only {mediaPadding} {mediaWidth} {caption}>
+                <div slot="media-display">
+                    <Media_Display {item} args={{showPreview, isEmbedded, ...args}} on:click-item on:load-error />
+                </div>
+            </Media_Only>
 
-    {:else if layout == MEDIA_POSITION.TEXT_ONLY}
-        <Text_Only>
-            <div slot="text-display">
-                <Text_Display {item} />
-            </div>
-        </Text_Only>
+        {:else if layout == MEDIA_POSITION.TEXT_ONLY}
+            <Text_Only>
+                <div slot="text-display">
+                    <Text_Display {item} />
+                </div>
+            </Text_Only>
 
-    {/if}
+        {/if}
 
+    </div>
 </div>
 
 <style>

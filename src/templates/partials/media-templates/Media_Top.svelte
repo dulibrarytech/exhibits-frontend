@@ -13,7 +13,6 @@
         </div>
 
         <div class="text">
-            {#if !mediaPadding}<div class="title-heading"><slot name="title" /></div>{/if}
             <slot name="text-display" />
         </div>
     </div>
@@ -60,5 +59,11 @@
         .width-67 {width: 67%}
         .width-75 {width: 75%}
         .width-100 {width: 100%}
+
+        .layout.media-padding .media {
+            margin-left: -150px;
+            margin-right: -150px;
+            width: calc(var(--width) + 300px);
+        }
     }
 </style>

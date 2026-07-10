@@ -14,6 +14,7 @@
 
     let text;
     let items;
+    let margins;
     let sections = null;
     let styles = {};
 
@@ -24,6 +25,7 @@
     const init = () => {
         text = grid.text || null;
         items = grid.items || [];
+        margins = grid.margins || 'medium';
 
         if(items.length > 0) {
             sections = sortItemsToDecadeSections(items);
@@ -156,7 +158,7 @@
 <div class="vertical-timeline-item-grid grid template-item item-padding" bind:this={gridElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
     
-    <div class="container-{styles.margins ?? 'medium'} grid-container">
+    <div class="container-{margins ?? 'medium'} grid-container">
 
         <div class="row timeline-line">
             <div class="col-6" style="border-right: solid"></div>
