@@ -163,7 +163,7 @@
             padding-left: 0.75rem;
         }
 
-        .media-right.media-padding .media {
+        .layout:not(.media-padding) .media {
             margin-right: -150px;
             width: calc(var(--width) + 150px);
         }

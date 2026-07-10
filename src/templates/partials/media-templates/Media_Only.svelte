@@ -51,7 +51,7 @@
         .width-75 {width: 75%}
         .width-100 {width: 100%}
 
-        .layout.media-padding .media {
+        .layout:not(.media-padding) .media {
             margin-left: -150px;
             margin-right: -150px;
             width: calc(var(--width) + 300px);

@@ -176,7 +176,7 @@
             width: unset;
         }
 
-        .media-left.media-padding .media {
+        .layout:not(.media-padding) .media {
             margin-left: -150px;
             width: calc(var(--width) + 150px);
         }
