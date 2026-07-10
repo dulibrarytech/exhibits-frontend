@@ -2,9 +2,9 @@
 
 /*
  * ResourceUrl
- * Resource access class
+ * Resource access class for local filesystem storage, including direct access and iiif server access
  *
- * Functions to retrieve local resource uris (for accessing resources in local storage directly or via local iiif server)
+ * For building urls to access resources, including images, audio, and video files. 
  */
 
 import { Configuration } from '../config/config';
@@ -83,6 +83,8 @@ export default class ResourceUrl {
       return item.thumbnail || null;
     }
 
+    // the "page" parameter is used to open a pdf to a specific page. this does not work in iiif v3 image api
+    // TODO: when adding version specification in this file, no updates need to be made to this function (page spec will just not work)
     async getPdfPreviewImageUrl(filename="null", width=null, height=null, page=null) {
       let url = `${ (await this.getIIIFImageUrl(filename, width))}${page ? `?page=${page}` : "" }`;
       return url;
