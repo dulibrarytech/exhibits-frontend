@@ -1,4 +1,6 @@
 <script>
+  // this module parses the resource and thumbnail urls from the iiif manifest data for the item and sets them on the item object (for legacy functionality, and fallback sources) 
+
   import { Settings } from '../config/settings';
   import * as IIIF from '../libs/iiif_helpers';
   import * as Logger from '../libs/logger.js';
@@ -11,34 +13,26 @@
   export let template;
   export let args;
 
-  let { 
-    type = null, 
-    metadata = {} 
-  
-  } = args;
-
   let _manifest = null; 
+
   $: {
     if(item.media_iiif) init();
   }
 
   const init = () => {
-    item.is_iiif_item = true;
-
     const {
       manifest: manifestJSON = null,
       image_url: imageUrl = null,
-
     } = item.media_iiif;
 
     const {
       thumbnail_url: thumbnailUrl = null,
-
     } = item.thumbnail_iiif || {};
 
     if(manifestJSON) {
       try {
         _manifest = JSON.parse(manifestJSON);
+
         item.media = getManifestResourceUrl(_manifest) || item.media;
         item.thumbnail = thumbnailUrl || getManifestThumbnailUrl(_manifest) || item.thumbnail;
 

@@ -1,4 +1,8 @@
 <script>	
+  /*
+	 * item viewer template - viewer on left, with sidebar on right for text and link lists, or metadata
+	 */
+
   import Media_Display from '../../components/Media_Display.svelte';
 	import Item_Link_Display from './Item_Link_Display.svelte';
 
@@ -24,7 +28,7 @@
 		description: 	text = DEFAULT_ITEM_TEXT,
 		caption: 			caption = null,
 		links: 				linkList = null,
-		is_iiif_item: isIIIFItem = false,
+		media_iiif: 	mediaIIIF = null,
 	} = item;
 
 	let {
@@ -39,7 +43,7 @@
 		if(date) date = new Date(date).toLocaleDateString();
 
 		// set viewer type for media display
-		if(USE_IIIF_VIEWER && isIIIFItem) {
+		if(USE_IIIF_VIEWER && mediaIIIF) {
 			args.viewerType = VIEWER_TYPE.IIIF;
 		}
 		else {

@@ -8,8 +8,6 @@
     let data = test_items["PDF"];
 
     let args = {}
-
-    data.is_iiif_item = true;
 </script>
 
 <div class="test">

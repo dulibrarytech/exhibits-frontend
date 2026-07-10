@@ -49,7 +49,7 @@
         caption: caption = null,
         layout: layout = null,
         is_embedded: isEmbedded = false,
-        is_iiif_item: isIIIFItem = false,
+        media_iiif: mediaIIIF = null,
     } = item;
 
     let {
@@ -167,8 +167,8 @@
         else if(viewerType == VIEWER_TYPE.INTERACTIVE) {
             isTileImage = true;
 
-            if(isIIIFItem) {
-                const {service_url: serviceUrl = null} = item.media_iiif || {};
+            if(mediaIIIF) {
+                const {service_url: serviceUrl = null} = mediaIIIF;
 
                 if(serviceUrl) {
                     url = serviceUrl.indexOf("info.json") == -1 ? `${serviceUrl}/info.json` : serviceUrl;
@@ -182,7 +182,7 @@
             _component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.IIIF) {
-            const {manifest_url: manifestUrl = null} = item.media_iiif || {};
+            const {manifest_url: manifestUrl = null} = mediaIIIF || {};
             params = {manifestUrl: manifestUrl, type: itemType};
             _component = IIIF_Viewer;
         }
@@ -225,7 +225,7 @@
             _component = Image_Viewer;
         }
         else if(viewerType == VIEWER_TYPE.IIIF) {
-            const {manifest_url: manifestUrl = null} = item.media_iiif || {}; 
+            const {manifest_url: manifestUrl = null} = mediaIIIF || {}; 
             params = {manifestUrl, type: itemType};
             _component = IIIF_Viewer;
         }

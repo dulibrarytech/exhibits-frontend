@@ -65,7 +65,8 @@
     const {
         uuid:               itemId = "",
         item_type:          itemType = null,
-        is_iiif_item:       isIIIFItem = false,
+        media_iiif:         mediaIIIF = null,
+        thumbnail_iiif:     thumbnailIIIF = null,
         is_kaltura_item:    isKalturaItem = false,
         alt_text:           altText = item.is_alt_text_decorative ? null : (item.alt_text || null),
         media:              media = null,
@@ -122,15 +123,15 @@
         let url = null;
 
         // handle iiif source urls for image items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
-        if(isIIIFItem) {
+        if(mediaIIIF) {
             const {
                 image_url: iiifImageUrl = null,
                 service_url: iiifServiceUrl = null,
-            } = item.media_iiif || {};
+            } = mediaIIIF;
 
             const {
                 thumbnail_url: iiifThumbnailImageUrl = null,
-            } = item.thumbnail_iiif || {};
+            } = thumbnailIIIF || {};
 
             url = isThumbnail ?
                 // use iiif api thumbnail url from item data || get cropped image via iiif image api || use thumbnail from iiif manifest
@@ -140,7 +141,7 @@
                 iiifThumbnailImageUrl || iiifImageUrl || thumbnail || media || null;
         }
 
-        // handle non-iiif source urls for image items (media/thumbnail are expected to be file names)
+        // handle local filesystem source urls for image items (media/thumbnail are expected to be file names)
         else {
             url = isThumbnail ? 
                 (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getIIIFImageUrl(media, IMAGE_THUMBNAIL_WIDTH)) :
@@ -160,15 +161,15 @@
         }
 
         // handle iiif source urls for audio/video items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
-        if(isIIIFItem) {
+        if(mediaIIIF) {
             const {
                 thumbnail_url: iiifThumbnailImageUrl = null,
-            } = item.thumbnail_iiif || {};
+            } = thumbnailIIIF || {};
 
             url = iiifThumbnailImageUrl || kalturaThumbnail || thumbnail || null;
         }
 
-        // handle non-iiif source urls for audio/video items (media/thumbnail are expected to be file names)
+        // handle local filesystem source urls for audio/video items (media/thumbnail are expected to be file names)
         else {
             url = (thumbnail ? RESOURCE.getFileUrl(thumbnail) : kalturaThumbnail || null);
         }
@@ -182,22 +183,22 @@
         const {pdf_open_to_page: page = "1"} = item;
 
         // handle iiif source urls for pdf items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
-        if(isIIIFItem) {
+        if(mediaIIIF) {
             const {
                 image_url: iiifImageUrl = null,
                 service_url: iiifServiceUrl = null,
-            } = item.media_iiif || {};
+            } = mediaIIIF;
 
             const {
                 thumbnail_url: iiifThumbnailImageUrl = null,
-            } = item.thumbnail_iiif || {};
+            } = thumbnailIIIF || {};
 
             url = isThumbnail ?
                 iiifThumbnailImageUrl || `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` || thumbnail || null :
                 iiifThumbnailImageUrl || iiifImageUrl || thumbnail || null;
         }
 
-        // handle non-iiif source urls for pdf items (media/thumbnail are expected to be file names)
+        // handle local filesystem source urls for pdf items (media/thumbnail are expected to be file names)
         else {
             url = isThumbnail ? 
                 (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getPdfPreviewImageUrl(media, IMAGE_THUMBNAIL_WIDTH, height, page)) :
