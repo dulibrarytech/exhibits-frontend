@@ -70,6 +70,8 @@
         Logger.module().info("Mounted exhibit template");
         if(styles && Object.keys(styles).length > 0) setTheme(styles);
         dispatch('mount-template', {});
+
+        console.log("test: display items: ", _displayItems);
     });
 </script>
 
@@ -86,8 +88,8 @@
 
                      <!-- exhibit subheading -->
                     {:else if type == ENTITY_TYPE.EXHIBIT_SUBHEADING} 
-                        <Exhibit_Subheading id={anchorId} {text} item={_displayItems[index]} styles={_displayItems[index].styles || null} display={is_visible} padTop={index > 0 && _displayItems[index - 1].type == ENTITY_TYPE.EXHIBIT_HEADING} on:mount-template-item={onMountTemplateItem} />
-
+                        <Exhibit_Subheading id={anchorId} {text} item={_displayItems[index]} styles={_displayItems[index].styles || null} display={is_visible} padTop={true} on:mount-template-item={onMountTemplateItem} />
+                        
                         <!-- exhibit item container - grid -->
                     {:else if type == ENTITY_TYPE.GRID}
                         <Item_Grid id={anchorId} grid={_displayItems[index]} on:click-item on:mount-template-item={onMountTemplateItem} />
