@@ -16,7 +16,7 @@
    const RELATED_ITEM_DISPLAY_COUNT = 4;
 
    let _selectedSubjects = [];
-   let _relatedItemsDisplay = null;
+   let _relatedItemsDisplay = [];
    let _message = INIT_MESSAGE;
 
    const init = async () => {
@@ -178,13 +178,8 @@
                }
             }
 
-            // add the related items display data for the exhibit item to the array of items to display in the frontend, 
-            // only if there is at least one related item to display for the exhibit item
-            // itemDisplayData.relatedItems = relatedItems;
-
             if(displayItems.length >= RELATED_ITEM_DISPLAY_COUNT) break;
 
-            // itemDisplayData.relatedItems = relatedItems;
             if(relatedItems.length > 0) {
                itemDisplayData.relatedItems = relatedItems;
                displayItems.push(itemDisplayData);
@@ -200,46 +195,40 @@
    });
 </script>
 
-<div class="repository-related-items">
-{#if _relatedItemsDisplay}
+{#if _relatedItemsDisplay.length > 0}
+   <div class="repository-related-items">
+      <div class="item-container">
 
-   <div class="item-container">
-   {#each _relatedItemsDisplay as {caption = null, subject, relatedItems = [], link}, index}
+         {#each _relatedItemsDisplay as {caption = null, subject, relatedItems = [], link}, index}
+            <div class="item shadow-wrapper">
+               <div class="item-content">
+                  <h3>Seen in the exhibit</h3>
 
-      <div class="item shadow-wrapper">
-         <div class="item-content">
-            <h3>Seen in the exhibit</h3>
+                  <div class="exhibit-item-preview">
+                     <MediaItemPreview item={_relatedItemsDisplay[index]} args={{isInteractive: false, title: caption}} on:click-item />
+                  </div>
 
-            <div class="exhibit-item-preview">
-               <MediaItemPreview item={_relatedItemsDisplay[index]} args={{isInteractive: false, title: caption}} on:click-item />
-            </div>
+                  <h4>Explore similar subjects</h4>
+                  <span style="color: grey"><h6>Subject: {subject}</h6></span>
 
-            <h4>Explore similar subjects</h4>
-            <span style="color: grey"><h6>Subject: {subject}</h6></span>
+                  <div class="related-items">
+                  {#each relatedItems as {thumbnail, title, link}}
 
-            <div class="related-items">
-            {#each relatedItems as {thumbnail, title, link}}
+                     <div class="related-item-preview">
+                        <a href={link} target="_blank">
+                           <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+                        </a>
+                     </div>
 
-               <div class="related-item-preview">
-                  <a href={link} target="_blank">
-                     <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
-                  </a>
+                  {/each}
+                  </div>
                </div>
-
-            {/each}
             </div>
-         </div>
-      </div>
+         {/each}
 
-   {/each}
-
-   </div> 
-
-{:else}
-   <div class="message"><p>{_message}</p></div>
-
+      </div> 
+   </div>
 {/if}
-</div>
 
 <style>
    .repository-related-items {
