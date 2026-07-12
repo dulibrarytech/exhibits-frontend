@@ -238,7 +238,7 @@
 
 <div class="exhibits-explore">
     <div class="page">
-        <div class="container">
+        <div class="container-large">
 
             <h1>Explore Exhibits</h1>
 
@@ -316,7 +316,7 @@
         margin-top: 30px;
     }
 
-    .page > .container > h1 {
+    .page > .container-large > h1 {
         font-weight: normal;
     }
 </style>

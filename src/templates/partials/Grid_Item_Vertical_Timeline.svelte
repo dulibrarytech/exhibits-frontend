@@ -2,42 +2,27 @@
     'use-strict'
 
     import { onMount } from 'svelte';
-    import * as Logger from '../../libs/logger.js';
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
     import Item_Display from '../../components/Item_Display.svelte';
 
     export let item = {};
 
-    let id = null;
-    let styles = null;
+    let _itemElement;
 
-    let gridItemElement;
-
-    let type;
-    let date;
-    let title;
-    let text;
-    let media;
-
-    $: {
-        id = item.uuid || "null";
-        date = item.date || null;
-        title = item.title || null;
-        text = item.text || null;
-        type = item.item_type || null;
-        media = item.media || null;
-        styles = item.styles || null;
-
-        if(title) item.title = null;
-    }
+    const {
+        uuid: id = "null",
+        title: title = null,
+        text: text = null,
+        media: media = null,
+        styles: styles = null,
+    } = item;
 
     const setTheme = (styles) => {
-        if(typeof styles == 'object') Object.assign(gridItemElement.style, styles);
-        else Logger.module().error(`Invalid grid item style object. Grid item id: ${id}`);    
+        Object.assign(_itemElement.style, styles);
     }
 
     onMount(() => {
-        if(styles) setTheme(styles); 
+        if(styles && Object.keys(styles).length > 0) setTheme(styles); 
     });
 </script>
 
@@ -45,7 +30,7 @@
     
     <div class="timeline__card">
 
-        <div class="card" bind:this={gridItemElement}>
+        <div class="card" bind:this={_itemElement}>
             <header class="card__header">
 
                 {#if title}

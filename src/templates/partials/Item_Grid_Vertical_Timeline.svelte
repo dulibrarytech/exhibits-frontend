@@ -9,27 +9,23 @@
     
     export let grid = {};
     export let id = null;
-    export let templateStyles = {};
 
-    let titleElement;
+    let gridElement;
 
-    let timelineSection;
-    let title;
     let text;
     let items;
+    let margins;
     let sections = null;
     let styles = {};
 
     const dispatch = createEventDispatcher();
 
     const SHOW_EMPTY_DECADES = false;
-    const CARD_MIN_HEIGHT = 500;
-    const RIGHT_SIDE_ITEMS_TOP_OFFSET = 150;
 
     const init = () => {
-        title = grid.title || null;
         text = grid.text || null;
         items = grid.items || [];
+        margins = grid.margins || 'medium';
 
         if(items.length > 0) {
             sections = sortItemsToDecadeSections(items);
@@ -45,13 +41,8 @@
         
     }
 
-    const setTheme = ({item = {}, heading = null}) => {
-        if(typeof item == 'object') Object.assign(timelineSection.style, item);
-        else Logger.module().error(`Invalid grid style object. Grid id: ${id}`);  
-
-        if(titleElement && heading) {
-            titleElement.style.fontFamily = heading.fontFamily || 'inherit';
-        }
+    const setTheme = (styles) => {
+        Object.assign(gridElement.style, styles);
     }
 
     /**
@@ -153,27 +144,21 @@
             }
         }
 
-        console.log(`test: Timeline grid sorted items:`, sorted);
-
         return sorted;
     }
 
     $: init();
 
     onMount(async () => {
-        setTheme(styles);
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
         dispatch('mount-template-item', {});
     });
 </script>
 
-<div class="vertical-timeline-item-grid grid item-padding" bind:this={timelineSection}>
+<div class="vertical-timeline-item-grid grid template-item item-padding" bind:this={gridElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
     
-    <div class="container grid-container">
-
-        {#if title}
-            <div class="title-heading" bind:this={titleElement}><h3>{@html title}</h3></div>
-        {/if}
+    <div class="container-{margins ?? 'medium'} grid-container">
 
         <div class="row timeline-line">
             <div class="col-6" style="border-right: solid"></div>
@@ -186,7 +171,6 @@
             {#if sections}
 
                 {#each sections as section}
-                    <!-- {#if section.label}<span class="timeline__year time" aria-hidden="true">{section.label}</span>{/if} -->
                     {#if section.label}<span class="timeline__year time"><h3>{section.label}</h3></span>{/if}
 
                     <div class="timeline-section">
@@ -330,15 +314,6 @@
         margin-bottom: 3.5rem;
     }
 
-    .title-heading {
-        text-transform: uppercase;
-        margin-bottom: 3.5rem;
-    }
-
-    .title-heading > h3 {
-        font-size: inherit;
-    }
-
     .timeline-wrapper {
         margin: 0 auto;
         width: 100%;
@@ -368,8 +343,10 @@
         margin-bottom: 50px;
     }
 
-    .vertical-timeline-item-grid > .container {
-        position: relative;
+    .vertical-timeline-item-grid .container-medium,
+    .vertical-timeline-item-grid .container-small,
+    .vertical-timeline-item-grid .container-large {
+            position: relative;
     }
 
     .timeline-line {

@@ -1,7 +1,8 @@
 <script>	
-	// please make this module a component
+  /*
+	 * item viewer template - viewer on left, with sidebar on right for text and link lists, or metadata
+	 */
 
-	import { Settings } from '../../config/settings';
   import Media_Display from '../../components/Media_Display.svelte';
 	import Item_Link_Display from './Item_Link_Display.svelte';
 
@@ -27,7 +28,7 @@
 		description: 	text = DEFAULT_ITEM_TEXT,
 		caption: 			caption = null,
 		links: 				linkList = null,
-		is_iiif_item: isIIIFItem = false,
+		media_iiif: 	mediaIIIF = null,
 	} = item;
 
 	let {
@@ -42,7 +43,7 @@
 		if(date) date = new Date(date).toLocaleDateString();
 
 		// set viewer type for media display
-		if(USE_IIIF_VIEWER && isIIIFItem) {
+		if(USE_IIIF_VIEWER && mediaIIIF) {
 			args.viewerType = VIEWER_TYPE.IIIF;
 		}
 		else {
@@ -124,6 +125,7 @@
 		padding-right: 0px;
 		position: relative;
 		background: white;
+		height: 50%;
 	}
 
 	.text-display-container {
@@ -164,10 +166,6 @@
 	.data-section li {
 		list-style-type: none;
 		margin-bottom: 4px;
-	}
-
-	.media-display-container {
-		height: 50%;
 	}
 
 	:global(.data-section li a) {
@@ -213,12 +211,13 @@
 	:global(.item-viewer .audio-player .audio) {
 		position: absolute;
 		bottom: 15px;
+		left: 15px;
 	}
 
 	:global(.item-viewer .video-player) {
 		height: 100%;
 		color: white;
-		padding: 0 30px;
+		padding: 30px;
 	}
 
 	:global(.item-viewer .video-player .video) {
@@ -226,7 +225,7 @@
 	}
 
 	:global(.item-viewer .video-player .video *) {
-		height: 95%;
+		height: 94%;
 	}
 
 	:global(.item-viewer .pdf-viewer) {
@@ -238,7 +237,7 @@
 	}
 
 	:global(.item-viewer .iframe-wrapper) {
-		height: 75vh;
+		height: 100%;
 	}
 
 	:global(.item-viewer .iframe-wrapper *) {

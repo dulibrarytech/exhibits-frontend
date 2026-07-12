@@ -78,7 +78,7 @@
 
 <div class="search-results-display">
     <div class="results">
-        <div class="container">
+        <div class="container-large">
 
             <div class="row ng-scope">
                 <div class="col-md-3 col-md-push-9 results-sidebar">

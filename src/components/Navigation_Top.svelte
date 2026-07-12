@@ -41,17 +41,16 @@
     }
 
     const setTheme = (styles) => {
-        let menuStyles = styles || {};
-        Object.assign(_navigationElement.style, menuStyles);
+        Object.assign(_navigationElement.style, styles);
     }
 
     onMount(async () => {
-        if(styles) setTheme(styles);
+        if(styles && Object.keys(styles).length > 0) setTheme(styles);
     });
 </script>
 
 <nav class="exhibit-navigation navbar navbar-expand-lg navbar-light" id="mainNav" bind:this={_navigationElement}>
-    <div class="container outer-container">
+    <div class="container-large outer-container">
         <button 
             class="navbar-toggler" 
             type="button" 
@@ -94,6 +93,7 @@
 </nav>
 
 <style>
+
     .nav-link, .nav-link button {
         color: inherit;
     }
@@ -103,15 +103,28 @@
     }
 
     .navbar {
-        background: #e5e3e1;
         min-height: 4.2em;
         border-bottom-style: solid;
         border-width: 1px;
         border-color: #c5c3c1;
+        background-color: #ffffff;
     }
 
-    .navbar > .container {
-        max-width: 100%;
+    .navbar .container-large {
+        display: flex;
+        flex-wrap: inherit;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    @media (min-width: 900px) {
+        .navbar-expand-lg .navbar-toggler {
+            display: block;
+        }
+
+        .navbar {
+            min-height: unset;
+        }
     }
 
     .navbar-expand-lg .navbar-nav {
@@ -228,15 +241,5 @@
 
     .navbar-light .navbar-toggler .navbar-toggler-icon  {
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='0.5' fill='rgb(96,96,96)' d='M4.795 3.912l-.883.883.147.146L7.117 8 4.06 11.059l-.147.146.883.883.146-.147L8 8.883l3.059 3.058.146.147.883-.883-.147-.146L8.883 8l3.058-3.059.147-.146-.883-.883-.146.147L8 7.117 4.941 4.06z'/%3e%3c/svg%3e");
-    }
-
-    @media (min-width: 992px) {
-        .navbar-expand-lg .navbar-toggler {
-            display: block;
-        }
-
-        .navbar {
-            min-height: unset;
-        }
     }
 </style>

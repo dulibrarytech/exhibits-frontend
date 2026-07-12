@@ -9,14 +9,20 @@
     export let text = "";
     export let display = true;
     export let styles = null;
+    export let padTop = false;
+    export let item = {};
 
     let headingElement;
     let textString;
+    let margins;
+    let textAlign;
 
     const dispatch = createEventDispatcher();
 
     $: {
         textString = getInnerText(text);
+        textAlign = item.text_alignment || 'left';
+        margins   = item.margins || 'medium';
     }
 
     export const setTheme = (styles) => {
@@ -26,9 +32,9 @@
     onMount(async () => {
         if(styles) {
             if(typeof styles == 'string') styles = JSON.parse(styles);
-            setTheme(styles);
+            setTheme({ ...styles, textAlign });
         }
-        dispatch('mount-template-item', {type: "heading"});
+        dispatch('mount-template-item', {type: "subheading"});
     });
 </script>
 
@@ -36,7 +42,7 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     {#if display}
-        <div class="section-subheading container">
+        <div class="section-subheading container-{margins}" class:subheading-pad-top={padTop}>
             <div class="section-title">
                 <h3 aria-label={textString}>{@html text}</h3>
             </div>
@@ -50,9 +56,12 @@
     }
     
     .section-subheading {
-        padding-top: 3.65rem; 
         padding-bottom: 0; 
         text-transform: uppercase;
+    }
+
+    .subheading-pad-top {
+        padding-top: 3.65rem; 
     }
 
     .section-subheading h3 {

@@ -107,14 +107,6 @@ main.container {
 	margin-top: 50px;
 }
 
-.page > .container h1,
-.page > .container h2,
-.page > .container h3,
-.page > .container h4 {
-	font-weight: bold;
-	margin-bottom: 50px;
-}
-
 .hidden {
     position:absolute;
     left:-10000px;
@@ -141,5 +133,59 @@ footer {
 @media screen and (min-width: 768px) {
 	.page {
 		top: 90px;
+	}
+}
+
+.container-small {
+	width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+	@media screen and (min-width: 650px) {
+		max-width: 500px;
+	}
+
+	@media screen and (max-width: 650px) {
+		max-width: calc(100vw - 30px);
+	}
+}
+
+.container-medium {
+	width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+	@media screen and (min-width: 1400px) {
+		max-width: 840px;
+	}
+
+	@media screen and (min-width: 900px) and (max-width: 1400px) {
+		max-width: 65vw;
+	}
+
+	@media screen and (min-width: 650px) and (max-width: 900px) {
+		max-width: 80vw;
+	}
+
+	@media screen and (max-width: 650px) {
+		max-width: calc(100vw - 30px);
+	}
+}
+
+.container-large {
+	width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+	@media screen and (min-width: 1400px) {
+		max-width: 1300px;
+	}
+
+	@media screen and (min-width: 900px) and (max-width: 1400px) {
+		max-width: calc(100vw - 100px);
+	}
+
+	@media screen and (max-width: 900px) {
+		max-width: calc(100vw - 30px);
 	}
 }

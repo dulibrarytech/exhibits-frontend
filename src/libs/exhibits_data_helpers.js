@@ -140,7 +140,6 @@ export const createExhibitPageSections = (items) => {
     let headings = [];
     let heading = null;
     let subheading = null;
-    let sectionStyles = null;
 
     for(let index in items) {
         item = items[index];
@@ -160,8 +159,6 @@ export const createExhibitPageSections = (items) => {
             }
 
             item.anchorId = heading.id;
-
-            if(item.styles) sectionStyles = item.styles;
         }
 
         else if(type == ENTITY_TYPE.EXHIBIT_SUBHEADING) {
@@ -190,15 +187,6 @@ export const createExhibitPageSections = (items) => {
                 heading.subheadings.push(subheading);
                 item.anchorId = subheading.id;
             }
-
-            // Apply heading styles
-            let styles = {
-                item: item.styles
-            }
-            if(sectionStyles) {
-                styles.heading = sectionStyles;
-            }
-            item.styles = styles;
         }
 
         // End case: push current heading to the headings array if this is the last item in the exhibit

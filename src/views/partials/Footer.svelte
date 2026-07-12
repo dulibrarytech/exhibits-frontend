@@ -3,7 +3,7 @@
 </script>
 
 <footer>
-    <div class="container">
+    <div class="container-large">
         <div class="footer-content row">
 
             <div class="col-lg-3 col-md-4 col-sm-12 logo-container">
@@ -49,7 +49,7 @@
         font-size: 0.8em;
     }
 
-    footer > .container {
+    footer > .container-large {
         height: 100%;
         padding: 25px;
     }
@@ -102,18 +102,6 @@
 
         /* .logo img {
             width: 85%;
-        } */
-    }
-
-    @media screen and (min-width: 768px) and (max-width: 992px) {
-        .container, .container-md, .container-sm {
-            max-width: 925px;
-        }
-    }
-
-    @media screen and (min-width: 992px) {
-        /* .logo img {
-            width: 60%;
         } */
     }
 </style>

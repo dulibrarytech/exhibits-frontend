@@ -2,6 +2,7 @@
     /**
      * @component Media_Item_Preview
      * @description Component for displaying a preview image (fullsize or thumbnail size image) for a media item. Will attempt to get a thumbnail or preview image for the item, but will fall back to a placeholder image if no preview is available.
+     * @description This component contains the logic to determine the appropriate preview image source for different item types (image, audio, video, pdf) and handles IIIF and Kaltura items. It also dispatches events for click interactions and image load errors.
      * 
      * @param {Object} item - The exhibit item object containing metadata and resource information.
      * @param {Object} args - Additional arguments for configuring the component behavior [
@@ -37,22 +38,14 @@
 
     const dispatch = createEventDispatcher();
 
-    // item options
-    let { 
+    const { 
         isThumbnail,
         isInteractive = true,
         link = null,
-
+        title = null,
     } = args;
 
-    // resource url helper
-    const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
-
-    // component options
-    // const VERIFY_IMAGE_WIDTH_ON_RESIZE = true; 
-    const IMAGE_THUMBNAIL_WIDTH = 400;
-    const IMAGE_PREVIEW_WIDTH = "max";
-
+    // global settings
     const {
         exhibitItemDefaultTitle: DEFAULT_ITEM_TITLE,
         imageAssetsPath: IMAGE_ASSETS_PATH, 
@@ -60,16 +53,24 @@
 
     } = Settings; 
 
-    const {
-        uuid: itemId = "",
-        item_type: itemType = null,
-        media_width: mediaWidth = null,
-        is_iiif_item: isIIIFItem = false,
-        is_kaltura_item: isKalturaItem = false,
-        alt_text: altText = item.is_alt_text_decorative ? null : (item.alt_text || null),
+    // resource url helper
+    const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
-        media = null,
-        thumbnail = null,
+    // component options
+    const IMAGE_THUMBNAIL_WIDTH = 400;
+    const OVERLAY_TEXT_SMALL = "Click to enlarge";
+    const OVERLAY_TEXT_LARGE = "Click to view item";
+
+    // item properties
+    const {
+        uuid:               itemId = "",
+        item_type:          itemType = null,
+        media_iiif:         mediaIIIF = null,
+        thumbnail_iiif:     thumbnailIIIF = null,
+        is_kaltura_item:    isKalturaItem = false,
+        alt_text:           altText = item.is_alt_text_decorative ? null : (item.alt_text || null),
+        media:              media = null,
+        thumbnail:          thumbnail = null,
 
     } = item;
 
@@ -84,9 +85,11 @@
         _previewUrl = await getPreviewUrl(isThumbnail);
 
         if(!_previewUrl) {
+            Logger.module().info(`Could not determine thumbnail source url for item. Item id: ${itemId} Item type: ${itemType}`);
+
             _previewUrl = RESOURCE.getItemPlaceholderImageUrl(itemType);
             _isPlaceholderImage = true;
-            Logger.module().error(`Could not determine thumbnail source url for item. Item id: ${itemId} Item type: ${itemType}`);
+            _showOverlay = false;
         }
     }
 
@@ -119,19 +122,30 @@
     const getImagePreviewUrl = async (isThumbnail=true) => {
         let url = null;
 
-        if(isIIIFItem) {
-            const {image_url: iiifImageUrl = null} = item.media_iiif || {};
+        // handle iiif source urls for image items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
+        if(mediaIIIF) {
+            const {
+                image_url: iiifImageUrl = null,
+                service_url: iiifServiceUrl = null,
+            } = mediaIIIF;
 
-            // using IIIF data from the exhibit item (external or local)
+            const {
+                thumbnail_url: iiifThumbnailImageUrl = null,
+            } = thumbnailIIIF || {};
+
             url = isThumbnail ?
-                thumbnail : // IIIF.getIIIFImageScale(serviceUrl, "min")
-                iiifImageUrl || media || null;      // IIIF.getIIIFImageScale(serviceUrl, "max")
+                // use iiif api thumbnail url from item data || get cropped image via iiif image api || use thumbnail from iiif manifest
+                iiifThumbnailImageUrl || `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` || thumbnail || null :
+
+                // use iiif api thumbnail url from item data || get full image via iiif image api || use thumbnail url from iiif manifest || use image url from iiif manifest
+                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || media || null;
         }
+
+        // handle local filesystem source urls for image items (media/thumbnail are expected to be file names)
         else {
-            // using local IIIF server to fetch local resources
             url = isThumbnail ? 
-                thumbnail || await RESOURCE.getIIIFImageUrl(media, IMAGE_THUMBNAIL_WIDTH) :  // IIIF.getIIIFImageUrl(media, "min")
-                await RESOURCE.getIIIFImageUrl(media); // RESOURCE.getIIIFImageUrl(media, "max")
+                (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getIIIFImageUrl(media, IMAGE_THUMBNAIL_WIDTH)) :
+                (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getIIIFImageUrl(media))
         }
 
         return url;
@@ -139,18 +153,25 @@
 
     const getAudioVideoPreviewUrl = async (isThumbnail=true) => {
         let url = null;
+        let kalturaThumbnail = null;
 
         if(isKalturaItem) { 
             let{kaltura_id = null} = item;
-            url = isThumbnail ? 
-                thumbnail || Kaltura.getThumbnailUrl(kaltura_id):
-                Kaltura.getThumbnailUrl(kaltura_id, "full");
+            kalturaThumbnail = Kaltura.getThumbnailUrl(kaltura_id);
         }
-        else if(isIIIFItem) {
-            url = thumbnail || null; // thumbnail image is currently the only means of providing any preview image of a local a/v resource
+
+        // handle iiif source urls for audio/video items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
+        if(mediaIIIF) {
+            const {
+                thumbnail_url: iiifThumbnailImageUrl = null,
+            } = thumbnailIIIF || {};
+
+            url = iiifThumbnailImageUrl || kalturaThumbnail || thumbnail || null;
         }
+
+        // handle local filesystem source urls for audio/video items (media/thumbnail are expected to be file names)
         else {
-            url = RESOURCE.getFileUrl(thumbnail); // thumbnail image is currently the only means of providing any preview image of a local a/v resource
+            url = (thumbnail ? RESOURCE.getFileUrl(thumbnail) : kalturaThumbnail || null);
         }
 
         return url;
@@ -159,21 +180,29 @@
     const getPdfPreviewUrl = async (isThumbnail=true) => {
         let url = null;
 
-        if(isIIIFItem) {
-            url = isThumbnail ? 
-                thumbnail : // thumbnail will be either thumbnail_iiif.thumbnail_url or manifest thumbnail resource for iiif items
-                thumbnail || media || null;
+        const {pdf_open_to_page: page = "1"} = item;
+
+        // handle iiif source urls for pdf items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
+        if(mediaIIIF) {
+            const {
+                image_url: iiifImageUrl = null,
+                service_url: iiifServiceUrl = null,
+            } = mediaIIIF;
+
+            const {
+                thumbnail_url: iiifThumbnailImageUrl = null,
+            } = thumbnailIIIF || {};
+
+            url = isThumbnail ?
+                iiifThumbnailImageUrl || `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` || thumbnail || null :
+                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || null;
         }
+
+        // handle local filesystem source urls for pdf items (media/thumbnail are expected to be file names)
         else {
-            // if thumbnail file is present, this will show in the media item preview regardless of the isThumbnail state. if it is not, get a derivative of the "media" file and open to the pdf page specified
-            if(thumbnail) {
-                url = await RESOURCE.getPdfPreviewImageUrl(thumbnail, IMAGE_THUMBNAIL_WIDTH, height);
-            }
-            else {
-                const {pdf_open_to_page = "1"} = item;
-                const width = isThumbnail ? IMAGE_THUMBNAIL_WIDTH : null;
-                url = `${ (await RESOURCE.getPdfPreviewImageUrl(media, width, null, pdf_open_to_page)) }`;
-            }
+            url = isThumbnail ? 
+                (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getPdfPreviewImageUrl(media, IMAGE_THUMBNAIL_WIDTH, height, page)) :
+                (thumbnail ? RESOURCE.getFileUrl(thumbnail) : await RESOURCE.getPdfPreviewImageUrl(media, null, height, page)); 
         }
 
         return url;
@@ -189,7 +218,7 @@
         let placeholderImageUrl = `${IMAGE_ASSETS_PATH}/${PLACEHOLDER_IMAGE[itemType || 'DEFAULT']}`;
 
         Logger.module().error(`Preview image load error. Url: ${_previewUrl}`);
-        _previewImageElement.parentElement.title = "Preview image failed to load. Click to view item.";
+        if(!title) _previewImageElement.parentElement.title = "Preview image failed to load. No item description available";
         _showOverlay = false;
 
         if(event.target.src.includes(placeholderImageUrl) == false) {
@@ -213,17 +242,17 @@
 
         <div class="item-preview {_isPlaceholderImage ? 'placeholder-image' : ''}">
             <button 
+                title={title || undefined}
                 data-item-id={itemId} 
-                on:click={onClickItem} 
                 tabindex={isInteractive ? undefined : '-1'} 
                 aria-label={isInteractive ? `click to open item viewer` : undefined}
                 disabled={isInteractive ? false : true}
+                on:click={onClickItem} 
             >
                 <img 
                     crossorigin="anonymous" 
                     src={_previewUrl} 
                     alt={altText || undefined} 
-                    title={_isPlaceholderImage ? `Preview image failed to load. Click to view item.` : undefined}
                     on:load={onImageLoad} 
                     on:error={onImageLoadError} 
                     bind:this={_previewImageElement}
@@ -235,7 +264,7 @@
                 <div class="overlay-text">
                     <!-- magnifying glass icon -->
                     <!-- <i class="las la-search"></i> -->
-                    <p>Click to enlarge</p>
+                    <p>{OVERLAY_TEXT_SMALL}</p>
                 </div>
             {/if}
         </div>
@@ -259,6 +288,10 @@
         pointer-events: none;
     }
 
+    .item-preview-wrapper {
+        margin-inline: auto;
+    }
+
     .item-preview {
         margin-bottom: 1em;
         margin: 0 auto;
@@ -273,9 +306,7 @@
 
     .item-preview.placeholder-image {
         margin-top: unset;
-        margin-left: unset;
-        margin-right: unset;
-        max-width: 200px;
+        width: 200px;
     }
 
     .item-preview:hover .overlay,

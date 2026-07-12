@@ -7,14 +7,15 @@
     let introductionElement;
 
     onMount(async () => {
-        if(styles) {
+        if(styles && Object.keys(styles).length > 0) {
+            // set theme
             Object.assign(introductionElement.style, styles);
         }
     });
 </script>
 
 <div class="exhibit-introduction-section" bind:this={introductionElement}>
-    <div class="exhibit-introduction container">
+    <div class="exhibit-introduction container-{styles.margins ?? 'medium'}">
         {@html content}
     </div>
 </div>

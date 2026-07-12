@@ -10,21 +10,22 @@
     export let data = null;
     export let styles = null;
 
-    let bannerData = {};
-
     const RESOURCE = new ResourceUrl(data.uuid);
 
+    // component settings
     const DEFAULT_BANNER = Settings.defaultBannerTemplate;
 
-    let banner = null;
-    let image = null;
-    let titleText = "";
+    let _banner = null;
+    let _bannerData = {};
+    let _image = null;
+    let _titleText = "";
 
     $: init();
 
     const init = () => {
         let { 
             banner_template = null, 
+            media_iiif = null,
             hero_image = null, 
             title = "",
             subtitle = null,
@@ -32,17 +33,25 @@
 
         } = data;
 
-        titleText = `${getInnerText(title)} ${subtitle ? getInnerText(subtitle) : ""}`;
+        _titleText = `${getInnerText(title)} ${subtitle ? getInnerText(subtitle) : ""}`;
         
-        if(hero_image) image = getImagePath(hero_image);
+        // set the hero image url
+        if(media_iiif) {
+            const {image_url = ""} = media_iiif;
+            _image = image_url;
+        }
+        else if(hero_image) {
+            _image = getImagePath(hero_image);
+        }
 
-        banner = $Banners[banner_template || DEFAULT_BANNER];
-        bannerData = {
-            image,
+        _banner = $Banners[banner_template || DEFAULT_BANNER];
+
+        _bannerData = {
+            image: _image,
+            titleText: _titleText,
             title,
             subtitle,
             description,
-            titleText
         }
     }
 
@@ -57,8 +66,8 @@
 </script>
 
 <header class="hero">
-    {#if banner}
-        <svelte:component this={banner} args={bannerData} styles={styles.template} />
+    {#if _banner}
+        <svelte:component this={_banner} args={_bannerData} styles={styles.template} />
     {/if}
 </header>
 

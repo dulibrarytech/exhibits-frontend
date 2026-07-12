@@ -42,20 +42,24 @@
 
     const onImageLoadError = (event) => {
         sourceUrl = null;
-
         dispatch('load-error', {url});
+    }
+
+    const onImageLoaded = (event) => {
+        dispatch('loaded', {url});
     }
 
     $: render();
 </script>
 
 <div class="image-viewer">
+
     <div class="image">
         {#if sourceUrl}
 
             {#if viewer == FILE_VIEWER}
                 <div class="content">
-                    <img src={sourceUrl} alt={altText ? altText : undefined} title={title || undefined} on:error={onImageLoadError}/>
+                    <img src={sourceUrl} alt={altText ? altText : undefined} title={title || undefined} on:error={onImageLoadError} on:load={onImageLoaded}/>
                 </div>
 
             {:else if viewer == TILE_VIEWER}

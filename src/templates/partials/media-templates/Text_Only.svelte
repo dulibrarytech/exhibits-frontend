@@ -4,9 +4,7 @@
 
 <div class="text-only layout">
 
-    <div class="content container">
-        <div class="title-heading"><slot name="title" /></div>
-
+    <div class="content">
         <div class="text">
             <slot name="text-display" />
         </div>
@@ -15,7 +13,4 @@
 </div>
 
 <style>
-    .title-heading:has(> div:empty) {
-        display: none;
-    }
 </style>
