@@ -70,8 +70,6 @@
         Logger.module().info("Mounted exhibit template");
         if(styles && Object.keys(styles).length > 0) setTheme(styles);
         dispatch('mount-template', {});
-
-        console.log("test: display items: ", _displayItems);
     });
 </script>
 
