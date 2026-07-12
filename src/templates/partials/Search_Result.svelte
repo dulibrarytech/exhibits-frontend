@@ -12,6 +12,7 @@
     export let index = null;
     export let searchType = null;
 
+    // item data fields
     let title;
     let date;
     let caption;
@@ -19,16 +20,23 @@
     let itemType;
     let link;
     let type;
-    let parentExhibitId;
 
+    // module variables
+    let parentExhibitId;
+    let truncateDescription;
+
+    // element handles
     let previewImageElement;
 
-    var truncateDescription;
+    // feature flags
+    const USE_CAPTION_FOR_TITLE = true;
 
+    // module settings
     const MAX_DESCRIPTION_TEXT_LENGTH = 800;
+    const DEFAULT_TITLE = "Untitled";
 
     $: {
-        title = result.title || "Untitled Item";
+        title = result.title || null;
         date = result.date || null;
         caption = result.caption || null;
         description = result.description || result.text || null;
@@ -65,8 +73,7 @@
             <!-- fullwidth, no left side section -->
             <div class="col-sm-12">
                 <p>{index+1}.</p>
-                <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{title}</a></h4>
-                <!-- <hr> -->
+                <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{title || (USE_CAPTION_FOR_TITLE && caption ? caption : false) || DEFAULT_TITLE}</a></h4>
 
                 {#if date}
                     <p class="info">{date}</p>
@@ -74,13 +81,11 @@
 
                 {#if itemType}
                     <p class="info">{itemType}</p>
-                <!-- {/if} -->
-
                 {:else if type}
                     <p class="info">{type}</p>
                 {/if}
 
-                {#if caption}
+                {#if USE_CAPTION_FOR_TITLE == false && caption}
                     <p class="info"><span use:formatSearchResultValue={{terms}}>{caption}</span></p>
                 {/if}
 
@@ -100,12 +105,14 @@
                     <br><br>
                 {/if} -->
             </div>
+            <!-- end left side section -->
 
-            <!-- right side content -->
+            <!-- right side section -->
             <!-- <div class="col-sm-3 text-align-center">
                 <p class="value3 mt-sm">$9, 700</p>
                 <p class="fs-mini text-muted">PER WEEK</p><a class="btn btn-primary btn-info btn-sm" href="#">Learn More</a>
             </div> -->
+            <!-- end right side section -->
         </div>
     </div>
 </section>
