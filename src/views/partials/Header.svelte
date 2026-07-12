@@ -5,7 +5,7 @@
 
 <header class="du-header">
     <div class="border-bottom box-shadow-bottom">
-        <div class="container d-flex flex-column flex-md-row align-items-left py-3">
+        <div class="container-large d-flex flex-column flex-md-row align-items-left py-3">
             <a class="d-flex align-items-left text-dark text-decoration-none" href="https://library.du.edu" title="University Libraries" target="_blank" aria-label="university of denver libraries home page">
                 <img class="header-branding" src="/assets/images/du-libraries-logo.png" alt="University of Denver Logo" />
             </a>

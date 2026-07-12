@@ -156,7 +156,7 @@
 </script>
 
 <div class="search-page page">
-    <div class="search-results container">
+    <div class="search-results container-large">
         {#if results}
 
             <Search_Results_Display 

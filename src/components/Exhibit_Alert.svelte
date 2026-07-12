@@ -5,7 +5,7 @@
 </script>
 
 <div class="exhibit-alert">
-    <div class="container">
+    <div class="container-large">
         {@html text}
     </div>
 </div>
