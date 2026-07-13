@@ -38,6 +38,6 @@
 <style>
     #uv {
         width: 100%;
-        height: 668px;
+        height: 100%;
     }
 </style>

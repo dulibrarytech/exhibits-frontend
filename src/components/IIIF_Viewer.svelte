@@ -28,3 +28,9 @@
     <!-- can add additional viewers here, use feature toggles -->
     
 </div>
+
+<style>
+    .universal-viewer {
+        height: 100%;
+    }
+</style>
