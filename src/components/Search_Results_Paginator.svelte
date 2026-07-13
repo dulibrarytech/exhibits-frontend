@@ -24,7 +24,6 @@
         resultsPerPage = params.resultsPerPage || 10;
         totalResults = params.totalResults ?? 0;
         path = window.location.href;
-
         paginator = create(resultsPage, pageNumber, resultsPerPage, totalResults, path);
     }
 
@@ -45,11 +44,11 @@
             {#if paginator.buttons.prev}<li><a href={paginator.path.prev} title="Go to Previous Page" on:click={onClickLink}>Previous</a></li>{/if}
 
             {#if paginator.firstPageLink > 0}
-                {#each Array((paginator.lastPageLink+1) - paginator.firstPageLink) as _, index (index)}
+                {#each Array.from({length: paginator.lastPageLink - paginator.firstPageLink + 1}, (_, i) => i + paginator.firstPageLink) as page}
 
-                    <li class={paginator.page == index+1 ? "active" : undefined}>
-                        <a href={`${paginator.path.current}page=${index+1}`} title="Go to Page {index+1}" data-page={index+1} on:click={onClickLink}>
-                            {index+1}
+                    <li class={paginator.page == page ? "active" : undefined}>
+                        <a href={`${paginator.path.current}page=${page}`} title="Go to Page ${page}" data-page={page} on:click={onClickLink}>
+                            {page}
                         </a>
                     </li>
 

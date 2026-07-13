@@ -48,6 +48,8 @@
  export const create = function(items, page, maxItems, totalItems, path) {
     const MAX_PAGE_LINKS = 10;
 
+    console.log("test: pag.create() init values: page: " + page + ", maxItems: " + maxItems + ", totalItems: " + totalItems + ", path: " + path);
+
     var pagination = {};
     pagination['page'] = page || 1;
 
@@ -97,6 +99,10 @@
     // Get the max number of page links to show
     pagination['maxPageLinks'] = MAX_PAGE_LINKS;
 
+
+
+
+
     // Show the page links if there are results
     if(pagination.totalHits > 0 && pagination.pageCount > 1) {
 
@@ -117,15 +123,19 @@
 
         // Pages present exceed the range of max links.  Show the current page at the center of the page list for ease of forward/backward navigation
         else {
-            pagination['firstPageLink'] = parseInt(page) - (pagination.maxPageLinks / 2);
-            pagination['lastPageLink'] = parseInt(page) + (pagination.maxPageLinks / 2);
-
-            // Make sure the page list does not exceed the page count
-            if(pagination.lastPageLink > pagination.pageCount) {
-                pagination.lastPageLink = pagination.pageCount;
+            let lastPage = parseInt(page) + (pagination.maxPageLinks / 2);
+            if(lastPage > pagination.pageCount) {
+                lastPage = pagination.pageCount;
             }
+
+            pagination['firstPageLink'] = 1 + (lastPage - pagination.maxPageLinks);
+            pagination['lastPageLink'] = pagination.maxPageLinks + (lastPage - pagination.maxPageLinks);
         }
     }
+
+
+
+
 
     // If no search results, do not show any page links
     else {
