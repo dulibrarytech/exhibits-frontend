@@ -48,8 +48,6 @@
  export const create = function(items, page, maxItems, totalItems, path) {
     const MAX_PAGE_LINKS = 10;
 
-    console.log("test: pag.create() init values: page: " + page + ", maxItems: " + maxItems + ", totalItems: " + totalItems + ", path: " + path);
-
     var pagination = {};
     pagination['page'] = page || 1;
 
