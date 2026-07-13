@@ -18,7 +18,7 @@
 	export let args = {};
 
 	// feature flags
-	const USE_IIIF_VIEWER = false;
+	const USE_IIIF_VIEWER = true;
 
 	// module settings
 	const DEFAULT_ITEM_TEXT = "No description available";
@@ -43,7 +43,7 @@
 		if(date) date = new Date(date).toLocaleDateString();
 
 		// set viewer type for media display
-		if(USE_IIIF_VIEWER && mediaIIIF) {
+		if(mediaIIIF && USE_IIIF_VIEWER) {
 			args.viewerType = VIEWER_TYPE.IIIF;
 		}
 		else {
