@@ -244,6 +244,10 @@
 		height: 100%;
 	}
 
+	:global(.item-viewer .iiif-viewer) {
+		height: 100%;
+	}
+
 	@media screen and (min-width: 992px) {
 		.item-viewer {
 			background: darkgray;
