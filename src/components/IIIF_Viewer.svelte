@@ -16,7 +16,7 @@
 <div class="iiif-viewer">
     <div class="universal-viewer">
         {#if manifestUrl}
-            <UniversalViewer_Content manifest={manifestUrl} {type} />
+            <UniversalViewer_Content manifest={manifestUrl} {type} on:loaded />
 
         {:else}
             <div class="load-message">

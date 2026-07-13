@@ -12,8 +12,12 @@
 </svelte:head>
 
 <script>
+    import { createEventDispatcher } from 'svelte';
+
     export let manifest;
     export let type;
+
+    const dispatch = createEventDispatcher();
 
     var UV;
 
@@ -25,6 +29,7 @@
     const initViewer = () => {
 		UV = window.UV;
         UV.init("uv", data);
+        dispatch("loaded", {});
 	}
 </script>
 
