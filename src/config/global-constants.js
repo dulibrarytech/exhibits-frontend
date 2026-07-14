@@ -84,3 +84,8 @@ export const SEARCH_TYPE = {
     SEARCH_ALL: "search_all",
     SEARCH_EXHIBIT: "search_exhibit"
 }
+
+export const IIIF_VIEWER = {
+    UNIVERSALVIEWER: "universalviewer",
+    CLOVER: "clover"
+}

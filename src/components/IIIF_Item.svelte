@@ -33,6 +33,7 @@
       try {
         _manifest = JSON.parse(manifestJSON);
 
+        // get the resource uri from the manifest for the media content and the thumbnail image, if present
         item.media = getManifestResourceUrl(_manifest) || item.media;
         item.thumbnail = thumbnailUrl || getManifestThumbnailUrl(_manifest) || item.thumbnail;
 
