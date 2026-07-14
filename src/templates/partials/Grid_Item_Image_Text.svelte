@@ -61,7 +61,7 @@
     {/if}
 
     {#if title}<h4>{@html title}</h4>{/if}
-    <Item_Display {item} template={Item} args={{showTitle: true}} on:click-item />
+    <Item_Display {item} template={Item} args={{showTitle: true, gridItem: true}} on:click-item />
 </div>
 
 <style>

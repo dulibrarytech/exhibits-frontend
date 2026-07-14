@@ -20,7 +20,7 @@
         items = [],
         columns = DEFAULT_COLUMN_COUNT, 
         styles = {},
-
+        margins = 'medium',
     } = grid;
 
     const init = () => {
@@ -47,7 +47,7 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     <div class="container grid-container">
-        {#if text}<div class="text">{@html text}</div>{/if}
+        {#if text}<div class="container-{margins ?? 'medium'} text">{@html text}</div>{/if}
 
         <div class="grid-content">
             {#if _itemDisplay}
@@ -66,17 +66,8 @@
         width: 100%;
     }
 
-    .title-heading {
-        text-transform: uppercase;
-        margin-bottom: 45px;
-    }
-
-    .title-heading > h3 {
-        font-size: inherit;
-    }
-
     .text {
-        margin-bottom: 3.5rem;
+        margin-bottom: 2rem;
     }
 
     .anchor-offset {
