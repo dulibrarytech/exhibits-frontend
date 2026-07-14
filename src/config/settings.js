@@ -3,7 +3,11 @@
  * Update this file or via admin UI
  */
 import { text } from 'stream/consumers';
-import { EXHIBIT_TEMPLATE, ITEM_TYPE } from './global-constants.js';
+import { 
+    EXHIBIT_TEMPLATE, 
+    ITEM_TYPE,
+    IIIF_VIEWER
+} from './global-constants.js';
 
 export const Settings = {
     appTitle: "Exhibits @ DU",
@@ -290,6 +294,14 @@ export const Settings = {
             textValue: "Parent Collection",
         },
     ],
+
+    /*
+     * IIIF viewer settings
+     * ["universalviewer" | "clover"]
+     */
+    iiifViewerSettings: {
+        iiifViewer: "clover",
+    },
 
     /*
      * Universal viewer settings
