@@ -10,7 +10,5 @@
 </div>
 
 <style>
-    /* .test {
-        width: 49%;
-    } */
+
 </style>

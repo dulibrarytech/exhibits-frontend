@@ -5,8 +5,6 @@
 
 <script>
     import Item_Grid_Vertical_Timeline from '../../templates/partials/Item_Grid_Vertical_Timeline.svelte';
-
-    // test_data = grid item {}
     import {test_data} from '../data/vertical-timeline.js';
 </script>
 

@@ -1,7 +1,7 @@
 <script>
     import Kaltura_Content from '../../components/Kaltura_Content.svelte';
 
-    let entryId = "0_6mf7d2pb";
+    let entryId = "";
     let caption = "caption text";
 </script>
 

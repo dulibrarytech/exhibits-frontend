@@ -5,8 +5,6 @@
 
 <script>
     import Item_Grid from '../../templates/partials/Item_Grid.svelte';
-
-    // test_data = grid item {}
     import {test_data} from '../data/item-grids.js';
 </script>
 

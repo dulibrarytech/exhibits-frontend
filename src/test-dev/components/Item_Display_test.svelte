@@ -8,9 +8,6 @@
     import {test_items} from '../data/items.js';
     let data = test_items["PDF"];
 
-    data.media_iiif = null;
-    data.is_embedded = 0; // not used in item_viewer
-
     let args = {
       useThumbnailPreview: false,
     }
