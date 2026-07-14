@@ -52,7 +52,7 @@
         caption     = item.caption || null;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_item_width || DEFAULT_MEDIA_WIDTH;
-        mediaPadding = item.margins === 'large' ? false : item.media_padding ?? true;
+        mediaPadding = item.margins === 'large' || args.gridItem ? item.media_padding ?? true : false;
         wrapText    = item.wrap_text ?? true;
         isEmbedded  = item.is_embedded || false;
         styles      = item.styles || null;
@@ -91,7 +91,7 @@
 </script>
 
 <div class="item template-item" data-uuid={uuid} bind:this={itemElement}>
-    <div class="item-padding container-{margins}">
+    <div class="{args.gridItem ? '' : 'item-padding'} container-{margins}">
         <div id={id ?? undefined} class="anchor-offset"></div>
 
         {#if layout == MEDIA_POSITION.RIGHT}
