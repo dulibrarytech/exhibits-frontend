@@ -25,7 +25,7 @@
             <div class="col-lg-3 col-md-3 col-sm-12">
                 <p>Explore More:</p>
                 <div class="links">
-                    <a href="https://specialcollections.du.edu" target="_blank">Digital Collections</a>
+                    <a href="https://digitalarchives.du.edu" target="_blank">Digital Archives</a>
                     <a href="https://duarchives.coalliance.org/" target="_blank">Archives Finding Aids</a>
                 </div>
             </div>
