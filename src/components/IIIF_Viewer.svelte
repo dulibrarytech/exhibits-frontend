@@ -1,8 +1,8 @@
 <script>
     import { Settings } from '../config/settings';
+    import * as Logger from '../libs/logger.js';
     import UniversalViewer_Content from "./UniversalViewer_Content.svelte";
     import CloverIIIFViewer from "./Clover_IIIF_Viewer.svelte";
-    import * as Logger from '../libs/logger.js';
 
     import {
         IIIF_VIEWER
@@ -32,7 +32,7 @@
             </div>
         {:else if iiifViewer == IIIF_VIEWER.CLOVER}
             <div class="clover-viewer">
-                <CloverIIIFViewer manifest={manifestUrl} {type} on:loaded />
+                <CloverIIIFViewer {manifestUrl} {type} on:loaded />
             </div>
         {/if}
 

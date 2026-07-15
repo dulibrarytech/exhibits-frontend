@@ -1,15 +1,34 @@
+<svelte:head>
+  <script src="https://www.unpkg.com/@samvera/clover-iiif@latest/dist/web-components/index.umd.js"></script>
+</svelte:head>
+
 <script>
-  export let title = "Clover IIIF Viewer";
-  export let description = "A simple IIIF viewer placeholder component.";
+  import { createEventDispatcher } from 'svelte';
+  import { onMount } from 'svelte';
+
+  export let manifestUrl = "";
+
+  const dispatch = createEventDispatcher();
+
+  const onLoadViewer = (event) => {
+    dispatch('loaded', {});
+  }
+
+  onMount(() => {
+    onLoadViewer();
+  });
 </script>
 
-<main>
-  <h1>{title}</h1>
-  <p>{description}</p>
-</main>
+<div class="clover-iiif-viewer">
+
+  <h1>Clover IIIF Viewer</h1>
+
+  <clover-viewer id={manifestUrl} options={"{}"} ></clover-viewer>
+  
+</div>
 
 <style>
-  main {
+  .clover-iiif-viewer {
     padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 0.5rem;

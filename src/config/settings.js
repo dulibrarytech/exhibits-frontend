@@ -300,7 +300,7 @@ export const Settings = {
      * ["universalviewer" | "clover"]
      */
     iiifViewerSettings: {
-        iiifViewer: "clover",
+        iiifViewer: "universalviewer",
     },
 
     /*
