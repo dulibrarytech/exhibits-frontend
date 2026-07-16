@@ -15,7 +15,6 @@
     let _gridElement;
 
     let {
-        title = null,
         text = null, 
         items = [],
         columns = DEFAULT_COLUMN_COUNT, 

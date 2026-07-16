@@ -10,39 +10,30 @@
     export let grid = {};
     export let id = null;
 
-    let gridElement;
-
-    let text;
-    let items;
-    let margins;
-    let sections = null;
-    let styles = {};
-
     const dispatch = createEventDispatcher();
 
     const SHOW_EMPTY_DECADES = false;
 
+    let _sections = null;
+    let _gridElement;
+
+    const {
+        text = null,
+        items = [],
+        margins = 'medium',
+        styles = {},
+
+    } = grid;
+
     const init = () => {
-        text = grid.text || null;
-        items = grid.items || [];
-        margins = grid.margins || 'medium';
-
         if(items.length > 0) {
-            sections = sortItemsToDecadeSections(items);
-
-            items = items.map((item) => {
-                item.styles = JSON.parse(item.styles);
-                return item;
-            }) || [];
-
-            styles = grid.styles || {};
+            _sections = sortItemsToDecadeSections(items);
         }
         else console.log(`No items found in timeline grid: ${grid.uuid}`);
-        
     }
 
     const setTheme = (styles) => {
-        Object.assign(gridElement.style, styles);
+        Object.assign(_gridElement.style, styles);
     }
 
     /**
@@ -155,7 +146,7 @@
     });
 </script>
 
-<div class="vertical-timeline-item-grid grid template-item item-padding" bind:this={gridElement}>
+<div class="vertical-timeline-item-grid grid template-item item-padding" bind:this={_gridElement}>
     <div id={id ?? undefined} class="anchor-offset"></div>
     
     <div class="container-{margins ?? 'medium'} grid-container">
@@ -168,9 +159,9 @@
         {#if text}<div class="text">{text}</div>{/if}
 
         <div class="timeline-wrapper">
-            {#if sections}
+            {#if _sections}
 
-                {#each sections as section}
+                {#each _sections as section}
                     {#if section.label}<span class="timeline__year time"><h3>{section.label}</h3></span>{/if}
 
                     <div class="timeline-section">
