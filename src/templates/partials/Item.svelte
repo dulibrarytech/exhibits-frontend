@@ -85,7 +85,7 @@
     }
 
     onMount(async () => {
-        if(styles && Object.keys(styles).length > 0) setTheme(styles);
+        if(textAlign || (styles && Object.keys(styles).length > 0)) setTheme(styles);
         dispatch('mount-template-item', {type: "item"});
     });
 </script>
