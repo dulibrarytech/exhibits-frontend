@@ -52,7 +52,7 @@
         caption     = item.caption || null;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = item.media_item_width || DEFAULT_MEDIA_WIDTH;
-        mediaPadding = item.margins === 'large' || args.gridItem ? item.media_padding ?? true : false;
+        mediaPadding = item.margins === 'large' || args.gridItem ? true : item.media_padding ?? false;
         wrapText    = item.wrap_text ?? true;
         isEmbedded  = item.is_embedded || false;
         styles      = item.styles || null;
