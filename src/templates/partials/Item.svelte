@@ -163,7 +163,7 @@
         color: inherit;
         line-height: 1.5em;
         margin-top: 1rem;
-        width: 90%;
+        width: min(90%, 37rem);
         margin-inline: auto;
         text-align: center;
     }
