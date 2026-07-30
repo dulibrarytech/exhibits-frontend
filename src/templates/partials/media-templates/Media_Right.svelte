@@ -158,11 +158,6 @@
             width: unset;
         }
 
-        .layout:not(.media-padding) .caption {
-            padding-right: 50px;
-            padding-left: 0.75rem;
-        }
-
         .layout:not(.media-padding) .media {
             margin-right: -150px;
             width: calc(var(--width) + 150px);

@@ -159,11 +159,13 @@
     }
 
     :global(.item .caption) {
-        margin-top: 1rem;
-        margin-left: 1rem;
         text-decoration: none;
         color: inherit;
         line-height: 1.5em;
+        margin-top: 1rem;
+        width: 90%;
+        margin-inline: auto;
+        text-align: center;
     }
 
     :global(.item .layout.media-padding .kaltura-content.embedded) {

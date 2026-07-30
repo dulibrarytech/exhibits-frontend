@@ -10,7 +10,6 @@
 
     let containerPadding;
     let textContainer;
-    let captionElement;
     let textMargin;
 
     const updateTextMargin = () => {
@@ -33,7 +32,7 @@
 
             <div class="media width-{mediaWidth}">
                 <slot name="media-display" />
-                {#if caption}<div class="caption" bind:this={captionElement}>{caption}</div>{/if}
+                {#if caption}<div class="caption">{caption}</div>{/if}
             </div>
 
             <div class="text">
@@ -104,11 +103,6 @@
         margin-bottom: 3.65rem; 
     }
 
-    .layout:not(.media-padding) .caption {
-        padding-right: 1.5rem;
-        padding-left: 1.5rem;
-    }
-
     .layout.media-padding .content:not(.wrap-text) .text {
         padding-left: 0;
     }
@@ -156,11 +150,6 @@
             padding-right: 40px;
             padding-bottom: 25px;
             margin-bottom: 0; 
-        }
-
-        .layout:not(.media-padding) .caption {
-            padding-left: 50px;
-            padding-right: 0.75rem;
         }
 
         .layout.media-padding .content:not(.wrap-text) .text {

@@ -32,15 +32,6 @@
         margin-top: 3.65rem;
     }
 
-    .layout.media-padding .caption {
-        margin-left: 0.75rem;
-    }
-
-    .layout:not(.media-padding) .caption {
-        margin-left: 3.5vw;
-        padding-left: 0.75rem;
-    }
-
     .width-25 {width: 100%}
     .width-33 {width: 100%}
     .width-34 {width: 100%}

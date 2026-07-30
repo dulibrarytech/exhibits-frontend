@@ -24,14 +24,6 @@
         margin: 0 auto;
     }
 
-    .caption {
-        margin-left: 0.75rem;
-    }
-
-    .layout:not(.media-padding) .media-100 .caption {
-        margin-left: 3.5vw;
-    }
-
     .width-25 {width: 100%}
     .width-33 {width: 100%}
     .width-34 {width: 100%}
