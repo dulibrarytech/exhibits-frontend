@@ -82,8 +82,8 @@
 
     const init = async () => {
         _isPlaceholderImage = false;
-        _previewUrl = await getPreviewUrl(isThumbnail);
 
+        _previewUrl = await getPreviewUrl(isThumbnail);
         if(!_previewUrl) {
             Logger.module().info(`Could not determine thumbnail source url for item. Item id: ${itemId} Item type: ${itemType}`);
 
@@ -134,10 +134,25 @@
             } = thumbnailIIIF || {};
 
             url = isThumbnail ?
-                // use iiif api thumbnail url from item data || get cropped image via iiif image api || use thumbnail from iiif manifest
-                iiifThumbnailImageUrl || `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` || thumbnail || null :
+                /*
+                 * source options for thumbnail image:
+                 *
+                 * 1. iiif api thumbnail url from item data
+                 * 2. thumbnail (from iiif manifest or remote image uri)
+                 * 3. get cropped image via iiif image api
+                 * 4. null (no thumbnail available)
+                 */
+                iiifThumbnailImageUrl || thumbnail || (iiifServiceUrl ? `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` : false) || null :
 
-                // use iiif api thumbnail url from item data || get full image via iiif image api || use thumbnail url from iiif manifest || use image url from iiif manifest
+                /*
+                 * source options for fullsize preview image:
+                 *
+                 * 1. iiif api thumbnail url from item data
+                 * 2. iiif api image url from item data
+                 * 3. thumbnail (from iiif manifest or remote image uri)
+                 * 4. media (from iiif manifest or remote image uri)
+                 * 5. null (no preview available)
+                 */
                 iiifThumbnailImageUrl || iiifImageUrl || thumbnail || media || null;
         }
 
@@ -160,12 +175,19 @@
             kalturaThumbnail = Kaltura.getThumbnailUrl(kaltura_id);
         }
 
-        // handle iiif source urls for audio/video items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
         if(mediaIIIF) {
             const {
                 thumbnail_url: iiifThumbnailImageUrl = null,
             } = thumbnailIIIF || {};
 
+            /*
+             * source options for thumbnail image:
+             *
+             * 1. iiif api thumbnail url from item data
+             * 2. kaltura thumbnail url from item data
+             * 3. thumbnail (from iiif manifest or remote image uri)
+             * 4. null (no thumbnail available)
+             */
             url = iiifThumbnailImageUrl || kalturaThumbnail || thumbnail || null;
         }
 
@@ -194,7 +216,24 @@
             } = thumbnailIIIF || {};
 
             url = isThumbnail ?
-                iiifThumbnailImageUrl || `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` || thumbnail || null :
+                /*
+                 * source options for thumbnail image:
+                 *
+                 * 1. iiif api thumbnail url from item data
+                 * 2. thumbnail (from iiif manifest or remote image uri)
+                 * 3. get cropped image via iiif image api
+                 * 4. null (no thumbnail available)
+                 */
+                iiifThumbnailImageUrl || thumbnail || (iiifServiceUrl ? `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` : false) || null :
+
+                /*
+                 * source options for fullsize preview image:
+                 *
+                 * 1. iiif api thumbnail url from item data
+                 * 2. iiif api image url from item data
+                 * 3. thumbnail (from iiif manifest or remote image uri)
+                 * 4. null (no preview available)
+                 */
                 iiifThumbnailImageUrl || iiifImageUrl || thumbnail || null;
         }
 
