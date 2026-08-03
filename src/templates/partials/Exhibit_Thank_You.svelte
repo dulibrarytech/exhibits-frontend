@@ -2,7 +2,7 @@
     <div>
         <h2>Thank you for visiting this exhibit.</h2>
         <br>
-        <h4>To learn more about the University of Denver Libraries and the Digital Archives please visit <a href="https://library.du.edu" target="_blank">library.du.edu</a> and <a href="https://digitalarchives.du.edu" target="_blank">digitalarchives.du.edu</a>.</h4>
+        <h4>Learn more about the University of Denver Libraries' <a href="https://library.du.edu/collections/special-collections-archives" target="_blank">Special Collections and Archives</a>, or explore collections in <a href="https://digitalarchives.du.edu" target="_blank">Digital Archives @ DU</a>.</h4>
     </div>
 </div>
 
