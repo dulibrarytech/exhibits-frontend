@@ -9,6 +9,8 @@
     import Repository_Related_Items from '../components/Repository_Related_Items.svelte';
     import Alert from '../components/Exhibit_Alert.svelte';
 
+    const dispatch = createEventDispatcher();
+
     export let args = {};
     export let template = null;
     export let sections = [];
@@ -16,8 +18,10 @@
     export let styles = null;
     export let data = {};
 
+    // element handles
     let pageTopLinkElement;
 
+    // component variables
     let renderTemplate = false;
     let templateMessage = null;
     let exhibitData = {};
@@ -26,20 +30,6 @@
     $: {
         exhibitData = data;
         alert = exhibitData.alert_text || null;
-    }
-
-    const dispatch = createEventDispatcher();
-
-    const scrollToPageTop = () => {
-        window.scrollTo({
-			top: 0,
-			behavior: 'smooth'
-		});
-    }
-
-    const onClickNavigationLink = (event) => {
-		let anchorId = event.detail.anchorId;
-        scrollToItemId(anchorId);
     }
 
     export const scrollToItemId = (anchorId, scrollType = 'smooth') => {
@@ -54,8 +44,57 @@
         document.getElementById(anchorId).scrollIntoView({ behavior: 'instant' });
     }
 
+    const scrollToPageTop = () => {
+        window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+    }
+
+    const onClickNavigationLink = (event) => {
+		let anchorId = event.detail.anchorId;
+        scrollToItemId(anchorId);
+    }
+
+    const setLinkActive = (activeId) => {
+        const navLinks = document.querySelectorAll('.main-menu-link');
+        
+        navLinks.forEach((link) => {
+            if (link.getAttribute('data-anchor') === `${activeId}`) {
+                // if page sections are not implemented, keep this link active until another link is scrolled into the center of the view
+                navLinks.forEach((link) => {link.classList.remove('active')});
+                link.classList.add('active');
+            } 
+        });
+    }
+
+    const initSectionObserver = () => {
+        const sections = document.querySelectorAll('.exhibit-item'); // items
+
+        // Configure the observer options
+        const options = {
+            root: null, // Uses the browser viewport
+            rootMargin: '-50% 0px -50% 0px', // Triggers exactly when section crosses the middle of the screen
+            threshold: 0 // Triggers as soon as any part of the section enters the margin area
+        };
+
+        // init observer and callback
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // get the id of the heading that has triggered the observer event
+                    const activeId = entry.target.getAttribute('id');
+                    setLinkActive(activeId);
+                }
+            });
+        }, options);
+
+        sections.forEach((section) => observer.observe(section));
+    }
+
     const onMountItems = () => {
         dispatch('mount-items', {});
+        initSectionObserver();
     }
 
     onMount(async () => {
@@ -68,6 +107,7 @@
             dispatch('mount-items', {error: `Exhibit items: ${items}`});
         }
 
+        // the "back to page top" link is initially not shown
         if(pageTopLinkElement) pageTopLinkElement.style.display = "none";
     });
 

@@ -22,7 +22,6 @@
     const onClickNavigationLink = (event) => {
         let link = event.currentTarget;
         let anchorId = link.getAttribute('data-anchor') || null;
-
         if(anchorId) dispatch('click-nav-link', {anchorId});
         else Logger.module().info("Invalid or missing 'data-anchor' property:", event.currentTarget);
 	}
@@ -69,7 +68,7 @@
                 {#if _sectionHeadings}
                     {#each _sectionHeadings as {uuid, text, subheadings = null}, index}
                         <li class="px-1">
-                            <a href class="main-menu-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
+                            <a href class="main-menu-link {index == 0 ? 'active' : ''}" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
 
                             {#if subheadings.length > 0}
 
@@ -108,6 +107,8 @@
         border-width: 1px;
         border-color: #c5c3c1;
         background-color: #ffffff;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 
     .navbar .container-large {
@@ -146,44 +147,38 @@
         width: 100%;
         margin-top: 5px;
         margin-top: 0;
-        padding: 1em;
+        padding: 22px;
+    }
+
+    /* default styles */
+    .exhibit-navigation {
+        background-color: unset;
+        color: inherit;
+        font-size: 16px;
+        font-family: "Neue Haas Unica W1G"; /* theme font? */
     }
 
     ul.navbar-nav a {
-        padding: 8px 26px;
-        font-size: 18px;
-        font-weight: bold;
-        text-decoration: none;
-        background-color: unset;
         height: 100%;
         margin-bottom: 0;
         width: 100%;
         color: inherit;
-
-        border-width: 2px;
-        border-top-color: transparent;
-        border-bottom-color: transparent;
-        border-left-color: transparent;
-        border-right-color: transparent;
     }
 
-    ul.navbar-nav a:hover {
+    :global(ul.navbar-nav a.main-menu-link.active) {
         text-decoration: underline;
     }
 
-    ul.navbar-nav a:focus {
-        border-top-color: #252525;
-        border-bottom-color: #252525;
-        border-left-color: #252525;
-        border-right-color: #252525;
+    ul.navbar-nav a.dropdown-link {
+        padding: 8px 0;
     }
 
-    .navbar-nav li {
-        padding-left: 0rem !important;
+    ul.navbar-nav a.main-menu-link:hover:not(.active) {
+        text-decoration: none;
     }
 
     .navbar-nav > li:not(:last-child) {
-        margin-right: 5px;
+        margin-right: 1em;
     }
 
     .dropdown-nav {
@@ -191,7 +186,7 @@
         padding: 15px;
         display: none;
         min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 8px 8px -1px rgba(80, 80, 80, 0.2);
         z-index: 1;
     }
 
@@ -202,31 +197,11 @@
         border-bottom-width: 1px;
     }
 
-    a.main-menu-link {
-        display: block;
-        background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
-        border-radius: 3px;
-    }
-
-    a.main-menu-link:hover {
-        background-image: linear-gradient(rgb(0 0 0/25%) 0 0);
-        text-decoration: none;
-    }
-
-    a.dropdown-link:hover {
-        background-image: linear-gradient(rgb(0 0 0/15%) 0 0);
-        text-decoration: none;
-    }
-
     a.dropdown-link {
         display: block;
     }
 
     .navbar-nav > li:hover .dropdown-nav {
-        display: block;
-    }
-
-    .navbar-nav li:focus-within .dropdown-nav {
         display: block;
     }
 
