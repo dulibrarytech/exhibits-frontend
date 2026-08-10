@@ -68,7 +68,7 @@
                 {#if _sectionHeadings}
                     {#each _sectionHeadings as {uuid, text, subheadings = null}, index}
                         <li class="px-1">
-                            <a href class="main-menu-link {index == 0 ? 'active' : ''}" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
+                            <a href class="main-menu-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
 
                             {#if subheadings.length > 0}
 
