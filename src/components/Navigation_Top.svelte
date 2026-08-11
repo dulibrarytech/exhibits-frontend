@@ -92,6 +92,13 @@
 </nav>
 
 <style>
+    /* default styles */
+    .exhibit-navigation {
+        background-color: unset;
+        color: inherit;
+        font-family: var(--theme-site-navigation-font-family);
+        font-size: var(--theme-site-navigation-font-size);
+    }
 
     .nav-link, .nav-link button {
         color: inherit;
@@ -148,14 +155,6 @@
         margin-top: 5px;
         margin-top: 0;
         padding: 22px;
-    }
-
-    /* default styles */
-    .exhibit-navigation {
-        background-color: unset;
-        color: inherit;
-        font-size: 16px;
-        font-family: "Neue Haas Unica W1G"; /* theme font? */
     }
 
     ul.navbar-nav a {

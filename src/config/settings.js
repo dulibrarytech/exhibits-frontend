@@ -13,6 +13,10 @@ export const Settings = {
         DEFAULT_FONT_COLOR: "#181818",
         DEFAULT_FONT_SIZE: "18px",
         DEFAULT_BACKGROUND_COLOR: "#FFFFFF",
+        DEFAULT_NAVIGATION_FONT_FAMILY: "Neue Haas Unica W1G",
+        DEFAULT_NAVIGATION_FONT_SIZE: "16px",
+        DEFAULT_CAPTION_FONT_FAMILY: "Neue Haas Unica W1G",
+        DEFAULT_CAPTION_FONT_SIZE: "15px",
     },
 
     exhibitDefaultTheme: {
