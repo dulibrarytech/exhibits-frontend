@@ -80,7 +80,6 @@
         flex-wrap: wrap;
         margin: 0 auto;
         justify-content: flex-start;
-        row-gap: 50px;
         column-gap: 2.5vw;
         width: 100%;
         margin-top: -1.5em;

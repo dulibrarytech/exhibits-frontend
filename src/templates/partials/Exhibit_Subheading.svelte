@@ -61,7 +61,7 @@
     }
 
     .subheading-pad-top {
-        margin-top: 3rem; 
+        padding-top: 3rem; 
     }
 
     .section-subheading h3 {

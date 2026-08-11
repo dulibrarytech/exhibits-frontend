@@ -86,7 +86,7 @@
 
                      <!-- exhibit subheading -->
                     {:else if type == ENTITY_TYPE.EXHIBIT_SUBHEADING} 
-                        <Exhibit_Subheading id={anchorId} {text} item={_displayItems[index]} styles={_displayItems[index].styles || null} display={is_visible} padTop={index !== 0} on:mount-template-item={onMountTemplateItem} />
+                        <Exhibit_Subheading id={anchorId} {text} item={_displayItems[index]} styles={_displayItems[index].styles || null} display={is_visible} padTop={index !== 0 && !_displayItems[index].styles?.backgroundColor} on:mount-template-item={onMountTemplateItem} />
                         
                         <!-- exhibit item container - grid -->
                     {:else if type == ENTITY_TYPE.GRID}

@@ -33,6 +33,7 @@
 
     .exhibit-introduction {
         line-height: 1.45em;
+        padding-top: 5.5vw;
         padding-bottom: 5.5vw;
     }
 
