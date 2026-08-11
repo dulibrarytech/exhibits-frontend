@@ -98,7 +98,7 @@
     ul.nav {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .nav-link {
@@ -189,8 +189,7 @@
         display: block;
     }
 
-    /* .navbar-nav > li:hover .dropdown-nav { */
-    .navbar-nav > a:hover .dropdown-nav {
+    .navbar-nav > li:hover .dropdown-nav {
         display: block;
     }
 
