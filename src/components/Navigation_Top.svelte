@@ -173,7 +173,7 @@
     }
 
     ul.navbar-nav a.main-menu-link:hover:not(.active) {
-        text-decoration: none;
+        /* text-decoration: none; */
     }
 
     .navbar-nav > li:not(:last-child) {
