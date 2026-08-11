@@ -67,6 +67,7 @@
 
     .text {
         margin-bottom: 2rem;
+        margin-top: -1rem;
     }
 
     .anchor-offset {
@@ -82,6 +83,8 @@
         row-gap: 50px;
         column-gap: 2.5vw;
         width: 100%;
+        margin-top: -1.5em;
+        margin-bottom: -1.5em;
     }
 
     :global(.item-grid .item) {

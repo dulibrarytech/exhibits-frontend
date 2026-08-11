@@ -108,6 +108,7 @@
         border-width: 1px;
         border-color: #c5c3c1;
         background-color: #ffffff;
+        margin-bottom: 5.5vw;
     }
 
     .navbar .container-large {
