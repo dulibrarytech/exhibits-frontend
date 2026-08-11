@@ -63,7 +63,6 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse show" id="navbarResponsive">
-
             <ul class="nav nav-link navbar-nav ms-auto">
                 {#if _sectionHeadings}
                     {#each _sectionHeadings as {uuid, text, subheadings = null}, index}
@@ -71,7 +70,6 @@
                             <a href class="main-menu-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
 
                             {#if subheadings.length > 0}
-
                                 <ul class="dropdown-nav">
                                     {#each subheadings as {uuid, text}, index}
                                         <li>
@@ -79,14 +77,11 @@
                                         </li>
                                     {/each}
                                 </ul>
-                            
                             {/if}
-
                         </li>
                     {/each}
                 {/if}
             </ul>
-
         </div>
     </div>
 </nav>
@@ -100,7 +95,13 @@
         font-size: var(--theme-site-navigation-font-size);
     }
 
-    .nav-link, .nav-link button {
+    ul.nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .nav-link {
         color: inherit;
     }
     
@@ -131,7 +132,7 @@
 
     .navbar-expand-lg .navbar-nav {
         row-gap: 9px;
-        column-gap: 3px;
+        column-gap: 31px;
     }
 
     .navbar-expand-lg .navbar-toggler {
@@ -168,14 +169,6 @@
         padding: 8px 0;
     }
 
-    ul.navbar-nav a.main-menu-link:hover:not(.active) {
-        /* text-decoration: none; */
-    }
-
-    .navbar-nav > li:not(:last-child) {
-        margin-right: 1em;
-    }
-
     .dropdown-nav {
         position: absolute;
         padding: 15px;
@@ -196,7 +189,8 @@
         display: block;
     }
 
-    .navbar-nav > li:hover .dropdown-nav {
+    /* .navbar-nav > li:hover .dropdown-nav { */
+    .navbar-nav > a:hover .dropdown-nav {
         display: block;
     }
 
