@@ -69,16 +69,14 @@
     }
 
     const setTheme = (styles) => {
-
         // set permitted styles
         let {
-            fontFamily = null,
-            fontSize = null,
-            color = null,
-            backgroundColor = null
-        } = styles;
+            fontFamily = "",
+            fontSize = "",
+            color = "",
+            backgroundColor = ""
+        } = styles || {};
 
-        // assign permitted styles to the item element
         if(itemElement) {
             Object.assign(itemElement.style, {fontFamily, fontSize, color, backgroundColor, textAlign});
         }
@@ -159,6 +157,10 @@
     }
 
     :global(.item .caption) {
+        color: inherit;
+        font-family: var(--theme-site-caption-font-family);
+        font-size: var(--theme-site-caption-font-size);
+
         text-decoration: none;
         color: inherit;
         line-height: 1.5em;
