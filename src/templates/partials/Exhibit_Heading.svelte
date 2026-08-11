@@ -56,13 +56,12 @@
     }
     
     .section-heading {
-        margin-bottom: 0.5em;
         padding-top: 0.532em; 
         padding-bottom: 0.532em; 
         text-transform: uppercase;
     }
 
-    .subheading-pad-top {
+    .heading-pad-top {
         margin-top: 1.5rem; 
     }
 
