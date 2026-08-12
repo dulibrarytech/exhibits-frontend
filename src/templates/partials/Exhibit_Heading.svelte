@@ -10,6 +10,7 @@
     export let display = true;
     export let styles = null;
     export let item = {};
+    export let padTop = false;
 
     let headingElement;
     let textString;
@@ -41,7 +42,7 @@
     <div id={id ?? undefined} class="anchor-offset"></div>
 
     {#if display}
-        <div class="section-heading container-{margins ?? 'medium'}">
+        <div class="section-heading container-{margins ?? 'medium'} class:heading-pad-top={padTop}">
             <div class="section-title">
                 <h2 aria-label={textString}>{@html text}</h2>
             </div>
@@ -58,6 +59,10 @@
         padding-top: 0.532em; 
         padding-bottom: 0.532em; 
         text-transform: uppercase;
+    }
+
+    .heading-pad-top {
+        margin-top: 1.5rem; 
     }
 
     .section-heading h2 {

@@ -61,7 +61,7 @@
     }
 
     .subheading-pad-top {
-        padding-top: 3.65rem; 
+        padding-top: 3rem; 
     }
 
     .section-subheading h3 {
