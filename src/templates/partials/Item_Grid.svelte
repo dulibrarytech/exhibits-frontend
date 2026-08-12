@@ -45,7 +45,7 @@
 <div class="item-grid grid template-item item-padding columns-{columns}" bind:this={_gridElement} >
     <div id={id ?? undefined} class="anchor-offset"></div>
 
-    <div class="container grid-container">
+    <div class="container-large grid-container">
         {#if text}<div class="container-{margins ?? 'medium'} text">{@html text}</div>{/if}
 
         <div class="grid-content">
