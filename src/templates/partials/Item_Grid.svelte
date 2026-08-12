@@ -82,6 +82,7 @@
         justify-content: flex-start;
         column-gap: 2.5vw;
         width: 100%;
+        row-gap: 40px;
         margin-top: -1.5em;
         margin-bottom: -1.5em;
     }
