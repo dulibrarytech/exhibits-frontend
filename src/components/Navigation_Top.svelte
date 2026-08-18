@@ -218,5 +218,9 @@
         ul.navbar-nav {
             margin-top: 0;
         }
+
+        ul.nav {
+            justify-content: center;
+        }
     }
 </style>
