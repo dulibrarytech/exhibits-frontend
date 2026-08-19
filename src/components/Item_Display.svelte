@@ -4,7 +4,7 @@
     import * as Logger from '../libs/logger.js';
 
     import { 
-        getItemLinks 
+        getItemDisplayLinks 
     } from '../libs/exhibits_data_helpers';
 
     export let item = null;
@@ -24,18 +24,16 @@
     } = item;
 
     const init = () => {
+        let links = getItemDisplayLinks(item, itemDisplayLinks);
 
-        // get links for item display
-        let links = getItemLinks(item, itemDisplayLinks);
-
-        // get links for repository item if applicable and add to item links for display in viewer
         if(is_repo_item) {
             if(!repository_data) {Logger.module().error("Item is linked to repository item but repository data is missing")}
             else {
-                links = links.concat( getItemLinks(repository_data, itemDisplayLinksRepositoryItem) );
+                links = links.concat( getItemDisplayLinks(repository_data, itemDisplayLinksRepositoryItem) );
             }
         }
-        item.links = links;
+
+        item.external_links = links;
     }
 
     const onLoadError = async (event) => {

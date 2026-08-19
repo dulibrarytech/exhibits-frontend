@@ -3,17 +3,12 @@
 	 * item viewer template - viewer on left, with sidebar on right for text and link lists, or metadata
 	 */
 
-	import { onMount } from 'svelte';
-  import Media_Display from '../../components/Media_Display.svelte';
-	import Item_Link_Display from './Item_Link_Display.svelte';
+  // mport Media_Item_Preview from '../../components/Media_Item_Preview.svelte';
+	// import Search_Result_Item_Link_Display from './Item_Link_Display.svelte';
 
 	import {
 		formatStripHtmlTags
 	} from '../../libs/format';
-
-	import {
-    VIEWER_TYPE, 
-  } from '../../config/global-constants';
 
   export let item = {};
 	export let args = {};
@@ -25,51 +20,32 @@
 	const DEFAULT_ITEM_TEXT = "No description available";
 
 	const {
-		title: 				title = null,
+    title: 				title = null,
 		description: 	text = DEFAULT_ITEM_TEXT,
 		caption: 			caption = null,
-		external_links: 				linkList = null,
+		links: 				linkList = null,
 		media_iiif: 	mediaIIIF = null,
-	} = item;
-
-	let {
-		date = null,	
+    date:         resultDate = null,
 	} = item;
 
 	$: init();
 
 	const init = async () => {
 
-		// format date 
-		if(date) date = new Date(date).toLocaleDateString();
-
-		// set viewer type for media display
-		if(USE_IIIF_VIEWER && mediaIIIF) {
-			args.viewerType = VIEWER_TYPE.IIIF;
-		}
-		else {
-			args.viewerType = VIEWER_TYPE.INTERACTIVE;
-		}
 	}
 
 	const onLoadMedia = (event) => {}
 
 	const onLoadError = (event) => {}
-
-	onMount(async () => {
-		setTimeout(() => {
-			if(window.innerWidth < 992) {
-				// set the focus to the viewer section to allow keyboard scroll on dialog open (entire viewer section scrolls on mobile device widths)
-				document.querySelector('.viewer').focus();
-			}
-		});
-	});
 </script>
 
 <div class="item-viewer">
-	<div class="viewer row">
+	<div class="row">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
-			<Media_Display {item} {args} on:load-media={onLoadMedia} on:load-error={onLoadError} />
+			<!-- <Media_Display {item} {args} on:load-media={onLoadMedia} on:load-error={onLoadError} /> -->
+
+      <!-- TODO: MIP -->
+
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
@@ -90,13 +66,13 @@
 				
 				{#if text}
 					<div class="text-section background-light" tabindex="0">
-						<div class="item-text">{@html text}</div>
+						<div class="item-text" use:formatStripHtmlTags>{text}</div>
 					</div>
 				{/if}
 
 				{#if linkList}
 					<div class="data-section">
-						<Item_Link_Display data={linkList} />
+						<!-- <Search_Result_Item_Link_Display data={linkList} /> -->
 					</div>
 				{/if}
 			</div>
@@ -121,10 +97,9 @@
 		overflow: hidden;
 	}
 
-	.viewer {
+	.item-viewer > .row {
 		height: 100%;
 		background: #F4F2EC;
-		overflow-y: scroll;
 	}
 
 	.item-viewer .text {
@@ -136,12 +111,14 @@
 		padding-right: 0px;
 		position: relative;
 		background: white;
-		height: 74%;
+		height: 50%;
 	}
 
 	.text-display-container {
 		padding-left: 0;
+		height: 48%;
 		margin-top: 2%;
+		overflow-y: scroll;
 	}
 
     .text {
@@ -256,10 +233,6 @@
 	@media screen and (min-width: 992px) {
 		.item-viewer {
 			background: darkgray;
-		}
-
-		.viewer {
-			overflow-y: hidden;
 		}
 
 		.media-display-container {
