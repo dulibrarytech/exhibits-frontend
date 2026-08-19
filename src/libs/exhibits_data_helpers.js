@@ -205,7 +205,7 @@ export const createExhibitPageSections = (items) => {
  * @param {object} linkConfiguration - configuration object defining how to create display data for the item (see settings.itemDisplayLinks and settings.itemDisplayLinksRepositoryItem)
  * @returns 
  */
-export const getItemLinks = (itemData, linkConfiguration) => {
+export const getItemDisplayLinks = (itemData, linkConfiguration) => {
     let display = [];
 
     linkConfiguration.forEach(linkConfig => {
