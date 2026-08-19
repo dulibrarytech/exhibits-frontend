@@ -3,16 +3,12 @@
 	 * item viewer template - viewer on left, with sidebar on right for text and link lists, or metadata
 	 */
 
-  import Media_Display from '../../components/Media_Display.svelte';
-	import Item_Link_Display from './Item_Link_Display.svelte';
+  // mport Media_Item_Preview from '../../components/Media_Item_Preview.svelte';
+	// import Search_Result_Item_Link_Display from './Item_Link_Display.svelte';
 
 	import {
 		formatStripHtmlTags
 	} from '../../libs/format';
-
-	import {
-    VIEWER_TYPE, 
-  } from '../../config/global-constants';
 
   export let item = {};
 	export let args = {};
@@ -24,31 +20,18 @@
 	const DEFAULT_ITEM_TEXT = "No description available";
 
 	const {
-		title: 				title = null,
+    title: 				title = null,
 		description: 	text = DEFAULT_ITEM_TEXT,
 		caption: 			caption = null,
-		external_links: 				linkList = null,
+		links: 				linkList = null,
 		media_iiif: 	mediaIIIF = null,
-	} = item;
-
-	let {
-		date = null,	
+    date:         resultDate = null,
 	} = item;
 
 	$: init();
 
 	const init = async () => {
 
-		// format date 
-		if(date) date = new Date(date).toLocaleDateString();
-
-		// set viewer type for media display
-		if(USE_IIIF_VIEWER && mediaIIIF) {
-			args.viewerType = VIEWER_TYPE.IIIF;
-		}
-		else {
-			args.viewerType = VIEWER_TYPE.INTERACTIVE;
-		}
 	}
 
 	const onLoadMedia = (event) => {}
@@ -59,7 +42,10 @@
 <div class="item-viewer">
 	<div class="row">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
-			<Media_Display {item} {args} on:load-media={onLoadMedia} on:load-error={onLoadError} />
+			<!-- <Media_Display {item} {args} on:load-media={onLoadMedia} on:load-error={onLoadError} /> -->
+
+      <!-- TODO: MIP -->
+
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
@@ -86,7 +72,7 @@
 
 				{#if linkList}
 					<div class="data-section">
-						<Item_Link_Display data={linkList} />
+						<!-- <Search_Result_Item_Link_Display data={linkList} /> -->
 					</div>
 				{/if}
 			</div>
@@ -271,5 +257,5 @@
 			margin-top: 0;
 			margin-top: 50px;
 		}
-    }
+  }
 </style>
