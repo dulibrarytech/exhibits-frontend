@@ -15,7 +15,7 @@
     const {
         itemDisplayLinks,
         itemDisplayLinksRepositoryItem,
-    } = Settings;
+    } = Settings.links;
 
     const {
         is_repo_item = false,
