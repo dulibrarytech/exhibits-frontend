@@ -250,7 +250,8 @@ export const Settings = {
     exhibitPreviewImageAltText: "click to enter exhibit",
 
     /*
-     * Item data display configuration for standard items
+     * links shown on item displays
+     *
      * (if using fields, they must be valid fields in the exhibit item data object)
      *
      * label: not implemented - label to display before the link (e.g. "View item: ")
@@ -260,41 +261,54 @@ export const Settings = {
      * textValue: use instead of textField to use custom text for the link
      * itemTypes: array of item types that this link configuration applies to (e.g. only show this link for audio items)
      */
-    itemDisplayLinks: [
-        {
-            linkToValue: "https://mediaspace.du.edu/category/Academics%3EUniversity+Libraries%3EExhibits+%40+DU/382033902",
-            textValue: "Explore the Exhibits @ DU Media Gallery",
-            itemTypes: ["audio", "video"],
-        }
-    ],
+    links: {
+        // Item_Viewer display
+        itemDisplayLinks: [
+            {
+                linkToValue: "https://mediaspace.du.edu/category/Academics%3EUniversity+Libraries%3EExhibits+%40+DU/382033902",
+                textValue: "Explore the Exhibits @ DU Media Gallery",
+                itemTypes: ["audio", "video"],
+            }
+        ],
 
-    /*
-     * Item data display configuration for repository imported items
-     * (if using fields, they must be valid fields in the 'repository_data' object)
-     *
-     * label: not implemented - label to display before the link (e.g. "View item: ")
-     * linkToField: the field in the item data that contains the url for the link
-     * textField: the field in the item data that contains the text to display for the link
-     * linkToValue: use instead of linkToField to use a custom link url
-     * textValue: use instead of textField to use custom text for the link
-     * itemTypes: array of item types that this link configuration applies to (e.g. only show this link for audio items)
-     */
-    itemDisplayLinksRepositoryItem: [
-        {
-            linkToField: "archival_object_url",
-            textField: "local_identifier",
-        },
-        {
-            linkToField: "link_to_item",
-            textValue: "Record in the University Libraries' Digital Repository",
-        },
-        {
-            linkToField: "link_to_collection",
-            textField: "collection_name",
-            textValue: "Parent Collection",
-        },
-    ],
+        // Item_Viewer display
+        itemDisplayLinksRepositoryItem: [
+            {
+                linkToField: "archival_object_url",
+                textField: "local_identifier",
+            },
+            {
+                linkToField: "link_to_item",
+                textValue: "Record in the University Libraries' Digital Repository",
+            },
+            {
+                linkToField: "link_to_collection",
+                textField: "collection_name",
+                textValue: "Parent Collection",
+            },
+        ],
 
+        // Search_Result_Viewer display
+        searchResultDisplayLinks: [],
+
+        // Search_Result_Viewer display
+        searchResultDisplayLinksRepositoryItem: [
+            {
+                linkToField: "link_to_item",
+                textValue: "View Digital Item Record",
+            },
+            {
+                linkToField: "link_to_collection",
+                textField: "collection_name",
+                textValue: "Parent Collection",
+            },
+            {
+                linkToField: "archival_object_url",
+                textValue: "View Archival Finding Aid",
+            },
+        ],
+    },
+    
     /*
      * Universal viewer settings
      */
