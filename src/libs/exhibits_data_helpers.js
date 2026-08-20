@@ -199,16 +199,18 @@ export const createExhibitPageSections = (items) => {
 }
 
 /**
- * Creates display data for an exhibit item based on a link configuration
+ * creates link display data object from link definitions in settings and item data
+ * in: item data, and the link list defined in settings
+ * out: an array of link data objects for the client display
  * 
- * @param {object} itemData - exhibit item data object
- * @param {object} linkConfiguration - configuration object defining how to create display data for the item (see settings.itemDisplayLinks and settings.itemDisplayLinksRepositoryItem)
+ * @param {object} data - object that contains the data to create the links
+ * @param {object[]} linkSettings - array of link definitions 
  * @returns 
  */
-export const getItemDisplayLinks = (itemData, linkConfiguration) => {
+export const getDisplayLinks = (data, linkSettings) => {
     let display = [];
 
-    linkConfiguration.forEach(linkConfig => {
+    linkSettings.forEach(link => {
 
         let {
             linkToValue = null, 
@@ -217,17 +219,17 @@ export const getItemDisplayLinks = (itemData, linkConfiguration) => {
             textField = null,
             itemTypes = null,
             
-        } = linkConfig;
+        } = link;
 
         // if itemTypes is specified and the current item type is not included, skip this link configuration
-        if(itemTypes && itemTypes.includes(itemData.item_type) == false) return; 
+        if(itemTypes && itemTypes.includes(data.item_type) == false) return; 
 
         // get the value to link to from the specified field in the item data or use the provided linkToValue
-        let linkTo = linkToField ? (itemData[linkToField] || null) : (linkToValue || "#");
+        let linkTo = linkToField ? (data[linkToField] || null) : (linkToValue || "#");
         if(!linkTo) return; 
 
         // get the text for the link from the specified field in the item data or use the provided textValue or default to "Link"
-        let linkText = textField ? itemData[textField] || null : (textValue || "missing link text in settings");
+        let linkText = textField ? data[textField] || null : (textValue || "missing link text in settings");
 
         display.push({
             label: null,

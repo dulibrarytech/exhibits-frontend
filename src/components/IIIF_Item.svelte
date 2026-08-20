@@ -13,6 +13,10 @@
   export let template;
   export let args;
 
+  const {
+    exhibitItemDataFields,
+  } = Settings;
+
   let _manifest = null; 
 
   $: {
@@ -51,7 +55,7 @@
   }
 
   const getManifestResourceUrl = (manifest) => {
-    const itemType = item[ Settings.exhibitItemDataFields.ITEM_TYPE ] || "undefined";
+    const itemType = item[ exhibitItemDataFields.ITEM_TYPE ] || "undefined";
 
     let mediaResource;
     if(itemType == ITEM_TYPE.IMAGE || itemType == ITEM_TYPE.LARGE_IMAGE) {
@@ -68,7 +72,7 @@
   }
 
   const getManifestThumbnailUrl = (manifest) => {
-    const itemType = item[ Settings.exhibitItemDataFields.ITEM_TYPE ] || "undefined";
+    const itemType = item[ exhibitItemDataFields.ITEM_TYPE ] || "undefined";
 
     let thumbnailResource;
     if(itemType == ITEM_TYPE.IMAGE || itemType == ITEM_TYPE.LARGE_IMAGE) {
