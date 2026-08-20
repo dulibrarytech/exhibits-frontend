@@ -27,7 +27,7 @@
 		title: 				title = null,
 		description: 	text = DEFAULT_ITEM_TEXT,
 		caption: 			caption = null,
-		external_links: 				linkList = null,
+		external_links: 				displayLinks = null,
 		media_iiif: 	mediaIIIF = null,
 	} = item;
 
@@ -84,9 +84,9 @@
 					</div>
 				{/if}
 
-				{#if linkList}
+				{#if displayLinks}
 					<div class="data-section">
-						<Item_Link_Display data={linkList} />
+						<Item_Link_Display data={displayLinks} />
 					</div>
 				{/if}
 			</div>
