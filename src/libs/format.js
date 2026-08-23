@@ -46,8 +46,6 @@ export const formatSearchResultValue = (node, data = {}) => {
     let {result = {}, terms = []} = data;
     let value = decodeHtmlEntities(node.innerHTML);
 
-    // console.log("TEST result after decode entities:", value)
-
     /* Format all values */
     if(value.length > 0) {
         value = value.replace(/<\/div>/g, " </div>");
@@ -74,9 +72,9 @@ export const formatSearchResultValue = (node, data = {}) => {
  * @returns text with highlight tags inserted 
  */
 const highlightTerms = (terms, text) => {
+    const termString = (typeof terms == "string") ? terms : terms.join('|');
     
-    let pattern = new RegExp(`${terms.join('|')}`, "gi");
-
+    const pattern = new RegExp(termString, "gi");
     text = text.replace(pattern, (matched) => {
         return `<span class='text-highlight'>${matched}</span>`;
     });
