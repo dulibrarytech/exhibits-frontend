@@ -12,6 +12,7 @@
 
 	const DEFAULT_DIALOG_HEIGHT = "100%";
 	const DEFAULT_DIALOG_WIDTH = "100%";
+	const MAX_DIALOG_WIDTH = "1200px";
 
 	let _dialogElement;
 
@@ -42,7 +43,14 @@
 </script>
 
 <div class="modal-dialog-window">
-	<dialog bind:this={_dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}>
+	<!-- <dialog bind:this={_dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}> -->
+	<dialog 
+		style="height:{height}; width: {`min(${width}, ${MAX_DIALOG_WIDTH})`} ;"
+
+		bind:this={_dialogElement} 
+		on:close={closeDialog}
+	>
+		
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div>
 			<div class="dialog-content">
@@ -95,14 +103,11 @@
 	}
 
   dialog {
-		width: 100%;
-		height: 100%;
 		border-radius: 0.2em;
 		border: none;
 		padding: 0;
 		overflow: hidden;
 		background: #e5e3e1;
-		/* margin: 0; */
 		margin-inline: auto;
     margin-top: auto;
     margin-bottom: auto;
@@ -140,8 +145,6 @@
 	.button-close {
 		display: block;
 		position: relative;
-		/* top: 5px;
-		left: 8px; */
 		height: 40px;
 	}
 
@@ -152,13 +155,11 @@
 	}
 
 	:global(.modal-dialog-window .item-viewer .openseadragon) {
-		/* height: 50vh; */
 		height: 50vh;
 	}
 
 	:global(.modal-dialog-window .text-display-container) {
 		padding-bottom: 20px;
-		/* height: auto !important; */
 	}
 
 	/* dialog control buttons/openseadragon buttons */
@@ -172,15 +173,15 @@
 	}
 	/* End dialog control buttons/openseadragon buttons */
 
-    @media screen and (min-width: 480px) {
+  @media screen and (min-width: 480px) {
 
-    }
+  }
 
-    @media screen and (min-width: 768px) {
+  @media screen and (min-width: 768px) {
 
-    }
+  }
 
-    @media screen and (min-width: 992px) {
+  @media screen and (min-width: 992px) {
 		.display-content {
 			overflow-y: clip;
 			padding-right: 0;
@@ -194,15 +195,19 @@
 		:global(.modal-dialog-window .text-display-container) {
 			padding-bottom: 0;
 		}
-    }
+  }
 
-    @media screen and (min-width: 1280px) {
+  @media screen and (min-width: 1280px) {
 		.display-content {
 			height: calc(100% - 50px);
 		}
-    }
+  }
 
-    @media screen and (min-width: 1920px) {
-
-    }
+	/* override the inline height and width styles on narrower viewports and set to full dimensions */
+  @media screen and (max-width: 767px) {
+		dialog {
+			width: 100% !important;
+			height: 100% !important;
+		}
+  }
 </style>
