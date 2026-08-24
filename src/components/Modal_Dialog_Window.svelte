@@ -11,8 +11,9 @@
   const dispatch = createEventDispatcher();
 
 	const DEFAULT_DIALOG_HEIGHT = "100%";
-	const DEFAULT_DIALOG_WIDTH = "100%";
-	const MAX_DIALOG_WIDTH = "1200px";
+	const DEFAULT_DIALOG_WIDTH 	= "100%";
+	const MAX_DIALOG_WIDTH 			= "1200px";
+	const DIALOG_FRAME_COLOR 		= "#e5e3e1";
 
 	let _dialogElement;
 
@@ -42,7 +43,7 @@
   });
 </script>
 
-<div class="modal-dialog-window">
+<div class="modal-dialog-window" style="--theme-dialog-frame-color: {DIALOG_FRAME_COLOR}">
 	<!-- <dialog bind:this={_dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}> -->
 	<dialog 
 		style="height:{height}; width: {`min(${width}, ${MAX_DIALOG_WIDTH})`} ;"
@@ -107,10 +108,10 @@
 		border: none;
 		padding: 0;
 		overflow: hidden;
-		background: #e5e3e1;
 		margin-inline: auto;
     margin-top: auto;
     margin-bottom: auto;
+		background: var(--theme-dialog-frame-color);
 	}
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.8);
@@ -154,9 +155,11 @@
 		padding-right: 15px;
 	}
 
+	/* TODO: move this to item viewer template */
 	:global(.modal-dialog-window .item-viewer .openseadragon) {
 		height: 50vh;
 	}
+	/* END TODO */
 
 	:global(.modal-dialog-window .text-display-container) {
 		padding-bottom: 20px;
