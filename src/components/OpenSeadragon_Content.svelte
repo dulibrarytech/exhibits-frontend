@@ -70,7 +70,7 @@
     <div class="openseadragon content" id="openseadragon1">
 
         <div class="openseadragon-load-message" bind:this={loadMessage}>
-            Loading Openseadragon Viewer...
+            Loading image...
         </div>
 
     </div>
@@ -84,6 +84,8 @@
 .openseadragon-load-message {
     position: relative;
     top: calc(50% - 50px);
+    z-index: 10;
+    text-align: center;
 }
 
 .openseadragon-container {

@@ -205,7 +205,14 @@
                   <h3>Seen in the exhibit</h3>
 
                   <div class="exhibit-item-preview">
-                     <MediaItemPreview item={_relatedItemsDisplay[index]} args={{isInteractive: false, title: caption}} on:click-item />
+                     <MediaItemPreview 
+                        item={_relatedItemsDisplay[index]} 
+                        args={{
+                           isThumbnail: true,
+                           isInteractive: false, 
+                           title: caption
+                        }} 
+                        on:click-item />
                   </div>
 
                   <h4>Explore similar subjects</h4>
