@@ -30,7 +30,7 @@
     const RESOURCE = new ResourceUrl(item.is_member_of_exhibit);
 
     const DEFAULT_ITEM_TITLE = Settings.exhibitItemDefaultTitle;
-    const LOAD_MESSAGE = "Loading media...";
+    const LOAD_MESSAGE = "";
 
     // component options
     const URL_PATTERN = /^https?:\/\//;
