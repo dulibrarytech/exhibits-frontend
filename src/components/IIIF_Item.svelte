@@ -34,7 +34,7 @@
         _manifest = JSON.parse(manifestJSON);
 
         item.media = getManifestResourceUrl(_manifest) || item.media;
-        item.thumbnail = thumbnailUrl || getManifestThumbnailUrl(_manifest) || item.thumbnail;
+        item.thumbnail = thumbnailUrl || item.thumbnail;
 
       } catch (error) {
         Logger.module().error("Error parsing IIIF manifest data: " + error);

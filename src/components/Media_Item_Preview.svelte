@@ -6,8 +6,11 @@
      * 
      * @param {Object} item - The exhibit item object containing metadata and resource information.
      * @param {Object} args - Additional arguments for configuring the component behavior [
-     *  args.isInteractive (boolean, default: true) to enable/disable click interaction, 
+     *  args.isThumbnail (boolean, default: false) will use the item thumbnail if specified, or attempt to create a thumbnail using available iiif service
+     *  args.verifyThumbnail (boolean, default: false) if the item has a thumbnail, it will be used. if not, the media will be shown in the preview]
+     *  args.isInteractive (boolean, default: true) if true, preview is clickable and shows the text overlay; if false, preview is not clickable and is skipped in tab order 
      *  args.link (string, optional) to specify a URL to navigate to on click instead of dispatching event, 
+     *  args.title (string, optional) set the title attribute on the preview button (only if interactive)
      * ]
      * @param {number} width - Desired width for the preview image (optional).
      * @param {number} height - Desired height for the preview image (optional).
@@ -38,11 +41,13 @@
 
     const dispatch = createEventDispatcher();
 
-    const { 
-        isThumbnail,
+    let { 
+        isThumbnail = false,
+        verifyThumbnail = false,
         isInteractive = true,
         link = null,
         title = null,
+
     } = args;
 
     // global settings
@@ -76,12 +81,16 @@
 
     // module variables
     let _previewUrl;
-    let _isPlaceholderImage;
+    let _isPlaceholderImage; // TODO: to _hasError
     let _previewImageElement;
     let _showOverlay = true;
 
     const init = async () => {
         _isPlaceholderImage = false;
+
+        if(verifyThumbnail) {
+            isThumbnail = (thumbnailIIIF == null && thumbnail == null) ? false : true;
+        }
 
         _previewUrl = await getPreviewUrl(isThumbnail);
         if(!_previewUrl) {
@@ -139,21 +148,30 @@
                  *
                  * 1. iiif api thumbnail url from item data
                  * 2. thumbnail (from iiif manifest or remote image uri)
-                 * 3. get cropped image via iiif image api
-                 * 4. null (no thumbnail available)
+                 * 3. get cropped image via iiif service url
+                 * 4. use fullsize iiif image
+                 * 5. null (no thumbnail available)
                  */
-                iiifThumbnailImageUrl || thumbnail || (iiifServiceUrl ? `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` : false) || null :
+                iiifThumbnailImageUrl || 
+                thumbnail || 
+                (iiifServiceUrl ? `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` : false) || 
+                iiifImageUrl ||
+                null :
 
                 /*
                  * source options for fullsize preview image:
                  *
-                 * 1. iiif api thumbnail url from item data
-                 * 2. iiif api image url from item data
-                 * 3. thumbnail (from iiif manifest or remote image uri)
-                 * 4. media (from iiif manifest or remote image uri)
+                 * 1. iiif api image url from item data
+                 * 2. media (from iiif manifest or remote image uri)
+                 * 3. iiif api thumbnail url from item data
+                 * 4. thumbnail (from iiif manifest or remote image uri)
                  * 5. null (no preview available)
                  */
-                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || media || null;
+                iiifImageUrl || 
+                media || 
+                iiifThumbnailImageUrl || 
+                thumbnail || 
+                null;
         }
 
         // handle local filesystem source urls for image items (media/thumbnail are expected to be file names)
@@ -221,20 +239,30 @@
                  *
                  * 1. iiif api thumbnail url from item data
                  * 2. thumbnail (from iiif manifest or remote image uri)
-                 * 3. get cropped image via iiif image api
-                 * 4. null (no thumbnail available)
+                 * 3. get cropped image via iiif service url
+                 * 4. iiif image url (fullsize)
+                 * 5. null (no thumbnail available)
                  */
-                iiifThumbnailImageUrl || thumbnail || (iiifServiceUrl ? `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` : false) || null :
+                iiifThumbnailImageUrl || 
+                thumbnail || 
+                (iiifServiceUrl ? `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` : false) || 
+                iiifImageUrl ||
+                null :
 
                 /*
                  * source options for fullsize preview image:
                  *
-                 * 1. iiif api thumbnail url from item data
-                 * 2. iiif api image url from item data
-                 * 3. thumbnail (from iiif manifest or remote image uri)
-                 * 4. null (no preview available)
+                 * 1. iiif api image url from item data
+                 * 2. get full image via iiif service url
+                 * 3. iiif api thumbnail url from item data
+                 * 4. thumbnail (from iiif manifest or remote image uri)
+                 * 5. null (no preview available)
                  */
-                iiifThumbnailImageUrl || iiifImageUrl || thumbnail || null;
+                iiifImageUrl || 
+                (iiifServiceUrl ? `${iiifServiceUrl}/full/max/0/default.jpg` : false) || 
+                iiifThumbnailImageUrl || 
+                thumbnail || 
+                null;
         }
 
         // handle local filesystem source urls for pdf items (media/thumbnail are expected to be file names)
