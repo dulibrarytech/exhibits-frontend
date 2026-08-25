@@ -37,8 +37,11 @@
     let previewImageElement;
     let htmlPlayerElement;
     let htmlPlayer;
+    let showLoadMessage;;
 
     const init = () => {
+        showLoadMessage = true;
+
         if(kalturaUrl) {
             kalturaUrl = validateKalturaUrl(kalturaUrl) ? kalturaUrl : null;
             if(!kalturaUrl) {
@@ -57,6 +60,8 @@
     }
 
     const onLoadIframe = () => {
+        console.log("test: on load kal iframe")
+
         iframeSection.style.visibility = "visible";
 
         window.addEventListener('resize', function(event) {
@@ -64,6 +69,8 @@
         }, true);
 
         dispatch('loaded', {entryId});
+
+        showLoadMessage = false;
     }
 
     const onClickKalturaPreview = (event) => {
@@ -144,11 +151,26 @@
                 <iframe bind:this={iframeElement} on:load={onLoadIframe} id={kalturaUniqueObjectID} {title} src={kalturaUrl} allowfullscreen webkitallowfullscreen mozAllowFullScreen allow='autoplay *; fullscreen *; encrypted-media *' frameborder='0'></iframe>
                 <div class="subframe-content"></div>
             </div>
+            
+            {#if showLoadMessage}
+                <div class="kaltura-player-load-message">
+                    Loading media player...
+                </div>
+            {/if}
         {/if}
     {/if}
 </div>
 
 <style>
+    .kaltura-player-load-message {
+        position: absolute;
+        top: calc(50% - 50px);
+        z-index: 10;
+        text-align: center;
+        color: black;
+        width: 100%;
+    }
+
     .kaltura-content:not(.embedded) {
         height: 100%;
         width: 100%;
