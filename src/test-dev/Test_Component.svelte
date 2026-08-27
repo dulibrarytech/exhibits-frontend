@@ -21,6 +21,7 @@
     import Item_Grid_test from './components/Item_Grid_test.svelte';
     import Item_Display_test from './components/Item_Display_test.svelte'
     import Item_Viewer_test from './components/Item_Viewer_test.svelte';
+    import Search_Result_Viewer_test from './components/Search_Result_Viewer_test.svelte';
 
     export let currentRoute;
 
@@ -41,6 +42,7 @@
         Item_Grid_test,
         Item_Display_test,
         Item_Viewer_test,
+        Search_Result_Viewer_test,
     }
 
     let component;
