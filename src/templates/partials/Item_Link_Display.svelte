@@ -1,18 +1,19 @@
 <script>
   import { sanitizeHtmlString } from "../../libs/data_helpers";
 
-  export let data = {};
+  export let links = {};
   
-  for (const [key, value] of Object.entries(data)) {
+  for (const [key, value] of Object.entries(links)) {
+    console.log("test A: key/value:", key, value)
     if(typeof value === "string") {
-      data[key] = sanitizeHtmlString(value);
+      links[key] = sanitizeHtmlString(value);
     }
   }
 </script>
 
 <div class="item-link-display">
   <ul>
-    {#each data as {label = null, linkTo = '#', linkText = ""}}
+    {#each links as {label = null, linkTo = '#', linkText = ""}}
       <li>
         {#if label}<strong>{label}:</strong>{/if} 
         {#if linkText}<a href="{linkTo}" target="_blank">{linkText}</a>{/if}

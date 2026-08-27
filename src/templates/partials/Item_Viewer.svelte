@@ -96,7 +96,7 @@
 
 				{#if displayLinks}
 					<div class="data-section">
-						<Item_Link_Display data={displayLinks} />
+						<Item_Link_Display links={displayLinks} />
 					</div>
 				{/if}
 			</div>
@@ -253,6 +253,10 @@
 		height: 100%;
 	}
 
+	:global(.item-viewer .openseadragon) {
+		height: 50vh;
+	}
+
 	@media screen and (min-width: 992px) {
 		.item-viewer {
 			background: darkgray;
@@ -283,6 +287,10 @@
 		.data-section {
 			margin-top: 0;
 			margin-top: 50px;
+		}
+
+		:global(.item-viewer .openseadragon) {
+			height: 100%;
 		}
   }
 </style>
