@@ -4,7 +4,6 @@
   export let links = {};
   
   for (const [key, value] of Object.entries(links)) {
-    console.log("test A: key/value:", key, value)
     if(typeof value === "string") {
       links[key] = sanitizeHtmlString(value);
     }
