@@ -12,7 +12,7 @@
 
 	const DEFAULT_DIALOG_HEIGHT = "100%";
 	const DEFAULT_DIALOG_WIDTH 	= "100%";
-	const MAX_DIALOG_WIDTH 			= "1200px";
+	const MAX_DIALOG_WIDTH 			= "1400px";
 	const DIALOG_FRAME_COLOR 		= "#e5e3e1";
 
 	let _dialogElement;
@@ -99,7 +99,8 @@
 	}
 
 	.display-content {
-		height: 100%;
+		/* height: 100%; */
+		height: calc(100% - 50px);
 		padding-right: 10px;
 	}
 
@@ -155,12 +156,6 @@
 		padding-right: 15px;
 	}
 
-	/* TODO: move this to item viewer template */
-	:global(.modal-dialog-window .item-viewer .openseadragon) {
-		height: 50vh;
-	}
-	/* END TODO */
-
 	:global(.modal-dialog-window .text-display-container) {
 		padding-bottom: 20px;
 	}
@@ -190,20 +185,15 @@
 			padding-right: 0;
 		}
 
-		:global(.modal-dialog-window .item-viewer .openseadragon) {
-			/* height: 91vh; */
-			height: 100%;
-		}
-
 		:global(.modal-dialog-window .text-display-container) {
 			padding-bottom: 0;
 		}
   }
 
   @media screen and (min-width: 1280px) {
-		.display-content {
+		/* .display-content {
 			height: calc(100% - 50px);
-		}
+		} */
   }
 
 	/* override the inline height and width styles on narrower viewports and set to full dimensions */

@@ -29,7 +29,6 @@
         DEFAULT_FONT_COLOR, 
         DEFAULT_FONT_SIZE,
         DEFAULT_BACKGROUND_COLOR,
-
     } = Settings.exhibitDefaultTheme;
 
     const EXHIBIT_LOAD_MESSAGE = "Loading exhibit...";

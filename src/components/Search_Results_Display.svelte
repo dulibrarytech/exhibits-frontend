@@ -105,7 +105,14 @@
                     {#if resultsPage.length > 0}
                         {#each resultsPage as result, index}
                             <hr>
-                            <Search_Result {terms} {result} index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index} {searchType} />
+                            <Search_Result 
+                                {terms} 
+                                {result} 
+                                {searchType} 
+                                index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index}
+
+                                on:click-result
+                            />
                         {/each}
                     {:else}
                         <p>No results found.</p>
