@@ -263,12 +263,12 @@
 
 		.text {
 			height: 100%;
-			overflow-y: scroll;
+			overflow-y: auto;
 		}
 
 		.text-section {
 			height: unset;
-			overflow-y: scroll; 
+			overflow-y: auto; 
 		}
 
 		.data-section {

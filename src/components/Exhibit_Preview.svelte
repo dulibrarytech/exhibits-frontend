@@ -19,7 +19,6 @@
     */
     'use strict'
     
-    import axios from 'axios';
     import ResourceUrl from '../libs/ResourceUrl.js'; 
     import * as Logger from '../libs/logger.js';
     import { createEventDispatcher } from 'svelte';
@@ -36,18 +35,20 @@
     const DEFAULT_PREVIEW_IMAGE_ALT_TEXT = Settings.exhibitPreviewImageAltText;
 
     const {
+        isThumbnail = true,
+        isInteractive = true,
         showTitle = false,
         overlay = true
     } = args;
 
-    // display fields
-    let thumbnailSourceUrl;
-    let altText;
+    // module fields
+    let _previewSourceUrl;
 
     // exhibit data fields
     let exhibitId;
     let title;
     let subtitle;
+    let altText;
 
     const dispatch = createEventDispatcher();
 
@@ -72,33 +73,41 @@
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
         if(!height) height = EXHIBIT_THUMBNAIL_HEIGHT;
 
-        thumbnailSourceUrl = await getThumbnailSourceUrl();
-        if(!thumbnailSourceUrl) {
+        _previewSourceUrl = await getPreviewSourceUrl();
+        if(!_previewSourceUrl) {
             Logger.module().info(`No thumbnail or hero image available for exhibit: ${exhibitId}. No preview image will be displayed.`);    
-            thumbnailSourceUrl = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
+            _previewSourceUrl = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
         }
     }
 
-    const getThumbnailSourceUrl = async () => {
+    const getPreviewSourceUrl = async () => {
         let url = null;
 
         const {
-            thumbnail_iiif = null,
-            thumbnail = null
+            thumbnail_iiif: thumbnailIIIF = null,
+            media_iiif:     mediaIIIF = null,
+            thumbnail:      thumbnail = null,
         } = exhibit;
 
-        if(thumbnail_iiif) {
-            url = thumbnail_iiif.thumbnail_url || null;
-        }
+        const {
+            image_url: iiifImageUrl = null,
+            service_url: iiifServiceUrl = null,
+        } = mediaIIIF;
 
-        else if(thumbnail) {
-            try {
-                url = await RESOURCE.getIIIFImageUrl(thumbnail, width, height);
-            }
-            catch(error) {
-                Logger.module().error(`Could not get IIIF image url for thumbnail, Thumbnail id: ${thumbnail} Message: ${error}`);
-            }
-        }
+        const {
+            thumbnail_url: iiifThumbnailImageUrl = null,
+        } = thumbnailIIIF || {};
+
+        url = isThumbnail ? 
+            iiifThumbnailImageUrl ||
+            (iiifServiceUrl ? `${iiifServiceUrl}/full/${EXHIBIT_THUMBNAIL_WIDTH},/0/default.jpg` : false) || 
+            thumbnail ||
+            null :
+
+            iiifImageUrl ||
+            iiifThumbnailImageUrl ||
+            thumbnail ||
+            null;
 
         return url;
     }   
@@ -113,18 +122,20 @@
     }
 
     const onImageLoadError = (event) => {
-        Logger.module().error("Error loading exhibit preview image for exhibit:", exhibitId);
-        thumbnailSourceUrl = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
+        const message = `Error loading exhibit preview image for exhibit: ${exhibitId}`;
+        Logger.module().error(message);
+        _previewSourceUrl = `${RESOURCE.getExhibitPlaceholderImageUrl()}`;
+        dispatch('load-error', {error: message});
     }
 </script>
 
-<div class="exhibit-preview">
+<div class="exhibit-preview {isInteractive ? '' : 'static'}">
 
-    {#if thumbnailSourceUrl}
+    {#if _previewSourceUrl}
         <a href={link || undefined} data-exhibit-id={exhibitId} on:click|stopPropagation|preventDefault={onClickPreview} aria-label="enter exhibit {title}">
             <div class="exhibit-thumbnail">
 
-                <img src={thumbnailSourceUrl} alt={altText} on:load={onImageLoad} on:error={onImageLoadError} />
+                <img src={_previewSourceUrl} alt={altText} on:load={onImageLoad} on:error={onImageLoadError} />
 
                 {#if overlay}
                     <div class="overlay"></div>
@@ -148,6 +159,10 @@
 </div>
 
 <style>
+    .static {
+        pointer-events: none;
+    }
+
     .exhibit-preview a {
         color: initial;
     }

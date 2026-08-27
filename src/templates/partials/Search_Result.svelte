@@ -2,6 +2,7 @@
     /*
      * template downloaded from: https://www.bootdey.com/snippets/view/Search-users-page-result
      */
+    import {createEventDispatcher} from 'svelte';
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
     import { ENTITY_TYPE, SEARCH_TYPE } from '../../config/global-constants';
@@ -11,6 +12,8 @@
     export let terms = [];
     export let index = null;
     export let searchType = null;
+
+    const dispatch = createEventDispatcher();
 
     // item data fields
     let title;
@@ -53,13 +56,16 @@
     const onPreviewImageLoad = (event) => {
         previewImageElement.style.visibility = "visible";
     }
+
+    const onClickResultLink = (event) => {
+        dispatch('click-result', {resultIndex: index});
+    }
 </script>
 
 <section class="search-result-item">
     <div class="image-link" bind:this={previewImageElement}>
         {#if type == ENTITY_TYPE.EXHIBIT}
             <Exhibit_Preview exhibit={result} link={result.link} width="200" height="200" on:image-loaded={onPreviewImageLoad} />  
-
         {:else}
             <Item_Preview 
                 item={result} 
@@ -81,7 +87,17 @@
             <!-- fullwidth, no left side section -->
             <div class="col-sm-12">
                 <p>{index+1}.</p>
-                <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{title || (USE_CAPTION_FOR_TITLE && caption ? caption : false) || DEFAULT_TITLE}</a></h4>
+
+                <!-- <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{title || (USE_CAPTION_FOR_TITLE && caption ? caption : false) || DEFAULT_TITLE}</a></h4> -->
+                <h4 class="search-result-item-heading title">
+                    <a 
+                        href="#" 
+                        on:click={onClickResultLink}
+                        use:formatSearchResultValue={{terms}}
+                    >
+                        {title || (USE_CAPTION_FOR_TITLE && caption ? caption : false) || DEFAULT_TITLE}
+                    </a>
+                </h4>
 
                 {#if date}
                     <p class="info">{date}</p>
