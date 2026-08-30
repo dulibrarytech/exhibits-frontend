@@ -26,7 +26,7 @@
 <div class="exhibit-search-result-data data-display">
   <div class="text">
 
-		<h3>{title}</h3>
+		<h3 use:formatStripHtmlTags>{title}</h3>
 
 		<div class="metadata">
 			<dl>
@@ -48,7 +48,7 @@
 	<hr>
 
 	<div class="static-links">
-		<button class="du-button-1 ui-button-1">
+		<button class="du-button-1 ui-button-1" on:click={() => {window.open(`/exhibit/${exhibitId}`, '_blank')}}>
 			<i class="las la-book-open"></i>
 			<span>Explore Exhibit</span>
 			<i class="las la-arrow-right"></i>
