@@ -14,10 +14,16 @@
 		description = "No description available",
 		isStudentCurated = false,
 	} = data;
+
+	let descriptionTruncated = true;
+
+	const onClickExpandDescription = (event) => {
+		document.querySelector(".expand-description").innerText = descriptionTruncated ? "Click to minimize" : "Click to expand";
+		descriptionTruncated = !descriptionTruncated;
+	}
 </script>
 
 <div class="exhibit-search-result-data data-display">
-
   <div class="text">
 
 		<h3>{title}</h3>
@@ -30,13 +36,11 @@
 		</div>
 
 		<h4>About this Item</h4>
-
 		<div class="description-section">
-			<div class="description">
-				<!-- <p>{description}</p> -->
+			<div class="description {descriptionTruncated ? 'description-truncated' : ''}">
 				<p use:formatStripHtmlTags>{description}</p>
 			</div>
-			<button class="expand-description">Click to Expand</button>
+			<button class="expand-description" on:click={onClickExpandDescription}>Click to expand</button>
 		</div>
 		
 	</div>
@@ -94,7 +98,7 @@
 		margin-bottom: 10px;
 	}
 
-	.description {
+	.description-truncated {
 		text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 10;
