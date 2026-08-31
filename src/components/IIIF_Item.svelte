@@ -1,5 +1,10 @@
 <script>
-  // this module parses the resource and thumbnail urls from the iiif manifest data for the item and sets them on the item object (for legacy functionality, and fallback sources) 
+  /* 
+   * IIIF_Item wrapper component - wraps the 'template' component, adding iiif required data
+   *
+   * this module parses the resource and thumbnail urls from the iiif manifest data for the item, and sets the 'media' and 'thumbnail' item data fields on the item object 
+   * for legacy functionality, and existing fallback sources
+   */
 
   import { Settings } from '../config/settings';
   import * as IIIF from '../libs/iiif_helpers';
