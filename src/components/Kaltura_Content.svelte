@@ -60,8 +60,6 @@
     }
 
     const onLoadIframe = () => {
-        console.log("test: on load kal iframe")
-
         iframeSection.style.visibility = "visible";
 
         window.addEventListener('resize', function(event) {
