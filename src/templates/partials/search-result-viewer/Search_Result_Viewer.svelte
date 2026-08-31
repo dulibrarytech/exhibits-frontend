@@ -5,6 +5,7 @@
 	import { Settings } from '../../../config/settings';
 	import Exhibit_Preview from '../../../components/Exhibit_Preview.svelte';
   import Media_Item_Preview from '../../../components/Media_Item_Preview.svelte';
+	// import IIIF_Item from '../../../components/IIIF_Item.svelte';
 	import Exhibit_Result_Data_Display from './Exhibit_Result_Data_Display.svelte';
 	import Item_Result_Data_Display from './Item_Result_Data_Display.svelte';
 
@@ -65,6 +66,7 @@
 			const {
 				uuid:									itemId,
 				is_member_of_exhibit:	exhibitId,
+				item_type:						itemType,
 		    title: 								title = null,
 				media_name:						mediaName = null,
 				description: 					description = null,
@@ -74,9 +76,9 @@
 			} = item;
 			
 			data = {
+				type:					itemType || null,
 				title: 				mediaName || title || null,	
 				description:	description || caption || DEFAULT_ITEM_DESCRIPTION,
-				caption: 			caption || null,
 				exhibitTitle:	parentExhibitTitle || null,
 				exhibitId:		exhibitId,
 				itemId:				itemId,
@@ -114,7 +116,6 @@
 		let links = [];
 
 		if(entityType == ENTITY_TYPE.ITEM) {
-
 			const {
 				repository_data:			repositoryData = null,	
 			} = item;
@@ -130,8 +131,10 @@
 		return links;
 	}
 
+	// called on 'image-loaded', both MIP and EP
 	const onLoadMedia = (event) => {}
 
+	// called on 'load-error', both MIP and EP
 	const onLoadError = (event) => {}
 
 	// update any displays here
@@ -151,7 +154,8 @@
 
 			<div class="result-preview">
 				{#if entityType == ENTITY_TYPE.ITEM}
-					<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:load-media on:load-error />
+					<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:load-media on:load-error on:image-loaded />
+					<!-- <IIIF_Item {item} template={Media_Item_Preview} args={{isInteractive: false, ...args}} on:image-loaded on:load-error /> -->
 				{:else if entityType == ENTITY_TYPE.EXHIBIT}
 					<Exhibit_Preview exhibit={item} args={{overlay: false, isThumbnail: false, isInteractive: false}} on:image-loaded on:load-error />
 				{/if}
@@ -214,6 +218,7 @@
 		position: relative;
 		background: white;
 		height: 50%;
+		background: #928E91;
 	}
 
 	.text-display-container {
