@@ -28,6 +28,9 @@ export const formatFacetValue = (node, field) => {
     }
 }
 
+////////////////////////////
+// TODO: to helper
+////////////////////////////
 export const getFacetFieldLabel = (field) => {
     if(field in Settings.facetLabels) {
         field = Settings.facetLabels[field];
@@ -40,6 +43,13 @@ export const getFacetValueLabel = (value) => {
         value = Settings.facetValueLabels[value];
     }
     return value;
+}
+////////////////////////////
+// END to helper
+////////////////////////////
+
+export const formatDataValue = (node) => {
+    node.innerHTML = Settings.facetValueLabels[node.innerText];
 }
 
 export const formatSearchResultValue = (node, data = {}) => {

@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import Item_Link_Display from '../../partials/Item_Link_Display.svelte';
 
 	export let data = {};
@@ -21,6 +22,21 @@
 		document.querySelector(".expand-description").innerText = descriptionTruncated ? "Click to minimize" : "Click to expand";
 		descriptionTruncated = !descriptionTruncated;
 	}
+
+	const checkDescriptionOverflow = () => {
+		const descriptionSection = document.getElementById("description");
+		const expandDescriptionButton = document.getElementById("expandDescription");
+    
+    if (descriptionSection.scrollHeight > descriptionSection.clientHeight) {
+      expandDescriptionButton.style.display = 'block';
+    } else {
+      expandDescriptionButton.style.display = 'none';
+    }
+  }
+
+	onMount(() => {
+		checkDescriptionOverflow();
+	});
 </script>
 
 <div class="exhibit-search-result-data data-display">
@@ -37,10 +53,10 @@
 
 		<h4>About this Item</h4>
 		<div class="description-section">
-			<div class="description {descriptionTruncated ? 'description-truncated' : ''}">
+			<div id="description" class="description {descriptionTruncated ? 'description-truncated' : ''}">
 				<p use:formatStripHtmlTags>{description}</p>
 			</div>
-			<button class="expand-description" on:click={onClickExpandDescription}>Click to expand</button>
+			<button id="expandDescription" class="expand-description" on:click={onClickExpandDescription}>Click to expand</button>
 		</div>
 		
 	</div>
@@ -98,18 +114,24 @@
 		margin-bottom: 10px;
 	}
 
+	.description {
+		max-height: none;
+		min-height: 240px;
+	}
+
 	.description-truncated {
 		text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 10;
     -webkit-box-orient: vertical;
     overflow: hidden;
+		max-height: 240px;
 	}
 
 	button.expand-description {
 		border: none;
     background: initial;
-    margin: 0;
+    margin: 10px 0 0 0;
     padding: 0;
     font-size: 0.8rem;
     color: blue;
@@ -132,7 +154,7 @@
 		border-radius: 5px;
 		display: flex;
     align-items: center;
-		margin: 0;
+		margin: 0 0 10px 0;
 	}
 
 	.ui-button-1 > *:not(:last-child) {
