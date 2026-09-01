@@ -172,17 +172,17 @@
 	</div>
 
 	<!-- result advance buttons (previous/next) and current/total results display -->
-	<div class="row controls viewer-section">
+	<div class="row controls">
 		<div class="result-index-select-buttons">
 			
-			<button id="previousButton" class="du-button-1-red ui-button-1" on:click={onClickPreviousItem} >
+			<button id="previousButton" class="ui-button-1 ui-button-1" on:click={onClickPreviousItem} >
 				<i class="las la-arrow-left"></i>
 				<span>Previous result</span>
 			</button>
 
 			<div>N of N results</div>
 
-			<button id="nextButton" class="du-button-1-red ui-button-1" on:click={onClickNextItem} >
+			<button id="nextButton" class="ui-button-1 ui-button-1" on:click={onClickNextItem} >
 				<span>Next result</span>
 				<i class="las la-arrow-right"></i>
 			</button>
@@ -240,6 +240,7 @@
 		display: flex;
     justify-content: space-between;
 		align-items: center;
+		margin-top: 20px;
 	}
 
 	.result-preview {
@@ -268,9 +269,21 @@
 		font-size: 0.9em;
 	}
 
-	.du-button-1-white {
-		background: white;
-    color: #7C0A02;
+	.ui-button-1 {
+		padding: 1em 2em;
+    font-size: 1em;
+		border-radius: 5px;
+		display: flex;
+    align-items: center;
+		margin: 0 0 10px 0;
+		column-gap: 20px;
+	}
+
+	.ui-button-1 i {
+		font-size: 1.65em;
+		position: relative;
+    top: 1px;
+		font-weight: bold;
 	}
 
 	@media screen and (min-width: 992px) {

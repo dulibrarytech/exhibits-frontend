@@ -159,6 +159,7 @@
 		display: flex;
     align-items: center;
 		margin: 0 0 10px 0;
+		column-gap: 20px;
 	}
 
 	.ui-button-1 > *:not(:last-child) {
@@ -168,5 +169,7 @@
 
 	.ui-button-1 i {
 		font-size: 1.65em;
+		position: relative;
+    top: 1px;
 	}
 </style>
