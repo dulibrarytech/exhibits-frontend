@@ -16,26 +16,30 @@
 		isStudentCurated = false,
 	} = data;
 
-	let descriptionTruncated = true;
+	let _descriptionTruncated = true;
+	let _descriptionSection;
+	let _expandDescriptionButton;
 
 	const onClickExpandDescription = (event) => {
-		document.querySelector(".expand-description").innerText = descriptionTruncated ? "Click to minimize" : "Click to expand";
-		descriptionTruncated = !descriptionTruncated;
+		_expandDescriptionButton.innerText = _descriptionTruncated ? "Click to minimize" : "Click to expand";
+		_descriptionTruncated = !_descriptionTruncated;
 	}
 
 	const checkDescriptionOverflow = () => {
-		const descriptionSection = document.getElementById("description");
-		const expandDescriptionButton = document.getElementById("expandDescription");
-    
-    if (descriptionSection.scrollHeight > descriptionSection.clientHeight) {
-      expandDescriptionButton.style.display = 'block';
+    if (_descriptionSection.scrollHeight > _descriptionSection.clientHeight) {
+      _expandDescriptionButton.style.display = 'block';
     } else {
-      expandDescriptionButton.style.display = 'none';
+      _expandDescriptionButton.style.display = 'none';
     }
   }
 
 	onMount(() => {
 		checkDescriptionOverflow();
+
+		// kludge: the instant onMount() callback occurs, the 'descriptionSection' scroll/client height is still returning 0 value. after timeout, the correct values are returned
+		setTimeout(() => {
+			checkDescriptionOverflow();
+		}, 50)
 	});
 </script>
 
@@ -53,10 +57,10 @@
 
 		<h4>About this Item</h4>
 		<div class="description-section">
-			<div id="description" class="description {descriptionTruncated ? 'description-truncated' : ''}">
+			<div id="description" class="description {_descriptionTruncated ? 'description-truncated' : ''}" bind:this={_descriptionSection}>
 				<p use:formatStripHtmlTags>{description}</p>
 			</div>
-			<button id="expandDescription" class="expand-description" on:click={onClickExpandDescription}>Click to expand</button>
+			<button id="expandDescription" class="expand-description" on:click={onClickExpandDescription} bind:this={_expandDescriptionButton}>Click to expand</button>
 		</div>
 		
 	</div>
@@ -64,7 +68,7 @@
 	<hr>
 
 	<div class="static-links">
-		<button class="du-button-1 ui-button-1" on:click={() => {window.open(`/exhibit/${exhibitId}`, '_blank')}}>
+		<button class="du-button-1-red ui-button-1" on:click={() => {window.open(`/exhibit/${exhibitId}`, '_blank')}}>
 			<i class="las la-book-open"></i>
 			<span>Explore Exhibit</span>
 			<i class="las la-arrow-right"></i>
@@ -116,7 +120,7 @@
 
 	.description {
 		max-height: none;
-		min-height: 240px;
+		/* min-height: 240px; */
 	}
 
 	.description-truncated {
@@ -143,7 +147,7 @@
 	}
 
 	/* to global.css */
-	.du-button-1 {
+	.du-button-1-red {
 		background: #7C0A02;
     color: white;
 	}
