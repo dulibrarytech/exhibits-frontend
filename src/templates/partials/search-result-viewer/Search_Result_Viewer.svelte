@@ -5,13 +5,8 @@
 	import { Settings } from '../../../config/settings';
 	import Exhibit_Preview from '../../../components/Exhibit_Preview.svelte';
   import Media_Item_Preview from '../../../components/Media_Item_Preview.svelte';
-	// import IIIF_Item from '../../../components/IIIF_Item.svelte';
 	import Exhibit_Result_Data_Display from './Exhibit_Result_Data_Display.svelte';
 	import Item_Result_Data_Display from './Item_Result_Data_Display.svelte';
-
-	import {
-		formatStripHtmlTags
-	} from '../../../libs/format';
 
 	import { 
     getDisplayLinks 
@@ -48,6 +43,7 @@
 	$: init();
 
 	const init = async () => {
+		console.log("test: init search results viewer")
 		_displayData = getDisplayData(entityType);
 		_displayLinks = getDisplayLinkList(entityType);
 	}
@@ -151,8 +147,8 @@
 	<!-- preview, sidebar content -->
 	<div class="row viewer">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
-
-			<div class="result-preview">
+			<!-- result preview (media item preview) -->
+			<div class="result-preview viewer-section">
 				{#if entityType == ENTITY_TYPE.ITEM}
 					<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:load-media on:load-error on:image-loaded />
 					<!-- <IIIF_Item {item} template={Media_Item_Preview} args={{isInteractive: false, ...args}} on:image-loaded on:load-error /> -->
@@ -164,7 +160,7 @@
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
-			
+			<!-- result data (metadata, links) -->
 			<div class="result-data">
 				{#if entityType == ENTITY_TYPE.ITEM}
 					<Item_Result_Data_Display data={_displayData} links={_displayLinks} />
@@ -172,14 +168,25 @@
 					<Exhibit_Result_Data_Display data={_displayData} links={_displayLinks} />
 				{/if}
 			</div>
-
 		</div>
 	</div>
 
-	<!-- result advance buttons -->
-	<div class="row controls">
-		<div class="col-lg-12 col-md-12 col-sm-12 result-index-select-buttons">
-			previous/next buttons
+	<!-- result advance buttons (previous/next) and current/total results display -->
+	<div class="row controls viewer-section">
+		<div class="result-index-select-buttons">
+			
+			<button id="previousButton" class="du-button-1-red ui-button-1" on:click={onClickPreviousItem} >
+				<i class="las la-arrow-left"></i>
+				<span>Previous result</span>
+			</button>
+
+			<div>N of N results</div>
+
+			<button id="nextButton" class="du-button-1-red ui-button-1" on:click={onClickNextItem} >
+				<span>Next result</span>
+				<i class="las la-arrow-right"></i>
+			</button>
+
 		</div>
 	</div>
 
@@ -187,11 +194,13 @@
 
 <style>
 	.viewer {
+		background: #F4F2EC;
 		height: calc(100% - 75px);
 	}
 
 	.controls {
 		height: 75px;
+		background: var(--theme-dialog-frame-color);
 	}
 
 	.search-result-viewer {
@@ -199,6 +208,10 @@
 		background: white;
 		overflow: hidden;
 		font-size: 1rem;
+	}
+
+	.viewer-section {
+		padding: 20px 20px 20px 20px;
 	}
 
 	:global(.search-result-viewer .data-display h3) {
@@ -209,40 +222,41 @@
 		font-size: 1.1rem
 	}
 
-	.search-result-viewer > .row {
-		background: #F4F2EC;
-	}
-
   .media-display-container {
-		padding: 0px;
 		position: relative;
 		background: white;
 		height: 50%;
 		background: #928E91;
+		display: flex;
+    flex-direction: column;
 	}
 
 	.text-display-container {
 		padding-left: 0px;
 		height: 48%;
-		margin-top: 2%;
-		overflow-y: scroll;
 	}
 
 	.result-index-select-buttons {
-		background: var(--theme-dialog-frame-color);
-		padding: 15px;
+		display: flex;
+    justify-content: space-between;
+		align-items: center;
 	}
 
 	.result-preview {
 		height: 100%;
-		overflow: hidden;
 		display: flex;
     align-items: start;
 	}
 
-	.result-data {
-		padding: 0 30px;
+	:global(.search-result-viewer .item-preview-wrapper) {
 		height: 100%;
+    overflow: hidden;
+	}
+
+	.result-data {
+		padding: 20px;
+		height: 100%;
+		overflow: auto;
 	}
 
 	.title {
@@ -254,14 +268,23 @@
 		font-size: 0.9em;
 	}
 
+	.du-button-1-white {
+		background: white;
+    color: #7C0A02;
+	}
+
 	@media screen and (min-width: 992px) {
 		.search-result-viewer {
 			background: darkgray;
 		}
 
+		.viewer-section {
+			padding: 20px 20px 20px 20px;
+		}
+
 		.media-display-container {
 			height: 100%;
-			padding: 20px 20px 20px 30px;
+			padding-right: 0;
 		}
 
 		.text-display-container {
