@@ -88,7 +88,7 @@
                       <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
                             {#each values as {value, count, label=null}}
                                 {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">({count})</span></a></li>
+                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
                                 {/if}
                             {/each}
                         </ul> 
@@ -99,7 +99,7 @@
                         <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
                             {#each values as {value, count, label=null}}
                                 {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">({count})</span></a></li>
+                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
                                 {/if}
                             {/each}
                         </ul>
@@ -207,10 +207,10 @@
         display: inline-block;
         min-width: 10px;
         padding: 3px 7px;
-        font-size: 12px;
+        font-size: 0.8rem;
         font-weight: 700;
         line-height: 1;
-        color: #181818;
+        color: #858381;
         text-align: center;
         white-space: nowrap;
         vertical-align: middle;
