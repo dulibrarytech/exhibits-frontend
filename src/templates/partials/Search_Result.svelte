@@ -23,9 +23,10 @@
     let itemType;
     let link;
     let type;
+    let isStudentCurated;
+    let parentExhibitId;
 
     // module variables
-    let parentExhibitId;
     let truncateDescription;
 
     // element handles
@@ -35,17 +36,18 @@
     const USE_CAPTION_FOR_TITLE = true;
 
     // module settings
-    const MAX_DESCRIPTION_TEXT_LENGTH = 800;
+    const MAX_DESCRIPTION_TEXT_LENGTH = 300;
     const DEFAULT_TITLE = "Untitled";
 
     $: {
-        title = result.title || null;
+        title = result.title || result.media_name || null;
         date = result.date || null;
         caption = result.caption || null;
         description = result.description || result.text || null;
         itemType = result.item_type || null;
         link = result.link || null;
         type = result.type || ENTITY_TYPE.ITEM;
+        isStudentCurated = result.is_student_curated || false;
 
         if(!searchType) searchType = SEARCH_TYPE.SEARCH_ALL;
         if(description) truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
@@ -84,12 +86,17 @@
             <!-- left side section -->
             <!-- <div class="col-sm-9"> -->
 
-            <!-- fullwidth, no left side section -->
+            <!-- fullwidth results list, no left side section -->
             <div class="col-sm-12">
-                <p>{index+1}.</p>
+                <div class="entity-type">
+                    {#if type == ENTITY_TYPE.EXHIBIT}
+                       <span>Exhibit</span>
+                    {:else if type == ENTITY_TYPE.ITEM}
+                       <span>Media</span>
+                    {/if}
+                </div>
 
-                <!-- <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{title || (USE_CAPTION_FOR_TITLE && caption ? caption : false) || DEFAULT_TITLE}</a></h4> -->
-                <h4 class="search-result-item-heading title">
+               <h3 class="search-result-item-heading title">
                     <a 
                         href="#" 
                         on:click={onClickResultLink}
@@ -97,29 +104,24 @@
                     >
                         {title || (USE_CAPTION_FOR_TITLE && caption ? caption : false) || DEFAULT_TITLE}
                     </a>
-                </h4>
+                </h3>
 
-                {#if date}
-                    <p class="info">{date}</p>
-                {/if}
-
-                {#if itemType}
-                    <p class="info">{itemType}</p>
-                {:else if type}
-                    <p class="info">{type}</p>
-                {/if}
-
-                {#if USE_CAPTION_FOR_TITLE == false && caption}
-                    <p class="info"><span use:formatSearchResultValue={{terms}}>{caption}</span></p>
+                {#if type == ENTITY_TYPE.EXHIBIT && isStudentCurated}
+                    <div class="curated-type">
+                        <i class="bi bi-mortarboard-fill"></i><span>Student Curated</span>
+                    </div>
                 {/if}
 
                 {#if description}
                     <p class="description">
                         {#if truncateDescription}
                             <span use:formatSearchResultValue={{terms}}>{description.substr(0, MAX_DESCRIPTION_TEXT_LENGTH).concat('...')}</span>
-                            <br><a class="expand-text-link" href on:click|preventDefault={() => truncateDescription = false}>Show more</a>
                         {:else}
                             <span use:formatSearchResultValue={{terms}}>{description}</span>
+                        {/if}
+
+                        {#if truncateDescription}
+                            <a class="expand-text-link" href on:click|preventDefault={() => truncateDescription = false}>Show more</a>
                         {/if}
                     </p>
                 {/if}
@@ -170,9 +172,46 @@
     }
 
     .search-result-item-heading {
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
         font-weight: 400
     }
+
+    .entity-type {
+        margin-bottom: 15px;
+    }
+
+    .entity-type span {
+        background: #e5e5e5;
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 0.9rem;
+    }
+
+    .curated-type {
+        margin-bottom: 0.7rem;
+    }
+
+    .curated-type i {
+        color: #BA0C2F;
+        margin-right: 0.7rem;
+        position: relative;
+        top: 1px;
+    }
+
+    .curated-type span {
+        color: #757575;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    .description-truncated {
+		text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+		max-height: 240px;
+	}
 
     .image-link {
         visibility: hidden;
@@ -185,7 +224,8 @@
     }
 
     .search-result-item .description {
-        font-size: 13px
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
     }
 
     .search-result-item-heading>a {
@@ -195,6 +235,7 @@
 
     a.expand-text-link {
         text-decoration: underline;
+        font-size: 0.85rem;
     }
 
     @media (min-width:768px) {
