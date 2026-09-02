@@ -47,16 +47,17 @@
         itemType = result.item_type || null;
         link = result.link || null;
         type = result.type || ENTITY_TYPE.ITEM;
+
         isStudentCurated = result.is_student_curated || false;
+        parentExhibitId = (searchType == SEARCH_TYPE.SEARCH_ALL) ? result.is_member_of_exhibit : null;
 
         if(!searchType) searchType = SEARCH_TYPE.SEARCH_ALL;
         if(description) truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
-
-        parentExhibitId = (searchType == SEARCH_TYPE.SEARCH_ALL) ? result.is_member_of_exhibit : null;
     }
 
     const onPreviewImageLoad = (event) => {
         previewImageElement.style.visibility = "visible";
+        // hide spinner
     }
 
     const onClickResultLink = (event) => {
@@ -148,10 +149,7 @@
         padding: 20px;
         background-color: #fff;
         border-radius: 4px;
-    }
-
-    .search-result-item .image-link {
-        max-height: unset;
+        display: flex;
     }
 
     .search-result-item:after,
@@ -168,12 +166,18 @@
         display: block;
         overflow: hidden;
         border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px
+        border-bottom-left-radius: 4px;
+        max-height: unset;
+        margin-bottom: 1.8rem;
     }
 
     .search-result-item-heading {
         margin-bottom: 0.8rem;
         font-weight: 400
+    }
+
+    .search-result-item-heading > a {
+        color: #555;
     }
 
     .entity-type {
@@ -228,27 +232,19 @@
         font-size: 0.85rem;
     }
 
-    .search-result-item-heading>a {
-        color: #555;
-        text-decoration: underline;
-    }
-
     a.expand-text-link {
         text-decoration: underline;
         font-size: 0.85rem;
     }
 
     @media (min-width:768px) {
-        .search-result-item-body {
-            margin-left: 200px
-        }
-
         .search-result-item .image-link {
-            display: inline-block;
-            margin: -20px 0 -20px -20px;
+            margin: -20px 20px -20px -20px;
             float: left;
-            width: 200px;
+            max-width: 165px;
+            min-width: 165px;
             max-height: 200px;
+            margin-bottom: 0;
         }
     }
 </style>
