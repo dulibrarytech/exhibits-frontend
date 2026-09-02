@@ -7,21 +7,46 @@
 
 	import {
 		formatStripHtmlTags,
-		formatDataValue,
+		formatItemDataValue,
 	} from '../../../libs/format';
 
-	const {
-		itemId,
-		exhibitId = null,
-		type = null,
-		title = "No title data",
-		description = "No description available",
-		exhibitTitle = "No title available for exhibit",
-	} = data;
+	// item data
+	let _itemId;
+	let _exhibitId;
+	let _itemType;
+	let _title;
+	let _description;
+	let _exhibitTitle;
 
+	// module variables
 	let _descriptionTruncated = true;
+
+	// view elements
 	let _descriptionSection;
 	let _expandDescriptionButton;
+
+	$: {
+		let {
+			itemId,
+			exhibitId = null,
+			type = null,
+			title = "No title data",
+			description = "No description available",
+			exhibitTitle = "No title available for exhibit",
+		} = data;
+
+		_itemId = itemId;
+		_exhibitId = exhibitId;
+		_itemType = type;
+		_title = title;
+		_description = description;
+		_exhibitTitle = exhibitTitle;
+
+		// initDescriptionExpandButton();
+		setTimeout(() => {
+			checkDescriptionOverflow();
+		}, 50)
+	}
 
 	const onClickExpandDescription = (event) => {
 		_expandDescriptionButton.innerText = _descriptionTruncated ? "Click to minimize" : "Click to expand";
@@ -36,6 +61,8 @@
     }
   }
 
+	// TODO: on window resize => checkDescriptionOverflow()
+
 	onMount(() => {
 		_expandDescriptionButton.style.display = 'none';
 
@@ -48,14 +75,13 @@
 
 <div class="item-search-result-data data-display">
   <div class="text">
-
-		<h3 use:formatStripHtmlTags>{title}</h3> 
+		<h3 use:formatStripHtmlTags={_title}>{_title}</h3> 
 
 		<div class="metadata">
-			{#if type}
+			{#if _itemType}
 				<dl>
 					<dt class="metadata-label">Type</dt>
-					<dd use:formatDataValue>{type}</dd> <!-- use:formatDataValue -->
+					<dd use:formatItemDataValue={_itemType}>{_itemType}</dd> 
 				</dl>
 			{/if}
 		</div>
@@ -63,26 +89,25 @@
 		<h4>About this Item</h4>
 		<div class="description-section">
 			<div id="description" class="description {_descriptionTruncated ? 'description-truncated' : ''}" bind:this={_descriptionSection}>
-				<p use:formatStripHtmlTags>{description}</p>
+				<p use:formatStripHtmlTags={_description}>{_description}</p>
 			</div>
 			<button id="expandDescription" class="expand-description" on:click={onClickExpandDescription} bind:this={_expandDescriptionButton}>Click to expand</button>
 		</div>
-		
 	</div>
 
 	<hr>
 
 	<h4>Appears In</h4>
-	<div class="exhibit-title">{exhibitTitle}</div>
+	<div class="exhibit-title" use:formatStripHtmlTags={_exhibitTitle}>{_exhibitTitle}</div>
 
 	<div class="static-links">
-		<button class="du-button-1 ui-button-1" on:click={() => {window.open(`/exhibit/${exhibitId}#${itemId}`, '_blank')}}>
+		<button class="du-button-1 ui-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}#${_itemId}`, '_blank')}}>
 			<i class="las la-book-open"></i>
 			<span>View in Exhibit</span>
 			<i class="las la-arrow-right"></i>
 		</button>
 
-		<button class="du-button-1 ui-button-1" on:click={() => {window.open(`/exhibit/${exhibitId}`, '_blank')}}>
+		<button class="du-button-1 ui-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}`, '_blank')}}>
 			<i class="las la-book-open"></i>
 			<span>Explore Exhibit</span>
 			<i class="las la-arrow-right"></i>
@@ -138,13 +163,13 @@
 
 	.description {
 		max-height: none;
-		/* min-height: 75px; */
+		/* min-height: 240px; */
 	}
 
 	.description-truncated {
 		text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 7;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
 	}

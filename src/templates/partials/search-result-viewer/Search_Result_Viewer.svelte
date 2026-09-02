@@ -2,6 +2,7 @@
   /*
 	 * item viewer template - viewer on left, with sidebar on right for text and link lists, or metadata
 	 */
+	import { createEventDispatcher } from 'svelte';
 	import { Settings } from '../../../config/settings';
 	import Exhibit_Preview from '../../../components/Exhibit_Preview.svelte';
   import Media_Item_Preview from '../../../components/Media_Item_Preview.svelte';
@@ -19,6 +20,8 @@
   export let item = {}; // the result
 	export let args = {};
 
+	const dispatch = createEventDispatcher();
+
 	const {
 			searchResultDisplayLinks,
 			searchResultDisplayLinksRepositoryItem
@@ -27,25 +30,37 @@
 	// module settings
 	const DEFAULT_ITEM_DESCRIPTION = "No description available";
 
-	const {
-		type:									entityType = ENTITY_TYPE.ITEM,
-		media_iiif: 					mediaIIIF = null,
-	} = item;
+	// const {
+	// 	type:	entityType = ENTITY_TYPE.ITEM,
+	// } = item;
 
-	const {
-		totalResults,
-		resultIndex,
-	} = args;
-
+	let _type;
+	let _resultIndex;
+	let _totalResults;
 	let _displayData;
 	let _displayLinks;
 
-	$: init();
+	$: {
+		// kludge: (Object.keys(item)) init() code in this block will not execute unless item is interacted with here (investigate)
+		Object.keys(item || {});
+		init();
+	}
 
 	const init = async () => {
-		console.log("test: init search results viewer")
-		_displayData = getDisplayData(entityType);
-		_displayLinks = getDisplayLinkList(entityType);
+		let {
+			type: entityType,
+		} = item;
+
+		let {
+			totalResults,
+			resultIndex,
+		} = args; 
+
+		_type = entityType || ENTITY_TYPE.ITEM,
+		_resultIndex = resultIndex || 0;
+		_totalResults = totalResults || 0;
+		_displayData = getDisplayData(_type);
+		_displayLinks = getDisplayLinkList(_type);
 	}
 
 	/**
@@ -133,13 +148,15 @@
 	// called on 'load-error', both MIP and EP
 	const onLoadError = (event) => {}
 
-	// update any displays here
-	// dispatch event for Search to catch
-	const onClickPreviousItem = (event) => {} 
+	const onClickAdvanceResultIndex = (event) => {
+		const advance = event.currentTarget?.getAttribute('data-advance-index') || 0;
+		const newIndex = _resultIndex + parseInt(advance);
 
-	// update any displays here
-	// dispatch event for Search to catch
-	const onClickNextItem = (event) => {}
+		if(newIndex >= 0 && newIndex < _totalResults) {
+			_resultIndex = newIndex;
+			dispatch('update-data-1', {resultIndex: _resultIndex});
+		}
+	} 
 </script>
 
 <div class="search-result-viewer">
@@ -149,11 +166,14 @@
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
 			<!-- result preview (media item preview) -->
 			<div class="result-preview viewer-section">
-				{#if entityType == ENTITY_TYPE.ITEM}
-					<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:load-media on:load-error on:image-loaded />
-					<!-- <IIIF_Item {item} template={Media_Item_Preview} args={{isInteractive: false, ...args}} on:image-loaded on:load-error /> -->
-				{:else if entityType == ENTITY_TYPE.EXHIBIT}
-					<Exhibit_Preview exhibit={item} args={{overlay: false, isThumbnail: false, isInteractive: false}} on:image-loaded on:load-error />
+				{#if _type == ENTITY_TYPE.ITEM}
+					{#key _displayData}
+						<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:load-error on:image-loaded />
+				  {/key}
+				{:else if _type == ENTITY_TYPE.EXHIBIT}
+					{#key _displayData}
+						<Exhibit_Preview exhibit={item} args={{overlay: false, isThumbnail: false, isInteractive: false}} on:image-loaded on:load-error />
+					{/key}
 				{/if}
 			</div>
 
@@ -162,9 +182,9 @@
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
 			<!-- result data (metadata, links) -->
 			<div class="result-data">
-				{#if entityType == ENTITY_TYPE.ITEM}
+				{#if _type == ENTITY_TYPE.ITEM}
 					<Item_Result_Data_Display data={_displayData} links={_displayLinks} />
-				{:else if entityType == ENTITY_TYPE.EXHIBIT}
+				{:else if _type == ENTITY_TYPE.EXHIBIT}
 					<Exhibit_Result_Data_Display data={_displayData} links={_displayLinks} />
 				{/if}
 			</div>
@@ -175,14 +195,14 @@
 	<div class="row controls">
 		<div class="result-index-select-buttons">
 			
-			<button id="previousButton" class="ui-button-1 ui-button-1" on:click={onClickPreviousItem} >
+			<button id="previousButton" class="ui-button-1 ui-button-1 {_resultIndex > 0 ? '' : 'disabled'}" data-advance-index="-1" on:click={onClickAdvanceResultIndex} >
 				<i class="las la-arrow-left"></i>
 				<span>Previous result</span>
 			</button>
 
-			<div>N of N results</div>
+			<div>{_resultIndex+1} of {_totalResults} results</div>
 
-			<button id="nextButton" class="ui-button-1 ui-button-1" on:click={onClickNextItem} >
+			<button id="nextButton" class="ui-button-1 ui-button-1 {_resultIndex >= (_totalResults-1) ? 'disabled' : ''}" data-advance-index="1" on:click={onClickAdvanceResultIndex} >
 				<span>Next result</span>
 				<i class="las la-arrow-right"></i>
 			</button>
@@ -241,18 +261,28 @@
     justify-content: space-between;
 		align-items: center;
 		margin-top: 20px;
+		height: 59px;
 	}
 
 	.result-preview {
 		height: 100%;
 		display: flex;
-    align-items: start;
+    align-items: center;
 	}
 
 	:global(.search-result-viewer .item-preview-wrapper) {
 		height: 100%;
     overflow: hidden;
 	}
+
+	/* MIP style overrides */
+	:global(.search-result-viewer .result-preview .item-preview),
+	:global(.search-result-viewer .result-preview .item-preview > button),
+	:global(.search-result-viewer .result-preview .item-preview > button img)  {
+		height: 100%;
+		width: unset;
+	}
+	/* END MIP style overrides */
 
 	.result-data {
 		padding: 20px;
@@ -267,6 +297,11 @@
 
 	.date {
 		font-size: 0.9em;
+	}
+
+	button.disabled {
+		pointer-events: none;
+    color: #a5a5a5;
 	}
 
 	.ui-button-1 {
