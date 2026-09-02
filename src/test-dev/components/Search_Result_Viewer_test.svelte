@@ -5,11 +5,11 @@
     // ['IMAGE', 'IMAGE_REPO', 'AUDIO', 'AUDIO_REPO', 'VIDEO', 'VIDEO_REPO', 'PDF', 'PDF_REPO', 'EXHIBIT']
     import {test_items} from '../data/items.js';
 
-    let data = test_items["EXHIBIT"];
+    let data = test_items["IMAGE"];
 
     let args = {
       totalResults: 5,
-      resultIndex: 1,
+      resultIndex: 0,
     }
 </script>
 
