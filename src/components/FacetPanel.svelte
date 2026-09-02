@@ -135,7 +135,7 @@
 
     .facets > button h3 {
         margin-bottom: 0;
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .nav {
