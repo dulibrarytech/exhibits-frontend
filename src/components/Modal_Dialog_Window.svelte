@@ -76,6 +76,7 @@
 						data={modalData} 
 						args={modalArgs} 
 						on:close={closeDialog} 
+						on:update-data-1
 					/>
 				</div>
 			</div>

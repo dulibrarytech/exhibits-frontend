@@ -7,6 +7,12 @@ import { getInnerText } from './exhibits_data_helpers';
 
 export const formatStripHtmlTags = (node) => {
     node.innerText = getInnerText(node.innerText);
+
+    return {
+      update(newValue) {
+        node.textContent = getInnerText(newValue);
+      },
+    };
 }
 
 export const formatFacetField = (node) => {
@@ -48,8 +54,14 @@ export const getFacetValueLabel = (value) => {
 // END to helper
 ////////////////////////////
 
-export const formatDataValue = (node) => {
+export const formatItemDataValue = (node) => {
     node.innerHTML = Settings.facetValueLabels[node.innerText];
+
+    return {
+      update(newValue) {
+        node.textContent = Settings.facetValueLabels[newValue];
+      },
+    };
 }
 
 export const formatSearchResultValue = (node, data = {}) => {

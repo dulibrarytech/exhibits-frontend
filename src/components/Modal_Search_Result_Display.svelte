@@ -6,7 +6,11 @@
 </script>
 
 <div class="modal-search-result-display">
-  <Search_Result_Viewer item={data} {args} />
+  <Search_Result_Viewer 
+    item={data} 
+    {args} 
+    on:update-data-1
+  />
 </div>
 
 <style>

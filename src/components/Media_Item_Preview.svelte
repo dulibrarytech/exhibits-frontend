@@ -357,6 +357,9 @@
 
     .item-preview-wrapper {
         margin-inline: auto;
+
+        display: flex;
+        align-items: center;
     }
 
     .item-preview {
@@ -374,6 +377,7 @@
     .item-preview.placeholder-image {
         margin-top: unset;
         width: 200px;
+        height: 200px;
     }
 
     .item-preview:hover .overlay,
