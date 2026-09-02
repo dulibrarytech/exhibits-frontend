@@ -9,16 +9,37 @@
 		formatStripHtmlTags
 	} from '../../../libs/format';
 
-	const {
-		exhibitId,
-		title = "No title data",
-		description = "No description available",
-		isStudentCurated = false,
-	} = data;
+	// item data
+	let _exhibitId;
+	let _title;
+	let _description;
+	let _isStudentCurated;
 
+	// module variables
 	let _descriptionTruncated = true;
+
+	// view elements
 	let _descriptionSection;
 	let _expandDescriptionButton;
+
+	$: {
+		let {
+			exhibitId,
+			title = "No title data",
+			description = "No description available",
+			isStudentCurated = false,
+		} = data;
+
+		_exhibitId = exhibitId;
+		_title = title;
+		_description = description;
+		_isStudentCurated = isStudentCurated;
+
+		// initDescriptionExpandButton(); // to Result_Data_Display wrapper component
+		setTimeout(() => {
+			checkDescriptionOverflow();
+		}, 50)
+	}
 
 	const onClickExpandDescription = (event) => {
 		_expandDescriptionButton.innerText = _descriptionTruncated ? "Click to minimize" : "Click to expand";
@@ -33,6 +54,8 @@
     }
   }
 
+	// TODO: on window resize => checkDescriptionOverflow()
+
 	onMount(() => {
 		checkDescriptionOverflow();
 
@@ -46,19 +69,19 @@
 <div class="exhibit-search-result-data data-display">
   <div class="text">
 
-		<h3 use:formatStripHtmlTags>{title}</h3>
+		<h3 use:formatStripHtmlTags>{_title}</h3>
 
 		<div class="metadata">
 			<dl>
 				<dt class="metadata-label">Type</dt>
-				<dd>{isStudentCurated ? 'Student Curated Exhibit' : 'University Libraries Exhibit'}</dd>
+				<dd>{_isStudentCurated ? 'Student Curated Exhibit' : 'University Libraries Exhibit'}</dd>
 			</dl>
 		</div>
 
 		<h4>About this Item</h4>
 		<div class="description-section">
 			<div id="description" class="description {_descriptionTruncated ? 'description-truncated' : ''}" bind:this={_descriptionSection}>
-				<p use:formatStripHtmlTags>{description}</p>
+				<p use:formatStripHtmlTags>{_description}</p>
 			</div>
 			<button id="expandDescription" class="expand-description" on:click={onClickExpandDescription} bind:this={_expandDescriptionButton}>Click to expand</button>
 		</div>
@@ -68,7 +91,7 @@
 	<hr>
 
 	<div class="static-links">
-		<button class="du-button-1-red ui-button-1" on:click={() => {window.open(`/exhibit/${exhibitId}`, '_blank')}}>
+		<button class="du-button-1-red ui-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}`, '_blank')}}>
 			<i class="las la-book-open"></i>
 			<span>Explore Exhibit</span>
 			<i class="las la-arrow-right"></i>

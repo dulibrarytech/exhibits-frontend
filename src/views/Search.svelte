@@ -27,7 +27,7 @@
     const RESULTS_PER_PAGE = Settings.searchResultsPerPage || 10;
     const DEFAULT_SEARCH_FIELD = INDEX_FIELD.TITLE;
     const DEFAULT_SEARCH_OPERATOR = SEARCH_BOOLEAN.AND;
-    const RESULT_VIEWER_DIALOG_WIDTH = "75%";
+    const RESULT_VIEWER_DIALOG_WIDTH = "85%";
     const RESULT_VIEWER_DIALOG_HEIGHT = "85%";
 
     export let currentRoute;
@@ -149,8 +149,9 @@
 
     // called on SRV prev/next button events (in modal viewer only)
     const onUpdateResultViewerIndex = (event) => {
-        let resultIndex = event.detail.resultIndex || 1;
+        let resultIndex = event.detail.resultIndex || 0;
         _modalDialogData = _results[resultIndex];
+        _modalDialogArgs.resultIndex = resultIndex;
     }
 
     // called on result item click event (on page only, modal closed)
@@ -159,30 +160,22 @@
     }
 
     const openResultModal = (resultIndex) => {
-        // TEST
         if(_modalDialog) _modalDialog = null;
 
-        // result item at index
+        // get result item data at index
         _modalDialogData = _results[resultIndex];
 
         _modalDialogArgs = {
             totalResults: _results.length, 
-            resultIndex: 1, // active result (init only, this is not set in refreshmodal)
+            resultIndex: resultIndex, // active result (init only, this is not set in refreshmodal)
         }
 
         _modalDialog = Modal_Search_Result_Display;
-
-        // TEST - ORIG
-        //if(!_modalDialog) _modalDialog = Modal_Search_Result_Display;
     }
 
     const closeModal = (event) => {
         _modalDialogData = null;
         _modalDialog = null;
-
-        // if(location.href.indexOf('#') > 0) {
-        //     history.replaceState(null, null, location.href.substring(0, location.href.indexOf('#')));
-        // }
     }
 
     $: init();
@@ -214,7 +207,7 @@
                     modalArgs={_modalDialogArgs}
                     height={RESULT_VIEWER_DIALOG_HEIGHT}
                     width={RESULT_VIEWER_DIALOG_WIDTH}
-                    on:update-result-index={onUpdateResultViewerIndex}
+                    on:update-data-1={onUpdateResultViewerIndex}
                     on:close={closeModal} 
                 />
             {/if}
