@@ -141,8 +141,7 @@
 
 	// called on 'image-loaded', both MIP and EP
 	const onLoadMedia = (event) => {
-		document.getElementById('resultPreviewContainer').style.display = "block";
-		document.getElementById('spinner').style.display = "none";
+		toggleSpinner();
 	}
 
 	// called on 'load-error', both MIP and EP
@@ -151,6 +150,8 @@
 	}
 
 	const onClickAdvanceResultIndex = (event) => {
+		toggleSpinner();
+
 		const advance = event.currentTarget?.getAttribute('data-advance-index') || 0;
 		const newIndex = _resultIndex + parseInt(advance);
 
@@ -158,7 +159,18 @@
 			_resultIndex = newIndex;
 			dispatch('update-data-1', {resultIndex: _resultIndex});
 		}
-	} 
+	}
+
+	const toggleSpinner = () => {
+		if(document.getElementById('resultPreview').style.display == "none") {
+			document.getElementById('resultPreview').style.display = "flex";
+			document.getElementById('spinner').style.display = "none";
+		}
+		else {
+			document.getElementById('resultPreview').style.display = "none";
+			document.getElementById('spinner').style.display = "flex";
+		}
+	}
 </script>
 
 <div class="search-result-viewer">
@@ -167,22 +179,20 @@
 	<div class="row viewer">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
 			<!-- result preview (media item preview) -->
-			<div class="result-preview viewer-section">
+			<div id="resultPreview" class="result-preview viewer-section" style="display: none">
+				{#if _type == ENTITY_TYPE.ITEM}
+					{#key _displayData}
+						<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
+				  {/key}
+				{:else if _type == ENTITY_TYPE.EXHIBIT}
+					{#key _displayData}
+						<Exhibit_Preview exhibit={item} args={{overlay: false, isThumbnail: false, isInteractive: false}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
+					{/key}
+				{/if}
+			</div>
 
-				<div id="spinner" class="loader"></div>
-
-				<div id="resultPreviewContainer" style="display: none">
-					{#if _type == ENTITY_TYPE.ITEM}
-						{#key _displayData}
-							<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
-					  {/key}
-					{:else if _type == ENTITY_TYPE.EXHIBIT}
-						{#key _displayData}
-							<Exhibit_Preview exhibit={item} args={{overlay: false, isThumbnail: false, isInteractive: false}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
-						{/key}
-					{/if}
-				</div>
-				
+			<div id="spinner">
+				<span class="loader"></span>
 			</div>
 		</div>
 
@@ -277,7 +287,10 @@
 	}
 
 	#spinner {
-		margin-inline: auto;
+		height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 	}
 
 	.result-preview {
