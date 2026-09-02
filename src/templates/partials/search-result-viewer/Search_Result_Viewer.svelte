@@ -30,6 +30,7 @@
 	// module settings
 	const DEFAULT_ITEM_DESCRIPTION = "No description available";
 
+	// module variables
 	let _type;
 	let _resultIndex;
 	let _totalResults;
@@ -140,12 +141,13 @@
 
 	// called on 'image-loaded', both MIP and EP
 	const onLoadMedia = (event) => {
-		console.log("test: on load media")
+		document.getElementById('resultPreviewContainer').style.display = "block";
+		document.getElementById('spinner').style.display = "none";
 	}
 
 	// called on 'load-error', both MIP and EP
 	const onLoadError = (event) => {
-		console.log("test: on load error")
+		console.log("test: on preview load error")
 	}
 
 	const onClickAdvanceResultIndex = (event) => {
@@ -166,17 +168,22 @@
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
 			<!-- result preview (media item preview) -->
 			<div class="result-preview viewer-section">
-				{#if _type == ENTITY_TYPE.ITEM}
-					{#key _displayData}
-						<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
-				  {/key}
-				{:else if _type == ENTITY_TYPE.EXHIBIT}
-					{#key _displayData}
-						<Exhibit_Preview exhibit={item} args={{overlay: false, isThumbnail: false, isInteractive: false}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
-					{/key}
-				{/if}
-			</div>
 
+				<div id="spinner" class="loader"></div>
+
+				<div id="resultPreviewContainer" style="display: none">
+					{#if _type == ENTITY_TYPE.ITEM}
+						{#key _displayData}
+							<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
+					  {/key}
+					{:else if _type == ENTITY_TYPE.EXHIBIT}
+						{#key _displayData}
+							<Exhibit_Preview exhibit={item} args={{overlay: false, isThumbnail: false, isInteractive: false}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
+						{/key}
+					{/if}
+				</div>
+				
+			</div>
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
@@ -262,6 +269,15 @@
 		align-items: center;
 		margin-top: 20px;
 		height: 59px;
+	}
+
+	#resultPreviewContainer {
+		height: 100%;
+		margin-inline: auto;
+	}
+
+	#spinner {
+		margin-inline: auto;
 	}
 
 	.result-preview {
