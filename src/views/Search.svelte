@@ -34,7 +34,6 @@
 
     // module variables
     let _results = null;
-    //let _activeResultIndex = null;
     let _limitOptions = null;
     let _facets = [];
     let _searchParams = {};
@@ -56,7 +55,6 @@
     const init = async () => {
         // set default state
         _message = "Searching...";
-        //_activeResultIndex = 1;
 
         // convert incoming terms, fields data to arrays
         terms = terms.split(',');
@@ -87,6 +85,8 @@
     const executeSearch = async () => {
         try {
             let response = await Search.execute({terms, boolean, fields, exhibitId, facets: _facets});
+
+            console.log("test: S: response:", response)
             
             _results = response.results || [];
             _limitOptions = response.limitOptions || null;

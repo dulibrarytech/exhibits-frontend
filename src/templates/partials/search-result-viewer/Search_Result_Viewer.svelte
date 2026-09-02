@@ -30,10 +30,6 @@
 	// module settings
 	const DEFAULT_ITEM_DESCRIPTION = "No description available";
 
-	// const {
-	// 	type:	entityType = ENTITY_TYPE.ITEM,
-	// } = item;
-
 	let _type;
 	let _resultIndex;
 	let _totalResults;
@@ -143,10 +139,14 @@
 	}
 
 	// called on 'image-loaded', both MIP and EP
-	const onLoadMedia = (event) => {}
+	const onLoadMedia = (event) => {
+		console.log("test: on load media")
+	}
 
 	// called on 'load-error', both MIP and EP
-	const onLoadError = (event) => {}
+	const onLoadError = (event) => {
+		console.log("test: on load error")
+	}
 
 	const onClickAdvanceResultIndex = (event) => {
 		const advance = event.currentTarget?.getAttribute('data-advance-index') || 0;
@@ -168,11 +168,11 @@
 			<div class="result-preview viewer-section">
 				{#if _type == ENTITY_TYPE.ITEM}
 					{#key _displayData}
-						<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:load-error on:image-loaded />
+						<Media_Item_Preview {item} args={{isInteractive: false, ...args}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
 				  {/key}
 				{:else if _type == ENTITY_TYPE.EXHIBIT}
 					{#key _displayData}
-						<Exhibit_Preview exhibit={item} args={{overlay: false, isThumbnail: false, isInteractive: false}} on:image-loaded on:load-error />
+						<Exhibit_Preview exhibit={item} args={{overlay: false, isThumbnail: false, isInteractive: false}} on:image-loaded={onLoadMedia} on:load-error={onLoadError} />
 					{/key}
 				{/if}
 			</div>
