@@ -18,8 +18,6 @@
     export let terms = [];
     export let searchParams = {};
 
-    console.log("test: SRD: search params in:", searchParams)
-
     const dispatch = createEventDispatcher();
 
     let {

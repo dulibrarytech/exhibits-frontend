@@ -85,8 +85,6 @@
     const executeSearch = async () => {
         try {
             let response = await Search.execute({terms, boolean, fields, exhibitId, facets: _facets});
-
-            console.log("test: S: response:", response)
             
             _results = response.results || [];
             _limitOptions = response.limitOptions || null;
