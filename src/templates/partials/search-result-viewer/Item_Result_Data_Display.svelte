@@ -101,13 +101,13 @@
 	<div class="exhibit-title" use:formatStripHtmlTags={_exhibitTitle}>{_exhibitTitle}</div>
 
 	<div class="static-links">
-		<button class="du-button-1 ui-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}#${_itemId}`, '_blank')}}>
+		<button class="ui-button-1 du-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}#${_itemId}`, '_blank')}}>
 			<i class="las la-book-open"></i>
 			<span>View in Exhibit</span>
 			<i class="las la-arrow-right"></i>
 		</button>
 
-		<button class="du-button-1 ui-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}`, '_blank')}}>
+		<button class="ui-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}`, '_blank')}}>
 			<i class="las la-book-open"></i>
 			<span>Explore Exhibit</span>
 			<i class="las la-arrow-right"></i>
@@ -169,7 +169,7 @@
 	.description-truncated {
 		text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 7;
     -webkit-box-orient: vertical;
     overflow: hidden;
 	}
@@ -186,29 +186,5 @@
 
 	.static-links {
 		margin-top: 30px;
-	}
-
-	/* to global.css */
-	.du-button-1 {
-		background: #7C0A02;
-    color: white;
-	}
-
-	.ui-button-1 {
-		padding: 1em 2em;
-    font-size: 1em;
-		border-radius: 5px;
-		display: flex;
-    align-items: center;
-		margin: 0 0 10px 0;
-	}
-
-	.ui-button-1 > *:not(:last-child) {
-		margin-right: 0.6em;
-
-	}
-
-	.ui-button-1 i {
-		font-size: 1.65em;
 	}
 </style>

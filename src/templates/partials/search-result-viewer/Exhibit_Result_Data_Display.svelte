@@ -168,31 +168,4 @@
 	.static-links {
 		margin-top: 30px;
 	}
-
-	/* to global.css */
-	.du-button-1-red {
-		background: #7C0A02;
-    color: white;
-	}
-
-	.ui-button-1 {
-		padding: 1em 2em;
-    font-size: 1em;
-		border-radius: 5px;
-		display: flex;
-    align-items: center;
-		margin: 0 0 10px 0;
-		column-gap: 20px;
-	}
-
-	.ui-button-1 > *:not(:last-child) {
-		margin-right: 0.6em;
-
-	}
-
-	.ui-button-1 i {
-		font-size: 1.65em;
-		position: relative;
-    top: 1px;
-	}
 </style>
