@@ -18,15 +18,19 @@
     export let terms = [];
     export let searchParams = {};
 
+    console.log("test: SRD: search params in:", searchParams)
+
     const dispatch = createEventDispatcher();
 
     let {
         facetValues
     } = Settings;
 
-    var resultsPage = [];
-    var searchType = null;
-    var termsLabel = "";
+    // _ module variables
+    let resultsPage = [];
+    let termsLabel = "";
+    let searchType = null;
+    let totalResults = 0;
 
     $: render();
 
@@ -34,6 +38,7 @@
         resultsPage = getResultsPage(searchParams.pageNumber);
         termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
         searchType = searchParams.searchType || null;
+        totalResults = searchParams.totalResults || 0;
 
         for(let facet of facets) {
             
@@ -82,11 +87,6 @@
 
             <div class="row ng-scope">
                 <div class="col-md-3 col-md-push-9 results-sidebar">
-                    <div>
-                        <button on:click|preventDefault={() => dispatch('click-back', {})}>Back</button>
-                        {#if facets?.length > 0}<button on:click|preventDefault={() => dispatch('click-clear-facets', {})}>Reset Filters</button>{/if}
-                    </div>
-
                     {#if limitOptions.length > 0}
                         <FacetPanel {limitOptions} {facetValues} on:click-facet={onClickFacet} />
                     {/if}
@@ -95,11 +95,11 @@
                 <div class="col-md-9 col-md-pull-3 results-container">
 
                     <div class="search-data-display">
-                        <p class="search-terms-label">Search for "<span style="font-weight: bold">{termsLabel}</span>"</p>
+                        <h1 class="search-terms-label">{totalResults} search results for "<span style="font-weight: bold">{termsLabel}</span>"</h1>
 
-                        <FacetLabels {facets} on:remove-facet={onRemoveFacet} />
-
-                        <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
+                        <h2 class="sr-only">Results List</h2>
+                        <FacetLabels {facets} on:remove-facet={onRemoveFacet} on:click-clear-facets />
+                        <!-- <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link /> -->
                     </div>
 
                     {#if resultsPage.length > 0}
@@ -115,7 +115,9 @@
                             />
                         {/each}
                     {:else}
-                        <p>No results found.</p>
+                        <div class="results-display-message">
+                            <p>No results found.</p>
+                        </div>
                     {/if}
                     
                     <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
@@ -127,6 +129,35 @@
 </div>
 
 <style>
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .results-display-message {
+        margin-top: 5rem;
+    }
+
+    :global(.search-results-display h2), 
+    :global(.search-results-display h3) {
+        font-size: 1.3rem;
+    }
+
+    :global(.search-results-display h4) {
+        font-size: 1.1rem;
+    }
+
     .search-data-display {
         display: block;
         margin-bottom: 30px;

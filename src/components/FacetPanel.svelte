@@ -43,8 +43,8 @@
         let index = currentTarget.getAttribute('data-index');
 
         facetLabelButtons[index].classList.toggle('active');
-        facetLabelButtons[index].querySelector("i").classList.toggle("la-plus");
-        facetLabelButtons[index].querySelector("i").classList.toggle("la-minus");
+        facetLabelButtons[index].querySelector("i").classList.toggle("bi-chevron-right");
+        facetLabelButtons[index].querySelector("i").classList.toggle("bi-chevron-down");
 
         if(facetLabelButtons[index].classList.contains('active')) {
             facetDrodownLists[index].style.display = "block";
@@ -60,9 +60,13 @@
 {#if limitOptionsDisplay.length > 0}
 
 <div class="facet-panel">
-    <h4>Filter Results</h4>
+    <h2>Filter Results</h2>
 
     <div class="facets">
+        {#if limitOptionsDisplay.length == 0 || limitOptionsDisplay[0].values?.length == 0}
+            <span>No filters available</span>
+        {/if}
+
         {#each limitOptionsDisplay as {field, values, label=null}, index}
             {#if values.length > 0}
 
@@ -76,8 +80,8 @@
                         on:click={onClickFacetLabel} 
                         bind:this={facetLabelButtons[index]}
                     >
-                        <span use:formatFacetField>{field}</span>
-                        <i class="las la-minus"></i>
+                        <h3 use:formatFacetField>{field}</h3>
+                        <i class="bi bi-chevron-down"></i>
                     </button>
 
                     <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]}>
@@ -120,8 +124,18 @@
 {/if}
 
 <style>
-    .facet-panel > h4 {
-        margin-bottom: 20px;
+    .facet-panel > h2 {
+        margin-bottom: 1.5rem;
+    }
+
+    .facets > button {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .facets > button h3 {
+        margin-bottom: 0;
+        font-size: 1.1rem;
     }
 
     .nav {
@@ -161,6 +175,11 @@
         font-size: 1rem;
     }
 
+    .facets button {
+        color: #181818;
+        font-weight: bold;
+    }
+
     .facets > ul li {
         width: 284px;
     }
@@ -168,7 +187,6 @@
     .facets button i {
         float: right;
         position: relative;
-        top: 5px;
     }
 
     .search-result-categories>li>a {
@@ -205,8 +223,8 @@
     }
 
     /* Style the button that is used to open and close the collapsible content */
-    .collapsible {
-        background-color: #e5e5e5;
+    button.collapsible {
+        background-color: white;
         color: #444;
         cursor: pointer;
         padding: 18px;
@@ -214,11 +232,13 @@
         border: none;
         text-align: left;
         outline: none;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #e5e5e5;
     }
 
     /* Style the collapsible content. Note: hidden by default */
     .panel-section {
-        /* display: none; */
         display: block;
         overflow: hidden;
         max-height: 400px;
