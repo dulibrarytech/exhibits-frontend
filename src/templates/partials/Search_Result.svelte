@@ -150,6 +150,8 @@
         background-color: #fff;
         border-radius: 4px;
         display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .search-result-item:after,
@@ -238,6 +240,11 @@
     }
 
     @media (min-width:768px) {
+        .search-result-item {
+            flex-direction: row;
+            align-items: revert;
+        }
+
         .search-result-item .image-link {
             margin: -20px 20px -20px -20px;
             float: left;
