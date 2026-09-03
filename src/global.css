@@ -139,16 +139,7 @@ footer {
   align-items: center;
 	margin: 0 0 10px 0;
 	background: white;
-}
-
-.ui-button-1 > *:not(:last-child) {
-	margin-right: 0.6em;
-}
-
-.ui-button-1 i {
-	font-size: 1.65em;
-	position: relative;
-  top: 1px;
+	column-gap: 20px;
 }
 
 .du-button-1 {
