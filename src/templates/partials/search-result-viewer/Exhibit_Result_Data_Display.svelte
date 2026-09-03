@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import Item_Link_Display from '../../partials/Item_Link_Display.svelte';
 
 	export let data = {};
@@ -15,13 +14,6 @@
 	let _description;
 	let _isStudentCurated;
 
-	// module variables
-	let _descriptionTruncated = true;
-
-	// view elements
-	let _descriptionSection;
-	let _expandDescriptionButton;
-
 	$: {
 		let {
 			exhibitId,
@@ -34,42 +26,13 @@
 		_title = title;
 		_description = description;
 		_isStudentCurated = isStudentCurated;
-
-		// initDescriptionExpandButton(); // to Result_Data_Display wrapper component
-		setTimeout(() => {
-			checkDescriptionOverflow();
-		}, 50)
 	}
-
-	const onClickExpandDescription = (event) => {
-		_expandDescriptionButton.innerText = _descriptionTruncated ? "Click to minimize" : "Click to expand";
-		_descriptionTruncated = !_descriptionTruncated;
-	}
-
-	const checkDescriptionOverflow = () => {
-    if (_descriptionSection.scrollHeight > _descriptionSection.clientHeight) {
-      _expandDescriptionButton.style.display = 'block';
-    } else {
-      _expandDescriptionButton.style.display = 'none';
-    }
-  }
-
-	// TODO: on window resize => checkDescriptionOverflow()
-
-	onMount(() => {
-		checkDescriptionOverflow();
-
-		// kludge: the instant onMount() callback occurs, the 'descriptionSection' scroll/client height is still returning 0 value. after timeout, the correct values are returned
-		setTimeout(() => {
-			checkDescriptionOverflow();
-		}, 50)
-	});
 </script>
 
 <div class="exhibit-search-result-data data-display">
-  <div class="text">
 
-		<h3 use:formatStripHtmlTags>{_title}</h3>
+  <div class="text">
+		<h3 class="title-truncated" use:formatStripHtmlTags={_title}>{_title}</h3>
 
 		<div class="metadata">
 			<dl>
@@ -80,18 +43,16 @@
 
 		<h4>About this Item</h4>
 		<div class="description-section">
-			<div id="description" class="description {_descriptionTruncated ? 'description-truncated' : ''}" bind:this={_descriptionSection}>
-				<p use:formatStripHtmlTags>{_description}</p>
+			<div id="description" class="description description-truncated">
+				<p use:formatStripHtmlTags={_description}>{_description}</p>
 			</div>
-			<button id="expandDescription" class="expand-description" on:click={onClickExpandDescription} bind:this={_expandDescriptionButton}>Click to expand</button>
 		</div>
-		
 	</div>
 
 	<hr>
 
 	<div class="static-links">
-		<button class="du-button-1-red ui-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}`, '_blank')}}>
+		<button class="ui-button-1 du-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}`, '_blank')}}>
 			<i class="las la-book-open"></i>
 			<span>Explore Exhibit</span>
 			<i class="las la-arrow-right"></i>
@@ -137,19 +98,26 @@
 		content: ':';
 	}
 
+	.title-truncated {
+		text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+	}
+
 	.description-section {
 		margin-bottom: 10px;
 	}
 
 	.description {
 		max-height: none;
-		/* min-height: 240px; */
 	}
 
 	.description-truncated {
 		text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 10;
+    -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
     overflow: hidden;
 		max-height: 240px;
