@@ -142,6 +142,11 @@ footer {
 	column-gap: 20px;
 }
 
+.ui-button-1 i {
+	font-size: 1.65rem;
+	font-weight: bold;
+}
+
 .du-button-1 {
 	background: #7C0A02;
   color: white;
