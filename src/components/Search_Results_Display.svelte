@@ -93,7 +93,7 @@
                 <div class="col-md-9 col-md-pull-3 results-container">
 
                     <div class="search-data-display">
-                        <h1 class="search-terms-label">{totalResults} search results for "<span style="font-weight: bold">{termsLabel}</span>"</h1>
+                        <h1 class="search-terms-label">{totalResults} search result{totalResults == 1 ? '' : 's'} for "<span style="font-weight: bold">{termsLabel}</span>"</h1>
 
                         <h2 class="sr-only">Results List</h2>
                         <FacetLabels {facets} on:remove-facet={onRemoveFacet} on:click-clear-facets />
