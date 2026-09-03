@@ -214,13 +214,13 @@
 			
 			<button id="previousButton" class="ui-button-1 ui-button-1 {_resultIndex > 0 ? '' : 'disabled'}" data-advance-index="-1" on:click={onClickAdvanceResultIndex} >
 				<i class="las la-arrow-left"></i>
-				<span>Previous result</span>
+				<span class="button-text">Previous result</span>
 			</button>
 
-			<div>{_resultIndex+1} of {_totalResults} results</div>
+			<div class="result-index-display">{_resultIndex+1} of {_totalResults} results</div>
 
 			<button id="nextButton" class="ui-button-1 ui-button-1 {_resultIndex >= (_totalResults-1) ? 'disabled' : ''}" data-advance-index="1" on:click={onClickAdvanceResultIndex} >
-				<span>Next result</span>
+				<span class="button-text">Next result</span>
 				<i class="las la-arrow-right"></i>
 			</button>
 
@@ -233,6 +233,15 @@
 	.viewer {
 		background: #F4F2EC;
 		height: calc(100% - 75px);
+		/* scroll entire viewer section content when stacked vertically (preview and data sections) */
+		overflow: auto;
+	}
+
+	.result-data {
+		padding: 20px;
+		height: 100%;
+		/* scroll entire viewer section content when stacked vertically (preview and data sections) */
+		overflow: revert;
 	}
 
 	.controls {
@@ -277,8 +286,16 @@
 		display: flex;
     justify-content: space-between;
 		align-items: center;
-		margin-top: 20px;
+		margin-top: 10px;
 		height: 59px;
+	}
+
+	.result-index-select-buttons button {
+		margin: 0;
+	}
+
+	.result-index-select-buttons .result-index-display {
+		text-align: center;
 	}
 
 	#resultPreviewContainer {
@@ -313,12 +330,6 @@
 	}
 	/* END MIP style overrides */
 
-	.result-data {
-		padding: 20px;
-		height: 100%;
-		overflow: auto;
-	}
-
 	.title {
 		font-size: 1.5em;
 		font-weight: bold;
@@ -333,21 +344,28 @@
     color: #a5a5a5;
 	}
 
-	.ui-button-1 {
-		padding: 1em 2em;
-    font-size: 1em;
-		border-radius: 5px;
-		display: flex;
-    align-items: center;
-		margin: 0 0 10px 0;
-		column-gap: 20px;
+	span.button-text {
+		display: none;
 	}
 
-	.ui-button-1 i {
-		font-size: 1.65em;
-		position: relative;
-    top: 1px;
-		font-weight: bold;
+	@media screen and (min-width: 576px) {
+		.result-index-select-buttons {
+			margin-top: 20px;
+		}
+
+		.result-index-select-buttons button {
+			margin: 0 0 10px 0;
+		}
+	}
+
+	@media screen and (min-width: 768px) {
+		.ui-button-1 {
+			padding: 1em 2em;
+		}
+
+		span.button-text {
+			display: block;
+		}
 	}
 
 	@media screen and (min-width: 992px) {
@@ -366,6 +384,14 @@
 
 		.text-display-container {
 			height: 100%;
+		}
+
+		/* scroll data section content in right side of viewer frame */
+		.viewer {
+			overflow: revert;
+		}
+		.result-data {
+			overflow: auto;
 		}
   }
 </style>
