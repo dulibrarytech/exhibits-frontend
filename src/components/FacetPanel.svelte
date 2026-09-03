@@ -131,11 +131,20 @@
     .facets > button {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        color: #181818;
+        font-weight: bold;
+    }
+
+    .facets > button i {
+        float: right;
+        position: relative;
     }
 
     .facets > button h3 {
         margin-bottom: 0;
         font-size: 1rem;
+        font-weight: bold;
     }
 
     .nav {
@@ -175,18 +184,8 @@
         font-size: 1rem;
     }
 
-    .facets button {
-        color: #181818;
-        font-weight: bold;
-    }
-
     .facets > ul li {
         width: 284px;
-    }
-
-    .facets button i {
-        float: right;
-        position: relative;
     }
 
     .search-result-categories>li>a {
@@ -234,7 +233,7 @@
         outline: none;
         border-style: solid;
         border-width: 1px;
-        border-color: #e5e5e5;
+        border-color: #c5c5c5;
     }
 
     /* Style the collapsible content. Note: hidden by default */
@@ -246,8 +245,11 @@
         background-color: #fff;
         margin-bottom: 0.5em;
         margin-top: -0.5em;
-        border-right: 1px solid rgb(229, 229, 229);
+        /* border-right: 1px solid rgb(229, 229, 229);
         border-left: 1px solid rgb(229, 229, 229);
-        border-bottom: 1px solid rgb(229, 229, 229);
+        border-bottom: 1px solid rgb(229, 229, 229); */
+        border-right: 1px solid #c5c5c5;
+        border-left: 1px solid #c5c5c5;
+        border-bottom: 1px solid #c5c5c5;
     }
 </style>
