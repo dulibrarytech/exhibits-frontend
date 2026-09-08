@@ -142,4 +142,8 @@
 	.static-links {
 		margin-top: 30px;
 	}
+
+	.dynamic-links {
+		margin-top: 30px;
+	}
 </style>
