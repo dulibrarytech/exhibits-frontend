@@ -231,3 +231,12 @@ export const convertPxValuesToEm = (htmlString = "", baseFontSize = 16) => {
 
     return htmlString;
 }
+
+/**
+ * 
+ * @param {*} string - a string in any form
+ * @returns - the string with all non-alphanumeric chars converted to '-', and all alphanumeric chars to lowercase
+ */
+export const normalizeDataString = (string) => {
+    return string.replace(/[^a-zA-Z0-9]/g, '-').replace(/[^a-zA-Z0-9]$/g, '').toLowerCase();
+}

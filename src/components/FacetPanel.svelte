@@ -1,7 +1,8 @@
 <script>
     'use strict'
 
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
+    import { normalizeDataString } from '../libs/data_helpers';
     import { 
         formatFacetField, 
         formatFacetValue,
@@ -15,12 +16,14 @@
 
     export let limitOptions = [];
     export let facetValues = {};
+    export let selectedFacets = [];
 
     let limitOptionsDisplay = [];
     let facetLabelButtons = [];
     let facetDrodownLists = [];
 
     const init = () => {
+        // init facet display and show currently selected and available limit options
         let option = {};
         for(let key in facetValues) {
             option = limitOptions.find((option) => {
@@ -32,11 +35,30 @@
     }
 
     const onClickFacet = (event) => {
-        let field = event.target.getAttribute('data-facet-field');
-        let value = event.target.getAttribute('data-facet-value');
-        let label = event.target.getAttribute('data-facet-label');
+        let input = event.currentTarget.querySelector('input');
 
-        dispatch('click-facet', {field, value, label});
+        if(input.checked == false) {
+            let field = event.target.getAttribute('data-facet-field');
+            let value = event.target.getAttribute('data-facet-value');
+            let label = event.target.getAttribute('data-facet-label');
+
+            dispatch('click-facet', {field, value, label});
+        }
+        else {
+            let field = event.target.getAttribute('data-facet-field');
+            let inputValue = event.currentTarget.querySelector('input').value;
+
+            const facetIndex = selectedFacets.findIndex((facet) => {
+                return facet.field == field && normalizeDataString(facet.value) == inputValue;
+            });
+
+            if(facetIndex >= 0) {
+                dispatch('remove-facet', {
+                    data: selectedFacets[facetIndex],
+                    index: facetIndex,
+                });
+            }
+        }
     }
 
     const onClickFacetLabel = ({target, currentTarget}) => {
@@ -55,6 +77,15 @@
     }
 
     init(); 
+
+    onMount(() => {
+        // reset all checkboxes and check the facet items that are currently selected
+        document.querySelector(`input`).checked = false;
+        for(const facet of selectedFacets) {
+            let input = document.querySelector(`input[value="${normalizeDataString(facet.value)}"]`);
+            if(input) input.checked = true;
+        }
+    });
 </script>
 
 {#if limitOptionsDisplay.length > 0}
@@ -86,9 +117,15 @@
 
                     <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]}>
                       <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
-                            {#each values as {value, count, label=null}}
+                            {#each values as {value, count, label=null, id}, index}
                                 {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
+                                    <li>
+                                        <a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}>
+                                            <input style="pointer-events: none" type="checkbox" class="facet-item-checkbox" name="{normalizeDataString(field)}--option-{index+1}" value={id}> <!-- TODO add id as value -->
+                                            <span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span>
+                                            <span class="badge">{count}</span>
+                                        </a>
+                                    </li>
                                 {/if}
                             {/each}
                         </ul> 
@@ -99,7 +136,13 @@
                         <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
                             {#each values as {value, count, label=null}}
                                 {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                                    <li><a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}><span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span><span class="badge">{count}</span></a></li>
+                                    <li>
+                                        <a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}>
+                                            <input type="checkbox" class="facet-item-checkbox" name="test" value="yes">
+                                            <span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span>
+                                            <span class="badge">{count}</span>
+                                        </a>
+                                    </li>
                                 {/if}
                             {/each}
                         </ul>
@@ -251,5 +294,9 @@
         border-right: 1px solid #c5c5c5;
         border-left: 1px solid #c5c5c5;
         border-bottom: 1px solid #c5c5c5;
+    }
+
+    .facet-item-checkbox {
+        margin: 0 0.5rem 0.5em 0;
     }
 </style>
