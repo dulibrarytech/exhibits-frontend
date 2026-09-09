@@ -38,17 +38,18 @@
         searchType = searchParams.searchType || null;
         totalResults = searchParams.totalResults || 0;
 
-        for(let facet of facets) {
+        // this is removing the selected facets from limitOptions?
+        // for(let facet of facets) {
             
-            let option = limitOptions.find((option) => {
-                return option.field == facet.field;
-            });
+        //     let option = limitOptions.find((option) => {
+        //         return option.field == facet.field;
+        //     });
 
-            if(!option) continue;
+        //     if(!option) continue;
 
-            let index = option.values.findIndex(({value}) => value == facet.value);
-            option.values.splice(index, 1);
-        }
+        //     let index = option.values.findIndex(({value}) => value == facet.value);
+        //     option.values.splice(index, 1);
+        // }
     }
 
     const getResultsPage = (pageNumber) => {
@@ -86,7 +87,7 @@
             <div class="row ng-scope">
                 <div class="col-md-3 col-md-push-9 results-sidebar">
                     {#if limitOptions.length > 0}
-                        <FacetPanel {limitOptions} {facetValues} on:click-facet={onClickFacet} />
+                        <FacetPanel {limitOptions} {facetValues} selectedFacets={facets} on:click-facet={onClickFacet} on:remove-facet={onRemoveFacet}  />
                     {/if}
                 </div>
 
@@ -97,7 +98,6 @@
 
                         <h2 class="sr-only">Results List</h2>
                         <FacetLabels {facets} on:remove-facet={onRemoveFacet} on:click-clear-facets />
-                        <!-- <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link /> -->
                     </div>
 
                     {#if resultsPage.length > 0}
@@ -108,7 +108,6 @@
                                 {result} 
                                 {searchType} 
                                 index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index}
-
                                 on:click-result
                             />
                         {/each}
