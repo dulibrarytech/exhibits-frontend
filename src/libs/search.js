@@ -24,6 +24,7 @@
 import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants.js';
 import { Index } from './index.js';
 import { getInnerText } from '../libs/exhibits_data_helpers';
+import { normalizeDataString } from '../libs/data_helpers.js';
 
 export const Search = (() => {
     /**
@@ -73,7 +74,9 @@ export const Search = (() => {
                     limitOption.values.push({
                         value: key, 
                         count: doc_count,
-                        label: display ? getInnerText(display) : undefined
+                        label: display ? getInnerText(display) : undefined,
+                        //id: key.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase(),
+                        id: normalizeDataString(key),
                     });
                 }
             }
