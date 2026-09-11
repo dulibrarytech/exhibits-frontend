@@ -11,7 +11,6 @@
 
     import { Search } from '../libs/search.js';
     import { Settings } from '../config/settings.js';
-    import { Cache } from '../libs/cache';
     import * as Logger from '../libs/logger.js';
 
     import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
@@ -47,13 +46,12 @@
         q:          terms = "",
         fields:     fields = DEFAULT_SEARCH_FIELD,
         bool:       boolean = DEFAULT_SEARCH_OPERATOR,
-        page:       page = 1,
         exhibitId:  exhibitId = null,
 
     } = currentRoute.queryParams || {};
 
     const init = async () => {
-        // set default state
+        // display message while search is executing
         _message = "Searching...";
 
         // convert incoming terms, fields data to arrays
@@ -63,13 +61,10 @@
         // set default search params fields
         _searchParams = {
             searchType: exhibitId ? SEARCH_TYPE.SEARCH_EXHIBIT : SEARCH_TYPE.SEARCH_ALL,
-            pageNumber: page,
+            pageNumber: 1,
             resultsPerPage: RESULTS_PER_PAGE,
             totalResults: 0
         }
-
-        // check if there are any selected facets
-        _facets = Cache.getSearchData()?.selectedFacets || [];
 
         let response = false;
         if(validateUrlParameters()) {
@@ -84,12 +79,12 @@
 
     const executeSearch = async () => {
         try {
-            let response = await Search.execute({terms, boolean, fields, exhibitId, facets: _facets});
-            
+            const response = await Search.execute({terms, boolean, fields, exhibitId, facets: _facets});
             _results = response.results || [];
             _limitOptions = response.limitOptions || null;
             _searchParams.totalResults = response.resultCount || null;
 
+            window.scrollTo(0, 0);
             return true;
         }
         catch(error) {
@@ -107,42 +102,26 @@
         // id must be hex value
         if(exhibitId && /^[a-fA-F0-9\-]+$/g.test(exhibitId) === false) isValid = false;
 
-        // page must be numeric
-        if(page && isNaN(page) === true) isValid = false;
-
         return isValid;
     }
 
-    const onSelectFacet = (event) => {
+    const onSelectFacet = async (event) => {
         _facets = event.detail;
-        Cache.storeSearchData({selectedFacets: _facets});
-
-        // revert to results page 1 when selected facets are updated
-        let url = window.location.href;
-        window.location.replace( url.replace(/(&|)page=[0-9]+/g, "") );
+        await executeSearch();
     } 
 
-    const onRemoveFacet = (event) => {
+    const onRemoveFacet = async (event) => {
         _facets = event.detail;
-        Cache.storeSearchData({selectedFacets: _facets});
-
-        // revert to results page 1 when selected facets are updated
-        let url = window.location.href;
-        window.location.replace( url.replace(/(&|)page=[0-9]+/g, "") );
+        await executeSearch();
     }
 
-    const onResetFacets = (event) => {
+    const onResetFacets = async (event) => {
         _facets = [];
-        Cache.deleteSearchData();
-        window.location.reload();
+        await executeSearch();
     }
 
     const onClickBack = (event) => {
         history.go(-2);
-    }
-
-    const onClickPaginatorLink = (event) => {
-        window.location.replace(event.detail.url);
     }
 
     // called on SRV prev/next button events (in modal viewer only)
@@ -176,13 +155,14 @@
         _modalDialog = null;
     }
 
-    $: init();
+    init();
 </script>
 
 <div class="search-page page">
     <div class="search-results container-large">
         {#if _results}
 
+        {#key _results}
             <Search_Results_Display 
                 results={_results} 
                 facets={_facets} 
@@ -195,8 +175,8 @@
                 on:click-clear-facets={onResetFacets} 
                 on:click-back={onClickBack} 
                 on:remove-facet={onRemoveFacet}
-                on:click-paginator-link={onClickPaginatorLink} 
             />
+        {/key}
 
             {#if _modalDialog}
                 <Modal_Dialog_Window 

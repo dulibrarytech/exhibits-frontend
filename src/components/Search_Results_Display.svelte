@@ -24,32 +24,27 @@
         facetValues
     } = Settings;
 
-    // _ module variables
-    let resultsPage = [];
-    let termsLabel = "";
-    let searchType = null;
-    let totalResults = 0;
+    // module variables
+    let _resultsPage = [];
+    let _termsLabel = "";
+    let _searchType = null;
+    let _totalResults = 0;
 
-    $: render();
+    $: {
+        init();
+    }
 
-    const render = () => {
-        resultsPage = getResultsPage(searchParams.pageNumber);
-        termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
-        searchType = searchParams.searchType || null;
-        totalResults = searchParams.totalResults || 0;
+    const init = () => {
+        _resultsPage = getResultsPage(searchParams.pageNumber);
+        _termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
+        _searchType = searchParams.searchType || null;
+        _totalResults = searchParams.totalResults || 0;
+    }
 
-        // this is removing the selected facets from limitOptions?
-        // for(let facet of facets) {
-            
-        //     let option = limitOptions.find((option) => {
-        //         return option.field == facet.field;
-        //     });
-
-        //     if(!option) continue;
-
-        //     let index = option.values.findIndex(({value}) => value == facet.value);
-        //     option.values.splice(index, 1);
-        // }
+    const onUpdateResultsPage = (event) => {
+        const page = parseInt(event.detail.page);
+        _resultsPage = getResultsPage(page);
+        searchParams.pageNumber = page;
     }
 
     const getResultsPage = (pageNumber) => {
@@ -93,31 +88,37 @@
 
                 <div class="col-md-9 col-md-pull-3 results-container">
 
-                    <div class="search-data-display">
-                        <h1 class="search-terms-label">{totalResults} search result{totalResults == 1 ? '' : 's'} for "<span style="font-weight: bold">{termsLabel}</span>"</h1>
+                    <div>
+                        <div class="search-data-display">
+                            <h1 class="search-terms-label">{_totalResults} search result{_totalResults == 1 ? '' : 's'} for "<span style="font-weight: bold">{_termsLabel}</span>"</h1>
 
-                        <h2 class="sr-only">Results List</h2>
-                        <FacetLabels {facets} on:remove-facet={onRemoveFacet} on:click-clear-facets />
-                    </div>
-
-                    {#if resultsPage.length > 0}
-                        {#each resultsPage as result, index}
-                            <hr>
-                            <Search_Result 
-                                {terms} 
-                                {result} 
-                                {searchType} 
-                                index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index}
-                                on:click-result
-                            />
-                        {/each}
-                    {:else}
-                        <div class="results-display-message">
-                            <p>No results found.</p>
+                            <h2 class="sr-only">Results List</h2>
+                            <FacetLabels {facets} on:remove-facet={onRemoveFacet} on:click-clear-facets />
                         </div>
-                    {/if}
+
+                        {#if _resultsPage.length > 0}
+                            {#key _resultsPage}
+                                {#each _resultsPage as result, index}
+                                    <hr>
+                                    <Search_Result 
+                                        {terms} 
+                                        {result} 
+                                        searchType={_searchType} 
+                                        index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index}
+                                        on:click-result
+                                    />
+                                {/each}
+                            {/key}
+                        {:else}
+                            <div class="results-display-message">
+                                <p>No results found.</p>
+                            </div>
+                        {/if}
+                    </div>
                     
-                    <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
+                    {#key searchParams.pageNumber}
+                    <SearchResultsPaginator {_resultsPage} params={searchParams} on:click-paginator-link={onUpdateResultsPage} />
+                    {/key}
                 </div>
             </div>
         </div>
@@ -140,6 +141,10 @@
         clip: rect(0, 0, 0, 0);
         white-space: nowrap;
         border: 0;
+    }
+
+    .results-container {
+        display: block;
     }
 
     .results-display-message {
@@ -182,6 +187,12 @@
     }
 
     @media screen and (min-width: 768px) {
+        .results-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
         .search-data-display {
             margin-top: 0px;
         }
