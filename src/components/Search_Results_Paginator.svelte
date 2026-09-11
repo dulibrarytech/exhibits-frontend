@@ -17,7 +17,9 @@
     let totalResults;
     var path;
 
-    $: render();
+    $: {
+        render();
+    }
 
     const render = () => {
         pageNumber = params.pageNumber ?? 1;
@@ -40,23 +42,23 @@
                 <p>Showing <strong>{paginator.beginCount} - {paginator.pageHits}</strong> of <strong>{paginator.totalHits}</strong> results.</p>
             {/if}
 
-            {#if paginator.buttons.first}<li><a href={paginator.path.first} title="Go to First Page" on:click={onClickLink}>First</a></li>{/if}
-            {#if paginator.buttons.prev}<li><a href={paginator.path.prev} title="Go to Previous Page" on:click={onClickLink}>Previous</a></li>{/if}
+            {#if paginator.buttons.first}<li><button title="Go to First Page" data-page={1} on:click={onClickLink}>First</button></li>{/if}
+            {#if paginator.buttons.prev}<li><button title="Go to Previous Page" data-page={pageNumber-1} on:click={onClickLink}>Previous</button></li>{/if}
 
             {#if paginator.firstPageLink > 0}
                 {#each Array.from({length: paginator.lastPageLink - paginator.firstPageLink + 1}, (_, i) => i + paginator.firstPageLink) as page}
 
                     <li class={paginator.page == page ? "active" : undefined}>
-                        <a href={`${paginator.path.current}page=${page}`} title="Go to Page ${page}" data-page={page} on:click={onClickLink}>
+                        <button title="Go to Page ${page}" data-page={page} on:click={onClickLink}>
                             {page}
-                        </a>
+                        </button>
                     </li>
 
                 {/each}
             {/if}
 
-            {#if paginator.buttons.next}<li><a href={paginator.path.next} title="Go to Next Page" on:click={onClickLink}>Next</a></li>{/if}
-            {#if paginator.buttons.last}<li><a href={paginator.path.last} title="Go to Last Page" on:click={onClickLink}>Last</a></li>{/if}
+            {#if paginator.buttons.next}<li><button title="Go to Next Page" data-page={pageNumber+1} on:click={onClickLink}>Next</button></li>{/if}
+            {#if paginator.buttons.last}<li><button title="Go to Last Page" data-page={paginator.lastPageLink} on:click={onClickLink}>Last</button></li>{/if}
 
         </ul>
     </div>
@@ -78,31 +80,31 @@
         display: inline;
     }
 
-    .pagination-sm>li:first-child>a, .pagination-sm>li:first-child>span {
+    .pagination-sm>li:first-child>button, .pagination-sm>li:first-child>span {
         border-top-left-radius: 3px;
         border-bottom-left-radius: 3px;
     }
 
-    .pagination>li:first-child>a, .pagination>li:first-child>span {
+    .pagination>li:first-child>button, .pagination>li:first-child>span {
         margin-left: 0;
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
     }
 
-    .pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    .pagination>.disabled>button, .pagination>.disabled>button:focus, .pagination>.disabled>button:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
         color: #777;
         cursor: not-allowed;
         background-color: #fff;
         border-color: #ddd;
     }
 
-    .pagination-sm>li>a, .pagination-sm>li>span {
+    .pagination-sm>li>button, .pagination-sm>li>span {
         padding: 5px 10px;
         font-size: 16px;
         line-height: 1.5;
     }
 
-    .pagination>li>a, .pagination>li>span {
+    .pagination>li>button, .pagination>li>span {
         position: relative;
         float: left;
         padding: 6px 12px;
@@ -114,7 +116,7 @@
         border: 1px solid #ddd;
     }
 
-    .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    .pagination>.active>button, .pagination>.active>button:focus, .pagination>.active>button:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
         z-index: 3;
         color: #fff;
         cursor: default;
