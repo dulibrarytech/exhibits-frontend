@@ -51,14 +51,15 @@
         uuid        = item.uuid || null;
         caption     = item.caption || null;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
-        mediaWidth  = item.media_item_width || DEFAULT_MEDIA_WIDTH;
+        mediaWidth  = args.mediaItemWidth || item.media_item_width || DEFAULT_MEDIA_WIDTH;
         mediaPadding = item.margins === 'large' || args.gridItem ? true : item.media_padding ?? false;
         wrapText    = item.wrap_text ?? true;
         isEmbedded  = item.is_embedded || false;
         styles      = item.styles || null;
         textAlign   = item.text_alignment || 'left';
-        margins   = item.margins || 'medium';
+        margins     = item.margins || 'medium';
 
+        // show item preview if the item is not embedded
         showPreview = !isEmbedded;
         
         // ensure the text items use the TEXT_ONLY layout

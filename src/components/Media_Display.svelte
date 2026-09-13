@@ -12,7 +12,6 @@
     } = args;
 
     if(showPreview) {
-        args.isThumbnail = false; // media display should always display the "preview" (large) image size, not the thumbnail image size.
         component = Media_Item_Preview;
     }
     else {

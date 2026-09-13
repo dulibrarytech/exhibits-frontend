@@ -2,7 +2,7 @@
     'use-strict'
 
     import { onMount } from 'svelte';
-    import Item_Preview from '../../components/Media_Item_Preview.svelte';
+    import Item from '../../templates/partials/Item.svelte';
     import Item_Display from '../../components/Item_Display.svelte';
 
     export let item = {};
@@ -12,8 +12,6 @@
     const {
         uuid: id = "null",
         title: title = null,
-        text: text = null,
-        media: media = null,
         styles: styles = null,
     } = item;
 
@@ -41,23 +39,25 @@
             </header>
 
             <div class="card__content">
-                {#if text && text.length > 0}<p class="text">{@html text}</p>{/if}
+                <div class="vertical-timeline-item">
+                    <div class="preview">
 
-                {#if media} 
-                    <div class="vertical-timeline-item">
-                        <div class="preview">
-                            <Item_Display 
-                                {item} 
-                                
-                                template={Item_Preview} 
-                                args={{
-                                    isThumbnail: true,
-                                    showTitle: true,
-                                }} 
-                                on:click-item />
-                        </div>
+                        <Item_Display 
+                            {item} 
+                            
+                            template={Item} 
+                            args={{
+                                isThumbnail: true,
+                                showTitle: true,
+                                showPreview: true,
+                                mediaItemWidth: 100,
+                                gridItem: true,
+                            }} 
+                            on:click-item 
+                        />
+
                     </div>
-                {/if}
+                </div>
             </div>
         </div>
 
@@ -149,17 +149,20 @@
     /*
     text component
     */
-    
+    /* removed local text element with the update to use Item template, so applying this style to the text component within the Item template JR 9/13/26 */
     .text{
         display: var(--textDisplay, inline-flex);
         font-size: var(--textFontSize, 1rem);  
     }
-
-    /* DU updates */
-    .preview {
-        margin-top: 30px;
+    :global(.vertical-timeline-grid-item .item .text-content) {
+        font-size: var(--textFontSize, 1rem);  
     }
 
+    :global(.vertical-timeline-grid-item .item) {
+        margin-top: 1rem;
+    }
+
+    /* DU updates */
     p.text {
         margin-top: 1rem;
     }
