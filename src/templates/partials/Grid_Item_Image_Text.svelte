@@ -8,8 +8,7 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    //import Item from './Item.svelte';
-    import Item_Preview from '../../components/Media_Item_Preview.svelte';
+    import Item from '../../templates/partials/Item.svelte';
     import Item_Display from '../../components/Item_Display.svelte';
 
     import { MEDIA_POSITION, ITEM_TYPE } from '../../config/global-constants';
@@ -62,18 +61,20 @@
     {/if}
 
     {#if title}<h4>{@html title}</h4>{/if}
+
     <Item_Display 
         {item} 
         
-        template={Item_Preview} 
+        template={Item} 
         args={{
-            // isThumbnail: true,
             verifyThumbnail: true,
+            showPreview: true,
             showTitle: true, 
             gridItem: true,
         }} 
         on:click-item 
     />
+
 </div>
 
 <style>
