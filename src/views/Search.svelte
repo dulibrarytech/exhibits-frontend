@@ -127,8 +127,21 @@
     // called on SRV prev/next button events (in modal viewer only)
     const onUpdateResultViewerIndex = (event) => {
         let resultIndex = event.detail.resultIndex || 0;
+
+        // update the SRV result index
         _modalDialogData = _results[resultIndex];
         _modalDialogArgs.resultIndex = resultIndex;
+
+        // update the results display (page)
+        _searchParams.pageNumber = Math.ceil((resultIndex+1) / 10);
+
+        // scrollto result id on the search page, so it is centered in viewport (if on page)
+        const resultElement = document.getElementById(_results[resultIndex].uuid);
+        if(resultElement) {
+            const elementTop = resultElement.getBoundingClientRect().top + window.scrollY;
+            const offset = window.innerHeight / 2 - resultElement.offsetHeight / 2;
+            window.scrollTo({ top: elementTop - offset, behavior: 'smooth' });
+        }
     }
 
     // called on result item click event (on page only, modal closed)
