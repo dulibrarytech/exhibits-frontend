@@ -117,7 +117,7 @@
                     </div>
                     
                     {#key searchParams.pageNumber}
-                    <SearchResultsPaginator {_resultsPage} params={searchParams} on:click-paginator-link={onUpdateResultsPage} />
+                        <SearchResultsPaginator resultsPage={_resultsPage} params={searchParams} on:click-paginator-link={onUpdateResultsPage} />
                     {/key}
                 </div>
             </div>
