@@ -3,6 +3,7 @@
 	 * item viewer template - viewer on left, with sidebar on right for text and link lists, or metadata
 	 */
 	import { createEventDispatcher } from 'svelte';
+	import * as Logger from '../../../libs/logger';
 	import { Settings } from '../../../config/settings';
 	import Exhibit_Preview from '../../../components/Exhibit_Preview.svelte';
   import Media_Item_Preview from '../../../components/Media_Item_Preview.svelte';
@@ -139,18 +140,16 @@
 		return links;
 	}
 
-	// called on 'image-loaded', both MIP and EP
 	const onLoadMedia = (event) => {
-		toggleSpinner();
+		showSpinner(false);
 	}
 
-	// called on 'load-error', both MIP and EP
 	const onLoadError = (event) => {
-		console.log("test: on preview load error")
+		Logger.module().error(`Search result preview image load error: ${error}`);
 	}
 
 	const onClickAdvanceResultIndex = (event) => {
-		toggleSpinner();
+		showSpinner(true);
 
 		const advance = event.currentTarget?.getAttribute('data-advance-index') || 0;
 		const newIndex = _resultIndex + parseInt(advance);
@@ -161,14 +160,14 @@
 		}
 	}
 
-	const toggleSpinner = () => {
-		if(document.getElementById('resultPreview').style.display == "none") {
-			document.getElementById('resultPreview').style.display = "flex";
-			document.getElementById('spinner').style.display = "none";
-		}
-		else {
+	const showSpinner = (isVisible=true) => {
+		if(isVisible) {
 			document.getElementById('resultPreview').style.display = "none";
 			document.getElementById('spinner').style.display = "flex";
+		}
+		else {
+			document.getElementById('resultPreview').style.display = "flex";
+			document.getElementById('spinner').style.display = "none";
 		}
 	}
 </script>
