@@ -41,14 +41,14 @@
         _totalResults = searchParams.totalResults || 0;
     }
 
+    const getResultsPage = (pageNumber) => {
+        return getArrayPage(results, pageNumber, searchParams.resultsPerPage);
+    }
+
     const onUpdateResultsPage = (event) => {
         const page = parseInt(event.detail.page);
         _resultsPage = getResultsPage(page);
         searchParams.pageNumber = page;
-    }
-
-    const getResultsPage = (pageNumber) => {
-        return getArrayPage(results, pageNumber, searchParams.resultsPerPage);
     }
 
     const onClickFacet = (event) => {

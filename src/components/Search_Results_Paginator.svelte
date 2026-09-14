@@ -18,10 +18,10 @@
     var path;
 
     $: {
-        render();
+        init();
     }
 
-    const render = () => {
+    const init = () => {
         pageNumber = params.pageNumber ?? 1;
         resultsPerPage = params.resultsPerPage || 10;
         totalResults = params.totalResults ?? 0;
