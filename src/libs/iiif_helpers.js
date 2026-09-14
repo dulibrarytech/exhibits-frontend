@@ -117,6 +117,7 @@ export const getTextResourceUrl = (manifest) => {
   // iiif v3
   else if(manifest.items) {   
     mediaResource = 
+      _.get(manifest, ['rendering', 0, 'id']) ||
       _.get(manifest, ['items', 0, 'rendering', 0, 'id']) || 
       _.get(manifest, ['items', 0, 'items', 0, 'items', 0, 'body', 'id']);
   }
