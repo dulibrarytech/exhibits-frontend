@@ -246,7 +246,8 @@ export const getItemLinks = (itemData, linkConfiguration) => {
  */
 export const sanitizeHtml = (string = "") => {
     return sanitizeHtmlString(string, {
-        allowedTags: Settings.permittedHtmlTags
+        allowedTags: Settings.permittedHtmlTags,
+        allowedAttributes: Settings.permittedHtmlAttributes,
     });
 }
 

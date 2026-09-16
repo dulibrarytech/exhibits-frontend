@@ -47,16 +47,17 @@ export const stripHtmlTags = (string) => {
  * 
  * @returns the string with html tags removed
  */
-export const sanitizeHtmlString = (string = "", {allowedTags = null}) => {
+export const sanitizeHtmlString = (string = "", {allowedTags = [], allowedAttributes = []}) => {
 
     let sanitized = DOMPurify.sanitize(string, { 
-        USE_PROFILES: { html: true },
-        ALLOWED_TAGS: allowedTags || undefined,
+        ALLOWED_TAGS: allowedTags,
+        ALLOWED_ATTR: allowedAttributes,
         FORCE_BODY: true
     });
 
     return sanitized;
 }
+
 
 export const removeHtmlContent = (htmlString, allowedTags) => {
 

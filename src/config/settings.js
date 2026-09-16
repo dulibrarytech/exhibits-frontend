@@ -73,12 +73,17 @@ export const Settings = {
     htmlFieldsExhibitItem: ['title', 'subtitle', 'text', 'description', 'caption'],
 
     /*
-     * html tags allowed in user content
+     * html elements allowed in user content
      */
     permittedHtmlTags: ['a', 'div', 'p', 'em', 'strong', 'style', 'i', 'b', 'br', 'hr', 'b', 'span', 'button', 'ul', 'ol', 'li'],
 
     /*
-     * html tags to extract inner text from in non-html textual displays
+     * html element attributes allowed in user content
+     */
+    permittedHtmlAttributes: ['style', 'href'],
+
+    /*
+     * html elements to extract inner text from in non-html textual displays
      */
     permittedHtmlInnerTextTags: ['div', 'p', 'span', 'i', 'b', 'strong'],
 
