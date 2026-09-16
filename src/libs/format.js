@@ -34,26 +34,6 @@ export const formatFacetValue = (node, field) => {
     }
 }
 
-////////////////////////////
-// TODO: to helper
-////////////////////////////
-export const getFacetFieldLabel = (field) => {
-    if(field in Settings.facetLabels) {
-        field = Settings.facetLabels[field];
-    }
-    return field;
-}
-
-export const getFacetValueLabel = (value) => {
-    if(field in Settings.facetValueLabels) {
-        value = Settings.facetValueLabels[value];
-    }
-    return value;
-}
-////////////////////////////
-// END to helper
-////////////////////////////
-
 export const formatItemDataValue = (node) => {
     node.innerHTML = Settings.facetValueLabels[node.innerText];
 
