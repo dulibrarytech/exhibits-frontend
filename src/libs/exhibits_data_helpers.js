@@ -242,9 +242,10 @@ export const getDisplayLinks = (data, linkSettings) => {
 }
 
 /**
+ * removes html tags (and inner content) that are not permitted tags (per settings 'permittedHtmlTags')
  * 
  * @param {*} string 
- * @returns {string} sanitized per settings permitted tags
+ * @returns {string} sanitized html 
  */
 export const sanitizeHtml = (string = "") => {
     return sanitizeHtmlString(string, {
@@ -268,4 +269,28 @@ export const getInnerText = (htmlString = "") => {
     }
 
     return textString;
+}
+
+/**
+ * 
+ * @param {string} field - the data field
+ * @returns - the label associated with the data field
+ */
+export const getFacetFieldLabel = (field) => {
+    // if(field in Settings.facetLabels) {
+    //     field = Settings.facetLabels[field];
+    // }
+    return field;
+}
+
+/**
+ * 
+ * @param {string} value - the data value
+ * @returns - the label associated with the data value
+ */
+export const getFacetValueLabel = (value) => {
+    if(field in Settings.facetValueLabels) {
+        value = Settings.facetValueLabels[value];
+    }
+    return value;
 }
