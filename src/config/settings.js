@@ -75,7 +75,7 @@ export const Settings = {
     /*
      * html tags allowed in user content
      */
-    permittedHtmlTags: ['div', 'p', 'em', 'strong', 'style', 'i', 'b', 'br', 'hr', 'b', 'span', 'button'],
+    permittedHtmlTags: ['a', 'div', 'p', 'em', 'strong', 'style', 'i', 'b', 'br', 'hr', 'b', 'span', 'button', 'ul', 'ol', 'li'],
 
     /*
      * html tags to extract inner text from in non-html textual displays

@@ -80,7 +80,7 @@
 				
 				{#if text}
 					<div class="text-section background-light" tabindex="0">
-						<div class="item-text" use:formatStripHtmlTags>{text}</div>
+						<div class="item-text">{@html text}</div>
 					</div>
 				{/if}
 
