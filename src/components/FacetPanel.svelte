@@ -2,12 +2,18 @@
     'use strict'
 
     import { createEventDispatcher, onMount } from 'svelte';
-    import { normalizeDataString } from '../libs/data_helpers';
+
+    import { 
+        normalizeDataString,
+    } from '../libs/data_helpers';
+
+    import { 
+        getFacetFieldLabel,
+    } from '../libs/exhibits_data_helpers';
+
     import { 
         formatFacetField, 
         formatFacetValue,
-        getFacetFieldLabel
-
     } from '../libs/format';
 
     const dispatch = createEventDispatcher();
