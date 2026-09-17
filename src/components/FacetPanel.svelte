@@ -40,6 +40,24 @@
         }
     }
 
+    const onclickShowFilters = () => {
+        let button = document.querySelector(`button.filter-menu-toggler`);
+        let expanded = button.getAttribute('aria-expanded') || false;
+
+        if(expanded == "true") {
+            button.querySelector("span").textContent = "Hide Filters";
+            button.setAttribute('aria-expanded', true);
+            button.setAttribute('aria-label', "Collapse filter menu");
+            button.setAttribute('title', "Collapse filter menu");
+        }
+        else {
+            button.querySelector("span").textContent = "Show Filters";
+            button.setAttribute('aria-expanded', false);
+            button.setAttribute('aria-label', "Expand filter menu");
+            button.setAttribute('title', "Expand filter menu");
+        }
+    }
+
     const onClickFacet = (event) => {
         let input = event.currentTarget.querySelector('input');
 
@@ -96,7 +114,22 @@
 
 {#if limitOptionsDisplay.length > 0}
 
-<div class="facet-panel">
+<button 
+    class="filter-menu-toggler d-md-none" 
+    type="button" 
+    data-bs-toggle="collapse" 
+    data-bs-target="#facetPanel" 
+    aria-controls="facetPanel" 
+    aria-expanded="false" 
+    aria-label="Expand filter menu" 
+    title="Expand filter menu"
+    on:click={onclickShowFilters}
+>
+    <i class="bi bi-filter"></i>
+    <span>Show Filters</span>
+</button>
+
+<div id="facetPanel" class="facet-panel collapse d-md-block">
     <h2>Filter Results</h2>
 
     <div class="facets">
@@ -173,6 +206,21 @@
 {/if}
 
 <style>
+    button.filter-menu-toggler {
+        background: inherit;
+        padding: 0 0.4em;
+        position: relative;
+    }
+
+    button.filter-menu-toggler i {
+        font-size: 1.8rem;
+    }
+
+    button.filter-menu-toggler span {
+        position: relative;
+        bottom: 4px;
+    }
+
     .facet-panel > h2 {
         margin-bottom: 1.5rem;
     }
@@ -294,9 +342,6 @@
         background-color: #fff;
         margin-bottom: 0.5em;
         margin-top: -0.5em;
-        /* border-right: 1px solid rgb(229, 229, 229);
-        border-left: 1px solid rgb(229, 229, 229);
-        border-bottom: 1px solid rgb(229, 229, 229); */
         border-right: 1px solid #c5c5c5;
         border-left: 1px solid #c5c5c5;
         border-bottom: 1px solid #c5c5c5;
@@ -304,5 +349,11 @@
 
     .facet-item-checkbox {
         margin: 0 0.5rem 0.5em 0;
+    }
+
+    @media (min-width: 768px) {
+        /* button.filter-menu-toggler {
+            display: none;
+        } */
     }
 </style>
