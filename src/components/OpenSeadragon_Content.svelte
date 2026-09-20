@@ -100,4 +100,13 @@
     position: absolute;
     z-index: 10;
 }
+
+:global(.openseadragon-canvas:focus-visible) {
+    outline: 2px solid rgb(0, 95, 204) !important;
+    outline-offset: -2px;
+}
+
+:global(.openseadragon-canvas:focus-visible > canvas) {
+    padding: 2px !important;
+}
 </style>
