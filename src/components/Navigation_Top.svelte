@@ -189,7 +189,8 @@
         display: block;
     }
 
-    .navbar-nav > li:hover .dropdown-nav {
+    .navbar-nav > li:hover .dropdown-nav,
+    .navbar-nav > li:focus-within .dropdown-nav {
         display: block;
     }
 
