@@ -85,9 +85,10 @@ button:active {
 	background-color: #ddd;
 }
 
-button:focus,
-button:focus-within,
-input:focus {
+a:focus-visible,
+button:focus-visible,
+button:focus-visible,
+input:focus-visible {
 	outline: 2px solid rgb(0, 95, 204) !important;
 	outline-offset: 1px;
 }
