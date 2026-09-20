@@ -113,4 +113,9 @@
       display: table-cell;
       vertical-align: middle;
   }
+
+  .form-control:focus,
+  .btn-secondary:focus {
+    box-shadow: none;
+  }
 </style>
