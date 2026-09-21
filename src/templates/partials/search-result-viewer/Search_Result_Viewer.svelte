@@ -286,7 +286,7 @@
     justify-content: space-between;
 		align-items: center;
 		margin-top: 10px;
-		height: 59px;
+		height: 53px;
 	}
 
 	.result-index-select-buttons button {
@@ -295,6 +295,14 @@
 
 	.result-index-select-buttons .result-index-display {
 		text-align: center;
+	}
+
+	#previousButton {
+		margin-left: 3px;
+	}
+
+	#nextButton {
+		margin-right: 3px;
 	}
 
 	#resultPreviewContainer {
