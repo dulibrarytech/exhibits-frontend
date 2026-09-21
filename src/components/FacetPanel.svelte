@@ -160,7 +160,7 @@
                                 {#if facetValues[field].includes(value) || facetValues[field] == "*"}
                                     <li>
                                         <a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}>
-                                            <input style="pointer-events: none" type="checkbox" class="facet-item-checkbox" name="{normalizeDataString(field)}--option-{index+1}" value={id}> <!-- TODO add id as value -->
+                                        <input style="pointer-events: none" type="checkbox" class="facet-item-checkbox" name="{normalizeDataString(field)}--option-{index+1}" value={id} tabindex="-1                                               ">
                                             <span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span>
                                             <span class="badge">{count}</span>
                                         </a>
@@ -248,7 +248,7 @@
         padding-left: 0;
         margin-bottom: 0;
         list-style: none;
-        padding: 10px 0;
+        padding: 10px 3px;
     }
 
     .nav-stacked>li {
