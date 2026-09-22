@@ -3,6 +3,7 @@
 	 * item viewer template - viewer on left, with sidebar on right for text and link lists, or metadata
 	 */
 	import { createEventDispatcher } from 'svelte';
+	import { onMount } from 'svelte';
 	import * as Logger from '../../../libs/logger';
 	import { Settings } from '../../../config/settings';
 	import Exhibit_Preview from '../../../components/Exhibit_Preview.svelte';
@@ -170,13 +171,23 @@
 			document.getElementById('spinner').style.display = "none";
 		}
 	}
+
+	onMount(async () => {
+	  // at narrow screen widths, manually focus on the viewer section to allow it to be scrolled via keyboard arrows. without the delay, the parent dialog's close button will be added after this component is mounted and steal the focus from the viewer section
+		if(window.innerWidth < 992) {
+			setTimeout(() => {
+				document.querySelector('.search-result-viewer .viewer').focus();
+			}, 1000);
+		}
+  });
 </script>
 
 <div class="search-result-viewer">
 
 	<!-- preview, sidebar content -->
-	<div class="row viewer">
+	<div class="row viewer" tabindex="-1">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
+
 			<!-- result preview (media item preview) -->
 			<div id="resultPreview" class="result-preview viewer-section" style="display: none">
 				{#if _type == ENTITY_TYPE.ITEM}
@@ -196,6 +207,7 @@
 		</div>
 
 		<div class="col-lg-4 col-md-12 col-sm-12 text-display-container">
+
 			<!-- result data (metadata, links) -->
 			<div class="result-data">
 				{#if _type == ENTITY_TYPE.ITEM}
@@ -232,14 +244,16 @@
 	.viewer {
 		background: #F4F2EC;
 		height: calc(100% - 75px);
-		/* scroll entire viewer section content when stacked vertically (preview and data sections) */
 		overflow: auto;
+	}
+
+	.viewer:focus-visible {
+		outline: none;
 	}
 
 	.result-data {
 		padding: 20px;
 		height: 100%;
-		/* scroll entire viewer section content when stacked vertically (preview and data sections) */
 		overflow: revert;
 	}
 
