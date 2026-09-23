@@ -277,9 +277,9 @@ export const getInnerText = (htmlString = "") => {
  * @returns - the label associated with the data field
  */
 export const getFacetFieldLabel = (field) => {
-    // if(field in Settings.facetLabels) {
-    //     field = Settings.facetLabels[field];
-    // }
+    if(field in Settings.facetLabels) {
+        field = Settings.facetLabels[field];
+    }
     return field;
 }
 
