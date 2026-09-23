@@ -80,13 +80,13 @@
         <div class="container-large">
 
             <div class="row ng-scope">
-                <div class="col-md-3 col-md-push-9 results-sidebar">
+                <div class="col-md-4 col-md-push-8 col-lg-3 col-lg-push-9 results-sidebar">
                     {#if limitOptions.length > 0}
                         <FacetPanel {limitOptions} {facetValues} selectedFacets={facets} on:click-facet={onClickFacet} on:remove-facet={onRemoveFacet}  />
                     {/if}
                 </div>
 
-                <div class="col-md-9 col-md-pull-3 results-container">
+                <div class="col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3 results-container">
 
                     <div>
                         <div class="search-data-display">
@@ -98,16 +98,22 @@
 
                         {#if _resultsPage.length > 0}
                             {#key _resultsPage}
-                                {#each _resultsPage as result, index}
-                                    <hr>
-                                    <Search_Result 
-                                        {terms} 
-                                        {result} 
-                                        searchType={_searchType} 
-                                        index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index}
-                                        on:click-result
-                                    />
-                                {/each}
+
+                                <ul class="results-list">
+                                    {#each _resultsPage as result, index}
+                                        <li>
+                                            <hr>
+                                            <Search_Result 
+                                                {terms} 
+                                                {result} 
+                                                searchType={_searchType} 
+                                                index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index}
+                                                on:click-result
+                                            />
+                                        </li>
+                                    {/each}
+                                </ul>
+                                
                             {/key}
                         {:else}
                             <div class="results-display-message">
@@ -184,6 +190,11 @@
 
     :global(.search-results-display .text-highlight) {
         background: yellow;
+    }
+
+    ul.results-list {
+        list-style-type: none;
+        padding: 0;
     }
 
     @media screen and (min-width: 768px) {
