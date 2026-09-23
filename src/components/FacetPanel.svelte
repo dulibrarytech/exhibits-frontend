@@ -141,18 +141,20 @@
             {#if values.length > 0}
 
                 {#if DISPLAY_COLLAPSIBLE_PANELS}
-                    <button 
-                        type="button" 
-                        class="collapsible active" 
-                        data-index={index}
-                        aria-label={`filter by ${getFacetFieldLabel(field)}`} 
+                    <h3>
+                        <button 
+                            type="button" 
+                            class="collapsible active" 
+                            data-index={index}
+                            aria-label={`filter by ${getFacetFieldLabel(field)}`} 
 
-                        on:click={onClickFacetLabel} 
-                        bind:this={facetLabelButtons[index]}
-                    >
-                        <h3 use:formatFacetField>{field}</h3>
-                        <i class="bi bi-chevron-down"></i>
-                    </button>
+                            on:click={onClickFacetLabel} 
+                            bind:this={facetLabelButtons[index]}
+                        >
+                            <span use:formatFacetField>{field}</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                    </h3>
 
                     <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]}>
                       <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
@@ -225,20 +227,21 @@
         margin-bottom: 1.5rem;
     }
 
-    .facets > button {
+    /* .facets > button { */
+    .facets > h3 button {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        color: #181818;
+        /* color: #181818; */
         font-weight: bold;
     }
 
-    .facets > button i {
+    .facets > h3 button i {
         float: right;
         position: relative;
     }
 
-    .facets > button h3 {
+    .facets > h3 button  {
         margin-bottom: 0;
         font-size: 1rem;
         font-weight: bold;
