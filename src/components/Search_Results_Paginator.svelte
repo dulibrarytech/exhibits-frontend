@@ -35,21 +35,21 @@
 </script>
 
 {#if resultsPage.length > 0}
-    <div class="search-results-paginator text-align-center">
-        <ul class="pagination pagination-sm">
-            
-            {#if paginator.totalHits > 0}
-                <p>Showing <strong>{paginator.beginCount} - {paginator.pageHits}</strong> of <strong>{paginator.totalHits}</strong> results.</p>
-            {/if}
 
-            {#if paginator.buttons.first}<li><button title="Go to First Page" data-page={1} on:click={onClickLink}>First</button></li>{/if}
-            {#if paginator.buttons.prev}<li><button title="Go to Previous Page" data-page={pageNumber-1} on:click={onClickLink}>Previous</button></li>{/if}
+    <div class="search-results-paginator text-align-center">
+        {#if paginator.totalHits > 0}
+            <p>Showing <strong>{paginator.beginCount} -<span class="hidden">through</span> {paginator.pageHits}</strong> of <strong>{paginator.totalHits}</strong> results.</p>
+        {/if}
+
+        <ul class="pagination pagination-sm">
+            {#if paginator.buttons.first}<li><button aria-label="Go to First Page" data-page={1} on:click={onClickLink}>First</button></li>{/if}
+            {#if paginator.buttons.prev}<li><button aria-label="Go to Previous Page" data-page={pageNumber-1} on:click={onClickLink}>Previous</button></li>{/if}
 
             {#if paginator.firstPageLink > 0}
                 {#each Array.from({length: paginator.lastPageLink - paginator.firstPageLink + 1}, (_, i) => i + paginator.firstPageLink) as page}
 
                     <li class={paginator.page == page ? "active" : undefined}>
-                        <button title="Go to Page ${page}" data-page={page} on:click={onClickLink}>
+                        <button aria-label="Go to Page {page}" data-page={page} aria-current={paginator.page == page ? 'page' : undefined} on:click={onClickLink}>
                             {page}
                         </button>
                     </li>
@@ -57,9 +57,8 @@
                 {/each}
             {/if}
 
-            {#if paginator.buttons.next}<li><button title="Go to Next Page" data-page={pageNumber+1} on:click={onClickLink}>Next</button></li>{/if}
-            {#if paginator.buttons.last}<li><button title="Go to Last Page" data-page={paginator.lastPageLink} on:click={onClickLink}>Last</button></li>{/if}
-
+            {#if paginator.buttons.next}<li><button aria-label="Go to Next Page" data-page={pageNumber+1} on:click={onClickLink}>Next</button></li>{/if}
+            {#if paginator.buttons.last}<li><button aria-label="Go to Last Page" data-page={paginator.lastPageLink} on:click={onClickLink}>Last</button></li>{/if}
         </ul>
     </div>
 {/if}
