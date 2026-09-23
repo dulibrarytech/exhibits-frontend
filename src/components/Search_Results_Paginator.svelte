@@ -122,4 +122,10 @@
         background-color: #337ab7;
         border-color: #337ab7;
     }
+
+    .pagination>li>button:focus,
+    .pagination>li>button:focus-visible {
+        z-index: 4;
+        position: relative;
+    }
 </style>
