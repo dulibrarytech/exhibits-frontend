@@ -21,7 +21,7 @@
         </div>
     
         <div class="d-inline-flex mt-2 mt-md-0 ms-md-auto search-form">
-            <Search_Box endpoint="/search" fields={_searchFields} placeholder="Search exhibits"/>
+            <Search_Box endpoint="/search" fields={_searchFields} placeholder="Search all exhibits"/>
         </div>
         
     </div>
