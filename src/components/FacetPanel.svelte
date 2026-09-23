@@ -18,11 +18,12 @@
 
     const dispatch = createEventDispatcher();
 
-    const DISPLAY_COLLAPSIBLE_PANELS = true;
-
     export let limitOptions = [];
     export let facetValues = {};
     export let selectedFacets = [];
+
+    const DISPLAY_COLLAPSIBLE_PANELS = true;
+    const EXPAND_PANELS_BY_DEFAULT = true;
 
     let limitOptionsDisplay = [];
     let facetLabelButtons = [];
@@ -65,7 +66,6 @@
             let field = event.target.getAttribute('data-facet-field');
             let value = event.target.getAttribute('data-facet-value');
             let label = event.target.getAttribute('data-facet-label');
-
             dispatch('click-facet', {field, value, label});
         }
         else {
@@ -87,15 +87,16 @@
 
     const onClickFacetLabel = ({target, currentTarget}) => {
         let index = currentTarget.getAttribute('data-index');
-
         facetLabelButtons[index].classList.toggle('active');
         facetLabelButtons[index].querySelector("i").classList.toggle("bi-chevron-right");
         facetLabelButtons[index].querySelector("i").classList.toggle("bi-chevron-down");
 
         if(facetLabelButtons[index].classList.contains('active')) {
+            facetLabelButtons[index].setAttribute('aria-expanded', true);
             facetDrodownLists[index].style.display = "block";
         }
         else {
+            facetLabelButtons[index].setAttribute('aria-expanded', true);
             facetDrodownLists[index].style.display = "none";
         }
     }
@@ -144,19 +145,19 @@
                     <h3>
                         <button 
                             type="button" 
-                            class="collapsible active" 
+                            class="collapsible" 
                             data-index={index}
                             aria-label={`filter by ${getFacetFieldLabel(field)}`} 
-
+                            aria-expanded={EXPAND_PANELS_BY_DEFAULT ? "true" : "false"}
                             on:click={onClickFacetLabel} 
                             bind:this={facetLabelButtons[index]}
                         >
                             <span use:formatFacetField>{field}</span>
-                            <i class="bi bi-chevron-down"></i>
+                            <i class="bi bi-chevron-{EXPAND_PANELS_BY_DEFAULT ? "down" : "right"}"></i>
                         </button>
                     </h3>
 
-                    <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]}>
+                    <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]} style="display: {EXPAND_PANELS_BY_DEFAULT ? 'block' : 'none'}"> <!-- TODO inline style display based on default window expand -->
                       <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
                             {#each values as {value, count, label=null, id}, index}
                                 {#if facetValues[field].includes(value) || facetValues[field] == "*"}
@@ -338,7 +339,7 @@
 
     /* Style the collapsible content. Note: hidden by default */
     .panel-section {
-        display: block;
+        display: none;
         overflow: hidden;
         max-height: 400px;
         overflow-y: scroll;
