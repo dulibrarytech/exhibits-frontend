@@ -80,6 +80,7 @@
 	{#if links && links.length > 0}
 		<div class="dynamic-links">
 			<Item_Link_Display links={links} />
+			<br>
 		</div>
 	{/if}
 
