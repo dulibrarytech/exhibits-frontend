@@ -109,6 +109,7 @@
 		height: 100%;
 		background: white;
 		overflow: hidden;
+		overflow-y: scroll;
 	}
 
 	.item-viewer > .row {
@@ -125,14 +126,12 @@
 		padding-right: 0px;
 		position: relative;
 		background: white;
-		height: 50%;
+		height: 70%;
 	}
 
 	.text-display-container {
 		padding-left: 0;
-		height: 48%;
 		margin-top: 2%;
-		overflow-y: scroll;
 	}
 
     .text {
@@ -247,6 +246,7 @@
 	@media screen and (min-width: 992px) {
 		.item-viewer {
 			background: darkgray;
+			overflow-y: hidden;
 		}
 
 		.media-display-container {
