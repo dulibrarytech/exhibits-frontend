@@ -173,12 +173,16 @@
 	}
 
 	onMount(async () => {
-	  // at narrow screen widths, manually focus on the viewer section to allow it to be scrolled via keyboard arrows. without the delay, the parent dialog's close button will be added after this component is mounted and steal the focus from the viewer section
-		if(window.innerWidth < 992) {
-			setTimeout(() => {
+		setTimeout(() => {
+			if(window.innerWidth < 992) {
+				// set the focus to the viewer section to allow keyboard scroll on dialog open (entire viewer section scrolls on mobile device widths)
 				document.querySelector('.search-result-viewer .viewer').focus();
-			}, 1000);
-		}
+			}
+			else {
+				// set the focus to the data section to allow keyboard scroll on dialog open (only the data section on the right scrolls on wide device widths)
+				document.querySelector('.search-result-viewer .result-data').focus();
+			}
+		});
   });
 </script>
 
