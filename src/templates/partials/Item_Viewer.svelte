@@ -3,6 +3,7 @@
 	 * item viewer template - viewer on left, with sidebar on right for text and link lists, or metadata
 	 */
 
+	import { onMount } from 'svelte';
   import Media_Display from '../../components/Media_Display.svelte';
 	import Item_Link_Display from './Item_Link_Display.svelte';
 
@@ -54,10 +55,19 @@
 	const onLoadMedia = (event) => {}
 
 	const onLoadError = (event) => {}
+
+	onMount(async () => {
+		setTimeout(() => {
+			if(window.innerWidth < 992) {
+				// set the focus to the viewer section to allow keyboard scroll on dialog open (entire viewer section scrolls on mobile device widths)
+				document.querySelector('.viewer').focus();
+			}
+		});
+	});
 </script>
 
 <div class="item-viewer">
-	<div class="row">
+	<div class="viewer row">
 		<div class="col-lg-8 col-md-12 col-sm-12 media-display-container">
 			<Media_Display {item} {args} on:load-media={onLoadMedia} on:load-error={onLoadError} />
 		</div>
@@ -109,12 +119,12 @@
 		height: 100%;
 		background: white;
 		overflow: hidden;
-		overflow-y: scroll;
 	}
 
-	.item-viewer > .row {
+	.viewer {
 		height: 100%;
 		background: #F4F2EC;
+		overflow-y: scroll;
 	}
 
 	.item-viewer .text {
@@ -126,7 +136,7 @@
 		padding-right: 0px;
 		position: relative;
 		background: white;
-		height: 70%;
+		height: 74%;
 	}
 
 	.text-display-container {
@@ -246,6 +256,9 @@
 	@media screen and (min-width: 992px) {
 		.item-viewer {
 			background: darkgray;
+		}
+
+		.viewer {
 			overflow-y: hidden;
 		}
 
@@ -271,5 +284,5 @@
 			margin-top: 0;
 			margin-top: 50px;
 		}
-    }
+  }
 </style>
