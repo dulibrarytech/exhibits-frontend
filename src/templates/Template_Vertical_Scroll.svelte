@@ -135,4 +135,8 @@
         font-size: 1.736842em;
         line-height: 1.45em;
     }
+
+    :global(.exhibit-template .exhibit-item > .item-display .item-preview) {
+        box-shadow: var(--theme-site-item-media-box-shadow);
+    }
 </style>

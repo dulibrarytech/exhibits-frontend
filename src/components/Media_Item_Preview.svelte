@@ -369,6 +369,7 @@
         margin: 0;
         padding: 0;
         width: 100%;
+        border: 0 transparent;
     }
 
     .item-preview.placeholder-image {

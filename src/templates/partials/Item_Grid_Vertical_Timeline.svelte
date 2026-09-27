@@ -363,7 +363,7 @@
 
     :global(.vertical-timeline-item-grid .card) {
         border-radius: 15px;
-        box-shadow: 3px 3px 11px -5px #000;
+        box-shadow: var(--theme-site-item-media-box-shadow);
     }
 
     :global(.vertical-timeline-item-grid .timeline-left .card) {

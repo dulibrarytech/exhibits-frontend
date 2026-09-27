@@ -15,6 +15,7 @@
     DEFAULT_CAPTION_FONT_SIZE,
     DEFAULT_NAVIGATION_FONT_FAMILY,
     DEFAULT_NAVIGATION_FONT_SIZE,
+    DEFAULT_ITEM_MEDIA_BOX_SHADOW,
   } = Settings.siteDefaultTheme;
 
 </script>
@@ -39,6 +40,7 @@
       --theme-site-caption-font-size: {DEFAULT_CAPTION_FONT_SIZE};
       --theme-site-navigation-font-family: {DEFAULT_NAVIGATION_FONT_FAMILY};
       --theme-site-navigation-font-size: {DEFAULT_NAVIGATION_FONT_SIZE};
+      --theme-site-item-media-box-shadow: {DEFAULT_ITEM_MEDIA_BOX_SHADOW};
     ">
 
   <Header />

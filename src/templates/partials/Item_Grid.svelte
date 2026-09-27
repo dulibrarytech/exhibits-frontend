@@ -122,8 +122,8 @@
         margin-bottom: 20px !important;
     }
 
-    @media screen and (min-width: 624px) {
-
+    :global(.item-grid .item-preview) {
+        box-shadow: var(--theme-site-item-media-box-shadow);
     }
 
     @media screen and (min-width: 768px) {
