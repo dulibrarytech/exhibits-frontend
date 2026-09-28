@@ -17,7 +17,7 @@ export const Settings = {
         DEFAULT_NAVIGATION_FONT_SIZE: "16px",
         DEFAULT_CAPTION_FONT_FAMILY: "Neue Haas Unica W1G",
         DEFAULT_CAPTION_FONT_SIZE: "15px",
-        DEFAULT_ITEM_MEDIA_BOX_SHADOW: "3px 3px 7px -3px #444",
+        DEFAULT_ITEM_MEDIA_BOX_SHADOW: "3px 3px 7px -3px #777",
     },
 
     exhibitDefaultTheme: {
