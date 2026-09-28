@@ -266,7 +266,8 @@
 
     .timeline__year {
         position: relative;
-        left: calc(50% - 1.6em);
+        /* left: calc(50% - 1.6em); */
+        left: calc(50% - 2.1em); /* centers the year label */
         font-size: 22px;
         width: 68px;
         padding: 5px;
@@ -352,6 +353,11 @@
         top: -120px;
     }
 
+    :global(.vertical-timeline-item-grid .timeline__card) {
+        /* if this is not present, the box shadow is clipped on the right at <768 width */
+        padding-right: 6px;
+    }
+
     :global(.vertical-timeline-item-grid .vertical-timeline-grid-item) {
         position: relative;
         z-index: 0;
@@ -381,7 +387,7 @@
 
     :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
         content: "";
-        width: 25vw;
+        width: 0vw; /* hide the horizontal connector line at mobile widths */
         height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
@@ -392,7 +398,7 @@
 
     :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before) {
         content: "";
-        width: 25vw;
+        width: 0vw; /* hide the horizontal connector line at mobile widths */
         height: 2px;
         background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
         position: absolute;
@@ -428,6 +434,7 @@
         .timeline__year {
             margin-top: 0px;
             margin-bottom: 0px;
+            left: calc(50% - 1.6em); /* centers the year label */
         }
 
         :global(.vertical-timeline-item-grid .timeline-right .timeline__cards) {
@@ -446,6 +453,12 @@
 
         :global(.vertical-timeline-grid-item .item-preview) {
             max-height: 300px;
+        }
+
+        /* show the horizontal line connecting the card to the vertical timeline line (this is hidden at 0 width at mobile-base) */
+        :global(.vertical-timeline-item-grid .timeline-right .timeline__card::before),
+        :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
+            width: 15vw;
         }
     }
 </style>
