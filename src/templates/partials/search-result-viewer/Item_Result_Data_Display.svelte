@@ -1,4 +1,5 @@
 <script>
+	import { navigateTo } from 'svelte-router-spa';
 	import Item_Link_Display from '../../partials/Item_Link_Display.svelte';
 
 	export let data = {};
@@ -64,13 +65,13 @@
 	<div class="exhibit-title" use:formatStripHtmlTags={_exhibitTitle}>{_exhibitTitle}</div>
 
 	<div class="static-links">
-		<button class="ui-button-1 du-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}#${_itemId}`, '_blank')}}>
+		<button class="ui-button-1 du-button-1" on:click={() => {navigateTo(`/exhibit/${_exhibitId}#${_itemId}`)}}>
 			<i class="las la-book-open"></i>
 			<span>View in Exhibit</span>
 			<i class="las la-arrow-right"></i>
 		</button>
 
-		<button class="ui-button-1" on:click={() => {window.open(`/exhibit/${_exhibitId}`, '_blank')}}>
+		<button class="ui-button-1" on:click={() => {navigateTo(`/exhibit/${_exhibitId}`)}}>
 			<i class="las la-book-open"></i>
 			<span>Explore Exhibit</span>
 			<i class="las la-arrow-right"></i>
