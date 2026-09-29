@@ -57,7 +57,6 @@
 
     const onPreviewImageLoad = (event) => {
         previewImageElement.style.visibility = "visible";
-        // hide spinner
     }
 
     const onClickResultLink = (event) => {
@@ -239,6 +238,14 @@
         font-size: 0.85rem;
     }
 
+    :global(.search-result-item .item-preview img) {
+        height: 100%;
+    }
+
+    :global(.search-result-item .item-preview > button) {
+        height: 200px;
+    }
+
     @media (min-width:768px) {
         .search-result-item {
             flex-direction: row;
@@ -252,6 +259,10 @@
             min-width: 165px;
             max-height: 200px;
             margin-bottom: 0;
+        }
+
+        :global(.search-result-item .item-preview > button) {
+            height: unset;
         }
     }
 </style>

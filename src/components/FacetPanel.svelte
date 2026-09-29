@@ -326,7 +326,7 @@
         display: none;
         overflow: hidden;
         max-height: 400px;
-        overflow-y: scroll;
+        overflow-y: auto;
         background-color: #fff;
         margin-bottom: 0.5em;
         margin-top: -0.5em;
