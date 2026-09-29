@@ -79,12 +79,18 @@
 
     const executeSearch = async () => {
         try {
+            // get results data
             const response = await Search.execute({terms, boolean, fields, exhibitId, facets: _facets});
             _results = response.results || [];
             _limitOptions = response.limitOptions || null;
-            _searchParams.totalResults = response.resultCount || null;
 
+            // update current search params
+            _searchParams.totalResults = response.resultCount || null;
+            _searchParams.pageNumber = 1;
+
+            // reset scroll with each new search
             window.scrollTo(0, 0);
+
             return true;
         }
         catch(error) {
