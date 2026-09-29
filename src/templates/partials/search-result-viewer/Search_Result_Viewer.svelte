@@ -303,12 +303,13 @@
 		display: flex;
     justify-content: space-between;
 		align-items: center;
-		margin-top: 10px;
+		margin-top: 20px;
 		height: 53px;
 	}
 
 	.result-index-select-buttons button {
-		margin: 0;
+		margin: 0 0 10px 0;
+		padding: 1em 1.5em;
 	}
 
 	.result-index-select-buttons .result-index-display {
@@ -380,6 +381,7 @@
 
 		.result-index-select-buttons button {
 			margin: 0 0 10px 0;
+			padding: 1em 2em;
 		}
 	}
 
