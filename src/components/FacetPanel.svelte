@@ -42,21 +42,10 @@
     }
 
     const onclickShowFilters = () => {
-        let button = document.querySelector(`button.filter-menu-toggler`);
-        let expanded = button.getAttribute('aria-expanded') || false;
+        const button = document.querySelector(`button.filter-menu-toggler`);
 
-        if(expanded == "true") {
-            button.querySelector("span").textContent = "Hide Filters";
-            button.setAttribute('aria-expanded', true);
-            button.setAttribute('aria-label', "Collapse filter menu");
-            button.setAttribute('title', "Collapse filter menu");
-        }
-        else {
-            button.querySelector("span").textContent = "Show Filters";
-            button.setAttribute('aria-expanded', false);
-            button.setAttribute('aria-label', "Expand filter menu");
-            button.setAttribute('title', "Expand filter menu");
-        }
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        button.querySelector("span").textContent = isExpanded ? "Hide Filters" : "Filter Results";
     }
 
     const onClickFacet = (event) => {
@@ -86,19 +75,15 @@
     }
 
     const onClickFacetLabel = ({target, currentTarget}) => {
-        let index = currentTarget.getAttribute('data-index');
-        facetLabelButtons[index].classList.toggle('active');
-        facetLabelButtons[index].querySelector("i").classList.toggle("bi-chevron-right");
-        facetLabelButtons[index].querySelector("i").classList.toggle("bi-chevron-down");
+        const index = currentTarget.getAttribute('data-index');
+        currentTarget.querySelector("i").classList.toggle("bi-chevron-right");
+        currentTarget.querySelector("i").classList.toggle("bi-chevron-down");
 
-        if(facetLabelButtons[index].classList.contains('active')) {
-            facetLabelButtons[index].setAttribute('aria-expanded', true);
-            facetDrodownLists[index].style.display = "block";
-        }
-        else {
-            facetLabelButtons[index].setAttribute('aria-expanded', true);
-            facetDrodownLists[index].style.display = "none";
-        }
+        const panel = currentTarget.parentElement.parentElement.querySelectorAll(".panel-section")[index];
+        panel.classList.toggle('active');
+
+        const isExpanded = currentTarget.getAttribute('aria-expanded') === 'true';
+        currentTarget.setAttribute('aria-expanded', !isExpanded);
     }
 
     init(); 
@@ -122,12 +107,12 @@
     data-bs-target="#facetPanel" 
     aria-controls="facetPanel" 
     aria-expanded="false" 
-    aria-label="Expand filter menu" 
-    title="Expand filter menu"
+    aria-label="search results filter menu"
+
     on:click={onclickShowFilters}
 >
     <i class="bi bi-filter"></i>
-    <span>Show Filters</span>
+    <span>Filter Results</span>
 </button>
 
 <div id="facetPanel" class="facet-panel collapse d-md-block">
@@ -144,8 +129,8 @@
                 {#if DISPLAY_COLLAPSIBLE_PANELS}
                     <h3>
                         <button 
-                            type="button" 
                             class="collapsible" 
+                            type="button" 
                             data-index={index}
                             aria-label={`filter by ${getFacetFieldLabel(field)}`} 
                             aria-expanded={EXPAND_PANELS_BY_DEFAULT ? "true" : "false"}
@@ -157,7 +142,7 @@
                         </button>
                     </h3>
 
-                    <div class="panel-section" data-facet-field-label={label} bind:this={facetDrodownLists[index]} style="display: {EXPAND_PANELS_BY_DEFAULT ? 'block' : 'none'}"> <!-- TODO inline style display based on default window expand -->
+                    <div class="panel-section {EXPAND_PANELS_BY_DEFAULT ? 'active' : ''}" data-facet-field-label={label} bind:this={facetDrodownLists[index]}> 
                       <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
                             {#each values as {value, count, label=null, id}, index}
                                 {#if facetValues[field].includes(value) || facetValues[field] == "*"}
@@ -233,7 +218,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        /* color: #181818; */
         font-weight: bold;
     }
 
@@ -349,6 +333,10 @@
         border-right: 1px solid #c5c5c5;
         border-left: 1px solid #c5c5c5;
         border-bottom: 1px solid #c5c5c5;
+    }
+
+    .panel-section.active {
+        display: block;
     }
 
     .facet-item-checkbox {
