@@ -124,7 +124,7 @@
         history.go(-2);
     }
 
-    // called on SRV prev/next button events (in modal viewer only)
+    // update the search results display when the modal result viewer updates the result index
     const onUpdateResultViewerIndex = (event) => {
         let resultIndex = event.detail.resultIndex || 0;
 
@@ -132,8 +132,9 @@
         _modalDialogData = _results[resultIndex];
         _modalDialogArgs.resultIndex = resultIndex;
 
-        // update the results display (page)
-        _searchParams.pageNumber = Math.ceil((resultIndex+1) / 10);
+        // update the results display page when the current result's page changes
+        const currentPage = Math.ceil((resultIndex+1) / 10);
+        if(_searchParams.pageNumber != currentPage) _searchParams.pageNumber = currentPage;
 
         // scrollto result id on the search page, so it is centered in viewport (if on page)
         const resultElement = document.getElementById(_results[resultIndex].uuid);
@@ -175,7 +176,7 @@
     <div class="search-results container-large">
         {#if _results}
 
-        {#key _results}
+        {#key _searchParams}
             <Search_Results_Display 
                 results={_results} 
                 facets={_facets} 
