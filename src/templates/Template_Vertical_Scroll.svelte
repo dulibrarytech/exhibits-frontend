@@ -11,6 +11,7 @@
     import Item_Grid from './partials/Item_Grid.svelte';
     import Item_Grid_Vertical_Timeline from './partials/Item_Grid_Vertical_Timeline.svelte';
     import Item from './partials/Item.svelte';
+    import Item_Content_Block from './partials/Content_Block.svelte';
 
     import { updateExhibitTemplateElements } from '../libs/exhibit_dom_helper.js'
 
@@ -99,6 +100,10 @@
                     <!--exhibit item - row layout -->
                     {:else if type == ENTITY_TYPE.ITEM}
                         <Item_Display id={uuid} item={_displayItems[index]} template={Item} on:click-item on:mount-template-item={onMountTemplateItem} />
+                    
+                    <!--exhibit content block - row layout -->
+                    {:else if type == ENTITY_TYPE.CONTENT_BLOCK}
+                        <Item_Content_Block id={uuid} item={_displayItems[index]} on:click-item on:mount-template-item={onMountTemplateItem} />
                     {/if}
 
                 </div>
