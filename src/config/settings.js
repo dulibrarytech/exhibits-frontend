@@ -173,7 +173,23 @@ export const Settings = {
     fontFileLocation: "../assets/fonts",
 
     /*
-     * Limit panel labels (facet labels)
+     * Search facet (results limit options) display configuration 
+     *
+     * The fields from the search response aggregations that will appear in the facet panel on the search results page
+     * "{aggregation field name}": [{aggregated item name}] e.g. under the "type" aggregation field, only the "buckets" listed in the array will be shown in the panel
+     */
+    facetValues: {
+        "type": ["item", "exhibit"],
+        "item_type": ["image", "audio", "video", "pdf"],
+        "media_subjects.genre_form": ["*"],
+        "media_subjects.topics": ["*"],
+        "media_subjects.places": ["*"],
+        // "is_member_of_exhibit": "*"
+    },
+    /*
+     * Search facet (results limit options) display configuration 
+     *
+     * Assign human friendly labels for each data field appearing in the display
      */
     facetLabels: {
         "type": "Type",
@@ -184,6 +200,11 @@ export const Settings = {
         "media_subjects.topics": "Topic",
         "media_subjects.places": "Place",
     },
+    /*
+     * Search facet (results limit options) display configuration 
+     *
+     * Assign human friendly labels for each data value appearing in the display
+     */
     facetValueLabels: {
         "item": "Exhibit Item",
         "exhibit": "Exhibit",
@@ -194,14 +215,12 @@ export const Settings = {
         "pdf": "PDF",
         "external": "Unknown Type"
     },
-    facetValues: {
-        "type": ["item", "exhibit"],
-        "item_type": ["image", "audio", "video", "pdf"],
-        "media_subjects.genre_form": ["*"],
-        "media_subjects.topics": ["*"],
-        "media_subjects.places": ["*"],
-        // "is_member_of_exhibit": "*"
-    },
+    /*
+     * Search facet (results limit options) display configuration 
+     *
+     * Facet field panels will be expanded when the search results page is loaded
+     */
+    facetPanelsExpanded: ["type", "item_type"],
 
     /*
      * Default top-level theme styles

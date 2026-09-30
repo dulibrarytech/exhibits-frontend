@@ -2,6 +2,7 @@
     'use strict'
 
     import { createEventDispatcher, onMount } from 'svelte';
+    import {Settings} from '../config/settings';
 
     import { 
         normalizeDataString,
@@ -22,8 +23,9 @@
     export let facetValues = {};
     export let selectedFacets = [];
 
-    const DISPLAY_COLLAPSIBLE_PANELS = true;
-    const EXPAND_PANELS_BY_DEFAULT = true;
+    const {
+		facetPanelsExpanded,
+    } = Settings;
 
     let limitOptionsDisplay = [];
     let facetLabelButtons = [];
@@ -37,7 +39,7 @@
                 return option.field == key
             })
 
-            if(option) limitOptionsDisplay.push(option);
+            if(option) limitOptionsDisplay.push(option); 
         }
     }
 
@@ -55,6 +57,7 @@
             let field = event.target.getAttribute('data-facet-field');
             let value = event.target.getAttribute('data-facet-value');
             let label = event.target.getAttribute('data-facet-label');
+            
             dispatch('click-facet', {field, value, label});
         }
         else {
@@ -126,66 +129,36 @@
         {#each limitOptionsDisplay as {field, values, label=null}, index}
             {#if values.length > 0}
 
-                {#if DISPLAY_COLLAPSIBLE_PANELS}
-                    <h3>
-                        <button 
-                            class="collapsible" 
-                            type="button" 
-                            data-index={index}
-                            aria-label={`filter by ${getFacetFieldLabel(field)}`} 
-                            aria-expanded={EXPAND_PANELS_BY_DEFAULT ? "true" : "false"}
-                            on:click={onClickFacetLabel} 
-                            bind:this={facetLabelButtons[index]}
-                        >
-                            <span use:formatFacetField>{field}</span>
-                            <i class="bi bi-chevron-{EXPAND_PANELS_BY_DEFAULT ? "down" : "right"}"></i>
-                        </button>
-                    </h3>
+                <h3>
+                    <button 
+                        class="collapsible" 
+                        type="button" 
+                        data-index={index}
+                        aria-label={`filter by ${getFacetFieldLabel(field)}`} 
+                        aria-expanded={facetPanelsExpanded.includes(field) ? "true" : "false"}
+                        on:click={onClickFacetLabel} 
+                        bind:this={facetLabelButtons[index]}
+                    >
+                        <span use:formatFacetField>{field}</span>
+                        <i class="bi bi-chevron-{facetPanelsExpanded.includes(field) ? "down" : "right"}"></i>
+                    </button>
+                </h3>
 
-                    <div class="panel-section {EXPAND_PANELS_BY_DEFAULT ? 'active' : ''}" data-facet-field-label={label} bind:this={facetDrodownLists[index]}> 
-                      <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
-                            {#each values as {value, count, label=null, id}, index}
-                                {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                                    <li>
-                                        <a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}>
-                                        <input style="pointer-events: none" type="checkbox" class="facet-item-checkbox" name="{normalizeDataString(field)}--option-{index+1}" value={id} tabindex="-1                                               ">
-                                            <span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span>
-                                            <span class="badge">{count}</span>
-                                        </a>
-                                    </li>
-                                {/if}
-                            {/each}
-                        </ul> 
-                    </div>
-                {:else}
-                    <div class="static-panel">
-                        <h6 use:formatFacetField >{field}</h6>
-                        <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
-                            {#each values as {value, count, label=null}}
-                                {#if facetValues[field].includes(value) || facetValues[field] == "*"}
-                                    <li>
-                                        <a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}>
-                                            <input type="checkbox" class="facet-item-checkbox" name="test" value="yes">
-                                            <span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span>
-                                            <span class="badge">{count}</span>
-                                        </a>
-                                    </li>
-                                {/if}
-                            {/each}
-                        </ul>
-                    </div>
-                    <style>
-                        .facets .static-panel {
-                            background-color: #e5e3e1;
-                            padding: 15px;
-                        }
-
-                        .facets .static-panel h6 {
-                            margin-bottom: 0px;
-                        }
-                    </style>
-                {/if}
-
+                <div class="panel-section {facetPanelsExpanded.includes(field) ? 'active' : ''}" data-facet-field-label={label} bind:this={facetDrodownLists[index]}> 
+                  <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
+                        {#each values as {value, count, label=null, id}, index}
+                            {#if facetValues[field].includes(value) || facetValues[field] == "*"}
+                                <li>
+                                    <a href on:click|preventDefault={onClickFacet} data-facet-field={field} data-facet-value={value} data-facet-label={label}>
+                                    <input style="pointer-events: none" type="checkbox" class="facet-item-checkbox" name="{normalizeDataString(field)}--option-{index+1}" value={id} tabindex="-1                                               ">
+                                        <span use:formatFacetValue={field} style="pointer-events:none">{label || value}</span>
+                                        <span class="badge">{count}</span>
+                                    </a>
+                                </li>
+                            {/if}
+                        {/each}
+                    </ul> 
+                </div>
             {/if}
         {/each}
     </div>
