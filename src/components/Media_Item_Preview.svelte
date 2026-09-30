@@ -219,7 +219,6 @@
 
     const getPdfPreviewUrl = async (isThumbnail=true) => {
         let url = null;
-
         const {pdf_open_to_page: page = "1"} = item;
 
         // handle iiif source urls for pdf items (media/thumbnail are expected to be resource urls from the iiif manifest, and are used as fallback sources)
@@ -245,21 +244,21 @@
                  */
                 iiifThumbnailImageUrl || 
                 thumbnail || 
-                (iiifServiceUrl ? `${iiifServiceUrl}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` : false) || 
+                (iiifServiceUrl ? `${iiifServiceUrl};${page}/full/${IMAGE_THUMBNAIL_WIDTH},/0/default.jpg` : false) || 
                 iiifImageUrl ||
                 null :
 
                 /*
                  * source options for fullsize preview image:
                  *
-                 * 1. iiif api image url from item data
-                 * 2. get full image via iiif service url
+                 * 1. get page image via iiif service url
+                 * 2. iiif api image url from item data
                  * 3. iiif api thumbnail url from item data
                  * 4. thumbnail (from iiif manifest or remote image uri)
                  * 5. null (no preview available)
                  */
-                iiifImageUrl || 
-                (iiifServiceUrl ? `${iiifServiceUrl}/full/max/0/default.jpg` : false) || 
+                (iiifServiceUrl ? `${iiifServiceUrl};${page}/full/max/0/default.jpg` : false) || 
+                iiifImageUrl ||
                 iiifThumbnailImageUrl || 
                 thumbnail || 
                 null;
