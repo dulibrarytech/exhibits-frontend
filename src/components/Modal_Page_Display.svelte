@@ -17,7 +17,7 @@
 		{#if pageData}
 			<svelte:component this={container} data={pageData} />
 		{:else}
-			<h3>{message}</h3>
+			<div class="page-message">{message}</div>
 		{/if}
 	</div>
 {/if}
