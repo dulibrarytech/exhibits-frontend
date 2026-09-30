@@ -2,8 +2,10 @@
  * User settings
  * Update this file or via admin UI
  */
-import { text } from 'stream/consumers';
-import { EXHIBIT_TEMPLATE, ITEM_TYPE } from './global-constants.js';
+import { 
+    EXHIBIT_TEMPLATE, 
+    ITEM_TYPE 
+} from './global-constants.js';
 
 export const Settings = {
     appTitle: "Exhibits @ DU",
@@ -107,7 +109,7 @@ export const Settings = {
      * Delay time before showing the exhibit to allow all exhibit preview images to load
      * in milliseconds
      */
-    imageLoadDelay: 2000,
+    imageLoadDelay: 1000,
 
     /*
      * Template properties 
