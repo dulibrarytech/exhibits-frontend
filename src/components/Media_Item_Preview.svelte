@@ -311,7 +311,7 @@
                 title={title || undefined}
                 data-item-id={itemId} 
                 tabindex={isInteractive ? undefined : '-1'} 
-                aria-label={isInteractive ? `click to open item viewer` : undefined}
+                aria-label={isInteractive ? `media item: open item in viewer` : undefined}
                 disabled={isInteractive ? false : true}
                 on:click={onClickItem} 
             >
@@ -319,6 +319,7 @@
                     crossorigin="anonymous" 
                     src={_previewUrl} 
                     alt={altText || undefined} 
+                    aria-hidden={isInteractive ? 'true' : undefined}
                     on:load={onImageLoad} 
                     on:error={onImageLoadError} 
                     bind:this={_previewImageElement}
