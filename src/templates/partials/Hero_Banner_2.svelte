@@ -39,7 +39,7 @@
 </script>
 
 <div class="banner" bind:this={bannerElement}>
-    <h1 style="display: none;">{titleText}</h1>
+    <h1 class="hidden">{titleText}</h1>
     {#if image}
         <div class="hero-image">
             <img src={image} alt={DEFAULT_IMAGE_ALT_TEXT} title={titleText} />
