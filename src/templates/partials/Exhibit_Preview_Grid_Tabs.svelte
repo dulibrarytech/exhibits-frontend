@@ -55,13 +55,16 @@
         <!-- buttons -->
         <div class="tabs">
             {#each sections as {label}, index}
-                <button 
-                    class="tab-button" 
-                    type="button" 
-                    aria-label="page tab {label}"
-                    on:click={() => showPage(index, label)} 
-                    bind:this={tabs[index]}>{label}
-                </button>
+                <h2>
+                    <button 
+                        class="tab-button" 
+                        type="button" 
+                        aria-label="page tab {label}"
+                        aria-expanded={index == 0 ? "true" : "false"} 
+                        on:click={() => showPage(index, label)} 
+                        bind:this={tabs[index]}>{label}
+                    </button>
+                </h2>
             {/each}
         </div>
         <!-- buttons ul -->
@@ -96,11 +99,17 @@
 <style>
     .tabs {
         display: flex;
+        min-height: 75px;
     }
-     /* buttons ul */
+    /* buttons ul */
     /* .tabs > ul {
         display: flex;
     } */
+
+    .tabs > h2 {
+        width: 33%;
+        margin: 0;
+    }
     
     .tab-page {
         height: 100%;
@@ -118,14 +127,20 @@
         background-color: white;
         border-bottom-style: none;
         border-color: #ddd;
-        width: 33%;
+        width: 100%;
+        height: 100%;
         padding: 15px;
         font-size: 1rem;
         text-align: left;
+        position: relative;
     }
 
     button.tab-button:focus {
         border-color: #ddd;
+    }
+
+    button.tab-button:focus-visible {
+        z-index: 1;
     }
 
     :global(.exhibit-preview-grid-tabs button.tab-button.active) {

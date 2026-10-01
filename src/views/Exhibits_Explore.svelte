@@ -307,8 +307,12 @@
         font-size: 1.7rem;
     }
 
+    .search {
+        margin-top: 50px;
+    }
+
     .exhibit-previews {
-        padding: 50px 0 100px 0;
+        margin: 50px 0 100px 0;
     }
 
     .message {
