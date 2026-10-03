@@ -328,7 +328,7 @@
 
             {#if isInteractive && _showOverlay}
                 <div class="overlay"></div>
-                <div class="overlay-text">
+                <div class="overlay-text" aria-hidden="true">
                     <!-- magnifying glass icon -->
                     <!-- <i class="las la-search"></i> -->
                     <p>{OVERLAY_TEXT_SMALL}</p>
