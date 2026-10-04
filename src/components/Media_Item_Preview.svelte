@@ -311,7 +311,7 @@
                 title={title || undefined}
                 data-item-id={itemId} 
                 tabindex={isInteractive ? undefined : '-1'} 
-                aria-label={isInteractive ? `media item: open item in viewer` : undefined}
+                aria-label={isInteractive ? `media item: ${itemType}: ${altText || ''}: show item details` : undefined}
                 disabled={isInteractive ? false : true}
                 on:click={onClickItem} 
             >
