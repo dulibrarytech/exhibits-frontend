@@ -26,7 +26,7 @@
     let itemElement;
     let showPreview;
 
-    let uuid;
+    let itemId;
     let caption;
     let layout;
     let mediaWidth;
@@ -48,7 +48,7 @@
             Logger.module().error("Null item data:");
         }
 
-        uuid        = item.uuid || null;
+        itemId      = item.uuid || null;
         caption     = item.caption || null;
         layout      = item.layout || MEDIA_POSITION.RIGHT;
         mediaWidth  = args.mediaItemWidth || item.media_item_width || DEFAULT_MEDIA_WIDTH;
@@ -66,7 +66,7 @@
         if(item.item_type == ITEM_TYPE.TEXT) layout = MEDIA_POSITION.TEXT_ONLY;
 
         // detect invalid or missing layout
-        if(Object.values(MEDIA_POSITION).includes(layout) == false) Logger.module().error(`Invalid layout value: layout: ${layout} item: ${uuid}`);
+        if(Object.values(MEDIA_POSITION).includes(layout) == false) Logger.module().error(`Invalid layout value: layout: ${layout} item: ${itemId}`);
     }
 
     const setTheme = (styles) => {
@@ -89,7 +89,7 @@
     });
 </script>
 
-<div class="item template-item" data-uuid={uuid} bind:this={itemElement}>
+<div class="item template-item" data-uuid={itemId} bind:this={itemElement}>
     <div class="{args.gridItem ? '' : 'item-padding'} container-{margins}">
         <div id={id ?? undefined} class="anchor-offset"></div>
 
