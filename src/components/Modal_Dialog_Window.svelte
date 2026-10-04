@@ -155,6 +155,8 @@
 		height: 100vh;
 		overflow-y: hidden;
 		padding-right: 15px;
+
+		
 	}
 
 	:global(.modal-dialog-window .text-display-container) {

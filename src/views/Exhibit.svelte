@@ -48,7 +48,8 @@
 
     let _message;
     let _pageTitle; 
-    // let _exhibitDisplay;
+    let _exhibitContainer;
+    let _exhibitDisplay;
     let _modalDialog;
     let _modalDialogData;
     let _renderPage;
@@ -253,13 +254,16 @@
     }
 
     const openViewerModal = (itemId) => {
-        // add item id to url
+        // add the item id to the browser url
         if(location.href.indexOf('#') < 0) {
             history.pushState(null, null, `${location.href}#${itemId}`);
         }
 
         _modalDialogData = getItemById((itemId || null), _items);
-        if(!_modalDialog) _modalDialog = Modal_Item_Display;
+        if(!_modalDialog) {
+            _modalDialog = Modal_Item_Display;
+            _exhibitDisplay.setAttribute('inert', '');
+        }
     }
 
     const onOpenPageModal = (event) => {
@@ -272,13 +276,18 @@
             container: getPageById(itemId)
         };
 
-        if(!_modalDialog) _modalDialog = Modal_Page_Display;
+        if(!_modalDialog) {
+            _modalDialog = Modal_Page_Display;
+            _exhibitDisplay.setAttribute('inert', '');
+        }
     }
 
     const closeModal = (event) => {
         _modalDialogData = null;
         _modalDialog = null;
+        _exhibitDisplay.removeAttribute('inert');
 
+        // remove the item id from the browser url
         if(location.href.indexOf('#') > 0) {
             history.replaceState(null, null, location.href.substring(0, location.href.indexOf('#')));
         }
@@ -329,7 +338,7 @@
     init();
 </script>
 
-<div class="exhibit-wrapper">
+<div class="exhibit-wrapper" bind:this={_exhibitContainer}>
 
     <div class="exhibit-load-message container-large" style="display: {_showMessageOverlay ? 'absolute' : 'none'}">
         <div class="page-message">{_message}</div>
@@ -337,12 +346,14 @@
 
     {#if _renderPage}
         <div class="exhibit" 
-            style="display: {_showMessageOverlay ? 'none' : 'block'};
-                --theme-exhibit-font-color: {DEFAULT_FONT_COLOR}; 
-                --theme-exhibit-background-color: {DEFAULT_BACKGROUND_COLOR}; 
-                --theme-exhibit-font-family: {DEFAULT_FONT_FAMILY};
-                --theme-exhibit-font-size: {DEFAULT_FONT_SIZE}"
-        >
+                style="visibility: {_showMessageOverlay ? 'hidden' : 'visible'}; 
+                    --theme-exhibit-font-color: {DEFAULT_FONT_COLOR}; 
+                    --theme-exhibit-background-color: {DEFAULT_BACKGROUND_COLOR}; 
+                    --theme-exhibit-font-family: {DEFAULT_FONT_FAMILY};
+                    --theme-exhibit-font-size: {DEFAULT_FONT_SIZE}"
+
+                bind:this={_exhibitDisplay}
+            >
 
             <Exhibit_Menu {_exhibitId} on:click-menu-link={onOpenPageModal} />
         
@@ -359,14 +370,22 @@
                 on:mount-items={onMountItems} 
                 on:click-item={onClickItem} />
         
-            {#if _modalDialog}
+            <!-- {#if _modalDialog}
                 <Modal_Dialog_Window 
                     modalDisplay={_modalDialog} 
                     modalData={_modalDialogData} 
                     on:close={closeModal} 
                 />
-            {/if}
+            {/if} -->
         </div>
+
+        {#if _modalDialog}
+            <Modal_Dialog_Window 
+                modalDisplay={_modalDialog} 
+                modalData={_modalDialogData} 
+                on:close={closeModal} 
+            />
+        {/if}
 
     {/if}
 </div>
