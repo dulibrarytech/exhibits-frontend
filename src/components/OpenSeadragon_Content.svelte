@@ -61,18 +61,16 @@
 </script>
 
 <div class="openseadragon-container">
+    <div class="openseadragon content" id="openseadragon1" aria-label="image viewer">
+        <div class="openseadragon-load-message" bind:this={loadMessage}>
+            Loading image...
+        </div>
+    </div>
+
     <div class="controls">
         <button id="openseadragon-zoom-in"><i class="bi bi-plus-lg"></i></button>
         <button id="openseadragon-zoom-out"><i class="bi bi-dash"></i></button>
         <button id="openseadragon-zoom-initial"><i class="las la-compress-arrows-alt"></i></button>
-    </div>
-
-    <div class="openseadragon content" id="openseadragon1">
-
-        <div class="openseadragon-load-message" bind:this={loadMessage}>
-            Loading image...
-        </div>
-
     </div>
 </div>
 
@@ -95,11 +93,12 @@
     overflow: hidden;
 }
 
-.openseadragon-container > .controls {
+.openseadragon-container .controls {
     padding-top: 8px;
     padding-left: 8px;
     position: absolute;
     z-index: 10;
+    top: 0;
 }
 
 :global(.openseadragon-canvas:focus-visible) {
