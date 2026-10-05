@@ -67,7 +67,7 @@
         exhibitId   = exhibit.uuid;
         title       = getInnerText(exhibit.title || ""); 
         subtitle    = getInnerText(exhibit.subtitle || ""); 
-        altText     = `${title || ""} ${subtitle || ""} ${DEFAULT_PREVIEW_IMAGE_ALT_TEXT}`;
+        altText     = `${title || ""}: ${subtitle || ""}`;
 
         // set default width and height if not provided
         if(!width) width = EXHIBIT_THUMBNAIL_WIDTH;
@@ -132,29 +132,29 @@
 <div class="exhibit-preview {isInteractive ? '' : 'static'}">
 
     {#if _previewSourceUrl}
-        <a href={link || undefined} data-exhibit-id={exhibitId} on:click|stopPropagation|preventDefault={onClickPreview} aria-label="enter exhibit {title}">
-            <div class="exhibit-thumbnail">
+        <div class="exhibit-thumbnail">
+            <a href={link || undefined} data-exhibit-id={exhibitId} on:click|stopPropagation|preventDefault={onClickPreview} aria-label={altText}>
+                <img src={_previewSourceUrl} alt={altText} on:load={onImageLoad} on:error={onImageLoadError} aria-hidden="true" />
+            </a>
 
-                <img src={_previewSourceUrl} alt={altText} on:load={onImageLoad} on:error={onImageLoadError} />
-
-                {#if overlay}
-                    <div class="overlay"></div>
-                    <div class="overlay-text">
-                        {DEFAULT_EXHIBIT_OVERLAY_TEXT}
-                    </div>
-                {/if}
-
-            </div>
-
-            {#if showTitle}
-                <div class="exhibit-preview-title" aria-hidden="true"> <!-- TODO use:formatter -->
-                    {title || "Untitled Exhibit"}
+            {#if overlay}
+                <div class="overlay"></div>
+                <div class="overlay-text">
+                    {DEFAULT_EXHIBIT_OVERLAY_TEXT}
                 </div>
-                {#if exhibit.subtitle}
-                    <div class="exhibit-preview-subtext" aria-hidden="true">{subtitle}</div> <!-- TODO use:formatter -->
-                {/if}
             {/if}
-        </a>
+        </div>
+
+        {#if showTitle}
+            <div class="exhibit-preview-title">
+                <a href={link || undefined} data-exhibit-id={exhibitId} on:click|stopPropagation|preventDefault={onClickPreview} tabindex="-1" aria-hidden="true">
+                    {title || "Untitled Exhibit"}
+                </a>
+            </div>
+            {#if exhibit.subtitle}
+                <div class="exhibit-preview-subtext" aria-hidden="true">{subtitle}</div>
+            {/if}
+        {/if}
     {/if}
 </div>
 
@@ -174,7 +174,7 @@
         position: relative;
     }
 
-    .exhibit-thumbnail > img {
+    .exhibit-thumbnail img {
         width: 100%;
         height: 100%;
         position: relative;
