@@ -28,7 +28,7 @@
 		title: 				title = null,
 		description: 	text = DEFAULT_ITEM_TEXT,
 		caption: 			caption = null,
-		links: 				linkList = null,
+		external_links: 				displayLinks = null,
 		media_iiif: 	mediaIIIF = null,
 	} = item;
 
@@ -94,9 +94,9 @@
 					</div>
 				{/if}
 
-				{#if linkList}
+				{#if displayLinks}
 					<div class="data-section">
-						<Item_Link_Display data={linkList} />
+						<Item_Link_Display links={displayLinks} />
 					</div>
 				{/if}
 			</div>
@@ -253,6 +253,10 @@
 		height: 100%;
 	}
 
+	:global(.item-viewer .openseadragon) {
+		height: 50vh;
+	}
+
 	@media screen and (min-width: 992px) {
 		.item-viewer {
 			background: darkgray;
@@ -272,17 +276,21 @@
 
 		.text {
 			height: 100%;
-			overflow-y: scroll;
+			overflow-y: auto;
 		}
 
 		.text-section {
 			height: unset;
-			overflow-y: scroll; 
+			overflow-y: auto; 
 		}
 
 		.data-section {
 			margin-top: 0;
 			margin-top: 50px;
+		}
+
+		:global(.item-viewer .openseadragon) {
+			height: 100%;
 		}
   }
 </style>

@@ -2,6 +2,7 @@
     /*
      * template downloaded from: https://www.bootdey.com/snippets/view/Search-users-page-result
      */
+    import {createEventDispatcher} from 'svelte';
     import Item_Preview from '../../components/Media_Item_Preview.svelte';
     import Exhibit_Preview from '../../components/Exhibit_Preview.svelte';
     import { ENTITY_TYPE, SEARCH_TYPE } from '../../config/global-constants';
@@ -12,6 +13,8 @@
     export let index = null;
     export let searchType = null;
 
+    const dispatch = createEventDispatcher();
+
     // item data fields
     let title;
     let date;
@@ -20,9 +23,10 @@
     let itemType;
     let link;
     let type;
+    let isStudentCurated;
+    let parentExhibitId;
 
     // module variables
-    let parentExhibitId;
     let truncateDescription;
 
     // element handles
@@ -32,11 +36,11 @@
     const USE_CAPTION_FOR_TITLE = true;
 
     // module settings
-    const MAX_DESCRIPTION_TEXT_LENGTH = 800;
+    const MAX_DESCRIPTION_TEXT_LENGTH = 300;
     const DEFAULT_TITLE = "Untitled";
 
     $: {
-        title = result.title || null;
+        title = result.title || result.media_name || null;
         date = result.date || null;
         caption = result.caption || null;
         description = result.description || result.text || null;
@@ -44,22 +48,26 @@
         link = result.link || null;
         type = result.type || ENTITY_TYPE.ITEM;
 
+        isStudentCurated = result.is_student_curated || false;
+        parentExhibitId = (searchType == SEARCH_TYPE.SEARCH_ALL) ? result.is_member_of_exhibit : null;
+
         if(!searchType) searchType = SEARCH_TYPE.SEARCH_ALL;
         if(description) truncateDescription = description.length > MAX_DESCRIPTION_TEXT_LENGTH;
-
-        parentExhibitId = (searchType == SEARCH_TYPE.SEARCH_ALL) ? result.is_member_of_exhibit : null;
     }
 
     const onPreviewImageLoad = (event) => {
         previewImageElement.style.visibility = "visible";
     }
+
+    const onClickResultLink = (event) => {
+        dispatch('click-result', {resultIndex: index});
+    }
 </script>
 
-<section class="search-result-item">
+<section id={result.uuid} class="search-result-item">
     <div class="image-link" bind:this={previewImageElement}>
         {#if type == ENTITY_TYPE.EXHIBIT}
-            <Exhibit_Preview exhibit={result} link={result.link} width="200" height="200" on:image-loaded={onPreviewImageLoad} />  
-
+            <Exhibit_Preview exhibit={result} link={result.link} args={{overlay: false, isInteractive: false}} width="200" height="200" on:image-loaded={onPreviewImageLoad} />  
         {:else}
             <Item_Preview 
                 item={result} 
@@ -78,32 +86,42 @@
             <!-- left side section -->
             <!-- <div class="col-sm-9"> -->
 
-            <!-- fullwidth, no left side section -->
+            <!-- fullwidth results list, no left side section -->
             <div class="col-sm-12">
-                <p>{index+1}.</p>
-                <h4 class="search-result-item-heading title"><a href={link} use:formatSearchResultValue={{terms}}>{title || (USE_CAPTION_FOR_TITLE && caption ? caption : false) || DEFAULT_TITLE}</a></h4>
+                <div class="entity-type">
+                    {#if type == ENTITY_TYPE.EXHIBIT}
+                       <span>Exhibit</span>
+                    {:else if type == ENTITY_TYPE.ITEM}
+                       <span>Media</span>
+                    {/if}
+                </div>
 
-                {#if date}
-                    <p class="info">{date}</p>
-                {/if}
+               <h3 class="search-result-item-heading title">
+                    <a 
+                        href="#" 
+                        on:click={onClickResultLink}
+                        use:formatSearchResultValue={{terms}}
+                    >
+                        {title || (USE_CAPTION_FOR_TITLE && caption ? caption : false) || DEFAULT_TITLE}
+                    </a>
+                </h3>
 
-                {#if itemType}
-                    <p class="info">{itemType}</p>
-                {:else if type}
-                    <p class="info">{type}</p>
-                {/if}
-
-                {#if USE_CAPTION_FOR_TITLE == false && caption}
-                    <p class="info"><span use:formatSearchResultValue={{terms}}>{caption}</span></p>
+                {#if type == ENTITY_TYPE.EXHIBIT && isStudentCurated}
+                    <div class="curated-type">
+                        <i class="bi bi-mortarboard-fill"></i><span>Student Curated</span>
+                    </div>
                 {/if}
 
                 {#if description}
                     <p class="description">
                         {#if truncateDescription}
                             <span use:formatSearchResultValue={{terms}}>{description.substr(0, MAX_DESCRIPTION_TEXT_LENGTH).concat('...')}</span>
-                            <br><a class="expand-text-link" href on:click|preventDefault={() => truncateDescription = false}>Show more</a>
                         {:else}
                             <span use:formatSearchResultValue={{terms}}>{description}</span>
+                        {/if}
+
+                        {#if truncateDescription}
+                            <a class="expand-text-link" href on:click|preventDefault={() => truncateDescription = false}>Show more</a>
                         {/if}
                     </p>
                 {/if}
@@ -130,10 +148,9 @@
         padding: 20px;
         background-color: #fff;
         border-radius: 4px;
-    }
-
-    .search-result-item .image-link {
-        max-height: unset;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .search-result-item:after,
@@ -150,13 +167,56 @@
         display: block;
         overflow: hidden;
         border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px
+        border-bottom-left-radius: 4px;
+        max-height: unset;
+        margin-bottom: 1.8rem;
     }
 
     .search-result-item-heading {
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
         font-weight: 400
     }
+
+    .search-result-item-heading > a {
+        color: #555;
+    }
+
+    .entity-type {
+        margin-bottom: 15px;
+    }
+
+    .entity-type span {
+        background: #e5e5e5;
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 0.9rem;
+    }
+
+    .curated-type {
+        margin-bottom: 0.7rem;
+    }
+
+    .curated-type i {
+        color: #BA0C2F;
+        margin-right: 0.7rem;
+        position: relative;
+        top: 1px;
+    }
+
+    .curated-type span {
+        color: #757575;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    .description-truncated {
+		text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+		max-height: 240px;
+	}
 
     .image-link {
         visibility: hidden;
@@ -169,29 +229,40 @@
     }
 
     .search-result-item .description {
-        font-size: 13px
-    }
-
-    .search-result-item-heading>a {
-        color: #555;
-        text-decoration: underline;
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
     }
 
     a.expand-text-link {
         text-decoration: underline;
+        font-size: 0.85rem;
+    }
+
+    :global(.search-result-item .item-preview img) {
+        height: 100%;
+    }
+
+    :global(.search-result-item .item-preview > button) {
+        height: 200px;
     }
 
     @media (min-width:768px) {
-        .search-result-item-body {
-            margin-left: 200px
+        .search-result-item {
+            flex-direction: row;
+            align-items: revert;
         }
 
         .search-result-item .image-link {
-            display: inline-block;
-            margin: -20px 0 -20px -20px;
+            margin: -20px 20px -20px -20px;
             float: left;
-            width: 200px;
+            max-width: 165px;
+            min-width: 165px;
             max-height: 200px;
+            margin-bottom: 0;
+        }
+
+        :global(.search-result-item .item-preview > button) {
+            height: unset;
         }
     }
 </style>

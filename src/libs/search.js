@@ -24,6 +24,7 @@
 import { ENTITY_TYPE, ITEM_GRIDS } from '../config/global-constants.js';
 import { Index } from './index.js';
 import { getInnerText } from '../libs/exhibits_data_helpers';
+import { normalizeDataString } from '../libs/data_helpers.js';
 
 export const Search = (() => {
     /**
@@ -73,25 +74,14 @@ export const Search = (() => {
                     limitOption.values.push({
                         value: key, 
                         count: doc_count,
-                        label: display ? getInnerText(display) : undefined
+                        label: display ? getInnerText(display) : undefined,
+                        //id: key.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase(),
+                        id: normalizeDataString(key),
                     });
                 }
             }
 
             if(limitOption.values.length > 0) limitOptions.push(limitOption);
-        }
-
-        // link the result to the exhibit/item
-        for(let result of results) {
-            if(result.type == ENTITY_TYPE.EXHIBIT) {
-                result.link = `/exhibit/${result.uuid}`;
-            }
-            else if(result.type == ENTITY_TYPE.ITEM) {
-                result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`;
-            }
-            else if(result.type == ENTITY_TYPE.GRID) {
-                result.link = `/exhibit/${result.is_member_of_exhibit}#${result.uuid}`; 
-            }
         }
 
         return {results, limitOptions, resultCount};

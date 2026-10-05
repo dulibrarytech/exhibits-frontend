@@ -11,55 +11,60 @@
 
     import { Search } from '../libs/search.js';
     import { Settings } from '../config/settings.js';
-    import { Cache } from '../libs/cache';
     import * as Logger from '../libs/logger.js';
 
+    import Modal_Dialog_Window from '../components/Modal_Dialog_Window.svelte';
+    import Modal_Search_Result_Display from '../components/Modal_Search_Result_Display.svelte';
     import Search_Results_Display from '../components/Search_Results_Display.svelte';
 
     import {
-        ENTITY_TYPE, 
         INDEX_FIELD, 
         SEARCH_BOOLEAN, 
         SEARCH_TYPE
     } from '../config/global-constants.js';
 
     const RESULTS_PER_PAGE = Settings.searchResultsPerPage || 10;
+    const DEFAULT_SEARCH_FIELD = INDEX_FIELD.TITLE;
+    const DEFAULT_SEARCH_OPERATOR = SEARCH_BOOLEAN.AND;
+    const RESULT_VIEWER_DIALOG_WIDTH = "85%";
+    const RESULT_VIEWER_DIALOG_HEIGHT = "92%";
 
     export let currentRoute;
 
-    var results = null;
-    var limitOptions = null;
-    var facets = [];
-    var searchParams = {};
-    var message = null;
+    // module variables
+    let _results = null;
+    let _limitOptions = null;
+    let _facets = [];
+    let _searchParams = {};
+    let _modalDialog = null;
+    let _modalDialogData = null;
+    let _modalDialogArgs = null;
+    let _message = null;
 
-    let terms;
-    let boolean;
-    let fields;
-    let entity;
-    let page;
-    let cache;
-    let exhibitId;
+    // search query values
+    let {
+        q:          terms = "",
+        fields:     fields = DEFAULT_SEARCH_FIELD,
+        bool:       boolean = DEFAULT_SEARCH_OPERATOR,
+        exhibitId:  exhibitId = null,
+
+    } = currentRoute.queryParams || {};
 
     const init = async () => {
-        message = "Searching...";
+        // display message while search is executing
+        _message = "Searching...";
 
-        terms = currentRoute.queryParams.q?.split(',') || "";
-        fields = currentRoute.queryParams.fields?.split(',') || INDEX_FIELD.TITLE;
-        boolean = currentRoute.queryParams.bool || SEARCH_BOOLEAN.AND;
-        page = currentRoute.queryParams.page || 1;
-        entity = currentRoute.queryParams.index || ENTITY_TYPE.EXHIBIT;
-        cache = currentRoute.queryParams.cache || false;
-        exhibitId = currentRoute.queryParams.exhibitId || null;
+        // convert incoming terms, fields data to arrays
+        terms = terms.split(',');
+        fields = fields.split(',');
 
-        searchParams = {
+        // set default search params fields
+        _searchParams = {
             searchType: exhibitId ? SEARCH_TYPE.SEARCH_EXHIBIT : SEARCH_TYPE.SEARCH_ALL,
-            pageNumber: page,
+            pageNumber: 1,
             resultsPerPage: RESULTS_PER_PAGE,
             totalResults: 0
         }
-
-        if(cache) facets = Cache.getSearchData()?.selectedFacets || [];
 
         let response = false;
         if(validateUrlParameters()) {
@@ -68,17 +73,23 @@
         else {
             Logger.module().error("Search error: Invalid query params");
         }
-        
-        message = response == true ? null : message = "An error occurred when executing the search.";
+
+        _message = response == true ? null : "An error occurred when executing the search.";
     }
 
     const executeSearch = async () => {
         try {
-            let response = await Search.execute({terms, boolean, fields, exhibitId, facets});
-            
-            results = response.results || [];
-            limitOptions = response.limitOptions || null;
-            searchParams.totalResults = response.resultCount || null;
+            // get results data
+            const response = await Search.execute({terms, boolean, fields, exhibitId, facets: _facets});
+            _results = response.results || [];
+            _limitOptions = response.limitOptions || null;
+
+            // update current search params
+            _searchParams.totalResults = response.resultCount || null;
+            _searchParams.pageNumber = 1;
+
+            // reset scroll with each new search
+            window.scrollTo(0, 0);
 
             return true;
         }
@@ -94,89 +105,115 @@
         // boolean must be global value
         if(boolean && Object.values(SEARCH_BOOLEAN).includes(boolean) === false) isValid = false;
 
-        // entity must be global value 
-        if(entity && Object.values(ENTITY_TYPE).includes(entity) === false) isValid = false;
-
         // id must be hex value
         if(exhibitId && /^[a-fA-F0-9\-]+$/g.test(exhibitId) === false) isValid = false;
-
-        // page must be numeric
-        if(page && isNaN(page) === true) isValid = false;
 
         return isValid;
     }
 
-    const onSelectFacet = (event) => {
-        facets = event.detail;
-        Cache.storeSearchData({selectedFacets: facets});
-
-        let url = window.location.href;
-        if(!cache) {
-            url += "&cache=true";
-            cache = true;
-        }
-
-        window.location.replace( url.replace(/(&|)page=[0-9]+/g, "") );
+    const onSelectFacet = async (event) => {
+        _facets = event.detail;
+        await executeSearch();
     } 
 
-    const onRemoveFacet = (event) => {
-        facets = event.detail;
-        Cache.storeSearchData({selectedFacets: facets});
-            
-        let url = window.location.href;
-        if(!cache) {
-            url += "&cache=true";
-            cache = true;
-        }
-
-        window.location.replace( url.replace(/(&|)page=[0-9]+/g, "") );
+    const onRemoveFacet = async (event) => {
+        _facets = event.detail;
+        await executeSearch();
     }
 
-    const onResetFacets = (event) => {
-        facets = [];
-        Cache.deleteSearchData();
-
-        let url = window.location.href;
-        if(cache) {
-            url = url.replace("&cache=true", "");
-            cache = false;
-        }
-        window.location.replace(url);
+    const onResetFacets = async (event) => {
+        _facets = [];
+        await executeSearch();
     }
 
     const onClickBack = (event) => {
         history.go(-2);
     }
 
-    const onClickPaginatorLink = (event) => {
-        window.location.replace(event.detail.url);
+    // update the search results display when the modal result viewer updates the result index
+    const onUpdateResultViewerIndex = (event) => {
+        let resultIndex = event.detail.resultIndex || 0;
+
+        // update the SRV result index
+        _modalDialogData = _results[resultIndex];
+        _modalDialogArgs.resultIndex = resultIndex;
+
+        // update the results display page when the current result's page changes
+        const currentPage = Math.ceil((resultIndex+1) / 10);
+        if(_searchParams.pageNumber != currentPage) _searchParams.pageNumber = currentPage;
+
+        // scrollto result id on the search page, so it is centered in viewport (if on page)
+        const resultElement = document.getElementById(_results[resultIndex].uuid);
+        if(resultElement) {
+            const elementTop = resultElement.getBoundingClientRect().top + window.scrollY;
+            const offset = window.innerHeight / 2 - resultElement.offsetHeight / 2;
+            window.scrollTo({ top: elementTop - offset, behavior: 'smooth' });
+        }
     }
 
-    $: init();
+    // called on result item click event (on page only, modal closed)
+    const onClickResultLink = (event) => {
+        openResultModal(event.detail.resultIndex);
+    }
+
+    const openResultModal = (resultIndex) => {
+        if(_modalDialog) _modalDialog = null;
+
+        // get result item data at index
+        _modalDialogData = _results[resultIndex];
+
+        _modalDialogArgs = {
+            totalResults: _results.length, 
+            resultIndex: resultIndex, // active result (init only, this is not set in refreshmodal)
+        }
+
+        _modalDialog = Modal_Search_Result_Display;
+    }
+
+    const closeModal = (event) => {
+        _modalDialogData = null;
+        _modalDialog = null;
+    }
+
+    init();
 </script>
 
 <div class="search-page page">
     <div class="search-results container-large">
-        {#if results}
+        {#if _results}
 
+        {#key _searchParams}
             <Search_Results_Display 
-                {results} 
-                {facets} 
-                {limitOptions} 
-                {terms}
-                {searchParams}
+                results={_results} 
+                facets={_facets} 
+                limitOptions={_limitOptions} 
+                terms={terms}
+                searchParams={_searchParams}
 
+                on:click-result={onClickResultLink}
                 on:click-facet={onSelectFacet} 
                 on:click-clear-facets={onResetFacets} 
                 on:click-back={onClickBack} 
                 on:remove-facet={onRemoveFacet}
-                on:click-paginator-link={onClickPaginatorLink} 
             />
+        {/key}
+
+            {#if _modalDialog}
+                <Modal_Dialog_Window 
+                    modalDisplay={_modalDialog} 
+                    modalData={_modalDialogData} 
+                    modalArgs={_modalDialogArgs}
+                    height={RESULT_VIEWER_DIALOG_HEIGHT}
+                    width={RESULT_VIEWER_DIALOG_WIDTH}
+                    on:update-data-1={onUpdateResultViewerIndex}
+                    on:close={closeModal} 
+                />
+            {/if}
 
         {:else}
-            {#if message}
+            {#if _message}
                 <div class="message">
-                    <h5>{message}</h5>
+                    <h5>{_message}</h5>
                 </div>        
             {/if}
         {/if}

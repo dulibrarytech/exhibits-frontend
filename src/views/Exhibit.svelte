@@ -29,7 +29,6 @@
         DEFAULT_FONT_COLOR, 
         DEFAULT_FONT_SIZE,
         DEFAULT_BACKGROUND_COLOR,
-
     } = Settings.exhibitDefaultTheme;
 
     const EXHIBIT_LOAD_MESSAGE = "Loading exhibit...";
@@ -49,7 +48,7 @@
 
     let _message;
     let _pageTitle; 
-    let _exhibitDisplay;
+    // let _exhibitDisplay;
     let _modalDialog;
     let _modalDialogData;
     let _renderPage;
@@ -71,6 +70,8 @@
         _renderPage = false;
         _showMessageOverlay = false;
 
+        displayStatusMessage(EXHIBIT_LOAD_MESSAGE);
+
         // get role
         const authKey = currentRoute.queryParams.key || null;
         if(getUserRole(authKey) == USER_ROLE.ADMIN) {
@@ -80,7 +81,7 @@
             _isAdmin = false;
         }
 
-        displayStatusMessage(EXHIBIT_LOAD_MESSAGE);
+        //displayStatusMessage(EXHIBIT_LOAD_MESSAGE);
 
         // fetch exhibit data and items
         Logger.module().info(`Loading exhibit...`);
@@ -310,6 +311,7 @@
 
     const onMountItems = (event) => {
         let {error = null} = event.detail || {};
+        displayStatusMessage(false);
 
         if(error) {
             Logger.module().info(`No exhibit items found: ${error}`);
@@ -319,35 +321,28 @@
         }
 
         setTimeout(() => {
-            _exhibitDisplay.style.height = "unset";
-            _exhibitDisplay.style.overflow = "unset";
-
-            displayStatusMessage(false);
-
             let anchorId = location.hash?.replace('#', '') || false;
             if(anchorId) _exhibitPage.goToItemId(anchorId, "instant");
-
         }, Settings.imageLoadDelay)
     }
 
     init();
 </script>
 
-<div class="exhibit-wrapper" bind:this={_exhibitDisplay}>
+<div class="exhibit-wrapper">
 
     <div class="exhibit-load-message container-large" style="display: {_showMessageOverlay ? 'absolute' : 'none'}">
         <div><h3>{_message}</h3></div>
     </div>
 
     {#if _renderPage}
-
         <div class="exhibit" 
-                style="visibility: {_showMessageOverlay ? 'hidden' : 'visible'}; 
-                    --theme-exhibit-font-color: {DEFAULT_FONT_COLOR}; 
-                    --theme-exhibit-background-color: {DEFAULT_BACKGROUND_COLOR}; 
-                    --theme-exhibit-font-family: {DEFAULT_FONT_FAMILY};
-                    --theme-exhibit-font-size: {DEFAULT_FONT_SIZE}"
-            >
+            style="display: {_showMessageOverlay ? 'none' : 'block'};
+                --theme-exhibit-font-color: {DEFAULT_FONT_COLOR}; 
+                --theme-exhibit-background-color: {DEFAULT_BACKGROUND_COLOR}; 
+                --theme-exhibit-font-family: {DEFAULT_FONT_FAMILY};
+                --theme-exhibit-font-size: {DEFAULT_FONT_SIZE}"
+        >
 
             <Exhibit_Menu {_exhibitId} on:click-menu-link={onOpenPageModal} />
         
@@ -379,9 +374,7 @@
 <style>
     .exhibit-wrapper {
         background: darkgray;
-        min-height: 100vh;
-
-        height: 100vh;
+        min-height: calc(100vh - 167px - 266px); /* view - headers - footers */
         overflow: hidden;
     }
 

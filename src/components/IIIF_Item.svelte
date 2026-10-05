@@ -1,5 +1,10 @@
 <script>
-  // this module parses the resource and thumbnail urls from the iiif manifest data for the item and sets them on the item object (for legacy functionality, and fallback sources) 
+  /* 
+   * IIIF_Item wrapper component - wraps the 'template' component, adding iiif required data
+   *
+   * this module parses the resource and thumbnail urls from the iiif manifest data for the item, and sets the 'media' and 'thumbnail' item data fields on the item object 
+   * for legacy functionality, and existing fallback sources
+   */
 
   import { Settings } from '../config/settings';
   import * as IIIF from '../libs/iiif_helpers';
@@ -12,6 +17,10 @@
   export let item; 
   export let template;
   export let args;
+
+  const {
+    exhibitItemDataFields,
+  } = Settings;
 
   let _manifest = null; 
 
@@ -51,7 +60,7 @@
   }
 
   const getManifestResourceUrl = (manifest) => {
-    const itemType = item[ Settings.exhibitItemDataFields.ITEM_TYPE ] || "undefined";
+    const itemType = item[ exhibitItemDataFields.ITEM_TYPE ] || "undefined";
 
     let mediaResource;
     if(itemType == ITEM_TYPE.IMAGE || itemType == ITEM_TYPE.LARGE_IMAGE) {
@@ -68,7 +77,7 @@
   }
 
   const getManifestThumbnailUrl = (manifest) => {
-    const itemType = item[ Settings.exhibitItemDataFields.ITEM_TYPE ] || "undefined";
+    const itemType = item[ exhibitItemDataFields.ITEM_TYPE ] || "undefined";
 
     let thumbnailResource;
     if(itemType == ITEM_TYPE.IMAGE || itemType == ITEM_TYPE.LARGE_IMAGE) {

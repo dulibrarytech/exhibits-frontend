@@ -1,48 +1,39 @@
 <script>
-    import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
 	import {createEventDispatcher} from 'svelte';
 
-    export let modalDisplay = null;
-    export let modalData = null;
+  export let modalDisplay = null;
+  export let modalData = null;
+	export let modalArgs = null;
+	export let height = null;
+	export let width = null;
 
-    let dialogElement;
+  const dispatch = createEventDispatcher();
 
-    const dispatch = createEventDispatcher();
+	const DEFAULT_DIALOG_HEIGHT = "100%";
+	const DEFAULT_DIALOG_WIDTH 	= "100%";
+	const MAX_DIALOG_WIDTH 			= "1400px";
+	const DIALOG_FRAME_COLOR 		= "#e5e3e1";
 
-	const DEFAULT_DIALOG_HEIGHT = 100;
-	const DEFAULT_DIALOG_WIDTH = 100;
-	const MODAL_WINDOW_PADDING = 0;
+	let _dialogElement;
 
-	let height = DEFAULT_DIALOG_HEIGHT.toString() + "%";
-	let width = DEFAULT_DIALOG_WIDTH.toString() + "%";
+	// pre-mount (init)
+	if(!height) height = DEFAULT_DIALOG_HEIGHT;
+	if(!width) width = DEFAULT_DIALOG_WIDTH;
 
-    const render = () => {
-		if (dialogElement && modalData) {
+  const render = () => {
+		if (_dialogElement && modalData) {
 			document.body.classList.add('modal-open');
-        	dialogElement.showModal();
-			setDialogDimensions();
-    	}
+      _dialogElement.showModal();
+  	}
 	}
 
-    const closeDialog = () => {
+  const closeDialog = () => {
 		document.body.classList.remove('modal-open');
-        dispatch('close', {});
-    }
-
-	const setDialogDimensions = () => {
-		// get dialog window pointer, test if null, replace selectors below with pointer, and get dimensions to set dialog width and height based on content size with some padding for smaller screens, and max dimensions for larger screens	
-
-		height = (document.querySelector(".modal-dialog-window").offsetHeight + MODAL_WINDOW_PADDING).toString() + "px";
-		width = (document.querySelector(".modal-dialog-window").offsetWidth + MODAL_WINDOW_PADDING).toString() + "px";
-	}
-
-	const onWindowResize = () => {
-		setDialogDimensions();
-	}
+    dispatch('close', {});
+  }
 
 	onMount(async () => {
-		window.addEventListener('resize', onWindowResize);
-
 		// close dialog on browser navigation (1/6/26)
 		window.addEventListener('popstate', function(event) {
 			closeDialog();
@@ -52,8 +43,15 @@
   });
 </script>
 
-<div class="modal-dialog-window">
-	<dialog bind:this={dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}>
+<div class="modal-dialog-window" style="--theme-dialog-frame-color: {DIALOG_FRAME_COLOR}">
+	<!-- <dialog bind:this={_dialogElement} style="height: {height}; width: {width}; max-height: {height}; max-width: {width}" on:close={closeDialog}> -->
+	<dialog 
+		style="height:{height}; width: {`min(${width}, ${MAX_DIALOG_WIDTH})`} ;"
+
+		bind:this={_dialogElement} 
+		on:close={closeDialog}
+	>
+		
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div>
 			<div class="dialog-content">
@@ -61,7 +59,7 @@
 				<!-- dialog controls -->
 				<div class="row dialog-controls">
 					<div class="col-lg-8 col-md-9 col-sm-12">
-						<button class="button-close" type="button" title="Close dialog window" aria-label="Close dialog window" on:click={() => dialogElement.close()}>
+						<button class="button-close" type="button" title="Close dialog window" aria-label="Close dialog window" on:click={() => _dialogElement.close()}>
 							<i class="bi bi-x-lg"></i>
 						</button>
 					</div>
@@ -73,7 +71,13 @@
 
 				<!-- display content -->
 				<div class="row display-content">
-					<svelte:component this={modalDisplay} data={modalData} on:close={closeDialog} />
+					<svelte:component 
+						this={modalDisplay} 
+						data={modalData} 
+						args={modalArgs} 
+						on:close={closeDialog} 
+						on:update-data-1
+					/>
 				</div>
 			</div>
 		</div>
@@ -96,19 +100,20 @@
 	}
 
 	.display-content {
-		height: 100%;
+		/* height: 100%; */
+		height: calc(100% - 50px);
 		padding-right: 10px;
 	}
 
-    dialog {
-		width: 100%;
-		height: 100%;
+  dialog {
 		border-radius: 0.2em;
 		border: none;
 		padding: 0;
 		overflow: hidden;
-		background: #e5e3e1;
-		margin: 0;
+		margin-inline: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+		background: var(--theme-dialog-frame-color);
 	}
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.8);
@@ -143,8 +148,6 @@
 	.button-close {
 		display: block;
 		position: relative;
-		/* top: 5px;
-		left: 8px; */
 		height: 40px;
 	}
 
@@ -154,14 +157,8 @@
 		padding-right: 15px;
 	}
 
-	:global(.modal-dialog-window .item-viewer .openseadragon) {
-		/* height: 50vh; */
-		height: 50vh;
-	}
-
 	:global(.modal-dialog-window .text-display-container) {
 		padding-bottom: 20px;
-		/* height: auto !important; */
 	}
 
 	/* dialog control buttons/openseadragon buttons */
@@ -175,37 +172,36 @@
 	}
 	/* End dialog control buttons/openseadragon buttons */
 
-    @media screen and (min-width: 480px) {
+  @media screen and (min-width: 480px) {
 
-    }
+  }
 
-    @media screen and (min-width: 768px) {
+  @media screen and (min-width: 768px) {
 
-    }
+  }
 
-    @media screen and (min-width: 992px) {
+  @media screen and (min-width: 992px) {
 		.display-content {
 			overflow-y: clip;
 			padding-right: 0;
 		}
 
-		:global(.modal-dialog-window .item-viewer .openseadragon) {
-			/* height: 91vh; */
-			height: 100%;
-		}
-
 		:global(.modal-dialog-window .text-display-container) {
 			padding-bottom: 0;
 		}
-    }
+  }
 
-    @media screen and (min-width: 1280px) {
-		.display-content {
+  @media screen and (min-width: 1280px) {
+		/* .display-content {
 			height: calc(100% - 50px);
+		} */
+  }
+
+	/* override the inline height and width styles on narrower viewports and set to full dimensions */
+  @media screen and (max-width: 767px) {
+		dialog {
+			width: 100% !important;
+			height: 100% !important;
 		}
-    }
-
-    @media screen and (min-width: 1920px) {
-
-    }
+  }
 </style>

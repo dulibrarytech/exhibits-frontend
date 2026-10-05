@@ -24,32 +24,31 @@
         facetValues
     } = Settings;
 
-    var resultsPage = [];
-    var searchType = null;
-    var termsLabel = "";
+    // module variables
+    let _resultsPage = [];
+    let _termsLabel = "";
+    let _searchType = null;
+    let _totalResults = 0;
 
-    $: render();
+    $: {
+        init();
+    }
 
-    const render = () => {
-        resultsPage = getResultsPage(searchParams.pageNumber);
-        termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
-        searchType = searchParams.searchType || null;
-
-        for(let facet of facets) {
-            
-            let option = limitOptions.find((option) => {
-                return option.field == facet.field;
-            });
-
-            if(!option) continue;
-
-            let index = option.values.findIndex(({value}) => value == facet.value);
-            option.values.splice(index, 1);
-        }
+    const init = () => {
+        _resultsPage = getResultsPage(searchParams.pageNumber);
+        _termsLabel = terms.toString().replace(/[,]/g, ' ').replace(/["']/g, '');
+        _searchType = searchParams.searchType || null;
+        _totalResults = searchParams.totalResults || 0;
     }
 
     const getResultsPage = (pageNumber) => {
         return getArrayPage(results, pageNumber, searchParams.resultsPerPage);
+    }
+
+    const onUpdateResultsPage = (event) => {
+        const page = parseInt(event.detail.page);
+        _resultsPage = getResultsPage(page);
+        searchParams.pageNumber = page;
     }
 
     const onClickFacet = (event) => {
@@ -81,37 +80,51 @@
         <div class="container-large">
 
             <div class="row ng-scope">
-                <div class="col-md-3 col-md-push-9 results-sidebar">
-                    <div>
-                        <button on:click|preventDefault={() => dispatch('click-back', {})}>Back</button>
-                        {#if facets?.length > 0}<button on:click|preventDefault={() => dispatch('click-clear-facets', {})}>Reset Filters</button>{/if}
-                    </div>
-
+                <div class="col-md-4 col-md-push-8 col-lg-3 col-lg-push-9 results-sidebar">
                     {#if limitOptions.length > 0}
-                        <FacetPanel {limitOptions} {facetValues} on:click-facet={onClickFacet} />
+                        <FacetPanel {limitOptions} {facetValues} selectedFacets={facets} on:click-facet={onClickFacet} on:remove-facet={onRemoveFacet}  />
                     {/if}
                 </div>
 
-                <div class="col-md-9 col-md-pull-3 results-container">
+                <div class="col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3 results-container">
 
-                    <div class="search-data-display">
-                        <p class="search-terms-label">Search for "<span style="font-weight: bold">{termsLabel}</span>"</p>
+                    <div>
+                        <div class="search-data-display">
+                            <h1 class="search-terms-label">{_totalResults} search result{_totalResults == 1 ? '' : 's'} for "<span style="font-weight: bold">{_termsLabel}</span>"</h1>
 
-                        <FacetLabels {facets} on:remove-facet={onRemoveFacet} />
+                            <h2 class="sr-only">Results List</h2>
+                            <FacetLabels {facets} on:remove-facet={onRemoveFacet} on:click-clear-facets />
+                        </div>
 
-                        <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
+                        {#if _resultsPage.length > 0}
+                            {#key _resultsPage}
+
+                                <ul class="results-list">
+                                    {#each _resultsPage as result, index}
+                                        <li>
+                                            <hr>
+                                            <Search_Result 
+                                                {terms} 
+                                                {result} 
+                                                searchType={_searchType} 
+                                                index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index}
+                                                on:click-result
+                                            />
+                                        </li>
+                                    {/each}
+                                </ul>
+                                
+                            {/key}
+                        {:else}
+                            <div class="results-display-message">
+                                <p>No results found.</p>
+                            </div>
+                        {/if}
                     </div>
-
-                    {#if resultsPage.length > 0}
-                        {#each resultsPage as result, index}
-                            <hr>
-                            <Search_Result {terms} {result} index={((searchParams.pageNumber-1) * searchParams.resultsPerPage) + index} {searchType} />
-                        {/each}
-                    {:else}
-                        <p>No results found.</p>
-                    {/if}
                     
-                    <SearchResultsPaginator {resultsPage} params={searchParams} on:click-paginator-link />
+                    {#key searchParams.pageNumber}
+                        <SearchResultsPaginator resultsPage={_resultsPage} params={searchParams} on:click-paginator-link={onUpdateResultsPage} />
+                    {/key}
                 </div>
             </div>
         </div>
@@ -120,6 +133,39 @@
 </div>
 
 <style>
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .results-container {
+        display: block;
+    }
+
+    .results-display-message {
+        margin-top: 5rem;
+    }
+
+    :global(.search-results-display h2), 
+    :global(.search-results-display h3) {
+        font-size: 1.3rem;
+    }
+
+    :global(.search-results-display h4) {
+        font-size: 1.1rem;
+    }
+
     .search-data-display {
         display: block;
         margin-bottom: 30px;
@@ -146,7 +192,18 @@
         background: yellow;
     }
 
+    ul.results-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
     @media screen and (min-width: 768px) {
+        .results-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
         .search-data-display {
             margin-top: 0px;
         }

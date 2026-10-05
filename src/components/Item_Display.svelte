@@ -4,7 +4,7 @@
     import * as Logger from '../libs/logger.js';
 
     import { 
-        getItemLinks 
+        getDisplayLinks 
     } from '../libs/exhibits_data_helpers';
 
     export let item = null;
@@ -15,27 +15,21 @@
     const {
         itemDisplayLinks,
         itemDisplayLinksRepositoryItem,
-    } = Settings;
+    } = Settings.links;
 
     const {
-        is_repo_item = false,
-        repository_data = {},
-        media_iiif = null,
+        repository_data: repositoryData = {},
+        media_iiif:      mediaIIIF = null,
     } = item;
 
     const init = () => {
 
-        // get links for item display
-        let links = getItemLinks(item, itemDisplayLinks);
-
-        // get links for repository item if applicable and add to item links for display in viewer
-        if(is_repo_item) {
-            if(!repository_data) {Logger.module().error("Item is linked to repository item but repository data is missing")}
-            else {
-                links = links.concat( getItemLinks(repository_data, itemDisplayLinksRepositoryItem) );
-            }
+        // add external links to the item display
+        let links = getDisplayLinks(item, itemDisplayLinks);
+        if(repositoryData) {
+            links = links.concat( getDisplayLinks(repositoryData, itemDisplayLinksRepositoryItem) );
         }
-        item.links = links;
+        item.external_links = links;
     }
 
     const onLoadError = async (event) => {
@@ -47,7 +41,7 @@
 </script>
 
 <div class="item-display">
-    {#if media_iiif}
+    {#if mediaIIIF}
         <IIIF_Item {item} {template} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />
     {:else}
         <svelte:component this={template} {id} {item} {args} on:click-item on:mount-template-item on:load-error={onLoadError} />
