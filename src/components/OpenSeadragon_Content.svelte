@@ -79,6 +79,7 @@
 <style>
 .openseadragon {
     position: relative;
+    height: 100%;
 }
 
 .openseadragon-load-message {
