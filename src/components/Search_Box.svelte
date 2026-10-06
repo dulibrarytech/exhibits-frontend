@@ -1,6 +1,7 @@
 <script>
     'use strict'
 
+    import { navigateTo } from 'svelte-router-spa';
     import { onMount } from 'svelte';
     import { removeStopwords } from 'stopword';
     import { createEventDispatcher } from 'svelte';
@@ -56,7 +57,7 @@
           url = url.concat(`&${key}=${params[key]}`);
         }
 
-        window.location.replace(url);
+        navigateTo(url);
       }
       else {
         dispatch('submit-search', {terms: queryTokens});
