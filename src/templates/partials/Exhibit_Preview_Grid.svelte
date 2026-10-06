@@ -27,7 +27,7 @@
     {#if previews.length > 0}
         {#each previews as exhibit}
             <div class="grid-item exhibit-preview-item">
-                <Exhibit_Preview {exhibit} {args} link="/exhibit/{exhibit.uuid}"/>
+                <Exhibit_Preview {exhibit} {args} on:click-preview />
             </div>
         {/each}
     {/if}

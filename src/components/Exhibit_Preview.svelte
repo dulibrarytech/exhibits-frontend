@@ -19,8 +19,8 @@
     */
     'use strict'
     
-    import ResourceUrl from '../libs/ResourceUrl.js'; 
     import * as Logger from '../libs/logger.js';
+    import ResourceUrl from '../libs/ResourceUrl.js'; 
     import { createEventDispatcher } from 'svelte';
     import { Settings } from '../config/settings.js';
     import { getInnerText } from '../libs/exhibits_data_helpers';
@@ -114,7 +114,6 @@
 
     const onClickPreview = ({target}) => {
         dispatch('click-preview', {exhibitId});
-        if(link) window.location.replace(link);
     }
 
     const onImageLoad = ({target}) => {

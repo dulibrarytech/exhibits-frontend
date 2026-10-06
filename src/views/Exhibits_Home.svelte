@@ -59,6 +59,11 @@
         }
     }
 
+    const onClickPreview = ({detail}) => {
+        let {exhibitId} = detail;
+        navigateTo(`/exhibit/${exhibitId}`);
+    }
+
     init();
 
     onMount(async () => {
@@ -105,7 +110,7 @@
                             {#if EXHIBITS_LAYOUT == "slider"}
                                 <Exhibit_Preview_Slider exhibits={_featuredExhibits} images="3" scroll="1" />
                             {:else if EXHIBITS_LAYOUT == "grid"}
-                                <Exhibit_Preview_Grid exhibits={_featuredExhibits} args={{limit: 4, showTitle: true}} />
+                                <Exhibit_Preview_Grid exhibits={_featuredExhibits} args={{limit: 4, showTitle: true}} on:click-preview={onClickPreview} />
                             {/if}
                         </div>
                     {/if}
@@ -125,7 +130,7 @@
                             {#if EXHIBITS_LAYOUT == "slider"}
                                 <Exhibit_Preview_Slider exhibits={_studentCuratedExhibits} images="3" scroll="1" />
                             {:else if EXHIBITS_LAYOUT == "grid"}
-                                <Exhibit_Preview_Grid exhibits={_studentCuratedExhibits} args={{limit: 4, showTitle: true}} />
+                                <Exhibit_Preview_Grid exhibits={_studentCuratedExhibits} args={{limit: 4, showTitle: true}} on:click-preview={onClickPreview} />
                             {/if}
                         </div>
                     {/if}

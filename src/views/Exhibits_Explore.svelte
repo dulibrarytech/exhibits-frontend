@@ -5,6 +5,7 @@
 <script>
     'use strict'
 
+    import { navigateTo } from 'svelte-router-spa';
     import { onMount } from 'svelte';
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
@@ -177,6 +178,20 @@
         )));
     }
 
+    /* sort alphabetically by title */
+    const sortExhibits = () => {
+        _exhibits = _exhibits.map((exhibit) => {
+            return {
+                ...exhibit,
+                title_string: getInnerText(exhibit.title).replace(/[^a-zA-Z0-9 ]/g, "")
+            }
+        }).sort((a, b) => {
+            if (a.title_string.toLowerCase() < b.title_string.toLowerCase()) {return -1}
+            else if (a.title_string.toLowerCase() > b.title_string.toLowerCase()) {return 1}
+            return 0;
+        })
+    }
+
     const onSubmitKeywordFilter = ({detail}) => {
         let {terms} = detail;
 
@@ -209,18 +224,9 @@
         history.pushState(null, null, `${window.location.pathname}#${label.replace(/\s+/g, '-').toLowerCase()}`);
     }
 
-    /* sort alphabetically by title */
-    const sortExhibits = () => {
-        _exhibits = _exhibits.map((exhibit) => {
-            return {
-                ...exhibit,
-                title_string: getInnerText(exhibit.title).replace(/[^a-zA-Z0-9 ]/g, "")
-            }
-        }).sort((a, b) => {
-            if (a.title_string.toLowerCase() < b.title_string.toLowerCase()) {return -1}
-            else if (a.title_string.toLowerCase() > b.title_string.toLowerCase()) {return 1}
-            return 0;
-        })
+    const onClickPreview = ({detail}) => {
+        let {exhibitId} = detail;
+        navigateTo(`/exhibit/${exhibitId}`);
     }
         
     init();
@@ -259,13 +265,15 @@
 
                         {#if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_ALL}
 
-                            <Exhibit_Preview_Grid exhibits={_exhibits} args={{showTitle: true}} />
+                            <Exhibit_Preview_Grid exhibits={_exhibits} args={{showTitle: true}} on:click-preview={onClickPreview} />
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.NO_STUDENT_CURATED}
                             
                             <Exhibit_Preview_Grid exhibits={
                                 _exhibits.filter((exhibit) => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})
-                            } args={{showTitle: true}} />
+                            } args={{showTitle: true}} 
+                                on:click-preview={onClickPreview}
+                            />
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS}
 
@@ -278,6 +286,7 @@
                                 args={{showTitle: true}} 
                                 activeTab={_activeTabLabel}
                                 on:page-updated={onChangeTabPage} 
+                                on:click-preview={onClickPreview}
                             />
                         {/if}
                     </div>
