@@ -221,7 +221,7 @@
 
     const onChangeTabPage = ({detail}) => {
         let {index, label} = detail;
-        history.pushState(null, null, `${window.location.pathname}#${label.replace(/\s+/g, '-').toLowerCase()}`);
+        history.replaceState(null, null, `${window.location.pathname}#${label.replace(/\s+/g, '-').toLowerCase()}`);
     }
 
     const onClickPreview = ({detail}) => {
