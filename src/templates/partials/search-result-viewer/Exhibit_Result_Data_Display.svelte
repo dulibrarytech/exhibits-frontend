@@ -8,7 +8,6 @@
 	import {
 		formatStripHtmlTags
 	} from '../../../libs/format';
-    import { assign } from 'svelte/internal';
 
 	// item data
 	let _exhibitId;
