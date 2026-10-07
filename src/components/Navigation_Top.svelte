@@ -26,198 +26,129 @@
         else Logger.module().info("Invalid or missing 'data-anchor' property:", event.currentTarget);
 	}
 
-    const onClickToggleButton = (event) => {
-        let button = event.target.parentElement;
-
-        if(button.getAttribute('aria-expanded') == "false") {
-            button.setAttribute('title', 'Expand navigation menu');
-            button.setAttribute('aria-label', 'Expand navigation menu');
-        }
-        else {
-            button.setAttribute('title', 'Collapse navigation menu');
-            button.setAttribute('aria-label', 'Collapse navigation menu');
-        }
-    }
-
     const setTheme = (styles) => {
-        Object.assign(_navigationElement.style, styles);
+      const {
+        fontFamily = '',
+        color = '', 
+        backgroundColor = '',
+      } = styles;
+
+      Object.assign(_navigationElement.style, {fontFamily, color, backgroundColor});
     }
 
     onMount(async () => {
-        if(styles && Object.keys(styles).length > 0) setTheme(styles);
+      if(styles && Object.keys(styles).length > 0) setTheme(styles);
     });
 </script>
 
-<nav class="exhibit-navigation navbar navbar-expand-lg navbar-light" id="mainNav" bind:this={_navigationElement}>
-    <div class="container-large outer-container">
-        <button 
-            class="navbar-toggler" 
-            type="button" 
-            data-bs-toggle="collapse" 
-            data-bs-target="#navbarResponsive" 
-            aria-controls="navbarResponsive" 
-            aria-expanded="false" 
-            aria-label="Toggle navigation"
-            on:click|preventDefault={onClickToggleButton}>
+<nav class="exhibit-navigation navbar navbar-expand-lg navbar-light" bind:this={_navigationElement}>
+   <div class="container-large outer-container">
+    
+    <!-- mobile menu toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse show" id="navbarResponsive">
-            <ul class="nav nav-link navbar-nav ms-auto">
-                {#if _sectionHeadings}
-                    {#each _sectionHeadings as {uuid, text, subheadings = null}, index}
-                        <li class="px-1">
-                            <a href class="main-menu-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
+    <!-- main menu section -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {#if _sectionHeadings}
 
-                            {#if subheadings.length > 0}
-                                <ul class="dropdown-nav">
-                                    {#each subheadings as {uuid, text}, index}
-                                        <li>
-                                            <a href class="dropdown-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
-                                        </li>
-                                    {/each}
-                                </ul>
-                            {/if}
+            <ul class="nav nav-link navbar-nav me-auto mb-2 mb-lg-0">
+                {#each _sectionHeadings as {uuid, text, subheadings = null}, index}
+
+                    {#if subheadings.length > 0}
+                        <!-- add sub -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href id="navbarDropdown-{index}" role="button" data-bs-toggle="dropdown" aria-expanded="false">{text}</a>
+
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown-{index}">
+                                {#each subheadings as {uuid, text}, index}
+                                    <li>
+                                        <a href class="dropdown-item" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
+                                    </li>
+
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                {/each}
+                            </ul>
                         </li>
-                    {/each}
-                {/if}
+
+                    {:else}
+                        <!-- no sub -->
+                        <li class="nav-item">
+                            <a href class="nav-link" data-anchor={uuid} on:click|preventDefault={onClickNavigationLink}>{text}</a>
+                        </li>
+                    {/if}
+
+                {/each}
             </ul>
-        </div>
+
+        {/if}
     </div>
+    <!-- END main menu section -->
+
+  </div>
 </nav>
 
 <style>
-    /* default styles */
+    .container-large {
+        @media screen and (max-width: 900px) {
+            max-width: calc(100vw - 70px);
+        }
+    }
+
     .exhibit-navigation {
-        background-color: unset;
-        color: inherit;
+        background-color: var(--theme-site-navigation-background-color);
+        color: var(--theme-site-navigation-font-color);
         font-family: var(--theme-site-navigation-font-family);
         font-size: var(--theme-site-navigation-font-size);
     }
 
-    ul.nav {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-    }
-
-    .nav-link {
-        color: inherit;
-    }
-    
-    .exhibit-navigation > div, .collapse, ul.nav, ul.nav > li, .dropdown-nav {
-        background-color: inherit;
-    }
-
-    .navbar {
-        min-height: 4.2em;
-        border-bottom-style: solid;
-        border-width: 1px;
-        border-color: #c5c3c1;
-        background-color: #ffffff;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-
-    .navbar .container-large {
-        display: flex;
-        flex-wrap: inherit;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .navbar .outer-container {
-        padding: 1em;
-    }
-
-    .navbar-expand-lg .navbar-nav {
-        row-gap: 9px;
-        column-gap: 31px;
-    }
-
-    .navbar-expand-lg .navbar-toggler {
-        display: block;
-    }
-
     button.navbar-toggler {
-        margin: 0 1.5em 0 0;
-        border-width: 2px;
+        margin: 0.5em 0;
     }
 
-    button.navbar-toggler:focus {
-        box-shadow: none;
-        outline: auto;
-    }
-
-    ul.navbar-nav {
-        width: 100%;
-        margin-top: 1em;
-    }
-
-    ul.navbar-nav a {
-        height: 100%;
-        margin-bottom: 0;
-        width: 100%;
+    a, a:visited, .nav-link, .nav-link:visited, .nav-link:hover, .nav-link:focus {
         color: inherit;
     }
 
-    :global(ul.navbar-nav a.main-menu-link.active) {
-        text-decoration: underline;
+    a.nav-link {
+        position: relative;
     }
 
-    ul.navbar-nav a.dropdown-link {
-        padding: 8px 0;
-    }
-
-    .dropdown-nav {
-        position: absolute;
-        padding: 15px;
-        display: none;
-        min-width: 160px;
-        box-shadow: 0px 8px 8px -1px rgba(80, 80, 80, 0.2);
+    a.nav-link:focus, a.nav-link:focus-visible {
         z-index: 1;
     }
 
-    .dropdown-nav li {
-        list-style-type: none;
-        border-bottom-style: solid;
-        border-bottom-color: gray;
-        border-bottom-width: 1px;
-    }
-
-    a.dropdown-link {
+    a.nav-link:hover + .dropdown-menu,
+    .dropdown-menu:hover {
         display: block;
     }
 
-    .navbar-nav > li:hover .dropdown-nav,
-    .navbar-nav > li:focus-within .dropdown-nav {
-        display: block;
+    .dropdown-menu a {
+        color: inherit;
     }
 
-    .collapse {
-        flex-basis: 100%;
-        flex-grow: 1;
+    button.navbar-toggler {
+        border-width: 2px;
     }
 
-    .navbar-light .navbar-toggler.collapsed .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    div.outer-container, div.collapse, ul.nav, li.nav-item, ul.dropdown-menu {
+        background-color: inherit;
+        color: inherit;
+        font-family: inherit;
     }
 
-    .navbar-light .navbar-toggler .navbar-toggler-icon  {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='0.5' fill='rgb(96,96,96)' d='M4.795 3.912l-.883.883.147.146L7.117 8 4.06 11.059l-.147.146.883.883.146-.147L8 8.883l3.059 3.058.146.147.883-.883-.147-.146L8.883 8l3.058-3.059.147-.146-.883-.883-.146.147L8 7.117 4.941 4.06z'/%3e%3c/svg%3e");
+    .dropdown-item:focus, .dropdown-item:hover {
+        background-color: unset;
     }
 
     @media (min-width: 992px) {
-        .navbar-expand-lg .navbar-toggler {
-            display: none;
-        }
-
-        .navbar {
-            min-height: unset;
-        }
-
-        ul.navbar-nav {
-            margin-top: 0;
+        .navbar-expand-lg .navbar-nav {
+            flex-direction: row;
+            column-gap: 1.2vw;
+            row-gap: 11px;
         }
     }
 </style>
