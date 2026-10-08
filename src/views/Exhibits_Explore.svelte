@@ -19,16 +19,18 @@
     export let currentRoute;
 
     let _exhibits = [];
-    let _searchData;
+    let _searchData = {};
     let _filters = [];
+    let _pages = [];
+    let _pageId = null;
     let _filterLabels = [];
-    let _activeTabLabel = null;
 
     let miniSearch = new MiniSearch({
         fields: Object.keys(Settings.searchFieldsExhibit),
         storeFields: Object.values(Settings.exhibitDataFields)
     });
 
+    // TODO to _
     let renderTabs;
     let message;
     let pageTitle;
@@ -71,8 +73,24 @@
             }
         }
 
+        _pages = [
+            {
+                "id": "university-libraries-exhibits",
+                "label": "University Libraries Exhibits", 
+                "condition": "is_student_curated",
+                "value": 0
+            },
+            {
+                "id": "student-curated-exhibits",
+                "label": "Student Curated Exhibits", 
+                "condition": "is_student_curated",
+                "value": 1
+            }
+        ];
+
         if(currentRoute.hash) {
-            _activeTabLabel = currentRoute.hash.substring(1);    
+            const pageId = currentRoute.hash.substring(1);
+            if(pageId && pageId.length <= 50) _pageId = pageId;
         }
 
         message = "";
@@ -95,6 +113,13 @@
             sortExhibits();
             initKeywordSearch();
             applyFilters();
+
+            _pages = _pages.map((page) => {
+                return {
+                    ...page,
+                    exhibits: _exhibits.filter(exhibit => {return exhibit[page.condition] == page.value})
+                }
+            });
         }
         else {
             message = "No exhibits found."
@@ -154,11 +179,11 @@
 
         // add the exhibit data to the minisearch index
         for(let exhibit of _exhibits) {
-
             indexItem = {...exhibit};
 
             for(let field of Object.keys(Settings.searchFieldsExhibit)) {
-
+                if(!indexItem[field]) continue;
+                
                 if(typeof indexItem[field] == 'string') {
                     indexItem[field] = getInnerText(exhibit[field]);
                 }
@@ -205,8 +230,9 @@
     }
 
     const onChangeTabPage = ({detail}) => {
-        let {index, label} = detail;
-        history.pushState(null, null, `${window.location.pathname}#${label.replace(/\s+/g, '-').toLowerCase()}`);
+        console.log("test: EE: onChangeTabPage event detail:", detail)
+        const {panelId: pageId} = detail;
+        history.pushState(null, null, `${window.location.pathname}#${pageId}`);
     }
 
     /* sort alphabetically by title */
@@ -258,7 +284,6 @@
                     <div class="homepage-section">
 
                         {#if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_ALL}
-
                             <Exhibit_Preview_Grid exhibits={_exhibits} args={{showTitle: true}} />
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.NO_STUDENT_CURATED}
@@ -268,17 +293,13 @@
                             } args={{showTitle: true}} />
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS}
-
                             <Exhibit_Preview_Grid_Tabs 
-                                sections={[
-                                    {"label": "University Libraries Exhibits", "exhibits": _exhibits.filter(exhibit => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})},
-                                    {"label": "Student Curated Exhibits", "exhibits": _exhibits.filter(exhibit => {return exhibit.is_student_curated == 1})}
-                                ]} 
-                                
+                                panelData={_pages} 
+                                activePanelId={_pageId}
                                 args={{showTitle: true}} 
-                                activeTab={_activeTabLabel}
-                                on:page-updated={onChangeTabPage} 
+                                on:select-panel={onChangeTabPage} 
                             />
+
                         {/if}
                     </div>
                 </div>
