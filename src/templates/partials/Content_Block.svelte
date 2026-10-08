@@ -45,7 +45,9 @@
         <div class="emphasis-wrapper">{@html item.text}</div>
         {:else if item.content_type === 'quote'}
         <div class="content-block-quote-text">{@html item.text}</div>
-        <div class="content-block-quote-attribution">{@html item.attribution}</div>
+            {#if item.attribution && item.attribution.length > 0}
+            <div class="content-block-quote-attribution">{@html item.attribution}</div>
+            {/if}
         {/if}
     </div>
 </div>
@@ -61,8 +63,8 @@
     }
     
     .content-block-item {
-        padding-top: 0.532em; 
-        padding-bottom: 0.532em; 
+        padding-top: 1.3em; 
+        padding-bottom: 1.3em; 
     }
     
     .content-block-button {
@@ -72,6 +74,8 @@
         & a {
             height: 3.5rem;
             padding: 1rem 0.75rem;
+            gap: 0.75rem;
+            font-size: 1.25rem;
             justify-content: center;
             align-items: center;
             border-radius: 0.25rem; 
@@ -83,6 +87,8 @@
             &.content-block-size-small {
                 height: 2.5rem;
                 padding: 0.625rem 0.75rem;
+                font-size: 1.1rem;
+                line-height: 1.25rem;
             }
 
             &.content-block-transparent {
@@ -116,7 +122,7 @@
         font-size: 1.4rem;
 
         &::before {
-            border: 1px solid var(--accent-color);
+            border: 2px solid var(--accent-color);
             border-radius: 4px;
             content: "";
             margin-right: 1rem;
@@ -124,8 +130,15 @@
     }
 
     .content-block-divider {
+        
+    
         & .content-block-size-large {
             margin: 2rem 0;
+        }
+  
+        & .content-block-size-small {
+            width: 40%;
+            margin: auto;
         }
         
         & hr {
@@ -137,7 +150,7 @@
 
     .content-block-quote {
         text-align: center;
-        font-weight: 600;
+        font-weight: 500;
         font-family: Sole Serif Titling;
         display: flex;
         flex-direction: column;
@@ -161,10 +174,13 @@
 
         &::before {
             content: '“';
+            font-family: Sole Serif Titling;
+            font-weight: 500;
             font-size: 5rem;
             height: 3.5rem;
             display: block;
             color: var(--accent-color);
+            margin-top: -2rem;
         }
     }
 

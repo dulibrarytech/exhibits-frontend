@@ -221,10 +221,10 @@
             let fontLocation, fontFace;
 
             Fonts.forEach((font) => {
-                let {name="", file=null, url="./"} = font;
+                let {name="", file=null, url="./", style="normal"} = font;
 
                 fontLocation = file ? `${Settings.fontFileLocation}/${file}` : url;
-                fontFace = new FontFace(name, `url(${fontLocation})`);
+                fontFace = new FontFace(name, `url(${fontLocation})`, { style });
 
                 fontFace.load().then(function(loaded) {
                     document.fonts.add(loaded);
