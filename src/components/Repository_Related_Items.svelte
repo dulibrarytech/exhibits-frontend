@@ -202,7 +202,7 @@
          {#each _relatedItemsDisplay as {caption = null, subject, relatedItems = [], link}, index}
             <div class="item shadow-wrapper">
                <div class="item-content">
-                  <h3>Seen in the exhibit</h3>
+                  <span>Seen in the exhibit</span>
 
                   <div class="exhibit-item-preview">
                      <MediaItemPreview 
@@ -215,20 +215,23 @@
                         on:click-item />
                   </div>
 
-                  <h4>Explore similar subjects</h4>
-                  <span style="color: grey"><h6>Subject: {subject}</h6></span>
+                  <div class="item-related-content">
+                     <span>Explore similar subjects</span>
+                     <span style="color: grey"><h6>Subject: {subject}</h6></span>
 
-                  <div class="related-items">
-                  {#each relatedItems as {thumbnail, title, link}}
+                     <div class="related-items">
+                     {#each relatedItems as {thumbnail, title, link}}
 
-                     <div class="related-item-preview">
-                        <a href={link} target="_blank">
-                           <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
-                        </a>
+                        <div class="related-item-preview">
+                           <a href={link} target="_blank">
+                              <img crossorigin="anonymous" src={thumbnail} alt={title} title={title} />
+                           </a>
+                        </div>
+
+                     {/each}
                      </div>
-
-                  {/each}
                   </div>
+                  
                </div>
             </div>
          {/each}
@@ -265,6 +268,14 @@
       padding: 38px 12px;
    }
 
+   .item-content > span {
+      font-size: 1.5rem;
+   }
+
+   .item-related-content > span {
+      font-size: 1.3rem;
+   }
+
    .related-items {
       display: flex;
       flex-wrap: wrap;
@@ -282,7 +293,6 @@
    }
 
    .related-item-preview {
-      /* width: 40.5%; */
       width: 100%;
    }
 

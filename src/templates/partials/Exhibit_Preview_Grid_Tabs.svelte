@@ -5,66 +5,80 @@
     import {createEventDispatcher} from 'svelte';
     import Exhibit_Preview_Grid from './Exhibit_Preview_Grid.svelte';
 
-    export let sections = [];
+    export let panelData = [];
+    export let activePanelId = null;
     export let args = {};
-    export let activeTab = null;
 
     const dispatch = createEventDispatcher();
 
-    const MAX_SECTIONS = 3;
+    const MAX_PANELS = 3;
 
-    let pages = [];
-    let tabs = [];
+    let _tabElements = [];
+    let _panelElements = [];
 
     $: {
-        if(sections.length+1 > MAX_SECTIONS) {
-            sections = sections.slice(0, MAX_SECTIONS);
+        if(panelData.length+1 > MAX_PANELS) {
+            panelData = panelData.slice(0, MAX_PANELS);
         }
     }
 
-    const showPage = (index, label = null) => {
-        
-        for(let page of pages) {
-            page.style.display = (page.getAttribute('data-index')) == index ? "block" : "none";
-        }
+    const showPanel = (id = null) => {
+        // get panel data index for panel with specified id
+        const panelIndex = id ? panelData.findIndex(panel => panel.id == id) : 0;
 
-        for(let tabIndex in tabs) {
-            if(tabIndex == index) {
-                tabs[tabIndex].classList.add('active');
+        // reset page element displays to none and set the element at panel index to block
+        _panelElements.forEach(element => {
+            element.style.display = (element.getAttribute('data-index')) == panelIndex ? "block" : "none";
+        });
+
+        // reset all tab elements' active class and aria-selected state and set the tab element at panel index to active 
+        _tabElements.forEach(element => {
+            if(element.getAttribute('data-index') == panelIndex) {
+                element.classList.add('active');
+                element.setAttribute('aria-selected', true);
             }
-            else tabs[tabIndex].classList.remove('active');
-        }
+            else {
+                element.classList.remove('active');
+                element.setAttribute('aria-selected', false);
+            }
+        });
+    }
 
-        dispatch('page-updated', {index, label});
+    const selectPanel = (id) => {
+        showPanel(id);
+        dispatch('select-panel', {panelId: id});
     }
 
     onMount(async () => {
-        if (activeTab) {
-            let activeTabIndex = sections.findIndex(section => section.label.replace(/\s+/g, '-').toLowerCase() == activeTab);
-            showPage(activeTabIndex != -1 ? activeTabIndex : 0, activeTab);
-        }        
-        else {
-            showPage(0, sections[0].label);
-        }
+        showPanel(panelData[0].id);
     });
     
 </script>
 
-    <div class="exhibit-preview-grid-tabs">
+    <div class="exhibit-preview-grid-tabs" role="tablist">
 
         <!-- buttons -->
         <div class="tabs">
-            {#each sections as {label}, index}
-                <h2>
-                    <button 
-                        class="tab-button" 
-                        type="button" 
-                        aria-label="page tab {label}"
-                        aria-expanded={index == 0 ? "true" : "false"} 
-                        on:click={() => showPage(index, label)} 
-                        bind:this={tabs[index]}>{label}
-                    </button>
-                </h2>
+            {#each panelData as {id, label}, index}
+                <div 
+                    class="tab" 
+                    role="tab" 
+                    data-index={index}
+                    aria-selected={index == 0 ? 'true' : 'false'} 
+                    aria-controls="tabPage{index+1}" tabindex="0" 
+                    bind:this={_tabElements[index]}
+                >
+                    <h2>
+                        <button 
+                            class="tab-button" 
+                            type="button" 
+                            on:click={() => selectPanel(id)} 
+                        >
+                            {label}
+                        </button>
+                    </h2>
+                </div>
+                
             {/each}
         </div>
         <!-- buttons ul -->
@@ -79,8 +93,8 @@
          </div> -->
         
         <!-- pages -->
-        {#each sections as {label, exhibits = []}, index}
-            <div class="tab-page" data-index={index} bind:this={pages[index]}>
+        {#each panelData as {label, exhibits = []}, index}
+            <div id="tabPage{index+1}" class="tab-page" role="tabpanel" data-index={index} bind:this={_panelElements[index]}>
 
                 {#if exhibits.length > 0}
                     <Exhibit_Preview_Grid {exhibits} {args} />
@@ -101,14 +115,14 @@
         display: flex;
         min-height: 75px;
     }
-    /* buttons ul */
-    /* .tabs > ul {
-        display: flex;
-    } */
 
-    .tabs > h2 {
+    .tabs > .tab {
         width: 33%;
+    }
+
+    .tabs h2 {
         margin: 0;
+        height: 100%;
     }
     
     .tab-page {
@@ -143,7 +157,7 @@
         z-index: 1;
     }
 
-    :global(.exhibit-preview-grid-tabs button.tab-button.active) {
+    :global(.exhibit-preview-grid-tabs .tab.active .tab-button) {
         border: none;
         background-color: #f1f1f1;
     }

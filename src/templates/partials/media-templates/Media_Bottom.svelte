@@ -15,8 +15,10 @@
         </div>
 
         <div class="media width-{mediaWidth}">
-            <slot name="media-display" />
-            {#if caption}<div class="caption">{caption}</div>{/if}
+            <figure>
+                <slot name="media-display" />
+                {#if caption}<figcaption><div class="caption" aria-label="caption: {caption}">{caption}</div></figcaption>{/if}
+            </figure>
         </div>
     </div>
 

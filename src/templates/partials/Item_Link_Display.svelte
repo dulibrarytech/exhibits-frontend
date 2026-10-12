@@ -11,14 +11,16 @@
 </script>
 
 <div class="item-link-display">
-  <ul>
-    {#each links as {label = null, linkTo = '#', linkText = ""}}
-      <li>
-        {#if label}<strong>{label}:</strong>{/if} 
-        {#if linkText}<a href="{linkTo}" target="_blank">{linkText}</a>{/if}
-      </li>
-    {/each}
-  </ul>
+  {#if Object.keys(links).length > 0}
+    <ul>
+      {#each links as {label = null, linkTo = '#', linkText = ""}}
+        <li>
+          {#if label}<strong>{label}:</strong>{/if} 
+          {#if linkText}<a href="{linkTo}" target="_blank">{linkText}</a>{/if}
+        </li>
+      {/each}
+    </ul>
+  {/if}
 </div>
 
 <style>

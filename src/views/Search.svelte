@@ -164,7 +164,7 @@
 
         _modalDialogArgs = {
             totalResults: _results.length, 
-            resultIndex: resultIndex, // active result (init only, this is not set in refreshmodal)
+            resultIndex: resultIndex, 
         }
 
         _modalDialog = Modal_Search_Result_Display;
@@ -179,6 +179,8 @@
 </script>
 
 <div class="search-page page">
+    <h1 class="hidden">Search</h1>
+    
     <div class="search-results container-large">
         {#if _results}
 

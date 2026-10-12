@@ -157,6 +157,10 @@
 		padding-right: 15px;
 	}
 
+	:global(.modal-dialog-window .item-viewer .openseadragon) {
+		height: 50vh;
+	}
+
 	:global(.modal-dialog-window .text-display-container) {
 		padding-bottom: 20px;
 	}
@@ -171,14 +175,6 @@
     	position: relative;
 	}
 	/* End dialog control buttons/openseadragon buttons */
-
-  @media screen and (min-width: 480px) {
-
-  }
-
-  @media screen and (min-width: 768px) {
-
-  }
 
   @media screen and (min-width: 992px) {
 		.display-content {

@@ -59,7 +59,6 @@
 	onMount(async () => {
 		setTimeout(() => {
 			if(window.innerWidth < 992) {
-				// set the focus to the viewer section to allow keyboard scroll on dialog open (entire viewer section scrolls on mobile device widths)
 				document.querySelector('.viewer').focus();
 			}
 		});
@@ -77,28 +76,29 @@
 			<div class="text">
 				{#if title}
 					<hr style="margin-top: 0px">
-					<div class="title" use:formatStripHtmlTags>{title}</div>
+					<div class="title" aria-label="Item title: {title}" use:formatStripHtmlTags>{title}</div>
 					<hr>
 					<br>
 				{/if}
 
 				{#if caption}
-					<div class="caption" use:formatStripHtmlTags>{caption}</div>
+					<div class="caption" aria-label="Item caption: {caption}" use:formatStripHtmlTags>{caption}</div>
 					<br>
 					<hr>
 				{/if}
 				
 				{#if text}
 					<div class="text-section background-light" tabindex="0">
-						<div class="item-text">{@html text}</div>
+						<div class="item-text" use:formatStripHtmlTags>{@html text}</div>
 					</div>
 				{/if}
 
 				{#if displayLinks}
+					<br>
 					<div class="data-section">
 						<Item_Link_Display links={displayLinks} />
 					</div>
-				{/if}
+				{/if} 
 			</div>
 			
 		</div>
@@ -141,7 +141,6 @@
 
 	.text-display-container {
 		padding-left: 0;
-		margin-top: 2%;
 	}
 
     .text {
@@ -162,7 +161,6 @@
 
 	.data-section {
 		display: inline-grid;
-		margin-bottom: 50px;
 		position: relative;
 		bottom: unset;
 	}
@@ -175,10 +173,6 @@
 	.data-section li {
 		list-style-type: none;
 		margin-bottom: 4px;
-	}
-
-	:global(.data-section li a) {
-		text-decoration: underline;
 	}
 
 	:global(.item-viewer .media-item) {
@@ -286,7 +280,6 @@
 
 		.data-section {
 			margin-top: 0;
-			margin-top: 50px;
 		}
 
 		:global(.item-viewer .openseadragon) {

@@ -307,31 +307,40 @@
     <div class="item-preview-wrapper {itemType == ITEM_TYPE.AUDIO || itemType == ITEM_TYPE.VIDEO ? 'audio-video-preview' : ''}">
 
         <div class="item-preview {_isPlaceholderImage ? 'placeholder-image' : ''}">
-            <button 
-                title={title || undefined}
-                data-item-id={itemId} 
-                tabindex={isInteractive ? undefined : '-1'} 
-                aria-label={isInteractive ? `click to open item viewer` : undefined}
-                disabled={isInteractive ? false : true}
-                on:click={onClickItem} 
-            >
-                <img 
+            {#if isInteractive}
+                <button 
+                    title={title || undefined}
+                    data-item-id={itemId} 
+                    aria-label="media item: {itemType || ''}: {altText || ''}: show item details"
+                    on:click={onClickItem} 
+                >
+                    <img 
+                        crossorigin="anonymous" 
+                        src={_previewUrl} 
+                        alt={altText || undefined} 
+                        aria-hidden={isInteractive ? 'true' : undefined}
+                        on:load={onImageLoad} 
+                        on:error={onImageLoadError} 
+                        bind:this={_previewImageElement}
+                    >
+                </button>
+
+                {#if _showOverlay}
+                    <div class="overlay"></div>
+                    <div class="overlay-text" aria-hidden="true">
+                        <p>{OVERLAY_TEXT_SMALL}</p>
+                    </div>
+                {/if}
+            {:else}
+                 <img 
                     crossorigin="anonymous" 
                     src={_previewUrl} 
                     alt={altText || undefined} 
+                    aria-hidden={isInteractive ? 'true' : undefined}
                     on:load={onImageLoad} 
                     on:error={onImageLoadError} 
                     bind:this={_previewImageElement}
                 >
-            </button>
-
-            {#if isInteractive && _showOverlay}
-                <div class="overlay"></div>
-                <div class="overlay-text">
-                    <!-- magnifying glass icon -->
-                    <!-- <i class="las la-search"></i> -->
-                    <p>{OVERLAY_TEXT_SMALL}</p>
-                </div>
             {/if}
         </div>
     </div>

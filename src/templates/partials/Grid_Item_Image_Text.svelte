@@ -36,7 +36,6 @@
         styles = item.styles || null;
 
         if(date) date = new Date(date).toLocaleDateString();
-        if(title) item.title = null;
 
         if(!item.layout) item.layout = (type == ITEM_TYPE.TEXT) ? MEDIA_POSITION.TEXT_ONLY : MEDIA_POSITION.TOP;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
