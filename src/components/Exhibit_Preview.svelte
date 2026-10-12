@@ -62,7 +62,6 @@
     $: init();
 
     const init = async () => {
-
         // init exhibit data fields
         exhibitId   = exhibit.uuid;
         title       = getInnerText(exhibit.title || ""); 
@@ -92,7 +91,7 @@
         const {
             image_url: iiifImageUrl = null,
             service_url: iiifServiceUrl = null,
-        } = mediaIIIF;
+        } = mediaIIIF || {};
 
         const {
             thumbnail_url: iiifThumbnailImageUrl = null,
