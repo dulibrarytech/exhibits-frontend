@@ -248,6 +248,8 @@ export const Settings = {
         PAGE_LAYOUT: "page_layout",
         EXHIBIT_TEMPLATE: "exhibit_template",
         STYLES: "styles",
+        MEDIA_IIIF: "media_iiif",
+        THUMBNAIL_IIIF: "thumbnail_iiif",
         IS_FEATURED: "is_featured",
         IS_PUBLISHED: "is_published",
         IS_STUDENT: "is_student_curated",
@@ -266,6 +268,8 @@ export const Settings = {
         IS_PUBLISHED: "is_published",
         CREATED: "created",
         MANIFEST: "manifest",
+        MEDIA_IIIF: "media_iiif",
+        THUMBNAIL_IIIF: "thumbnail_iiif",
     },
 
     /*

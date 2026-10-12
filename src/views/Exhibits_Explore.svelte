@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>{pageTitle || Settings.appTitle}</title>
+	<title>Explore Exhibits | {Settings.appTitle}</title>
 </svelte:head>
 
 <script>
@@ -18,39 +18,31 @@
 
     export let currentRoute;
 
+    // module params
     let _exhibits = [];
     let _searchData = {};
     let _filters = [];
     let _pages = [];
     let _pageId = null;
     let _filterLabels = [];
+    let _message = "";
+    let _renderPage = false;
 
-    let miniSearch = new MiniSearch({
-        fields: Object.keys(Settings.searchFieldsExhibit),
-        storeFields: Object.values(Settings.exhibitDataFields)
-    });
-
-    // TODO to _
-    let renderTabs;
-    let message;
-    let pageTitle;
-
+    // feature flags
     const EXHIBITS_DISPLAY_OPTIONS = {
         SHOW_ALL: "show_all",
         NO_STUDENT_CURATED: "no_student_curated",
         SHOW_TABS: "show_tabs"
     }
+    const EXHIBITS_DISPLAY = EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS;
 
+    // page settings
+    const KEYWORD_FILTER_FUZZY = 0.1;
     const FILTER_TYPES = {
         KEYWORD: "keyword",
         FIELD: "field",
         FACET: "facet"
     }
-
-    const EXHIBITS_DISPLAY = EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS;
-    const KEYWORD_FILTER_FUZZY = 0.1;
-    const PAGE_TITLE = "All Exhibits";
-
     const FILTER_OPTIONS = {
         "keyword": {
             "type": FILTER_TYPES.KEYWORD,
@@ -59,6 +51,12 @@
             "field": ""
         },
     }
+
+    // init filter search
+    const miniSearch = new MiniSearch({
+        fields: Object.keys(Settings.searchFieldsExhibit),
+        storeFields: Object.values(Settings.exhibitDataFields)
+    });
 
     const init = async () => {
         let {
@@ -92,10 +90,9 @@
             const pageId = currentRoute.hash.substring(1);
             if(pageId && pageId.length <= 50) _pageId = pageId;
         }
-
-        message = "";
-        renderTabs = false;
-        pageTitle = `${PAGE_TITLE} | ${Settings.appTitle}`;
+        else {
+            history.replaceState(null, null, `${window.location.pathname}#${_pages[0].id}`);
+        }
 
         _searchData = {
             endpoint: null,
@@ -108,7 +105,7 @@
     const render = async () => {
 
         if(_exhibits.length > 0) {
-            renderTabs = true;
+            _renderPage = true;
 
             sortExhibits();
             initKeywordSearch();
@@ -122,8 +119,22 @@
             });
         }
         else {
-            message = "No exhibits found."
+            _message = "No exhibits found."
         }
+    }
+
+    /* sort alphabetically by title */
+    const sortExhibits = () => {
+        _exhibits = _exhibits.map((exhibit) => {
+            return {
+                ...exhibit,
+                title_string: getInnerText(exhibit.title).replace(/[^a-zA-Z0-9 ]/g, "")
+            }
+        }).sort((a, b) => {
+            if (a.title_string.toLowerCase() < b.title_string.toLowerCase()) {return -1}
+            else if (a.title_string.toLowerCase() > b.title_string.toLowerCase()) {return 1}
+            return 0;
+        })
     }
 
     const addFilter = (data) => {
@@ -230,23 +241,8 @@
     }
 
     const onChangeTabPage = ({detail}) => {
-        console.log("test: EE: onChangeTabPage event detail:", detail)
         const {panelId: pageId} = detail;
-        history.pushState(null, null, `${window.location.pathname}#${pageId}`);
-    }
-
-    /* sort alphabetically by title */
-    const sortExhibits = () => {
-        _exhibits = _exhibits.map((exhibit) => {
-            return {
-                ...exhibit,
-                title_string: getInnerText(exhibit.title).replace(/[^a-zA-Z0-9 ]/g, "")
-            }
-        }).sort((a, b) => {
-            if (a.title_string.toLowerCase() < b.title_string.toLowerCase()) {return -1}
-            else if (a.title_string.toLowerCase() > b.title_string.toLowerCase()) {return 1}
-            return 0;
-        })
+        history.replaceState(null, null, `${window.location.pathname}#${pageId}`);
     }
         
     init();
@@ -254,32 +250,31 @@
     onMount(async () => {
         window.scrollTo(0, 0);
 
-        message = "Retrieving exhibits...";
+        _message = "Retrieving exhibits...";
         _exhibits = await Index.getExhibits(); 
 
         if(_exhibits) render();
-        else message = "Error retrieving exhibits";
+        else _message = "Error retrieving exhibits";
     });
 </script>
 
 <div class="exhibits-explore">
     <div class="page">
         <div class="container-large">
-
             <h1>Explore Exhibits</h1>
 
-            <div class="search">
-                <Exhibits_Explore_Search 
-                    filterOptions={FILTER_OPTIONS} 
-                    searchData={_searchData} 
-                    filters={_filters} 
-                    on:click-filter-option={onClickFilterOption} 
-                    on:remove-facet={onRemoveFilter}
-                    on:submit-search={onSubmitKeywordFilter}/>
-            </div>
-                
-            {#if renderTabs}
-                
+            {#if _renderPage}
+
+                <div class="search">
+                    <Exhibits_Explore_Search 
+                        filterOptions={FILTER_OPTIONS} 
+                        searchData={_searchData} 
+                        filters={_filters} 
+                        on:click-filter-option={onClickFilterOption} 
+                        on:remove-facet={onRemoveFilter}
+                        on:submit-search={onSubmitKeywordFilter}/>
+                </div>
+                                
                 <div class="exhibit-previews">
                     <div class="homepage-section">
 
@@ -287,7 +282,6 @@
                             <Exhibit_Preview_Grid exhibits={_exhibits} args={{showTitle: true}} />
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.NO_STUDENT_CURATED}
-                            
                             <Exhibit_Preview_Grid exhibits={
                                 _exhibits.filter((exhibit) => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})
                             } args={{showTitle: true}} />
@@ -308,7 +302,7 @@
                 <div class="exhibit-previews">
                     <div class="homepage-section">
                         <div class="message">
-                            {message}
+                            {_message}
                         </div>
                     </div>
                 </div>
