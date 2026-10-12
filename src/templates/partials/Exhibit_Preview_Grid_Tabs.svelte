@@ -98,7 +98,7 @@
             <div id="tabPage{index+1}" class="tab-page" role="tabpanel" data-index={index} bind:this={_panelElements[index]}>
 
                 {#if exhibits.length > 0}
-                    <Exhibit_Preview_Grid {exhibits} {args} />
+                    <Exhibit_Preview_Grid {exhibits} {args} on:click-preview />
                 {:else}
                     <div class="message">
                         <p>No exhibits found.</p>
