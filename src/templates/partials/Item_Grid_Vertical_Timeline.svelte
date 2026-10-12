@@ -460,5 +460,10 @@
         :global(.vertical-timeline-item-grid .timeline-left .timeline__card::after) {
             width: 15vw;
         }
+
+        /* leave some space to show the item preview button outline on-focus */
+        :global(.vertical-timeline-item-grid .vertical-timeline-item .item-preview) {
+            padding: 3px;
+        }
     }
 </style>
