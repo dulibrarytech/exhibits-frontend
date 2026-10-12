@@ -50,7 +50,8 @@
     }
 
     onMount(async () => {
-        showPanel(panelData[0].id);
+        const panelId = activePanelId || panelData[0].id;
+        showPanel(panelId);
     });
     
 </script>
