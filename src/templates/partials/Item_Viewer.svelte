@@ -94,6 +94,7 @@
 				{/if}
 
 				{#if displayLinks}
+					<br>
 					<div class="data-section">
 						<Item_Link_Display links={displayLinks} />
 					</div>
@@ -140,7 +141,6 @@
 
 	.text-display-container {
 		padding-left: 0;
-		margin-top: 2%;
 	}
 
     .text {
@@ -161,7 +161,6 @@
 
 	.data-section {
 		display: inline-grid;
-		margin-bottom: 50px;
 		position: relative;
 		bottom: unset;
 	}
@@ -174,10 +173,6 @@
 	.data-section li {
 		list-style-type: none;
 		margin-bottom: 4px;
-	}
-
-	:global(.data-section li a) {
-		text-decoration: underline;
 	}
 
 	:global(.item-viewer .media-item) {
@@ -285,7 +280,6 @@
 
 		.data-section {
 			margin-top: 0;
-			margin-top: 50px;
 		}
 
 		:global(.item-viewer .openseadragon) {

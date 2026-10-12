@@ -301,17 +301,17 @@ export const Settings = {
         // Item_Viewer display
         itemDisplayLinksRepositoryItem: [
             {
-                linkToField: "archival_object_url",
-                textField: "local_identifier",
-            },
-            {
                 linkToField: "link_to_item",
-                textValue: "Record in the University Libraries' Digital Repository",
+                textValue: "View Digital Item Record",
             },
             {
                 linkToField: "link_to_collection",
                 textField: "collection_name",
                 textValue: "Parent Collection",
+            },
+            {
+                linkToField: "archival_object_url",
+                textValue: "View Archival Finding Aid",
             },
         ],
 
