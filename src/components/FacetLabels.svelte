@@ -20,7 +20,7 @@ const onClickLabel = (event) => {
 
 {#if facets.length > 0}
     <div class="facet-labels-container" aria-label="selected filters">
-        {#if facets?.length > 0}<button on:click|preventDefault={() => dispatch('click-clear-facets', {})}>Clear All</button>{/if}
+        {#if facets?.length > 0}<button on:click|preventDefault={() => dispatch('clear-facets', {})}>Clear All</button>{/if}
 
         <div class="facet-labels">
             {#each facets as {field, value, label=null}, index}

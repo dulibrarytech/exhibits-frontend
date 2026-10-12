@@ -6,7 +6,7 @@
     'use strict'
 
     import { onMount } from 'svelte';
-    import { navigateTo } from 'svelte-router-spa';
+    import { navigateTo, Navigate } from 'svelte-router-spa';
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
 
@@ -33,7 +33,6 @@
 
     const init = async () => {
         _exhibits = null;
-
         _highlightExhibit = null;
         _featuredExhibits = null;
         _studentCuratedExhibits = null;
@@ -41,7 +40,6 @@
 
     const render = async () => {
         if(_exhibits.length > 0) {
-
             _highlightExhibit = _exhibits.sort(function(a, b) {
                 return b.created - a.created;
             })[0];
@@ -94,12 +92,7 @@
                         <div class="homepage-section">
                             <div class="heading">
                                 <h2>Featured Exhibits</h2>
-                                <a 
-                                    href="/exhibits-explore#university-libraries-exhibits"
-                                    aria-label="view more university exhibits"
-                                >
-                                    View More
-                                </a>
+                                <Navigate to="/exhibits-explore?tab=university-libraries-exhibits" title="View More University Libraries Exhibits">View More</Navigate>
                             </div>
 
                             {#if EXHIBITS_LAYOUT == "slider"}
@@ -114,12 +107,7 @@
                         <div class="homepage-section">
                             <div class="heading">
                                 <h2>Student Curated Exhibits</h2>
-                                <a 
-                                    href="/exhibits-explore#student-curated-exhibits"
-                                    aria-label="view more student curated exhibits"
-                                >
-                                    View More
-                                </a>
+                                <Navigate to="/exhibits-explore?tab=student-curated-exhibits" title="title=View More Student Curated Exhibits">View More</Navigate>
                             </div>
 
                             {#if EXHIBITS_LAYOUT == "slider"}
@@ -185,14 +173,14 @@
         margin-bottom: 0;
     }
 
-    .homepage-section .heading a {
+    .heading h2 {
+        font-weight: normal;
+    }
+
+    :global(.homepage-section .heading a) {
         text-decoration: underline;
         color: #7C0A02;
         font-family: "IBM Plex Mono";
-    }
-
-    .heading h2 {
-        font-weight: normal;
     }
 
     :global(.exhibits-home .homepage-section .exhibit-preview-grid) {

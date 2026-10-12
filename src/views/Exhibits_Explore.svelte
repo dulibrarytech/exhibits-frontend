@@ -59,39 +59,26 @@
     });
 
     const init = async () => {
-        let {
+        _pages = Settings.exploreExhibitsTabbedContent;
+
+        const {
             queryParams,
         } = currentRoute;
+
+        const pageId = queryParams.tab || null;
+        if(pageId && pageId.length <= 50) {
+            _pageId = pageId;
+        }
+        else {
+            changeTabPage(_pages[0].id);
+        }
 
         for(let key in queryParams) {
             if(FILTER_OPTIONS[key]) {
                 _filters.push({
                     [key]: queryParams[key]
-                })
+                });
             }
-        }
-
-        _pages = [
-            {
-                "id": "university-libraries-exhibits",
-                "label": "University Libraries Exhibits", 
-                "condition": "is_student_curated",
-                "value": 0
-            },
-            {
-                "id": "student-curated-exhibits",
-                "label": "Student Curated Exhibits", 
-                "condition": "is_student_curated",
-                "value": 1
-            }
-        ];
-
-        if(currentRoute.hash) {
-            const pageId = currentRoute.hash.substring(1);
-            if(pageId && pageId.length <= 50) _pageId = pageId;
-        }
-        else {
-            history.replaceState(null, null, `${window.location.pathname}#${_pages[0].id}`);
         }
 
         _searchData = {
@@ -103,7 +90,6 @@
     }
 
     const render = async () => {
-
         if(_exhibits.length > 0) {
             _renderPage = true;
 
@@ -155,7 +141,6 @@
 
     const applyFilters = () => {
         _filters.forEach(filter => {
-
             let key = Object.keys(filter)[0];
             let value = filter[key];
             let filterOption = FILTER_OPTIONS[key];
@@ -213,6 +198,21 @@
         )));
     }
 
+    const changeTabPage = (pageId) => {
+        const url = window.location.href;
+
+        let urlPath = "";
+        if(url.indexOf("tab=") > 0) {
+            urlPath = `${window.location.href}`.replace(/tab=[a-zA-Z0-9-]+/g, `tab=${pageId}`);
+        }
+        else {
+            const tabParam = url.indexOf("?") > 0 ? `&tab=${pageId}` : `?tab=${pageId}`;
+            urlPath = urlPath.concat(tabParam);
+        }
+
+        history.replaceState(null, null, urlPath);
+    }
+
     const onSubmitKeywordFilter = ({detail}) => {
         let {terms} = detail;
 
@@ -233,16 +233,30 @@
     }
 
     const onRemoveFilter = ({detail}) => {
-        let {field, value} = detail.data;
+        const {data=null} = detail;
 
-        removeFilter({
-            [field]: value
-        })
+        if(data) {
+            // remove specific filter
+            const {field, value} = data;
+            removeFilter({
+                [field]: value
+            });
+        }
+        else {
+            // remove all filters
+            let urlQueryData = queryString.parse(location.search);
+            for(let key in urlQueryData) {
+                if(Object.keys(FILTER_OPTIONS).includes(key)) {
+                    delete urlQueryData[key];
+                }
+            }
+            location.search = queryString.stringify(urlQueryData);
+        }
     }
 
     const onChangeTabPage = ({detail}) => {
         const {panelId: pageId} = detail;
-        history.replaceState(null, null, `${window.location.pathname}#${pageId}`);
+        changeTabPage(pageId);
     }
         
     init();
@@ -272,6 +286,7 @@
                         filters={_filters} 
                         on:click-filter-option={onClickFilterOption} 
                         on:remove-facet={onRemoveFilter}
+                        on:clear-facets={onRemoveFilter}
                         on:submit-search={onSubmitKeywordFilter}/>
                 </div>
                                 

@@ -66,7 +66,7 @@
     {#if filters.length > 0}
         <div class="search-filter-labels">
             <div class="filter-labels">
-                <FacetLabels facets={_filterLabels} on:remove-facet />
+                <FacetLabels facets={_filterLabels} on:remove-facet on:clear-facets />
             </div>
         </div>
     {/if}

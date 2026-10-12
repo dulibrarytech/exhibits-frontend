@@ -130,6 +130,24 @@ export const Settings = {
      */
     recentExhibitsPeriod: 60,
 
+    /*
+     * Explore Exhibits page settings
+     */
+    exploreExhibitsTabbedContent: [
+        {
+            "id": "university-libraries-exhibits",
+            "label": "University Libraries Exhibits", 
+            "condition": "is_student_curated",
+            "value": 0
+        },
+        {
+            "id": "student-curated-exhibits",
+            "label": "Student Curated Exhibits", 
+            "condition": "is_student_curated",
+            "value": 1
+        }
+    ],
+
     /* 
      * Index fields included in search (in 'search all', when search field is not specified by user)
      * {index field name}:{human display name}
