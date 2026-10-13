@@ -194,7 +194,7 @@
 
                 on:click-result={onClickResultLink}
                 on:click-facet={onSelectFacet} 
-                on:click-clear-facets={onResetFacets} 
+                on:clear-facets={onResetFacets} 
                 on:click-back={onClickBack} 
                 on:remove-facet={onRemoveFacet}
             />
