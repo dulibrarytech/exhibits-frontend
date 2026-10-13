@@ -256,7 +256,7 @@
     const openViewerModal = (itemId) => {
         // add the item id to the browser url
         if(location.href.indexOf('#') < 0) {
-            history.pushState(null, null, `${location.href}#${itemId}`);
+            history.replaceState(null, null, `${location.href}#${itemId}`);
         }
 
         _modalDialogData = getItemById((itemId || null), _items);
