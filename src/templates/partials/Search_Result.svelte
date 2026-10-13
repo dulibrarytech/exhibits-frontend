@@ -74,7 +74,6 @@
                 width="200" 
                 args={{
                     isThumbnail: true,
-                    link: (result.link || false), 
                     isInteractive: false,
                 }} 
                 on:image-loaded={onPreviewImageLoad} />
