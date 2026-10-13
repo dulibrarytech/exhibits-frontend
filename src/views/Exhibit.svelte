@@ -5,6 +5,7 @@
 <script>
     'use-strict'
 
+    import { navigateTo } from 'svelte-router-spa';
     import { Index } from '../libs/index.js';
     import { Settings } from '../config/settings';
     import { Fonts } from '../config/fonts'; 
@@ -124,7 +125,7 @@
         }
         else if(Object.keys(_exhibitData).length === 0) {
             Logger.module().info("Exhibit not found");
-            window.location.replace('/404');
+            navigateTo('/404');
         }
 
         else {
