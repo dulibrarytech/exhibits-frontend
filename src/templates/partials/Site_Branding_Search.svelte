@@ -3,10 +3,9 @@
 </svelte:head>
 
 <script>
+    import { navigateTo } from 'svelte-router-spa';
     import { Settings } from '../../config/settings.js';
     import Search_Box from '../../components/Search_Box.svelte';
-
-    export let args = {};
 
     let _searchFields = Object.keys(Settings.searchFieldsExhibitItem);
 </script>
@@ -15,9 +14,10 @@
     <div class="container-large d-flex flex-column flex-md-row align-items-left py-2 site-branding">
 
         <div class="d-flex align-items-center site-title-link">
-            <a href="/" class="me-3 py-2">
-                <p>Exhibits <span class="highlight-text">@ DU</span></p>
-            </a>
+            <a href class="me-3 py-2" on:click={(e) => {
+                e.preventDefault();
+                navigateTo('/exhibits-home');
+            }}><p>Exhibits <span class="highlight-text">@ DU</span></p></a>
         </div>
     
         <div class="d-inline-flex mt-2 mt-md-0 ms-md-auto search-form">
