@@ -5,6 +5,7 @@
 <script>
     'use-strict'
 
+    import { navigateTo } from 'svelte-router-spa';
     import { Index } from '../libs/index.js';
     import { Settings } from '../config/settings';
     import { Fonts } from '../config/fonts'; 
@@ -124,7 +125,7 @@
         }
         else if(Object.keys(_exhibitData).length === 0) {
             Logger.module().info("Exhibit not found");
-            window.location.replace('/404');
+            navigateTo('/404');
         }
 
         else {
@@ -256,7 +257,7 @@
     const openViewerModal = (itemId) => {
         // add the item id to the browser url
         if(location.href.indexOf('#') < 0) {
-            history.pushState(null, null, `${location.href}#${itemId}`);
+            history.replaceState(null, null, `${location.href}#${itemId}`);
         }
 
         _modalDialogData = getItemById((itemId || null), _items);

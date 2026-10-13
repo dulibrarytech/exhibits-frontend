@@ -67,14 +67,13 @@
 <section id={result.uuid} class="search-result-item">
     <div class="image-link" bind:this={previewImageElement}>
         {#if type == ENTITY_TYPE.EXHIBIT}
-            <Exhibit_Preview exhibit={result} link={result.link} args={{overlay: false, isInteractive: false}} width="200" height="200" on:image-loaded={onPreviewImageLoad} />  
+            <Exhibit_Preview exhibit={result} args={{overlay: false, isInteractive: false}} width="200" height="200" on:image-loaded={onPreviewImageLoad} />  
         {:else}
             <Item_Preview 
                 item={result} 
                 width="200" 
                 args={{
                     isThumbnail: true,
-                    link: (result.link || false), 
                     isInteractive: false,
                 }} 
                 on:image-loaded={onPreviewImageLoad} />

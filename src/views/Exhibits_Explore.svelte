@@ -5,6 +5,7 @@
 <script>
     'use strict'
 
+    import { navigateTo } from 'svelte-router-spa';
     import { onMount } from 'svelte';
     import { Settings } from '../config/settings.js';
     import { Index } from '../libs/index.js';
@@ -258,6 +259,11 @@
         const {panelId: pageId} = detail;
         changeTabPage(pageId);
     }
+
+    const onClickPreview = ({detail}) => {
+        let {exhibitId} = detail;
+        navigateTo(`/exhibit/${exhibitId}`);
+    }
         
     init();
 
@@ -294,12 +300,16 @@
                     <div class="homepage-section">
 
                         {#if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_ALL}
-                            <Exhibit_Preview_Grid exhibits={_exhibits} args={{showTitle: true}} />
+                            <Exhibit_Preview_Grid exhibits={_exhibits} args={{showTitle: true}} on:click-preview={onClickPreview} />
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.NO_STUDENT_CURATED}
-                            <Exhibit_Preview_Grid exhibits={
-                                _exhibits.filter((exhibit) => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})
-                            } args={{showTitle: true}} />
+                            <Exhibit_Preview_Grid 
+                                exhibits={
+                                    _exhibits.filter((exhibit) => {return !exhibit.is_student_curated || exhibit.is_student_curated == 0})
+                                } 
+                                args={{showTitle: true}} 
+                                on:click-preview={onClickPreview}   
+                            />
 
                         {:else if EXHIBITS_DISPLAY == EXHIBITS_DISPLAY_OPTIONS.SHOW_TABS}
                             <Exhibit_Preview_Grid_Tabs 
@@ -307,6 +317,7 @@
                                 activePanelId={_pageId}
                                 args={{showTitle: true}} 
                                 on:select-panel={onChangeTabPage} 
+                                on:click-preview={onClickPreview}
                             />
 
                         {/if}

@@ -7,7 +7,6 @@
      * The component will attempt to use the exhibit thumbnail image if available, and if not, will attempt to use the hero image. If neither are available, no image will be displayed. The component also includes an overlay with text that appears on hover, and clicking the preview will navigate to the exhibit page.
      * 
      * @param {Object} exhibit - The exhibit data object containing information about the exhibit, including thumbnail and hero image information.
-     * @param {string} link - The URL to navigate to when the exhibit preview is clicked. If not provided, the preview will not be clickable.
      * @param {number} width - The desired width of the exhibit preview image. If not provided, a default width will be used.
      * @param {number} height - The desired height of the exhibit preview image. If not provided, a default height will be used.
      * @param {Object} args - An object containing additional arguments for customizing the exhibit preview display, including:
@@ -26,7 +25,6 @@
     import { getInnerText } from '../libs/exhibits_data_helpers';
 
     export let exhibit = {};
-    export let link = null;
     export let width = null;
     export let height = null;
 
@@ -113,7 +111,6 @@
 
     const onClickPreview = ({target}) => {
         dispatch('click-preview', {exhibitId});
-        if(link) window.location.replace(link);
     }
 
     const onImageLoad = ({target}) => {
@@ -132,7 +129,7 @@
 
     {#if _previewSourceUrl}
         <div class="exhibit-thumbnail">
-            <a href={link || undefined} data-exhibit-id={exhibitId} on:click|stopPropagation|preventDefault={onClickPreview} aria-label={altText}>
+            <a href data-exhibit-id={exhibitId} on:click|stopPropagation|preventDefault={onClickPreview} aria-label={altText}>
                 <img src={_previewSourceUrl} alt={altText} on:load={onImageLoad} on:error={onImageLoadError} aria-hidden="true" />
             </a>
 
@@ -146,7 +143,7 @@
 
         {#if showTitle}
             <div class="exhibit-preview-title">
-                <a href={link || undefined} data-exhibit-id={exhibitId} on:click|stopPropagation|preventDefault={onClickPreview} tabindex="-1" aria-hidden="true">
+                <a href data-exhibit-id={exhibitId} on:click|stopPropagation|preventDefault={onClickPreview} tabindex="-1" aria-hidden="true">
                     {title || "Untitled Exhibit"}
                 </a>
             </div>
