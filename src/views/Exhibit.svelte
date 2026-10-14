@@ -288,8 +288,13 @@
         _modalDialog = null;
         _exhibitDisplay.removeAttribute('inert');
 
-        // remove the item id from the browser url
         if(location.href.indexOf('#') > 0) {
+
+            // set focus back on the template item
+            const templateItem = document.getElementById(location.hash.replace('#', ''));
+            templateItem.querySelector(".item-preview button").focus();
+
+            // remove the item id from the browser url
             history.replaceState(null, null, location.href.substring(0, location.href.indexOf('#')));
         }
     }
