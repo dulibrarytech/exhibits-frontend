@@ -1,7 +1,6 @@
 <script>
     'use strict'
 
-    import { navigateTo } from 'svelte-router-spa';
     import { onMount } from 'svelte';
     import { removeStopwords } from 'stopword';
     import { createEventDispatcher } from 'svelte';
@@ -13,8 +12,8 @@
     export let buttonText = "Search"; // submit button text
     export let placeholder = "";      // search box placeholder
 
-    let query = "";
-    let url = "";
+    let _query = "";
+    let _url = "";
 
     const dispatch = createEventDispatcher();
 
@@ -25,39 +24,38 @@
     }
 
     const search = () => {
-      if(!query) return false;
-      
-      query = query.replaceAll(',', ' ');
+      if(!_query) return false;
+      _query = _query.replaceAll(',', ' ');
 
       // parse out the terms enclosed in quotes, include in the query as a phrase
-      let quotedTerms = query.match(/"([^"]*)"/gi);
+      let quotedTerms = _query.match(/"([^"]*)"/gi);
       if(quotedTerms) {
         quotedTerms.forEach(terms => {
             // convert the terms enclosed in quotes from "term1 term2" to term1+term2 url format
             let termPhrase = terms.replace(/"/g, '').replace(/\s/g, '+');
-            query = query.replace(terms, termPhrase)
+            _query = _query.replace(terms, termPhrase)
         });
       }
 
       // remove stop words
-      let queryTokens = query.split(/[ ]{1,}/g)
+      let queryTokens = _query.split(/[ ]{1,}/g)
       queryTokens = removeStopwords(queryTokens);
 
       if(endpoint) {
         // create the querystring
         let queryString = queryTokens.toString();
-        url = endpoint.concat(`?${queryParam}=${queryString}`);
+        _url = endpoint.concat(`?${queryParam}=${queryString}`);
 
         // append the search fields TODO remove, use params
         let fieldString = fields.toString();
-        if(fieldString.length > 0) url = url.concat(`&fields=${fieldString}`);
+        if(fieldString.length > 0) _url = _url.concat(`&fields=${fieldString}`);
 
         // append all parameters
         for(let key in params) {
-          url = url.concat(`&${key}=${params[key]}`);
+          _url = _url.concat(`&${key}=${params[key]}`);
         }
 
-        navigateTo(url);
+        window.location.replace(_url)
       }
       else {
         dispatch('submit-search', {terms: queryTokens});
@@ -83,9 +81,9 @@
   <form class="form-inline" action="/search" accept-charset="UTF-8" method="get">
     <div class="input-group flex-fill">
       <label for="searchbox" class="hidden">{placeholder}</label>
-      <input class="form-control" id="searchbox" title="Search" type="search" bind:value={query} {placeholder}>
+      <input class="form-control" id="searchbox" type="search" bind:value={_query} {placeholder}>
       <div class="input-group-append">
-        <button type="button" title="Submit Search" on:click|preventDefault={search} class="btn btn-secondary button" data-disable-with="Search">{buttonText}</button>
+        <button type="button" on:click|preventDefault={search} class="btn btn-secondary button" data-disable-with="Search">{buttonText}</button>
       </div> 
     </div>
   </form>
