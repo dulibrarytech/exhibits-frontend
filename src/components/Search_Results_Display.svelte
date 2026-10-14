@@ -90,9 +90,7 @@
 
                     <div>
                         <div class="search-data-display">
-                            <p class="search-terms-label">{_totalResults} search result{_totalResults == 1 ? '' : 's'} for "<span style="font-weight: bold">{_termsLabel}</span>"</p>
-
-                            <h2 class="sr-only">Results List</h2>
+                            <h2 class="search-terms-label">{_totalResults} search result{_totalResults == 1 ? '' : 's'} for "<span style="font-weight: bold" aria-hidden="true">{_termsLabel}</span>"</h2>
                             <FacetLabels {facets} on:remove-facet={onRemoveFacet} on:clear-facets />
                         </div>
 
@@ -135,18 +133,6 @@
 <style>
     h1 {
         font-size: 1.6rem;
-    }
-
-    .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
     }
 
     .results-container {

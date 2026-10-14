@@ -20,14 +20,33 @@ const onClickLabel = (event) => {
 
 {#if facets.length > 0}
     <div class="facet-labels-container" aria-label="selected filters">
-        {#if facets?.length > 0}<button on:click|preventDefault={() => dispatch('clear-facets', {})}>Clear All</button>{/if}
+        {#if facets?.length > 0}
+            <button 
+                aria-label="Clear All Filters"
+                on:click|preventDefault={() => dispatch('clear-facets', {})}
+            >
+                Clear All
+            </button>
+        {/if}
 
         <div class="facet-labels">
             {#each facets as {field, value, label=null}, index}
                 <div class="facet-label">
-                    &nbsp;<b use:formatFacetField>{field}</b>
-                    {#if value}: <span use:formatFacetValue={field}>{label || value}</span>{/if}
-                    <a class="removelink" href={"javascript:void(0)"} on:click|stopPropagation={onClickLabel} on:keypress|stopPropagation={onClickLabel} data-index={index}><i class="bi bi-x-lg"></i></a>
+
+                    <span aria-hidden="true">
+                        <b use:formatFacetField>{field}</b>:<b use:formatFacetValue={field}>{label || value}</b>
+                    </span>
+
+                    <button 
+                        class="removelink"
+                        aria-label="Remove Filter"
+                        data-index={index}
+                        on:click|stopPropagation={onClickLabel} 
+                        on:keypress|stopPropagation={onClickLabel} 
+                    >
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+
                 </div>
             {/each}
         </div>
@@ -77,17 +96,15 @@ const onClickLabel = (event) => {
     .facet-label {
         margin-left: 15px;
         background: white;
-        padding: 7px 12px;
         border-radius: 3px;
         border-style: solid;
         border-width: 1px;
         border-color: #BA0C2F;
+        padding: 7px 14px;
     }
 
-    .facet-labels a.removelink {
-        content: attr(data-icon);
-        font-family: "Icomoon";
-        text-decoration: none;
+    button.removelink {
+        padding: 0;
     }
 
     .facet-labels a.removelink i {
