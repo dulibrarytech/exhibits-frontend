@@ -66,7 +66,7 @@
                     role="tab" 
                     data-index={index}
                     aria-selected={index == 0 ? 'true' : 'false'} 
-                    aria-controls="tabPage{index+1}" tabindex="0" 
+                    aria-controls="tabPage{index+1}"
                     bind:this={_tabElements[index]}
                 >
                     <h2>
