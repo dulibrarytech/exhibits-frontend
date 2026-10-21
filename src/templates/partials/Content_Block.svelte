@@ -72,23 +72,24 @@
         display: flex;
     
         & a {
-            height: 3.5rem;
-            padding: 1rem 0.75rem;
-            gap: 0.75rem;
-            font-size: 1.25rem;
+            height: 56px;
+            padding: 16px 12px;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 500;
             justify-content: center;
             align-items: center;
-            border-radius: 0.25rem; 
+            border-radius: 4px; 
             width: fit-content;
             text-decoration: none;
             display: inline-flex;
             color: inherit;
 
             &.content-block-size-small {
-                height: 2.5rem;
-                padding: 0.625rem 0.75rem;
-                font-size: 1.1rem;
-                line-height: 1.25rem;
+                height: 40px;
+                padding: 10px 12px;
+                font-size: 14px;
+                line-height: 20px;
             }
 
             &.content-block-transparent {
