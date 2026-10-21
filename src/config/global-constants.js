@@ -13,6 +13,7 @@ export const ENTITY_TYPE = {
     EXHIBIT_HEADING: "heading",
     EXHIBIT_SUBHEADING: "subheading",
     ITEM: "item",
+    CONTENT_BLOCK: "content-block",
     GRID: "grid",
     VERTICAL_TIMELINE: "vertical_timeline"
 }

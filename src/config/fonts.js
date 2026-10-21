@@ -10,6 +10,17 @@ export const Fonts = [
         "url": ""
     },
     {
+        "name": "Sole Serif Titling",
+        "file": "SoleSerifTitling.woff",
+        "url": "" 
+    },
+    {
+        "name": "Sole Serif Titling",
+        "file": "SoleSerifTitling-Italic.woff",
+        "style": "italic",
+        "url": "" 
+    },
+    {
         "name": "Neue Haas Unica W1G",
         // "file": "NeueHaasUnicaW1G-Black.otf",
         "file": "NeueHaasUnicaW1G-Regular.ttf",

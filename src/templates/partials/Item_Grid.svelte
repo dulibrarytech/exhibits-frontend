@@ -5,6 +5,7 @@
     import { onMount } from 'svelte';
     import {createEventDispatcher} from 'svelte';
     import Grid_Item_Image_Text from './Grid_Item_Image_Text.svelte';
+    import Item_Content_Block from './Content_Block.svelte';
 
     export let grid = {};
     export let id = null;
@@ -52,7 +53,11 @@
             {#if _itemDisplay}
                 {#each _itemDisplay as item}
                     <div class="col-{columns}">
+                        {#if item.item_type === 'content_block'}
+                        <Item_Content_Block item={item} on:click-item /> 
+                        {:else}
                         <Grid_Item_Image_Text {item} on:click-item /> 
+                        {/if}
                     </div>
                 {/each}
             {/if}
