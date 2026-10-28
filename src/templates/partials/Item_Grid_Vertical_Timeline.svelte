@@ -156,7 +156,7 @@
             <div class="col-6" style="border-left: solid"></div>
         </div> 
 
-        {#if text}<div class="text">{text}</div>{/if}
+        {#if text}<div class="text">{@html text}</div>{/if}
 
         <div class="timeline-wrapper">
             {#if _sections}
