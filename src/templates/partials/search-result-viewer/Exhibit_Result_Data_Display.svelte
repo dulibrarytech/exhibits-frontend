@@ -8,9 +8,8 @@
 	import {
 		formatStripHtmlTags
 	} from '../../../libs/format';
-    import { assign } from 'svelte/internal';
 
-	// item data
+	// view data
 	let _exhibitId;
 	let _title;
 	let _description;
@@ -34,8 +33,13 @@
 <div class="exhibit-search-result-data data-display">
 
   <div class="text">
-		<h3 class="title-truncated" use:formatStripHtmlTags={_title}>{_title}</h3>
+		{#if _title}
+			<h3 class="title-truncated" use:formatStripHtmlTags={_title}>{_title}</h3> 
+		{:else}
+			<h3 class="sr-only">Item Details</h3>
+		{/if}
 
+		<h4 class="sr-only">Metadata</h4>
 		<div class="metadata">
 			<dl>
 				<dt class="metadata-label">Type</dt>
