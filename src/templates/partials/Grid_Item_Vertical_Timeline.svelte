@@ -32,7 +32,7 @@
             <header class="card__header">
 
                 {#if title}
-                    <div class="card__title"><h4>{@html title}</h4></div>
+                    <div class="card__title"><h3>{@html title}</h3></div>
                     <hr>
                 {/if}
 
@@ -169,5 +169,9 @@
 
     .vertical-timeline-grid-item {
         scroll-margin-top: 150px;
+    }
+
+    .card__header h3 {
+        font-size: 1.3rem;
     }
 </style>

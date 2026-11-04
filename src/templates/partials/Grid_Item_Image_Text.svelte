@@ -19,7 +19,6 @@
 
     let id;
     let title;
-    let date;
     let type;
     let caption;
     let media;
@@ -34,8 +33,6 @@
         caption = item.caption || null;
         media = item.media || null;
         styles = item.styles || null;
-
-        if(date) date = new Date(date).toLocaleDateString();
 
         if(!item.layout) item.layout = (type == ITEM_TYPE.TEXT) ? MEDIA_POSITION.TEXT_ONLY : MEDIA_POSITION.TOP;
         if(!item.media_width) item.media_width = DEFAULT_MEDIA_WIDTH;
@@ -52,14 +49,8 @@
 </script>
 
 <div class="grid-item" {id} bind:this={itemElement}>
-    {#if date}
-        <div class="date-heading exhibit-heading">
-            <div class="item-date"><h4>{date}</h4></div>
-            <hr>
-        </div> 
-    {/if}
 
-    {#if title}<h4>{@html title}</h4>{/if}
+    {#if title}<h3>{@html title}</h3>{/if}
 
     <Item_Display 
         {item} 
@@ -82,17 +73,9 @@
         scroll-margin-top: 150px;
     }
 
-    .grid-item h4 {
+    .grid-item h3 {
         margin-bottom: 30px;
-    }
-
-    .item-date {
-        font-weight: bold;
-        font-size: 1em;
-    }
-
-    .date-heading {
-        font-size: 1em;
+        font-size: 1.3rem;
     }
 
     :global(.grid-item .title-heading) {
