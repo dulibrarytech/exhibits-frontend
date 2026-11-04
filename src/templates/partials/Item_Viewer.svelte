@@ -26,6 +26,7 @@
 
 	const {
 		title: 				title = null,
+		media_name:		mediaName = null,
 		description: 	text = DEFAULT_ITEM_TEXT,
 		caption: 			caption = null,
 		external_links: 				displayLinks = null,
@@ -79,6 +80,15 @@
 					<div class="title" aria-label="Item title: {title}" use:formatStripHtmlTags>{title}</div>
 					<hr>
 					<br>
+				{:else if mediaName}
+					<hr style="margin-top: 0px">
+					<div class="title" aria-label="Item title: {mediaName}" use:formatStripHtmlTags>{mediaName}</div>
+					<hr>
+					<br>
+				{/if}
+
+				{#if date}
+					<div class="date" aria-label="Item date: {date}" use:formatStripHtmlTags>{date}</div>
 				{/if}
 
 				{#if caption}
