@@ -23,29 +23,30 @@
     export let facetValues = {};
     export let selectedFacets = [];
 
-    const {
-		facetPanelsExpanded,
-    } = Settings;
-
-    let limitOptionsDisplay = [];
-    let facetLabelButtons = [];
-    let facetDrodownLists = [];
+    let _limitOptionsDisplay = [];
+    let _facetPanelsExpanded = Settings.searchFacetPanelDefaultExpanded;;
 
     const init = () => {
-        // init facet display and show currently selected and available limit options
-        let option = {};
+        selectedFacets.forEach((facet) => {
+            _facetPanelsExpanded.push(facet.field)
+        });
+
         for(let key in facetValues) {
-            option = limitOptions.find((option) => {
+            let option = limitOptions.find((option) => {
                 return option.field == key
             })
 
-            if(option) limitOptionsDisplay.push(option); 
+            if(option) {
+                if(_facetPanelsExpanded.includes(option.field)) {
+                    option.expanded = true;
+                }
+                _limitOptionsDisplay.push(option); 
+            }
         }
     }
 
     const onclickShowFilters = () => {
         const button = document.querySelector(`button.filter-menu-toggler`);
-
         const isExpanded = button.getAttribute('aria-expanded') === 'true';
         button.querySelector("span").textContent = isExpanded ? "Hide Filters" : "Filter Results";
     }
@@ -92,7 +93,6 @@
     init(); 
 
     onMount(() => {
-        // reset all checkboxes and check the facet items that are currently selected
         document.querySelector(`input`).checked = false;
         for(const facet of selectedFacets) {
             let input = document.querySelector(`input[value="${normalizeDataString(facet.value)}"]`);
@@ -101,7 +101,7 @@
     });
 </script>
 
-{#if limitOptionsDisplay.length > 0}
+{#if _limitOptionsDisplay.length > 0}
 
 <button 
     class="filter-menu-toggler d-md-none" 
@@ -122,11 +122,11 @@
     <h2>Filter Results</h2>
 
     <div class="facets">
-        {#if limitOptionsDisplay.length == 0 || limitOptionsDisplay[0].values?.length == 0}
+        {#if _limitOptionsDisplay.length == 0 || _limitOptionsDisplay[0].values?.length == 0}
             <span>No filters available</span>
         {/if}
 
-        {#each limitOptionsDisplay as {field, values, label=null}, index}
+        {#each _limitOptionsDisplay as {field, values, label=null, expanded=false}, index}
             {#if values.length > 0}
 
                 <h3>
@@ -135,16 +135,15 @@
                         type="button" 
                         data-index={index}
                         aria-label={`filter by ${getFacetFieldLabel(field)}`} 
-                        aria-expanded={facetPanelsExpanded.includes(field) ? "true" : "false"}
+                        aria-expanded={expanded ? "true" : "false"}
                         on:click={onClickFacetLabel} 
-                        bind:this={facetLabelButtons[index]}
                     >
                         <span use:formatFacetField>{field}</span>
-                        <i class="bi bi-chevron-{facetPanelsExpanded.includes(field) ? "down" : "right"}"></i>
+                        <i class="bi bi-chevron-{expanded ? "down" : "right"}"></i>
                     </button>
                 </h3>
 
-                <div class="panel-section {facetPanelsExpanded.includes(field) ? 'active' : ''}" data-facet-field-label={label} bind:this={facetDrodownLists[index]}> 
+                <div class="panel-section {expanded ? 'active' : ''}" data-facet-field-label={label}> 
                   <ul data-facet-field-label={label} class="nav nav-pills nav-stacked search-result-categories mt">
                         {#each values as {value, count, label=null, id}, index}
                             {#if facetValues[field].includes(value) || facetValues[field] == "*"}
@@ -314,11 +313,5 @@
 
     .facet-item-checkbox {
         margin: 0 0.5rem 0.5em 0;
-    }
-
-    @media (min-width: 768px) {
-        /* button.filter-menu-toggler {
-            display: none;
-        } */
     }
 </style>

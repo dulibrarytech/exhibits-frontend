@@ -238,7 +238,7 @@ export const Settings = {
      *
      * Facet field panels will be expanded when the search results page is loaded
      */
-    facetPanelsExpanded: ["type", "item_type"],
+    searchFacetPanelDefaultExpanded: ["type", "item_type"],
 
     /*
      * Default top-level theme styles

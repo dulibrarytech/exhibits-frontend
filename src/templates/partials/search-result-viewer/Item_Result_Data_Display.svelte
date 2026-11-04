@@ -10,7 +10,7 @@
 		formatItemDataValue,
 	} from '../../../libs/format';
 
-	// item data
+	// view data
 	let _itemId;
 	let _exhibitId;
 	let _itemType;
@@ -23,7 +23,7 @@
 			itemId,
 			exhibitId = null,
 			type = null,
-			title = "No title data",
+			title = null,
 			description = "No description available",
 			exhibitTitle = "No title available for exhibit",
 		} = data;
@@ -40,8 +40,13 @@
 <div class="item-search-result-data data-display">
 
   <div class="text">
-		<h3 class="title-truncated" use:formatStripHtmlTags={_title}>{_title}</h3> 
+		{#if _title}
+			<h3 class="title-truncated" use:formatStripHtmlTags={_title}>{_title}</h3> 
+		{:else}
+			<h3 class="sr-only">Item Details</h3>
+		{/if}
 
+		<h4 class="sr-only">Metadata</h4>
 		<div class="metadata">
 			{#if _itemType}
 				<dl>

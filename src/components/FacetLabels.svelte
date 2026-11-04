@@ -34,7 +34,7 @@ const onClickLabel = (event) => {
                 <div class="facet-label">
 
                     <span aria-hidden="true">
-                        <b use:formatFacetField>{field}</b>:<b use:formatFacetValue={field}>{label || value}</b>
+                        <b use:formatFacetField>{field}</b> : <b use:formatFacetValue={field}>{label || value}</b>
                     </span>
 
                     <button 
